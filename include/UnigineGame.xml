@@ -1,0 +1,231 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Game.setData(char)">
+			<summary>
+			Sets user data associated with the game logic. This string is written directly into a *.world file. Namely, into the data child tag of the game tag, for example:
+			</summary> 
+			<param name="data"> User data. Data can contain an XML formatted string. </param> 
+		</member>
+		<member name="M:Unigine.Game.getData const">
+			<summary>
+			Returns user data associated with the game logic. This string is written directly into a *.world file. Namely, into the data child tag of the game tag, for example:
+			</summary>  
+			<returns>User data. Data can contain an XML formatted string.</returns>
+		</member>
+		<member name="M:Unigine.Game.setEnabled(bool)">
+			<summary>
+			Pauses or resumes the game logic.
+			</summary> 
+			<param name="enabled"> 1 to resume the game logic, 0 to pause it. </param> 
+		</member>
+		<member name="M:Unigine.Game.isEnabled const">
+			<summary>
+			Returns a value indicating if the game is paused or not.
+			</summary>  
+			<returns>1 if the game logic is not paused; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Game.setFrame(int)">
+			<summary>
+			Sets the game frame with the given number as the current one.
+			</summary> 
+			<param name="frame"> Frame number. </param> 
+		</member>
+		<member name="M:Unigine.Game.getFrame const">
+			<summary>
+			Returns the number of the current game frame.
+			</summary>  
+			<returns>Frame number.</returns>
+		</member>
+		<member name="M:Unigine.Game.setIFps(float)">
+			<summary>
+			Sets the scaled inverse FPS value (the time in seconds it took to complete the last frame). This function sets a fixed FPS that does not depend on the real FPS the hardware is capable of. That is, it forces constant frame time increments between rendered frames, used for animation/expression update etc. To remove the FPS limitation, use -1.					The function is useful when grabbing the video reel with a fixed FPS value (for example, 25 frames per second).
+			</summary> 
+			<param name="ifps"> Inverse FPS value (1/FPS) in seconds.-1 removes the FPS limitation. </param> 
+		</member>
+		<member name="M:Unigine.Game.getIFps const">
+			<summary>
+			Returns the scaled inverse FPS value (the time in seconds it took to complete the last frame). This value does not depend on the real FPS the hardware is capable of. -1 means no Inverse FPS value is set.
+			</summary>  
+			<returns>Scaled inverse FPS value (1/FPS) in seconds. If the game is paused, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.Game.getIntersection(Unigine.Vec3,Unigine.Vec3,float,int,Unigine.Vector{Unigine.Ptr{Unigine.Node},int,Unigine.VectorAllocator},Unigine.Math.Vec3)">
+			<summary>
+			Performs intersection to find if a pathfinding Obstacle is located within the cylinder between two points. The specified obstacles will be ignored.					World space coordinates are used for this function.
+			</summary> 
+			<param name="p0"> Start point. </param>
+			<param name="p1"> End point. </param>
+			<param name="radius"> Radius of the intersection cylinder. </param>
+			<param name="mask"> Obstacle intersection mask. The obstacle is ignored if its mask does not match. </param>
+			<param name="exclude"> Array with excluded obstacles. These obstacle nodes are ignored when performing intersection. </param>
+			<param name="intersection"> Intersection point. </param> 
+			<returns>Intersected obstacle.</returns>
+		</member>
+		<member name="M:Unigine.Game.getIntersection(Unigine.Vec3,Unigine.Vec3,float,int,Unigine.Ptr{GameIntersection})">
+			<summary>
+								Performs intersection to find if a pathfinding obstacle is located within the cylinder between two points.					World space coordinates are used for this function.																					The following example shows how you can get the intersection point (vec3) of the cylinder between two points with an obstacle. In this example we specify a cylinder from the point of the camera (vec3 p0) to the point of the mouse pointer (vec3 p1) with the specified radius. The executing sequence is the following:													Define and initialize two points (p0 and p1) by using the Player::getDirectionFromScreen().							Create an instance of the GameIntersection class to get the intersection point coordinates.							Check, if there is an intersection with an obstacle. The Game::getIntersection() function returns an intersected obstacle when the obstacle appears in the area of the cylinder.							After that GameIntersection instance gets the point of the nearest intersection point and you can get it by using the getPoint() function.
+			</summary> 
+			<param name="p0"> Start point. </param>
+			<param name="p1"> End point. </param>
+			<param name="radius"> Radius of the intersection cylinder. </param>
+			<param name="mask"> Obstacle intersection mask. The obstacle is ignored if its mask does not match. </param>
+			<param name="intersection"> GameIntersection class instance to put the result into. </param> 
+			<returns>Intersected obstacle.</returns>
+		</member>
+		<member name="M:Unigine.Game.getNoise1(float,float,int) const">
+			<summary>
+			Returns a noise value calculated using a Perlin noise function.
+			</summary> 
+			<param name="pos"> Float position. </param>
+			<param name="size"> Size of the noise. </param>
+			<param name="frequency"> Noise frequency. </param> 
+			<returns>Noise value.</returns>
+		</member>
+		<member name="M:Unigine.Game.getNoise2(Unigine.Math.vec2,Unigine.Math.vec2,int) const">
+			<summary>
+			Returns a 2D noise value calculated using a Perlin noise function.
+			</summary> 
+			<param name="pos"> vec2 point position. </param>
+			<param name="size"> vec2 size of the noise. </param>
+			<param name="frequency"> Noise frequency. </param> 
+			<returns>2D noise value.</returns>
+		</member>
+		<member name="M:Unigine.Game.getNoise3(Unigine.Math.vec3,Unigine.Math.vec3,int) const">
+			<summary>
+			Returns a 3D noise value calculated using a Perlin noise function.
+			</summary> 
+			<param name="pos"> vec3 point position. </param>
+			<param name="size"> vec3 size of the noise. </param>
+			<param name="frequency"> Noise frequency. </param> 
+			<returns>3D noise value.</returns>
+		</member>
+		<member name="M:Unigine.Game.setPlayer(Unigine.Ptr{Player})">
+			<summary>
+			Assigns a new player to the Engine Camera viewport.
+			</summary> 
+			<param name="player"> Player to set as a current one. </param> 
+		</member>
+		<member name="M:Unigine.Game.getPlayer const">
+			<summary>
+			Returns the current player assigned to the Engine Camera viewport.
+			</summary>  
+			<returns>Current player.</returns>
+		</member>
+		<member name="M:Unigine.Game.getRandom const">
+			<summary>
+			Returns a pseudo-random unsigned integer number.
+			</summary>  
+			<returns>Random unsigned integer number.</returns>
+		</member>
+		<member name="M:Unigine.Game.getRandomDouble(double,double)">
+			<summary>
+			Returns a pseudo-random double number within a given range (end-point not included).
+			</summary> 
+			<param name="from"> The initial point of the range. </param>
+			<param name="to"> The end point of the range. </param> 
+			<returns>Random double integer number.</returns>
+		</member>
+		<member name="M:Unigine.Game.getRandomFloat(float,float)">
+			<summary>
+			Returns a pseudo-random float number within a given range (end-point not included).
+			</summary> 
+			<param name="from"> The initial point of the range. </param>
+			<param name="to"> The end point of the range. </param> 
+			<returns>Random float number.</returns>
+		</member>
+		<member name="M:Unigine.Game.getRandomInt(int,int)">
+			<summary>
+			Returns a pseudo-random integer number within a given range (end-point not included).
+			</summary> 
+			<param name="from"> The initial point of the range. </param>
+			<param name="to"> The end point of the range. </param> 
+			<returns>Random integer number.</returns>
+		</member>
+		<member name="M:Unigine.Game.setScale(float)">
+			<summary>
+								Sets a value that is used to scale frame duration. It scales up or down the speed of rendering, physics and game logic. This function can be used to create effects of slow/accelerated motion.					For example, if the scale equals 2, the rate of simulation of all effects (such as particles) speeds up to two times faster. As for physics, in reality it will be simulated with the same fixed physics FPS, but the number of iterations will be two times higher. It is possible to scale the physics FPS separately via engine.physics.setScale() function.					This function scales the value set by the setIFps().
+			</summary> 
+			<param name="scale"> Scaling factor. The provided values is clamped within the range [0;32]. </param> 
+		</member>
+		<member name="M:Unigine.Game.getScale const">
+			<summary>
+			Returns a value used to scale the frame duration.
+			</summary>  
+			<returns>Value to scale the frame duration.</returns>
+		</member>
+		<member name="M:Unigine.Game.setSeed(int)">
+			<summary>
+			Sets the seed for pseudo-random number generator.
+			</summary> 
+			<param name="seed"> Number used to initialize a pseudo-random sequence of numbers. </param> 
+		</member>
+		<member name="M:Unigine.Game.getSeed const">
+			<summary>
+			Returns the seed for pseudo-random number generator.
+			</summary>  
+			<returns>Number used to initialize a pseudo-random sequence of numbers.</returns>
+		</member>
+		<member name="M:Unigine.Game.setTime(float)">
+			<summary>
+			Sets the time value for the game. The time is counted off starting from the world loading and does not take game pauses into account.
+			</summary> 
+			<param name="time"> Time in seconds. </param> 
+		</member>
+		<member name="M:Unigine.Game.getTime const">
+			<summary>
+			Returns the current time spent in the game. It is counted off starting from the world loading and does not take game pauses into account.
+			</summary>  
+			<returns>Time in seconds.</returns>
+		</member>
+		<member name="M:Unigine.Game.getMainPlayers(Unigine.Vector{Unigine.Ptr{Player},int,Unigine.VectorAllocator})">
+			<summary>
+			Returns the array of pointers to players that are set as main players.
+			</summary> 
+			<param name="players"> Array of pointers to main players. </param> 
+		</member>
+		<member name="M:Unigine.Game.getRandomColor const">
+			<summary>
+			Returns a random generated color vector: (R, G, B, A).
+			</summary>  
+			<returns>Four-component vec4 vector representing a color: (R, G, B, A).</returns>
+		</member>
+		<member name="M:Unigine.Game.setPlayerListener(Unigine.Ptr{Player})">
+			<summary>
+			Sets the player as listener.
+			</summary> 
+			<param name="listener"> Player to be set as listener. </param> 
+		</member>
+		<member name="M:Unigine.Game.getPlayerListener const">
+			<summary>
+			Returns the player which is currently the listener.
+			</summary>  
+			<returns>The player that is set as listener.</returns>
+		</member>
+		<member name="M:Unigine.Game.getListeners(Unigine.Vector{Unigine.Ptr{Player},int,Unigine.VectorAllocator})">
+			<summary>
+			Adds all potential listeners to the specified array.
+			</summary> 
+			<param name="players"> List to store potential listeners. </param> 
+		</member>
+		<member name="M:Unigine.GameIntersection.#ctor">
+			<summary>
+			The GameIntersection constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.GameIntersection.setPoint(Unigine.Math.Vec3)">
+			<summary>
+			Sets new coordinates of the intersection point.
+			</summary> 
+			<param name="point"> Coordinates of the intersection point. </param> 
+		</member>
+		<member name="M:Unigine.GameIntersection.getPoint">
+			<summary>
+			Returns coordinates of the intersection point.
+			</summary>  
+			<returns>Coordinates of the intersection point.</returns>
+		</member>
+	</members>
+</doc>

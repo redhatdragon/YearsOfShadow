@@ -1,0 +1,1704 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.RenderTarget.#ctor">
+			<summary>
+			Constructor. Creates a new render target.
+			</summary>  
+		</member>
+		<member name="M:Unigine.RenderTarget.destroy">
+			<summary>
+			Destroys the render target.
+			</summary>  
+		</member>
+		<member name="M:Unigine.RenderTarget.enable">
+			<summary>
+			Enables the render target.
+			</summary>  
+		</member>
+		<member name="M:Unigine.RenderTarget.enableCompute">
+			<summary>
+			Enables the render target with the use of compute shader output.
+			</summary>  
+		</member>
+		<member name="M:Unigine.RenderTarget.disable">
+			<summary>
+			Disables the render target.
+			</summary>  
+		</member>
+		<member name="M:Unigine.RenderTarget.flush">
+			<summary>
+			Flushes the render target.
+			</summary>  
+		</member>
+		<member name="M:Unigine.RenderTarget.getColorTexture(int) const">
+			<summary>
+			Returns a color texture by the specified slot.
+			</summary> 
+			<param name="slot"> Texture slot. </param> 
+			<returns>Color texture if it exists, otherwise nullptr.</returns>
+		</member>
+		<member name="M:Unigine.RenderTarget.bindColorTexture(int,Unigine.Ptr{Unigine.Texture})">
+			<summary>
+			Binds all layers and faces (if supported by the texture type) of a texture on the 0 mip level to the specified slot as render target.
+			</summary> 
+			<param name="slot"> Texture slot. </param>
+			<param name="texture"> Color texture to be bound. </param> 
+		</member>
+		<member name="M:Unigine.RenderTarget.bindColorTexture2D(int,Unigine.Ptr{Unigine.Texture},int)">
+			<summary>
+			Binds the specified slot of a 2D texture on the specified mipmap level to the specified slot as render target.
+			</summary> 
+			<param name="slot"> Texture slot. </param>
+			<param name="texture"> 2D color texture to be bound. </param>
+			<param name="mip"> Mipmap level number in the range from 0 to the total number of mipmaps. </param> 
+		</member>
+		<member name="M:Unigine.RenderTarget.bindColorTexture2DArray(int,Unigine.Ptr{Unigine.Texture},int,int)">
+			<summary>
+			Binds the specified slot and layer of a 2D texture array on the specified mipmap level to the specified slot as render target.
+			</summary> 
+			<param name="slot"> Texture slot. </param>
+			<param name="texture"> 2D color texture array to be bound. </param>
+			<param name="layer"> Number of the 2D texture array layer. With the default value of -1, all layers of the texture on a specified mip level are bound. </param>
+			<param name="mip"> Mipmap level number in the range from 0 to the total number of mipmaps. </param> 
+		</member>
+		<member name="M:Unigine.RenderTarget.bindColorTextureCube(int,Unigine.Ptr{Unigine.Texture},int,int)">
+			<summary>
+			Binds the specified slot and face of a texture cube on the specified mipmap level to the specified slot as render target.
+			</summary> 
+			<param name="slot"> Texture slot. </param>
+			<param name="texture"> Color texture cube to be bound. </param>
+			<param name="face"> The face of the cube. With the default value of -1, all faces of the texture on a specified mip level are bound. </param>
+			<param name="mip"> Mipmap level number in the range from 0 to the total number of mipmaps. </param> 
+		</member>
+		<member name="M:Unigine.RenderTarget.bindColorTextureCubeArray(int,Unigine.Ptr{Unigine.Texture},int,int,int)">
+			<summary>
+			Binds the specified layer and face of a texture cube array on the specified mipmap level to the specified slot as render target.
+			</summary> 
+			<param name="slot"> Texture slot. </param>
+			<param name="texture"> Color cube array texture to be bound. </param>
+			<param name="layer"> Number of the texture cube array layer. With the default value of -1, all layers of the texture on a specified mip level are bound. </param>
+			<param name="face"> The face of the cube. With the default value of -1, all faces of the texture on a specified mip level are bound. </param>
+			<param name="mip"> Mipmap level number in the range from 0 to the total number of mipmaps. </param> 
+		</member>
+		<member name="M:Unigine.RenderTarget.bindColorTexture3D(int,Unigine.Ptr{Unigine.Texture},int,int)">
+			<summary>
+			Binds the specified depth layer of a 3D texture on the specified mipmap level to the specified slot as render target.
+			</summary> 
+			<param name="slot"> Texture slot. </param>
+			<param name="texture"> 3D Color texture to be bound. </param>
+			<param name="depth"> 3D texture depth layer. With the default value of -1, all depth layers of the texture on a specified mip level are bound. </param>
+			<param name="mip"> Mipmap level number in the range from 0 to the total number of mipmaps. </param> 
+		</member>
+		<member name="M:Unigine.RenderTarget.unbindColorTexture(int)">
+			<summary>
+			Unbinds a render target texture from the specified slot.
+			</summary> 
+			<param name="slot"> Texture slot. </param> 
+		</member>
+		<member name="M:Unigine.RenderTarget.unbindColorTextures">
+			<summary>
+			Unbinds all render target textures from a render target.
+			</summary>  
+		</member>
+		<member name="M:Unigine.RenderTarget.getDepthTexture const">
+			<summary>
+			Returns the depth texture.
+			</summary>  
+			<returns>Depth texture if it exists, otherwise nullptr.</returns>
+		</member>
+		<member name="M:Unigine.RenderTarget.bindDepthTexture(Unigine.Ptr{Unigine.Texture})">
+			<summary>
+			Binds all layers and faces (if supported by the texture type) of a texture on the 0 mip level to the specified slot as depth target.
+			</summary> 
+			<param name="texture"> Depth texture to be bound. </param> 
+		</member>
+		<member name="M:Unigine.RenderTarget.bindDepthTexture2D(Unigine.Ptr{Unigine.Texture},int)">
+			<summary>
+			Binds a 2D depth texture on the specified mipmap level as depth target.
+			</summary> 
+			<param name="texture"> 2D depth texture to be bound. </param>
+			<param name="mip"> Mipmap level number in the range from 0 to the total number of mipmaps. </param> 
+		</member>
+		<member name="M:Unigine.RenderTarget.bindDepthTexture2DArray(Unigine.Ptr{Unigine.Texture},int,int)">
+			<summary>
+			Binds the specified layer of a depth texture on the specified mipmap level as depth target.
+			</summary> 
+			<param name="texture"> 2D depth texture array to be bound. </param>
+			<param name="layer"> Number of the 2D depth texture array layer. With the default value of -1, all layers of the texture on a specified mip level are bound. </param>
+			<param name="mip"> Mipmap level number in the range from 0 to the total number of mipmaps. </param> 
+		</member>
+		<member name="M:Unigine.RenderTarget.bindDepthTextureCube(Unigine.Ptr{Unigine.Texture},int,int)">
+			<summary>
+			Binds the specified face of a depth texture cube on the specified mipmap level as depth target.
+			</summary> 
+			<param name="texture"> Depth texture cube to be bound. </param>
+			<param name="face"> The face of the cube. With the default value of -1, all faces of the texture on a specified mip level are bound. </param>
+			<param name="mip"> Mipmap level number in the range from 0 to the total number of mipmaps. </param> 
+		</member>
+		<member name="M:Unigine.RenderTarget.bindDepthTextureCubeArray(Unigine.Ptr{Unigine.Texture},int,int,int)">
+			<summary>
+			Binds the specified layer and face of a depth texture cube array on the specified mipmap level as depth target.
+			</summary> 
+			<param name="texture"> Depth texture cube array to be bound. </param>
+			<param name="layer"> Number of the texture cube array layer. With the default value of -1, all layers of the texture on a specified mip level are bound. </param>
+			<param name="face"> The face of the cube. With the default value of -1, all faces of the texture on a specified mip level are bound. </param>
+			<param name="mip"> Mipmap level number in the range from 0 to the total number of mipmaps. </param> 
+		</member>
+		<member name="M:Unigine.RenderTarget.unbindDepthTexture">
+			<summary>
+			Unbinds a depth texture from a depth target.
+			</summary>  
+		</member>
+		<member name="M:Unigine.RenderTarget.getUnorderedAccessTexture(int) const">
+			<summary>
+			Returns an unordered access texture by the specified slot.
+			</summary> 
+			<param name="slot"> Texture slot. </param> 
+			<returns>Unordered access texture if it exists, otherwise nullptr.</returns>
+		</member>
+		<member name="M:Unigine.RenderTarget.bindUnorderedAccessTexture(int,Unigine.Ptr{Unigine.Texture},bool,bool)">
+			<summary>
+			Binds all layers and faces (if supported by the texture type) of a texture on the 0 mip level to the specified slot for unordered access.
+			</summary> 
+			<param name="slot"> Texture slot. </param>
+			<param name="texture"> Unordered access texture to be bound. </param>
+			<param name="writeonly"> Access flag. true to use the texture for writing only, otherwise false. </param>
+			<param name="atomic"> Set true to bind the texture with the GL_32UI format; otherwise — false. This flag is to be set for OpenGL only. </param> 
+		</member>
+		<member name="M:Unigine.RenderTarget.bindUnorderedAccessTexture2D(int,Unigine.Ptr{Unigine.Texture},bool,bool,int)">
+			<summary>
+			Binds a 2D texture on the specified mipmap level to the specified slot for unordered access.
+			</summary> 
+			<param name="slot"> Texture slot. </param>
+			<param name="texture"> Unordered access 2D texture to be bound. </param>
+			<param name="writeonly"> Access flag. true to use the texture for writing only, otherwise false. </param>
+			<param name="atomic"> Set true to bind the texture with the GL_32UI format; otherwise — false. This flag is to be set for OpenGL only. </param>
+			<param name="mip"> Mipmap level number in the range from 0 to the total number of mipmaps. </param> 
+		</member>
+		<member name="M:Unigine.RenderTarget.bindUnorderedAccessTexture2DArray(int,Unigine.Ptr{Unigine.Texture},bool,bool,int,int)">
+			<summary>
+			Binds the specified layer of a 2D texture array on the specified mipmap level to the specified slot for unordered access.
+			</summary> 
+			<param name="slot"> Texture slot. </param>
+			<param name="texture"> Unordered access 2D texture array to be bound. </param>
+			<param name="writeonly"> Access flag. true to use the texture for writing only, otherwise false. </param>
+			<param name="atomic"> Set true to bind the texture with the GL_32UI format; otherwise — false. This flag is to be set for OpenGL only. </param>
+			<param name="layer"> Number of the 2D texture array layer. With the default value of -1, all layers of the texture on a specified mip level are bound. </param>
+			<param name="mip"> Mipmap level number in the range from 0 to the total number of mipmaps. </param> 
+		</member>
+		<member name="M:Unigine.RenderTarget.bindUnorderedAccessTextureCube(int,Unigine.Ptr{Unigine.Texture},bool,bool,int,int)">
+			<summary>
+			Binds the specified face of a texture cube on the specified mipmap level to the specified slot for unordered access.
+			</summary> 
+			<param name="slot"> Texture slot. </param>
+			<param name="texture"> Unordered access texture cube to be bound. </param>
+			<param name="writeonly"> Access flag. true to use the texture for writing only, otherwise false. </param>
+			<param name="atomic"> Set true to bind the texture with the GL_32UI format; otherwise — false. This flag is to be set for OpenGL only. </param>
+			<param name="face"> The face of the cube. With the default value of -1, all faces of the texture on a specified mip level are bound. </param>
+			<param name="mip"> Mipmap level number in the range from 0 to the total number of mipmaps. </param> 
+		</member>
+		<member name="M:Unigine.RenderTarget.bindUnorderedAccessTextureCubeArray(int,Unigine.Ptr{Unigine.Texture},bool,bool,int,int,int)">
+			<summary>
+			Binds the specified layer and face of a texture cube on the specified mipmap level to the specified slot for unordered access.
+			</summary> 
+			<param name="slot"> Texture slot. </param>
+			<param name="texture"> Unordered access texture cube array to be bound. </param>
+			<param name="writeonly"> Access flag. true to use the texture for writing only, otherwise false. </param>
+			<param name="atomic"> Set true to bind the texture with the GL_32UI format; otherwise — false. This flag is to be set for OpenGL only. </param>
+			<param name="layer"> Number of the texture cube array layer. </param>
+			<param name="face"> The face of the cube. With the default value of -1, all faces of the texture on a specified mip level are bound. </param>
+			<param name="mip"> Mipmap level number in the range from 0 to the total number of mipmaps. </param> 
+		</member>
+		<member name="M:Unigine.RenderTarget.bindUnorderedAccessTexture3D(int,Unigine.Ptr{Unigine.Texture},bool,bool,int,int)">
+			<summary>
+			Binds the specified layer of a 3D texture on the specified mipmap level to the specified slot for unordered access.
+			</summary> 
+			<param name="slot"> Texture slot. </param>
+			<param name="texture"> Unordered access 3D texture to be bound. </param>
+			<param name="writeonly"> Access flag. true to use the texture for writing only, otherwise false. </param>
+			<param name="atomic"> Set true to bind the texture with the GL_32UI format; otherwise — false. This flag is to be set for OpenGL only. </param>
+			<param name="depth"> 3D texture depth layer. With the default value of -1, all depth layers of the texture on a specified mip level are bound. </param>
+			<param name="mip"> Mipmap level number in the range from 0 to the total number of mipmaps. </param> 
+		</member>
+		<member name="M:Unigine.RenderTarget.unbindUnorderedAccessTexture(int)">
+			<summary>
+			Unbinds an unordered access texture from the specified slot.
+			</summary> 
+			<param name="slot"> Texture slot. </param> 
+		</member>
+		<member name="M:Unigine.RenderTarget.unbindUnorderedAccessTextures">
+			<summary>
+			Unbinds all unordered access textures for unordered access resources.
+			</summary>  
+		</member>
+		<member name="M:Unigine.RenderTarget.getStructuredBuffer(int) const">
+			<summary>
+			Returns a structured buffer by the specified slot.
+			</summary> 
+			<param name="slot"> Texture slot. </param> 
+			<returns>Structured buffer if it exists, otherwise nullptr.</returns>
+		</member>
+		<member name="M:Unigine.RenderTarget.bindStructuredBuffer(int,Unigine.Ptr{Unigine.StructuredBuffer})">
+			<summary>
+			Binds a structured buffer to a device by the specified slot.
+			</summary> 
+			<param name="slot"> Texture slot. </param>
+			<param name="buffer"> Structured buffer to be bound. </param> 
+		</member>
+		<member name="M:Unigine.RenderTarget.unbindStructuredBuffer(int)">
+			<summary>
+			Unbinds a structured buffer for unordered access resources.
+			</summary> 
+			<param name="slot"> Texture slot. </param> 
+		</member>
+		<member name="M:Unigine.RenderTarget.unbindStructuredBuffers">
+			<summary>
+			Unbinds all structured buffers for unordered access resources.
+			</summary>  
+		</member>
+		<member name="M:Unigine.RenderTarget.isEnabled const">
+			<summary>
+			Returns a value indicating if the render target is enabled.
+			</summary>  
+			<returns>1 if the render target is enabled, otherwise 0.</returns>
+		</member>
+		<member name="M:Unigine.RenderTarget.isCompleted const">
+			<summary>
+			Returns a value indicating if the render target is completed.
+			</summary>  
+			<returns>1 if the render target is completed, otherwise 0.</returns>
+		</member>
+		<member name="M:Unigine.RenderTarget.unbindAll">
+			<summary>
+			Unbinds all color, depth, and unordered access textures as well as structured buffers.
+			</summary>  
+		</member>
+		<member name="M:Unigine.StructuredBuffer.#ctor">
+			<summary>
+			Constructor. Creates a new structured buffer.
+			</summary>  
+		</member>
+		<member name="M:Unigine.StructuredBuffer.getD3D11ShaderResourceView">
+			<summary>
+			Gets a shader-resource view that specifies the subresources a shader can access during rendering.
+			</summary>  
+			<returns>A pointer to D3D11 shader resource view.</returns>
+		</member>
+		<member name="M:Unigine.StructuredBuffer.getD3D11UnorderedAccessView">
+			<summary>
+			Gets a view for an unordered access resource that specifies the parts of a resource the pipeline can access during rendering.
+			</summary>  
+			<returns>A pointer to a D3D11 unordered access view.</returns>
+		</member>
+		<member name="M:Unigine.StructuredBuffer.getData(void)">
+			<summary>
+			Gets the data from StructuredBuffer instance.
+			</summary> 
+			<param name="data"> A pointer to the data. </param> 
+			<returns>1 if StructuredBuffer data was returned; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.StructuredBuffer.getGLBufferID">
+			<summary>
+			Returns the Id of buffer.
+			</summary>  
+			<returns>An Id of the buffer.</returns>
+		</member>
+		<member name="M:Unigine.StructuredBuffer.bindCompute(int)">
+			<summary>
+			Binds the StructuredBuffer to the compute shader type.
+			</summary> 
+			<param name="unit"> Number of the slot. </param> 
+		</member>
+		<member name="M:Unigine.StructuredBuffer.unbindCompute(int)">
+			<summary>
+			Unbinds the StructuredBuffer from the compute shader type.
+			</summary> 
+			<param name="unit"> Number of the slot. </param> 
+		</member>
+		<member name="M:Unigine.StructuredBuffer.bindControl(int)">
+			<summary>
+			Binds the StructuredBuffer to the tessellation control (hull) shader type.
+			</summary> 
+			<param name="unit"> Number of the slot. </param> 
+		</member>
+		<member name="M:Unigine.StructuredBuffer.unbindControl(int)">
+			<summary>
+			Unbinds the StructuredBuffer from the tessellation control (hull) shader type.
+			</summary> 
+			<param name="unit"> Number of the slot. </param> 
+		</member>
+		<member name="M:Unigine.StructuredBuffer.bindEvaluate(int)">
+			<summary>
+			Binds the StructuredBuffer to the tessellation evaluation (domain) shader type.
+			</summary> 
+			<param name="unit"> Number of the slot. </param> 
+		</member>
+		<member name="M:Unigine.StructuredBuffer.unbindEvaluate(int)">
+			<summary>
+			Unbinds the StructuredBuffer from the tessellation evaluation (domain) shader type.
+			</summary> 
+			<param name="unit"> Number of the slot. </param> 
+		</member>
+		<member name="M:Unigine.StructuredBuffer.bindFragment(int)">
+			<summary>
+			Binds the StructuredBuffer to the fragment shader type.
+			</summary> 
+			<param name="unit"> Number of the slot. </param> 
+		</member>
+		<member name="M:Unigine.StructuredBuffer.unbindFragment(int)">
+			<summary>
+			Unbinds the StructuredBuffer from the fragment shader type.
+			</summary> 
+			<param name="unit"> Number of the slot. </param> 
+		</member>
+		<member name="M:Unigine.StructuredBuffer.bindGeometry(int)">
+			<summary>
+			Binds the StructuredBuffer to the geometry shader type.
+			</summary> 
+			<param name="unit"> Number of the slot. </param> 
+		</member>
+		<member name="M:Unigine.StructuredBuffer.unbindGeometry(int)">
+			<summary>
+			Unbinds the StructuredBuffer from the geometry shader type.
+			</summary> 
+			<param name="unit"> Number of the slot. </param> 
+		</member>
+		<member name="M:Unigine.StructuredBuffer.bindVertex(int)">
+			<summary>
+			Binds the StructuredBuffer to the vertex shader type.
+			</summary> 
+			<param name="unit"> Number of the slot. </param> 
+		</member>
+		<member name="M:Unigine.StructuredBuffer.clear">
+			<summary>
+			Clears smart pointer.
+			</summary>  
+		</member>
+		<member name="M:Unigine.StructuredBuffer.create(int,void,unsignedint,unsignedint)">
+			<summary>
+			Creates a StructuredBuffer instance with specified parameters.
+			</summary> 
+			<param name="flags"> StructuredBuffer flag. </param>
+			<param name="data"> Pointer to the source data. </param>
+			<param name="structure_size"> The size of the structured buffer. </param>
+			<param name="num_elements"> Number of elements in the structured buffer. </param> 
+			<returns>1 if the StructuredBuffer was created successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.StructuredBuffer.create(int,unsignedint,unsignedint)">
+			<summary>
+			Constructor. Creates a new structured buffer with the specified parameters.
+			</summary> 
+			<param name="flags"> StructuredBuffer flag. </param>
+			<param name="structure_size"> The size of the structured buffer. </param>
+			<param name="num_elements"> Number of elements in the structured buffer. </param> 
+			<returns>1 if the StructuredBuffer was created successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.StructuredBuffer.destroy">
+			<summary>
+			Destroys smart pointer.
+			</summary>  
+		</member>
+		<member name="M:Unigine.StructuredBuffer.unbindVertex(int)">
+			<summary>
+			Unbinds the StructuredBuffer from the vertex shader type.
+			</summary> 
+			<param name="unit"> Number of the slot. </param> 
+		</member>
+		<member name="M:Unigine.StructuredBuffer.setDebugName(char)">
+			<summary>
+			Sets a friendly name for GPU debugging (RenderDoc, NVIDIA Nsight). It can be used to help you determine if the corresponding object interface pointer caused the leak. Memory leaks are reported by the debug software layer by outputting a list of object interface pointers along with their friendly names.
+			</summary> 
+			<param name="name"> Friendly debug name to be set. </param> 
+		</member>
+		<member name="M:Unigine.StructuredBuffer.getDebugName">
+			<summary>
+			Returns the currently used friendly name for GPU debugging (RenderDoc, NVIDIA Nsight). It can be used to help you determine if the corresponding object interface pointer caused the leak. Memory leaks are reported by the debug software layer by outputting a list of object interface pointers along with their friendly names.
+			</summary>  
+			<returns>Friendly debug name.</returns>
+		</member>
+		<member name="M:Unigine.StructuredBuffer.clearBuffer">
+			<summary>
+			Clears the structured buffer.
+			</summary>  
+		</member>
+		<member name="M:Unigine.StructuredBuffer.copy(Unigine.Ptr{Unigine.StructuredBuffer})">
+			<summary>
+			Copies the data from the specified source structured buffer.
+			</summary> 
+			<param name="src"> Source structured buffer to copy data from. </param> 
+		</member>
+		<member name="M:Unigine.StructuredBuffer.getNumElements">
+			<summary>
+			Returns the number of elements in the structured buffer.
+			</summary>  
+			<returns>Number of elements in the structured buffer.</returns>
+		</member>
+		<member name="F:Unigine.StructuredBuffer.CPU_RESOURCE">
+			<summary>
+			GPU read-only, CPU write-only + copy staging buffer.
+		</summary>
+		</member>
+		<member name="F:Unigine.StructuredBuffer.GPU_RESOURCE">
+			<summary>
+			GPU read / write + copy staging buffer.
+		</summary>
+		</member>
+		<member name="F:Unigine.StructuredBuffer.IMMUTABLE">
+			<summary>
+			GPU read-only + copy staging buffer.
+		</summary>
+		</member>
+		<member name="F:Unigine.StructuredBuffer.STAGING">
+			<summary>
+			GPU no access + CPU read-only + direct staging buffer.
+		</summary>
+		</member>
+		<member name="M:Unigine.Texture.is2DType const">
+			<summary>
+			Returns a value indicating if the texture is 2D texture.
+			</summary>  
+			<returns>1 if the texture is 2D; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.is3DType const">
+			<summary>
+			Returns a value indicating if the texture is 3D texture.
+			</summary>  
+			<returns>1 if the texture is 3D; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.isAnisotropy const">
+			<summary>
+			Checks texture anisotropy.
+			</summary>  
+			<returns>1 if the texture filter is anisotropy, otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.isArrayType const">
+			<summary>
+			Returns a value indicating if the texture is Array texture.
+			</summary>  
+			<returns>1 if the texture type is an array; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.isColorFormat const">
+			<summary>
+			Returns a value indicating if the texture is color texture.
+			</summary>  
+			<returns>1 if the texture is color texture; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.isCombinedFormat const">
+			<summary>
+			Returns a value indicating if the texture is stored in a combined format (RGB565, RGBA4, RGB5A1, R24B8, or RGB10A2).
+			</summary>  
+			<returns>1 if the texture is in combined format; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.isCompressedFormat const">
+			<summary>
+			Returns a value indicating if the texture is stored in a compressed format (DXT1, DXT3, DXT5, ATI1, ATI2, ZLC1 or ZLC2).
+			</summary>  
+			<returns>1 if the texture is in a compressed format; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.isCubeType const">
+			<summary>
+			Returns a value indicating if the texture is Cube texture.
+			</summary>  
+			<returns>true if the texture type is cube; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Texture.isValid">
+			<summary>
+			Returns a value indicating if the texture is valid (null-pointer check).
+			</summary>  
+			<returns>true if the texture is valid; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Texture.getD3D11DepthStencilView const">
+			<summary>
+			Returns Direct3D11 depth stencil view.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Texture.getD3D11DepthStencilView(int) const">
+			<summary>
+			Returns Direct3D11 depth stencil view.
+			</summary> 
+			<param name="index"> Index. </param> 
+		</member>
+		<member name="M:Unigine.Texture.getD3D11RenderTargetView(int) const">
+			<summary>
+			Returns Direct3D11 render target view.
+			</summary> 
+			<param name="index"> Index. </param> 
+		</member>
+		<member name="M:Unigine.Texture.getD3D11RenderTargetView const">
+			<summary>
+			Returns Direct3D11 render target view.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Texture.getD3D11ShaderResourceView const">
+			<summary>
+			Returns Direct3D11 render target view.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Texture.getD3D11Texture const">
+			<summary>
+			Returns Direct3D11 texture.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Texture.getD3D11UnorderedAccessView(int) const">
+			<summary>
+			Returns Direct3D11 render target view.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Texture.getDepth(int) const">
+			<summary>
+			Returns the depth for the given texture mipmap level.
+			</summary> 
+			<param name="level"> Mipmap level number in the range from 0 to the total number of mipmaps. </param> 
+			<returns>Texture mipmap level depth.</returns>
+		</member>
+		<member name="M:Unigine.Texture.isDepthFormat const">
+			<summary>
+			Returns a value indicating if the texture is depth texture.
+			</summary>  
+			<returns>true if the texture is depth texture; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Texture.setSamplerFlags(int)">
+			<summary>
+			Sets the specified sampler flags for the texture.
+			</summary> 
+			<param name="flags"> Sampler flags to be set, a combination of SAMPLER_* variables. </param> 
+		</member>
+		<member name="M:Unigine.Texture.getSamplerFlags const">
+			<summary>
+			Returns the current sampler flags set for the texture.
+			</summary>  
+			<returns>Current sampler flags, a combination of SAMPLER_* variables.</returns>
+		</member>
+		<member name="M:Unigine.Texture.getFormatFlags const">
+			<summary>
+			Returns the current format flags set for the texture.
+			</summary>  
+			<returns>Current format flags, a combination of FORMAT_* variables.</returns>
+		</member>
+		<member name="M:Unigine.Texture.getAllFlags const">
+			<summary>
+			Returns all current flags (format and sampler) set for the texture.
+			</summary>  
+			<returns>Current texture flags, a combination of FORMAT_* and SAMPLER_* variables.</returns>
+		</member>
+		<member name="M:Unigine.Texture.isFloatFormat const">
+			<summary>
+			Returns a value indicating if the texture is stored in a float format (R32F, RG32F, RGB32F or RGBA32F).
+			</summary>  
+			<returns>1 if the texture is in float format; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.getFormat const">
+			<summary>
+			Gets the texture format.
+			</summary>  
+			<returns>Texture format.</returns>
+		</member>
+		<member name="M:Unigine.Texture.getFormatName const">
+			<summary>
+			Gets the texture format name.
+			</summary>  
+			<returns>Texture format name.</returns>
+		</member>
+		<member name="M:Unigine.Texture.getGLInternalFormat const">
+			<summary>
+			Returns OpenGL internal format.
+			</summary>  
+			<returns>OpenGL internal format.</returns>
+		</member>
+		<member name="M:Unigine.Texture.getGLPixelFormat const">
+			<summary>
+			Returns OpenGL pixel format.
+			</summary>  
+			<returns>OpenGL pixel format.</returns>
+		</member>
+		<member name="M:Unigine.Texture.getGLPixelType const">
+			<summary>
+			Returns OpenGL pixel type.
+			</summary>  
+			<returns>OpenGL pixel type.</returns>
+		</member>
+		<member name="M:Unigine.Texture.getGLTarget const">
+			<summary>
+			Returns OpenGL texture target.
+			</summary>  
+			<returns>OpenGL texture target.</returns>
+		</member>
+		<member name="M:Unigine.Texture.getGLTextureID const">
+			<summary>
+			Returns OpenGL texture identifier.
+			</summary>  
+			<returns>OpenGL texture identifier.</returns>
+		</member>
+		<member name="M:Unigine.Texture.isHalfFormat const">
+			<summary>
+			Returns a value indicating if the texture is stored in a half-float format (R16F, RG16F, RGB16F or RGBA16F).
+			</summary>  
+			<returns>1 if the texture is in half-float format; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.getHeight(int) const">
+			<summary>
+			Returns the height for the specified texture mipmap level.
+			</summary> 
+			<param name="level"> Mipmap level number in the range from 0 to the total number of mipmaps. </param> 
+			<returns>Texture mipmap level height.</returns>
+		</member>
+		<member name="M:Unigine.Texture.setImage(Unigine.Ptr{Unigine.Image})">
+			<summary>
+			Sets texture data using the data of the specified source image.					In DX11, when setting the image, the source formats listed below are converted as follows:													RGB565 -&gt; RGBA8							RGBA4 -&gt; RGBA8							RGB5A1 -&gt; RGBA8							RGB8 -&gt; RGBA8							RGB16 -&gt; RGBA16							RGB16U -&gt; RGBA16U							RGB16F -&gt; RGBA16F							RGB32F -&gt; RGBA32F
+			</summary> 
+			<param name="image"> Source image to be used for setting texture data. </param> 
+			<returns>1 if the data was set successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.getImage(Unigine.Ptr{Unigine.Image}) const">
+			<summary>
+			Gets texture data and puts it to the specified target image.
+			</summary> 
+			<param name="image"> Target image, to which the texture data is to be put. </param> 
+			<returns>1 if the data was received; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.setImage2D(Unigine.Ptr{Unigine.Image},int,int,int)">
+			<summary>
+			Sets texture data using the data of the specified 2D or 2D array image.					The following conditions must be satisfied:													Both texture and image types must be either 2D or 2D_ARRAY.							Texture resolution must be greater or equal to the image resolution.							Image and texture mipmap counts must be equal (the same is for layer counts of 2D arrays).
+			</summary> 
+			<param name="image"> Source image to be used for setting texture data. </param>
+			<param name="offset_x"> Offset along the X axis (in pixels) starting from which the data of the specified image is to be taken. The following condition must be satisfied: offset_x &lt; texture_width - image_width. </param>
+			<param name="offset_y"> Offset along the Y axis (in pixels) starting from which the data of the specified image is to be taken. The following condition must be satisfied: offset_y &lt; texture_height - image_height. </param>
+			<param name="texture_format"> Texture format identifier (see the FORMAT_* variables), or -1 - auto-detect. </param> 
+			<returns>1 if the data was set successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.setImageLayer(Unigine.Ptr{Unigine.Image},int,int)">
+			<summary>
+			Sets the data of the specified layer of the 2D texture array using the data of the specified 2D image.					The following conditions must be satisfied:													Texture and image must have the same resolution.							Image and texture mipmap counts must be equal (the same is for layer counts of 2D arrays).
+			</summary> 
+			<param name="image"> Source image to be used for setting the data of the 2D texture array layer. </param>
+			<param name="layer"> Number of the 2D texture array layer, for which the data is to be set. </param>
+			<param name="texture_format"> Texture format identifier (see the FORMAT_* variables), or -1 - auto-detect. </param> 
+			<returns>1 if the data was set successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.getMultisample const">
+			<summary>
+			Returns the multisample count.
+			</summary>  
+			<returns>Multisample count.</returns>
+		</member>
+		<member name="M:Unigine.Texture.getNumChannels const">
+			<summary>
+			Returns the number of channels.
+			</summary>  
+			<returns>Number of channels.</returns>
+		</member>
+		<member name="M:Unigine.Texture.getNumFaces const">
+			<summary>
+			Returns a number of faces in the texture.
+			</summary>  
+			<returns>Number of faces.</returns>
+		</member>
+		<member name="M:Unigine.Texture.getNumLayers const">
+			<summary>
+			Returns a number of layers in the texture.
+			</summary>  
+			<returns>Number of layers.</returns>
+		</member>
+		<member name="M:Unigine.Texture.getNumMipmaps const">
+			<summary>
+			Returns the texture mipmap count.
+			</summary>  
+			<returns>Texture mipmap count.</returns>
+		</member>
+		<member name="M:Unigine.Texture.isRawFormat const">
+			<summary>
+			Returns a value indicating if the texture is uncompressed (stored in R8, RG8, RGB8, RGBA8, R16, RG16, RGB16, RGBA16, R16F, RG16F, RGB16F, RGBA16F, R32F, RG32F, RGB32F, RGBA32F, RGB565, RGBA4, RGB5A1, RGB10A2, R24B8, D16, D24, D24S8, D32F, or D32FS8 format).
+			</summary>  
+			<returns>1 if the texture is uncompressed; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.getType const">
+			<summary>
+			Gets the texture type.
+			</summary>  
+			<returns>Texture type.</returns>
+		</member>
+		<member name="M:Unigine.Texture.getTypeName const">
+			<summary>
+			Gets the texture type name.
+			</summary>  
+			<returns>Texture type name.</returns>
+		</member>
+		<member name="M:Unigine.Texture.isUCharFormat const">
+			<summary>
+			Returns a value indicating if the texture is stored in an unsigned char format (R8, RG8, RGB8, RGBA8, DXT1, DXT3, DXT5, ATI1 or ATI2).
+			</summary>  
+			<returns>true if the texture is in unsigned char format; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Texture.isUShortFormat const">
+			<summary>
+			Returns a value indicating if the texture is stored in an unsigned short format (R16, RG16, RGB16 or RGBA16).
+			</summary>  
+			<returns>true if the texture is in unsigned short format; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Texture.isUIntFormat const">
+			<summary>
+			Returns a value indicating if the texture is stored in an unsigned integer format (R32U, RG32U, RGB32U or RGBA32U).
+			</summary>  
+			<returns>true if the texture is in an unsigned integer format; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Texture.isIntegerFormat const">
+			<summary>
+			Returns a value indicating if the texture is stored in an integer format (unsigned char, unsigned short, or unsigned int).
+			</summary>  
+			<returns>true if the texture is in an integer format; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Texture.getWidth(int) const">
+			<summary>
+			Returns the width for the specified texture mipmap level.
+			</summary> 
+			<param name="level"> Mipmap level number in the range from 0 to the total number of mipmaps. </param> 
+			<returns>Texture mipmap level width.</returns>
+		</member>
+		<member name="M:Unigine.Texture.bindCompute(int) const">
+			<summary>
+			Binds compute texture.
+			</summary> 
+			<param name="unit"> Texture unit. </param> 
+		</member>
+		<member name="M:Unigine.Texture.bindFragment(int) const">
+			<summary>
+			Binds fragment texture.
+			</summary> 
+			<param name="unit"> Texture unit. </param> 
+		</member>
+		<member name="M:Unigine.Texture.bindVertex(int) const">
+			<summary>
+			Binds vertex texture.
+			</summary> 
+			<param name="unit"> Texture unit. </param> 
+		</member>
+		<member name="M:Unigine.Texture.clear">
+			<summary>
+			Clears texture.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Texture.copy2D(int,int,int,int,int,int)">
+			<summary>
+			Copies 2D texture.
+			</summary> 
+			<param name="dest_x"> The offset of the source texture along the X-axis. </param>
+			<param name="dest_y"> The offset of the source texture along the Y-axis. </param>
+			<param name="src_x"> The offset of the destination texture along the X-axis. </param>
+			<param name="src_y"> The offset of the destination texture along the Y-axis. </param>
+			<param name="w"> The width of the destination texture. </param>
+			<param name="h"> The height of the destination texture. </param> 
+			<returns>1 if the texture was copied; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.copyCube(int,int,int,int,int,int,int)">
+			<summary>
+			Copies Cube texture.
+			</summary> 
+			<param name="face"> The face of the cube. </param>
+			<param name="dest_x"> The offset of the source texture along the X-axis. </param>
+			<param name="dest_y"> The offset of the source texture along the Y-axis. </param>
+			<param name="src_x"> The offset of the destination texture along the X-axis. </param>
+			<param name="src_y"> The offset of the destination texture along the Y-axis. </param>
+			<param name="w"> The width of the destination texture. </param>
+			<param name="h"> The height of the destination texture. </param> 
+			<returns>1 if the texture was copied; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.#ctor">
+			<summary>
+			Texture constructor.
+			</summary>  
+			<returns>Pointer to the created texture.</returns>
+		</member>
+		<member name="M:Unigine.Texture.create(Unigine.Ptr{Unigine.Image},int)">
+			<summary>
+			Texture constructor.
+			</summary> 
+			<param name="image"> Image pointer. </param>
+			<param name="flags"> Texture flags. </param> 
+			<returns>1 if the texture was created successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.create2D(int,int,int,int)">
+			<summary>
+			Creates 2D texture.
+			</summary> 
+			<param name="width"> Texture width. </param>
+			<param name="height"> Texture height. </param>
+			<param name="format"> Texture format. </param>
+			<param name="flags"> Texture flags. </param> 
+			<returns>1 if the texture was created successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.create2DArray(int,int,int,int,int)">
+			<summary>
+			Creates 2D Array texture.
+			</summary> 
+			<param name="width"> Texture width. </param>
+			<param name="height"> Texture height. </param>
+			<param name="num_layers"> Texture layers. </param>
+			<param name="format"> Texture format. </param>
+			<param name="flags"> Texture flags. </param> 
+			<returns>1 if the 2D array texture was created; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.create3D(int,int,int,int,int)">
+			<summary>
+			Creates 3D texture.
+			</summary> 
+			<param name="width"> Texture width. </param>
+			<param name="height"> Texture height. </param>
+			<param name="depth"> Texture depth. </param>
+			<param name="format"> Texture format. </param>
+			<param name="flags"> Texture flags. </param> 
+			<returns>1 if the 3D texture was created; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.createCube(int,int,int,int)">
+			<summary>
+			Creates Cube texture.
+			</summary> 
+			<param name="width"> Texture width. </param>
+			<param name="height"> Texture height. </param>
+			<param name="format"> Texture format. </param>
+			<param name="flags"> Texture flags. </param> 
+			<returns>1 if the cubemap texture was created; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.createCubeArray(int,int,int,int,int)">
+			<summary>
+			Creates Cube Array texture.
+			</summary> 
+			<param name="width"> Texture width. </param>
+			<param name="height"> Texture height. </param>
+			<param name="num_layers"> Texture layers. </param>
+			<param name="format"> Texture format. </param>
+			<param name="flags"> Texture flags. </param> 
+			<returns>1 if the cubemap texture array was created; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.createMipmaps">
+			<summary>
+			Creates mipmaps stack.
+			</summary>  
+			<returns>1 if the mipmaps stack was created; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.destroy">
+			<summary>
+			Destroys texture.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Texture.fromD3D11Texture2D(void,int,int,int,int,int)">
+			<summary>
+			Creates 2D texture from external D3D11Texture pointer.
+			</summary> 
+			<param name="ptr"> Pointer to the D3D11 texture. </param>
+			<param name="width"> Texture width. </param>
+			<param name="height"> Texture height. </param>
+			<param name="format"> Texture format. </param>
+			<param name="internal_format"> Internal texture format. </param>
+			<param name="flags"> Texture flags. </param> 
+			<returns>1 if the 2D texture from D3D11 was created; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.fromD3D11Texture2D(void,int,int,int,int)">
+			<summary>
+			Creates 2D texture from external D3D11Texture pointer.
+			</summary> 
+			<param name="ptr"> Pointer to the D3D11 texture. </param>
+			<param name="width"> Texture width. </param>
+			<param name="height"> Texture height. </param>
+			<param name="format"> Texture format. </param>
+			<param name="flags"> Texture flags. </param> 
+			<returns>1 if the 2D texture from D3D11 was created; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.fromGLTexture2D(unsignedint,int,int,int,int)">
+			<summary>
+			Creates texture from external GL texture ID.
+			</summary> 
+			<param name="tex_id"> External GL texture ID </param>
+			<param name="width"> Texture width. </param>
+			<param name="height"> Texture height. </param>
+			<param name="format"> Texture format. </param>
+			<param name="flags"> Texture flags. </param> 
+			<returns>1 if the 2D texture from external GL texture ID was created; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.fromGLTexture2D(unsignedint,int,int,int,int,int)">
+			<summary>
+			Creates texture from external GL texture ID
+			</summary> 
+			<param name="tex_id"> External GL texture ID </param>
+			<param name="width"> Texture width. </param>
+			<param name="height"> Texture height. </param>
+			<param name="format"> Texture format. </param>
+			<param name="internal_format"> Internal texture format. </param>
+			<param name="flags"> Texture flags. </param> 
+			<returns>1 if the 2D texture from external GL texture ID was created; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.load(char,int)">
+			<summary>
+			Loads texture from file.
+			</summary> 
+			<param name="name"> File name. </param>
+			<param name="flags"> Texture flags. </param> 
+			<returns>1 if the texture was loaded; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.render2D(float,float,float,float)">
+			<summary>
+			Renders 2D texture. This function creates 4 vertices (2 polygons) by using 2 X-coordinates and 2 Y-coordinates and sends it to be rendered.
+			</summary> 
+			<param name="x0"> The first X-coordinate. </param>
+			<param name="y0"> The first Y-coordinate. </param>
+			<param name="x1"> The second X-coordinate. </param>
+			<param name="y1"> The second Y-coordinate. </param> 
+		</member>
+		<member name="M:Unigine.Texture.render2DArray(int,float,float,float,float)">
+			<summary>
+			Renders 2D Array texture. This function creates 4 vertices (2 polygons) of the texture layer by using 2 X-coordinates and 2 Y-coordinates and sends it to be rendered.
+			</summary> 
+			<param name="layer"> The number of layer. </param>
+			<param name="x0"> The first X-coordinate. </param>
+			<param name="y0"> The first Y-coordinate. </param>
+			<param name="x1"> The second X-coordinate. </param>
+			<param name="y1"> The second Y-coordinate. </param> 
+		</member>
+		<member name="M:Unigine.Texture.render2DScreen(float,float,float,float)">
+			<summary>
+			Renders 2D Screen texture. This function creates 3 vertices (1 polygon) and and sends texture to be rendered inside the polygon to avoid artifacts on the edge of 2 polygons if the anti-aliasing is used.
+			</summary> 
+			<param name="x0"> The first X-coordinate. </param>
+			<param name="y0"> The first Y-coordinate. </param>
+			<param name="x1"> The second X-coordinate. </param>
+			<param name="y1"> The second Y-coordinate. </param> 
+		</member>
+		<member name="M:Unigine.Texture.renderCube(int,float,float,float,float)">
+			<summary>
+			Renders Cube texture. This function creates 4 vertices (2 polygons) of the given face of the cube texture by using 2 X-coordinates and 2 Y-coordinates and sends it to be rendered.
+			</summary> 
+			<param name="face"> The face of the cube. </param>
+			<param name="x0"> The first X-coordinate. </param>
+			<param name="y0"> The first Y-coordinate. </param>
+			<param name="x1"> The second X-coordinate. </param>
+			<param name="y1"> The second Y-coordinate. </param> 
+		</member>
+		<member name="M:Unigine.Texture.renderCubeArray(int,int,float,float,float,float)">
+			<summary>
+			Renders Cube Array texture. This function creates 4 vertices (2 polygons) of the given face of the cube texture layer by using 2 X-coordinates and 2 Y-coordinates and sends it to be rendered.
+			</summary> 
+			<param name="face"> The face of the cube. </param>
+			<param name="layer"> The layer number. </param>
+			<param name="x0"> The first X-coordinate. </param>
+			<param name="y0"> The first Y-coordinate. </param>
+			<param name="x1"> The second X-coordinate. </param>
+			<param name="y1"> The second Y-coordinate. </param> 
+		</member>
+		<member name="M:Unigine.Texture.unbindCompute(int) const">
+			<summary>
+			Unbinds compute texture.
+			</summary> 
+			<param name="unit"> Texture unit. </param> 
+		</member>
+		<member name="M:Unigine.Texture.unbindFragment(int) const">
+			<summary>
+			Unbinds fragment texture.
+			</summary> 
+			<param name="unit"> Texture unit. </param> 
+		</member>
+		<member name="M:Unigine.Texture.unbindVertex(int) const">
+			<summary>
+			Unbinds vertex texture.
+			</summary> 
+			<param name="unit"> Texture unit. </param> 
+		</member>
+		<member name="M:Unigine.Texture.formatImageToTexture(int,int)">
+			<summary>
+			Returns the texture format corresponding to the specified image format.
+			</summary> 
+			<param name="image_format"> Image format identifier (see the FORMAT_* variables) or 0 if the specified texture format is unknown. </param>
+			<param name="flags"> Unsigned format flag. 1 to interpret integer image format as unsigned, 0 - as signed. </param> 
+			<returns>Texture format identifier (see the FORMAT_* variables) or 0 if the specified image format is unknown.</returns>
+		</member>
+		<member name="M:Unigine.Texture.formatTextureToImage(int)">
+			<summary>
+			Returns the image format corresponding to the specified texture format.
+			</summary> 
+			<param name="texture_format"> Texture format identifier (see the FORMAT_* variables). </param> 
+			<returns>Image format identifier (see the FORMAT_* variables) or 0 if the specified texture format is unknown.</returns>
+		</member>
+		<member name="M:Unigine.Texture.typeTextureToImage(int)">
+			<summary>
+			Returns the image type corresponding to the specified texture type.
+			</summary> 
+			<param name="texture_type"> Texture type identifier (see the TEXTURE_* variables). </param> 
+			<returns>Image type identifier (see the IMAGE_* variables) or 0 if the specified texture type is unknown.</returns>
+		</member>
+		<member name="M:Unigine.Texture.getImageFormat const">
+			<summary>
+			Returns the image format corresponding to the current texture format.
+			</summary>  
+			<returns>Image format identifier (see the FORMAT_* variables) or 0 if the specified texture format is unknown.</returns>
+		</member>
+		<member name="M:Unigine.Texture.clearBuffer">
+			<summary>
+			Clears all levels of the texture image (fills all its elements with 0-values).
+			</summary>  
+		</member>
+		<member name="M:Unigine.Texture.clearBuffer(Unigine.Math.vec4)">
+			<summary>
+			Clears all levels of the texture image (fills all its elements with the clecified color values).
+			</summary> 
+			<param name="color"> Color to be used to fill the buffer. </param> 
+		</member>
+		<member name="M:Unigine.Texture.swap(Unigine.Ptr{Unigine.Texture})">
+			<summary>
+			Swaps the data of the current texture with the source texture.
+			</summary> 
+			<param name="texture"> Source texture. </param> 
+		</member>
+		<member name="M:Unigine.Texture.copy(Unigine.Ptr{Unigine.Texture})">
+			<summary>
+			Copies the data of the source texture to the texture.
+			</summary> 
+			<param name="src"> Source texture. </param> 
+			<returns>1 if the data of the source texture is copied successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Texture.setDebugName(char)">
+			<summary>
+			Sets a friendly name for GPU debugging (RenderDoc, NVIDIA Nsight). It can be used to help you determine if the corresponding object interface pointer caused the leak. Memory leaks are reported by the debug software layer by outputting a list of object interface pointers along with their friendly names.
+			</summary> 
+			<param name="name"> Friendly debug name to be set. </param> 
+		</member>
+		<member name="M:Unigine.Texture.getDebugName const">
+			<summary>
+			Returns the currently used friendly name for GPU debugging (RenderDoc, NVIDIA Nsight). It can be used to help you determine if the corresponding object interface pointer caused the leak. Memory leaks are reported by the debug software layer by outputting a list of object interface pointers along with their friendly names.
+			</summary>  
+			<returns>Friendly debug name.</returns>
+		</member>
+		<member name="M:Unigine.Texture.getVideoMemoryUsage(int,int,int,int,int,int,int,int)">
+			<summary>
+			Returns the amount of memory occupied by a texture with the specified parameters.
+			</summary> 
+			<param name="width"> Texture width, in pixels. </param>
+			<param name="height"> Texture height, in pixels. </param>
+			<param name="format"> Texture format. </param>
+			<param name="num_mipmaps"> Number of mipmaps in the texture. </param>
+			<param name="flags"> Texture flags. </param>
+			<param name="num_faces"> Number of faces in the texture. </param>
+			<param name="num_layers"> Number of layers in the texture. </param>
+			<param name="depth"> Texture depth. </param> 
+			<returns>Texture size, in bytes.</returns>
+		</member>
+		<member name="M:Unigine.Texture.copyRegion(Unigine.Ptr{Unigine.Texture},Unigine.Math.ivec3,int,Unigine.Math.ivec3,int,int,int,int)">
+			<summary>
+			Copies the specified region from the source texture.
+			</summary> 
+			<param name="src"> Source texture from which the data is to be copied. </param>
+			<param name="src_coords"> Coordinates in the source texture starting from which the region's data is to be taken. </param>
+			<param name="src_level"> Source texture mipmap level number in the range from 0 to the total number of mipmaps. </param>
+			<param name="dest_coords"> Coordinates in the texture starting from which the data from the source texture is to be pasted. </param>
+			<param name="dest_level"> Target mipmap level number in the range from 0 to the total number of mipmaps. </param>
+			<param name="width"> Width of the region to be copied, in pixels. </param>
+			<param name="height"> Height of the region to be copied, in pixels. </param>
+			<param name="depth"> Depth of the region to be copied, in pixels. </param> 
+			<returns>true if the specified region was successfully copied from the source to the destination; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Texture.setBlob(Unigine.Ptr{Unigine.Blob}) const">
+			<summary>
+			Sets texture data from the specified source blob.
+			</summary> 
+			<param name="blob"> Source blob containing texture data. </param> 
+			<returns>true if the data was set successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Texture.setOwnership(bool)">
+			<summary>
+			Sets the engine ownership flag for the texture. If the flag is set the Engine takes care of the texture as if it was created by the Engine, otherwise the user should manage the texture manually.
+			</summary> 
+			<param name="ownership"> true to enable the Engine to automatically manage the lifetime of the texture and memory used; false to manage the texture manually (destroy the object, do all necessary memory cleanup). </param> 
+		</member>
+		<member name="M:Unigine.Texture.isOwnership const">
+			<summary>
+			Returns the ownership flag that defines if the texture is to be automatically managed by the Engine. If the flag is set the Engine takes care of the texture as if it was created by the Engine, otherwise the user should manage the texture manually.
+			</summary>  
+			<returns>true if the Engine automatically manages the lifetime of the texture and memory used; otherwise, false - user should manage the texture manually (destroy the object, do all necessary memory cleanup).</returns>
+		</member>
+		<member name="F:Unigine.Texture.TEXTURE_2D">
+			<summary>
+			2D texture.
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.TEXTURE_3D">
+			<summary>
+			3D texture array.
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.TEXTURE_CUBE">
+			<summary>
+			Cubemap texture.
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.TEXTURE_2D_ARRAY">
+			<summary>
+			2D texture array.
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.TEXTURE_CUBE_ARRAY">
+			<summary>
+			Cubemap texture array.
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_R8">
+			<summary>
+			R8 texture format (8-bits per channel normalized format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_RG8">
+			<summary>
+			RG8 texture format (8-bits per channel normalized format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_RGB8">
+			<summary>
+			RGB8 texture format (8-bits per channel normalized format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_RGBA8">
+			<summary>
+			RGBA8 texture format (8-bits per channel normalized format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_R16">
+			<summary>
+			R16 texture format (16-bits per channel normalized format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_RG16">
+			<summary>
+			RG16 texture format (16-bits per channel normalized format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_RGB16">
+			<summary>
+			RGB16 texture format (16-bits per channel normalized format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_RGBA16">
+			<summary>
+			RGBA16 texture format (16-bits per channel normalized format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_R16U">
+			<summary>
+			R16U texture format (16-bits per channel integer format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_RG16U">
+			<summary>
+			RG16U texture format (16-bits per channel integer format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_RGB16U">
+			<summary>
+			RGB16U texture format (16-bits per channel integer format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_RGBA16U">
+			<summary>
+			RGBA16U texture format (16-bits per channel integer format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_R32U">
+			<summary>
+			R32U texture format (32-bits per channel integer format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_RG32U">
+			<summary>
+			RG32U texture format (32-bits per channel integer format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_RGB32U">
+			<summary>
+			RGB32U texture format (32-bits per channel integer format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_RGBA32U">
+			<summary>
+			RGBA32U texture format (32-bits per channel integer format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_R16F">
+			<summary>
+			R16F texture format (16-bits per channel float format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_RG16F">
+			<summary>
+			RG16F texture format (16-bits per channel float format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_RGB16F">
+			<summary>
+			RGB16F texture format (16-bits per channel float format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_RGBA16F">
+			<summary>
+			RGBA16F texture format (16-bits per channel float format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_R32F">
+			<summary>
+			R32F texture format (32-bits per channel float format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_RG32F">
+			<summary>
+			RG32F texture format (32-bits per channel float format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_RGB32F">
+			<summary>
+			RGB32F texture format (32-bits per channel float format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_RGBA32F">
+			<summary>
+			RGBA32F texture format (32-bits per channel float format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_RGB565">
+			<summary>
+			RGB565 texture format (combined format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_RGBA4">
+			<summary>
+			RGBA4 texture format (combined format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_RGB5A1">
+			<summary>
+			RGB5A1 texture format (combined format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_RGB10A2">
+			<summary>
+			RGB10A2 texture format (combined format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_RG11B10F">
+			<summary>
+			RG11B10F texture format (combined format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_R24B8">
+			<summary>
+			R24B8 texture format (combined format).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_DXT1">
+			<summary>
+			DXT1 texture format (compressed texture).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_DXT3">
+			<summary>
+			DXT3 texture format (compressed texture).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_DXT5">
+			<summary>
+			DXT5 texture format (compressed texture).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_ATI1">
+			<summary>
+			ATI1 texture format (compressed texture).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_ATI2">
+			<summary>
+			ATI2 texture format (compressed texture).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_D16">
+			<summary>
+			D16 texture format (depth texture).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_D24">
+			<summary>
+			D24 texture format (depth texture).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_D24S8">
+			<summary>
+			D24S8 texture format (depth texture).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_D32F">
+			<summary>
+			D32F texture format (depth texture).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_D32FS8">
+			<summary>
+			D32FS8 texture format (depth texture).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_SRGB">
+			<summary>
+			SRGB format flag.
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_SIGNED">
+			<summary>
+			Signed format flag.
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_INTEGER">
+			<summary>
+			Integer format flag.
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_MIPMAPS">
+			<summary>
+			Mipmaps format flag.
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_MASK">
+			<summary>
+			Mask used for FORMAT_* flags.
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_MULTISAMPLE_2">
+			<summary>
+			2x multisample texture (format flag).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_MULTISAMPLE_4">
+			<summary>
+			4x multisample texture (format flag).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_MULTISAMPLE_8">
+			<summary>
+			8x multisample texture (format flag).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_MULTISAMPLE_16">
+			<summary>
+			16x multisample texture (format flag).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_MULTISAMPLE_MASK">
+			<summary>
+			Mask used for FORMAT_MULTISAMPLE_* flags.
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_USAGE_UNORDERED_ACCESS">
+			<summary>
+			Unordered access(RW) texture format flag.
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_USAGE_RENDER">
+			<summary>
+			Buffer render texture (RT) format flag.
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_USAGE_IMMUTABLE">
+			<summary>
+			Immutable texture format flag.
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_USAGE_DYNAMIC">
+			<summary>
+			Dynamic texture format flag.
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_USAGE_STAGING">
+			<summary>
+			Staging texture format flag.
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_USAGE_MASK">
+			<summary>
+			Mask used for FORMAT_USAGE_* flags.
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.FORMAT_FLAGS">
+			<summary>
+			Format flags based on mask variables.
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_WRAP_CLAMP_X">
+			<summary>
+			Wrapping to clamped color along X axis (sampler flag).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_WRAP_CLAMP_Y">
+			<summary>
+			Wrapping to clamped color along Y axis (sampler flag).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_WRAP_CLAMP_Z">
+			<summary>
+			Wrapping to clamped color along Z axis (sampler flag).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_WRAP_CLAMP">
+			<summary>
+			Wrapping to clamped color flag (sampler flag).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_WRAP_BORDER_X">
+			<summary>
+			Wrapping to border color along X axis (sampler flag).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_WRAP_BORDER_Y">
+			<summary>
+			Wrapping to border color along Y axis (sampler flag).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_WRAP_BORDER_Z">
+			<summary>
+			Wrapping to border color along Z axis (sampler flag).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_WRAP_BORDER_ONE">
+			<summary>
+			Wrapping to border color flag (sampler flag).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_WRAP_BORDER">
+			<summary>
+			Wrapping to border color (sampler flag).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_WRAP_MASK">
+			<summary>
+			Mask used for SAMPLER_WRAP_* flags.
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_FILTER_POINT">
+			<summary>
+			Point filtering (sampler flag).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_FILTER_LINEAR">
+			<summary>
+			Linear filtering (sampler flag).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_FILTER_BILINEAR">
+			<summary>
+			Bilinear filtering (sampler flag).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_FILTER_TRILINEAR">
+			<summary>
+			Trilinear filtering (sampler flag).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_FILTER_MASK">
+			<summary>
+			Mask used for SAMPLER_FILTER_* flags.
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_ANISOTROPY_1">
+			<summary>
+			Anisotropic filtering (sampler flag).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_ANISOTROPY_2">
+			<summary>
+			2x Anisotropic filtering (sampler flag).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_ANISOTROPY_4">
+			<summary>
+			4x Anisotropic filtering (sampler flag).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_ANISOTROPY_8">
+			<summary>
+			8x Anisotropic filtering (sampler flag).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_ANISOTROPY_16">
+			<summary>
+			16x Anisotropic filtering (sampler flag).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_ANISOTROPY_MASK">
+			<summary>
+			Mask used for SAMPLER_ANISOTROPY_* flags.
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_SHADOW_COMPARE">
+			<summary>
+			Shadow texture flag (sampler flag).
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_SHADOW_MASK">
+			<summary>
+			Mask used for SAMPLER_SHADOW_* flags.
+		</summary>
+		</member>
+		<member name="F:Unigine.Texture.SAMPLER_FLAGS">
+			<summary>
+			Sampler flags based on mask variables.
+		</summary>
+		</member>
+		<member name="M:Unigine.TextureRamp.#ctor(int,int,int)">
+			<summary>
+			Sets resolution, number of channels and texture flags for this TextureRamp instance. The pointer to the ramp texture is set to null and curves are marked for an update.
+			</summary> 
+			<param name="num_channels"> Number of texture channels. </param>
+			<param name="resolution"> Width resolution of the ramp texture. </param>
+			<param name="flags"> Texture flags. </param> 
+		</member>
+		<member name="M:Unigine.TextureRamp.#ctor(Unigine.Ptr{TextureRamp})">
+			<summary>
+			Ramp texture constructor. Creates a new ramp texture by copying a given source ramp texture.
+			</summary> 
+			<param name="texture_ramp"> Pointer to a new ramp texture. </param> 
+		</member>
+		<member name="M:Unigine.TextureRamp.#ctor">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.TextureRamp.getTexture const">
+			<summary>
+			Creates a new texture and updates hashes for curves, if required. Returns a pointer to the texture or null if the texture was not created.
+			</summary>  
+		</member>
+		<member name="M:Unigine.TextureRamp.releaseTexture">
+			<summary>
+			Deletes the texture and its pointer.
+			</summary>  
+		</member>
+		<member name="M:Unigine.TextureRamp.copy(Unigine.Ptr{TextureRamp})">
+			<summary>
+			Copies the data of a source ramp texture to the texture.
+			</summary> 
+			<param name="src_texture_ramp"> Source ramp texture. </param> 
+		</member>
+		<member name="M:Unigine.TextureRamp.clone const">
+			<summary>
+			Duplicates the ramp texture and returns a pointer to the copy.
+			</summary>  
+		</member>
+		<member name="M:Unigine.TextureRamp.getCurve(int) const">
+			<summary>
+			Returns a pointer to the Curve2d for the specified channel.
+			</summary> 
+			<param name="channel"> Required channel. </param> 
+			<returns>Pointer to a Curve2d object.</returns>
+		</member>
+		<member name="M:Unigine.TextureRamp.setNumChannels(int)">
+			<summary>
+			Sets the new number of channels for the texture.
+			</summary> 
+			<param name="channels"> Number of texture channels. </param> 
+		</member>
+		<member name="M:Unigine.TextureRamp.getNumChannels const">
+			<summary>
+			Returns the number of texture channels.
+			</summary>  
+		</member>
+		<member name="M:Unigine.TextureRamp.setResolution(int)">
+			<summary>
+			Sets the width resolution for the texture.
+			</summary> 
+			<param name="resolution"> Texture width resolution. </param> 
+		</member>
+		<member name="M:Unigine.TextureRamp.getResolution const">
+			<summary>
+			Returns the texture width resolution.
+			</summary>  
+		</member>
+		<member name="M:Unigine.TextureRamp.setFlags(int)">
+			<summary>
+			Sets texture flags.
+			</summary> 
+			<param name="flags"> Texture flags. </param> 
+		</member>
+		<member name="M:Unigine.TextureRamp.getFlags const">
+			<summary>
+			Returns texture flags.
+			</summary>  
+		</member>
+		<member name="M:Unigine.TextureRamp.addChangedCallback(Unigine.CallbackBase)">
+			<summary>
+			Adds a callback function to be called on changing the ramp texture. The signature of the changed callback function must be as follows:					You can set a callback function as follows:
+			</summary> 
+			<param name="func"> Callback pointer. </param> 
+			<returns>ID of the last added changed callback, if the callback was added successfully; otherwise, nullptr. This ID can be used to remove this callback when necessary.</returns>
+		</member>
+		<member name="M:Unigine.TextureRamp.removeChangedCallback(void)">
+			<summary>
+			Removes the specified callback from the list of changed callbacks.
+			</summary> 
+			<param name="id"> Changed callback ID obtained when adding it. </param> 
+			<returns>True if the changed callback with the given ID was removed successfully; otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.TextureRamp.clearChangedCallbacks">
+			<summary>
+			Clears all added changed callbacks.
+			</summary>  
+		</member>
+		<member name="M:Unigine.TextureRamp.setDefaultCurve(int,Unigine.Ptr{Curve2d})">
+			<summary>
+			Resets a curve for the given channel to a default one.
+			</summary> 
+			<param name="channel"> R, G, B, or A channel set by the corresponding value from 0 to 3. </param>
+			<param name="default_curve"> A curve to be used as the default one. </param> 
+		</member>
+		<member name="M:Unigine.TextureRamp.isDefault(int) const">
+			<summary>
+			Returns a value indicating if the value of the given curve channel is the default one which was previously set via setDefaultCurve.
+			</summary> 
+			<param name="channel"> R, G, B, or A channel set by the corresponding value from 0 to 3. </param> 
+			<returns>true if the curve value is the default one set via setDefaultCurve, otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.TextureRamp.isDefaultAll const">
+			<summary>
+			Returns a value indicating if the values of all curve channels are the default ones which were previously set via setDefaultCurve.
+			</summary>  
+			<returns>true if the values of all curve channels are the default ones set via setDefaultCurve, otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.TextureRamp.save(Unigine.Ptr{Unigine.Xml})">
+			<summary>
+			Saves the ramp texture data to the given Xml node.
+			</summary> 
+			<param name="xml"> Target Xml node. </param> 
+		</member>
+		<member name="M:Unigine.TextureRamp.save(Unigine.Ptr{Json}) const">
+			<summary>
+			Saves the ramp texture data to the given Json class instance.
+			</summary> 
+			<param name="json"> Target son class instance. </param> 
+		</member>
+		<member name="M:Unigine.TextureRamp.load(Unigine.Ptr{Unigine.Xml})">
+			<summary>
+			Loads the ramp texture data from the given Xml node.
+			</summary> 
+			<param name="xml"> Source Xml node containing ramp texture data. </param> 
+		</member>
+		<member name="M:Unigine.TextureRamp.load(Unigine.Ptr{Json})">
+			<summary>
+			Loads the ramp texture data from the given Json class instance.
+			</summary> 
+			<param name="json"> Source Json class instance containing ramp texture data. </param> 
+		</member>
+		<member name="M:Unigine.TextureRamp.saveState(Unigine.Ptr{Unigine.Stream}) const">
+			<summary>
+			Saves the state of the ramp texture into a binary stream.					Example using saveState() and restoreState() methods:
+			</summary> 
+			<param name="stream"> The stream to save the ramp texture state data. </param> 
+		</member>
+		<member name="M:Unigine.TextureRamp.restoreState(Unigine.Ptr{Unigine.Stream}) const">
+			<summary>
+			Restores the state of the ramp texture from the binary stream.					Example using saveState() and restoreState() methods:
+			</summary> 
+			<param name="stream"> The stream that stores the ramp texture state data. </param> 
+		</member>
+	</members>
+</doc>

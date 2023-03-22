@@ -1,0 +1,39 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.SHBasis.#ctor">
+			<summary>
+			Constructor. Initializes spherical harmonics.
+			</summary>  
+		</member>
+		<member name="M:Unigine.SHBasis.factorial(int) const">
+			<summary>
+			Returns the factorial of the argument.
+			</summary> 
+			<param name="x"> Argument. </param> 
+			<returns>Factorial.</returns>
+		</member>
+		<member name="M:Unigine.SHBasis.get(int,int,float) const">
+			<summary>
+			Returns the spherical harmonics coefficient using the direction.
+			</summary> 
+			<param name="l"> Degree. </param>
+			<param name="m"> Order. </param>
+			<param name="dir"> Direction. </param> 
+			<returns>Spherical harmonics coefficient.</returns>
+		</member>
+		<member name="M:Unigine.SHBasis.get(int,int,double,double) const">
+			<summary>
+			Returns the spherical harmonics coefficient using spherical coordinates.
+			</summary> 
+			<param name="l"> Degree. </param>
+			<param name="m"> Order. </param>
+			<param name="phi"> Phi coordinate. </param>
+			<param name="theta"> Theta coordinate. </param> 
+			<returns>Spherical harmonics coefficient.</returns>
+		</member>
+	</members>
+</doc>

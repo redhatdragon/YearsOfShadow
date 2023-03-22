@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.16.1.0">
+	<guid>9ec97e6857c59f7d263c66f2db5a873d0bf9d627</guid>
+	<type>texture</type>
+	<hash>69f5f51</hash>
+	<runtimes>
+		<runtime id="9ec97e6857c59f7d263c66f2db5a873d0bf9d627" name="vive_basestation_e.jpg" link="0" type="6"/>
+		<runtime id="52e482dbb18725b3c32111c0c2d47ed667b03f6e" name="vive_basestation_e.texture" link="1" type="6"/>
+	</runtimes>
+	<parameters>
+		<parameter type="string" name="height">auto</parameter>
+		<parameter type="string" name="image_format">DXT1</parameter>
+		<parameter type="string" name="image_type">2d</parameter>
+		<parameter type="bool" name="invert_g">0</parameter>
+		<parameter type="string" name="mipmap_type">box</parameter>
+		<parameter type="string" name="preset_name">emission</parameter>
+		<parameter type="bool" name="srgb_correction">1</parameter>
+		<parameter type="bool" name="unchanged">0</parameter>
+		<parameter type="string" name="width">auto</parameter>
+	</parameters>
+</asset>

@@ -1,0 +1,215 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Math.bvec4.#ctor">
+			<summary>
+			Default constructor. Produces a zero vector.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Math.bvec4.#ctor(bvec4)">
+			<summary>
+			Constructor. Initializes the vector by copying a given source vector.
+			</summary> 
+			<param name="v"> Source vector. </param> 
+		</member>
+		<member name="M:Unigine.Math.bvec4.#ctor(unsignedchar,unsignedchar,unsignedchar,unsignedchar)">
+			<summary>
+			Constructor. Initializes the vector using given unsigned char values.
+			</summary> 
+			<param name="x"> X component of the vector. </param>
+			<param name="y"> Y component of the vector. </param>
+			<param name="z"> Z component of the vector. </param>
+			<param name="w"> W component of the vector. </param> 
+		</member>
+		<member name="M:Unigine.Math.bvec4.#ctor(Unigine.vec4,float)">
+			<summary>
+			Constructor. Initializes the vector using a given vec4 source vector and a scale multiplier.
+			</summary> 
+			<param name="v"> Source vector. </param>
+			<param name="scale"> Scale. </param> 
+		</member>
+		<member name="M:Unigine.Math.bvec4.#ctor(unsignedchar)">
+			<summary>
+			Constructor. Initializes the vector using a given scalar value: x=v, y=v, z=v, w=v.
+			</summary> 
+			<param name="v"> Scalar. </param> 
+		</member>
+		<member name="M:Unigine.Math.bvec4.#ctor(Unigine.vec4)">
+			<summary>
+			Constructor. Initializes the vector using a given vec4 source vector.
+			</summary> 
+			<param name="v"> Source vector. </param> 
+		</member>
+		<member name="M:Unigine.Math.bvec4.#ctor(Unigine.dvec4)">
+			<summary>
+			Constructor. Initializes the vector using a given dvec4 source vector.
+			</summary> 
+			<param name="v"> Source vector. </param> 
+		</member>
+		<member name="M:Unigine.Math.bvec4.#ctor(Unigine.ivec4)">
+			<summary>
+			Constructor. Initializes the vector using a given ivec4 source vector.
+			</summary> 
+			<param name="v"> Source vector. </param> 
+		</member>
+		<member name="M:Unigine.Math.bvec4.#ctor(unsignedchar)">
+			<summary>
+			Constructor. Initializes the vector using a given pointer to the array of unsigned char elements: x=v[0], y=v[1], z=v[2], w=v[3].
+			</summary> 
+			<param name="v"> Pointer to the array of unsigned char elements. </param> 
+		</member>
+		<member name="M:Unigine.Math.bvec4.set(unsignedchar,unsignedchar,unsignedchar,unsignedchar)">
+			<summary>
+			Sets the vector by components.
+			</summary> 
+			<param name="x_"> X component of the vector. </param>
+			<param name="y_"> Y component of the vector. </param>
+			<param name="z_"> Z component of the vector. </param>
+			<param name="w_"> W component of the vector. </param> 
+		</member>
+		<member name="M:Unigine.Math.bvec4.set(unsignedchar)">
+			<summary>
+			Sets the vector using the array of unsigned char elements: x=val[0], y=val[1], z=val[2], w=val[3].
+			</summary> 
+			<param name="val"> Pointer to the array of unsigned char elements. </param> 
+		</member>
+		<member name="M:Unigine.Math.bvec4.set(unsignedchar)">
+			<summary>
+			Sets the vector components equal to specified scalar value: x=val, y=val, z=val, w=val.
+			</summary> 
+			<param name="val"> Scalar value. </param> 
+		</member>
+		<member name="M:Unigine.Math.bvec4.set(bvec4)">
+			<summary>
+			Sets the vector equal to the specified vector.
+			</summary> 
+			<param name="val"> Source vector. </param> 
+		</member>
+		<member name="M:Unigine.Math.bvec4.set(Unigine.vec4,float)">
+			<summary>
+			Sets the vector using a given vec4 vector and a scale multiplier.
+			</summary> 
+			<param name="val"> Source vector. </param>
+			<param name="scale"> Scale. </param> 
+		</member>
+		<member name="M:Unigine.Math.bvec4.get">
+			<summary>
+			Returns the pointer to the vector.
+			</summary>  
+			<returns>Pointer to the vector.</returns>
+		</member>
+		<member name="M:Unigine.Math.bvec4.get const">
+			<summary>
+			Returns the constant pointer to the vector.
+			</summary>  
+			<returns>Pointer to the vector.</returns>
+		</member>
+		<member name="M:Unigine.Math.bvec4.get(unsignedchar) const">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Math.bvec4.operator const unsigned char * const">
+			<summary>
+			Performs type conversion to const unsigned char *.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Math.bvec4.operator const void * const">
+			<summary>
+			Performs type conversion to const void *.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Math.bvec4.operator unsigned char *">
+			<summary>
+			Performs type conversion to unsigned char *.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Math.bvec4.operator void *">
+			<summary>
+			Performs type conversion to void *.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Math.bvec4.operator=(bvec4)">
+			<summary>
+			Performs vector assignment. Destination vector = Source vector.
+			</summary> 
+			<param name="val"> Source vector. </param> 
+			<returns>Result.</returns>
+		</member>
+		<member name="M:Unigine.Math.bvec4.operator[](int) const">
+			<summary>
+			Performs array access to the vector item reference by using given item index.
+			</summary> 
+			<param name="i"> Vector item index. </param> 
+			<returns>Vector item reference.</returns>
+		</member>
+		<member name="M:Unigine.Math.bvec4.operator[](int)">
+			<summary>
+			Performs array access to the vector item by using given item index.
+			</summary> 
+			<param name="i"> Vector item index. </param> 
+			<returns>Vector item.</returns>
+		</member>
+		<member name="M:Unigine.Math.bvec4.compare(bvec4,bvec4)">
+			<summary>
+			Performs equal comparison.
+			</summary> 
+			<param name="v0"> First value. </param>
+			<param name="v1"> Second value. </param> 
+			<returns>Returns 1 if the first vector equals the second one; otherwise 0.</returns>
+		</member>
+		<member name="M:Unigine.Math.bvec4.operator==(bvec4,bvec4)">
+			<summary>
+			Performs equal comparison.
+			</summary> 
+			<param name="v0"> First value. </param>
+			<param name="v1"> Second value. </param> 
+			<returns>Returns 1 if the first vector equals the second one; otherwise 0.</returns>
+		</member>
+		<member name="M:Unigine.Math.bvec4.operator!=(bvec4,bvec4)">
+			<summary>
+			Not equal comparison.
+			</summary> 
+			<param name="v0"> First value. </param>
+			<param name="v1"> Second value. </param> 
+			<returns>Returns 1 if the first vector is not equal the second one; otherwise 0.</returns>
+		</member>
+		<member name="M:Unigine.Math.bvec4.min(bvec4,bvec4)">
+			<summary>
+			Creates a new minimum vector based on input.
+			</summary> 
+			<param name="v0"> First value. </param>
+			<param name="v1"> Second value. </param> 
+			<returns>Returns the vector where each component is the minimum of the original vectors' corresponding components.</returns>
+		</member>
+		<member name="M:Unigine.Math.bvec4.max(bvec4,bvec4)">
+			<summary>
+			Creates a new maximum vector based on input.
+			</summary> 
+			<param name="v0"> First value. </param>
+			<param name="v1"> Second value. </param> 
+			<returns>Returns the vector where each component is the maximum of the original vectors' corresponding components.</returns>
+		</member>
+		<member name="M:Unigine.Math.bvec4.clamp(bvec4,bvec4,bvec4)">
+			<summary>
+			Clamps the vector based on the lower and upper limit vectors.
+			</summary> 
+			<param name="v"> The vector to clamp. </param>
+			<param name="v0"> Lower clamping limit. </param>
+			<param name="v1"> Upper clamping limit. </param> 
+			<returns>Returns the original vector where each component is clamped based on the limit range provided by the lower and upper vectors' corresponding components.</returns>
+		</member>
+		<member name="F:Unigine.Math.bvec4.bvec4_one">
+			<summary>
+			Vector filled with ones (1).
+		</summary>
+		</member>
+		<member name="F:Unigine.Math.bvec4.bvec4_zero">
+			<summary>
+			Vector filled with zeros (0).
+		</summary>
+		</member>
+	</members>
+</doc>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<material version="2.16.1.0" guid="ed7107044398b39d2fe07e2cbbdf06935f850a1a" base_material="4dfec30f491f753f6e89094db6d3d695e89f9d6f">
+	<state name="ao_map">1</state>
+	<state name="emission">1</state>
+	<texture name="albedo" wrap="clamp_x,clamp_z" anisotropy="0">guid://338f711aa68f61b950073d2c7f2b8d2110d57b00</texture>
+	<texture name="shading" wrap="clamp_x,clamp_z" anisotropy="0">guid://5219d6ddb5dbd1520e843a369ad2b64326bb24e2</texture>
+	<texture name="ambient_occlusion" wrap="clamp_x,clamp_z" anisotropy="0">guid://994919219642f5265465eb780a7ed09f2896b23c</texture>
+	<texture name="emission" wrap="clamp_x,clamp_z" anisotropy="0">guid://52e482dbb18725b3c32111c0c2d47ed667b03f6e</texture>
+	<parameter name="roughness" expression="0">0.5</parameter>
+</material>

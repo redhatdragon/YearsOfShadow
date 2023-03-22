@@ -1,0 +1,218 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.TileSetFile.#ctor">
+			<summary>
+			Constructor. Creates a tileset file.
+			</summary>  
+		</member>
+		<member name="M:Unigine.TileSetFile.getNumTiles">
+			<summary>
+			Returns the number of tiles in the tileset file.
+			</summary>  
+			<returns>Number of tiles.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.getOffset(int,int)">
+			<summary>
+			Returns the offset for the tile with specified coordinates.
+			</summary> 
+			<param name="x"> X-coordinate value. </param>
+			<param name="y"> Y-coordinate value. </param> 
+			<returns>Offset value.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.isOpened">
+			<summary>
+			Returns a value indicating if the tileset file is opened.
+			</summary>  
+			<returns>1 if the tileset file is opened; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.setTile(int,int,unsignedchar,int)">
+			<summary>
+			Sets the data of the specified tile by copying from the source buffer.
+			</summary> 
+			<param name="x"> X-coordinate value. </param>
+			<param name="y"> Y-coordinate value. </param>
+			<param name="data"> Source buffer. </param>
+			<param name="force"> Force flag.If 1 is specified, the data will be updated immediately.If 0 is specified, the data will be updated only when the flushHeader() method is called.To improve performance it is recommended to set this flag to 0 to accumulate multiple tile update operations and apply them all at once by calling the flushHeader() method. </param> 
+			<returns>1, if the operation was successful; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.getTile(int,int,unsignedchar)">
+			<summary>
+			Copies the data of the specified tile to the destination buffer.
+			</summary> 
+			<param name="x"> X-coordinate value. </param>
+			<param name="y"> Y-coordinate value. </param>
+			<param name="data"> Destination buffer. </param> 
+			<returns>1, if the operation was successful; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.getTilePos(int,int,int)">
+			<summary>
+			Retrieves the coordinates of the tile with a given index and puts them to x and y respectively.
+			</summary> 
+			<param name="num"> Tile index. </param>
+			<param name="x"> X-coordinate of the tile. </param>
+			<param name="y"> Y-coordinate of the tile. </param> 
+			<returns>1, if the operation was successful; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.getTileSize">
+			<summary>
+			Returns the size of the tile for the tileset file.
+			</summary>  
+			<returns>Tile size.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.close">
+			<summary>
+			Closes the tileset file.
+			</summary>  
+			<returns>1, if the operation was successful; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.createFile(char,int)">
+			<summary>
+			Creates a tileset file with a given name and tile size.
+			</summary> 
+			<param name="name"> File name. </param>
+			<param name="tile_size"> Tile size. </param> 
+			<returns>1, if the operation was successful; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.flushHeader">
+			<summary>
+			Applies all pending setTile() and removeTile() operations.					The tileset file must be opened.
+			</summary>  
+			<returns>1, if the operation was successful; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.hasTile(int,int)">
+			<summary>
+			Returns a value indicating if there is a tile with the specified coordinates in the file.
+			</summary> 
+			<param name="x"> X-coordinate value. </param>
+			<param name="y"> Y-coordinate value. </param> 
+			<returns>1, if the file contains the specified tile; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.load(char)">
+			<summary>
+			Loads the given tileset file.
+			</summary> 
+			<param name="name"> File name. </param> 
+			<returns>1, if the operation was successful; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.removeTile(int,int,int)">
+			<summary>
+			Removes the tile with specified coordinates from the file.
+			</summary> 
+			<param name="x"> X-coordinate value. </param>
+			<param name="y"> Y-coordinate value. </param>
+			<param name="force"> Force flag.If 1 is specified, the data will be updated immediately.If 0 is specified, the data will be updated only when the flushHeader() method is called.To improve performance it is recommended to set this flag to 0 to accumulate multiple tile update operations and apply them all at once by calling the flushHeader() method. </param> 
+			<returns>1, if the operation was successful; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.setDoubleAttribute(char,double,int)">
+			<summary>
+			Sets the given value for the attribute with the specified name.
+			</summary> 
+			<param name="name"> Attribute name. </param>
+			<param name="value"> Attribute value. </param>
+			<param name="force"> Force flag.If 1 is specified, the data will be updated immediately.If 0 is specified, the data will be updated only when the flushAttributes() method is called.To improve performance it is recommended to set this flag to 0 to accumulate multiple tile update operations and apply them all at once by calling the flushAttributes() method. </param> 
+			<returns>1, if the operation was successful; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.getDoubleAttribute(char)">
+			<summary>
+			Returns the current value of the attribute with the specified name.
+			</summary> 
+			<param name="name"> Attribute name. </param> 
+			<returns>Attribute value.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.setIntAttribute(char,int,int,int)">
+			<summary>
+			Sets the given value for the attribute with the specified name.
+			</summary> 
+			<param name="name"> Attribute name. </param>
+			<param name="value"> Attribute value to be set. </param>
+			<param name="radix"> Numerical base used to represent the value as a string, one of the following values:2 - binary10 - octal10 - decimal16 - hexadecimal </param>
+			<param name="force"> Force flag.If 1 is specified, the data will be updated immediately.If 0 is specified, the data will be updated only when the flushAttributes() method is called.To improve performance it is recommended to set this flag to 0 to accumulate multiple tile update operations and apply them all at once by calling the flushAttributes() method. </param> 
+			<returns>1, if the operation was successful; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.getIntAttribute(char)">
+			<summary>
+			Returns the current value of the attribute with the specified name.
+			</summary> 
+			<param name="name"> Attribute name. </param> 
+			<returns>Attribute value.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.setFloatAttribute(char,float,int)">
+			<summary>
+			Sets the given value for the attribute with the specified name.
+			</summary> 
+			<param name="name"> Attribute name. </param>
+			<param name="value"> Attribute value to be set. </param>
+			<param name="force"> Force flag.If 1 is specified, the data will be updated immediately.If 0 is specified, the data will be updated only when the flushAttributes() method is called.To improve performance it is recommended to set this flag to 0 to accumulate multiple tile update operations and apply them all at once by calling the flushAttributes() method. </param> 
+			<returns>1, if the operation was successful; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.getFloatAttribute(char)">
+			<summary>
+			Returns the current value of the attribute with the specified name.
+			</summary> 
+			<param name="name"> Attribute name. </param> 
+			<returns>Attribute value.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.hasAttribute(char)">
+			<summary>
+			Returns a value indicating if an attribute with the specified name exists in the tileset file.
+			</summary> 
+			<param name="name"> Attribute name. </param> 
+			<returns>1, if an attribute with the specified name exists; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.setAttribute(char,char,int)">
+			<summary>
+			Sets the given value for the attribute with the specified name.
+			</summary> 
+			<param name="name"> Attribute name. </param>
+			<param name="value"> Attribute value to be set as a string. </param>
+			<param name="force"> Force flag.If 1 is specified, the data will be updated immediately.If 0 is specified, the data will be updated only when the flushAttributes() method is called.To improve performance it is recommended to set this flag to 0 to accumulate multiple tile update operations and apply them all at once by calling the flushAttributes() method. </param> 
+			<returns>1, if the operation was successful; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.getAttribute(char)">
+			<summary>
+			Returns the current value of the attribute with the specified name.
+			</summary> 
+			<param name="name"> Attribute name. </param> 
+			<returns>Attribute value as a string.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.removeAttribute(char,int)">
+			<summary>
+			Removes the attribute with the given name.
+			</summary> 
+			<param name="name"> Name of the attribute to be removed. </param>
+			<param name="force"> Force flag.If 1 is specified, the data will be updated immediately.If 0 is specified, the data will be updated only when the flushAttributes() method is called.To improve performance it is recommended to set this flag to 0 to accumulate multiple tile update operations and apply them all at once by calling the flushAttributes() method. </param> 
+			<returns>1, if the operation was successful; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.flushAttributes">
+			<summary>
+			Applies all pending setAttribute(), setDoubleAttribute(), setIntAttribute(), setFloatAttribute()and removeAttribute() operations.					The tileset file must be opened.
+			</summary>  
+			<returns>1, if the operation was successful; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.TileSetFile.getAttributeNames">
+			<summary>
+			Returns the list of names of all attributes in the tileset file.
+			</summary>  
+			<returns>Vector containing names of all attributes in the tileset file.</returns>
+		</member>
+		<member name="F:Unigine.TileSetFile.CLOSED">
+			<summary>
+			The tileset file is closed.
+		</summary>
+		</member>
+		<member name="F:Unigine.TileSetFile.READING">
+			<summary>
+			The system is reading from the tileset class.
+		</summary>
+		</member>
+		<member name="F:Unigine.TileSetFile.WRITING">
+			<summary>
+			The system is writing to the tileset class.
+		</summary>
+		</member>
+	</members>
+</doc>

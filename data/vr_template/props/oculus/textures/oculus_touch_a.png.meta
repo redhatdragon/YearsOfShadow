@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.16.1.0">
+	<guid>283edb17c734ef845efc4b1ef4868d512d18d113</guid>
+	<type>texture</type>
+	<hash>93568059</hash>
+	<runtimes>
+		<runtime id="283edb17c734ef845efc4b1ef4868d512d18d113" name="oculus_touch_a.png" link="0" type="6"/>
+		<runtime id="34424bcd6b503a29ee45abd00895ceae5f6e2797" name="oculus_touch_a.texture" link="1" type="6"/>
+	</runtimes>
+	<parameters>
+		<parameter type="string" name="image_format">ATI1</parameter>
+		<parameter type="string" name="image_type">2d</parameter>
+		<parameter type="bool" name="invert_g">0</parameter>
+		<parameter type="string" name="mipmap_type">box</parameter>
+	</parameters>
+</asset>

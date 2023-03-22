@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<property version="2.16.1.0" name="movable" parent_name="vr_object" manual="1">
+	<parameter name="use_physics" title="Use Physics" type="toggle">1</parameter>
+	<parameter name="mass_list" title="Mass" use_physics="1" type="switch" items="auto,lightest,light,middle,heavy,heaviest">0</parameter>
+	<parameter name="use_handy_pos" title="Handy Object" type="toggle">0</parameter>
+	<parameter name="handy_pos" title="Handy Position" use_handy_pos="1" type="vec3">0.000000 0.000000 0.000000</parameter>
+	<parameter name="handy_rot_euler" title="Handy Rotation" use_handy_pos="1" type="vec3">0.000000 0.000000 0.000000</parameter>
+	<parameter name="handy_pos_vr" title="Handy Position (VR)" use_handy_pos="1" type="vec3">0.000000 0.000000 0.000000</parameter>
+	<parameter name="handy_rot_euler_vr" title="Handy Rotation (VR)" use_handy_pos="1" type="vec3">0.000000 0.000000 0.000000</parameter>
+	<parameter name="can_attach_to_head" title="Can Attach to Head" type="toggle">0</parameter>
+	<parameter name="hat_def_pos" title="Hat Position" can_attach_to_head="1" type="vec3">0.000000 0.000000 0.000000</parameter>
+	<parameter name="hat_def_rot_euler" title="Hat Rotation" can_attach_to_head="1" type="vec3">0.000000 0.000000 0.000000</parameter>
+	<parameter name="use_sounds" title="Use Sounds" type="toggle">1</parameter>
+	<parameter name="impact_sound_file" title="Impact" use_sounds="1" type="file">guid://b50c828601389ea295397603646ce3a32b59e36f</parameter>
+	<parameter name="impact_min_dist" title="Impact Min Dist" tooltip="Minimum distance of the sound" use_sounds="1" type="float">0.2</parameter>
+	<parameter name="impact_max_dist" title="Impact Max Dist" tooltip="Maximum distance of the sound" use_sounds="1" type="float">1000.0</parameter>
+	<parameter name="slide_sound_file" title="Slide" use_sounds="1" type="file">guid://0b94be7d9b8c9394a107a056691521ac15eb5b9b</parameter>
+	<parameter name="slide_min_dist" title="Slide Min Dist" tooltip="Minimum distance of the sound" use_sounds="1" type="float">0.2</parameter>
+	<parameter name="slide_max_dist" title="Slide Max Dist" tooltip="Maximum distance of the sound" use_sounds="1" type="float">1000.0</parameter>
+</property>

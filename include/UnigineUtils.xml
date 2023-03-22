@@ -1,0 +1,58 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Utils.convertHeightsToNormals(ImagePtr,ImagePtr,float)">
+			<summary>
+			Converts the elevation (height) map to the normal map.
+			</summary> 
+			<param name="out"> Pointer to the target normal map. </param>
+			<param name="heights"> Source elevation (height) map. </param>
+			<param name="step_size"> Grid cell step. </param> 
+			<returns>1 if the converting was successful; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Utils.convertNodesToMesh(MeshPtr,Unigine.Vector{NodePtr,int,Unigine.VectorAllocator})">
+			<summary>
+			Creates a mesh out of the node array.
+			</summary> 
+			<param name="out"> Pointer to the target mesh. </param>
+			<param name="nodes"> Array of the node pointers. </param> 
+		</member>
+		<member name="M:Unigine.Utils.date(char,longlong)">
+			<summary>
+			Returns given time as a string. The content of format string with format specifiers expanded with the corresponding values that represent the time described in time.
+			</summary> 
+			<param name="format"> Format string containing any combination of regular characters and special format specifiers. These format specifiers are replaced by the function to the corresponding values to represent the time specified in timeptr. They all begin with a percentage (%) sign, and are as follows:SpecifierReplaced byExample%aAbbreviated weekday nameThu%bAbbreviated month nameAug%dDate and time representation equivalent to %a %b %D, %h:%mThu Aug 23, 14:55%sSecond (00-61)15%mMinute (00-59)55%hHour (00-24)14%DMonth day (1-31)25%MMonth (1-12)11%YYear2016%WWeek day (1-7)5%A % sign% </param>
+			<param name="time"> Time value. </param> 
+		</member>
+		<member name="M:Unigine.Utils.date(char)">
+			<summary>
+			Returns current time as a string. The content of format string with format specifiers expanded with the corresponding values that represent the current time.
+			</summary> 
+			<param name="format"> Format string containing any combination of regular characters and special format specifiers. These format specifiers are replaced by the function to the corresponding values to represent the time specified in timeptr. They all begin with a percentage (%) sign, and are as follows:SpecifierReplaced byExample%aAbbreviated weekday nameThu%bAbbreviated month nameAug%dDate and time representation equivalent to %a %b %D, %h:%mThu Aug 23, 14:55%sSecond (00-61)15%mMinute (00-59)55%hHour (00-24)14%DMonth day (1-31)25%MMonth (1-12)11%YYear2016%WWeek day (1-7)5%A % sign% </param> 
+		</member>
+		<member name="M:Unigine.Utils.loadObjectMesh(char)">
+			<summary>
+			Loads a mesh from a file. If the mesh is loaded successfully, its node does not belong to any node hierarchy, so be careful and make sure to handle it properly, when it is no longer needed.
+			</summary> 
+			<param name="name"> Path to the mesh. </param> 
+			<returns>Pointer to the node corresponding to the loaded mesh; 0 if the mesh cannot be loaded.</returns>
+		</member>
+		<member name="M:Unigine.Utils.makeNodeCurved(NodePtr)">
+			<summary>
+			Curves a given node using its geodetic pivot.					The node must be a child of a geodetic pivot node.
+			</summary> 
+			<param name="node"> Pointer to the node to be made curved. </param> 
+			<returns>1 if the node was curved successfully; othervise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Utils.makeNodeFlat(NodePtr)">
+			<summary>
+			Flattens a given node using its geodetic pivot.					The node must be a child of a geodetic pivot node.
+			</summary> 
+			<param name="node"> Pointer to the node to be made flat. </param> 
+			<returns>1 if the node was flattened successfully; othervise, 0.</returns>
+		</member>
+	</members>
+</doc>

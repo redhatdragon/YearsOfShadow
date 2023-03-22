@@ -1,0 +1,157 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Palette.#ctor">
+			<summary>
+			Constructor. Initializes the structure with zero values.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Palette.#ctor(Palette)">
+			<summary>
+			Constructor. Initializes the structure using the given Palette.
+			</summary> 
+			<param name="palette"> Source Palette. </param> 
+		</member>
+		<member name="M:Unigine.Palette.#ctor(float(&)[12])">
+			<summary>
+			Constructor. Initializes the structure using the given array of floats.
+			</summary> 
+			<param name="palette"> Source array of 12 float values. </param> 
+		</member>
+		<member name="M:Unigine.Palette.#ctor(float)">
+			<summary>
+			Constructor. Initializes the structure using the given float for all values.
+			</summary> 
+			<param name="value"> value to be set for all color values. </param> 
+		</member>
+		<member name="M:Unigine.Palette.operator=(Palette)">
+			<summary>
+			Performs structure assignment. Destination palette = source palette.
+			</summary> 
+			<param name="palette"> Source palette. </param> 
+			<returns>Result.</returns>
+		</member>
+		<member name="M:Unigine.Palette.operator==(Palette) const">
+			<summary>
+			Check if two palettes are the same.
+			</summary> 
+			<param name="palette"> The second palette. </param> 
+			<returns>Returns true if the palettes are the same; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Palette.operator==(float(&)[12]) const">
+			<summary>
+			Check if two palettes are the same.
+			</summary> 
+			<param name="palette"> The second palette represented by an array of 12 float values. </param> 
+			<returns>Returns true if the palettes are the same; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Palette.operator==(float) const">
+			<summary>
+			Check if all values of the palette are equal to the given value.
+			</summary> 
+			<param name="value"> The value to check. </param> 
+			<returns>Returns true if all values of the palette are equal to the given value; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Palette.operator!=(Palette) const">
+			<summary>
+			Check if two palettes are not the same.
+			</summary> 
+			<param name="palette"> The second palette. </param> 
+			<returns>Returns true if the palettes are not the same; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Palette.operator!=(float(&)[]) const">
+			<summary>
+			Check if two palettes are not the same.
+			</summary> 
+			<param name="palette"> The second palette represented by an array of 12 float values. </param> 
+			<returns>Returns true if the palettes are not the same; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Palette.operator!=(float) const">
+			<summary>
+			Check if all values of the palette are not equal to the given value.
+			</summary> 
+			<param name="value"> The value to check. </param> 
+			<returns>Returns true if any value of the palette is not equal to the given value; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Palette.clear(float)">
+			<summary>
+			Sets all color values to the given value.
+			</summary> 
+			<param name="value"> The new value. </param> 
+		</member>
+		<member name="M:Unigine.Palette.copy(Palette)">
+			<summary>
+			Copies all values from the given palette.
+			</summary> 
+			<param name="src"> The source palette. </param> 
+		</member>
+		<member name="F:Unigine.Palette.RED">
+			<summary>
+			Red color.
+		</summary>
+		</member>
+		<member name="F:Unigine.Palette.ORANGE">
+			<summary>
+			Orange color.
+		</summary>
+		</member>
+		<member name="F:Unigine.Palette.YELLOW">
+			<summary>
+			Yellow color.
+		</summary>
+		</member>
+		<member name="F:Unigine.Palette.CHARTREUSE">
+			<summary>
+			Chartreuse color.
+		</summary>
+		</member>
+		<member name="F:Unigine.Palette.GREEN">
+			<summary>
+			Green color.
+		</summary>
+		</member>
+		<member name="F:Unigine.Palette.SPRINGGREEN">
+			<summary>
+			Spring Green color.
+		</summary>
+		</member>
+		<member name="F:Unigine.Palette.CYAN">
+			<summary>
+			Cyan color.
+		</summary>
+		</member>
+		<member name="F:Unigine.Palette.AZURE">
+			<summary>
+			Azure color.
+		</summary>
+		</member>
+		<member name="F:Unigine.Palette.BLUE">
+			<summary>
+			Blue color.
+		</summary>
+		</member>
+		<member name="F:Unigine.Palette.VIOLET">
+			<summary>
+			Violet color.
+		</summary>
+		</member>
+		<member name="F:Unigine.Palette.MAGENTA">
+			<summary>
+			Magenta color.
+		</summary>
+		</member>
+		<member name="F:Unigine.Palette.ROSE">
+			<summary>
+			Rose color.
+		</summary>
+		</member>
+		<member name="F:Unigine.Palette.SIZE">
+			<summary>
+			The number of colors.
+		</summary>
+		</member>
+	</members>
+</doc>

@@ -1,0 +1,518 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Viewport.#ctor">
+			<summary>
+			Creates a new viewport with default settings.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Viewport.setAspectCorrection(bool)">
+			<summary>
+			Sets the aspect correction for current viewport. true enables correction, false disables it.
+			</summary> 
+			<param name="correction"> true to enable aspect correction, false to disable. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.isAspectCorrection const">
+			<summary>
+			Return the value indicating if the aspect correction enabled for the current viewport.
+			</summary>  
+			<returns>true if the aspect correction enabled, otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.Viewport.addCallback(int,Unigine.CallbackBase1{Unigine.Renderer})">
+			<summary>
+			Adds a callback for the specified stage of the rendering sequence. Callback functions can be used to get access to buffers and matrices at intermediate stages of the rendering sequence. Some of them are read-only, but most of them can be modified ad hoc.
+			Callback function must be as follows:
+			</summary> 
+			<param name="callback"> Stage of the rendering sequence for which a callback is to be added. One of the Render::CALLBACK_* variables.The _BEGIN prefix corresponds to the beginning of the rendering pass, _END - to its completion. </param>
+			<param name="func"> Callback pointer. </param> 
+			<returns>ID of the last added callback of the specified type, if the callback was added successfully; otherwise, nullptr. This ID can be used to remove this callback when necessary.</returns>
+		</member>
+		<member name="M:Unigine.Viewport.clearCallbacks(int)">
+			<summary>
+			Clears all added callbacks for the specified stage of the rendering sequence. Callback functions can be used to get access to buffers and matrices at intermediate stages of the rendering sequence. Some of them are read-only, but most of them can be modified ad hoc.
+			</summary> 
+			<param name="callback"> Stage of the rendering sequence for which the callbacks are to be cleared. One of the Render::CALLBACK_* variables.The _BEGIN prefix corresponds to the beginning of the rendering pass, _END - to its completion. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.removeCallback(int,void)">
+			<summary>
+			Removes the specified callback from the list of callbacks for the specified stage of the rendering sequence. Callback functions can be used to get access to buffers and matrices at intermediate stages of the rendering sequence. Some of them are read-only, but most of them can be modified ad hoc.
+			</summary> 
+			<param name="callback"> Stage of the rendering sequence for which the callback is to be removed. One of the Render::CALLBACK_* variables.The _BEGIN prefix corresponds to the beginning of the rendering pass, _END - to its completion. </param>
+			<param name="id"> Callback ID obtained when adding it. </param> 
+			<returns>True if the callback with the given ID was removed successfully; otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.Viewport.setFirstFrame(int)">
+			<summary>
+			Sets a value indicating if the first frame should be enabled over the current frame.
+			</summary> 
+			<param name="frame"> 1 to set the first frame flag; otherwise, 0. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.getFirstFrame const">
+			<summary>
+			Returns a value indicating if the first frame is enabled over the current frame.
+			</summary>  
+			<returns>1 if the first frame flag is set; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Viewport.getID const">
+			<summary>
+			Returns the viewport ID.
+			</summary>  
+			<returns>Viewport ID.</returns>
+		</member>
+		<member name="M:Unigine.Viewport.setMode(Render::VIEWPORT_MODE)">
+			<summary>
+			Sets the rendering mode for the current viewport.  It can be one of the stereo or panoramic modes or the default mode.
+			</summary> 
+			<param name="mode"> A rendering mode. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.getMode const">
+			<summary>
+			Returns the rendering mode set for the current viewport. It can be one of the stereo or panoramic modes or the default mode.
+			</summary>  
+			<returns>The current rendering mode.</returns>
+		</member>
+		<member name="M:Unigine.Viewport.getNodeLightUsage const">
+			<summary>
+			Returns the type of lighting of the render node.
+			</summary>  
+			<returns>The lighting type. Can be one of the following:USAGE_WORLD_LIGHTUSAGE_AUX_LIGHTUSAGE_NODE_LIGHT</returns>
+		</member>
+		<member name="M:Unigine.Viewport.isPanorama const">
+			<summary>
+			Returns a value indicating if the panoramic rendering is enabled.
+			</summary>  
+			<returns>true if the panoramic rendering is enabled; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Viewport.setPanoramaFisheyeFov(float)">
+			<summary>
+			Sets a new Field of View angle to be used for the panorama rendering mode.
+			</summary> 
+			<param name="fov"> New Field of View angle to be set for the panorama rendering mode, in degrees </param> 
+		</member>
+		<member name="M:Unigine.Viewport.getPanoramaFisheyeFov const">
+			<summary>
+			Returns the current Field of View angle used for the panorama rendering mode.
+			</summary>  
+			<returns>Current Field of View angle for the panorama rendering mode, in degrees</returns>
+		</member>
+		<member name="M:Unigine.Viewport.setRenderMode(int)">
+			<summary>
+			Sets the specified render mode. The mode determines the set of buffers to be rendered.
+			</summary> 
+			<param name="mode"> Render mode to set. Can be one of the following:RENDER_DEPTHRENDER_DEPTH_GBUFFERRENDER_DEPTH_GBUFFER_FINAL </param> 
+		</member>
+		<member name="M:Unigine.Viewport.getRenderMode const">
+			<summary>
+			Returns the current render mode. The mode determines the set of buffers to be rendered.
+			</summary>  
+			<returns>Current render mode. Can be one of the following:RENDER_DEPTHRENDER_DEPTH_GBUFFERRENDER_DEPTH_GBUFFER_FINAL</returns>
+		</member>
+		<member name="M:Unigine.Viewport.setSkipFlags(int)">
+			<summary>
+			Sets the skip flag for the current viewport.
+			</summary> 
+			<param name="flags"> A skip flag. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.getSkipFlags const">
+			<summary>
+			Returns the skip flag set for the current viewport.
+			</summary>  
+			<returns>A skip flag.</returns>
+		</member>
+		<member name="M:Unigine.Viewport.isStereo const">
+			<summary>
+			Returns a value indicating if the stereo rendering is enabled for the current viewport (one of the stereo modes is set).
+			</summary>  
+			<returns>1 if the stereo rendering is enabled; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Viewport.setStereoDistance(float)">
+			<summary>
+			Sets the focal distance for stereo rendering (distance in the world space to the point where two views line up, i.e. to the zero parallax plane).
+			</summary> 
+			<param name="distance"> A focal distance in units. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.getStereoDistance const">
+			<summary>
+			Returns the focal distance for stereo rendering (distance in the world space to the point where two views line up, i.e. to the zero parallax plane).
+			</summary>  
+			<returns>A focal distance in units.</returns>
+		</member>
+		<member name="M:Unigine.Viewport.setStereoOffset(float)">
+			<summary>
+			Updates the virtual camera offset (an offset after the perspective projection).
+			</summary> 
+			<param name="offset"> A virtual camera offset in units. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.getStereoOffset const">
+			<summary>
+			Returns the virtual camera offset (an offset after the perspective projection).
+			</summary>  
+			<returns>A virtual camera offset in units.</returns>
+		</member>
+		<member name="M:Unigine.Viewport.setStereoRadius(float)">
+			<summary>
+			Updates the radius for stereo - the half of the separation distance between the cameras (i.e. between eyes).
+			</summary> 
+			<param name="radius"> A stereo radius in units. If a negative value is provided, 0 will be used instead. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.getStereoRadius const">
+			<summary>
+			Returns the current radius for stereo - the half of the separation distance between the cameras (i.e. between eyes).
+			</summary>  
+			<returns>Stereo radius in units.</returns>
+		</member>
+		<member name="M:Unigine.Viewport.appendSkipFlags(int)">
+			<summary>
+			Appends specified skip flags to the list of currently used ones.
+			</summary> 
+			<param name="flags"> Skip flags to append. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.checkSkipFlags(int)">
+			<summary>
+			Returns a value indicating if the specified skip flags are set for the current viewport.
+			</summary> 
+			<param name="flags"> Skip flags to check. </param> 
+			<returns>1 if the skip flags are set; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Viewport.removeSkipFlags(int)">
+			<summary>
+			Removes specified skip flags from the list of currently used ones.
+			</summary> 
+			<param name="flags"> Skip flags to remove. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.render(Unigine.Ptr{Unigine.Camera})">
+			<summary>
+								Renders an image from the specified camera. This method is used to integrate the engine to a 3rd party renderer.					To render an image from the camera to the RenderTarget interface, do the following:
+			</summary> 
+			<param name="camera"> Camera an image from which should be rendered. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.render(Unigine.Ptr{Unigine.Camera},int,int)">
+			<summary>
+			Renders an image of the specified size from the specified camera to the current rendering target.
+			</summary> 
+			<param name="camera"> Camera, an image from which should be rendered. </param>
+			<param name="width"> Image width, in pixels. </param>
+			<param name="height"> Image height, in pixels. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.renderEngine(Unigine.Ptr{Unigine.Camera})">
+			<summary>
+			Renders an Engine viewport for the specified camera to the current rendering target. This method renders a splash screen and provides an image in accordance with panoramic and stereo rendering settings.
+			</summary> 
+			<param name="camera"> Camera, an image from which should be rendered. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.renderImage2D(Unigine.Ptr{Unigine.Camera},Unigine.Ptr{Unigine.Image})">
+			<summary>
+			Renders an image from the camera to the given 2D image.					This method sets the format of the 2D image to one of the following values:													RGBA16F - in case if initial image format was 16-bit or 32-bit per channel float							RGBA8 - otherwise
+			</summary> 
+			<param name="camera"> Camera, an image from which should be rendered. </param>
+			<param name="image"> Target 2D image to save the result to. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.renderImage2D(Unigine.Ptr{Unigine.Camera},Unigine.Ptr{Unigine.Image},int,int,bool)">
+			<summary>
+			Renders an image of the specified size from the camera to the 2D image.
+			</summary> 
+			<param name="camera"> Camera, an image from which should be rendered. </param>
+			<param name="image"> Target 2D image to save the result to. </param>
+			<param name="width"> Image width, in pixels. </param>
+			<param name="height"> Image height, in pixels. </param>
+			<param name="hdr"> HDR flag.This parameter determines the format of the 2D image:1 - image format will be set to RGBA16F0 - image format will be set to RGBA8 </param> 
+		</member>
+		<member name="M:Unigine.Viewport.renderImageCube(Unigine.Ptr{Unigine.Camera},Unigine.Ptr{Unigine.Image},int,bool,bool)">
+			<summary>
+			Renders the image from the camera to the cube map of the specified size.
+			</summary> 
+			<param name="camera"> Camera, an image from which should be rendered. </param>
+			<param name="image"> Target cube map to save the result to. </param>
+			<param name="size"> Cube map edge size. </param>
+			<param name="hdr"> HDR flag.This parameter determines the format of the 2D image:1 - image format will be set to RGBA16F0 - image format will be set to RGBA8 </param>
+			<param name="local_space"> A flag indicating if the camera angle should be used for the cube map rendering. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.renderImageCube(Unigine.Ptr{Unigine.Camera},Unigine.Ptr{Unigine.Image})">
+			<summary>
+			Renders the image from the camera into the cube map.
+			</summary> 
+			<param name="camera"> Camera, an image from which should be rendered. </param>
+			<param name="image"> Target cube map to save the result to. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.renderNode(Unigine.Ptr{Unigine.Camera},Unigine.Ptr{Unigine.Node})">
+			<summary>
+			Renders the given node with all children to the current rendering target.
+			</summary> 
+			<param name="camera"> Camera, an image from which should be rendered. </param>
+			<param name="node"> Node to be rendered. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.renderNode(Unigine.Ptr{Unigine.Camera},Unigine.Ptr{Unigine.Node},int,int)">
+			<summary>
+			Renders the given node with all children to the current rendering target.
+			</summary> 
+			<param name="camera"> Camera, an image from which should be rendered. </param>
+			<param name="node"> Node to be rendered. </param>
+			<param name="width"> Image width, in pixels. </param>
+			<param name="height"> Image height, in pixels. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.renderNodeImage2D(Unigine.Ptr{Unigine.Camera},Unigine.Ptr{Unigine.Node},Unigine.Ptr{Unigine.Image},int,int,bool)">
+			<summary>
+			Renders the given node with all children to the 2D image of the specified size.
+			</summary> 
+			<param name="camera"> Camera, an image from which should be rendered. </param>
+			<param name="node"> Pointer to the node to be rendered. </param>
+			<param name="image"> Target 2D image to save the result to. </param>
+			<param name="width"> Image width, in pixels. </param>
+			<param name="height"> Image height, in pixels. </param>
+			<param name="hdr"> HDR flag.This parameter determines the format of the 2D image:1 - image format will be set to RGBA16F0 - image format will be set to RGBA8 </param> 
+		</member>
+		<member name="M:Unigine.Viewport.renderNodeImage2D(Unigine.Ptr{Unigine.Camera},Unigine.Ptr{Unigine.Node},Unigine.Ptr{Unigine.Image})">
+			<summary>
+			Renders the given node with all children to the specified 2D image.
+			</summary> 
+			<param name="camera"> Camera, an image from which should be rendered. </param>
+			<param name="node"> Pointer to the node to be rendered. </param>
+			<param name="image"> Target 2D image to save the result to. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.renderNodeTexture2D(Unigine.Ptr{Unigine.Camera},Unigine.Ptr{Unigine.Node},Unigine.Ptr{Unigine.Texture})">
+			<summary>
+			Renders the given node with all children to the specified 2D texture.
+			</summary> 
+			<param name="camera"> Camera, an image from which should be rendered. </param>
+			<param name="node"> Pointer to the node to be rendered. </param>
+			<param name="texture"> Target 2D texture to save the result to. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.renderNodes(Unigine.Ptr{Unigine.Camera},Unigine.Vector{Unigine.Ptr{Unigine.Node},int,Unigine.VectorAllocator})">
+			<summary>
+			Renders given nodes with all their children to the current rendering target.
+			</summary> 
+			<param name="camera"> Camera, an image from which should be rendered. </param>
+			<param name="nodes"> List of the nodes to be rendered. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.renderNodes(Unigine.Ptr{Unigine.Camera},Unigine.Vector{Unigine.Ptr{Unigine.Node},int,Unigine.VectorAllocator},int,int)">
+			<summary>
+			Renders given nodes with all their children to the current rendering target of the specified size.
+			</summary> 
+			<param name="camera"> Camera, an image from which should be rendered. </param>
+			<param name="nodes"> List of the nodes to be rendered. </param>
+			<param name="width"> Image width, in pixels. </param>
+			<param name="height"> Image height, in pixels. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.renderNodesImage2D(Unigine.Ptr{Unigine.Camera},Unigine.Vector{Unigine.Ptr{Unigine.Node},int,Unigine.VectorAllocator},Unigine.Ptr{Unigine.Image})">
+			<summary>
+			Renders given nodes with all their children to the specified 2D image.
+			</summary> 
+			<param name="camera"> Camera, an image from which should be rendered. </param>
+			<param name="nodes"> List of the nodes to be rendered. </param>
+			<param name="image"> Target 2D image to save the result to. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.renderNodesImage2D(Unigine.Ptr{Unigine.Camera},Unigine.Vector{Unigine.Ptr{Unigine.Node},int,Unigine.VectorAllocator},Unigine.Ptr{Unigine.Image},int,int,int)">
+			<summary>
+			Renders given nodes with all their children to the 2D image of the specified size.
+			</summary> 
+			<param name="camera"> Camera, an image from which should be rendered. </param>
+			<param name="nodes"> List of the nodes to be rendered. </param>
+			<param name="image"> Target 2D image to save the result to. </param>
+			<param name="width"> Image width, in pixels. </param>
+			<param name="height"> Image height, in pixels. </param>
+			<param name="hdr"> HDR flag.This parameter determines the format of the 2D image:1 - image format will be set to RGBA16F0 - image format will be set to RGBA8 </param> 
+		</member>
+		<member name="M:Unigine.Viewport.renderNodesTexture2D(Unigine.Ptr{Unigine.Camera},Unigine.Vector{Unigine.Ptr{Unigine.Node},int,Unigine.VectorAllocator},Unigine.Ptr{Unigine.Texture})">
+			<summary>
+			Renders given nodes with all their children to the specified 2D texture.
+			</summary> 
+			<param name="camera"> Camera, an image from which should be rendered. </param>
+			<param name="nodes"> List of the nodes to be rendered. </param>
+			<param name="texture"> Target 2D texture to save the result to. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.renderStereo(Unigine.Ptr{Unigine.Camera},Unigine.Ptr{Unigine.Camera},char)">
+			<summary>
+			Renders a stereo image in the current viewport.
+			</summary> 
+			<param name="camera_left"> Camera that renders an image for the left eye. </param>
+			<param name="camera_right"> Camera that renders an image for the right eye. </param>
+			<param name="stereo_material"> List of names of stereo materials to be used. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.renderStereoPeripheral(Unigine.Ptr{Unigine.Camera},Unigine.Ptr{Unigine.Camera},Unigine.Ptr{Unigine.Camera},Unigine.Ptr{Unigine.Camera},Unigine.Ptr{Unigine.Texture},Unigine.Ptr{Unigine.Texture},Unigine.Ptr{Unigine.Texture},Unigine.Ptr{Unigine.Texture},char)">
+			<summary>
+			</summary> 
+			<param name="camera_left"> Camera that renders an image for the left eye. </param>
+			<param name="camera_right"> Camera that renders an image for the right eye. </param>
+			<param name="stereo_material"> List of names of stereo materials to be used. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.renderTexture2D(Unigine.Ptr{Unigine.Camera},Unigine.Ptr{Unigine.Texture})">
+			<summary>
+			Renders an image from the camera to the specified 2D texture.
+			</summary> 
+			<param name="camera"> Camera, an image from which should be rendered. </param>
+			<param name="texture"> Target 2D texture to save the result to. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.renderTextureCube(Unigine.Ptr{Unigine.Camera},Unigine.Ptr{Unigine.Texture},bool)">
+			<summary>
+			Renders the image from the camera to the cubemap texture.
+			</summary> 
+			<param name="camera"> Camera, an image from which should be rendered. </param>
+			<param name="texture"> Target Cube texture to save the result to. </param>
+			<param name="local_space"> A flag indicating if the camera angle should be used for the cube map rendering. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.setStereoHiddenAreaMesh(Unigine.Ptr{Unigine.Mesh},Unigine.Ptr{Unigine.Mesh})">
+			<summary>
+			Sets custom meshes to be used for culling pixels, that are not visible in VR.					Requires render_stereo_hidden_area = 2
+			</summary> 
+			<param name="hidden_area_mesh_left"> Mesh representing hidden area for the left eye. </param>
+			<param name="hidden_area_mesh_right"> Mesh representing hidden area for the right eye. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.clearStereoHiddenAreaMesh">
+			<summary>
+			Clears meshes that represent hidden areas for both, left and right eye. Hidden areas are used for culling pixels, that are not visible in VR
+			</summary>  
+		</member>
+		<member name="M:Unigine.Viewport.setEnvironmentTexturePath(char)">
+			<summary>
+			Sets the path to the cubemap defining the environment color for the viewport. This texture is used for imitating landscape reflections and lighting in accordance with the ground mask.
+			</summary> 
+			<param name="name"> Path to the cubemap defining the environment color. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.getEnvironmentTexturePath">
+			<summary>
+			Returns the path to the cubemap defining the environment color set for the viewport. This texture is used for imitating landscape reflections and lighting in accordance with the ground mask.
+			</summary>  
+			<returns>Path to the cubemap defining the environment color.</returns>
+		</member>
+		<member name="M:Unigine.Viewport.setEnvironmentTexture(Unigine.Ptr{Unigine.Texture})">
+			<summary>
+			Sets the specified environment texture.
+			</summary> 
+			<param name="texture"> Cubemap defining the environment color. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.getEnvironmentTexture const">
+			<summary>
+			Returns the current environment texture.
+			</summary>  
+			<returns>Cubemap defining the environment color.</returns>
+		</member>
+		<member name="M:Unigine.Viewport.resetEnvironmentTexture">
+			<summary>
+			Resets the current environment texture to the default one.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Viewport.setPaused(bool)">
+			<summary>
+			Sets the viewport rendering to the paused mode.
+			</summary> 
+			<param name="paused"> A flag indicating if the current viewport should be paused or not. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.isPaused const">
+			<summary>
+			Returns a value indicating if the rendering in the current viewport is paused or not.
+			</summary>  
+			<returns>1 if the viewport is paused; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Viewport.setNodeLightUsage(int)">
+			<summary>
+			Sets the type of lighting for the render of a node (used for impostor grabbing, node preview rendering, etc.).
+			</summary> 
+			<param name="usage"> The lighting type. Can be one of the following:0 - USAGE_WORLD_LIGHT (use lighting from the LightWorld set in the current loaded world).1 - USAGE_AUX_LIGHT (use lighting from the auxiliary virtual scene containing one LightWorld with 45 degrees slope angles along all axes, scattering is not used).2 - USAGE_NODE_LIGHT (use the node lighting). </param> 
+		</member>
+		<member name="M:Unigine.Viewport.setUseTAAOffset(bool)">
+			<summary>
+			Sets a value indicating if skipping render mode check is enabled for using TAA. Can be used to ensure proper TAA calculation when rendering mode for the Viewport is set to RENDER_DEPTH.
+			</summary> 
+			<param name="offset"> true to enable skipping render mode check and use TAA; otherwise false. </param> 
+		</member>
+		<member name="M:Unigine.Viewport.isUseTAAOffset const">
+			<summary>
+			Returns a value indicating if skipping render mode check is enabled for using TAA. Can be used to ensure proper TAA calculation when rendering mode for the Viewport is set to RENDER_DEPTH.
+			</summary>  
+			<returns>true if skipping render mode check is enabled for using TAA; otherwise false.</returns>
+		</member>
+		<member name="F:Unigine.Viewport.SKIP_SHADOWS">
+			<summary>
+			Skip shadows rendering in the viewport.
+		</summary>
+		</member>
+		<member name="F:Unigine.Viewport.SKIP_VISUALIZER">
+			<summary>
+			Skip rendering of the visualizer in the viewport. This flag is set by default for a new viewport.
+		</summary>
+		</member>
+		<member name="F:Unigine.Viewport.SKIP_POSTEFFECTS">
+			<summary>
+			Skip rendering of post effects in the viewport.
+		</summary>
+		</member>
+		<member name="F:Unigine.Viewport.SKIP_DYNAMIC_REFLECTIONS">
+			<summary>
+			Skip rendering of dynamic reflections in the viewport.
+		</summary>
+		</member>
+		<member name="F:Unigine.Viewport.SKIP_VELOCITY_BUFFER">
+			<summary>
+			Skip rendering to the velocity buffer for the viewport.
+		</summary>
+		</member>
+		<member name="F:Unigine.Viewport.SKIP_SRGB">
+			<summary>
+			Skip rendering of the srgb color space.
+		</summary>
+		</member>
+		<member name="F:Unigine.Viewport.SKIP_FORMAT_RG11B10">
+			<summary>
+			Skip rendering of RG11B10 formats in the viewport.
+		</summary>
+		</member>
+		<member name="F:Unigine.Viewport.SKIP_TRANSPARENT">
+			<summary>
+			Skip rendering of transparent objects in the viewport.
+		</summary>
+		</member>
+		<member name="F:Unigine.Viewport.SKIP_STREAMING">
+			<summary>
+			Disables data streaming in the process of rendering.
+		</summary>
+		</member>
+		<member name="F:Unigine.Viewport.SKIP_AUTO_EXPOSURE">
+			<summary>
+			Disables auto exposure in the process of rendering.
+		</summary>
+		</member>
+		<member name="F:Unigine.Viewport.SKIP_AUTO_WHITE_BALANCE">
+			<summary>
+			Disables auto white balance in the process of rendering.
+		</summary>
+		</member>
+		<member name="F:Unigine.Viewport.USAGE_WORLD_LIGHT">
+			<summary>
+			Use lighting from the LightWorld set in the current loaded world.
+		</summary>
+		</member>
+		<member name="F:Unigine.Viewport.USAGE_AUX_LIGHT">
+			<summary>
+			Use lighting from the auxiliary virtual scene containing one LightWorld (with 45, 45 and 45 degrees slope angles), scattering is not used.
+		</summary>
+		</member>
+		<member name="F:Unigine.Viewport.USAGE_NODE_LIGHT">
+			<summary>
+			Use the node lighting.
+		</summary>
+		</member>
+		<member name="F:Unigine.Viewport.RENDER_DEPTH">
+			<summary>
+			Render only depth.
+		</summary>
+		</member>
+		<member name="F:Unigine.Viewport.RENDER_DEPTH_GBUFFER">
+			<summary>
+			Render only depth and Gbuffer.
+		</summary>
+		</member>
+		<member name="F:Unigine.Viewport.RENDER_DEPTH_GBUFFER_FINAL">
+			<summary>
+			Render depth, Gbuffer and final image.
+		</summary>
+		</member>
+		<member name="F:Unigine.Viewport.RENDER_REPROJECTION">
+			<summary>
+			Render stereo reprojection for VR.
+		</summary>
+		</member>
+	</members>
+</doc>

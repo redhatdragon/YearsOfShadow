@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+
+  <!-- Documentation https://docs.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects -->
+  <!-- Advanced examples https://github.com/KindDragon/CPPDebuggerVisualizers -->  
+
+  <Type Name="Unigine::Vector&lt;*&gt;" Inheritable="true">
+    <DisplayString>{{ size={length} }}</DisplayString>
+    <Expand>
+      <Item Name="[size]" ExcludeView="simple">length</Item>
+      <Item Name="[capacity]" ExcludeView="simple">capacity</Item>
+      <ArrayItems>
+        <Size>length</Size>
+        <ValuePointer>(::$T1*)data</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <Type Name="Unigine::Vector&lt;*&gt;" Inheritable="true" Priority="MediumLow">
+    <DisplayString>{{ size={length} }}</DisplayString>
+    <Expand>
+      <Item Name="[size]" ExcludeView="simple">length</Item>
+      <Item Name="[capacity]" ExcludeView="simple">capacity</Item>
+      <ArrayItems>
+        <Size>length</Size>
+        <ValuePointer>($T1*)data</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <Type Name="Unigine::String" Inheritable="true">
+    <DisplayString>{data,s8}</DisplayString>
+    <StringView>data,s8</StringView>
+  </Type>
+
+  <Type Name="Unigine::UGUID" Inheritable="true">
+    <DisplayString>{str + 7,s8}</DisplayString>
+    <StringView>str + 7,s8</StringView>
+  </Type>
+
+  <Type Name="Unigine::Tree&lt;*&gt;::Node">
+    <DisplayString>({key}, {(::$T2)*this})</DisplayString>
+    <Expand>
+      <Item Name="[key]">key</Item>
+      <Item Name="[value]">(::$T2)*this</Item>
+    </Expand>
+  </Type>
+
+  <Type Name="Unigine::Tree&lt;*&gt;::Node" Priority="MediumLow">
+    <DisplayString>({key}, {($T2)*this})</DisplayString>
+    <Expand>
+      <Item Name="[key]">key</Item>
+      <Item Name="[value]">($T2)*this</Item>
+    </Expand>
+  </Type>
+
+  <Type Name="Unigine::Tree&lt;*&gt;" Inheritable="true">
+    <DisplayString>{{size = {length}}}</DisplayString>
+    <Expand>
+      <Item Name="[size]">length</Item>
+      <TreeItems>
+        <Size>length</Size>
+        <HeadPointer>root</HeadPointer>
+        <LeftPointer>left</LeftPointer>
+        <RightPointer>right</RightPointer>
+        <ValueNode>*this</ValueNode>
+      </TreeItems>
+    </Expand>
+  </Type>
+
+  <Type Name="Unigine::Hash&lt;*&gt;" Inheritable="true">
+    <DisplayString>{{size = {length}}}</DisplayString>
+    <Expand>
+      <CustomListItems MaxItemsPerView="5000" ExcludeView="Test">
+        <Variable Name="data_ptr" InitialValue="data" />
+        <Size>length</Size>
+        <Exec>data_ptr = data</Exec>
+        <Loop>
+          <If Condition="*data_ptr != nullptr">
+            <Item>**data_ptr</Item>
+          </If>
+          <Exec>++data_ptr</Exec>
+        </Loop>
+      </CustomListItems>
+    </Expand>
+  </Type>
+
+  <Type Name="Unigine::Math::quat" Inheritable="true">
+    <Expand>
+      <Item Name="x" ExcludeView="simple">x</Item>
+      <Item Name="y" ExcludeView="simple">y</Item>
+      <Item Name="z" ExcludeView="simple">z</Item>
+      <Item Name="w" ExcludeView="simple">w</Item>
+      <ArrayItems>
+        <Size>4</Size>
+        <ValuePointer>q</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <Type Name="Unigine::Math::vec4" Inheritable="true">
+    <Expand>
+      <Item Name="x" ExcludeView="simple">x</Item>
+      <Item Name="y" ExcludeView="simple">y</Item>
+      <Item Name="z" ExcludeView="simple">z</Item>
+      <Item Name="w" ExcludeView="simple">w</Item>
+      <ArrayItems>
+        <Size>4</Size>
+        <ValuePointer>v</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <Type Name="Unigine::Math::vec3" Inheritable="true">
+    <Expand>
+      <Item Name="x" ExcludeView="simple">x</Item>
+      <Item Name="y" ExcludeView="simple">y</Item>
+      <Item Name="z" ExcludeView="simple">z</Item>
+      <ArrayItems>
+        <Size>3</Size>
+        <ValuePointer>v</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <Type Name="Unigine::Math::vec2" Inheritable="true">
+    <Expand>
+      <Item Name="x" ExcludeView="simple">x</Item>
+      <Item Name="y" ExcludeView="simple">y</Item>
+      <ArrayItems>
+        <Size>2</Size>
+        <ValuePointer>v</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <Type Name="Unigine::Math::dvec4" Inheritable="true">
+    <Expand>
+      <Item Name="x" ExcludeView="simple">x</Item>
+      <Item Name="y" ExcludeView="simple">y</Item>
+      <Item Name="z" ExcludeView="simple">z</Item>
+      <Item Name="w" ExcludeView="simple">w</Item>
+      <ArrayItems>
+        <Size>4</Size>
+        <ValuePointer>v</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <Type Name="Unigine::Math::dvec3" Inheritable="true">
+    <Expand>
+      <Item Name="x" ExcludeView="simple">x</Item>
+      <Item Name="y" ExcludeView="simple">y</Item>
+      <Item Name="z" ExcludeView="simple">z</Item>
+      <ArrayItems>
+        <Size>3</Size>
+        <ValuePointer>v</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <Type Name="Unigine::Math::dvec2" Inheritable="true">
+    <Expand>
+      <Item Name="x" ExcludeView="simple">x</Item>
+      <Item Name="y" ExcludeView="simple">y</Item>
+      <ArrayItems>
+        <Size>2</Size>
+        <ValuePointer>v</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <Type Name="Unigine::Math::ivec4" Inheritable="true">
+    <Expand>
+      <Item Name="x" ExcludeView="simple">x</Item>
+      <Item Name="y" ExcludeView="simple">y</Item>
+      <Item Name="z" ExcludeView="simple">z</Item>
+      <Item Name="w" ExcludeView="simple">w</Item>
+      <ArrayItems>
+        <Size>4</Size>
+        <ValuePointer>v</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <Type Name="Unigine::Math::ivec3" Inheritable="true">
+    <Expand>
+      <Item Name="x" ExcludeView="simple">x</Item>
+      <Item Name="y" ExcludeView="simple">y</Item>
+      <Item Name="z" ExcludeView="simple">z</Item>
+      <ArrayItems>
+        <Size>3</Size>
+        <ValuePointer>v</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <Type Name="Unigine::Math::ivec2" Inheritable="true">
+    <Expand>
+      <Item Name="x" ExcludeView="simple">x</Item>
+      <Item Name="y" ExcludeView="simple">y</Item>
+      <ArrayItems>
+        <Size>2</Size>
+        <ValuePointer>v</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <Type Name="Node" Inheritable="true">
+    <DisplayString>({{name = {parameters->name.string->data,s8}}}, {{id = {id}}})</DisplayString>
+  </Type>
+
+  <Type Name="Material" Inheritable="true">
+    <DisplayString>({{name = {name}}, {{id = {id}}}, {{GUID = {guid}}})</DisplayString>
+  </Type>
+
+  <Type Name="Property" Inheritable="true">
+    <DisplayString>({{name = {name}}, {{id = {id}}}, {{GUID = {guid}}})</DisplayString>
+  </Type>
+  
+  <Type Name="Texture" Inheritable="true">
+  <DisplayString Condition="depth==1">{{width={width} height={height} format={(TextureFormat)(format)} filter={(TextureFlags)(flags &amp; TextureFlags::FILTER_MASK)} }}</DisplayString>      
+  <DisplayString Condition="depth!=1">{{width={width} height={height} depth={depth} format={(TextureFormat)(format)} filter={(TextureFlags)(flags &amp; TextureFlags::FILTER_MASK)} }}</DisplayString>      
+    <Expand>
+      <Item Name="width">width</Item>
+      <Item Name="height">height</Item>
+      <Item Name="depth">depth</Item>
+      <Item Name="format">(TextureFormat)(format)</Item>
+      <Item Name="type">(TextureType)(type)</Item>
+      <Item Name="flags FILTER_MASK">			(TextureFlags)(flags &amp; TextureFlags::FILTER_MASK)</Item>
+      <Item Name="flags WRAP_MASK">				(TextureFlags)(flags &amp; TextureFlags::WRAP_MASK)</Item>
+      <Item Name="flags ANISOTROPY_MASK">		(TextureFlags)(flags &amp; TextureFlags::ANISOTROPY_MASK)</Item>
+      <Item Name="flags TYPE_MASK">				(TextureFlags)(flags &amp; TextureFlags::TYPE_MASK)</Item>
+      <Item Name="flags MULTISAMPLE_MASK">		(TextureFlags)(flags &amp; TextureFlags::MULTISAMPLE_MASK)</Item>
+      <Item Name="flags FORMAT_MASK">			(TextureFlags)(flags &amp; TextureFlags::FORMAT_MASK)</Item>
+      <Item Name="flags SHADOW_MASK">			bool((flags &amp; TextureFlags::SHADOW_MASK) != 0)</Item>
+      <Item Name="flags USAGE_READWRITE">		bool((flags &amp; TextureFlags::USAGE_READWRITE) != 0)</Item>
+      <Item Name="flags USAGE_RENDER">			bool((flags &amp; TextureFlags::USAGE_RENDER) != 0)</Item>
+      <Item Name="flags USAGE_IMMUTABLE">		bool((flags &amp; TextureFlags::USAGE_IMMUTABLE) != 0)</Item>
+      <Item Name="flags USAGE_DYNAMIC">			bool((flags &amp; TextureFlags::USAGE_DYNAMIC) != 0)</Item>
+      <Item Name="flags USAGE_STAGING">			bool((flags &amp; TextureFlags::USAGE_STAGING) != 0)</Item>
+      <Item Name="flags">(TextureFlags)(flags)</Item>
+      <Item Name="num_mipmaps">num_mipmaps</Item>
+      <Item Name="num_layers">num_layers</Item>
+      <Item Name="num_faces">num_faces</Item>
+    </Expand>
+  </Type>
+  
+  <Type Name="Image">
+    <DisplayString Condition="depth==1">{{width={width} height={height} format={(ImageFormat)(format)} }}</DisplayString>
+    <DisplayString Condition="depth!=1">{{width={width} height={height} depth={depth} format={(ImageFormat)(format)} }}</DisplayString>
+    <Expand>
+      <Synthetic Name="[type]" Condition="format&gt;=0 &amp;&amp; format &lt;= 3">
+        <DisplayString>UINT8</DisplayString>
+      </Synthetic>
+      <Synthetic Name="[type]" Condition="format&gt;=4 &amp;&amp; format &lt;= 7">
+        <DisplayString>UINT16</DisplayString>
+      </Synthetic>
+      <Synthetic Name="[type]" Condition="format&gt;=8 &amp;&amp; format &lt;= 11">
+        <DisplayString>FLOAT16</DisplayString>
+      </Synthetic>
+      <Synthetic Name="[type]" Condition="format&gt;=12 &amp;&amp; format &lt;= 15">
+        <DisplayString>FLOAT32</DisplayString>
+      </Synthetic>
+
+      <Item Name="[channels]">number_of_channels[(int)format] </Item >
+
+      <Item Name="[width]">width</Item>
+      <Item Name="[height]">height</Item>
+      <Item Name="[data]">data</Item>
+      <Item Name="[stride]" >width * pixel_and_block_sizes[(int)format]</Item>
+
+      <Item Name="depth">depth</Item>
+      <Item Name="format">(ImageFormat)(format)</Item>
+      <Item Name="type">(ImageType)(type)</Item>
+      <Item Name="num_mipmaps">num_mipmaps</Item>
+      <Item Name="num_layers">num_layers</Item>
+      <Item Name="num_faces">num_faces</Item>
+    </Expand>
+  </Type>
+  
+</AutoVisualizer>

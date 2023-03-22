@@ -1,0 +1,2122 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Plugins.FMOD.Bank.isUnloading const">
+			<summary>
+			Returns a value indicating if the bank is unloading.
+			</summary>  
+			<returns>true if the bank is unloading, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bank.isUnloaded const">
+			<summary>
+			Returns a value indicating if the bank is unloaded.
+			</summary>  
+			<returns>true if the bank is unloaded, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bank.isLoading const">
+			<summary>
+			Returns a value indicating if the bank is loading.
+			</summary>  
+			<returns>true if the bank is loading, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bank.isLoaded const">
+			<summary>
+			Returns a value indicating if the bank is loaded.
+			</summary>  
+			<returns>true if the bank is loaded, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bank.isError const">
+			<summary>
+			Returns a value indicating if an error has occurred.
+			</summary>  
+			<returns>true if an error has occurred, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bank.getEventDescription(int)">
+			<summary>
+			Returns the event description for the given index. Auxiliary function, should not be used.
+			</summary> 
+			<param name="index"> Index of the event. </param> 
+			<returns>Event description for the given index.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bank.getBus(int)">
+			<summary>
+			Returns a bus by its index. Auxiliary function, should not be used.
+			</summary> 
+			<param name="index"> Index of the bus. </param> 
+			<returns>Bus object.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bank.getVCA(int)">
+			<summary>
+			Returns a VCA by its index. Auxiliary function, should not be used.
+			</summary> 
+			<param name="index"> Index of the VCA. </param> 
+			<returns>VCA object.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bank.getEventDescriptionCount">
+			<summary>
+			Returns the number of event descriptions.
+			</summary>  
+			<returns>Number of event descriptions.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bank.getBusCount">
+			<summary>
+			Returns the number of buses.
+			</summary>  
+			<returns>Number of buses.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bank.getVCACount">
+			<summary>
+			Returns the number of VCAs.
+			</summary>  
+			<returns>Number of VCAs.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bank.loadSampleData">
+			<summary>
+			Loads non-streaming sample data for all events in the bank.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bank.unloadSampleData">
+			<summary>
+			Unloads non-streaming sample data for all events in the bank.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bank.release">
+			<summary>
+			Cleans up used resources.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bank.getPath const">
+			<summary>
+			Returns the object's path.
+			</summary>  
+			<returns>Object's path.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bank.isValid const">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bus.setPaused(bool)">
+			<summary>
+			Sets the pause state for the bus.
+			</summary> 
+			<param name="paused"> true to pause the bus, false to unpause it. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bus.isPaused const">
+			<summary>
+			Returns the pause state.
+			</summary>  
+			<returns>true if the bus is paused, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bus.setVolume(float)">
+			<summary>
+			Sets the volume level.
+			</summary> 
+			<param name="volume"> Volume level in range [-inf; inf]. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bus.getVolume const">
+			<summary>
+			Returns the current volume level.
+			</summary>  
+			<returns>Volume level.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bus.setMuted(bool)">
+			<summary>
+			Sets the mute state.
+			</summary> 
+			<param name="muted"> trueto mute the bus, false to unmute it. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bus.isMuted const">
+			<summary>
+			Returns the mute state.
+			</summary>  
+			<returns>true if the bus is muted, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bus.stopAllEvents">
+			<summary>
+			Stops all event instances that are routed into the bus.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bus.release">
+			<summary>
+			Releases the bus object.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bus.getPath const">
+			<summary>
+			Returns the bus object's path.
+			</summary>  
+			<returns>Object's path.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Bus.isValid const">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.setPaused(bool)">
+			<summary>
+			Sets the pause state for the channel.
+			</summary> 
+			<param name="paused"> true to pause the channel, false to unpause it. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.isPaused const">
+			<summary>
+			Returns the pause state of the channel.
+			</summary>  
+			<returns>true if the channel is paused; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.setVolume(float)">
+			<summary>
+			Sets the volume level.
+			</summary> 
+			<param name="volume"> Volume level in range [-inf; inf]. 0 = silent, 1 = full. Negative level inverts the signal. Values larger than 1 amplify the signal. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.getVolume const">
+			<summary>
+			Returns the current volume level.
+			</summary>  
+			<returns>Volume level.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.isPlaying const">
+			<summary>
+			Returns the playing state.
+			</summary>  
+			<returns>true if the channel is playing, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.stop">
+			<summary>
+			Stops the Channel (or all Channels in nested ChannelGroups) from playing.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.setMinMaxDistance(float,float)">
+			<summary>
+			Sets the minimum and maximum distances used to calculate the 3D rolloff attenuation.
+			</summary> 
+			<param name="min"> Distance from the source where attenuation begins. Range: [0; max]. Default: 1 </param>
+			<param name="max"> Distance from the source where attenuation ends. Range: [min; inf]. Default: 10000. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.setPosition(Unigine.Math.Vec3)">
+			<summary>
+			Sets the 3D position used to apply panning and attenuation.
+			</summary> 
+			<param name="position"> Position in 3D space used for panning and attenuation. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.setPositionTimeLine(unsignedint,FMODEnums::TIME_UNIT)">
+			<summary>
+			Sets the current playback position.
+			</summary> 
+			<param name="position"> Playback position. </param>
+			<param name="time_unit"> Time units for position. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.getPositionTimeLine(unsignedint,FMODEnums::TIME_UNIT)">
+			<summary>
+			Returns the current playback position.
+			</summary> 
+			<param name="position"> Playback position. </param>
+			<param name="time_unit"> Time units for position. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.release">
+			<summary>
+			Releases the channel object.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.setVelocity(Unigine.Math.Vec3)">
+			<summary>
+			Sets the velocity used to apply doppler.
+			</summary> 
+			<param name="velocity"> Velocity in 3D space used for doppler. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.addDSP(int,DSPType::TYPE)">
+			<summary>
+			Adds a DSP unit to the specified index in the DSP chain.
+			</summary> 
+			<param name="index"> Offset into the DSP chain. </param>
+			<param name="dsp_type"> Type of the DSP. </param> 
+			<returns>Added DSP.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.removeDSP(int)">
+			<summary>
+			Removes the specified DSP unit from the DSP chain.
+			</summary> 
+			<param name="index"> Index of the DSP unit. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.getDSP(int)">
+			<summary>
+			Returns the DSP unit at the specified index in the DSP chain.
+			</summary> 
+			<param name="index"> Index of the DSP unit. </param> 
+			<returns>DSP unit at the specified index.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.setVolumeRamp(bool)">
+			<summary>
+			Sets whether volume changes are ramped or instantaneous. If not paused, volume changes are ramped to the target value to avoid a pop sound. This function allows you to override that setting and apply volume changes immediately.
+			</summary> 
+			<param name="ramp"> Ramp state. The true value means volume change is ramped. The false value means volume change is instantaeous. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.isVolumeRamp const">
+			<summary>
+			Returns a value indicating whether volume changes are ramped or instantaneous.
+			</summary>  
+			<returns>true if volume change is ramped; false if volume change is instantaeous.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.setMute(bool)">
+			<summary>
+			Sets the mute state. Mute is an additional control for volume, the effect of which is equivalent to setting the volume to zero.
+			</summary> 
+			<param name="mute"> Mute state. true for silent, false for audible. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.isMute const">
+			<summary>
+			Returns the value indicating whether the mute state is silent or audible.
+			</summary>  
+			<returns>Mute state. true for silent, false for audible.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.setFrequency(float)">
+			<summary>
+			Sets the frequency or playback rate. The default frequency is determined by the audio format of the Sound or DSP.
+			</summary> 
+			<param name="frequency"> Playback rate. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.getFrequency const">
+			<summary>
+			Returns the playback frequency or playback rate.
+			</summary>  
+			<returns>Playback frequency.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.setPitch(float)">
+			<summary>
+			Sets the relative pitch or playback rate. Scales the playback frequency of a Channel object.
+			</summary> 
+			<param name="pitch"> Pitch value: 0.5f represents half pitch (one octave down), 1.0f represents unmodified pitch and 2.0f represents double pitch (one octave up). </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.getPitch const">
+			<summary>
+			Returns the relative pitch or playback rate.
+			</summary>  
+			<returns>Pitch value: 0.5f represents half pitch (one octave down), 1.0f represents unmodified pitch and 2.0f represents double pitch (one octave up).</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.setPriority(int)">
+			<summary>
+			Sets the priority used for virtual voice ordering. The priority is used as a coarse grain control for the virtual voice system. Channels with the lower priority will always be stolen before Channels with the higher ones. For Channels of the equal priority, those with the quietest audibility value will be stolen first.
+			</summary> 
+			<param name="priority"> Priority: 0 means the most important, 256 means the least important. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.getPriority const">
+			<summary>
+			Returns the priority used for virtual voice ordering. The priority is used as a coarse grain control for the virtual voice system. Channels with the lower priority will always be stolen before Channels with the higher ones. For Channels of the equal priority, those with the quietest audibility value will be stolen first.
+			</summary>  
+			<returns>Priority: 0 means the most important, 256 means the least important.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.setLoopCount(int)">
+			<summary>
+			Sets the number of times to loop before stopping.
+			</summary> 
+			<param name="count"> Times to loop before stopping : 0 means oneshot, 1 means loop once then stop and -1 represents loop forever. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.getLoopCount const">
+			<summary>
+			Returns the number of times to loop before stopping.
+			</summary>  
+			<returns>Times to loop before stopping : 0 means oneshot, 1 means loop once then stop and -1 represents loop forever.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.getAudibility const">
+			<summary>
+			Returns an estimation of the output volume. The estimated volume is calculated based on 3D spatialization, occlusion, API volume levels and DSPs used. This value is used to determine which Channels should be audible and which Channels should be virtualized when resources are limited.
+			</summary>  
+			<returns>Estimated audibility.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.setPan(float)">
+			<summary>
+			Sets the left/right pan level.
+			</summary> 
+			<param name="pan"> Pan level: -1 represents the full left, 0 represents the center, 1 represents the full right. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Channel.isVirtual const">
+			<summary>
+			Returns the value indicating whether the Channel is being emulated by the virtual voice system.
+			</summary>  
+			<returns>Virtual state. true means silent / emulated, false means audible / real.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.ChannelGroup.getChannel(int)">
+			<summary>
+			Returns the channel at the specified index.
+			</summary> 
+			<param name="id"> Index of the channel. </param> 
+			<returns>Channel at the specified index.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.ChannelGroup.getChannelCount">
+			<summary>
+			Returns the number of channels that feed into this group.
+			</summary>  
+			<returns>Number of channels.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.ChannelGroup.setVolume(float)">
+			<summary>
+			Sets a volume level for the group.
+			</summary> 
+			<param name="volume"> Volume level. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.ChannelGroup.addChannel(Channel)">
+			<summary>
+			Adds a channel to the group.
+			</summary> 
+			<param name="channel"> Channel to be added. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.DSP.setParameterFloat(int,float)">
+			<summary>
+									Sets a floating point value for the parameter by its index.						A DSP can have several parameters that can be controlled individually. For example, ECHO DSP's parameters are: DELAY, FEEDBACK, DRYLEVEL, WETLEVEL. See the list of available parameters for various DSP types.
+			</summary> 
+			<param name="index"> Parameter index. The parameters are numbered starting from 0. </param>
+			<param name="value"> Parameter value. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.DSP.setParameterInt(int,int)">
+			<summary>
+									Sets an integer value for the parameter by its index.						A DSP can have several parameters that can be controlled individually. For example, ECHO DSP's parameters are: DELAY, FEEDBACK, DRYLEVEL, WETLEVEL. See the list of available parameters for various DSP types.
+			</summary> 
+			<param name="index"> Parameter index. The parameters are numbered starting from 0. </param>
+			<param name="value"> Parameter value. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.DSP.release">
+			<summary>
+			Frees a DSP object.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.DSP.releaseFromChannel">
+			<summary>
+			Auxiliary function, should not be used.
+			</summary>  
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.UNKNOWN">
+			<summary>
+			Was created via a non-FMOD plugin and has an unknown purpose.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.MIXER">
+			<summary>
+			Does not process the signal, acts as a unit purely for mixing inputs.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.OSCILLATOR">
+			<summary>
+			Generates sine/square/saw/triangle or noise tones.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.LOWPASS">
+			<summary>
+			Filters sound using a high quality, resonant lowpass filter algorithm but consumes more CPU time. Deprecated and will be removed in a future release.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.ITLOWPASS">
+			<summary>
+			Filters sound using a resonant lowpass filter algorithm that is used in Impulse Tracker, but with limited cutoff range (0 to 8060 Hz).
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.HIGHPASS">
+			<summary>
+			Filters sound using a resonant highpass filter algorithm. Deprecated and will be removed in a future release.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.ECHO">
+			<summary>
+			Produces an echo on the sound and fades out at the desired rate.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.FADER">
+			<summary>
+			Pans and scales the volume of a signal.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.FLANGE">
+			<summary>
+			Produces a flange effect on the sound.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.DISTORTION">
+			<summary>
+			Distorts the sound.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.NORMALIZE">
+			<summary>
+			Normalizes or amplifies the sound to a certain level.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.LIMITER">
+			<summary>
+			Limits the sound to a certain level.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.PARAMEQ">
+			<summary>
+			Attenuates or amplifies a selected frequency range. Deprecated and will be removed in a future release.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.PITCHSHIFT">
+			<summary>
+			Bends the pitch of a sound without changing the speed of playback.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.CHORUS">
+			<summary>
+			Produces a chorus effect on the sound.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.VSTPLUGIN">
+			<summary>
+			Allows the use of Steinberg VST plugins.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.WINAMPPLUGIN">
+			<summary>
+			Allows the use of Nullsoft Winamp plugins.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.ITECHO">
+			<summary>
+			Produces an echo on the sound and fades out at the desired rate as is used in Impulse Tracker.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.COMPRESSOR">
+			<summary>
+			Dynamic compression (linked/unlinked multichannel, wideband).
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.SFXREVERB">
+			<summary>
+			I3DL2 reverb effect.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.LOWPASS_SIMPLE">
+			<summary>
+			Filters sound using a simple lowpass with no resonance, but has flexible cutoff and is fast. Deprecated and will be removed in a future release.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.DELAY">
+			<summary>
+			Produces different delays on individual channels of the sound.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.TREMOLO">
+			<summary>
+			Produces a tremolo / chopper effect on the sound.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.LADSPAPLUGIN">
+			<summary>
+			Unsupported / Deprecated.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.SEND">
+			<summary>
+			Sends a copy of the signal to a return DSP anywhere in the DSP tree.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.RETURN">
+			<summary>
+			Receives signals from a number of send DSPs.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.HIGHPASS_SIMPLE">
+			<summary>
+			Filters sound using a simple highpass with no resonance, but has flexible cutoff and is fast. Deprecated and will be removed in a future release.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.PAN">
+			<summary>
+			Pans the signal in 2D or 3D, possibly upmixing or downmixing as well.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.THREE_EQ">
+			<summary>
+			Three-band equalizer.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.FFT">
+			<summary>
+			Analyzes the signal and provides spectrum information back through getParameter.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.LOUDNESS_METER">
+			<summary>
+			Analyzes the loudness and true peak of the signal.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.ENVELOPEFOLLOWER">
+			<summary>
+			Tracks the envelope of the input/sidechain signal. Deprecated and will be removed in a future release.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.CONVOLUTIONREVERB">
+			<summary>
+			Convolution reverb.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.CHANNELMIX">
+			<summary>
+			Provides per channel gain, channel grouping of the input signal which also sets the speaker format for the output signal, and customizable input to output channel routing.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.TRANSCEIVER">
+			<summary>
+			'Sends' and 'receives' from a selection of up to 32 different slots. It is like a send/return but it uses global slots rather than returns as the destination. Multiple transceivers can receive from a single channel, or multiple transceivers can send to a single channel, or a combination of both.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.OBJECTPAN">
+			<summary>
+			Spatializes input signal by passing it to an external object mixer.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.MULTIBAND_EQ">
+			<summary>
+			Five band parametric equalizer.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.DSPType.MAX">
+			<summary>
+			Maximum number of pre-defined DSP types.
+		</summary>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventDescription.isSampleUnloading const">
+			<summary>
+			Returns the sample data unloading state.
+			</summary>  
+			<returns>true if the sample is unloading, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventDescription.isSampleUnloaded const">
+			<summary>
+			Returns the sample data unloaded state.
+			</summary>  
+			<returns>true if the sample is unloaded, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventDescription.isSampleLoading const">
+			<summary>
+			Returns the sample data loading state.
+			</summary>  
+			<returns>true if the sample is loading, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventDescription.isSampleLoaded const">
+			<summary>
+			Returns the sample data loaded state.
+			</summary>  
+			<returns>true if the sample is loaded, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventDescription.isSampleError const">
+			<summary>
+			Returns the value indicating if the sample data has failed to load.
+			</summary>  
+			<returns>true if the sample has failed to load, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventDescription.isValid const">
+			<summary>
+			Returns the value indicating if the event description is valid.
+			</summary>  
+			<returns>true if the event description is valid, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventDescription.getLength const">
+			<summary>
+			Returns the length of the timeline.
+			</summary>  
+			<returns>Timeline length.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventDescription.isDopplerEnabled const">
+			<summary>
+			Returns the value indicating if the doppler effect is enabled for the event.
+			</summary>  
+			<returns>true if the doppler effect is enabled, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventDescription.isOneShot const">
+			<summary>
+			Returns the value indicating if the event is a oneshot event.
+			</summary>  
+			<returns>true if the event is a oneshot event, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventDescription.createEvent">
+			<summary>
+			Creates a playable instance.
+			</summary>  
+			<returns>EventInstance object.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventDescription.releaseAllEvents">
+			<summary>
+			Releases all instances.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventDescription.loadSampleData">
+			<summary>
+			Loads all non-streaming sample data.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventDescription.unloadSampleData">
+			<summary>
+			Unloads all non-streaming sample data. Sample data will not be unloaded until all instances of the event are released.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventDescription.release">
+			<summary>
+			Marks the event instance for release. Event instances marked for release are destroyed by the asynchronous update when they are in the stopped state.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventDescription.releaseFromStudio">
+			<summary>
+			Auxiliary function, should not be used.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventDescription.update">
+			<summary>
+			Updates the position of the event instance in world space.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventDescription.getPath const">
+			<summary>
+			Returns the path to the event description.
+			</summary>  
+			<returns>Path.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.setPaused(bool)">
+			<summary>
+			Sets the pause state.
+			</summary> 
+			<param name="paused"> true to pause the event instance, false to unpause it. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.isPaused const">
+			<summary>
+			Returns the pause state.
+			</summary>  
+			<returns>true if the event instance is paused, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.setPitch(float)">
+			<summary>
+			Sets the pitch multiplier.
+			</summary> 
+			<param name="pitch"> Pitch multiplier. Range: [0; inf]. Default: 1. The pitch multiplier can be set to any value greater than or equal to zero but the final combined pitch is clamped to the range [0; 100] before being applied. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.getPitch const">
+			<summary>
+			Returns the current pitch multiplier.
+			</summary>  
+			<returns>Pitch multiplier.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.setGain(float)">
+			<summary>
+			Sets the gain value.
+			</summary> 
+			<param name="gain"> Gain value to be set. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.getGain const">
+			<summary>
+			Returns the current gain value.
+			</summary>  
+			<returns>Gain value.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.setMaxDistance(float)">
+			<summary>
+			Sets the maximum distance for 3D attenuation.
+			</summary> 
+			<param name="distance"> Maximum distance, in distance units. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.getMaxDistance const">
+			<summary>
+			Returns the current maximum distance for 3D attenuation.
+			</summary>  
+			<returns>Maximum distance, in distance units.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.setMinDistance(float)">
+			<summary>
+			Sets the minimum distance for 3D attenuation.
+			</summary> 
+			<param name="distance"> Minimum distance, in distance units. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.getMinDistance const">
+			<summary>
+			Returns the current minimum distance for 3D attenuation.
+			</summary>  
+			<returns>Minimum distance, in distance units.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.setTimeLinePosition(int)">
+			<summary>
+			Sets the timeline cursor position.
+			</summary> 
+			<param name="position"> Timeline position, in milliseconds. Range: [0; inf]. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.getTimeLinePosition const">
+			<summary>
+			Returns the current timeline cursor position.
+			</summary>  
+			<returns>Timeline position, in milliseconds.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.set3DAttributes(Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.Vec3)">
+			<summary>
+			Sets event's position, velocity and orientation used to calculate 3D panning, doppler and the values of automatic distance and angle parameters.
+			</summary> 
+			<param name="position"> Position in world space used for panning and attenuation. </param>
+			<param name="up"> Upwards orientation, must be of unit length (1.0) and perpendicular to forward. </param>
+			<param name="forward"> Forwards orientation, must be of unit length (1.0) and perpendicular to up. </param>
+			<param name="velocity"> Velocity in world space used for doppler, in distance units per second. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.get3DAttributes(Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.Vec3)">
+			<summary>
+			Returns event's position, velocity and orientation.
+			</summary> 
+			<param name="position"> Position in world space. </param>
+			<param name="up"> Upwards orientation. </param>
+			<param name="forward"> Forwards orientation. </param>
+			<param name="velocity"> Velocity in world space. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.setVelocity(Unigine.Math.Vec3)">
+			<summary>
+			Sets event's velocity.
+			</summary> 
+			<param name="velocity"> Velocity in world space, in distance units per second. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.isVirtual const">
+			<summary>
+			Returns a value indicating whether an event instance has been virtualized due to the polyphony limit being exceeded.
+			</summary>  
+			<returns>true if the event instance has been virtualized, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.isStarting const">
+			<summary>
+			Returns a value indicating whether an event instance is preparing to start.
+			</summary>  
+			<returns>true if the event instance is preparing to start, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.isStopping const">
+			<summary>
+			Returns a value indicating whether an event instance is preparing to stop.
+			</summary>  
+			<returns>true if the event instance is preparing to stop, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.isStopped const">
+			<summary>
+			Returns a value indicating whether an event instance is stopped.
+			</summary>  
+			<returns>true if the event instance is stopped, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.isSustaining const">
+			<summary>
+			Returns a value indicating whether the timeline cursor is paused on a sustain point.
+			</summary>  
+			<returns>true if the timeline cursor is paused on a sustain point, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.isPlaying const">
+			<summary>
+			Returns a value indicating whether an event instance is playing.
+			</summary>  
+			<returns>true if the event instance is playing, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.play">
+			<summary>
+			Starts playback. If the instance was already playing then calling this function will restart the event.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.stop">
+			<summary>
+			Stops playback.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.release">
+			<summary>
+			Marks the event instance for release. Event instances marked for release are destroyed by the asynchronous update when they are in the stopped state.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.update">
+			<summary>
+			Updates the position of the event instance in world space.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.setParameter(char,float)">
+			<summary>
+			Sets a parameter value by name.
+			</summary> 
+			<param name="name"> Parameter name (case-insensitive) of an FMOD Studio event. (UTF-8 string) </param>
+			<param name="value"> Value for a given name. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.getParameter(char)">
+			<summary>
+			Returns a parameter value by name.
+			</summary> 
+			<param name="name"> Parameter name (case-insensitive). (UTF-8 string) </param> 
+			<returns>Value for a given name.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.setTransform(Unigine.Math.Mat4)">
+			<summary>
+			Sets the transformation matrix for the node in world coordinates.
+			</summary> 
+			<param name="transform"> New transformation matrix to be set for the node (world coordinates). </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.setParent(Unigine.Ptr{Unigine.Node})">
+			<summary>
+			Sets a new parent for the node. Transformations of the current node will be done in the coordinates of the parent.
+			</summary> 
+			<param name="parent"> New parent node. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.releaseFromDefinition">
+			<summary>
+			Auxiliary function, not to be used.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.setPriority(float)">
+			<summary>
+			Sets the priority in range [-1;256] on the Channels created by the current EventInstance.
+			</summary> 
+			<param name="priority"> Priority in range [-1;256]: 0 means the most important, 256 means the least important. The default is -1. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.getPriority const">
+			<summary>
+			Returns the priority of the Channels created by the current EventInstance.
+			</summary>  
+			<returns>&gt;Priority in range [-1;256]: 0 means the most important, 256 means the least important. The default is -1.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.isValid const">
+			<summary>
+			Checks if the EventInstance reference is valid or not.
+			</summary>  
+			<returns>true if the reference is valid; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.EventInstance.getDescriptionPath const">
+			<summary>
+			Returns the path for the EventDescription of the current EventInstance.
+			</summary>  
+			<returns>EventDescription path.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMOD.getCore const">
+			<summary>
+			Returns the FMOD Core System object. The Core System object can be retrieved before initializing the Studio System object to call additional core configuration functions.
+			</summary>  
+			<returns>FMOD Core System object.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMOD.getStudio const">
+			<summary>
+			Returns the FMOD Studio System object.
+			</summary>  
+			<returns>FMOD Studio System object.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMOD.update">
+			<summary>
+			Calls update of FMOD Studio and Core.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMOD.hasErrors(int)">
+			<summary>
+			Checks for errors and returns error code. To interpret the error, see ERROR_TYPE enum.
+			</summary> 
+			<param name="error_type"> Variable to store error code. </param> 
+			<returns>true if an eror has orrurred, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODCore.close">
+			<summary>
+			Closes the connection to the output and returns to an uninitialized state without releasing the object.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODCore.release">
+			<summary>
+			Closes and frees this object and its resources.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODCore.update">
+			<summary>
+			Updates the FMOD system.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODCore.initCore(int,FMODEnums::INIT_FLAGS)">
+			<summary>
+			Initializes the system object and prepares FMOD for playback.
+			</summary> 
+			<param name="max_channels"> Maximum number of Channel objects available for playback, also known as virtual channels. Virtual channels will play with minimal overhead, with a subset of 'real' voices that are mixed, and selected based on priority and audibility. Range: [0; 4095] </param>
+			<param name="flags"> Initialization flags. More than one mode can be set at once by combining them with the OR operator. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODCore.createSound(char,FMODEnums::FMOD_MODE)">
+			<summary>
+			Loads a sound into memory, opens it for streaming or sets it up for callback based sounds.
+			</summary> 
+			<param name="name_of_data"> Name of the file or URL to open (UTF-8 string) or a pointer to a preloaded sound memory block. </param>
+			<param name="mode"> Behavior modifier for opening the sound. </param> 
+			<returns>Newly created Sound object.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODCore.createStream(char)">
+			<summary>
+			Creates a stream, for example, an internet stream to be used as a radio.
+			</summary> 
+			<param name="url"> URL of the resource. </param> 
+			<returns>Newly created Sound object.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODCore.playSound(Sound,ChannelGroup,bool)">
+			<summary>
+			Plays a sound on a channel.
+			</summary> 
+			<param name="sound"> Sound to play. </param>
+			<param name="channel_group"> Group to output to instead of the master. </param>
+			<param name="paused"> Determines whether to start in the paused state. Start a Channel paused to allow altering attributes without it being audible, then follow it up with a call to ChannelControl::setPaused with paused = False. </param> 
+			<returns>Newly playing channel.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODCore.setListener3DAttributes(int,Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.Vec3)">
+			<summary>
+			Sets the 3D attributes of the listener. Vectors must be provided in the correct handedness.
+			</summary> 
+			<param name="listener"> Listener index. </param>
+			<param name="position"> Position in world space used for panning and attenuation. </param>
+			<param name="up"> Upwards orientation, must be of unit length (1.0) and perpendicular to forward.  </param>
+			<param name="forward"> Forwards orientation, must be of unit length (1.0) and perpendicular to up. </param>
+			<param name="velocity"> Velocity in world space used for doppler. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODCore.getListener3DAttributes(int,Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.Vec3)">
+			<summary>
+			Returns the 3D attributes of the listener.
+			</summary> 
+			<param name="listener"> Listener index. </param>
+			<param name="position"> Position in world space. </param>
+			<param name="up"> Upwards orientation. </param>
+			<param name="forward"> Forwards orientation. </param>
+			<param name="velocity"> Velocity in world space. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODCore.getChannel(int)">
+			<summary>
+			Returns the channel object at the specified index.
+			</summary> 
+			<param name="index"> Channel index. </param> 
+			<returns>Channel object.</returns>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.DEFAULT">
+			<summary>
+			Default for all modes listed below. LOOP_OFF, _2D, _3D_WORLDRELATIVE, _3D_INVERSEROLLOFF.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.LOOP_OFF">
+			<summary>
+			For non looping sounds. (DEFAULT). Overrides LOOP_NORMAL / LOOP_BIDI.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.LOOP_NORMAL">
+			<summary>
+			For forward looping sounds.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.LOOP_BIDI">
+			<summary>
+			For bidirectional looping sounds. (only works on software mixed static sounds).
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums._2D">
+			<summary>
+			Ignores any 3D processing. (DEFAULT).
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums._3D">
+			<summary>
+			Makes the sound positionable in 3D. Overrides _2D.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.CREATESTREAM">
+			<summary>
+			Decompress at runtime, streaming from the source provided (i.e. from disk). Overrides CREATESAMPLE and CREATECOMPRESSEDSAMPLE. Note a stream can only be played once at a time due to a stream only having 1 stream buffer and file handle. Open multiple streams to have them play concurrently.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.CREATESAMPLE">
+			<summary>
+			Decompress at loadtime, decompressing or decoding whole file into memory as the target sample format (i.e. PCM). Fastest for playback and most flexible.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.CREATECOMPRESSEDSAMPLE">
+			<summary>
+			Load MP2/MP3/FADPCM/IMAADPCM/Vorbis/AT9 or XMA into memory and leave it compressed. Vorbis/AT9/FADPCM encoding only supported in the .FSB container format. During playback the FMOD software mixer will decode it in realtime as a 'compressed sample'. Overrides CREATESAMPLE. If the sound data is not one of the supported formats, it will behave as if it was created with CREATESAMPLE and decode the sound into PCM.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.OPENUSER">
+			<summary>
+			Opens a user created static sample or stream.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.OPENMEMORY">
+			<summary>
+			"name_or_data" will be interpreted as a pointer to memory instead of filename for creating sounds. If used with CREATESAMPLE or CREATECOMPRESSEDSAMPLE, FMOD duplicates the memory into its own buffers. If used with CREATESTREAM, FMOD will stream out of the buffer whose pointer you passed in. In this case, your own buffer should not be freed until you have finished with and released the stream.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.OPENMEMORY_POINT">
+			<summary>
+			"name_or_data" will be interpreted as a pointer to memory instead of filename for creating sounds. This differs to OPENMEMORY in that it uses the memory as is, without duplicating the memory into its own buffers. Will not work if the data is compressed and CREATECOMPRESSEDSAMPLE is not used.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.OPENRAW">
+			<summary>
+			Will ignore file format and treat as raw pcm.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.OPENONLY">
+			<summary>
+			Just open the file, dont prebuffer or read. Good for fast opens for info.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ACCURATETIME">
+			<summary>
+			For accurate Sound::getLength / Channel::setPosition on VBR MP3, and MOD/S3M/XM/IT/MIDI files. Scans file first, so takes longer to open. OPENONLY does not affect this.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.MPEGSEARCH">
+			<summary>
+			For corrupted / bad MP3 files. This will search all the way through the file until it hits a valid MPEG header. Normally only searches for 4k.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.NONBLOCKING">
+			<summary>
+			For opening sounds and getting streamed subsounds (seeking) asynchronously.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.UNIQUE">
+			<summary>
+			Unique sound, can only be played one at a time.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums._3D_HEADRELATIVE">
+			<summary>
+			Make the sound's position, velocity and orientation relative to the listener.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums._3D_WORLDRELATIVE">
+			<summary>
+			Make the sound's position, velocity and orientation absolute (relative to the world). (DEFAULT)
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums._3D_INVERSEROLLOFF">
+			<summary>
+			This sound will follow the inverse rolloff model where mindistance = full volume, maxdistance = where sound stops attenuating, and rolloff is fixed according to the global rolloff factor. (DEFAULT)
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums._3D_LINEARROLLOFF">
+			<summary>
+			This sound will follow a linear rolloff model where mindistance = full volume, maxdistance = silence.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums._3D_LINEARSQUAREROLLOFF">
+			<summary>
+			This sound will follow a linear-square rolloff model where mindistance = full volume, maxdistance = silence.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums._3D_INVERSETAPEREDROLLOFF">
+			<summary>
+			This sound will follow the inverse rolloff model at distances close to mindistance and a linear-square rolloff close to maxdistance.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums._3D_CUSTOMROLLOFF">
+			<summary>
+			This sound will follow a custom rolloff model.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums._3D_IGNOREGEOMETRY">
+			<summary>
+			Is not affected by geometry occlusion.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.IGNORETAGS">
+			<summary>
+			Skips id3v2/asf/etc tag checks when opening a sound, to reduce seek/read overhead when opening files.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.LOWMEM">
+			<summary>
+			Removes some features from samples to give a lower memory overhead.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.NORMAL">
+			<summary>
+			Initialize normally.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.STREAM_FROM_UPDATE">
+			<summary>
+			No stream thread is created internally. Mainly used with non-realtime outputs.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.MIX_FROM_UPDATE">
+			<summary>
+			No mixer thread is created internally.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums._3D_RIGHTHANDED">
+			<summary>
+			3D calculations will be performed in right-handed coordinates.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.CHANNEL_LOWPASS">
+			<summary>
+			Enables usage of ChannelControl::setLowPassGain, ChannelControl::set3DOcclusion, or automatic usage by the Geometry API. All voices will add a software lowpass filter effect into the DSP chain which is idle unless one of the previous functions/features are used.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.CHANNEL_DISTANCEFILTER">
+			<summary>
+			All _3D based voices will add a software lowpass and highpass filter effect into the DSP chain which will act as a distance-automated bandpass filter.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.PROFILE_ENABLE">
+			<summary>
+			Enable TCP/IP based host which allows FMOD Studio or FMOD Profiler to connect to it, and view memory, CPU and the DSP network graph in real-time.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.VOL0_BECOMES_VIRTUAL">
+			<summary>
+			Any sounds that are 0 volume will go virtual and not be processed except for having their positions updated virtually.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.GEOMETRY_USECLOSEST">
+			<summary>
+			With the geometry engine, only process the closest polygon rather than accumulating all polygons the sound to listener line intersects.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.PREFER_DOLBY_DOWNMIX">
+			<summary>
+			Uses the Dolby Pro Logic II downmix algorithm instead of the default stereo downmix algorithm.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.THREAD_UNSAFE">
+			<summary>
+			Disables thread safety for API calls. Only use this if FMOD is being called from a single thread, and if Studio API is not being used!
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.PROFILE_METER_ALL">
+			<summary>
+			Slower, but adds level metering for every single DSP unit in the graph.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.MEMORY_TRACKING">
+			<summary>
+			Enables memory allocation tracking. Currently this is only useful when using the Studio API. Increases memory footprint and reduces performance.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.MS">
+			<summary>
+			Milliseconds.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.PCM">
+			<summary>
+			PCM samples, related to milliseconds * samplerate / 1000.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.PCMBYTES">
+			<summary>
+			Bytes, related to PCM samples * channels * datawidth (ie 16bit = 2 bytes).
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.RAWBYTES">
+			<summary>
+			Raw file bytes of (compressed) sound data (does not include headers). Only used by Sound::getLength and Channel::getPositionTimeLine.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.PCMFRACTION">
+			<summary>
+			Fractions of 1 PCM sample. Unsigned int range 0 to 0xFFFFFFFF. Used for sub-sample granularity for DSP purposes.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.MODORDER">
+			<summary>
+			MOD/S3M/XM/IT. Order in a sequenced module format.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.MODROW">
+			<summary>
+			MOD/S3M/XM/IT. Current row in a sequenced module format. Cannot use with Channel::setPositionTimeLine. Sound::getLength will return the number of rows in the currently playing or seeked to pattern.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.MODPATTERN">
+			<summary>
+			MOD/S3M/XM/IT. Current pattern in a sequenced module format. Cannot use with Channel::setPositionTimeLine. Sound::getLength will return the number of patterns in the song and Channel::getPositionTimeLine will return the currently playing pattern.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.OK">
+			<summary>
+			No errors.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_BADCOMMAND">
+			<summary>
+			Tried to call a function on a data type that does not allow this type of functionality.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_CHANNEL_ALLOC">
+			<summary>
+			Error trying to allocate a channel.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_CHANNEL_STOLEN">
+			<summary>
+			The specified channel has been reused to play another sound.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_DMA">
+			<summary>
+			DMA Failure. See debug output for more information.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_DSP_CONNECTION">
+			<summary>
+			DSP connection error. Connection possibly caused a cyclic dependency or connected dsps with incompatible buffer counts.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_DSP_DONTPROCESS">
+			<summary>
+			DSP return code from a DSP process query callback. Tells mixer not to call the process callback and therefore not consume CPU. Use this to optimize the DSP graph.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_DSP_FORMAT">
+			<summary>
+			DSP Format error. A DSP unit may have attempted to connect to this network with the wrong format, or a matrix may have been set with the wrong size if the target unit has a specified channel map.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_DSP_INUSE">
+			<summary>
+			DSP is already in the mixer's DSP network. It must be removed before being reinserted or released.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_DSP_NOTFOUND">
+			<summary>
+			DSP connection error. Couldn't find the DSP unit specified.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_DSP_RESERVED">
+			<summary>
+			DSP operation error. Cannot perform operation on this DSP as it is reserved by the system.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_DSP_SILENCE">
+			<summary>
+			DSP return code from a DSP process query callback. Tells mixer silence would be produced from read, so go idle and not consume CPU. Use this to optimize the DSP graph.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_DSP_TYPE">
+			<summary>
+			DSP operation cannot be performed on a DSP of this type.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_FILE_BAD">
+			<summary>
+			Error loading file.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_FILE_COULDNOTSEEK">
+			<summary>
+			Couldn't perform seek operation. This is a limitation of the medium (ie netstreams) or the file format.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_FILE_DISKEJECTED">
+			<summary>
+			Media was ejected while reading.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_FILE_EOF">
+			<summary>
+			End of file unexpectedly reached while trying to read essential data (truncated?).
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_FILE_ENDOFDATA">
+			<summary>
+			End of current chunk reached while trying to read data.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_FILE_NOTFOUND">
+			<summary>
+			File not found.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_FORMAT">
+			<summary>
+			Unsupported file or audio format.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_HEADER_MISMATCH">
+			<summary>
+			There is a version mismatch between the FMOD header and either the FMOD Studio library or the FMOD Core library.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_HTTP">
+			<summary>
+			A HTTP error occurred. This is a catch-all for HTTP errors not listed elsewhere.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_HTTP_ACCESS">
+			<summary>
+			The specified resource requires authentication or is forbidden.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_HTTP_PROXY_AUTH">
+			<summary>
+			Proxy authentication is required to access the specified resource.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_HTTP_SERVER_ERROR">
+			<summary>
+			A HTTP server error occurred.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_HTTP_TIMEOUT">
+			<summary>
+			The HTTP request timed out.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_INITIALIZATION">
+			<summary>
+			FMOD was not initialized correctly to support this function.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_INITIALIZED">
+			<summary>
+			Cannot call this command after System::init.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_INTERNAL">
+			<summary>
+			An error occurred that wasn't supposed to. Contact support.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_INVALID_FLOAT">
+			<summary>
+			Value passed in was a NaN, Inf or denormalized float.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_INVALID_HANDLE">
+			<summary>
+			An invalid object handle was used.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_INVALID_PARAM">
+			<summary>
+			An invalid parameter was passed to this function.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_INVALID_POSITION">
+			<summary>
+			An invalid seek position was passed to this function.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_INVALID_SPEAKER">
+			<summary>
+			An invalid speaker was passed to this function based on the current speaker mode.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_INVALID_SYNCPOINT">
+			<summary>
+			The syncpoint did not come from this sound handle.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_INVALID_THREAD">
+			<summary>
+			Tried to call a function on a thread that is not supported.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_INVALID_VECTOR">
+			<summary>
+			The vectors passed in are not unit length, or perpendicular.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_MAXAUDIBLE">
+			<summary>
+			Reached maximum audible playback count for this sound's soundgroup.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_MEMORY">
+			<summary>
+			Not enough memory or resources.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_MEMORY_CANTPOINT">
+			<summary>
+			Can't use FMOD_OPENMEMORY_POINT on non PCM source data, or non mp3/xma/adpcm data if FMOD_CREATECOMPRESSEDSAMPLE was used.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_NEEDS3D">
+			<summary>
+			Tried to call a command on a 2d sound when the command was meant for 3d sound.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_NEEDSHARDWARE">
+			<summary>
+			Tried to use a feature that requires hardware support.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_NET_CONNECT">
+			<summary>
+			Couldn't connect to the specified host.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_NET_SOCKET_ERROR">
+			<summary>
+			A socket error occurred. This is a catch-all for socket-related errors not listed elsewhere.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_NET_URL">
+			<summary>
+			The specified URL couldn't be resolved.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_NET_WOULD_BLOCK">
+			<summary>
+			Operation on a non-blocking socket could not complete immediately.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_NOTREADY">
+			<summary>
+			Operation could not be performed because specified sound/DSP connection is not ready.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_OUTPUT_ALLOCATED">
+			<summary>
+			Error initializing output device, but more specifically, the output device is already in use and cannot be reused.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_OUTPUT_CREATEBUFFER">
+			<summary>
+			Error creating hardware sound buffer.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_OUTPUT_DRIVERCALL">
+			<summary>
+			A call to a standard soundcard driver failed, which could possibly mean a bug in the driver or resources were missing or exhausted.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_OUTPUT_FORMAT">
+			<summary>
+			Soundcard does not support the specified format.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_OUTPUT_INIT">
+			<summary>
+			Error initializing output device.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_OUTPUT_NODRIVERS">
+			<summary>
+			The output device has no drivers installed. If pre-init, FMOD_OUTPUT_NOSOUND is selected as the output mode. If post-init, the function just fails.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_PLUGIN">
+			<summary>
+			An unspecified error has been returned from a plugin.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_PLUGIN_MISSING">
+			<summary>
+			A requested output, dsp unit type or codec was not available.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_PLUGIN_RESOURCE">
+			<summary>
+			A resource that the plugin requires cannot be found (i.e. the DLS file for MIDI playback).
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_PLUGIN_VERSION">
+			<summary>
+			A plugin was built with an unsupported SDK version.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_RECORD">
+			<summary>
+			An error occurred trying to initialize the recording device.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_REVERB_CHANNELGROUP">
+			<summary>
+			Reverb properties cannot be set on this channel because a parent ChannelGroup owns the reverb connection.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_REVERB_INSTANCE">
+			<summary>
+			Specified instance in FMOD_REVERB_PROPERTIES couldn't be set. Most likely because it is an invalid instance number or the reverb doesn't exist.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_SUBSOUNDS">
+			<summary>
+			The error occurred because the sound referenced contains subsounds when it shouldn't have, or it doesn't contain subsounds when it should have. The operation may also not be able to be performed on a parent sound.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_SUBSOUND_ALLOCATED">
+			<summary>
+			This subsound is already being used by another sound, you cannot have more than one parent to a sound. Null out the other parent's entry first.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_SUBSOUND_CANTMOVE">
+			<summary>
+			Shared subsounds cannot be replaced or moved from their parent stream, such as when the parent stream is an FSB file.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_TAGNOTFOUND">
+			<summary>
+			The specified tag could not be found or there are no tags.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_TOOMANYCHANNELS">
+			<summary>
+			The sound created exceeds the allowable input channel count.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_TRUNCATED">
+			<summary>
+			The retrieved string is too long to fit in the supplied buffer and has been truncated.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_UNIMPLEMENTED">
+			<summary>
+			Something in FMOD hasn't been implemented when it should be! contact support!
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_UNINITIALIZED">
+			<summary>
+			This command failed because System::init or System::setDriver was not called.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_UNSUPPORTED">
+			<summary>
+			A command issued was not supported by this object. Possibly a plugin without certain callbacks specified.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_VERSION">
+			<summary>
+			The version number of this file format is not supported.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_EVENT_ALREADY_LOADED">
+			<summary>
+			The specified bank has already been loaded.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_EVENT_LIVEUPDATE_BUSY">
+			<summary>
+			The live update connection failed due to the game already being connected.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_EVENT_LIVEUPDATE_MISMATCH">
+			<summary>
+			The live update connection failed due to the game data being out of sync with the tool.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_EVENT_LIVEUPDATE_TIMEOUT">
+			<summary>
+			The live update connection timed out.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_EVENT_NOTFOUND">
+			<summary>
+			The requested event, parameter, bus or vca could not be found.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_STUDIO_UNINITIALIZED">
+			<summary>
+			The Studio::System object is not yet initialized.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_STUDIO_NOT_LOADED">
+			<summary>
+			The specified resource is not loaded, so it can't be unloaded.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_INVALID_STRING">
+			<summary>
+			An invalid string was passed to this function.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_ALREADY_LOCKED">
+			<summary>
+			The specified resource is already locked.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_NOT_LOCKED">
+			<summary>
+			The specified resource is not locked, so it can't be unlocked.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_RECORD_DISCONNECTED">
+			<summary>
+			The specified recording driver has been disconnected.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ERR_TOOMANYSAMPLES">
+			<summary>
+			The length provided exceeds the allowable limit.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.RESULT_FORCEINT">
+			<summary>
+			
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.UNKNOWN">
+			<summary>
+			Unknown or custom codec plugin.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.AIFF">
+			<summary>
+			Audio Interchange File Format (.aif, .aiff). Uncompressed integer formats only.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ASF">
+			<summary>
+			Microsoft Advanced Systems Format (.asf, .wma, .wmv). Platform provided decoder, available only on Windows.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.DLS">
+			<summary>
+			Downloadable Sound (.dls). Multi-sound bank format used by MIDI (.mid).
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.FLAC">
+			<summary>
+			Free Lossless Audio Codec (.flac).
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.FSB">
+			<summary>
+			FMOD Sample Bank (.fsb). Proprietary multi-sound bank format. Supported encodings: PCM16, FADPCM, Vorbis, AT9, XMA, Opus.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.IT">
+			<summary>
+			Impulse Tracker (.it).
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.MIDI">
+			<summary>
+			Musical Instrument Digital Interface (.mid).
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.MOD">
+			<summary>
+			Protracker / Fasttracker Module File (.mod).
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.MPEG">
+			<summary>
+			Moving Picture Experts Group (.mp2, .mp3). Also supports .wav (RIFF) container format.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.OGGVORBIS">
+			<summary>
+			Ogg Vorbis (.ogg).
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.PLAYLIST">
+			<summary>
+			Play list information container (.asx, .pls, .m3u, .wax). No audio, tags only.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.RAW">
+			<summary>
+			Raw uncompressed PCM data (.raw).
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.S3M">
+			<summary>
+			ScreamTracker 3 Module (.s3m).
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.USER">
+			<summary>
+			User created sound.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.WAV">
+			<summary>
+			Microsoft Waveform Audio File Format (.wav). Supported encodings: Uncompressed PCM, IMA ADPCM. Platform provided ACM decoder extensions, available only on Windows.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.XM">
+			<summary>
+			FastTracker 2 Extended Module (.xm).
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.XMA">
+			<summary>
+			Microsoft XMA bit-stream supported by FSB (.fsb) container format. Platform provided decoder, available only on Xbox.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.AUDIOQUEUE">
+			<summary>
+			Apple Audio Queue decoder (.mp4, .m4a, .mp3). Supported encodings: AAC, ALAC, MP3. Platform provided decoder, available only on iOS / tvOS devices.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.AT9">
+			<summary>
+			Sony ATRAC9 bit-stream supported by FSB (.fsb) container format. Platform provided decoder, available only on PlayStation.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.VORBIS">
+			<summary>
+			Vorbis bit-stream supported by FSB (.fsb) container format.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.MEDIA_FOUNDATION">
+			<summary>
+			Microsoft Media Foundation decoder (.asf, .wma, .wmv, .mp4, .m4a). Platform provided decoder, available only on UWP.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.MEDIACODEC">
+			<summary>
+			Google Media Codec decoder (.m4a, .mp4). Platform provided decoder, available only on Android.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.FADPCM">
+			<summary>
+			FMOD Adaptive Differential Pulse Code Modulation bit-stream supported by FSB (.fsb) container format.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.OPUS">
+			<summary>
+			Opus bit-stream supported by FSB (.fsb) container format. Platform provided decoder, available only on Xbox Series X|S.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.MAX">
+			<summary>
+			Maximum number of sound types supported.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.NONE">
+			<summary>
+			Uninitalized / unknown.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.PCM8">
+			<summary>
+			8bit integer PCM data.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.PCM16">
+			<summary>
+			16bit integer PCM data.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.PCM24">
+			<summary>
+			24bit integer PCM data.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.PCM32">
+			<summary>
+			32bit integer PCM data.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.PCMFLOAT">
+			<summary>
+			32bit floating point PCM data.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.BITSTREAM">
+			<summary>
+			Sound data is in its native compressed format. See CREATECOMPRESSEDSAMPLE
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.FORMAT_MAX">
+			<summary>
+			Maximum number of sound formats supported.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.STANDARD">
+			<summary>
+			Default connection type. Audio is mixed from the input to the output DSP's audible buffer.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.CONNECTION_TYPE_SIDECHAIN">
+			<summary>
+			Sidechain connection type. Audio is mixed from the input to the output DSP's sidechain buffer.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.SEND">
+			<summary>
+			Send connection type. Audio is mixed from the input to the output DSP's audible buffer, but the input is NOT executed, only copied from. A standard connection or sidechain needs to make an input execute to generate data.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.SEND_SIDECHAIN">
+			<summary>
+			Send sidechain connection type. Audio is mixed from the input to the output DSP's sidechain buffer, but the input is NOT executed, only copied from. A standard connection or sidechain needs to make an input execute to generate data.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.CONNECTION_TYPE_MAX">
+			<summary>
+			Maximum number of DSP connection types supported.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.DATA_TYPE_USER">
+			<summary>
+			Default data type. All user data types should be 0 or above.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.OVERALLGAIN">
+			<summary>
+			Data type for FMOD_DSP_PARAMETER_OVERALLGAIN parameters. There should be a maximum of one per DSP.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums._3DATTRIBUTES">
+			<summary>
+			Data type for FMOD_DSP_PARAMETER_3DATTRIBUTES parameters. There should be a maximum of one per DSP.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.SIDECHAIN">
+			<summary>
+			Data type for FMOD_DSP_PARAMETER_SIDECHAIN parameters. There should be a maximum of one per DSP.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.FFT">
+			<summary>
+			Data type for FMOD_DSP_PARAMETER_FFT parameters. There should be a maximum of one per DSP.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums._3DATTRIBUTES_MULTI">
+			<summary>
+			Data type for FMOD_DSP_PARAMETER_3DATTRIBUTES_MULTI parameters. There should be a maximum of one per DSP.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.FMOD.FMODEnums.ATTENUATION_RANGE">
+			<summary>
+			Data type for FMOD_DSP_PARAMETER_ATTENUATION_RANGE parameters. There should be a maximum of one per DSP.
+		</summary>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.loadBank(char)">
+			<summary>
+			Loads a bank at a given path.
+			</summary> 
+			<param name="path"> Path to the bank file. </param> 
+			<returns>Bank object.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.getVCA(char)">
+			<summary>
+			Auxiliary function, not to be used.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.getBus(char)">
+			<summary>
+			Auxiliary function, not to be used.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.getEvent(char)">
+			<summary>
+			Returns the EventInstance object at a given path.
+			</summary> 
+			<param name="path"> Path of the EventInstance. </param> 
+			<returns>EventInstance object.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.getEventDescription(char)">
+			<summary>
+			Auxiliary function, not to be used.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.setListener3DAttributes(int,Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.Vec3)">
+			<summary>
+			Sets the 3D attributes of the listener. Vectors must be provided in the correct handedness.
+			</summary> 
+			<param name="listener"> Listener index. </param>
+			<param name="position"> Position in world space used for panning and attenuation. </param>
+			<param name="up"> Upwards orientation, must be of unit length (1.0) and perpendicular to forward.  </param>
+			<param name="forward"> Forwards orientation, must be of unit length (1.0) and perpendicular to up. </param>
+			<param name="velocity"> Velocity in world space used for doppler. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.getListener3DAttributes(int,Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.Vec3)">
+			<summary>
+			Returns the 3D attributes of the listener.
+			</summary> 
+			<param name="listener"> Listener index. </param>
+			<param name="position"> Position in world space. </param>
+			<param name="up"> Upwards orientation. </param>
+			<param name="forward"> Forwards orientation. </param>
+			<param name="velocity"> Velocity in world space. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.setListenerVelocity(Unigine.Math.Vec3)">
+			<summary>
+			Sets the velocity of the listener.
+			</summary> 
+			<param name="velocity"> Velocity in world space. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.setListenerTransform(Unigine.Math.Mat4)">
+			<summary>
+			Sets the transformation matrix of the listener. Currently the listener only works with the standard camera.
+			</summary> 
+			<param name="transform"> Transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.setParentForListener(Unigine.Ptr{Unigine.Node})">
+			<summary>
+			Sets a parent node for the listener.
+			</summary> 
+			<param name="parent"> Node to be set as a parent. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.useStudioLiveUpdateFlag">
+			<summary>
+			Enables live update.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.useStudioSyncUpdateFlag">
+			<summary>
+			Disables asynchronous processing and perform all processing on the calling thread instead.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.useStudioLoadFromUpdateFlag">
+			<summary>
+			No additional threads are created for bank and resource loading.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.useCoreStreamFromUpdateFlag">
+			<summary>
+			No stream thread is created internally. Mainly used with non-realtime outputs.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.update">
+			<summary>
+			Updates the FMOD system.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.initStudio">
+			<summary>
+			Studio initialization.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.getBank(int)">
+			<summary>
+			Auxiliary function, not to be used.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.getEventDescription(int)">
+			<summary>
+			Auxiliary function, not to be used.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.getBus(int)">
+			<summary>
+			Auxiliary function, not to be used.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.getVCA(int)">
+			<summary>
+			Auxiliary function, not to be used.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.getBankCount">
+			<summary>
+			Returns the number of loaded banks.
+			</summary>  
+			<returns>Number of banks.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.getEventDescriptionCount">
+			<summary>
+			Returns the number of event descriptions.
+			</summary>  
+			<returns>Event description count.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.getBusCount">
+			<summary>
+			Returns the number of buses.
+			</summary>  
+			<returns>Number of buses.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.getVCACount">
+			<summary>
+			Returns the number of VCAs.
+			</summary>  
+			<returns>VCA count.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.getBufferUsage">
+			<summary>
+			Returns buffer usage information.
+			</summary>  
+			<returns>Buffer usage information.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.resetBufferUsage">
+			<summary>
+			Resets memory buffer usage statistics.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.getCPUUsageTotal">
+			<summary>
+			Returns the total amount of CPU used.
+			</summary>  
+			<returns>Total CPU usage.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.getMemoryUsage(int,int,int)">
+			<summary>
+			Returns memory usage statistics.
+			</summary> 
+			<param name="exclusive"> Size of memory belonging to the bus or event instance. </param>
+			<param name="inclusive"> Size of memory belonging exclusively to the bus or event plus the inclusive memory sizes of all buses and event instances which route into it. </param>
+			<param name="sample_data"> Size of shared sample memory referenced by the bus or event instance, inclusive of all sample memory referenced by all buses and event instances which route into it. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.release">
+			<summary>
+			Shuts down and frees the Studio System object.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.releaseBuses">
+			<summary>
+			Releases bus objects.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.releaseVCAs">
+			<summary>
+			Releases VCA objects.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.releaseEventDescriptions">
+			<summary>
+			Releases event description objects.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.releaseBanks">
+			<summary>
+			Releases bank objects.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.useChannelsCount(int)">
+			<summary>
+			Updates the maximum number of Channels (both virtual and real) to be used in FMOD system.
+			</summary> 
+			<param name="count"> Number of Channels. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.FMODStudio.unloadBank(char)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Sound.play">
+			<summary>
+			Starts playback of the sound.
+			</summary>  
+			<returns>Newly playing channel.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Sound.release">
+			<summary>
+			Releases the Sound object and frees its resources.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.Sound.getLength(FMODEnums::TIME_UNIT)">
+			<summary>
+			Returns the length using the specified time unit. A length of 0xFFFFFFFF means it is of unlimited length, such as an internet radio stream or MOD/S3M/XM/IT file which may loop forever.					Using a VBR (Variable Bit Rate) source that does not have metadata containing its accurate length (such as un-tagged MP3 or MOD/S3M/XM/IT) may return inaccurate length values. For these formats, use ACCURATETIME when creating the sound. This will cause a slight delay and memory increase, as FMOD will scan the whole during creation to find the correct length. This flag also creates a seek table to enable sample accurate seeking.
+			</summary> 
+			<param name="time_unit"> Time unit type. </param> 
+			<returns>Sound's length.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.VCA.setVolume(float)">
+			<summary>
+			Sets the volume level.
+			</summary> 
+			<param name="volume"> Volume level. Negative level inverts the signal. Range: [-inf, -inf]. Default: 1. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.VCA.getVolume const">
+			<summary>
+			Returns the current volume level.
+			</summary>  
+			<returns>Volume level.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.VCA.release">
+			<summary>
+			Releases the VCA object.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.VCA.releaseFromStudio">
+			<summary>
+			Auxiliary function, not to be used.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.VCA.getPath const">
+			<summary>
+			Returns the VCA object's path.
+			</summary>  
+			<returns>Object's path.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.FMOD.VCA.isValid const">
+			<summary>
+			</summary>  
+		</member>
+	</members>
+</doc>

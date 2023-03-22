@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.16.1.0">
+	<guid>9f53b18cb6a39966c5c5483d1433599916351a48</guid>
+	<type>material</type>
+	<hash>9757128e</hash>
+	<runtimes>
+		<runtime id="9f53b18cb6a39966c5c5483d1433599916351a48" name="openvr_teleport_black_mat" link="0" type="5"/>
+	</runtimes>
+</asset>

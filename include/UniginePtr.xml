@@ -1,0 +1,108 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Ptr.#ctor">
+			<summary>
+			Default constructor that produces a NULL pointer.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Ptr.#ctor(Unigine.Ptr{Type})">
+			<summary>
+			Copy constructor.
+			</summary> 
+			<param name="pointer"> Pointer of the given type. </param> 
+		</member>
+		<member name="M:Unigine.Ptr.#ctor(Type)">
+			<summary>
+			Constructor.
+			</summary> 
+			<param name="pointer"> Pointer of the given type. </param> 
+		</member>
+		<member name="M:Unigine.Ptr.#ctor(UnigineBaseObject,bool)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Ptr.#ctor(int)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Ptr.get const">
+			<summary>
+			Returns the internal address.
+			</summary>  
+			<returns>Pointer.</returns>
+		</member>
+		<member name="M:Unigine.Ptr.clear">
+			<summary>
+			Clears the pointer. This method does not destroy the object.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Ptr.operator bool">
+			<summary>
+			Checks if the pointer equals zero.
+			</summary>  
+			<returns>true if the pointer is not equal to zero; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Ptr.operator-&gt; const">
+			<summary>
+			Performs pointer dereferencing.
+			</summary>  
+			<returns>Pointer.</returns>
+		</member>
+		<member name="M:Unigine.Ptr.operator=(Unigine.Ptr{OtherType})">
+			<summary>
+			Performs pointer assignment. Destination pointer = Source pointer.
+			</summary> 
+			<param name="pointer"> Source pointer. </param> 
+			<returns>Result.</returns>
+		</member>
+		<member name="M:Unigine.Ptr.isValid">
+			<summary>
+			Returns a value indicating if the Ptr has a valid value.
+			</summary>  
+			<returns>true if the value is valid; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Ptr.isNull">
+			<summary>
+			Returns a value indicating if the Ptr has a null value.
+			</summary>  
+			<returns>true if the value is null; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Ptr.isDeleted">
+			<summary>
+			Returns a value indicating if the object is deleted.
+			</summary>  
+			<returns>true if the object is deleted; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Ptr.Ptr&lt;Type&gt;(Unigine.Ptr{OtherType})">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Ptr.operator=(OtherType)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Ptr.operator*">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Ptr.getInternalObject">
+			<summary>
+			Returns an internal object pointed to by the pointer.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Ptr.deleteLater">
+			<summary>
+			Performs delayed deletion of the object. The pointed object shall be deleted at the next swap stage.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Ptr.deleteForce">
+			<summary>
+			Performs forced deletion of the object. The pointed object shall be deleted immediately.
+			</summary>  
+		</member>
+	</members>
+</doc>

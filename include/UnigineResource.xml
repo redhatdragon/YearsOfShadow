@@ -1,0 +1,32 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Resource.load(char*[])">
+			<summary>
+			Loads resource from ascii (base64) string.
+			</summary> 
+			<param name="data"> Encoded resource ascii string. </param> 
+			<returns>Pointer to the decoded data (null-terminated).</returns>
+		</member>
+		<member name="M:Unigine.Resource.load(char*[],int)">
+			<summary>
+			Loads resource from ascii string.
+			</summary> 
+			<param name="data"> Encoded resource ascii (base64) string. </param>
+			<param name="size"> The size of decoded data. </param> 
+			<returns>Pointer to the decoded data (null-terminated).</returns>
+		</member>
+		<member name="M:Unigine.Resource.save(char,unsignedchar,int)">
+			<summary>
+			Saves data into the ascii (base64) string.
+			</summary> 
+			<param name="name"> The name of resource. </param>
+			<param name="data"> The resource data. </param>
+			<param name="size"> The resource size. </param> 
+			<returns>Encoded resource ascii (base64) string.</returns>
+		</member>
+	</members>
+</doc>

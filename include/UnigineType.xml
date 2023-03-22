@@ -1,0 +1,44 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.TypeInfo.#ctor">
+			<summary>
+			Default constructor that produces an empty class.
+			</summary>  
+		</member>
+		<member name="M:Unigine.TypeInfo.#ctor(int,char)">
+			<summary>
+			Constructor.
+			</summary> 
+			<param name="id"> type identifier. </param>
+			<param name="name"> type name. </param> 
+		</member>
+		<member name="M:Unigine.TypeInfo.#ctor(TypeInfo)">
+			<summary>
+			Copy constructor.
+			</summary> 
+			<param name="type"> TypeInfo class. </param> 
+		</member>
+		<member name="M:Unigine.TypeInfo.getID const">
+			<summary>
+			Access to the type identifier.
+			</summary>  
+			<returns>Type identifier.</returns>
+		</member>
+		<member name="M:Unigine.TypeInfo.getName const">
+			<summary>
+			Access to the type name.
+			</summary>  
+			<returns>Type name.</returns>
+		</member>
+		<member name="M:Unigine.TypeInfo.TypeInfo(Type)">
+			<summary>
+			Constructor.
+			</summary> 
+			<param name="type"> TypeID class. </param> 
+		</member>
+	</members>
+</doc>

@@ -1,0 +1,380 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Math.ivec3.#ctor(__m128i)">
+			<summary>
+			Constructor. Initializes the vector using a given 128-bit variable as a source.					We do not recommend to use this method unless you have a clear understanding of SSE2.
+			</summary> 
+			<param name="v"> 128-bit variable </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.#ctor">
+			<summary>
+			Default constructor. Produces a zero vector.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Math.ivec3.#ctor(Unigine.ivec3)">
+			<summary>
+			Constructor. Initializes the vector by copying a given source vector.
+			</summary> 
+			<param name="v"> Source vector. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.#ctor(int,int,int)">
+			<summary>
+			Constructor. Initializes the vector using given integer values.
+			</summary> 
+			<param name="x"> X component of the vector. </param>
+			<param name="y"> Y component of the vector. </param>
+			<param name="z"> Z component of the vector. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.#ctor(int)">
+			<summary>
+			Constructor. Initializes the vector using a given scalar value: x=v, y=v, z=v.
+			</summary> 
+			<param name="v"> Scalar value. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.#ctor(Unigine.vec3)">
+			<summary>
+			Constructor. Initializes the vector using a given vec3 source vector.
+			</summary> 
+			<param name="v"> Source vector. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.#ctor(Unigine.dvec3)">
+			<summary>
+			Constructor. Initializes the vector using a given dvec3 source vector.
+			</summary> 
+			<param name="v"> Source vector. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.#ctor(int)">
+			<summary>
+			Constructor. Initializes the vector using a given pointer to the array of integer elements: x=v[0], y=v[1], z=v[2].
+			</summary> 
+			<param name="v"> Pointer to the array of integer elements. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.#ctor(Unigine.ivec4)">
+			<summary>
+			Constructor. Initializes the vector using a given ivec4 source vector.
+			</summary> 
+			<param name="v"> Source vector. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.#ctor(Unigine.ivec2,int)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Math.ivec3.abs">
+			<summary>
+			Returns the absolute values of the vector components.
+			</summary>  
+			<returns>Vector with absolute values.</returns>
+		</member>
+		<member name="M:Unigine.Math.ivec3.set(int,int,int)">
+			<summary>
+			Sets the vector by components.
+			</summary> 
+			<param name="x_"> X component of the vector. </param>
+			<param name="y_"> Y component of the vector. </param>
+			<param name="z_"> Z component of the vector. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.set(int)">
+			<summary>
+			Sets the vector using the array of integer elements: x=val[0], y=val[1], z=val[2].
+			</summary> 
+			<param name="val"> Pointer to the array of integer elements. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.set(Unigine.ivec3)">
+			<summary>
+			Sets the vector equal to the specified source vector.
+			</summary> 
+			<param name="val"> Source vector. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.set(int)">
+			<summary>
+			Sets the vector components equal to specified scalar value: x=val, y=val, z=val.
+			</summary> 
+			<param name="val"> Scalar. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.get">
+			<summary>
+			Returns the pointer to the vector.
+			</summary>  
+			<returns>Pointer to the vector.</returns>
+		</member>
+		<member name="M:Unigine.Math.ivec3.get const">
+			<summary>
+			Returns the constant pointer to the vector.
+			</summary>  
+			<returns>Pointer to the vector.</returns>
+		</member>
+		<member name="M:Unigine.Math.ivec3.get(int) const">
+			<summary>
+			Gets the vector: val[0]=x, val[1]=y, val[2]=z.
+			</summary> 
+			<param name="val"> Pointer to the array of integer elements. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.length2 const">
+			<summary>
+			Returns the squared length of the vector.
+			</summary>  
+			<returns>Squared length of the vector.</returns>
+		</member>
+		<member name="M:Unigine.Math.ivec3.operator const int * const">
+			<summary>
+			Performs type conversion to const int *.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Math.ivec3.operator const void * const">
+			<summary>
+			Performs type conversion to const void *.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Math.ivec3.operator int *">
+			<summary>
+			Performs type conversion to int *.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Math.ivec3.operator void *">
+			<summary>
+			Performs type conversion to void *.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Math.ivec3.operator*=(int)">
+			<summary>
+			Performs scalar multiplication.
+			</summary> 
+			<param name="v"> Scalar value. </param> 
+			<returns>Resulting vector.</returns>
+		</member>
+		<member name="M:Unigine.Math.ivec3.operator*=(Unigine.ivec3)">
+			<summary>
+			Performs vector multiplication.
+			</summary> 
+			<param name="v"> Vector. </param> 
+			<returns>Resulting vector.</returns>
+		</member>
+		<member name="M:Unigine.Math.ivec3.operator+=(Unigine.ivec3)">
+			<summary>
+			Performs vector addition.
+			</summary> 
+			<param name="v"> Vector. </param> 
+			<returns>Resulting vector.</returns>
+		</member>
+		<member name="M:Unigine.Math.ivec3.operator- const">
+			<summary>
+			Performs vector negation.
+			</summary>  
+			<returns>Resulting vector.</returns>
+		</member>
+		<member name="M:Unigine.Math.ivec3.operator-=(Unigine.ivec3)">
+			<summary>
+			Performs vector subtraction.
+			</summary> 
+			<param name="v"> Vector. </param> 
+			<returns>Resulting vector.</returns>
+		</member>
+		<member name="M:Unigine.Math.ivec3.operator/=(int)">
+			<summary>
+			Performs componentwise integer division of the vector by the scalar.
+			</summary> 
+			<param name="v"> Scalar value. </param> 
+			<returns>Resulting vector.</returns>
+		</member>
+		<member name="M:Unigine.Math.ivec3.operator/=(Unigine.ivec3)">
+			<summary>
+			Performs componentwise integer division of vectors.
+			</summary> 
+			<param name="v"> Vector. </param> 
+			<returns>Resulting vector.</returns>
+		</member>
+		<member name="M:Unigine.Math.ivec3.operator&lt;&lt;=(int)">
+			<summary>
+			Performs componentwise left bit shift.
+			</summary> 
+			<param name="v"> Shift amount. </param> 
+			<returns>Resulting vector.</returns>
+		</member>
+		<member name="M:Unigine.Math.ivec3.operator=(Unigine.ivec3)">
+			<summary>
+			Performs vector assignment. Destination vector = Source vector.
+			</summary> 
+			<param name="v"> Source vector. </param> 
+			<returns>Result.</returns>
+		</member>
+		<member name="M:Unigine.Math.ivec3.operator=(__m128i)">
+			<summary>
+			Sets the vector using a given 128-bit variable as a source.					We do not recommend to use this method unless you have a clear understanding of SSE2.
+			</summary> 
+			<param name="val"> 128-bit variable. </param> 
+			<returns>Vector.</returns>
+		</member>
+		<member name="M:Unigine.Math.ivec3.operator&gt;&gt;=(int)">
+			<summary>
+			Performs componentwise right bit shift.
+			</summary> 
+			<param name="v"> Shift amount. </param> 
+			<returns>Resulting vector.</returns>
+		</member>
+		<member name="M:Unigine.Math.ivec3.operator[](int)">
+			<summary>
+			Performs array access to the vector item reference by using given item index.
+			</summary> 
+			<param name="i"> Vector item index. </param> 
+			<returns>Vector item reference.</returns>
+		</member>
+		<member name="M:Unigine.Math.ivec3.operator[](int) const">
+			<summary>
+			Performs array access to the vector item by using given item index.
+			</summary> 
+			<param name="i"> Vector item index. </param> 
+			<returns>Vector item.</returns>
+		</member>
+		<member name="M:Unigine.Math.ivec3.mul const">
+			<summary>
+			Multiplies the vector by the value of the specified argument.
+			</summary>  
+			<returns>Vector multiplier.</returns>
+		</member>
+		<member name="M:Unigine.Math.ivec3.mul(int)">
+			<summary>
+			Multiplies the vector by the value of the specified argument.
+			</summary> 
+			<param name="v"> An int multiplier. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.mul(Unigine.ivec3)">
+			<summary>
+			Multiplies the vector by the value of the specified argument.
+			</summary> 
+			<param name="v"> Vector multiplier. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.div(int)">
+			<summary>
+			Returns the result of division of the vector by the value of the specified arguments.
+			</summary> 
+			<param name="v"> An int divisor value. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.div(Unigine.ivec3)">
+			<summary>
+			Returns the result of division of the vector by the value of the specified arguments.
+			</summary> 
+			<param name="v"> A ivec3 divisor value. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.sub(int)">
+			<summary>
+			Subtracts each element of the specified argument from the corresponding element.
+			</summary> 
+			<param name="v"> Value. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.sub(Unigine.ivec3)">
+			<summary>
+			Subtracts each element of the specified argument from the corresponding element.
+			</summary> 
+			<param name="v"> Value. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.operator-=(int)">
+			<summary>
+			Performs vector subtraction.
+			</summary> 
+			<param name="v"> Value. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.sum const">
+			<summary>
+			Returns the sum of vector components.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Math.ivec3.add(int)">
+			<summary>
+			Performs addition of the specified value.
+			</summary> 
+			<param name="v"> Value. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.add(Unigine.ivec3)">
+			<summary>
+			Performs addition of the specified value.
+			</summary> 
+			<param name="v"> Value. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.operator+=(int)">
+			<summary>
+			Performs addition of the specified value.
+			</summary> 
+			<param name="v"> Value. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.shiftLeft(int)">
+			<summary>
+			Bitwise left shift by a specific value. All components are shifted by this value.
+			</summary> 
+			<param name="v"> Value. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.shiftLeft(Unigine.ivec3)">
+			<summary>
+			Bitwise left shift by a specific value. All components are shifted by the value's corresponding component.
+			</summary> 
+			<param name="v"> Value. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.operator&lt;&lt;=(Unigine.ivec3)">
+			<summary>
+			Bitwise left shift by a specific value. All components are shifted by the value's corresponding component.
+			</summary> 
+			<param name="v"> Value. </param> 
+			<returns>This vector.</returns>
+		</member>
+		<member name="M:Unigine.Math.ivec3.operator&lt;&lt;=(int)">
+			<summary>
+			Bitwise left shift by a specific value. All components are shifted by this value.
+			</summary> 
+			<param name="v"> Value. </param> 
+			<returns>This vector.</returns>
+		</member>
+		<member name="M:Unigine.Math.ivec3.shiftRight(int)">
+			<summary>
+			Bitwise right shift by a specific value. All components are shifted by this value.
+			</summary> 
+			<param name="v"> Value. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.shiftRight(Unigine.ivec3)">
+			<summary>
+			Bitwise right shift by a specific value. All components are shifted by the value's corresponding component.
+			</summary> 
+			<param name="v"> Value. </param> 
+		</member>
+		<member name="M:Unigine.Math.ivec3.operator&gt;&gt;=(Unigine.ivec3)">
+			<summary>
+			Bitwise right shift by a specific value. All components are shifted by the value's corresponding component.
+			</summary> 
+			<param name="v"> Value. </param> 
+			<returns>This vector.</returns>
+		</member>
+		<member name="M:Unigine.Math.ivec3.operator&gt;&gt;=(int)">
+			<summary>
+			Bitwise right shift by a specific value. All components are shifted by this value.
+			</summary> 
+			<param name="v"> Value. </param> 
+			<returns>This vector.</returns>
+		</member>
+		<member name="M:Unigine.Math.ivec3.max const">
+			<summary>
+			Returns the maximum of all components.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Math.ivec3.min const">
+			<summary>
+			Returns the minimum of all components.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Math.ivec3.hash const">
+			<summary>
+			</summary>  
+		</member>
+		<member name="F:Unigine.Math.ivec3.ivec3_one">
+			<summary>
+			Vector filled with ones (1).
+		</summary>
+		</member>
+		<member name="F:Unigine.Math.ivec3.ivec3_zero">
+			<summary>
+			Vector filled with zeros (0).
+		</summary>
+		</member>
+	</members>
+</doc>

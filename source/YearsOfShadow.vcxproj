@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{EDB92B61-C36D-469C-C45F-CC55780E4113}</ProjectGuid>
+    <ProjectName>YearsOfShadow</ProjectName>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <PlatformToolset>v140</PlatformToolset>
+    <ConfigurationType>Application</ConfigurationType>
+    <OutDir>$(ProjectDir)../bin/</OutDir>
+    <TargetName>$(ProjectName)_x64d</TargetName>
+    <LocalDebuggerEnvironment>PATH=$(ProjectDir)../bin/x64;$(ProjectDir)../bin/;%PATH%</LocalDebuggerEnvironment>
+    <LocalDebuggerCommandArguments>-data_path ../ -console_command "world_load \"YearsOfShadow\""</LocalDebuggerCommandArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <PlatformToolset>v140</PlatformToolset>
+    <ConfigurationType>Application</ConfigurationType>
+    <OutDir>$(ProjectDir)../bin/</OutDir>
+    <TargetName>$(ProjectName)_x64</TargetName>
+    <LocalDebuggerEnvironment>PATH=$(ProjectDir)../bin/x64;$(ProjectDir)../bin/;%PATH%</LocalDebuggerEnvironment>
+    <LocalDebuggerCommandArguments>-data_path ../ -console_command "world_load \"YearsOfShadow\""</LocalDebuggerCommandArguments>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PreprocessorDefinitions>DEBUG;UNIGINE_DOUBLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX64</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Unigine_double_x64d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <LargeAddressAware>true</LargeAddressAware>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Full</Optimization>
+      <AdditionalIncludeDirectories>..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PreprocessorDefinitions>NDEBUG;UNIGINE_DOUBLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX64</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Unigine_double_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <LargeAddressAware>true</LargeAddressAware>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AppEditorLogic.cpp" />
+    <ClCompile Include="AppSystemLogic.cpp" />
+    <ClCompile Include="AppWorldLogic.cpp" />
+    <ClCompile Include="EchoEngine\Asset.cpp" />
+    <ClCompile Include="EchoEngine\BitBool\BitBool.cpp" />
+    <ClCompile Include="EchoEngine\HAL\HAL.cpp" />
+    <ClCompile Include="EchoEngine\Name.cpp" />
+    <ClCompile Include="EchoEngine\Widget.cpp" />
+    <ClCompile Include="Framework\Components\Objects\ObjHandle.cpp" />
+    <ClCompile Include="Framework\Components\Objects\ObjMovable.cpp" />
+    <ClCompile Include="Framework\Components\Objects\ObjSwitch.cpp" />
+    <ClCompile Include="Framework\Components\Players\AppOculusProxy.cpp" />
+    <ClCompile Include="Framework\Components\Players\AppViveProxy.cpp" />
+    <ClCompile Include="Framework\Components\Players\EyetrackingProxy.cpp" />
+    <ClCompile Include="Framework\Components\Players\OculusProxy.cpp" />
+    <ClCompile Include="Framework\Components\Players\OpenVRProxy.cpp" />
+    <ClCompile Include="Framework\Components\Players\UltraleapHandController.cpp" />
+    <ClCompile Include="Framework\Components\Players\VRPlayer.cpp" />
+    <ClCompile Include="Framework\Components\Players\VRPlayerOculus.cpp" />
+    <ClCompile Include="Framework\Components\Players\VRPlayerOpenVR.cpp" />
+    <ClCompile Include="Framework\Components\Players\VRPlayerPC.cpp" />
+    <ClCompile Include="Framework\Components\Players\VRPlayerVR.cpp" />
+    <ClCompile Include="Framework\Components\VRPlayerSpawner.cpp" />
+    <ClCompile Include="Framework\SoundManager.cpp" />
+    <ClCompile Include="Framework\Triggers.cpp" />
+    <ClCompile Include="Framework\Utils.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AppEditorLogic.h" />
+    <ClInclude Include="AppSystemLogic.h" />
+    <ClInclude Include="AppWorldLogic.h" />
+    <ClInclude Include="Framework\Components\Objects\ObjHandle.h" />
+    <ClInclude Include="Framework\Components\Objects\ObjMovable.h" />
+    <ClInclude Include="Framework\Components\Objects\ObjSwitch.h" />
+    <ClInclude Include="Framework\Components\Players\AppOculusProxy.h" />
+    <ClInclude Include="Framework\Components\Players\AppViveProxy.h" />
+    <ClInclude Include="Framework\Components\Players\EyetrackingProxy.h" />
+    <ClInclude Include="Framework\Components\Players\OculusProxy.h" />
+    <ClInclude Include="Framework\Components\Players\OpenVRProxy.h" />
+    <ClInclude Include="Framework\Components\Players\UltraleapHandController.h" />
+    <ClInclude Include="Framework\Components\Players\VRPlayer.h" />
+    <ClInclude Include="Framework\Components\Players\VRPlayerOculus.h" />
+    <ClInclude Include="Framework\Components\Players\VRPlayerOpenVR.h" />
+    <ClInclude Include="Framework\Components\Players\VRPlayerPC.h" />
+    <ClInclude Include="Framework\Components\Players\VRPlayerVive.h" />
+    <ClInclude Include="Framework\Components\Players\VRPlayerVR.h" />
+    <ClInclude Include="Framework\Components\VRInteractable.h" />
+    <ClInclude Include="Framework\Components\VRPlayerSpawner.h" />
+    <ClInclude Include="Framework\SoundManager.h" />
+    <ClInclude Include="Framework\Triggers.h" />
+    <ClInclude Include="Framework\Utils.h" />
+    <ClInclude Include="Voxel.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="../utils/natvis/unigine_stl.natvis" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

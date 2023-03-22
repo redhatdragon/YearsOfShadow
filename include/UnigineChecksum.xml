@@ -1,0 +1,254 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Checksum.CRC32(void,int,bool)">
+			<summary>
+			Calculates a 32-bit CRC checksum.
+			</summary> 
+			<param name="data"> Input data pointer. </param>
+			<param name="size"> Input data size, in bytes. </param>
+			<param name="big_endian"> Byte ordering flag. true if a big-endian order is used; false a little-endian order is used. </param> 
+			<returns>32-bit CRC checksum.</returns>
+		</member>
+		<member name="M:Unigine.Checksum.MD5(unsignedint,void,int,bool)">
+			<summary>
+			Calculates a 128-bit MD5 checksum.
+			</summary> 
+			<param name="value"> 128-bit MD5 checksum (array of 4 unsigned int elements). </param>
+			<param name="data"> Input data pointer. </param>
+			<param name="size"> Input data size, in bytes. </param>
+			<param name="big_endian"> Byte ordering flag. true if a big-endian order is used; false a little-endian order is used. </param> 
+		</member>
+		<member name="M:Unigine.Checksum.MD5(void,int,bool)">
+			<summary>
+			Calculates a 32-bit MD5 checksum.
+			</summary> 
+			<param name="data"> Input data pointer. </param>
+			<param name="size"> Input data size, in bytes. </param>
+			<param name="big_endian"> Byte ordering flag. true if a big-endian order is used; false a little-endian order is used. </param> 
+			<returns>32-bit MD5 checksum.</returns>
+		</member>
+		<member name="M:Unigine.Checksum.MD5_64(void,int,bool)">
+			<summary>
+			Calculates a 64-bit MD5 checksum.
+			</summary> 
+			<param name="data"> Input data pointer. </param>
+			<param name="size"> Input data size, in bytes. </param>
+			<param name="big_endian"> Byte ordering flag. true if a big-endian order is used; false a little-endian order is used. </param> 
+			<returns>64-bit MD5 checksum.</returns>
+		</member>
+		<member name="M:Unigine.Checksum.SHA1(unsignedint,void,int,bool)">
+			<summary>
+			Calculates a 160-bit SHA1 checksum.
+			</summary> 
+			<param name="value"> 160-bit SHA1 checksum (array of 5 unsigned int elements). </param>
+			<param name="data"> Input data pointer. </param>
+			<param name="size"> Input data size, in bytes. </param>
+			<param name="big_endian"> Byte ordering flag. true if a big-endian order is used; false a little-endian order is used. </param> 
+		</member>
+		<member name="M:Unigine.Checksum.SHA1(void,int,bool)">
+			<summary>
+			Calculates a 32-bit SHA1 checksum.
+			</summary> 
+			<param name="data"> Input data pointer. </param>
+			<param name="size"> Input data size, in bytes. </param>
+			<param name="big_endian"> Byte ordering flag. true if a big-endian order is used; false a little-endian order is used. </param> 
+			<returns>32-bit SHA1 checksum.</returns>
+		</member>
+		<member name="M:Unigine.Checksum.SHA256(unsignedint,void,int,bool)">
+			<summary>
+			Calculates a 256-bit SHA256 checksum.
+			</summary> 
+			<param name="value"> 256-bit SHA256 checksum (array of 8 unsigned int elements). </param>
+			<param name="data"> Input data pointer. </param>
+			<param name="size"> Input data size, in bytes. </param>
+			<param name="big_endian"> Byte ordering flag. true if a big-endian order is used; false if a little-endian order is used. </param> 
+		</member>
+		<member name="M:Unigine.Checksum.SHA256(void,int,int)">
+			<summary>
+			Calculates a 32-bit SHA256 checksum.
+			</summary> 
+			<param name="data"> Input data pointer. </param>
+			<param name="size"> Input data size, in bytes. </param>
+			<param name="big_endian"> Byte ordering flag. true if a big-endian order is used; false a little-endian order is used. </param> 
+			<returns>32-bit SHA256 checksum.</returns>
+		</member>
+		<member name="M:Unigine.CRC32.#ctor">
+			<summary>
+			Default constructor that creates an empty instance.
+			</summary>  
+		</member>
+		<member name="M:Unigine.CRC32.begin">
+			<summary>
+			Initializes a 32-bit CRC checksum with an initial value.
+			</summary>  
+		</member>
+		<member name="M:Unigine.CRC32.update(void,int)">
+			<summary>
+			Updates a 32-bit CRC checksum.
+			</summary> 
+			<param name="data"> Input data pointer. </param>
+			<param name="size"> Input data size, in bytes. </param> 
+		</member>
+		<member name="M:Unigine.CRC32.end">
+			<summary>
+			Finalizes the checksum value by inverting all bits.
+			</summary>  
+		</member>
+		<member name="M:Unigine.CRC32.calculate(void,int,bool)">
+			<summary>
+			Calculates a 32-bit CRC checksum.
+			</summary> 
+			<param name="data"> Input data pointer. </param>
+			<param name="size"> Input data size, in bytes. </param>
+			<param name="big_endian"> Byte ordering flag. Set true to use the big-endian order; false — to use the little-endian order. </param> 
+			<returns>32-bit CRC checksum.</returns>
+		</member>
+		<member name="M:Unigine.CRC32.calcCrc32(void,int)">
+			<summary>
+			Calculates a 32-bit CRC checksum.
+			</summary> 
+			<param name="data"> Input data pointer. </param>
+			<param name="size"> Input data size, in bytes. </param> 
+			<returns>32-bit CRC checksum.</returns>
+		</member>
+		<member name="M:Unigine.MD5.#ctor">
+			<summary>
+			Default constructor that creates an empty instance.
+			</summary>  
+		</member>
+		<member name="M:Unigine.MD5.begin">
+			<summary>
+			Initializes a 128-bit MD5 checksum with an initial value.
+			</summary>  
+		</member>
+		<member name="M:Unigine.MD5.update(void,int)">
+			<summary>
+			Updates a 128-bit MD5 checksum.
+			</summary> 
+			<param name="data"> Input data pointer. </param>
+			<param name="size"> Input data size, in bytes. </param> 
+		</member>
+		<member name="M:Unigine.MD5.endMD5(unsignedint,bool)">
+			<summary>
+			Finalizes the checksum value by inverting all bits.
+			</summary> 
+			<param name="value"> 128-bit MD5 checksum (array of 4 unsigned int elements). </param>
+			<param name="big_endian"> Byte ordering flag. Set true to use the big-endian order; false — to use the little-endian order. </param> 
+		</member>
+		<member name="M:Unigine.MD5.endD3D(unsignedint)">
+			<summary>
+			Finalizes the 128-bit MD5 checksum (DXBC version).
+			</summary> 
+			<param name="value"> 128-bit MD5 checksum (array of 4 unsigned int elements). </param> 
+		</member>
+		<member name="M:Unigine.MD5.calculate(void,int,bool)">
+			<summary>
+			Calculates a 128-bit MD5 checksum.
+			</summary> 
+			<param name="data"> Input data pointer. </param>
+			<param name="size"> Input data size, in bytes. </param>
+			<param name="big_endian"> Byte ordering flag. Set true to use the big-endian order; false — to use the little-endian order. </param> 
+			<returns>128-bit MD5 checksum.</returns>
+		</member>
+		<member name="M:Unigine.MD5.calculate(unsignedint,void,int,bool)">
+			<summary>
+			Calculates a 128-bit MD5 checksum.
+			</summary> 
+			<param name="value"> 128-bit MD5 checksum (array of 4 unsigned int elements). </param>
+			<param name="data"> Input data pointer. </param>
+			<param name="size"> Input data size, in bytes. </param>
+			<param name="big_endian"> Byte ordering flag. Set true to use the big-endian order; false — to use the little-endian order. </param> 
+		</member>
+		<member name="M:Unigine.MD5.calculateD3D(unsignedint,void,int)">
+			<summary>
+			Calculates a 128-bit MD5 checksum (DXBC version).
+			</summary> 
+			<param name="value"> 128-bit MD5 checksum (array of 4 unsigned int elements). </param>
+			<param name="data"> Input data pointer. </param>
+			<param name="size"> Input data size, in bytes. </param> 
+		</member>
+		<member name="M:Unigine.SHA1.#ctor">
+			<summary>
+			Default constructor that creates an empty instance.
+			</summary>  
+		</member>
+		<member name="M:Unigine.SHA1.begin">
+			<summary>
+			Initializes a 160-bit SHA1 checksum with an initial value.
+			</summary>  
+		</member>
+		<member name="M:Unigine.SHA1.update(void,int)">
+			<summary>
+			Updates a 160-bit SHA1 checksum.
+			</summary> 
+			<param name="data"> Input data pointer. </param>
+			<param name="size"> Input data size, in bytes. </param> 
+		</member>
+		<member name="M:Unigine.SHA1.end(unsignedint,bool)">
+			<summary>
+			Finalizes the checksum value by inverting all bits.
+			</summary> 
+			<param name="value"> 160-bit SHA1 checksum (array of 5 unsigned int elements). </param>
+			<param name="big_endian"> Byte ordering flag. Set true to use the big-endian order; false — to use the little-endian order. </param> 
+		</member>
+		<member name="M:Unigine.SHA1.calculate(void,int,bool)">
+			<summary>
+			Calculates a 160-bit SHA1 checksum.
+			</summary> 
+			<param name="data"> Input data pointer. </param>
+			<param name="size"> Input data size, in bytes. </param>
+			<param name="big_endian"> Byte ordering flag. Set true to use the big-endian order; false — to use the little-endian order. </param> 
+			<returns>160-bit SHA1 checksum.</returns>
+		</member>
+		<member name="M:Unigine.SHA1.calculate(unsignedint,void,int,bool)">
+			<summary>
+			Calculates a 160-bit SHA1 checksum.
+			</summary> 
+			<param name="value"> 160-bit SHA1 checksum (array of 5 unsigned int elements). </param>
+			<param name="data"> Input data pointer. </param>
+			<param name="size"> Input data size, in bytes. </param>
+			<param name="big_endian"> Byte ordering flag. Set true to use the big-endian order; false — to use the little-endian order. </param> 
+		</member>
+		<member name="M:Unigine.SHA256.#ctor">
+			<summary>
+			Default constructor that creates an empty instance.
+			</summary>  
+		</member>
+		<member name="M:Unigine.SHA256.update(void,int)">
+			<summary>
+			Updates a 256-bit SHA256 checksum.
+			</summary> 
+			<param name="data"> Input data pointer. </param>
+			<param name="size"> Input data size, in bytes. </param> 
+		</member>
+		<member name="M:Unigine.SHA256.end(unsignedint,bool)">
+			<summary>
+			Finalizes the checksum value by inverting all bits.
+			</summary> 
+			<param name="value"> 256-bit SHA256 checksum (array of 8 unsigned int elements). </param>
+			<param name="big_endian"> Byte ordering flag. Set true to use the big-endian order; false — to use the little-endian order. </param> 
+		</member>
+		<member name="M:Unigine.SHA256.calculate(void,int,bool)">
+			<summary>
+			Calculates a 256-bit SHA256 checksum.
+			</summary> 
+			<param name="data"> Input data pointer. </param>
+			<param name="size"> Input data size, in bytes. </param>
+			<param name="big_endian"> Byte ordering flag. Set true to use the big-endian order; false — to use the little-endian order. </param> 
+			<returns>256-bit SHA256 checksum.</returns>
+		</member>
+		<member name="M:Unigine.SHA256.calculate(unsignedint,void,int,bool)">
+			<summary>
+			Calculates a 256-bit SHA256 checksum.
+			</summary> 
+			<param name="value"> 256-bit SHA256 checksum (array of 8 unsigned int elements). </param>
+			<param name="data"> Input data pointer. </param>
+			<param name="size"> Input data size, in bytes. </param>
+			<param name="big_endian"> Byte ordering flag. Set true to use the big-endian order; false — to use the little-endian order. </param> 
+		</member>
+	</members>
+</doc>

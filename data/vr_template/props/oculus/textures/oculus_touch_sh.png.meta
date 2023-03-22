@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.16.1.0">
+	<guid>6569ea322653b4ec7199aa6fe36ac2ef93a038ce</guid>
+	<type>texture</type>
+	<hash>3905cd92</hash>
+	<runtimes>
+		<runtime id="6569ea322653b4ec7199aa6fe36ac2ef93a038ce" name="oculus_touch_sh.png" link="0" type="6"/>
+		<runtime id="21c2a983e57578bdff08f06b0f6ccaa2210890c6" name="oculus_touch_sh.texture" link="1" type="6"/>
+	</runtimes>
+	<parameters>
+		<parameter type="string" name="height">auto</parameter>
+		<parameter type="string" name="image_format">DXT1</parameter>
+		<parameter type="string" name="image_type">2d</parameter>
+		<parameter type="bool" name="invert_g">0</parameter>
+		<parameter type="string" name="mipmap_type">box</parameter>
+		<parameter type="string" name="preset_name">shading (rgb)</parameter>
+		<parameter type="bool" name="srgb_correction">1</parameter>
+		<parameter type="bool" name="unchanged">0</parameter>
+		<parameter type="string" name="width">auto</parameter>
+	</parameters>
+</asset>

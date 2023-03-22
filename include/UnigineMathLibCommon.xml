@@ -1,0 +1,194 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Bits.#ctor">
+			<summary>
+			Constructor. Initializes the bit structure.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Bits.#ctor(Type)">
+			<summary>
+			Constructor. Initializes the bit structure with the data of the specified type.
+			</summary> 
+			<param name="data_"> Data of the particular type used for the initialization. </param> 
+		</member>
+		<member name="M:Unigine.Bits.set(int,int)">
+			<summary>
+			Sets the value to the bit with a given index.
+			</summary> 
+			<param name="index"> Bit index. </param>
+			<param name="value"> Value to be set. </param> 
+		</member>
+		<member name="M:Unigine.Bits.set(int,bool)">
+			<summary>
+			Sets the value to the bit with a given index.
+			</summary> 
+			<param name="index"> Bit index. </param>
+			<param name="value"> Value to be set. </param> 
+		</member>
+		<member name="M:Unigine.Bits.get(int) const">
+			<summary>
+			Returns the value of the bit with a given index.
+			</summary> 
+			<param name="index"> Bit index. </param> 
+			<returns>Bit value.</returns>
+		</member>
+		<member name="M:Unigine.Bits.operator[](int) const">
+			<summary>
+			Returns the value of the bit with a given index.
+			</summary> 
+			<param name="index"> Bit index. </param> 
+			<returns>Bit value.</returns>
+		</member>
+		<member name="M:Unigine.Bits.set(Type)">
+			<summary>
+			Sets the bit structure using the specified mask.
+			</summary> 
+			<param name="mask"> Any value used as a bit mask. </param> 
+		</member>
+		<member name="M:Unigine.Bits.get const">
+			<summary>
+			Returns the bit structure as a variable of the original type.
+			</summary>  
+			<returns>Variable of the original type.</returns>
+		</member>
+		<member name="M:Unigine.Bits.size const">
+			<summary>
+			Returns the capacity of the structure in bits.
+			</summary>  
+			<returns>Capacity of the structure.</returns>
+		</member>
+		<member name="M:Unigine.Bits.clear">
+			<summary>
+			Clears the structure.
+			</summary>  
+		</member>
+		<member name="F:Unigine.Bits.Capacity">
+			<summary>
+			The capacity of the structure in bits.
+		</summary>
+		</member>
+		<member name="M:Unigine.BitStream.#ctor">
+			<summary>
+			Constructor. Initializes the bit buffer.
+			</summary>  
+		</member>
+		<member name="M:Unigine.BitStream.get const">
+			<summary>
+			Returns the pointer to the constant bit buffer.
+			</summary>  
+			<returns>Pointer to the constant bit buffer.</returns>
+		</member>
+		<member name="M:Unigine.BitStream.get">
+			<summary>
+			Returns the pointer to the bit buffer.
+			</summary>  
+			<returns>Pointer to the bit buffer.</returns>
+		</member>
+		<member name="M:Unigine.BitStream.size const">
+			<summary>
+			Returns the size of the structure in bytes.
+			</summary>  
+			<returns>Size of the structure in bytes.</returns>
+		</member>
+		<member name="M:Unigine.BitStream.clear">
+			<summary>
+			Clears the buffer.
+			</summary>  
+		</member>
+		<member name="M:Unigine.BitStream.align">
+			<summary>
+			Aligns the buffer.
+			</summary>  
+		</member>
+		<member name="M:Unigine.BitStream.readUBits(int)">
+			<summary>
+			Returns the unsigned data from the buffer.
+			</summary> 
+			<param name="num"> Number of bits to return. </param> 
+			<returns>Unsigned data.</returns>
+		</member>
+		<member name="M:Unigine.BitStream.writeUBits(int,int)">
+			<summary>
+			Sets the unsigned data to the buffer.
+			</summary> 
+			<param name="value"> Data to set. </param>
+			<param name="num"> Number of bits to set. </param> 
+		</member>
+		<member name="M:Unigine.BitStream.readBits(int)">
+			<summary>
+			Returns the signed data from the buffer.
+			</summary> 
+			<param name="num"> Number of bits to return. </param> 
+			<returns>Signed data.</returns>
+		</member>
+		<member name="M:Unigine.BitStream.writeBits(int,int)">
+			<summary>
+			Sets the signed data to the buffer.
+			</summary> 
+			<param name="value"> Data to set. </param>
+			<param name="num"> Number of bits to set. </param> 
+		</member>
+		<member name="M:Unigine.Math.half.#ctor">
+			<summary>
+			Default constructor. Produces a zero value.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Math.half.#ctor(half)">
+			<summary>
+			Constructor. Initializes the value using a given half value.
+			</summary> 
+			<param name="h"> Half value. </param> 
+		</member>
+		<member name="M:Unigine.Math.half.#ctor(int)">
+			<summary>
+			Constructor. Initializes the value using a given integer value.
+			</summary> 
+			<param name="i"> Integer value. </param> 
+		</member>
+		<member name="M:Unigine.Math.half.#ctor(float)">
+			<summary>
+			Constructor. Initializes the value using a given float value.
+			</summary> 
+			<param name="f"> Float value. </param> 
+		</member>
+		<member name="M:Unigine.Math.half.setFloat(float)">
+			<summary>
+			Sets the value using a given float value.
+			</summary> 
+			<param name="f"> Float value. </param> 
+		</member>
+		<member name="M:Unigine.Math.half.getFloat const">
+			<summary>
+			Returns the float value.
+			</summary>  
+			<returns>Float value.</returns>
+		</member>
+		<member name="M:Unigine.Math.half.operator float const">
+			<summary>
+			Performs type conversion to float type.
+			</summary>  
+			<returns>Float value.</returns>
+		</member>
+		<member name="M:Unigine.Math.half.operator unsigned short const">
+			<summary>
+			Performs type conversion to unsigned short.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Math.half.operator=(half)">
+			<summary>
+			Performs assignment operation. Destination = Source.
+			</summary> 
+			<param name="v"> Source. </param> 
+		</member>
+		<member name="M:Unigine.Math.half.operator=(float)">
+			<summary>
+			Performs assignment operation. Destination = Source.
+			</summary> 
+			<param name="f"> Source. </param> 
+		</member>
+	</members>
+</doc>

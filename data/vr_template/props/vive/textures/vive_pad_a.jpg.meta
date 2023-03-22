@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.16.1.0">
+	<guid>0c85730d619774379f0cd388a2db8f9487762496</guid>
+	<type>texture</type>
+	<hash>10019748</hash>
+	<runtimes>
+		<runtime id="0c85730d619774379f0cd388a2db8f9487762496" name="vive_pad_a.jpg" link="0" type="6"/>
+		<runtime id="994919219642f5265465eb780a7ed09f2896b23c" name="vive_pad_a.texture" link="1" type="6"/>
+	</runtimes>
+	<parameters>
+		<parameter type="string" name="image_format">ATI1</parameter>
+		<parameter type="string" name="image_type">2d</parameter>
+		<parameter type="bool" name="invert_g">0</parameter>
+		<parameter type="string" name="mipmap_type">box</parameter>
+	</parameters>
+</asset>

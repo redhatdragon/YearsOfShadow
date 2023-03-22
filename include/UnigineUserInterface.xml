@@ -1,0 +1,195 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.UserInterface.#ctor(Unigine.Ptr{Gui},char,char)">
+			<summary>
+			UserInterface constructor.
+			</summary> 
+			<param name="gui"> GUI smart pointer. </param>
+			<param name="name"> User interface name. </param>
+			<param name="prefix"> Names prefix. </param> 
+		</member>
+		<member name="M:Unigine.UserInterface.getCallback(int,int) const">
+			<summary>
+			Returns the number of a given callback function.
+			</summary> 
+			<param name="num"> Widget number. </param>
+			<param name="callback"> Callback type number. One of the callbacks defined in the Gui class (for example, CLICK, SHOW, HIDE, etc). </param> 
+			<returns>Callback number.</returns>
+		</member>
+		<member name="M:Unigine.UserInterface.addCallback(char,Unigine.Gui.CALLBACK_INDEX,Unigine.CallbackBase)">
+			<summary>
+			Adds a callback function of the specified type for the widget with the specified name.
+			The signature of the callback function must be as follows:
+			</summary> 
+			<param name="name"> Widget name. </param>
+			<param name="callback"> Callback type number. One of the callbacks defined in the Gui class (for example, CLICK, SHOW, HIDE, etc). </param>
+			<param name="func"> Callback pointer. </param> 
+			<returns>ID of the last added callback, if the callback was added successfully; otherwise, nullptr. This ID can be used to remove this callback when necessary.</returns>
+		</member>
+		<member name="M:Unigine.UserInterface.addCallback(char,Unigine.Gui.CALLBACK_INDEX,Unigine.CallbackBase1{Unigine.Ptr{Unigine.Widget}})">
+			<summary>
+			Adds a callback function of the specified type for the widget with the specified name.
+			The signature of the callback function must be as follows:
+			</summary> 
+			<param name="name"> Widget name. </param>
+			<param name="callback"> Callback type number. One of the callbacks defined in the Gui class (for example, CLICK, SHOW, HIDE, etc). </param>
+			<param name="func"> Callback pointer. </param> 
+			<returns>ID of the last added callback, if the callback was added successfully; otherwise, nullptr. This ID can be used to remove this callback when necessary.</returns>
+		</member>
+		<member name="M:Unigine.UserInterface.addCallback(char,Unigine.Gui.CALLBACK_INDEX,Unigine.CallbackBase2{Unigine.Ptr{Unigine.Widget},Unigine.Ptr{Unigine.Widget}})">
+			<summary>
+			Adds a callback function of the specified type for the widget with the specified name.
+			The signature of the callback function must be as follows:
+			</summary> 
+			<param name="name"> Widget name. </param>
+			<param name="callback"> Callback type number. One of the callbacks defined in the Gui class (for example, CLICK, SHOW, HIDE, etc). </param>
+			<param name="func"> Callback pointer. </param> 
+			<returns>ID of the last added callback, if the callback was added successfully; otherwise, nullptr. This ID can be used to remove this callback when necessary.</returns>
+		</member>
+		<member name="M:Unigine.UserInterface.addCallback(char,Unigine.Gui.CALLBACK_INDEX,Unigine.CallbackBase3{Unigine.Ptr{Unigine.Widget},Unigine.Ptr{Unigine.Widget},int})">
+			<summary>
+			Adds a callback function of the specified type for the widget with the specified name.
+			The signature of the callback function must be as follows:
+			</summary> 
+			<param name="name"> Widget name. </param>
+			<param name="callback"> Callback type number. One of the callbacks defined in the Gui class (for example, CLICK, SHOW, HIDE, etc). </param>
+			<param name="func"> Callback pointer. </param> 
+			<returns>ID of the last added callback, if the callback was added successfully; otherwise, nullptr. This ID can be used to remove this callback when necessary.</returns>
+		</member>
+		<member name="M:Unigine.UserInterface.removeCallback(char,Unigine.Gui.CALLBACK_INDEX,void)">
+			<summary>
+			Removes the specified callback from the list of callbacks of the specified type added for the widget with the given name.
+			</summary> 
+			<param name="name"> Widget name. </param>
+			<param name="callback"> Callback type number. One of the callbacks defined in the Gui class (for example, CLICK, SHOW, HIDE, etc). </param>
+			<param name="id"> Callback ID obtained when adding it. </param> 
+			<returns>True if the callback with the given ID was removed successfully; otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.UserInterface.clearCallbacks(char,Unigine.Gui.CALLBACK_INDEX)">
+			<summary>
+			Clears all callbacks of the specified type added for the widget with the given name.
+			</summary> 
+			<param name="name"> Widget name. </param>
+			<param name="callback"> Callback type number. One of the callbacks defined in the Gui class (for example, CLICK, SHOW, HIDE, etc). </param> 
+		</member>
+		<member name="M:Unigine.UserInterface.getCallbackInstanceData(int,Unigine.Gui.CALLBACK_INDEX) const">
+			<summary>
+			Returns the callback instance data.
+			</summary> 
+			<param name="num"> Widget number. </param>
+			<param name="callback"> Callback type number. One of the callbacks defined in the Gui class (for example, CLICK, SHOW, HIDE, etc). </param> 
+			<returns>Callback instance data.</returns>
+		</member>
+		<member name="M:Unigine.UserInterface.getCallbackName(int,Unigine.Gui.CALLBACK_INDEX) const">
+			<summary>
+			Returns the name of a given callback function.
+			</summary> 
+			<param name="num"> Widget number. </param>
+			<param name="callback"> Callback type number. One of the callbacks defined in the Gui class (for example, CLICK, SHOW, HIDE, etc). </param> 
+			<returns>Callback function name.</returns>
+		</member>
+		<member name="M:Unigine.UserInterface.getCallbackStringData(int,Unigine.Gui.CALLBACK_INDEX) const">
+			<summary>
+			Returns the callback string data.
+			</summary> 
+			<param name="num"> Widget number. </param>
+			<param name="callback"> Callback type number. One of the callbacks defined in the Gui class (for example, CLICK, SHOW, HIDE, etc). </param> 
+			<returns>Callback string data.</returns>
+		</member>
+		<member name="M:Unigine.UserInterface.getCallbackVariableData(int,Unigine.Gui.CALLBACK_INDEX) const">
+			<summary>
+			Returns the callback variable data.
+			</summary> 
+			<param name="num"> Widget number. </param>
+			<param name="callback"> Callback type number. One of the callbacks defined in the Gui class (for example, CLICK, SHOW, HIDE, etc). </param> 
+			<returns>Callback variable data.</returns>
+		</member>
+		<member name="M:Unigine.UserInterface.getCallbackWidgetData(int,Unigine.Gui.CALLBACK_INDEX) const">
+			<summary>
+			Returns the callback widget data.
+			</summary> 
+			<param name="num"> Widget number. </param>
+			<param name="callback"> Callback type number. One of the callbacks defined in the Gui class (for example, CLICK, SHOW, HIDE, etc). </param> 
+			<returns>Widget data.</returns>
+		</member>
+		<member name="M:Unigine.UserInterface.getNumCallbacks(int) const">
+			<summary>
+			Returns the total number of callbacks for a given widget.
+			</summary> 
+			<param name="num"> Widget number. </param> 
+			<returns>Number of callbacks.</returns>
+		</member>
+		<member name="M:Unigine.UserInterface.getNumWidgets const">
+			<summary>
+			Returns the number of associated widgets.
+			</summary>  
+			<returns>Number of associated widgets.</returns>
+		</member>
+		<member name="M:Unigine.UserInterface.getWidget(int) const">
+			<summary>
+			Returns pointer to the widget with a given number.
+			</summary> 
+			<param name="num"> Widget number. </param> 
+			<returns>Pointer to the widget with the given number.</returns>
+		</member>
+		<member name="M:Unigine.UserInterface.getWidgetExport(int) const">
+			<summary>
+			Returns a value indicating if a given widget is exported into a script.
+			</summary> 
+			<param name="num"> Widget number. </param> 
+			<returns>Returns 1 if the widget is exported; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.UserInterface.getWidgetName(int) const">
+			<summary>
+			Returns widget name by its number.
+			</summary> 
+			<param name="num"> Widget number. </param> 
+			<returns>Widget name.</returns>
+		</member>
+		<member name="M:Unigine.UserInterface.getWidgetNext(int) const">
+			<summary>
+			Returns the name of the widget, which will be focused next.
+			</summary> 
+			<param name="num"> Current widget number. </param> 
+			<returns>Next Widget name.</returns>
+		</member>
+		<member name="M:Unigine.UserInterface.findWidget(char) const">
+			<summary>
+			Searches a widget by its name.
+			</summary> 
+			<param name="name"> Widget name. </param> 
+			<returns>Returns the number of the widget if exists; otherwise, -1.</returns>
+		</member>
+		<member name="M:Unigine.UserInterface.updateWidgets const">
+			<summary>
+			Updates all widgets belonging to the user interface. This function should be called, for example, after change of the interface language.
+			</summary>  
+		</member>
+		<member name="M:Unigine.UserInterface.setGui(Unigine.Ptr{Gui})">
+			<summary>
+			Sets a new Gui instance to be used for the UserInterface.
+			</summary> 
+			<param name="gui"> Gui instance to be used for the UserInterface. </param> 
+		</member>
+		<member name="M:Unigine.UserInterface.getGui const">
+			<summary>
+			Returns a Gui instance for the UserInterface.
+			</summary>  
+			<returns>Gui instance currently used for the UserInterface.</returns>
+		</member>
+		<member name="M:Unigine.UserInterface.setLifetime(Widget::LIFETIME)">
+			<summary>
+			Sets the lifetime management type for the UserInterface. By default, the LIFETIME_ENGINE type is used.
+			</summary>  
+		</member>
+		<member name="M:Unigine.UserInterface.getLifetime const">
+			<summary>
+			Returns the lifetime management type for the root of the UserInterface, or for the UserInterface itself (if it is not a child for another UserInterface).					Lifetime of each UserInterface in the hierarchy is defined by it's root. Thus, lifetime management type set for a child UserInterface that differs from the one set for the root is ignored.
+			</summary>  
+		</member>
+	</members>
+</doc>

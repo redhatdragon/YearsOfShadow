@@ -1,0 +1,175 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Editor.isLoaded">
+			<summary>
+			Returns a value indicating if the editor is already loaded.
+			</summary>  
+			<returns>1 if the editor is loaded; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Editor.setEnabled(bool)">
+			<summary>
+			Enable or disable the editor.
+			</summary> 
+			<param name="enabled"> 1 to enable the editor, 0 to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Editor.isEnabled">
+			<summary>
+			Returns a value of the Enabled parameter. The Enabled parameter controls all internal additional engine processing (for example, reloading of textures when their recording time is changed and so on). For example, the Enabled parameter can be set to 0 when using Syncker in order to increase engine performance (as Syncker operates inside the editor environment and can reduce engine performance).
+			</summary>  
+			<returns>1 if the Enabled parameter is set; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Editor.setData(char)">
+			<summary>
+			Sets user data associated with the world. In the *.world file, the data is set in the data tag.
+			</summary> 
+			<param name="data"> New user data. </param> 
+		</member>
+		<member name="M:Unigine.Editor.getData">
+			<summary>
+			Returns user string data associated with the world. This string is written directly into the data tag of the *.world file.
+			</summary>  
+			<returns>User string data.</returns>
+		</member>
+		<member name="M:Unigine.Editor.load(char)">
+			<summary>
+			Loads the editor from the specified script.
+			</summary> 
+			<param name="script"> Path to the script. </param> 
+		</member>
+		<member name="M:Unigine.Editor.quit">
+			<summary>
+			Quit the editor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Editor.reload">
+			<summary>
+			Reloads the Unigine Editor. This functions updates node hierarchy, updates loaded textures if they were modified, etc.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Editor.needReload">
+			<summary>
+			Returns a value indicating if Unigine Editor should be reloaded.
+			</summary>  
+			<returns>1 if the editor should be reloaded; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Editor.setPlayer(Unigine.Ptr{Player})">
+			<summary>
+			Sets the current player to be used in the Editor mode.					Editor player is handled differently than in-game players. Parameters set directly for the player are ignored; instead, Editor player uses Camera parameters set via the interface. (See Editor scripts in data/core/editor folder for implementation.)
+			</summary> 
+			<param name="player"> Editor player to set. </param> 
+		</member>
+		<member name="M:Unigine.Editor.getPlayer">
+			<summary>
+			Returns the current player used in the editor.
+			</summary>  
+			<returns>Current editor player.</returns>
+		</member>
+		<member name="M:Unigine.Editor.addEditorPlayer(Unigine.Ptr{Player})">
+			<summary>
+			Adds another editor player.
+			</summary> 
+			<param name="player"> Pointer to Player. </param> 
+		</member>
+		<member name="M:Unigine.Editor.removeEditorPlayer(Unigine.Ptr{Player})">
+			<summary>
+			Removes a given player from the editor.
+			</summary> 
+			<param name="player"> Pointer to Player. </param> 
+		</member>
+		<member name="M:Unigine.Editor.isEditorPlayer(Unigine.Ptr{Player})">
+			<summary>
+			Returns a value indicating if the given player is an Editor player.
+			</summary> 
+			<param name="player"> A smart pointer to the Player. </param>
+			<param name="player"> Player instance. </param> 
+			<returns>true if the Player is an Editor player; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Editor.getIntersection(Unigine.Math.Vec3,Unigine.Math.Vec3)">
+			<summary>
+			Searches for all of the nodes intersected by the line traced from p0 to p1. The node closest to the start point is returned.
+			</summary> 
+			<param name="p0"> Line start point coordinates </param>
+			<param name="p1"> Line end point coordinates </param> 
+			<returns>The first intersected node found at the line; otherwise, nullptr pointer.</returns>
+		</member>
+		<member name="M:Unigine.Editor.getIntersection(Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Vector{Unigine.Ptr{Unigine.Node},int,Unigine.VectorAllocator})">
+			<summary>
+			Searches for all of the nodes intersected by the line traced from p0 to p1, except for the ones passed in the exclude list. The node closest to the start point is returned.
+			</summary> 
+			<param name="p0"> Line start point coordinates. </param>
+			<param name="p1"> Line end point coordinates. </param>
+			<param name="exclude"> List of nodes to be ignored when searching for intersection by the traced line. </param> 
+			<returns>The first intersected node found at the line (except for the ones passed in the exclude list); otherwise, nullptr pointer.</returns>
+		</member>
+		<member name="M:Unigine.Editor.getIntersection(Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Ptr{WorldIntersection})">
+			<summary>
+			Searches for all of the nodes intersecting the line. The node closest to the start point is returned. The intersection result will be presented as a WorldIntersection node.
+			</summary> 
+			<param name="p0"> Start point of the line. </param>
+			<param name="p1"> End point of the line. </param>
+			<param name="intersection"> Pointer to WorldIntersection. </param> 
+			<returns>The first intersected node smart pointer if found; otherwise, nullptr pointer.</returns>
+		</member>
+		<member name="M:Unigine.Editor.getIntersection(Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Ptr{WorldIntersectionNormal})">
+			<summary>
+			Searches for all of the nodes intersecting the line. The node closest to the start point is returned. The intersection result will be presented as a WorldIntersectionNormal node.
+			</summary> 
+			<param name="p0"> Start point of the line. </param>
+			<param name="p1"> End point of the line. </param>
+			<param name="intersection"> Pointer to WorldIntersectionNormal. </param> 
+			<returns>The first intersected node smart pointer if found; otherwise, nullptr pointer.</returns>
+		</member>
+		<member name="M:Unigine.Editor.getIntersection(Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Ptr{WorldIntersectionTexCoord})">
+			<summary>
+			Searches for all of the nodes intersecting the line. The node closest to the start point is returned. The intersection result will be presented as a WorldIntersectionTexCoord node.
+			</summary> 
+			<param name="p0"> Start point of the line. </param>
+			<param name="p1"> End point of the line. </param>
+			<param name="intersection"> Pointer to WorldIntersectionTexCoord. </param> 
+			<returns>The first intersected node smart pointer if found; otherwise, nullptr pointer.</returns>
+		</member>
+		<member name="M:Unigine.Editor.getIntersection(Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Vector{Unigine.Ptr{Unigine.Node},int,Unigine.VectorAllocator},Unigine.Ptr{WorldIntersection})">
+			<summary>
+			Searches for all of the nodes intersecting the line. The node closest to the start point is returned. The intersection result will be presented as a WorldIntersection node.
+			</summary> 
+			<param name="p0"> Start point of the line. </param>
+			<param name="p1"> End point of the line. </param>
+			<param name="exclude"> Array of the nodes to exclude; all these nodes will be skipped while checking for intersection. </param>
+			<param name="intersection"> Pointer to WorldIntersection. </param> 
+			<returns>The first intersected node smart pointer if found; otherwise, nullptr pointer.</returns>
+		</member>
+		<member name="M:Unigine.Editor.getIntersection(Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Vector{Unigine.Ptr{Unigine.Node},int,Unigine.VectorAllocator},Unigine.Ptr{WorldIntersectionNormal})">
+			<summary>
+			Searches for all of the nodes intersecting the line. The node closest to the start point is returned. The intersection result will be presented as a WorldIntersectionNormal node.
+			</summary> 
+			<param name="p0"> Start point of the line. </param>
+			<param name="p1"> End point of the line. </param>
+			<param name="exclude"> Array of the nodes to exclude; all these nodes will be skipped while checking for intersection. </param>
+			<param name="intersection"> Pointer to WorldIntersectionNormal. </param> 
+			<returns>The first intersected node smart pointer if found; otherwise, nullptr pointer.</returns>
+		</member>
+		<member name="M:Unigine.Editor.getIntersection(Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Vector{Unigine.Ptr{Unigine.Node},int,Unigine.VectorAllocator},Unigine.Ptr{WorldIntersectionTexCoord})">
+			<summary>
+			Searches for all of the nodes intersecting the line. The node closest to the start point is returned. The intersection result will be presented as a WorldIntersectionTexCoord node.
+			</summary> 
+			<param name="p0"> Start point of the line. </param>
+			<param name="p1"> End point of the line. </param>
+			<param name="exclude"> Array of the nodes to exclude; all these nodes will be skipped while checking for intersection. </param>
+			<param name="intersection"> Pointer to WorldIntersectionTexCoord. </param> 
+			<returns>The first intersected node smart pointer if found; otherwise, nullptr pointer.</returns>
+		</member>
+		<member name="M:Unigine.Editor.getIntersection(Unigine.Math.WorldBoundFrustum,Unigine.Vector{Unigine.Ptr{Unigine.Node},int,Unigine.VectorAllocator},bool)">
+			<summary>
+			Finds all nodes intersected by the specified bound frustum and puts them to the specified output buffer. You can also get editor-only objects (node handlers) along with nodes, just set use_handlers to true.
+			</summary> 
+			<param name="bs"> Bounding frustum where intersection search is to be performed. </param>
+			<param name="nodes"> Output buffer to store the list of intersected nodes (if any). </param>
+			<param name="use_handlers"> true to include editor-only objects (node handlers) in the list of intersected nodes; false - to ignore handlers. </param> 
+			<returns>true if intersected nodes are found; otherwise, false.</returns>
+		</member>
+	</members>
+</doc>

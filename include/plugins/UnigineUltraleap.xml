@@ -1,0 +1,850 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Plugins.Ultraleap.setBackgroundUpdate(bool)">
+			<summary>
+			Sets the value indicating whether the application is allowed to receive frames in the background. By default your UNIGINE application stops rendering frames and updating its main window, when it window goes out of focus (e.g. user switches to another window). Setting the background update mode enables constant rendering regardless of whether the application window is focused or in the background.
+			</summary> 
+			<param name="update"> The window update mode: true for constantly repeating update cycle (i.e. the application is updated even if the window is hidden or out of focus); otherwise, false. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.isBackgroundUpdate const">
+			<summary>
+			Returns a value indicating whether the application is allowed to receive frames in the background.
+			</summary>  
+			<returns>true if the update cycle is constantly repeated (i.e. the application is updated even if the window is hidden or out of focus); otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.setStreamImages(bool)">
+			<summary>
+			Enables or disables streaming of images.
+			</summary> 
+			<param name="images"> true - to enable streaming of images; false - to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.isStreamImages const">
+			<summary>
+			Returns a value indicating if streaming of images is currently enabled.
+			</summary>  
+			<returns>true if streaming of images is currently enabled; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.setPaused(bool)">
+			<summary>
+			Pauses or resumes the Ultraleap service.
+			</summary> 
+			<param name="paused"> true - to pause the Ultraleap service; false - to resume it. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.isPaused const">
+			<summary>
+			Returns a value indicating if the Ultraleap service is currently paused.
+			</summary>  
+			<returns>true if the Ultraleap service is currently paused; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.setAllowPauseResume(bool)">
+			<summary>
+			Allows the application to pause and unpause the Ultraleap service.
+			</summary> 
+			<param name="resume"> true — to allow the application pause and unpause the Ultraleap service; otherwise, false. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.isAllowPauseResume const">
+			<summary>
+			Returns a value indicating if the application is allowed to pause and unpause the Ultraleap service.
+			</summary>  
+			<returns>true if the application is allowed to pause and unpause the Ultraleap service; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.setOptimizeMode(Ultraleap::OPTIMIZE_MODE)">
+			<summary>
+			Sets an optimization mode for tracking. Some policies can be denied if the user has disabled the feature on their Ultraleap control panel.
+			</summary> 
+			<param name="mode"> The optimization mode. One of the UltraleapFinger::OPTIMIZE_MODE_* values. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.getOptimizeMode const">
+			<summary>
+			Returns the current optimization mode set for tracking.
+			</summary>  
+			<returns>The optimization mode. One of the OPTIMIZE_MODE_* values.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.setTrackingMode(Ultraleap::TRACKING_MODE)">
+			<summary>
+			Sets the tracking mode.
+			</summary> 
+			<param name="mode"> The tracking mode. One of the TRACKING_MODE_* values. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.getTrackingMode const">
+			<summary>
+			Returns the current tracking mode.
+			</summary>  
+			<returns>The tracking mode. One of the TRACKING_MODE_* values.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.setTrackingInterpolation(bool)">
+			<summary>
+			Toggles the tracking interpolation on and off.
+			</summary> 
+			<param name="interpolation"> true — to enable the tracking interpolation; otherwise, false. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.isTrackingInterpolation const">
+			<summary>
+			Returns the value indicating if the tracking interpolation is enabled.
+			</summary>  
+			<returns>true if the tracking interpolation is enabled; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.getConnectionStatus const">
+			<summary>
+			Retuns the status of connection to the Ultraleap daemon/service.
+			</summary>  
+			<returns>The connection status. One of the CONNECTION_STATUS_* values.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.isStatusLowFPSDetected const">
+			<summary>
+			Returns the value indicating if the service cannot receive frames fast enough from the underlying hardware.
+			</summary>  
+			<returns>true if the service cannot receive frames fast enough from the underlying hardware; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.isStatusPoorPerformancePause const">
+			<summary>
+			Returns the value indicating if the service has paused itself due to an insufficient frame rate from the hardware.
+			</summary>  
+			<returns>true if the service has paused itself due to an insufficient frame rate from the hardware; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.isStatusTrackingErrorUnknown const">
+			<summary>
+			Returns the value indicating if the service has failed to start tracking due to unknown reasons.
+			</summary>  
+			<returns>true if the service has failed to start tracking due to unknown reasons; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.setTrackingOffsetDefault(Unigine.Math.Vec3)">
+			<summary>
+			Sets the default offset for the newly connected device. The Y value specifies the offset from the eyes to the frontal camera plane, in meters, and the Z value — the offset from the eye level up to the camera level, in meters. The X value should be set to 0. These settings can be used to match the physical position and orientation of the Tracking Hardware on a tracked device it is mounted on (such as a VR headset).
+			</summary> 
+			<param name="val"> The the default offset for the newly connected device. The Y value specifies the offset from the eyes to the frontal camera plane, in meters, and the Z value — the offset from the eye level up to the camera level, in meters. The X value should be set to 0. These settings can be used to match the physical position and orientation of the Tracking Hardware on a tracked device it is mounted on (such as a VR headset). </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.getTrackingOffsetDefault const">
+			<summary>
+			Returns the current virtual offset for the newly connected device. The Y value specifies the offset from the eyes to the frontal camera plane, in meters, and the Z value — the offset from the eye level up to the camera level, in meters.
+			</summary>  
+			<returns>The default offset for the newly connected device. The Y value specifies the offset from the eyes to the frontal camera plane, in meters, and the Z value — the offset from the eye level up to the camera level, in meters.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.setTransformModeOffsetDefault(UltraleapDevice::TRANSFORM_MODE)">
+			<summary>
+			Sets the offset to manually adjust the specified transform mode. These settings can be used to match the physical position and orientation of the Tracking Hardware on a tracked device it is mounted on (such as a VR headset). 						If the  HMD VARJO transform mode has been set, but AppVarjo hasn't been found, the transform mode is switched to  MANUAL.
+			</summary> 
+			<param name="val"> Transform mode. One of the TRANSFORM_MODE* values. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.getTransformModeOffsetDefault const">
+			<summary>
+			Returns the default transform mode for the offset of a newly connected device.
+			</summary>  
+			<returns>The transform mode. One of the TRANSFORM_MODE* values.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.getNumDevices const">
+			<summary>
+			Returns the total number of recognized devices.
+			</summary>  
+			<returns>The number of connected devices.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.getDevice(int) const">
+			<summary>
+			Returns the Ultraleap controller device from the list of recognized devices.
+			</summary> 
+			<param name="device_id"> The ID of the Ultraleap controller device. </param> 
+			<returns>The Ultraleap controller device.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.getNumDevicesConnected const">
+			<summary>
+			Returns the number of connected Ultraleap controller devices.
+			</summary>  
+			<returns>The number of connected Ultraleap controller devices.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.getDeviceConnected(int) const">
+			<summary>
+			Returns the Ultraleap controller device from the list of connected devices.
+			</summary> 
+			<param name="device_id"> The ID of the Ultraleap controller device. </param> 
+			<returns>The Ultraleap controller device.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Ultraleap.getLeapNow const">
+			<summary>
+			Samples the universal clock used by the system to timestamp image and tracking frames. The returned counter value is given in microseconds since an epoch time. The clock used for the counter itself is implementation-defined, but generally speaking, it is global, monotonic, and makes use of the most accurate high-performance counter available on the system.
+			</summary>  
+			<returns>The time, in microseconds since an unspecified epoch.</returns>
+		</member>
+		<member name="F:Unigine.Plugins.Ultraleap.TRACKING_MODE_DESKTOP">
+			<summary>
+			The tracking mode optimised for desktop devices.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Ultraleap.TRACKING_MODE_HMD">
+			<summary>
+			The tracking mode optimised for head-mounted devices.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Ultraleap.TRACKING_MODE_SCREEN_TOP">
+			<summary>
+			The tracking mode optimised for screen top-mounted devices.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Ultraleap.TRACKING_MODE_UNKNOWN">
+			<summary>
+			Tracking mode is not known.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Ultraleap.CONNECTION_STATUS_NOT_CONNECTED">
+			<summary>
+			The connection is not open.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Ultraleap.CONNECTION_STATUS_CONNECTED">
+			<summary>
+			The connection is open.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Ultraleap.CONNECTION_STATUS_HANDSHAKE_INCOMPLETE">
+			<summary>
+			Opening the connection is underway, but not complete.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Ultraleap.CONNECTION_STATUS_NOT_RUNNING">
+			<summary>
+			The connection could not be opened because the Ultraleap Tracking Service does not appear to be running.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Ultraleap.OPTIMIZE_MODE_DISABLED">
+			<summary>
+			Tracking optimization is disabled.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Ultraleap.OPTIMIZE_MODE_AUTO">
+			<summary>
+			Tracking optimization is set to automatic.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Ultraleap.OPTIMIZE_MODE_HMD">
+			<summary>
+			Tracking is optimized for head-mounted devices. The optimize HMD policy improves tracking in situations where the Ultraleap hardware is attached to a head-mounted display. This policy is not granted for devices that cannot be mounted to an HMD, such as Ultraleap controllers embedded in a laptop or keyboard.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Ultraleap.OPTIMIZE_MODE_SCREEN_TOP">
+			<summary>
+			Tracking is optimized for screen-top devices.
+		</summary>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.isStatusConnected const">
+			<summary>
+			Returns a value indicating if the Ultraleap Controller device is connected.
+			</summary>  
+			<returns>true if the device is connected; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.isStatusStreaming const">
+			<summary>
+			Returns a value indicating if the Ultraleap Controller device is sending out frames.
+			</summary>  
+			<returns>true if the device is sending out frames; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.isStatusPaused const">
+			<summary>
+			Returns a value indicating if the Ultraleap Controller device streaming has been paused.
+			</summary>  
+			<returns>true if the device streaming has been paused; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.isStatusRobust const">
+			<summary>
+			Returns a value indicating if the Ultraleap Controller device has transitioned to robust mode in order to compensate for known sources of infrared interference.
+			</summary>  
+			<returns>true if the device has transitioned to robust mode in order to compensate; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.isStatusSmudged const">
+			<summary>
+			Returns a value indicating if the Ultraleap Controller device’s window is smudged. If the device’s window is smudged, tracking may be degraded.
+			</summary>  
+			<returns>true if the device’s window is smudged; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.isStatusLowResource const">
+			<summary>
+			Returns a value indicating if the Ultraleap Controller device has entered low-resource mode.
+			</summary>  
+			<returns>true if the device has entered low-resource mode; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.isStatusUnknownFailure const">
+			<summary>
+			Returns a value indicating if the Ultraleap Controller device has failed, but the failure reason is not known.
+			</summary>  
+			<returns>true if the device has failed, but the failure reason is not known; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.isStatusBadCalibration const">
+			<summary>
+			Returns a value indicating if the Ultraleap Controller device has a bad calibration record and cannot send frames.
+			</summary>  
+			<returns>true if the device has a bad calibration record and cannot send frames; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.isStatusBadFirmware const">
+			<summary>
+			Returns a value indicating if the Ultraleap Controller device reports corrupt firmware or cannot install a required firmware update.
+			</summary>  
+			<returns>true if the device reports corrupt firmware or cannot install a required firmware update; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.isStatusBadTransport const">
+			<summary>
+			Returns a value indicating if the Ultraleap Controller device USB connection is faulty.
+			</summary>  
+			<returns>true if the device USB connection is faulty; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.isStatusBadControl const">
+			<summary>
+			Returns a value indicating if the Ultraleap Controller device USB control interfaces failed to initialize.
+			</summary>  
+			<returns>true if the device USB control interfaces failed to initialize; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.getSerial const">
+			<summary>
+			Returns the device serial number.
+			</summary>  
+			<returns>The device serial number.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.getHFov const">
+			<summary>
+			Returns the horizontal field of view of this device in radians.
+			</summary>  
+			<returns>The horizontal field of view of this device in radians.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.getVFov const">
+			<summary>
+			Returns the vertical field of view of this device in radians.
+			</summary>  
+			<returns>The vertical field of view of this device in radians.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.getRange const">
+			<summary>
+			Returns the maximum range for this device, in meters.
+			</summary>  
+			<returns>The maximum range for this device, in meters.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.getDistanceBetweenCameras const">
+			<summary>
+			Returns the distance between the Ultraleap cameras, in meters.
+			</summary>  
+			<returns>The distance between the Ultraleap cameras, in meters.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.getHardwareType const">
+			<summary>
+			Returns the recognized type of hardware.
+			</summary>  
+			<returns>The hardware type. One of the HARDWARE_TYPE_* values.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.getLeapID const">
+			<summary>
+			Returns the ID of the current device.
+			</summary>  
+			<returns>The device ID.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.isSupportedColorImages const">
+			<summary>
+			Returns the value indicating if color images are supported for this device.
+			</summary>  
+			<returns>true if color images are supported for this device; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.isSupportedAccelerometer const">
+			<summary>
+			Returns the value indicating if the accelerometer is supported for this device.
+			</summary>  
+			<returns>true if the accelerometer is supported for this device; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.isSupportedGyroscope const">
+			<summary>
+			Returns the value indicating if the gyroscope is supported for this device.
+			</summary>  
+			<returns>true if the gyroscope is supported for this device; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.isSupportedTemperature const">
+			<summary>
+			Returns the value indicating if temperature measuring is supported for this device.
+			</summary>  
+			<returns>true if temperature measuring is supported for this device; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.getAccelerometer const">
+			<summary>
+			Returns the accelerometer measurements, in in m/s^2.
+			</summary>  
+			<returns>The accelerometer measurements, in m/s^2.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.getGyroscope const">
+			<summary>
+			Returns the gyroscope measurements, in rad/s.
+			</summary>  
+			<returns>The gyroscope measurements, in rad/s.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.getTemperature const">
+			<summary>
+			Returns the measured temperature, in deg C.
+			</summary>  
+			<returns>The measured temperature, in deg C.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.setTrackingOffset(Unigine.Math.Vec3)">
+			<summary>
+			Sets the default offset for the newly connected device. The Y value specifies the offset from the eyes to the frontal camera plane, in meters, and the Z value — the offset from the eye level up to the camera level, in meters. The X value should be set to 0. These settings can be used to match the physical position and orientation of the Tracking Hardware on a tracked device it is mounted on (such as a VR headset).
+			</summary> 
+			<param name="offset"> The default offset for the newly connected device. The Y value specifies the offset from the eyes to the frontal camera plane, in meters, and the Z value — the offset from the eye level up to the camera level, in meters. The X value should be set to 0. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.getTrackingOffset const">
+			<summary>
+			Returns the current virtual offset of the tracking device. The Y value specifies the offset from the eyes to the frontal camera plane, in meters, and the Z value — the offset from the eye level up to the camera level, in meters.
+			</summary>  
+			<returns>The default offset for the newly connected device. The Y value specifies the offset from the eyes to the frontal camera plane, in meters, and the Z value — the offset from the eye level up to the camera level, in meters. The X value should be set to 0.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.getTrackingFPS const">
+			<summary>
+			Returns the number of the tracking frames per second for this device.
+			</summary>  
+			<returns>The tracking FPS value.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.setTransform(Unigine.Math.Mat4)">
+			<summary>
+			Sets the transformation matrix for this device.
+			</summary> 
+			<param name="transform"> The transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.getTransform const">
+			<summary>
+			Returns the current transformation matrix for this device.
+			</summary>  
+			<returns>The transformation matrix.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.setTransformMode(UltraleapDevice::TRANSFORM_MODE)">
+			<summary>
+			Sets the transform mode for this device.						If the  HMD VARJO transform mode has been set, but AppVarjo hasn't been found, the transform mode is switched to  MANUAL.
+			</summary> 
+			<param name="mode"> The transform mode. One of the TRANSFORM_MODE* values. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.getTransformMode const">
+			<summary>
+			Returns the current transform mode for this device.
+			</summary>  
+			<returns>The transform mode. One of the TRANSFORM_MODE* values.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.getLeftHand const">
+			<summary>
+			Returns the object for the left hand.
+			</summary>  
+			<returns>The object for the left hand.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.getRightHand const">
+			<summary>
+			Returns the object for the right hand.
+			</summary>  
+			<returns>The object for the right hand.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.isLeftDistortionReceived const">
+			<summary>
+			Returns a value indicating if the distortion calibration map for the left-eye image has been received.
+			</summary>  
+			<returns>true if the distortion calibration map for the left-eye image has been received; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.getLeftDistortionImage const">
+			<summary>
+			Returns the distortion calibration map for the left-eye image.
+			</summary>  
+			<returns>The distortion calibration map for the left-eye image.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.isLeftColorReceived const">
+			<summary>
+			Returns a value indicating if the color image for the left eye image has been received.
+			</summary>  
+			<returns>true if the color image for the left eye image has been received; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.getLeftColorImage const">
+			<summary>
+			Returns the color image for the left eye.
+			</summary>  
+			<returns>The color image for the left eye.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.isRightDistortionReceived const">
+			<summary>
+			Returns a value indicating if the distortion calibration map for the right-eye image has been received.
+			</summary>  
+			<returns>true if the distortion calibration map for the right-eye image has been received; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.getRightDistortionImage const">
+			<summary>
+			Returns the distortion calibration map for the right-eye image.
+			</summary>  
+			<returns>The distortion calibration map for the right-eye image.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.isRightColorReceived const">
+			<summary>
+			Returns a value indicating if the color image for the right eye image has been received.
+			</summary>  
+			<returns>true if the color image for the right eye image has been received; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapDevice.getRightColorImage const">
+			<summary>
+			Returns the color image for the right eye.
+			</summary>  
+			<returns>The color image for the right eye.</returns>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapDevice.HARDWARE_TYPE_UNKNOWN">
+			<summary>
+			An unknown device that is compatible with the tracking software.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapDevice.HARDWARE_TYPE_PERIPHERAL">
+			<summary>
+			The Leap Motion Controller (the first consumer peripheral).
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapDevice.HARDWARE_TYPE_DRAGONFLY">
+			<summary>
+			Internal research product codename “Dragonfly”.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapDevice.HARDWARE_TYPE_NIGHTCRAWLER">
+			<summary>
+			Internal research product codename “Nightcrawler”.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapDevice.HARDWARE_TYPE_RIGEL">
+			<summary>
+			Research product codename “Rigel”.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapDevice.HARDWARE_TYPE_SIR170">
+			<summary>
+			he Ultraleap Stereo IR 170 (SIR170) hand tracking module.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapDevice.HARDWARE_TYPE__3DI">
+			<summary>
+			The Ultraleap 3Di hand tracking camera.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapDevice.HARDWARE_TYPE_INVALID">
+			<summary>
+			An invalid device type.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapDevice.TRANSFORM_MODE_HMD_VARJO">
+			<summary>
+			HMD Pose from AppVarjo and the IModelView from Game::getPlayer() are used for transform.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapDevice.TRANSFORM_MODE_MANUAL">
+			<summary>
+			The user manually sets the transform matrix as described for the Ultraleap Coordinate System.
+		</summary>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapArm.getWidth const">
+			<summary>
+			Returns the width of the forearm, in meters.
+			</summary>  
+			<returns>The width of the forearm, in meters.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapArm.getDirection const">
+			<summary>
+			Returns the normalized direction in which the arm is pointing (from elbow to wrist).
+			</summary>  
+			<returns>The normalized direction in which the arm is pointing (from elbow to wrist).</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapArm.getPositionElbow const">
+			<summary>
+			Returns the coordinates of the elbow position.
+			</summary>  
+			<returns>The coordinates of the elbow position.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapArm.getPositionWrist const">
+			<summary>
+			Returns the coordinates of the end of the bone, closest to the finger tip (distal).
+			</summary>  
+			<returns>The coordinates of the wrist position.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapArm.getCenter const">
+			<summary>
+			Returns the coordinates of the center of the forearm.
+			</summary>  
+			<returns>The coordinates of the center of the forearm.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapArm.getHand const">
+			<summary>
+			Returns the object for the hand.
+			</summary>  
+			<returns>The object for the hand.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapBone.getFinger const">
+			<summary>
+			Returns the object for the finger.
+			</summary>  
+			<returns>The object for the finger.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapBone.getType const">
+			<summary>
+			Returns the type of the bone.
+			</summary>  
+			<returns>The bone type. One of the Bone::TYPE_* values.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapBone.getLength const">
+			<summary>
+			Returns the length of the bone.
+			</summary>  
+			<returns>The length of the bone, in meters.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapBone.getWidth const">
+			<summary>
+			Returns the width of the bone, in meters.
+			</summary>  
+			<returns>The width of the bone, in meters.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapBone.getJointBeginPosition const">
+			<summary>
+			Returns the coordinates of the end of the bone closest to the wrist (proximal).
+			</summary>  
+			<returns>The coordinates of the end of the bone closest to the wrist (proximal).</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapBone.getJointEndPosition const">
+			<summary>
+			Returns the coordinates of the end of the bone closest to the finger tip (distal).
+			</summary>  
+			<returns>The coordinates of the end of the bone closest to the finger tip (distal).</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapBone.getCenter const">
+			<summary>
+			Returns the coordinates of the center of the bone.
+			</summary>  
+			<returns>The coordinates of the center of the bone.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapBone.getDirection const">
+			<summary>
+			Returns the normalized direction of the bone from wrist to tip.
+			</summary>  
+			<returns>The normalized direction of the bone from wrist to tip.</returns>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapBone.TYPE_METACARPAL">
+			<summary>
+			Metacarpal bone.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapBone.TYPE_PROXIMAL">
+			<summary>
+			Proximal phalange bone.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapBone.TYPE_INTERMEDIATE">
+			<summary>
+			Intermediate phalange bone.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapBone.TYPE_DISTAL">
+			<summary>
+			Distal phalange bone. A bone at the tip of the finger.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapBone.NUM_TYPES">
+			<summary>
+			Total number of bone types.
+		</summary>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapFinger.getType const">
+			<summary>
+			Returns the type of the finger.
+			</summary>  
+			<returns>The finger type. One of the UltraleapFinger::TYPE_* values.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapFinger.isExtended const">
+			<summary>
+			Returns a value indicating if the finger is extended.
+			</summary>  
+			<returns>true if the finger is extended; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapFinger.getLength const">
+			<summary>
+			Returns the length of the finger, in meters.
+			</summary>  
+			<returns>The length of the finger, in meters.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapFinger.getHand const">
+			<summary>
+			Returns the object for the hand.
+			</summary>  
+			<returns>The object for the hand.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapFinger.getBoneMetacarpal const">
+			<summary>
+			Returns the object for the metacarpal bone.
+			</summary>  
+			<returns>The object for the metacarpal bone.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapFinger.getBoneProximal const">
+			<summary>
+			Returns the object for the proximal phalange bone.
+			</summary>  
+			<returns>The object for the proximal phalange bone.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapFinger.getBoneIntermediate const">
+			<summary>
+			Returns the object for the intermediate phalange bone.
+			</summary>  
+			<returns>The object for the intermediate phalange bone.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapFinger.getBoneDistal const">
+			<summary>
+			Returns the object for the distal phalange bone.
+			</summary>  
+			<returns>The object for the distal phalange bone.</returns>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapFinger.TYPE_THUMB">
+			<summary>
+			Thumb.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapFinger.TYPE_INDEX">
+			<summary>
+			Index finger.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapFinger.TYPE_MIDDLE">
+			<summary>
+			Middle finger.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapFinger.TYPE_RING">
+			<summary>
+			Ring finger.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapFinger.TYPE_PINKY">
+			<summary>
+			Pinky finger.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapFinger.NUM_TYPES">
+			<summary>
+			Total number of finger types.
+		</summary>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapHand.getType const">
+			<summary>
+			Returns the type of the hand.
+			</summary>  
+			<returns>The type of the hand. One of the TYPE_* values.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapHand.isVisible const">
+			<summary>
+			Returns a value indicating if the hand is visible to the Ultraleap Controller.
+			</summary>  
+			<returns>true if the hand is visible; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapHand.getVisibleTime const">
+			<summary>
+			The duration of time this Hand has been visible to the Ultraleap Controller.
+			</summary>  
+			<returns>The duration of time this Hand has been visible to the Ultraleap Controller.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapHand.getPinchDistance const">
+			<summary>
+			Returns the distance between the thumb and index finger of a pinch hand pose. The distance is computed by looking at the shortest distance between the last 2 phalanges of the thumb and those of the index finger. This pinch measurement only takes thumb and index finger into account.
+			</summary>  
+			<returns>The distance between the thumb and index finger of a pinch hand pose.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapHand.getPinchStrength const">
+			<summary>
+			Returns the holding strength of a pinch hand pose. The strength is zero for an open hand, and blends to one when a pinching hand pose is recognized. Pinching can be done between the thumb and any other finger of the same hand.
+			</summary>  
+			<returns>The holding strength of a pinch hand pose: 0 for an open hand, and blends to 1 when a pinching hand pose is recognized.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapHand.getGrabStrength const">
+			<summary>
+			The strength of a grab hand pose. The strength is zero for an open hand, and blends to one when a grabbing hand pose is recognized.
+			</summary>  
+			<returns>The strength of a grab hand pose: 0 for an open hand, and blends to 1 when a grabbing hand pose is recognized.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapHand.getGrabAngle const">
+			<summary>
+			The angle between the fingers and the hand of a grab hand pose. The angle is computed by looking at the angle between the direction of the 4 fingers and the direction of the hand. Thumb is not considered when computing the angle. The angle is 0 radian for an open hand, and reaches pi radians when the pose is a tight fist.
+			</summary>  
+			<returns>The angle between the fingers and the hand of a grab hand pose: 0 radian for an open hand, and reaches π radians when the pose is a tight fist.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapHand.getPalmWidth const">
+			<summary>
+			Returns the width of the palm when the hand is in a flat position, in meters.
+			</summary>  
+			<returns>The width of the palm when the hand is in a flat position, in meters.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapHand.getPalmPosition const">
+			<summary>
+			Returns the coordinates of the position of the palm.
+			</summary>  
+			<returns>The coordinates of the position of the palm.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapHand.getPalmStabilizedPosition const">
+			<summary>
+			Returns the modified palm position with some additional smoothing and stabilization applied. Smoothing and stabilization is performed in order to make this value more suitable for interaction with 2D content. The stabilized position lags behind the palm position by a variable amount, depending primarily on the speed of movement.
+			</summary>  
+			<returns>The coordinates of the modified palm position with some additional smoothing and stabilization applied.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapHand.getPalmVelocity const">
+			<summary>
+			Returns the rate of change of the palm position, in m/s.
+			</summary>  
+			<returns>The rate of change of the palm position, in m/s.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapHand.getPalmNormal const">
+			<summary>
+			Returns the coordinates of the normal vector to the palm. If a hand is flat, this vector will point downward, or "out" of the front surface of your palm.
+			</summary>  
+			<returns>The coordinates of the normal vector to the palm.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapHand.getDirection const">
+			<summary>
+			Returns the normalized direction from the palm position toward the fingers.
+			</summary>  
+			<returns>The normalized direction from the palm position toward the fingers.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapHand.getArm const">
+			<summary>
+			Returns the object for the arm.
+			</summary>  
+			<returns>The object for the arm.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapHand.getFingerThumb const">
+			<summary>
+			Returns the object for the thumb.
+			</summary>  
+			<returns>The object for the thumb.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapHand.getFingerIndex const">
+			<summary>
+			Returns the object for the index finger.
+			</summary>  
+			<returns>The object for the index finger.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapHand.getFingerMiddle const">
+			<summary>
+			Returns the object for the middle finger.
+			</summary>  
+			<returns>The object for the middle finger.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapHand.getFingerRing const">
+			<summary>
+			Returns the object for the ring finger.
+			</summary>  
+			<returns>The object for the ring finger.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.UltraleapHand.getFingerPinky const">
+			<summary>
+			Returns the object for the pinky finger.
+			</summary>  
+			<returns>The object for the pinky finger.</returns>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapHand.TYPE_LEFT">
+			<summary>
+			Left hand.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapHand.TYPE_RIGHT">
+			<summary>
+			Right hand.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.UltraleapHand.NUM_TYPES">
+			<summary>
+			Total number of hand types.
+		</summary>
+		</member>
+	</members>
+</doc>

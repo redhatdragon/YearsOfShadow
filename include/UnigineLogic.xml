@@ -1,0 +1,257 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.EditorLogic.init">
+			<summary>
+			Engine calls this function on editor initialization. Similar to the editor script's init() function.
+			</summary>  
+			<returns>1 if the editor is initialized successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.EditorLogic.shutdown">
+			<summary>
+			Engine calls this function on editor shutdown. Similar to the editor script's shutdown() function.
+			</summary>  
+			<returns>1 if the editor shutdown is performed successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.EditorLogic.update">
+			<summary>
+			Engine calls this function before updating each render frame when editor is loaded. Similar to the editor script's update() function.
+			</summary>  
+			<returns>1 if there were no errors during the editor update; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.EditorLogic.postUpdate">
+			<summary>
+			Engine calls this function after updating each render frame when editor is loaded. Similar to the editor script's postUpdate() function.
+			</summary>  
+			<returns>1 if there were no errors during the editor post update; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.EditorLogic.render(EngineWindowPtr)">
+			<summary>
+			Engine calls this function before rendering each render frame for the specified Engine window, when editor is loaded. Similar to the editor script's render() function.
+			</summary> 
+			<param name="window"> Target Engine window. </param> 
+			<returns>1 if there were no errors during the editor rendering; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.EditorLogic.worldInit">
+			<summary>
+			Engine calls this function on world initialization when editor is loaded. This function is similar to the editor script's worldInit() function.
+			</summary>  
+			<returns>1 if there were no errors during the world initialization; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.EditorLogic.worldShutdown">
+			<summary>
+			Engine calls this function on world shutdown when editor is loaded. Similar to the editor script's worldShutdown() function.
+			</summary>  
+			<returns>1 if there were no errors during the world shutdown; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.EditorLogic.worldSave">
+			<summary>
+			Engine calls this function on world save when editor is loaded. Similar to the editor script's worldSave() function.
+			</summary>  
+			<returns>1 if there were no errors during the world saving; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.EditorLogic.clear">
+			<summary>
+			A callback on world reloading and clearing nodes list.
+			</summary>  
+		</member>
+		<member name="M:Unigine.EditorLogic.nodeReparented(NodePtr)">
+			<summary>
+			Callback called on node reparenting.
+			</summary> 
+			<param name="node"> A smart pointer to the node. </param> 
+		</member>
+		<member name="M:Unigine.EditorLogic.nodeReordered(NodePtr)">
+			<summary>
+			Callback called on node reordering.
+			</summary> 
+			<param name="node"> A smart pointer to the node. </param> 
+		</member>
+		<member name="M:Unigine.EditorLogic.nodeRenamed(NodePtr,char)">
+			<summary>
+			Callback called on node renaming.
+			</summary> 
+			<param name="node"> A smart pointer to the node. </param>
+			<param name="old_name"> Old name of the renamed node. </param> 
+		</member>
+		<member name="M:Unigine.EditorLogic.nodeShowInEditorChanged(NodePtr)">
+			<summary>
+			Callback called on changing displaying in world hierarchy option for a node.
+			</summary> 
+			<param name="node"> Node smart pointer. </param> 
+		</member>
+		<member name="M:Unigine.EditorLogic.materialAdded(Unigine.UGUID)">
+			<summary>
+			Callback called on adding a material.
+			</summary> 
+			<param name="guid"> Material GUID. </param> 
+		</member>
+		<member name="M:Unigine.EditorLogic.materialRemoved(Unigine.UGUID)">
+			<summary>
+			Callback called on removing a material.
+			</summary> 
+			<param name="guid"> Material GUID. </param> 
+		</member>
+		<member name="M:Unigine.EditorLogic.materialChanged(Unigine.UGUID)">
+			<summary>
+			Callback called on changing a material.
+			</summary> 
+			<param name="guid"> Material GUID. </param> 
+		</member>
+		<member name="M:Unigine.EditorLogic.materialReparented(Unigine.UGUID,Unigine.UGUID,Unigine.UGUID)">
+			<summary>
+			Callback called on changing material's parent.
+			</summary> 
+			<param name="guid"> Material GUID. </param>
+			<param name="old_parent"> Old parent material GUID. </param>
+			<param name="new_parent"> New parent material GUID. </param> 
+		</member>
+		<member name="M:Unigine.EditorLogic.propertyAdded(Unigine.UGUID)">
+			<summary>
+			Callback called on adding a property.
+			</summary> 
+			<param name="guid"> GUID of the property added. </param> 
+		</member>
+		<member name="M:Unigine.EditorLogic.propertyRemoved(Unigine.UGUID)">
+			<summary>
+			Callback called on removing a property.
+			</summary> 
+			<param name="guid"> GUID of the property removed. </param> 
+		</member>
+		<member name="M:Unigine.EditorLogic.propertyMoved(Unigine.UGUID)">
+			<summary>
+			Callback called on moving a property.
+			</summary> 
+			<param name="guid"> GUID of the property moved. </param> 
+		</member>
+		<member name="M:Unigine.EditorLogic.propertyChanged(Unigine.UGUID)">
+			<summary>
+			Callback called on changing a property.
+			</summary> 
+			<param name="guid"> GUID of the property changed. </param> 
+		</member>
+		<member name="M:Unigine.EditorLogic.propertyReparented(Unigine.UGUID,Unigine.UGUID,Unigine.UGUID)">
+			<summary>
+			Callback called on changing property's parent.
+			</summary> 
+			<param name="guid"> GUID of the property reparented. </param>
+			<param name="old_parent"> Old parent property GUID. </param>
+			<param name="new_parent"> New parent property GUID. </param> 
+		</member>
+		<member name="M:Unigine.EditorLogic.propertyReplaced(Unigine.UGUID,Unigine.UGUID)">
+			<summary>
+			Callback called on replacing a property with another one.
+			</summary> 
+			<param name="guid"> GUID of the property being replaced. </param>
+			<param name="new_guid"> GUID of the replacing property. </param> 
+		</member>
+		<member name="M:Unigine.EditorLogic.materialCompileShadersBegin">
+			<summary>
+			Callback called on launching shader compilation process.
+			</summary>  
+		</member>
+		<member name="M:Unigine.EditorLogic.materialCompileShadersEnd">
+			<summary>
+			Callback called on completion of shader compilation process.
+			</summary>  
+		</member>
+		<member name="M:Unigine.EditorLogic.materialCompileShaders(MaterialPtr,int)">
+			<summary>
+			Callback called on completion of shader compilation process.
+			</summary> 
+			<param name="material"> Current material for which shaders are compiled. </param>
+			<param name="num"> Number of remaining remaining materials for which shaders are to be compiled. </param> 
+		</member>
+		<member name="M:Unigine.SystemLogic.init">
+			<summary>
+			Engine calls this function on engine initialization. Similar to the system script's init() function.
+			</summary>  
+			<returns>Returns 1 if there were no errors; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.SystemLogic.shutdown">
+			<summary>
+			Engine calls this function on engine shutdown. Similar to the system script's shutdown() function.
+			</summary>  
+			<returns>Returns 1 if there were no errors; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.SystemLogic.update">
+			<summary>
+			Engine calls this function before updating each render frame. Similar to the system script's update() function.
+			</summary>  
+			<returns>Returns 1 if there were no errors; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.SystemLogic.postUpdate">
+			<summary>
+			Engine calls this function before rendering each render frame. Similar to the system script's postUpdate() function.
+			</summary>  
+			<returns>Returns 1 if there were no errors; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldLogic.init">
+			<summary>
+			Engine calls this function on world initialization and initializes resources for a world scene during the world start. Similar to the world script's init() function.
+			</summary>  
+			<returns>Returns 1 if there were no errors; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldLogic.shutdown">
+			<summary>
+			Engine calls this function on world shutdown. Here you can delete resources that were created during world script execution to avoid memory leaks. Similar to the world script's shutdown() function.
+			</summary>  
+			<returns>Returns 1 if there were no errors; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldLogic.update">
+			<summary>
+			Engine calls this function before updating each render frame. You can specify here all logic-related functions you want to be called every frame while your application executes. Similar to the world script's update() function.
+			</summary>  
+			<returns>Returns 1 if there were no errors; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldLogic.updateSyncThread(int,int)">
+			<summary>
+			Engine calls this function before the update() and the postUpdate().				Limitations: you should not create or modify nodes unless you're absolutely sure that no other thread can do the same.				This function is called size times each frame and executed in parallel threads. Each time the function is called with an index in the range [0; size), i.e.: 0, 1, ..., size-1. This function blocks the Main Thread until all size calls are completed.				Unlike the SyncThread() this function has got less time for execution, but it is more secure and is suitable for complex calculations to be applied to the current node.
+			</summary> 
+			<param name="id"> Index of the current thread, that called this function in the [0; size) range. </param>
+			<param name="size"> Number of threads for execution. The function is called size times each frame and executed in parallel threads. Each time the function is called with an index in the range [0; size), i.e.: 0, 1, ..., size-1. </param> 
+		</member>
+		<member name="M:Unigine.WorldLogic.updateAsyncThread(int,int)">
+			<summary>
+							Engine calls this function before the execution of all updateSyncThread() functions. Like the updateSyncThread() it is called size times each frame and executed in parallel with user's postUpdate() and updatePhysics() functions, but does not block the Main Thread until the Engine reaches the doSwap() stage (similar to the updatePhysics() function).				This function is the smoothest and does not cause spikes, it has a lot of time for execution. But it also has a lot of limitations.				It is suitable for certain heavy resource-consuming calculations calculations that should be performed each frame, such as pathfinding, generation of procedural textures, and so on.
+			</summary> 
+			<param name="id"> Index of the current thread, that called this function in the [0; size) range. </param>
+			<param name="size"> Number of threads for execution. The function is called size times each frame and executed in parallel threads. Each time the function is called with an index in the range [0; size), i.e.: 0, 1, ..., size-1. </param> 
+		</member>
+		<member name="M:Unigine.WorldLogic.postUpdate">
+			<summary>
+			Engine calls this function before rendering each render frame. You can correct behavior after the state of the node has been updated. Similar to the world script's postUpdate() function.
+			</summary>  
+			<returns>Returns 1 if there were no errors; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldLogic.updatePhysics">
+			<summary>
+			Engine calls this function before updating each physics frame. This function is used to control physics in your application. The engine calls updatePhysics() with the fixed rate (60 times per second by default) regardless of the fps number. Similar to the world script's updatePhysics() function.
+			</summary>  
+			<returns>Returns 1 if there were no errors; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldLogic.swap">
+			<summary>
+			Engine calls this function after the following processes are completed: rendering (CPU portion), physics calculations and pathfinding, GUI rendering, and all Async threads. The function is designed to operate with the results of the updateAsyncThread() method — all other methods (threads) have already been performed and are idle. After this function, only two actions occur:									All objects that are queued for deletion are deleted.					Profiler is updated.								This function is similar to the world script's swap() function.
+			</summary>  
+			<returns>Returns 1 if there were no errors; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldLogic.save(StreamPtr)">
+			<summary>
+			Engine calls this function when the world is saving its state. Here you can save custom user data to a file. Similar to the world script's save() function.
+			</summary> 
+			<param name="stream"> Data stream. </param> 
+			<returns>Returns 1 if there were no errors; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldLogic.restore(StreamPtr)">
+			<summary>
+			Engine calls this function when the world is restoring its state. Restore custom user data to a file here.	Similar to the world script's restore() function.
+			</summary> 
+			<param name="stream"> Stream for restored data. </param> 
+			<returns>Returns 1 if there were no errors; otherwise, 0.</returns>
+		</member>
+	</members>
+</doc>

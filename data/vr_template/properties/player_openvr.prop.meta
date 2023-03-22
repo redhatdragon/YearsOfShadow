@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.16.1.0">
+	<guid>de497cf38e4190cfe86db254437e720efeec9200</guid>
+	<type>property</type>
+	<hash>fb4ac5be</hash>
+	<runtimes>
+		<runtime id="de497cf38e4190cfe86db254437e720efeec9200" name="player_vive.prop" link="0" type="4"/>
+	</runtimes>
+</asset>

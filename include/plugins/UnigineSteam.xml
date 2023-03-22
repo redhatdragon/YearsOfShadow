@@ -1,0 +1,555 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Plugins.Steam.getAppID const">
+			<summary>
+			Returns Steam AppID.
+			</summary>  
+			<returns>Steam AppID.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Steam.isSubscribed const">
+			<summary>
+			Checks if the user is allowed to run the current app.
+			</summary>  
+			<returns>true if the user is allowed to run the current app; otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Steam.isLowViolence const">
+			<summary>
+			Checks if the license owned by the user provides low violence depots.
+			</summary>  
+			<returns>true if the license owned by the user provides low violence depots; otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Steam.isCybercafe const">
+			<summary>
+			Returns the value specifying if the current app is for Cyber Cafes.
+			</summary>  
+			<returns>true if the current app is for Cyber Cafes; otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Steam.isVACBanned const">
+			<summary>
+			Checks if the user has a VAC ban on their account.
+			</summary>  
+			<returns>true if the user has a VAC ban on their account; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Steam.getCurrentGameLanguage const">
+			<summary>
+			Returns the current language that the user has set.
+			</summary>  
+			<returns>Language set by the user.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Steam.getAvailableGameLanguages const">
+			<summary>
+			Returns a comma-separated list of languages.
+			</summary>  
+			<returns>Comma-separated list of languages.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Steam.getUserDataFolder const">
+			<summary>
+			Returns the name of the user data folder.
+			</summary>  
+			<returns>Name of the user data folder.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Steam.showOverlay(char)">
+			<summary>
+			Opens the Steam overlay to the specified dialog.
+			</summary> 
+			<param name="dialog"> The dialog to open. Valid options are: "friends", "community", "players", "settings", "officialgamegroup", "stats", "achievements". </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Steam.showOverlayToWebPage(char,Steam::OVERLAY_TO_WEB_PAGE_MODE)">
+			<summary>
+			Activates Steam Overlay web browser directly to the specified URL.
+			</summary> 
+			<param name="url"> The webpage to open (a fully qualified address with the protocol is required). </param>
+			<param name="mode"> Overlay mode to be set. One of the OVERLAY_TO_WEB_PAGE_MODE_* values. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Steam.showOverlayToUser(char,unsignedlonglong)">
+			<summary>
+			Opens the Steam overlay to the specified dialog.
+			</summary> 
+			<param name="dialog"> The dialog to open. Valid options are: "steamid", "chat", "jointrade", "stats", "achievements", "friendadd", "friendremove", "friendrequestaccept", "friendrequestignore". </param>
+			<param name="steam_id"> The Steam ID of the context to open this dialog to. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Steam.showOverlayToStore(int,Steam::OVERLAY_TO_STORE)">
+			<summary>
+			Activates the Steam Overlay to the Steam store page for the provided app.
+			</summary> 
+			<param name="app_id"> The app ID to show the store page of. </param>
+			<param name="store_flag"> Flag to modify the behavior when the page opens, one of the OVERLAY_TO_STORE_* values. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Steam.showOverlayInviteDialog(unsignedlonglong)">
+			<summary>
+			Activates the Steam Overlay to open the invite dialog. Invitations sent from this dialog will be for the provided lobby.
+			</summary> 
+			<param name="steam_id_lobby"> The Steam ID of the lobby that selected users will be invited to. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Steam.setOverlayNotificationPosition(Steam::OVERLAY_POSITION)">
+			<summary>
+			Sets which corner the Steam overlay notification popup should display itself in.
+			</summary> 
+			<param name="position"> The overlay notification popup position, one of the OVERLAY_POSITION_* values. </param>
+			<param name="position">  </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Steam.isOverlayShown const">
+			<summary>
+			Checks if the Steam Overlay is running and the user can access it.
+			</summary>  
+			<returns>true if the overlay is running and the user can access it; otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Steam.getMyUserID const">
+			<summary>
+			Gets the current user's ID.
+			</summary>  
+			<returns>The current user's ID.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Steam.getMyName const">
+			<summary>
+			Gets the current user's persona (display) name. This is the same name that is displayed on the user's community profile page.
+			</summary>  
+			<returns>The current user's persona (display) name.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Steam.getMyState const">
+			<summary>
+			Returns the friend status of the current user.
+			</summary>  
+			<returns>The friend state of the current user, one of the PERSONA_STATE_* values.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Steam.getUserName(unsignedlonglong)">
+			<summary>
+			Returns the specified user's persona (display) name.
+			</summary> 
+			<param name="steam_id_friend"> The Steam ID of the user. </param> 
+			<returns>The current users persona name in UTF-8 format. Guaranteed to not be NULL. Returns an empty string (""), or "[unknown]" if the Steam ID is invalid or not known to the caller.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Steam.getNumFriends(int)">
+			<summary>
+			Returns the number of users the client knows about who meet a specified criteria (friends, blocked, users on the same server, etc.).
+			</summary> 
+			<param name="friend_flags"> A combined union (binary "or") of one or more FRIEND_FLAG_* values. </param> 
+			<returns>The number of users that meet the specified criteria. Returns -1 if the current user is not logged on.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Steam.getFriendByIndex(int,int)">
+			<summary>
+			</summary> 
+			<param name="ifriend"> An index between 0 and GetFriendCountFromSource. </param>
+			<param name="ifriend_flags"> . </param> 
+			<returns>.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Steam.getUserRelationship(unsignedlonglong)">
+			<summary>
+			Returns a relationship to a specified user.
+			</summary> 
+			<param name="steam_id_friend"> The Steam ID of the other user. </param> 
+			<returns>Relationship to a specified user, one of the FRIEND_RELATIONSHIP_* values.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Steam.getUserPersonaState(unsignedlonglong)">
+			<summary>
+			Returns the status of the friend.
+			</summary> 
+			<param name="steam_id_friend"> Steam ID of the user. </param> 
+			<returns>Status of the friend, one of the PERSONA_STATE_* values.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Steam.getUserAvatarSmall(unsignedlonglong)">
+			<summary>
+			Returns a handle to the small avatar for the specified user.
+			</summary> 
+			<param name="id"> Steam ID of the user. </param> 
+			<returns>A Steam handle to the small (32*32 px) image. Returns 0 if no avatar is set for the user.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Steam.getUserAvatarMedium(unsignedlonglong)">
+			<summary>
+			Returns a handle to the medium avatar for the specified user.
+			</summary> 
+			<param name="id"> Steam ID of the user. </param> 
+			<returns>A Steam handle to the small (64x64 px) image. Returns 0 if no avatar is set for the user.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Steam.getUserAvatarLarge(unsignedlonglong)">
+			<summary>
+			Returns a handle to the large avatar for the specified user.
+			</summary> 
+			<param name="id"> Steam ID of the user. </param> 
+			<returns>A Steam handle to the large (128*128 px) image. Returns 0 if no avatar is set for the user.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Steam.createLeaderboard(char)">
+			<summary>
+			Returns the leaderboard interface.
+			</summary> 
+			<param name="name"> Name of the leaderboard to be created. </param> 
+			<returns>Leaderboard interface.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Steam.getLeaderboard(int)">
+			<summary>
+			Returns the leaderboard interface.
+			</summary> 
+			<param name="id"> ID of the leaderboard to view. </param> 
+			<returns>Leaderboard interface.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Steam.deleteLeaderboard(SteamLeaderboard)">
+			<summary>
+			Deletes the leaderboard.
+			</summary> 
+			<param name="leaderboard"> Leaderboard interface. </param> 
+		</member>
+		<member name="F:Unigine.Plugins.Steam.OVERLAY_POSITION_TOP_LEFT">
+			<summary>
+			Top left corner position of the overlay notification popup.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.OVERLAY_POSITION_TOP_RIGHT">
+			<summary>
+			Top right corner position of the overlay notification popup.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.OVERLAY_POSITION_BOTTOM_LEFT">
+			<summary>
+			Bottom left corner position of the overlay notification popup.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.OVERLAY_POSITION_BOTTOM_RIGHT">
+			<summary>
+			Bottom right corner position of the overlay notification popup.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.OVERLAY_TO_STORE_FLAG_NONE">
+			<summary>
+			No.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.OVERLAY_TO_STORE_ADD_TO_CART">
+			<summary>
+			Add the specified app ID to the user's cart.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.OVERLAY_TO_STORE_ADD_TO_CART_AND_SHOW">
+			<summary>
+			Add the specified app ID to the user's cart and show the store page.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.FRIEND_RELATIONSHIP_NONE">
+			<summary>
+			The users have no relationship.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.FRIEND_RELATIONSHIP_BLOCKED">
+			<summary>
+			The user has just clicked Ignore on an friendship invite. This doesn't get stored.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.FRIEND_RELATIONSHIP_REQUEST_RECIPIENT">
+			<summary>
+			The user has requested to be friends with the current user.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.FRIEND_RELATIONSHIP_FRIEND">
+			<summary>
+			A "regular" friend.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.FRIEND_RELATIONSHIP_REQUEST_INITIATOR">
+			<summary>
+			The current user has sent a friend invite.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.FRIEND_RELATIONSHIP_IGNORED">
+			<summary>
+			The current user has explicit blocked this other user from comments/chat/etc. This is stored.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.FRIEND_RELATIONSHIP_IGNORED_FRIEND">
+			<summary>
+			The user has ignored the current user.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.FRIEND_FLAG_NONE">
+			<summary>
+			None.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.FRIEND_FLAG_BLOCKED">
+			<summary>
+			Users that the current user has blocked from contacting.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.FRIEND_FLAG_FRIENDSHIP_REQUESTED">
+			<summary>
+			Users that have sent a friend invite to the current user.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.FRIEND_FLAG_IMMEDIATE">
+			<summary>
+			The current user's "regular" friends.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.FRIEND_FLAG_CLAN_MEMBER">
+			<summary>
+			Users that are in one of the same (small) Steam groups as the current user.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.FRIEND_FLAG_ON_GAME_SERVER">
+			<summary>
+			Users that are on the same game server.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.FRIEND_FLAG_REQUESTING_FRIENDSHIP">
+			<summary>
+			Users that the current user has sent friend invites to.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.FRIEND_FLAG_REQUESTING_INFO">
+			<summary>
+			Users that are currently sending additional info about themselves.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.FRIEND_FLAG_IGNORED">
+			<summary>
+			Users that the current user has ignored from contacting them.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.FRIEND_FLAG_IGNORED_FRIEND">
+			<summary>
+			Users that have ignored the current user; but the current user still knows about them.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.FRIEND_FLAG_ALL">
+			<summary>
+			All friend flags.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.PERSONA_STATE_OFFLINE">
+			<summary>
+			Friend is not currently logged on.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.PERSONA_STATE_ONLINE">
+			<summary>
+			Friend is logged on.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.PERSONA_STATE_BUSY">
+			<summary>
+			User is on, but busy.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.PERSONA_STATE_AWAY">
+			<summary>
+			Auto-away feature.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.PERSONA_STATE_SNOOZE">
+			<summary>
+			Auto-away for a long time.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.PERSONA_STATE_LOOKING_TO_TRADE">
+			<summary>
+			Online, trading.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.PERSONA_STATE_LOOKING_TO_PLAY">
+			<summary>
+			Online, wanting to play.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.CALLBACK_OVERLAY_SHOWN">
+			<summary>
+			
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.CALLBACK_LEADERBOARD_FOUND">
+			<summary>
+			
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.CALLBACK_LEADERBOARD_SCORES_UPLOADED">
+			<summary>
+			
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Steam.CALLBACK_LEADERBOARD_SCORES_DOWNLOADED">
+			<summary>
+			
+		</summary>
+		</member>
+		<member name="M:Unigine.Plugins.SteamLeaderboard.getID const">
+			<summary>
+			Returns the leaderboard ID.
+			</summary>  
+			<returns>Leaderboard ID.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.SteamLeaderboard.getName const">
+			<summary>
+			Returns the leaderboard name.
+			</summary>  
+			<returns>Leaderboard name.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.SteamLeaderboard.isFound const">
+			<summary>
+			Returns the value stating if the leaderboard was found.
+			</summary>  
+			<returns>true if the leaderboard is found, otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.SteamLeaderboard.find">
+			<summary>
+			Returns the value stating if the leaderboard was created.
+			</summary>  
+			<returns>true if a leaderboard is created, otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.SteamLeaderboard.findOrCreate(SteamLeaderboard::SORT_METHOD,SteamLeaderboard::DISPLAY_TYPE)">
+			<summary>
+			Checks if a leaderboard is created, it will create it if it's not yet created.
+			</summary> 
+			<param name="sort_method"> The sort order of the new leaderboard if it's created. </param>
+			<param name="display_type"> The display type (used by the Steam Community web site) of the new leaderboard if it's created. </param> 
+			<returns>true if a leaderboard is created, otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.SteamLeaderboard.uploadScore(int,bool)">
+			<summary>
+			Uploads the user score to the current leaderboard.
+			</summary> 
+			<param name="score"> The value to store in the current leaderboard. </param>
+			<param name="forced"> If set to true, the leaderboard will always replace score with specified; if set to false, the leaderboard will keep user's best score. </param> 
+			<returns>true if , otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.SteamLeaderboard.downloadScores(SteamLeaderboard::DATA_REQUEST,int,int)">
+			<summary>
+			Downloads a set of entries from the current leaderboard.
+			</summary> 
+			<param name="request"> Type of requested data, one of the DATA_REQUEST values. </param>
+			<param name="num_before"> Number of entries before the current user. </param>
+			<param name="num_after"> Number of entries after the current user. </param> 
+			<returns>false if a leaderboard has not been selected yet, otherwise true.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.SteamLeaderboard.isUploading const">
+			<summary>
+			Checks the leaderboard uploading status.
+			</summary>  
+			<returns>true if the leaderboard is uploading, otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.SteamLeaderboard.isDownloading const">
+			<summary>
+			Checks the leaderboard downloading status.
+			</summary>  
+			<returns>true if the leaderboard is downloading, otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.SteamLeaderboard.isLastUploadFailed const">
+			<summary>
+			Checks the leaderboard upload result.
+			</summary>  
+			<returns>true if the leaderboard upload has failed, otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.SteamLeaderboard.isLastDownloadFailed const">
+			<summary>
+			Checks the leaderboard download result.
+			</summary>  
+			<returns>true if the leaderboard download has failed, otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.SteamLeaderboard.getLastDataRequest const">
+			<summary>
+			Returns the type of requested data in the most recent leaderbord download.
+			</summary>  
+			<returns>Type of requested data, one of the DATA_REQUEST values.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.SteamLeaderboard.getEntryCount const">
+			<summary>
+			Returns the total number of entries in the leaderboard.
+			</summary>  
+			<returns>Number of entries in the leaderboard. Returns 0, if the leaderboard handle is invalid.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.SteamLeaderboard.getSortMethod const">
+			<summary>
+			Returns the order for the leaderboard sorting.
+			</summary>  
+			<returns>Order for the leaderboard sorting, one of the values.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.SteamLeaderboard.getDisplayType const">
+			<summary>
+			Returns the type of data to be displayed with the leaderboard.
+			</summary>  
+			<returns>Type of data to be displayed with the leaderboard, one of the values.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.SteamLeaderboard.getNumEntries const">
+			<summary>
+			Returns the existing number of entries.
+			</summary>  
+			<returns>Number of entries.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.SteamLeaderboard.getEntryUserID(int) const">
+			<summary>
+			Returns the ID of the user who this entry belongs to.
+			</summary> 
+			<param name="num"> Number of an entry in a leaderboard. </param> 
+			<returns>The globally unique identifier for all Steam accounts.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.SteamLeaderboard.getEntryRank(int) const">
+			<summary>
+			Returns the global rank of the entry.
+			</summary> 
+			<param name="num"> Number of an entry in a leaderboard. </param> 
+			<returns>The global rank of this entry ranging from [1..N], where N is the number of users with an entry in the leaderboard.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.SteamLeaderboard.getEntryScore(int) const">
+			<summary>
+			Returns the raw score of the entry as set in the leaderboard.
+			</summary> 
+			<param name="num"> Number of an entry in a leaderboard. </param> 
+			<returns>The raw score as set in the leaderboard.</returns>
+		</member>
+		<member name="F:Unigine.Plugins.SteamLeaderboard.SORT_METHOD_NONE">
+			<summary>
+			Only ever used when a leaderboard is invalid, you should never set this yourself.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.SteamLeaderboard.SORT_METHOD_ASCENDING">
+			<summary>
+			The top-score is the lowest number.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.SteamLeaderboard.SORT_METHOD_DESCENDING">
+			<summary>
+			The top-score is the highest number.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.SteamLeaderboard.DISPLAY_TYPE_NONE">
+			<summary>
+			This is only ever used when a leaderboard is invalid, you should never set this yourself.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.SteamLeaderboard.DISPLAY_TYPE_NUMERIC">
+			<summary>
+			The score is just a simple numerical value.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.SteamLeaderboard.DISPLAY_TYPE_TIME_SECONDS">
+			<summary>
+			The score represents a time, in seconds.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.SteamLeaderboard.DISPLAY_TYPE_TIME_MILLISECONDS">
+			<summary>
+			The score represents a time, in milliseconds.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.SteamLeaderboard.DATA_REQUEST_GLOBAL">
+			<summary>
+			Used to query for a sequential range of leaderboard entries by leaderboard rank. The start and end parameters control the requested range. For example, you can display the top 10 on a leaderboard for your game by setting start to 1 and end to 10.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.SteamLeaderboard.DATA_REQUEST_GLOBAL_AROUND_USER">
+			<summary>
+			Used to retrieve leaderboard entries relative a user's entry. The start parameter is the number of entries to retrieve before the current user's entry, and the end parameter is the number of entries after the current user's entry. The current user's entry is always included. For example, if the current user is #5 on the leaderboard, setting start to -2 and end to 2 will return 5 entries: ranks #3 through #7. If there are not enough entries in the leaderboard before or after the user's entry, Steam will adjust the range to try to return the number of entries requested. For example, if the user is #1 on the leaderboard and start is set to -2, end is set to 2, Steam will return the first 5 entries in the leaderboard.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.SteamLeaderboard.DATA_REQUEST_FRIENDS">
+			<summary>
+			Used to retrieve all leaderboard entries for friends of the current user. The start and end parameters are ignored.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.SteamLeaderboard.DATA_REQUEST_USERS">
+			<summary>
+			Used internally.
+		</summary>
+		</member>
+	</members>
+</doc>

@@ -1,0 +1,595 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Plugins.Oculus.getControllerAxis(Oculus::DEVICE,Oculus::AXIS)">
+			<summary>
+			Returns the coordinates of the specified controller axis along the X and Y axes.
+			</summary> 
+			<param name="device"> Device ID, one of the DEVICE variables. </param>
+			<param name="axis"> One of the AXIS variables. </param> 
+			<returns>X and Y in the range of [-1;1] ([0;1] for a trigger).</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getControllerButtonPressed(Oculus::BUTTON)">
+			<summary>
+			Returns the value indicating if the specified button is pressed.
+			</summary> 
+			<param name="button"> A button, one of the BUTTON variables. </param> 
+			<returns>true if the button is pressed; otherwise - false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getControllerButtonTouched(Oculus::TOUCH)">
+			<summary>
+			Returns the value indicating if the specified button is touched.
+			</summary> 
+			<param name="button"> A button, one of the TOUCH variables. </param> 
+			<returns>true if the button is touched; otherwise - false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.setControllerVibration(Oculus::DEVICE,unsignedshort,float)">
+			<summary>
+			Sets the vibration of the given duration and amplitude.
+			</summary> 
+			<param name="device"> Device ID, one of the DEVICE variables. </param>
+			<param name="duration"> Duration of the vibration. </param>
+			<param name="amplitude"> Amplitude of the vibration. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getDeviceAngularVelocity(Oculus::DEVICE)">
+			<summary>
+			Returns a device angular velocity, in radians per second.
+			</summary> 
+			<param name="device"> Device ID, one of the DEVICE variables. </param> 
+			<returns>Angular velocity.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.isDeviceConnected(Oculus::DEVICE)">
+			<summary>
+			Returns a value indicating if the device connected to the slot.
+			</summary> 
+			<param name="device"> Device ID, one of the DEVICE variables. </param> 
+			<returns>true - connected; false - not connected.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getDevicePose(Oculus::DEVICE)">
+			<summary>
+			Returns a single pose for a tracked device.
+			</summary> 
+			<param name="device"> Device ID, one of the DEVICE variables. </param> 
+			<returns>Identity matrix.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getDeviceVelocity(Oculus::DEVICE)">
+			<summary>
+			Returns a device velocity in tracker space, in meters per second.
+			</summary> 
+			<param name="device"> Device ID, one of the DEVICE variables. </param> 
+			<returns>Velocity.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.setEnabled(bool)">
+			<summary>
+			Toggles the VR mode.
+			</summary> 
+			<param name="enabled"> true to enable the VR mode; false to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.isEnabled const">
+			<summary>
+			Returns the value indicating if the VR mode is enabled or not.
+			</summary>  
+			<returns>true if the VR mode is enabled; false if it is disabled.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.setHeadPositionLock(bool)">
+			<summary>
+			Locks the head position.
+			</summary> 
+			<param name="lock"> true to lock the head position. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.isHeadPositionLock const">
+			<summary>
+			Returns the value indicating if the head position is locked.
+			</summary>  
+			<returns>true if the head position is locked; otherwise - false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.setHeadRotationLock(bool)">
+			<summary>
+			Locks the head rotation.
+			</summary> 
+			<param name="lock"> true to lock the head rotation. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.isHeadRotationLock const">
+			<summary>
+			Returns the value indicating if the head rotation is locked.
+			</summary>  
+			<returns>true if the head rotation is locked; otherwise - false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.isPoseValid(Oculus::DEVICE)">
+			<summary>
+			Returns a value indicating if the device pose is valid.
+			</summary> 
+			<param name="device"> Device ID, one of the DEVICE variables. </param> 
+			<returns>true - valid; false - invalid.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.setPositionScale(float)">
+			<summary>
+			Sets a new scale for the world. When increasing the scale, the objects get smaller when they are farther away.
+			</summary> 
+			<param name="scale"> World scale. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getPositionScale const">
+			<summary>
+			Returns the current world scale. When increasing the scale, the objects get smaller when they are farther away.
+			</summary>  
+			<returns>World scale.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getViewportMode const">
+			<summary>
+			Returns a value indicating the current viewport mode, that determines the type of image to be displayed in the viewport.
+			</summary>  
+			<returns>Current viewport mode. One of the VIEWPORT variables.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.setViewportMode(Oculus::VIEWPORT)">
+			<summary>
+			Sets the viewport mode, that world scales the type of image to be displayed in the viewport.
+			</summary> 
+			<param name="mode"> Viewport mode. One of the VIEWPORT variables. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getVersion const">
+			<summary>
+			Returns the libOVRT version of the HMD.
+			</summary>  
+			<returns>The libOVR version (a UTF-8 encoded null-terminated version string).</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHmdType const">
+			<summary>
+			Returns the OpenVR type of the HMD.
+			</summary>  
+			<returns>HMD type.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHmdProductName const">
+			<summary>
+			Returns the name of the HMD (UTF-8 encoded product identification string).
+			</summary>  
+			<returns>Device name.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHmdManufacturer const">
+			<summary>
+			Returns the name of the HMD manufacturer (UTF-8 encoded identification string).
+			</summary>  
+			<returns>Manufacturer name.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHmdVendorID const">
+			<summary>
+			Returns the HID (USB) vendor identifier of the HMD.
+			</summary>  
+			<returns>Vendor ID.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHmdProductID const">
+			<summary>
+			Returns the HID (USB) product identifier of the HMD.
+			</summary>  
+			<returns>HID product identifier.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHmdFirmwareMajor const">
+			<summary>
+			Returns the major version of the HMD firmware.
+			</summary>  
+			<returns>Major version of the device firmware.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHmdFirmwareMinor const">
+			<summary>
+			Returns the minor version of the HMD firmware.
+			</summary>  
+			<returns>Minor version of the device firmware.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHmdTrackerHFov const">
+			<summary>
+			Returns the horizontal FOV (if present) of the tracking sensor frustum in degrees.
+			</summary>  
+			<returns>Horizontal FOV of the tracking sensor frustum in degrees.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHmdTrackerVFov const">
+			<summary>
+			Returns the vertical FOV (if present) of the tracking sensor frustum in degrees.
+			</summary>  
+			<returns>Vertical FOV of the tracking sensor frustum in degrees.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHmdTrackerZNear const">
+			<summary>
+			Returns the distance from the tracking sensor to the near Z clipping plane of viewing frustum.. The returned value was already multiplied by the current world scale.
+			</summary>  
+			<returns>Distance from the tracking sensor to the tracking frustum near Z in meters.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHmdTrackerZFar const">
+			<summary>
+			Returns the distance from the tracking sensor to the far Z clipping plane of viewing frustum.. The returned value was already multiplied by the current world scale.
+			</summary>  
+			<returns>Distance from the tracking sensor to the tracking frustum far Z in meters.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getDefaultHmdCaps const">
+			<summary>
+			Returns HMD capability bits that are default for the current device.
+			</summary>  
+			<returns>Default HMD capability bits.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getDefaultTrackingCaps const">
+			<summary>
+			Returns tracking capability bits that are default for the current system.
+			</summary>  
+			<returns>Default tracking capability bits.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getAvailableHmdCaps const">
+			<summary>
+			Returns HMD capability bits that the device currently supports.
+			</summary>  
+			<returns>HMD capability bits.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getAvailableTrackingCaps const">
+			<summary>
+			Returns tracking capability bits that the system currently supports.
+			</summary>  
+			<returns>Tracking capability bits.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHmdDefaultFov(int) const">
+			<summary>
+			Returns the default optical field of view for the specified eye.
+			</summary> 
+			<param name="num"> Eye: 0 for the left eye, 1 for the right eye. </param> 
+			<returns>Default field of view.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHmdMaxFov(int) const">
+			<summary>
+			Returns the maximum optical field of view that can be practically rendered for the specified eye.
+			</summary> 
+			<param name="num"> Eye: 0 for the left eye, 1 for the right eye. </param> 
+			<returns>Maximum field of view.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHmdWidth const">
+			<summary>
+			Returns the horizontal resolution of the full HMD screen (both eyes) in pixels.
+			</summary>  
+			<returns>Horizontal resolution in pixels.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHmdHeight const">
+			<summary>
+			Returns the vertical resolution of the full HMD screen (both eyes) in pixels.
+			</summary>  
+			<returns>Vertical resolution in pixels.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHmdSerialNumber const">
+			<summary>
+			Returns the serial number of the HMD.
+			</summary>  
+			<returns>HMD Serial number.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.resetTracking">
+			<summary>
+			Re-centers the sensor position and orientation: the (x,y,z) positional components and the yaw component of orientation. The roll and pitch components are always determined by gravity and cannot be redefined. See also ovr_RecenterTrackingOrigin method in the OVR_CAPI.h file reference.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getEyeFov(int) const">
+			<summary>
+			Returns the current field of view of the given eye.
+			</summary> 
+			<param name="num"> Eye: 0 for the left eye, 1 for the right eye. </param> 
+			<returns>Eye field of view.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getEyePosition(int) const">
+			<summary>
+			Returns the current position of the given eye. The returned value was already multiplied by the current world scale.
+			</summary> 
+			<param name="num"> Eye: 0 for the left eye, 1 for the right eye. </param> 
+			<returns>The eye position.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getEyeRotation(int) const">
+			<summary>
+			Returns the current orientation of the given eye.
+			</summary> 
+			<param name="num"> Eye: 0 for the left eye, 1 for the right eye. </param> 
+			<returns>The eye orientation.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHeadPosition const">
+			<summary>
+			Returns the current position of the head. The returned value was already multiplied by the current world scale.
+			</summary>  
+			<returns>Position of the head.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHeadRotation const">
+			<summary>
+			Returns the current orientation of the head.
+			</summary>  
+			<returns>Orientation of the head.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHeadLinearVelocity const">
+			<summary>
+			Returns the current linear velocity of the head.
+			</summary>  
+			<returns>Linear velocity of the head in meters per second.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHeadAngularVelocity const">
+			<summary>
+			Returns the current angular velocity of the head.
+			</summary>  
+			<returns>Angular velocity of the head in radians per second.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHeadLinearAcceleration const">
+			<summary>
+			Returns the current linear acceleration of the head.
+			</summary>  
+			<returns>Linear acceleration of the head in meters per second squared.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHeadAngularAcceleration const">
+			<summary>
+			Returns the current angular acceleration of the head.
+			</summary>  
+			<returns>Angular acceleration of the head in radians per second squared.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHandPosition(int) const">
+			<summary>
+			Returns the current position of the given hand. The returned value was already multiplied by the current world scale.
+			</summary> 
+			<param name="num"> Hand: 0 for the left hand, 1 for the right hand. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getHandRotation(int) const">
+			<summary>
+			Returns the current orientation of the given hand.
+			</summary> 
+			<param name="num"> Hand: 0 for the left hand, 1 for the right hand. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getTrackerPosition const">
+			<summary>
+			Returns the current position of the sensor relative to the tracking origin. The returned value was already multiplied by the current world scale.
+			</summary>  
+			<returns>Position of the sensor relative to the tracking origin.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getTrackerRotation const">
+			<summary>
+			Returns the current orientation (sensor roll and pitch) of the sensor relative to the tracking origin.
+			</summary>  
+			<returns>Orientation (roll and pitch) of the sensor relative to the tracking origin.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getLeveledTrackerPosition const">
+			<summary>
+			Returns the current position of the leveled sensor (aligned with gravity) relative to the tracking origin.  The returned value was already multiplied by the current world scale.
+			</summary>  
+			<returns>Position of the leveled sensor relative to the tracking origin.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getLeveledTrackerRotation const">
+			<summary>
+			Returns the current orientation (only sensor yaw, not roll and pitch) of the leveled sensor (aligned with gravity) relative to the tracking origin.
+			</summary>  
+			<returns>Orientation (yaw) of the sensor relative to the tracking origin.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.getTrackingStatus const">
+			<summary>
+			Returns the current status of the sensor tracking.
+			</summary>  
+			<returns>Status of the sensor tracking.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.isVisible const">
+			<summary>
+			Returns a value indicating if the process has VR focus and thus is visible in HMD.
+			</summary>  
+			<returns>true if the information about the HMD session status is visible; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Oculus.render(Unigine.Ptr{Player},Unigine.Math.ivec2,bool)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.DEVICE_HMD">
+			<summary>
+			Oculus head-mounted display.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.DEVICE_CONTROLLER_LEFT">
+			<summary>
+			Left controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.DEVICE_CONTROLLER_RIGHT">
+			<summary>
+			Right controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.AXIS_INDEX_TRIGGER">
+			<summary>
+			Left and right finger trigger values, in the range 0.0 to 1.0f. A value of 1.0 means that the trigger is fully depressed.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.AXIS_HAND_TRIGGER">
+			<summary>
+			Left and right hand trigger values, in the range 0.0 to 1.0f. Hand trigger is often used to grab items. A value of 1.0 means that the trigger is fully depressed.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.AXIS_THUMBSTICK">
+			<summary>
+			Horizontal and vertical thumbstick axis values, in the range -1.0f to 1.0f. The API automatically applies the deadzone, so developers don’t need to handle it explicitly.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.AXIS_INDEX_TRIGGER_NO_DEADZONE">
+			<summary>
+			Left and right finger trigger values, in the range 0.0 to 1.0f, without a deadzone. A value of 1.0 means that the trigger is fully depressed.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.AXIS_HAND_TRIGGER_NO_DEADZONE">
+			<summary>
+			Left and right hand trigger values, in the range 0.0 to 1.0f, without a deadzone. Hand trigger is often used to grab items. A value of 1.0 means that the trigger is fully depressed.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.AXIS_THUMBSTICK_NO_DEADZONE">
+			<summary>
+			Horizontal and vertical thumbstick axis values, in the range -1.0f to 1.0f, without a deadzone.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.TOUCH_A">
+			<summary>
+			User is touching A button on the right controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.TOUCH_B">
+			<summary>
+			User is touching B button on the right controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.TOUCH_RTHUMB">
+			<summary>
+			User has a finger on the thumb stick of the right controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.TOUCH_RTHUMB_REST">
+			<summary>
+			User has a finger on the textured thumb rest of the right controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.TOUCH_RINDEX_TRIGGER">
+			<summary>
+			User is touching the index finger trigger on the right controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.TOUCH_RINDEX_POINTING">
+			<summary>
+			User's right index finger is pointing forward past the trigger.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.TOUCH_RTHUMB_UP">
+			<summary>
+			User's right thumb is up and away from buttons on the controller, a gesture that can be interpreted as right thumbs up.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.TOUCH_X">
+			<summary>
+			User is touching X button on the left controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.TOUCH_Y">
+			<summary>
+			User is touching Y button on the left controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.TOUCH_LTHUMB">
+			<summary>
+			User has a finger on the thumb stick of the left controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.TOUCH_LTHUMB_REST">
+			<summary>
+			User has a finger on the textured thumb rest of the left controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.TOUCH_LINDEX_TRIGGER">
+			<summary>
+			User is touching the index finger trigger on the left controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.TOUCH_LINDEX_POINTING">
+			<summary>
+			User's left index finger is pointing forward past the trigger.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.TOUCH_LTHUMB_UP">
+			<summary>
+			User's left thumb is up and away from buttons on the controller, a gesture that can be interpreted as left thumbs up.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.BUTTON_A">
+			<summary>
+			A button on the right Touch controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.BUTTON_B">
+			<summary>
+			B button on the right Touch controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.BUTTON_RTHUMB">
+			<summary>
+			Thumb stick button on the right Touch controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.BUTTON_RSHOULDER">
+			<summary>
+			Shoulder button on the right Touch controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.BUTTON_X">
+			<summary>
+			X button on the left Touch controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.BUTTON_Y">
+			<summary>
+			Y button on the left Touch controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.BUTTON_LTHUMB">
+			<summary>
+			Thumb stick button on the left Touch controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.BUTTON_LSHOULDER">
+			<summary>
+			Shoulder button on the left Touch controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.BUTTON_UP">
+			<summary>
+			The Up button on the remote controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.BUTTON_DOWN">
+			<summary>
+			The Down button on the remote controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.BUTTON_LEFT">
+			<summary>
+			The Left button on the remote controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.BUTTON_RIGHT">
+			<summary>
+			The Right button on the remote controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.BUTTON_ENTER">
+			<summary>
+			Enter button on the left Touch controller. This is equivalent to the Start button on the Xbox controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.BUTTON_BACK">
+			<summary>
+			The Back button on the remote controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.BUTTON_VOLUP">
+			<summary>
+			The Volup button on the remote controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.BUTTON_VOLDOWN">
+			<summary>
+			The Voldown button on the remote controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.BUTTON_HOME">
+			<summary>
+			The Home button on the remote controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.VIEWPORT_BLACK_SCREEN">
+			<summary>
+			No image (black screen).
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.VIEWPORT_MONO">
+			<summary>
+			Mono image.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.VIEWPORT_STEREO">
+			<summary>
+			Stereo image (left and right eye).
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.Oculus.VIEWPORT_STEREO_FINAL">
+			<summary>
+			Stereoscopic spherical image.
+		</summary>
+		</member>
+	</members>
+</doc>

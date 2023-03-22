@@ -1,0 +1,300 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Ffp.setColor(unsignedint)">
+			<summary>
+			Sets rendering color for the last added vertex.					You can use COLOR_* variables to set the color.
+			</summary> 
+			<param name="color"> Color in ARGB8 format: (a &lt;&lt; 24) | (r &lt;&lt; 16) | (g &lt;&lt; 8) | (b &lt;&lt; 0). </param> 
+		</member>
+		<member name="M:Unigine.Ffp.setColor(float,float,float,float)">
+			<summary>
+			Sets rendering color for the last added vertex.
+			</summary> 
+			<param name="r"> Red color component. </param>
+			<param name="g"> Green color component. </param>
+			<param name="b"> Blue color component. </param>
+			<param name="a"> Alpha color component. </param> 
+		</member>
+		<member name="M:Unigine.Ffp.isEnabled const">
+			<summary>
+			Return a value indicating if the Ffp is enabled.
+			</summary>  
+			<returns>Returns 1 if the Ffp is enabled; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Ffp.setMode(int)">
+			<summary>
+			Sets current Ffp mode.
+			</summary> 
+			<param name="mode"> Current Ffp mode. </param> 
+		</member>
+		<member name="M:Unigine.Ffp.getMode const">
+			<summary>
+			Returns current Ffp mode.
+			</summary>  
+			<returns>Current Ffp mode.</returns>
+		</member>
+		<member name="M:Unigine.Ffp.getNumIndices const">
+			<summary>
+			Returns the number of indices in the current primitive batch.
+			</summary>  
+			<returns>The number of indices.</returns>
+		</member>
+		<member name="M:Unigine.Ffp.getNumVertex const">
+			<summary>
+			Returns the number of vertices in the current primitive batch.
+			</summary>  
+			<returns>The number of vertices.</returns>
+		</member>
+		<member name="M:Unigine.Ffp.setOrtho(int,int)">
+			<summary>
+			Sets orthographic projection to render the primitive.					For example, the render_show_textures						 console command renders textures via Ffp by using orthographic projection.
+			</summary> 
+			<param name="width"> Primitive width. </param>
+			<param name="height"> Primitive height. </param> 
+		</member>
+		<member name="M:Unigine.Ffp.setTexCoord(float,float,float,float)">
+			<summary>
+			Sets texture coordinates for the last added vertex.
+			</summary> 
+			<param name="x"> X texture coordinate. </param>
+			<param name="y"> Y texture coordinate. </param>
+			<param name="z"> Z texture coordinate. </param>
+			<param name="w"> W texture coordinate. </param> 
+		</member>
+		<member name="M:Unigine.Ffp.setTransform(Unigine.Math.mat4)">
+			<summary>
+			Sets transformation matrix for the rendered primitive.
+			</summary> 
+			<param name="transform"> Transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.Ffp.getTransform const">
+			<summary>
+			Returns transformation matrix of the rendered primitive.
+			</summary>  
+			<returns>Transformation matrix.</returns>
+		</member>
+		<member name="M:Unigine.Ffp.addIndex(int)">
+			<summary>
+			Adds given index to Ffp.
+			</summary> 
+			<param name="index"> Index of a vertex. </param> 
+		</member>
+		<member name="M:Unigine.Ffp.addIndices(int,int)">
+			<summary>
+			Adds two given indices to Ffp.
+			</summary> 
+			<param name="i0"> The first index. </param>
+			<param name="i1"> The second index. </param> 
+		</member>
+		<member name="M:Unigine.Ffp.addIndices(ushort[],int)">
+			<summary>
+			Adds given indices array to Ffp with given vertex offset.
+			</summary> 
+			<param name="indices"> The first index. </param>
+			<param name="vertex_offset"> Vertex offset. </param> 
+		</member>
+		<member name="M:Unigine.Ffp.addIndices(ushort[])">
+			<summary>
+			Adds given indecis array to Ffp.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Ffp.addIndices(int,int,int,int)">
+			<summary>
+			Adds four given indices to Ffp.
+			</summary> 
+			<param name="i0"> The first index. </param>
+			<param name="i1"> The second index. </param>
+			<param name="i2"> The third index. </param>
+			<param name="i3"> The fourth index. </param> 
+		</member>
+		<member name="M:Unigine.Ffp.addIndices(int,int,int)">
+			<summary>
+			Adds three given indices to Ffp.
+			</summary> 
+			<param name="i0"> The first index. </param>
+			<param name="i1"> The second index. </param>
+			<param name="i2"> The third index. </param> 
+		</member>
+		<member name="M:Unigine.Ffp.addLines(int)">
+			<summary>
+			Adds a specified number of lines.					This method does not add vertices; instead, it allocates indices, for which vertices should be then created with addVertex(). Indices will point to vertices starting from the last added vertex.
+			</summary> 
+			<param name="num"> The number of lines. </param> 
+		</member>
+		<member name="M:Unigine.Ffp.addTriangleQuads(int)">
+			<summary>
+			Adds a specified number of quads. This method does not add vertices; instead, it allocates indices, for which vertices should be then created with addVertex(). Indices will point to vertices starting from the last added vertex.
+			</summary> 
+			<param name="num"> The number of quads. </param> 
+		</member>
+		<member name="M:Unigine.Ffp.addTriangles(int)">
+			<summary>
+			Adds a specified number of triangles. This method does not add vertices; instead, it allocates indices, for which vertices should be then created with addVertex(). Indices will point to vertices starting from the last added vertex.
+			</summary> 
+			<param name="num"> The number of triangles. </param> 
+		</member>
+		<member name="M:Unigine.Ffp.addVertex(Ffp::Vertex[])">
+			<summary>
+			Adds given vertex array to Ffp.
+			</summary> 
+			<param name="vertex"> Vertex. </param> 
+		</member>
+		<member name="M:Unigine.Ffp.addVertex(Ffp::Vertex)">
+			<summary>
+			Adds given vertex to Ffp.
+			</summary> 
+			<param name="vertex"> Vertex. </param> 
+		</member>
+		<member name="M:Unigine.Ffp.addVertex(float,float,float)">
+			<summary>
+			Adds a vertex with given coordinates to Ffp.
+			</summary> 
+			<param name="x"> X coordinate of the vertex. </param>
+			<param name="y"> Y coordinate of the vertex. </param>
+			<param name="z"> Z coordinate of the vertex. </param> 
+		</member>
+		<member name="M:Unigine.Ffp.beginLines">
+			<summary>
+			Begins rendering of lines. Specify a list of vertex or index data between beginLines() and endLines().
+			</summary>  
+		</member>
+		<member name="M:Unigine.Ffp.beginTriangles">
+			<summary>
+			Begins rendering of triangles. Specify a list of primitives and vertex data between beginTriangles() and endTriangles().
+			</summary>  
+		</member>
+		<member name="M:Unigine.Ffp.disable">
+			<summary>
+			Disables Ffp rendering.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Ffp.enable(int,int)">
+			<summary>
+			Enables Ffp rendering.
+			</summary> 
+			<param name="mode"> Ffp mode. </param>
+			<param name="texture_sample"> Texture sampler flag to be set. One of the TEXTURE_SAMPLE_* values. </param> 
+		</member>
+		<member name="M:Unigine.Ffp.endLines">
+			<summary>
+			Ends rendering of lines (i.e. draws the specified lines).
+			</summary>  
+		</member>
+		<member name="M:Unigine.Ffp.endTriangles">
+			<summary>
+			Ends rendering of triangles (i.e. draws the specified triangles).
+			</summary>  
+		</member>
+		<member name="M:Unigine.Ffp.renderScreen">
+			<summary>
+			Renderers a full screen quad. It should be used when rendering post effects.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Ffp.setTextureSample(int)">
+			<summary>
+			Sets a new texture sample flag.
+			</summary> 
+			<param name="sample"> Texture sample flag to be set, one of the TEXTURE_SAMPLE_* values. </param> 
+		</member>
+		<member name="M:Unigine.Ffp.getTextureSample const">
+			<summary>
+			Returns the current texture sample flag.
+			</summary>  
+			<returns>Current texture sample flag used, one of the TEXTURE_SAMPLE_* values.</returns>
+		</member>
+		<member name="F:Unigine.Ffp.COLOR_BLACK">
+			<summary>
+			Black color value: 0xff000000u
+		</summary>
+		</member>
+		<member name="F:Unigine.Ffp.COLOR_BLUE">
+			<summary>
+			Blue color value: 0xff0000ffu
+		</summary>
+		</member>
+		<member name="F:Unigine.Ffp.COLOR_GREEN">
+			<summary>
+			Green color value: 0xff00ff00u
+		</summary>
+		</member>
+		<member name="F:Unigine.Ffp.COLOR_RED">
+			<summary>
+			Red color value: 0xffff0000u
+		</summary>
+		</member>
+		<member name="F:Unigine.Ffp.COLOR_WHITE">
+			<summary>
+			White color value: 0xffffffffu
+		</summary>
+		</member>
+		<member name="F:Unigine.Ffp.MODE_DEFAULT">
+			<summary>
+			Default rendering mode.
+		</summary>
+		</member>
+		<member name="F:Unigine.Ffp.MODE_LOADING_SCREEN">
+			<summary>
+			Loading screen rendering mode.
+		</summary>
+		</member>
+		<member name="F:Unigine.Ffp.MODE_SOLID">
+			<summary>
+			Solid rendering mode.
+		</summary>
+		</member>
+		<member name="F:Unigine.Ffp.MODE_YUV">
+			<summary>
+			YUV rendering mode.
+		</summary>
+		</member>
+		<member name="F:Unigine.Ffp.MODE_SRGB">
+			<summary>
+			SRGB correction rendering mode.
+		</summary>
+		</member>
+		<member name="F:Unigine.Ffp.NUM_MODES">
+			<summary>
+			Number of FFP rendering modes.
+		</summary>
+		</member>
+		<member name="F:Unigine.Ffp.TEXTURE_SAMPLE_2D">
+			<summary>
+			2D texture sampler flag.
+		</summary>
+		</member>
+		<member name="F:Unigine.Ffp.TEXTURE_SAMPLE_3D">
+			<summary>
+			3D texture sampler flag.
+		</summary>
+		</member>
+		<member name="F:Unigine.Ffp.TEXTURE_SAMPLE_CUBE">
+			<summary>
+			Cubemap texture sampler flag.
+		</summary>
+		</member>
+		<member name="F:Unigine.Ffp.TEXTURE_SAMPLE_ARRAY">
+			<summary>
+			Texture array sampler flag.
+		</summary>
+		</member>
+		<member name="F:Unigine.Ffp.TEXTURE_SAMPLE_SHADOW">
+			<summary>
+			Shadowmap texture sampler flag.
+		</summary>
+		</member>
+		<member name="F:Unigine.Ffp.TEXTURE_SAMPLE_INTEGER">
+			<summary>
+			Integer texture sampler flag.
+		</summary>
+		</member>
+		<member name="F:Unigine.Ffp.NUM_TEXTURES_SAMPLE">
+			<summary>
+			Number of texture sampler flags.
+		</summary>
+		</member>
+	</members>
+</doc>

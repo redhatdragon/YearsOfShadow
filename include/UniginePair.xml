@@ -1,0 +1,93 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Pair.#ctor">
+			<summary>
+			Default constructor that produces an empty pair.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Pair.#ctor(TypeFirst,TypeSecond)">
+			<summary>
+			Constructor. Creates a pair of given elements.
+			</summary> 
+			<param name="f"> First pair element. </param>
+			<param name="s"> Second pair element. </param> 
+		</member>
+		<member name="M:Unigine.Pair.Pair(Pair{OtherFirst,OtherSecond})">
+			<summary>
+			Replaces the pair with a given one.
+			</summary> 
+			<param name="o"> Pair. </param> 
+		</member>
+		<member name="M:Unigine.Pair.Pair(Pair{OtherFirst,OtherSecond})">
+			<summary>
+			Replaces the pair with a given one.
+			</summary> 
+			<param name="o"> Pair. </param> 
+		</member>
+		<member name="M:Unigine.Pair.Pair(OtherFirst,OtherSecond)">
+			<summary>
+			Replaces the pair elements with given ones.
+			</summary> 
+			<param name="f"> First pair element. </param>
+			<param name="s"> Second pair element. </param> 
+		</member>
+		<member name="M:Unigine.Pair.operator=(Pair{OtherFirst,OtherSecond})">
+			<summary>
+			Assignment operator for the pair.
+			</summary> 
+			<param name="o"> Pair to be assigned. </param> 
+		</member>
+		<member name="M:Unigine.Pair.swap(Pair)">
+			<summary>
+			Swaps two pairs.
+			</summary> 
+			<param name="o"> Pair to swap. </param> 
+		</member>
+		<member name="M:Unigine.Pair.operator==(Pair{OtherFirst,OtherSecond}) const">
+			<summary>
+			Checks if both elements of pairs are equal.
+			</summary> 
+			<param name="o"> Pair. </param> 
+			<returns>Returns 1 if pairs are equal; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.Pair.operator!=(Pair{OtherFirst,OtherSecond}) const">
+			<summary>
+			Checks if two pairs are not equal.
+			</summary> 
+			<param name="o"> Pair. </param> 
+			<returns>Returns 1 if pairs are not equal; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.Pair.operator&lt;(Pair{OtherFirst,OtherSecond}) const">
+			<summary>
+			Checks if the pair is less than a given one: compares the first elements and only if they are equal, compares the second elements.
+			</summary> 
+			<param name="o"> Pair. </param> 
+			<returns>Returns 1 if the pair is less than a given one; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.Pair.operator&gt;(Pair{OtherFirst,OtherSecond}) const">
+			<summary>
+			Checks if the pair is greater than a given one: compares the first elements and only if they are equal, compares the second elements.
+			</summary> 
+			<param name="o"> Pair. </param> 
+			<returns>Returns 1 if the pair is greater than a given one; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.Pair.operator&lt;=(Pair{OtherFirst,OtherSecond}) const">
+			<summary>
+			Checks if the pair is less than or equal to a given one: compares the first elements and if they are equal, compares the second elements.
+			</summary> 
+			<param name="o"> Pair. </param> 
+			<returns>Returns 1 if the pair is less than or equal to a given one; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.Pair.operator&gt;=(Pair{OtherFirst,OtherSecond}) const">
+			<summary>
+			Checks if the pair is greater than or equal to a given one: compares the first elements and if they are equal, compares the second elements.
+			</summary> 
+			<param name="o"> Pair. </param> 
+			<returns>Returns 1 if the pair is greater than or equal to a given one; otherwise, 0 is returned.</returns>
+		</member>
+	</members>
+</doc>

@@ -1,0 +1,134 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.SystemDialog.#ctor">
+			<summary>
+			Constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.SystemDialog.setType(int)">
+			<summary>
+			Sets the type of the system dialog.
+			</summary> 
+			<param name="type"> Dialog type to be set: one of the TYPE_* values. </param> 
+		</member>
+		<member name="M:Unigine.SystemDialog.getType">
+			<summary>
+			Returns the current type of the system dialog.
+			</summary>  
+			<returns>Dialog type to be set: one of the TYPE_* values.</returns>
+		</member>
+		<member name="M:Unigine.SystemDialog.setTitle(char)">
+			<summary>
+			Sets a new title for the system dialog.
+			</summary> 
+			<param name="title"> Dialog title to be set. </param> 
+		</member>
+		<member name="M:Unigine.SystemDialog.getTitle">
+			<summary>
+			Returns the current title of the system dialog.
+			</summary>  
+			<returns>Current dialog title.</returns>
+		</member>
+		<member name="M:Unigine.SystemDialog.setMessage(char)">
+			<summary>
+			Sets a new message of the system dialog.
+			</summary> 
+			<param name="message"> Dialog message to be set. </param> 
+		</member>
+		<member name="M:Unigine.SystemDialog.getMessage">
+			<summary>
+			Returns the current message of the system dialog.
+			</summary>  
+			<returns>Current dialog message.</returns>
+		</member>
+		<member name="M:Unigine.SystemDialog.setDefaultButtonReturn(int)">
+			<summary>
+			Sets a default button to be pressed by default when the user hits the Return key on the keyboard.
+			</summary> 
+			<param name="val"> Number of the button to be set, in the range from 0 to the total number of buttons. </param> 
+		</member>
+		<member name="M:Unigine.SystemDialog.getDefaultButtonReturn">
+			<summary>
+			Returns the current default button to be pressed by default when the user hits the Return key on the keyboard.
+			</summary>  
+			<returns>Number of the button, in the range from 0 to the total number of buttons.</returns>
+		</member>
+		<member name="M:Unigine.SystemDialog.setDefaultButtonEscape(int)">
+			<summary>
+			Sets a default button to be pressed by default when the user hits the Escape key on the keyboard.
+			</summary> 
+			<param name="escape"> Number of the button to be set, in the range from 0 to the total number of buttons. </param> 
+		</member>
+		<member name="M:Unigine.SystemDialog.getDefaultButtonEscape">
+			<summary>
+			Returns the current default button to be pressed by default when the user hits the Escape key on the keyboard.
+			</summary>  
+			<returns>Number of the button, in the range from 0 to the total number of buttons.</returns>
+		</member>
+		<member name="M:Unigine.SystemDialog.getNumButtons">
+			<summary>
+			Returns the total number of buttons of the system dialog.
+			</summary>  
+			<returns>Total number of dialog buttons.</returns>
+		</member>
+		<member name="M:Unigine.SystemDialog.addButton">
+			<summary>
+			Adds a new button to the system dialog.
+			</summary>  
+			<returns>Number of the new added button.</returns>
+		</member>
+		<member name="M:Unigine.SystemDialog.addButton(char)">
+			<summary>
+			Adds a new button to the system dialog.
+			</summary> 
+			<param name="name"> Name of the button to be added. </param> 
+			<returns>Number of the new added button.</returns>
+		</member>
+		<member name="M:Unigine.SystemDialog.removeButton(int)">
+			<summary>
+			Removes the button with the specified number from the system dialog.
+			</summary> 
+			<param name="num"> Number of the button to be removed, in the range from 0 to the total number of buttons. </param> 
+		</member>
+		<member name="M:Unigine.SystemDialog.swapButtons(int,int)">
+			<summary>
+			Swaps two buttons with the specified numbers.
+			</summary> 
+			<param name="num_0"> Number of the first button, in the range from 0 to the total number of buttons. </param>
+			<param name="num_1"> Number of the second button, in the range from 0 to the total number of buttons. </param> 
+		</member>
+		<member name="M:Unigine.SystemDialog.getButtonName(int)">
+			<summary>
+			Returns the name of the button by its number.
+			</summary> 
+			<param name="num"> Number of the button, in the range from 0 to the total number of buttons. </param> 
+			<returns>Name of the button with the specified number.</returns>
+		</member>
+		<member name="M:Unigine.SystemDialog.setButtonName(int,char)">
+			<summary>
+			Sets as new name for the button with the specified number.
+			</summary> 
+			<param name="num"> Number of the button to be renamed, in the range from 0 to the total number of buttons. </param>
+			<param name="name"> New name to be set for the button with the specified number. </param> 
+		</member>
+		<member name="F:Unigine.SystemDialog.TYPE_ERROR">
+			<summary>
+			Error dialog.
+		</summary>
+		</member>
+		<member name="F:Unigine.SystemDialog.TYPE_WARNING">
+			<summary>
+			Warning dialog.
+		</summary>
+		</member>
+		<member name="F:Unigine.SystemDialog.TYPE_INFORMATION">
+			<summary>
+			Information dialog.
+		</summary>
+		</member>
+	</members>
+</doc>

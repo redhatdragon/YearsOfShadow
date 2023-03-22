@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nodes version="2.16.1.0">
+	<node type="ObjectMeshStatic" id="1071245438" name="oculus_touch_body_left">
+		<mesh_name>guid://03e558466bf2c8f5d3b62a6c74d6b1f0612da2bc</mesh_name>
+		<surface name="oculus_touch_mat" lighting_mode="0" intersection="0" physics_friction="1" physics_restitution="1" material="eb47695b91edc95c1067f58b0713ef70352c2b4a"/>
+		<transform>1.0000017 0 0 0.0 -1.1368684e-13 1.0000017 0 0.0 0 0 1.0000018 0.0 0 0 0 1.0</transform>
+		<node type="ObjectMeshStatic" id="21329105" name="oculus_touch_left_button_menu">
+			<mesh_name>guid://c40f1a7ff44ac9e621d52b19db1851d1c925fcbc</mesh_name>
+			<surface name="oculus_touch_mat" lighting_mode="0" intersection="0" physics_friction="1" physics_restitution="1" material="eb47695b91edc95c1067f58b0713ef70352c2b4a"/>
+			<transform>1 0 0 0.0 0 1 0 0.0 0 0 1 0.0 -0.0037079991 -0.0064403629 -0.00062670966 1.0</transform>
+		</node>
+		<node type="ObjectMeshStatic" id="1640986780" name="oculus_touch_left_button_x">
+			<mesh_name>guid://ca5999217e908d22dd2350a645e5fc46dcc2ecb1</mesh_name>
+			<surface name="oculus_touch_mat" lighting_mode="0" intersection="0" physics_friction="1" physics_restitution="1" material="eb47695b91edc95c1067f58b0713ef70352c2b4a"/>
+			<transform>1 0 0 0.0 0 1 0 0.0 0 0 1 0.0 0.011069999 -0.00017555816 -0.00051017822 1.0</transform>
+		</node>
+		<node type="ObjectMeshStatic" id="623119712" name="oculus_touch_left_button_y">
+			<mesh_name>guid://bee6ec9d7d77cadd3c552fa0a81f5a3f4d0a0f7d</mesh_name>
+			<surface name="oculus_touch_mat" lighting_mode="0" intersection="0" physics_friction="1" physics_restitution="1" material="eb47695b91edc95c1067f58b0713ef70352c2b4a"/>
+			<transform>1 0 0 0.0 0 1 0 0.0 0 0 1 0.0 0.017316498 0.013366394 -0.00063343532 1.0</transform>
+		</node>
+		<node type="ObjectMeshStatic" id="1253108062" name="oculus_touch_left_thumbstick">
+			<mesh_name>guid://72a67352f84570b53373d7bbc94b52ee10e04e53</mesh_name>
+			<surface name="oculus_touch_mat" lighting_mode="0" intersection="0" physics_friction="1" physics_restitution="1" material="eb47695b91edc95c1067f58b0713ef70352c2b4a"/>
+			<transform>1 0 0 0.0 0 1 0 0.0 0 0 1 0.0 -0.0014875008 0.012500987 -0.00730245 1.0</transform>
+		</node>
+		<node type="ObjectMeshStatic" id="1315367155" name="oculus_touch_left_trigger">
+			<mesh_name>guid://08d3cd07e1f80bbf3edd4151ec53cc58cd61474c</mesh_name>
+			<surface name="oculus_touch_mat" lighting_mode="0" intersection="0" physics_friction="1" physics_restitution="1" material="eb47695b91edc95c1067f58b0713ef70352c2b4a"/>
+			<transform>1 0 0 0.0 0 1 0 0.0 0 0 1 0.0 0.0064652064 0.02838617 -0.0066174818 1.0</transform>
+		</node>
+		<node type="ObjectMeshStatic" id="2013095037" name="oculus_touch_left_grip">
+			<mesh_name>guid://f6c92eebd6ca3d52bb765330038abff09955371d</mesh_name>
+			<surface name="oculus_touch_mat" lighting_mode="0" intersection="0" physics_friction="1" physics_restitution="1" material="eb47695b91edc95c1067f58b0713ef70352c2b4a"/>
+			<transform>1 0 0 0.0 0 1 0 0.0 0 0 1 0.0 0.0061796061 0.01825662 0.0054393769 1.0</transform>
+		</node>
+	</node>
+</nodes>

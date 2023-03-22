@@ -1,0 +1,98 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Profiler.setEnabled(bool)">
+			<summary>
+			Enables or disables the profiler.
+			</summary> 
+			<param name="enabled"> 1 to enable the profiler, 0 to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Profiler.isEnabled const">
+			<summary>
+			Returns a value indicating if the profiler is enabled.
+			</summary>  
+			<returns>1 if the profiler is enabled; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Profiler.setValue(char,char,int,int,float)">
+			<summary>
+			Updates settings of the integer counter.
+			</summary> 
+			<param name="name"> Name of the counter. </param>
+			<param name="units"> Counter units. </param>
+			<param name="value"> Value of the counter. </param>
+			<param name="max_value"> Counter maximum value. </param>
+			<param name="arg5"> Color of the graph. Pass NULL if no graph is required. </param> 
+		</member>
+		<member name="M:Unigine.Profiler.setValue(char,char,float,float,float)">
+			<summary>
+			Updates settings of the float counter.
+			</summary> 
+			<param name="name"> Name of the counter. </param>
+			<param name="units"> Counter units. </param>
+			<param name="value"> Value of the counter. </param>
+			<param name="max_value"> Counter maximum value. </param>
+			<param name="arg5"> Color of the graph. Pass NULL if no graph is required. </param> 
+		</member>
+		<member name="M:Unigine.Profiler.getValue(char) const">
+			<summary>
+			Returns a value of the specified counter.
+			</summary> 
+			<param name="name"> The name of the counter. </param> 
+			<returns>Value of the counter in milliseconds.</returns>
+		</member>
+		<member name="M:Unigine.Profiler.begin(char,Unigine.Math.vec4) const">
+			<summary>
+			Starts a counter with a given name and shows a colored graph (if the show_profiler 2 console variable is set). The counter shows user how many millisecods have been spent for the operation that is performed between the begin() and the end() functions.
+			</summary> 
+			<param name="name"> Name of the counter. </param>
+			<param name="color"> Color of the graph. </param> 
+		</member>
+		<member name="M:Unigine.Profiler.begin(char) const">
+			<summary>
+			Starts a counter with a given name. The counter shows user how many millisecods have been spent for the operation that is performed between the begin() and the end() functions.
+			</summary> 
+			<param name="name"> Name of the counter. </param> 
+		</member>
+		<member name="M:Unigine.Profiler.end const">
+			<summary>
+			Stops the last activated counter and returns its value.
+			</summary>  
+			<returns>Value of the counter in milliseconds.</returns>
+		</member>
+		<member name="M:Unigine.Profiler.getMicroprofileUrl const">
+			<summary>
+			Returns the microprofile web server url.
+			</summary>  
+			<returns>Microprofile web server url represented in the following way:http://localhost:p/, where p is the local port.</returns>
+		</member>
+		<member name="M:Unigine.Profiler.getGui const">
+			<summary>
+			Returns a pointer to the GUI of the engine Performance Profiler.
+			</summary>  
+			<returns>Pointer to the GUI.</returns>
+		</member>
+		<member name="M:Unigine.Profiler.setGui(Unigine.Ptr{Gui})">
+			<summary>
+			Sets the GUI for the engine Performance Profiler.
+			</summary> 
+			<param name="gui"> Pointer to the GUI class instance. </param> 
+		</member>
+		<member name="M:Unigine.Profiler.beginMicro(char,bool) const">
+			<summary>
+			Starts a counter with a given name in the Microprofile only, without overloading the Performance Profiler layout. The counter shows user how many millisecods have been spent for the operation that is performed between the beginMicro() and the endMicro() functions.Each counter has an ID. Thus, several nested beginMicro() / endMicro() blocks can be created, which can't be done in the Performance Profiler.
+			</summary> 
+			<param name="name"> Name of the counter. </param>
+			<param name="gpu"> Use 1 for the GPU counter, or 0 — for the CPU counter. The default value is 0. </param> 
+			<returns>ID of the new added counter.</returns>
+		</member>
+		<member name="M:Unigine.Profiler.endMicro(int) const">
+			<summary>
+			Stops a previously activated Microprofile counter with the specified ID.
+			</summary> 
+			<param name="id"> Microprofile counter ID. </param> 
+		</member>
+	</members>
+</doc>

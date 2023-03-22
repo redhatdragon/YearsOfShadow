@@ -1,0 +1,272 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.UlonArg.#ctor">
+			<summary>
+			Constructor. Creates a ULON argument.
+			</summary>  
+		</member>
+		<member name="M:Unigine.UlonArg.getName const">
+			<summary>
+			Returns the name of the ULON argument.
+			</summary>  
+			<returns>ULON argument name.</returns>
+		</member>
+		<member name="M:Unigine.UlonArg.getValue const">
+			<summary>
+			Returns the value of the ULON argument.
+			</summary>  
+			<returns>ULON argument value.</returns>
+		</member>
+		<member name="M:Unigine.UlonValue.#ctor">
+			<summary>
+			Constructor. Creates a ULON node value.
+			</summary>  
+		</member>
+		<member name="M:Unigine.UlonValue.#ctor(char)">
+			<summary>
+			Constructor. Creates a ULON node value from the specified source buffer.
+			</summary> 
+			<param name="arg1"> ULON node value source buffer. </param> 
+		</member>
+		<member name="M:Unigine.UlonValue.isArray const">
+			<summary>
+			Returns a value indicating if the ULON node value is of an array type.
+			</summary>  
+			<returns>true if the ULON node value is of an array type; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.UlonValue.getStr const">
+			<summary>
+			Returns the ULON node value as a non-formatted string.
+			</summary>  
+			<returns>ULON node value as a non-formatted string.</returns>
+		</member>
+		<member name="M:Unigine.UlonValue.getDouble const">
+			<summary>
+			Returns the ULON node value as a double.
+			</summary>  
+			<returns>Double ULON node value.</returns>
+		</member>
+		<member name="M:Unigine.UlonValue.getFloat const">
+			<summary>
+			Returns the ULON node value as a float.
+			</summary>  
+			<returns>Float ULON node value.</returns>
+		</member>
+		<member name="M:Unigine.UlonValue.getInt const">
+			<summary>
+			Returns the ULON node value as an integer.
+			</summary>  
+			<returns>Integer ULON node value.</returns>
+		</member>
+		<member name="M:Unigine.UlonValue.getLong const">
+			<summary>
+			Returns the ULON node value as a 64-bit long long.
+			</summary>  
+			<returns>64-bit long long ULON node value.</returns>
+		</member>
+		<member name="M:Unigine.UlonValue.getChar const">
+			<summary>
+			Returns the ULON node value as a char.
+			</summary>  
+			<returns>Char ULON node value.</returns>
+		</member>
+		<member name="M:Unigine.UlonValue.getBool const">
+			<summary>
+			Returns the ULON node value as a boolean.
+			</summary>  
+			<returns>Boolean ULON node value.</returns>
+		</member>
+		<member name="M:Unigine.UlonValue.getArray const">
+			<summary>
+			Returns the ULON node value as an array of strings.
+			</summary>  
+			<returns>Array of strings representing elements of the array.</returns>
+		</member>
+		<member name="M:Unigine.UlonValue.getDVec4 const">
+			<summary>
+			Returns the ULON node value as a dvec4 vector.
+			</summary>  
+			<returns>ULON node value as a dvec4 vector.</returns>
+		</member>
+		<member name="M:Unigine.UlonValue.getVec4 const">
+			<summary>
+			Returns the ULON node value as a vec4 vector.
+			</summary>  
+			<returns>ULON node value as a vec4 vector.</returns>
+		</member>
+		<member name="M:Unigine.UlonValue.getIVec4 const">
+			<summary>
+			Returns the ULON node value as an ivec4 vector.
+			</summary>  
+			<returns>ULON node value as an ivec4 vector.</returns>
+		</member>
+		<member name="M:Unigine.UlonValue.get(Unigine.Math.dvec4) const">
+			<summary>
+			Gets the ULON node value as a dvec4 and puts it to the specified output vector.
+			</summary> 
+			<param name="ret"> Output dvec4 vector. </param> 
+		</member>
+		<member name="M:Unigine.UlonValue.get(Unigine.Math.vec4) const">
+			<summary>
+			Gets the ULON node value as a vec4 and puts it to the specified output vector.
+			</summary> 
+			<param name="ret"> Output vec4 vector. </param> 
+		</member>
+		<member name="M:Unigine.UlonValue.get(Unigine.Math.ivec4) const">
+			<summary>
+			Gets the ULON node value as an ivec4 and puts it to the specified output vector.
+			</summary> 
+			<param name="ret"> Output ivec4 vector. </param> 
+		</member>
+		<member name="M:Unigine.UlonValue.setUsage(bool)">
+			<summary>
+			Sets a value indicating if the ULON node value is used (obtained via one of the get*() methods).
+			</summary> 
+			<param name="usage"> true to mark the ULON node value as used; otherwise, false. </param> 
+		</member>
+		<member name="M:Unigine.UlonValue.isUsage const">
+			<summary>
+			Returns a value indicating if the ULON node value is used (obtained via one of the get*() methods).
+			</summary>  
+			<returns>true if the ULON node value is used; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.UlonValue.read(char)">
+			<summary>
+			Reads the ULON node value from the specified source buffer.
+			</summary> 
+			<param name="src"> ULON node value source buffer. </param> 
+		</member>
+		<member name="M:Unigine.UlonNode.#ctor">
+			<summary>
+			Constructor. Creates a ULON node.
+			</summary>  
+		</member>
+		<member name="M:Unigine.UlonNode.load(char)">
+			<summary>
+			Loads ULON-data from the specified file and sets the current ULON node to be the root of the parsed hierarchy.
+			</summary> 
+			<param name="path"> Path to the file containing ULON description. </param> 
+			<returns>true if ULON-data from the specified file is read successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.UlonNode.parse(char)">
+			<summary>
+			Parses a given string into the ULON node.
+			</summary> 
+			<param name="str"> String to parse. </param> 
+			<returns>true if the string was parsed successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.UlonNode.getChildren const">
+			<summary>
+			Returns the list of all children of the ULON node.
+			</summary>  
+			<returns>List of all ULON node's children.</returns>
+		</member>
+		<member name="M:Unigine.UlonNode.getType const">
+			<summary>
+			Returns the type of the ULON node.
+			</summary>  
+			<returns>ULON node type.</returns>
+		</member>
+		<member name="M:Unigine.UlonNode.getName const">
+			<summary>
+			Returns the name of the ULON node.
+			</summary>  
+			<returns>ULON node name.</returns>
+		</member>
+		<member name="M:Unigine.UlonNode.getCondition const">
+			<summary>
+			Returns a condition set for the ULON node.					Conditions are not parsed and executed automatically, processing of conditions is the responsibility of the user of the ULON format (e.g. in case of materials UnigineScript and UUSL are used).
+			</summary>  
+			<returns>condition set for the ULON node.</returns>
+		</member>
+		<member name="M:Unigine.UlonNode.getValue const">
+			<summary>
+			Returns the value of the ULON node.
+			</summary>  
+			<returns>ULON node value.</returns>
+		</member>
+		<member name="M:Unigine.UlonNode.getArgs const">
+			<summary>
+			Returns the list of all arguments of the ULON node.
+			</summary>  
+			<returns>List of all arguments of the ULON node.</returns>
+		</member>
+		<member name="M:Unigine.UlonNode.isArg(char) const">
+			<summary>
+			Checks whether an argument with a given name exists.
+			</summary> 
+			<param name="name"> Name of the argument to be checked. </param> 
+			<returns>true if an argument with the specified name exists; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.UlonNode.getArgFloat(char,float) const">
+			<summary>
+			Returns the value of the ULON node argument with the specified name as a float.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Argument name. </param>
+			<param name="ret"> Default value to be returned if a ULON node argument with the specified name is not found. </param> 
+			<returns>Float value of the ULON node argument, if it exists; otherwise a default value set via the ret parameter.</returns>
+		</member>
+		<member name="M:Unigine.UlonNode.getArgInt(char,int) const">
+			<summary>
+			Returns the value of the ULON node argument with the specified name as an integer.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Argument name. </param>
+			<param name="ret"> Default value to be returned if a ULON node argument with the specified name is not found. </param> 
+			<returns>Integer value of the ULON node argument, if it exists; otherwise a default value set via the ret parameter.</returns>
+		</member>
+		<member name="M:Unigine.UlonNode.getArgLong(char,longlong) const">
+			<summary>
+			Returns the value of the ULON node argument with the specified name as a 64-bit long long.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Argument name. </param>
+			<param name="ret"> Default value to be returned if a ULON node argument with the specified name is not found. </param> 
+			<returns>64-bit long long value of the ULON node argument, if it exists; otherwise a default value set via the ret parameter.</returns>
+		</member>
+		<member name="M:Unigine.UlonNode.getArgBool(char,bool) const">
+			<summary>
+			Returns the value of the ULON node argument with the specified name as a boolean.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Argument name. </param>
+			<param name="ret"> Default value to be returned if a ULON node argument with the specified name is not found. </param> 
+			<returns>Boolean value of the ULON node argument, if it exists; otherwise a default value set via the ret parameter.</returns>
+		</member>
+		<member name="M:Unigine.UlonNode.getArgChar(char,char) const">
+			<summary>
+			Returns the value of the ULON node argument with the specified name as a char.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Argument name. </param>
+			<param name="ret"> Default value to be returned if a ULON node argument with the specified name is not found. </param> 
+			<returns>Char value of the ULON node argument, if it exists; otherwise a default value set via the ret parameter.</returns>
+		</member>
+		<member name="M:Unigine.UlonNode.getArgStr(char,char) const">
+			<summary>
+			Returns the value of the ULON node argument with the specified name as a string.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Argument name. </param>
+			<param name="ret"> Default value to be returned if a ULON node argument with the specified name is not found. </param> 
+			<returns>String value of the ULON node argument, if it exists; otherwise a default value set via the ret parameter.</returns>
+		</member>
+		<member name="M:Unigine.UlonNode.getArgArray(char) const">
+			<summary>
+			Returns the value of the ULON node argument with the specified name as an array of strings.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Argument name. </param> 
+			<returns>Array of strings representing elements of the array value, if it exists; otherwise an empty string array.</returns>
+		</member>
+		<member name="M:Unigine.UlonNode.printUnusedData(char) const">
+			<summary>
+			Prints warnings of unused data (node values and arguments) for the file with the specified name to the Console for debugging.
+			</summary> 
+			<param name="name"> File name. </param> 
+		</member>
+		<member name="M:Unigine.UlonNode.clearUnusedData const">
+			<summary>
+			Clears all unused node data (node values and arguments).
+			</summary>  
+		</member>
+	</members>
+</doc>

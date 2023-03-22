@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.16.1.0">
+	<guid>18fe4b7828983056d3300b19c3c16f7dc261ebae</guid>
+	<type>sound</type>
+	<hash>62a11bf8</hash>
+	<runtimes>
+		<runtime id="18fe4b7828983056d3300b19c3c16f7dc261ebae" name="lever_stop.oga" link="0" type="7"/>
+	</runtimes>
+</asset>

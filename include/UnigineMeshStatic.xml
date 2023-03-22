@@ -1,0 +1,493 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.MeshStatic.#ctor">
+			<summary>
+			Constructor. Creates an empty static mesh.
+			</summary>  
+		</member>
+		<member name="M:Unigine.MeshStatic.info(char)">
+			<summary>
+			Returns an information about the given mesh.
+			</summary> 
+			<param name="path"> Path to the mesh. </param> 
+		</member>
+		<member name="M:Unigine.MeshStatic.load(char)">
+			<summary>
+			Loads the mesh using the specified path.
+			</summary> 
+			<param name="path"> Path to the mesh. </param> 
+			<returns>1 if the mesh is loaded successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.save(char) const">
+			<summary>
+			Saves the mesh to the specified location.
+			</summary> 
+			<param name="path"> Path to the mesh. </param> 
+			<returns>1 if the mesh is saved successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.setMesh(Unigine.Ptr{Unigine.Mesh})">
+			<summary>
+			Copies a given source mesh into the current mesh.
+			</summary> 
+			<param name="mesh"> Source mesh to be copied. </param> 
+			<returns>1 if the mesh is copied successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getMesh(Unigine.Ptr{Unigine.Mesh}) const">
+			<summary>
+			Copies the current mesh into the destination mesh.
+			</summary> 
+			<param name="mesh"> Destination mesh. </param> 
+			<returns>true if the mesh is copied successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.clear">
+			<summary>
+			Clears the mesh (including its surfaces and bounds).
+			</summary>  
+		</member>
+		<member name="M:Unigine.MeshStatic.destroy">
+			<summary>
+			Destroys the mesh.
+			</summary>  
+		</member>
+		<member name="M:Unigine.MeshStatic.flush">
+			<summary>
+			Flushes the mesh geometry into the video memory.
+			</summary>  
+		</member>
+		<member name="M:Unigine.MeshStatic.asyncCreate">
+			<summary>
+			Creates the mesh asynchronously (in anoher thread).
+			</summary>  
+		</member>
+		<member name="M:Unigine.MeshStatic.asyncDestroy">
+			<summary>
+			Destroys the mesh asynchronously (in anoher thread).
+			</summary>  
+		</member>
+		<member name="M:Unigine.MeshStatic.bind">
+			<summary>
+			Binds static mesh data (index and vertex buffers) to the input assembler stage.
+			</summary>  
+		</member>
+		<member name="M:Unigine.MeshStatic.unbind">
+			<summary>
+			Unbinds static mesh data (index and vertex buffers).
+			</summary>  
+		</member>
+		<member name="M:Unigine.MeshStatic.renderSurface(int,int,int)">
+			<summary>
+			Renders the surface.
+			</summary> 
+			<param name="mode"> Rendering mode. One of the MODE_* variables. </param>
+			<param name="target"> Surface target number. The default value is 0. </param> 
+			<returns>Number of primitives rendered. Primitive type is determined by the rendering mode.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.renderInstancedSurface(int,int,int,int)">
+			<summary>
+			Renders the specified number of instances of the surface.
+			</summary> 
+			<param name="mode"> Rendering mode. One of the MODE_* variables. </param>
+			<param name="num"> Number of instances to be rendered. </param>
+			<param name="target"> Surface target number. The default value is 0. </param> 
+			<returns>Number of primitives rendered. Primitive type is determined by the rendering mode.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.render(int,int,int)">
+			<summary>
+			Renders the static mesh with the specified settings and mode.
+			</summary> 
+			<param name="mode"> Rendering mode. One of the MODE_* variables. </param>
+			<param name="surface"> Surface number (use -1 for all surfaces). </param>
+			<param name="target"> Surface target number. The default value is 0. </param> 
+		</member>
+		<member name="M:Unigine.MeshStatic.renderInstanced(int,int,int,int)">
+			<summary>
+			Renders the specified number of instances of the surface.
+			</summary> 
+			<param name="mode"> Rendering mode. One of the MODE_* variables. </param>
+			<param name="num"> Number of instances to be rendered. </param>
+			<param name="surface"> Surface number (use -1 for all surfaces). </param>
+			<param name="target"> Surface target number. The default value is 0. </param> 
+			<returns>Number of primitives rendered. Primitive type is determined by the rendering mode.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getSystemMemoryUsage const">
+			<summary>
+			Returns the current amount of system memory used by the static mesh, in bytes.
+			</summary>  
+			<returns>System memory amount used by the static mesh, in bytes.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getVideoMemoryUsage const">
+			<summary>
+			Returns the current amount of video memory used by the static mesh.
+			</summary>  
+			<returns>Video memory amount used by the static mesh, in bytes.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getNumSurfaces const">
+			<summary>
+			Returns the total number of mesh surfaces.
+			</summary>  
+			<returns>Number of mesh surfaces.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getSurfaceName(int) const">
+			<summary>
+			Returns the name of the given surface.
+			</summary> 
+			<param name="surface"> Mesh surface number. </param> 
+			<returns>Surface name.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.setSurfaceLightmapUVChannel(int,char)">
+			<summary>
+			Sets a new UV channel to be used for lightmaps of the surface with the specified number.
+			</summary> 
+			<param name="surface"> Mesh surface number. </param>
+			<param name="uv_channel"> UV channel to be used for lightmaps of the surface with the specified number. </param> 
+		</member>
+		<member name="M:Unigine.MeshStatic.getSurfaceLightmapUVChannel(int) const">
+			<summary>
+			Returns the current UV channel used for lightmaps of the surface with the specified number.
+			</summary> 
+			<param name="surface"> Mesh surface number. </param> 
+			<returns>UV channel currently used for lightmaps of the surface with the specified number.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.setSurfaceLightmapResolution(int,Mesh::LIGHTMAP_RESOLUTION)">
+			<summary>
+			Sets a new lightmap resolution for the surface with the specified number.
+			</summary> 
+			<param name="surface"> Mesh surface number. </param>
+			<param name="resolution"> Lightmap resolution to be used for the surface with the specified number. </param> 
+		</member>
+		<member name="M:Unigine.MeshStatic.getSurfaceLightmapResolution(int) const">
+			<summary>
+			Returns the current lightmap resolution for the surface with the specified number.
+			</summary> 
+			<param name="surface"> Mesh surface number. </param> 
+			<returns>Current lightmap resolution for the surface with the specified number.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.findSurface(char) const">
+			<summary>
+			Searches for the surface number by its name.
+			</summary> 
+			<param name="name"> Mesh surface name. </param> 
+			<returns>Mesh surface number, if it is found; otherwise, -1.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getNumSurfaceTargets(int) const">
+			<summary>
+			Returns the number of surface targets for the given surface.
+			</summary> 
+			<param name="surface"> Mesh surface number. </param> 
+			<returns>Number of surface targets.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getSurfaceTargetName(int,int) const">
+			<summary>
+			Returns the name of the given surface target.
+			</summary> 
+			<param name="surface"> Mesh surface number. </param>
+			<param name="target"> Surface target number. </param> 
+			<returns>Surface target name.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.findSurfaceTarget(char,int) const">
+			<summary>
+			Searches for the target number by the target name.
+			</summary> 
+			<param name="name"> The name of the target. </param>
+			<param name="surface"> Mesh surface number. </param> 
+			<returns>Target number, if exists; otherwise, -1.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.updateSurfaceBounds(int)">
+			<summary>
+			Updates mesh bounds. This method is to be called to recalculate bounds after changing a mesh surface (e.g. modifying positions of coordinate vertices).
+			</summary> 
+			<param name="surface"> Surface number (use -1 for all surfaces). </param> 
+		</member>
+		<member name="M:Unigine.MeshStatic.setSurfaceTransform(Unigine.Math.mat4,int,int)">
+			<summary>
+			Sets the transformation matrix for the given surface target.
+			</summary> 
+			<param name="transform"> Transformation matrix to be set. </param>
+			<param name="surface"> Mesh surface number. </param>
+			<param name="target"> Surface target number. The default value is -1 (apply to all of the surface targets). </param> 
+		</member>
+		<member name="M:Unigine.MeshStatic.addMeshSurface(char,Unigine.Ptr{Unigine.Mesh},int,int)">
+			<summary>
+			Appends a surface of the source mesh to the current mesh as a new surface.
+			</summary> 
+			<param name="name"> Name of the new surface added to the current mesh. </param>
+			<param name="mesh"> Source mesh to copy a surface from. </param>
+			<param name="surface"> Number of the source mesh surface to copy. </param>
+			<param name="target"> Number of the target of the source mesh surface. The default value is -1 (all of the surface targets). </param> 
+			<returns>Number of the last added surface.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.addMeshSurface(char,Unigine.Ptr{MeshStatic},int,int)">
+			<summary>
+			Appends a new mesh surface to the current mesh.
+			</summary> 
+			<param name="name"> Name of the new surface added to the current mesh. </param>
+			<param name="mesh"> Source mesh to copy a surface from. </param>
+			<param name="surface"> Number of the source mesh surface to copy. </param>
+			<param name="target"> Number of the target of the source mesh surface. The default value is -1 (all of the surface targets). </param> 
+			<returns>Number of the last added surface.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.addMeshSurface(int,Unigine.Ptr{MeshStatic},int,int)">
+			<summary>
+			Appends a new mesh surface to the current mesh.
+			</summary> 
+			<param name="dest_surface"> Number of the surface to copy the mesh to. </param>
+			<param name="mesh"> Source mesh to copy a surface from. </param>
+			<param name="surface"> Number of the source mesh surface to copy. </param>
+			<param name="target"> Number of the target of the source mesh surface. The default value is -1 (all of the surface targets). </param> 
+			<returns>Number of the last added surface.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getMeshSurface(Unigine.Ptr{Unigine.Mesh},int,int) const">
+			<summary>
+			Copies the specified mesh surface into the destination mesh.
+			</summary> 
+			<param name="mesh"> Destination mesh pointer to copy a surface into. </param>
+			<param name="surface"> Number of the source mesh surface to be copied. </param>
+			<param name="target"> Number of the target of the source mesh surface. The default value is -1 (all targets). </param> 
+			<returns>Number of the added mesh surface.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.addEmptySurface(char,int,int)">
+			<summary>
+			Appends a new empty surface to the current mesh.						This function allocates only vertex and index arrays. Texture coordinates, tangent basis, weights and color arrays must be allocated manually.
+			</summary> 
+			<param name="name"> Surface name. </param>
+			<param name="num_vertex"> Number of surface vertices. </param>
+			<param name="num_indices"> Number of surface indices. </param> 
+			<returns>Number of the mesh surfaces.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.addSurfaceTarget(int,char)">
+			<summary>
+			Appends a target with the given name to the given surface.
+			</summary> 
+			<param name="surface"> Mesh surface number. </param>
+			<param name="name"> Name of the surface target. </param> 
+			<returns>Number of surface targets.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getCollision(Unigine.Math.vec3,Unigine.Math.vec3,Unigine.Vector{int,int,Unigine.VectorAllocator})">
+			<summary>
+			Performs the search for the collision of the given surfaces with the given traced line.						Mesh local space coordinates are used for this method.
+			</summary> 
+			<param name="p0"> Start point coordinates. </param>
+			<param name="p1"> End point coordinates. </param>
+			<param name="surfaces"> Mesh surfaces. </param> 
+			<returns>1 if the collision is found; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getCollision(Unigine.Math.vec3,Unigine.Math.vec3,Unigine.Vector{int,int,Unigine.VectorAllocator},int)">
+			<summary>
+			
+			</summary> 
+			<param name="p0"> Start point coordinates. </param>
+			<param name="p1"> End point coordinates. </param>
+			<param name="surface"> Mesh surface number. </param> 
+			<returns>1 if the collision is found; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getCollision(Unigine.BoundBox,Unigine.Vector{int,int,Unigine.VectorAllocator})">
+			<summary>
+			Performs the search for the collision of the given surfaces with the given bounding box.
+			</summary> 
+			<param name="bb"> Bounding box. </param>
+			<param name="surfaces"> Mesh surfaces. </param> 
+			<returns>1 if the collision is found; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getCollision(Unigine.BoundBox,Unigine.Vector{int,int,Unigine.VectorAllocator},int)">
+			<summary>
+			</summary> 
+			<param name="bb"> Bounding box. </param>
+			<param name="surface"> Mesh surface number. </param> 
+			<returns>1 if the collision is found; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getCollision(BoundFrustum,Unigine.Vector{int,int,Unigine.VectorAllocator})">
+			<summary>
+			Performs the search for the collision of the given surfaces with the given bounding frustum.
+			</summary> 
+			<param name="bf"> Bounding frustum. </param>
+			<param name="surfaces"> Mesh surfaces. </param> 
+			<returns>1 if the collision is found; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getCollision(BoundFrustum,Unigine.Vector{int,int,Unigine.VectorAllocator},int)">
+			<summary>
+			</summary> 
+			<param name="bf"> Bounding frustum. </param>
+			<param name="surface"> Mesh surface number. </param> 
+			<returns>1 if the collision is found; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getEdges(int)">
+			<summary>
+			Returns the edges that are edges of the mesh geometry, i.e. the neighboring triangles that form these edges are lying in different planes.
+			</summary> 
+			<param name="surface"> Mesh surface number. </param> 
+			<returns>Edges that are edges of the mesh geometry.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getIntersection(Unigine.Math.vec3,Unigine.Math.vec3,Unigine.Math.vec3,Unigine.Math.vec3,Unigine.Math.vec4,int,int,int)">
+			<summary>
+			Performs the search for the intersection of the given surface target with the given traced line.						Mesh local space coordinates are used for this method.
+			</summary> 
+			<param name="p0"> Start point coordinates. </param>
+			<param name="p1"> End point coordinates. </param>
+			<param name="ret_point"> Return array to write the intersection point coordinates into. </param>
+			<param name="ret_normal"> Return array to write the intersection point normal into. </param>
+			<param name="ret_texcoord"> Return array to write the texture coordinates into. </param>
+			<param name="ret_index"> Return array to write the intersection point indices into. </param>
+			<param name="surface"> Mesh surface number. </param>
+			<param name="target"> Surface target number. The default value is 0. </param> 
+			<returns>1 if the intersection is found; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getIntersection(Unigine.Math.dvec3,Unigine.Math.dvec3,Unigine.Math.dvec3,Unigine.Math.vec3,Unigine.Math.vec4,int,int,int)">
+			<summary>
+			Performs the search for the intersection of the given surface target with the given traced line.						Mesh local space coordinates are used for this method.
+			</summary> 
+			<param name="p0"> Start point coordinates. </param>
+			<param name="p1"> End point coordinates. </param>
+			<param name="ret_point_"> Return array to write the intersection point coordinates into. </param>
+			<param name="ret_normal"> Return array to write the intersection point normal into. </param>
+			<param name="ret_texcoord"> Return array to write the texture coordinates into. </param>
+			<param name="ret_index"> Return array to write the intersection point indices into. </param>
+			<param name="surface"> Mesh surface number. </param>
+			<param name="target"> Surface target number. The default value is 0. </param> 
+			<returns>1 if the intersection is found; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.setBoundBox(Unigine.BoundBox)">
+			<summary>
+			Sets the bounding box for the mesh.
+			</summary> 
+			<param name="bb"> Bounding box to be set. </param> 
+		</member>
+		<member name="M:Unigine.MeshStatic.setBoundBox(Unigine.BoundBox,int)">
+			<summary>
+			Sets the bounding box for the given mesh surface.
+			</summary> 
+			<param name="bb"> Bounding box to be set. </param>
+			<param name="surface"> Mesh surface number. </param> 
+		</member>
+		<member name="M:Unigine.MeshStatic.getBoundBox const">
+			<summary>
+			Returns the bounding box of the mesh.
+			</summary>  
+			<returns>Bounding box.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getBoundBox(int) const">
+			<summary>
+			Returns the bounding box of the given mesh surface.
+			</summary> 
+			<param name="surface"> Mesh surface number. </param> 
+			<returns>Bounding box.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.setBoundSphere(Unigine.BoundSphere)">
+			<summary>
+			Sets the bounding sphere for the mesh.
+			</summary> 
+			<param name="bs"> Bounding sphere to be set. </param> 
+		</member>
+		<member name="M:Unigine.MeshStatic.setBoundSphere(Unigine.BoundSphere,int)">
+			<summary>
+			Sets the bounding sphere for the given mesh surface.
+			</summary> 
+			<param name="bs"> Bounding sphere to be set. </param>
+			<param name="surface"> Mesh surface number. </param> 
+		</member>
+		<member name="M:Unigine.MeshStatic.getBoundSphere const">
+			<summary>
+			Returns the bounding sphere of the mesh.
+			</summary>  
+			<returns>Bounding sphere.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getBoundSphere(int) const">
+			<summary>
+			Returns the bounding sphere of the given mesh surface.
+			</summary> 
+			<param name="surface"> Mesh surface number. </param> 
+			<returns>Bounding sphere.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getVertex(int,int)">
+			<summary>
+			Returns coordinates of the given coordinate vertex of the given surface target.
+			</summary> 
+			<param name="surface"> Mesh surface number. </param>
+			<param name="target"> Surface target number. The default value is 0. </param> 
+			<returns>Vertex coordinates.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getTangents(int,int)">
+			<summary>
+			Returns tangents for the given surface target.
+			</summary> 
+			<param name="surface"> Mesh surface number. </param>
+			<param name="target"> Surface target number. The default value is 0. </param> 
+			<returns>Tangents of the surface target.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getTexCoords0(int)">
+			<summary>
+			Returns the first UV map texture coordinates of the given surface.
+			</summary> 
+			<param name="surface"> Mesh surface number. </param> 
+			<returns>First UV map texture coordinates.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getTexCoords1(int)">
+			<summary>
+			Returns the second UV map texture coordinates of the given surface.
+			</summary> 
+			<param name="surface"> Mesh surface number. </param> 
+			<returns>Second UV map texture coordinates.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getColors(int)">
+			<summary>
+			Returns the vertex colors of the given surface.
+			</summary> 
+			<param name="surface"> Mesh surface number. </param> 
+			<returns>Vertex colors.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getCIndices(int)">
+			<summary>
+			Returns the coordinate indices of all vertices of the given surface.
+			</summary> 
+			<param name="surface"> Mesh surface number. </param> 
+			<returns>Coordinate indices.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.getTIndices(int)">
+			<summary>
+			Returns the triangle indices of the given surface.
+			</summary> 
+			<param name="surface"> Mesh surface number. </param> 
+			<returns>Triangle indices.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.setDebugName(char)">
+			<summary>
+			Sets a friendly name for GPU debugging (RenderDoc, NVIDIA Nsight). It can be used to help you determine if the corresponding object interface pointer caused the leak. Memory leaks are reported by the debug software layer by outputting a list of object interface pointers along with their friendly names.
+			</summary> 
+			<param name="name"> Friendly debug name to be set. </param> 
+		</member>
+		<member name="M:Unigine.MeshStatic.getDebugName const">
+			<summary>
+			Returns the currently used friendly name for GPU debugging (RenderDoc, NVIDIA Nsight). It can be used to help you determine if the corresponding object interface pointer caused the leak. Memory leaks are reported by the debug software layer by outputting a list of object interface pointers along with their friendly names.
+			</summary>  
+			<returns>Friendly debug name.</returns>
+		</member>
+		<member name="M:Unigine.MeshStatic.updateDebugName">
+			<summary>
+			Updates the friendly name for GPU debugging (RenderDoc, NVIDIA Nsight).
+			</summary>  
+		</member>
+		<member name="M:Unigine.MeshStatic.createNodes">
+			<summary>
+			Forced creation of the Mesh Static internal tree for quick calculation of collisions and intersections.
+			</summary>  
+		</member>
+		<member name="F:Unigine.MeshStatic.MODE_TRIANGLES">
+			<summary>
+			Rendering of mesh surface as triangles.
+		</summary>
+		</member>
+		<member name="F:Unigine.MeshStatic.MODE_TRIANGLE_PATCHES">
+			<summary>
+			Rendering of mesh surface as triangles at tesselation.
+		</summary>
+		</member>
+		<member name="F:Unigine.MeshStatic.MODE_QUAD_PATCHES">
+			<summary>
+			Rendering of mesh surface as quads at tesselation.
+		</summary>
+		</member>
+	</members>
+</doc>

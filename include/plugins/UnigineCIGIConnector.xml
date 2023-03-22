@@ -1,0 +1,2217 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.CigiArticulatedControl.getEntityID const">
+			<summary>
+			Returns the entity ID specified in the packet.
+			</summary>  
+			<returns>Entity ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiArticulatedControl.getPartID const">
+			<summary>
+			Returns the articulated part ID specified in the packet.
+			</summary>  
+			<returns>Articulated part ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiArticulatedControl.getPartEnabled const">
+			<summary>
+			Returns the value of the Articulated Part Enable parameter specified in the packet.
+			</summary>  
+			<returns>Articulated Part Enable parameter value: 1 if the articulated part is enabled; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiArticulatedControl.getOffsetEnabled const">
+			<summary>
+			Returns a three-component vector combining Offset Enable values specified in the packet. Each value determines whether the offset for the corresponding axis(X - back, Y - left, Z - down) is enabled.
+			</summary>  
+			<returns>Vector of three integer values. Each value determines whether the offset for the corresponding axis(X - back, Y - left, Z - down) is enabled: 1 - enabled; 0 - disabled.</returns>
+		</member>
+		<member name="M:Unigine.CigiArticulatedControl.getRotationEnabled const">
+			<summary>
+			Returns a three-component vector combining Roll/Pitch/Yaw Enable values specified in the packet. Each value determines whether the rotation around the corresponding axis(roll, pitch, yaw) is enabled.
+			</summary>  
+			<returns>Vector of three integer values. Each value determines whether the rotation for the corresponding axis(X - back, Y - left, Z - down) is enabled: 1 - enabled; 0 - disabled.</returns>
+		</member>
+		<member name="M:Unigine.CigiArticulatedControl.getOffset const">
+			<summary>
+			Returns the offset of the articulated part in the submodel coordinate system (SCS) specified in the packet.
+			</summary>  
+			<returns>Articulated part offset coordinates (X - back, Y - left, Z - down).</returns>
+		</member>
+		<member name="M:Unigine.CigiArticulatedControl.getRotation const">
+			<summary>
+			Returns the rotation of the articulated part in the submodel coordinate system (SCS) specified in the packet.
+			</summary>  
+			<returns>Articulated part rotation euler angles.</returns>
+		</member>
+		<member name="M:Unigine.CigiArticulatedShortControl.getEntityID const">
+			<summary>
+			Returns the entity ID specified in the packet.
+			</summary>  
+			<returns>Entity ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiArticulatedShortControl.getPartID1 const">
+			<summary>
+			Returns the articulated part 1 ID specified in the packet.
+			</summary>  
+			<returns>Articulated part 1 ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiArticulatedShortControl.getPartID2 const">
+			<summary>
+			Returns the articulated part 2 ID specified in the packet.
+			</summary>  
+			<returns>Articulated part 2 ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiArticulatedShortControl.getPartEnabled1 const">
+			<summary>
+			Returns the value of the Articulated Part 1 Enable parameter specified in the packet.
+			</summary>  
+			<returns>Articulated Part 1 Enable parameter value: 1 if the articulated part is enabled; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiArticulatedShortControl.getPartEnabled2 const">
+			<summary>
+			Returns the value of the Articulated Part 2 Enable parameter specified in the packet.
+			</summary>  
+			<returns>Articulated Part 2 Enable parameter value: 1 if the articulated part is enabled; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiArticulatedShortControl.getSelect1 const">
+			<summary>
+			Returns the value of the DOF Select 1 parameter specified in the packet.
+			</summary>  
+			<returns>DOF Select 1 parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiArticulatedShortControl.getSelect2 const">
+			<summary>
+			Returns the value of the DOF Select 2 parameter specified in the packet.
+			</summary>  
+			<returns>DOF Select 2 parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiArticulatedShortControl.getDOF1 const">
+			<summary>
+			Returns the value of the DOF 1 parameter specified in the packet.
+			</summary>  
+			<returns>DOF 1 parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiArticulatedShortControl.getDOF2 const">
+			<summary>
+			Returns the value of the DOF 2 parameter specified in the packet.
+			</summary>  
+			<returns>DOF 2 parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiAtmosphereControl.getModelEnabled const">
+			<summary>
+			Returns the value of the Atmospheric Model Enable parameter specified in the packet.
+			</summary>  
+			<returns>Atmospheric Model Enable parameter: 1 if the IG will use an atmospheric model to determine spectral radiances for sensor applications; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiAtmosphereControl.getHumidity const">
+			<summary>
+			Returns the value of the Global Humidity parameter specified in the packet.
+			</summary>  
+			<returns>Global Humidity parameter value in the [0; 100] range.</returns>
+		</member>
+		<member name="M:Unigine.CigiAtmosphereControl.getTemperature const">
+			<summary>
+			Returns the value of the Global Air Temperature parameter specified in the packet.
+			</summary>  
+			<returns>Global Air Temperature parameter value, in degrees Celsius.</returns>
+		</member>
+		<member name="M:Unigine.CigiAtmosphereControl.getVisibility const">
+			<summary>
+			Returns the value of the Global Visibility Range parameter specified in the packet.
+			</summary>  
+			<returns>Global Visibility Range parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiAtmosphereControl.getWindSpeedHorizontal const">
+			<summary>
+			Returns the value of the Global Horizontal Wind Speeed parameter specified in the packet.
+			</summary>  
+			<returns>Global Horizontal Wind Speeed parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiAtmosphereControl.getWindSpeedVertical const">
+			<summary>
+			Returns the value of the Global Vertical Wind Speeed parameter specified in the packet.
+			</summary>  
+			<returns>Global Vertical Wind Speeed parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiAtmosphereControl.getWindDirection const">
+			<summary>
+			Returns the value of the Global Wind Direction parameter specified in the packet.
+			</summary>  
+			<returns>Global Wind Direction parameter value in the [0; 360] range.</returns>
+		</member>
+		<member name="M:Unigine.CigiAtmosphereControl.getPressure const">
+			<summary>
+			Returns the value of the Global Barometric Pressure parameter specified in the packet.
+			</summary>  
+			<returns>Global Barometric Pressure parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiCelestialControl.getHour const">
+			<summary>
+			Returns the value of the Hour parameter specified in the packet.
+			</summary>  
+			<returns>Hour parameter value in the [0; 23] range.</returns>
+		</member>
+		<member name="M:Unigine.CigiCelestialControl.getMinute const">
+			<summary>
+			Returns the value of the Minute parameter specified in the packet.
+			</summary>  
+			<returns>Minute parameter value in the [0; 59] range.</returns>
+		</member>
+		<member name="M:Unigine.CigiCelestialControl.getDate const">
+			<summary>
+			Returns the value of the Date parameter specified in the packet. Specifies the current date within the simulation.
+			</summary>  
+			<returns>Date parameter value. The date shall be represented as a seven- or eight-digit decimal integer formatted as follows: MMDDYYYY = (month × 1000000) + (day × 10000) + year</returns>
+		</member>
+		<member name="M:Unigine.CigiCelestialControl.getTimeValid const">
+			<summary>
+			Returns the value of the Date/Time Valid parameter specified in the packet.
+			</summary>  
+			<returns>Date/Time Valid parameter value: 1 if the Hour, Minute, and Date parameters are valid; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiCelestialControl.getContinuous const">
+			<summary>
+			Returns the value of the Ephemeris Model Enable parameter specified in the packet.
+			</summary>  
+			<returns>Ephemeris Model Enable parameter value. The following values are supported:0 - Static time of day1 - Continuous time of day</returns>
+		</member>
+		<member name="M:Unigine.CigiCelestialControl.getSunEnabled const">
+			<summary>
+			Returns the value of the Sun Enable parameter specified in the packet.
+			</summary>  
+			<returns>Sun Enable parameter value: 1 if the sun is enabled; otherwise, 0.The value of this parameter, along with the appropriate time-of-day and location on the globe specifies whether the sun is seen in the sky.</returns>
+		</member>
+		<member name="M:Unigine.CigiCelestialControl.getMoonEnabled const">
+			<summary>
+			Returns the value of the Moon Enable parameter specified in the packet.
+			</summary>  
+			<returns>Moon Enable parameter value: 1 if the moon is enabled; otherwise, 0.The value of this parameter, along with the appropriate time-of-day and location on the globe specifies whether the moon is seen in the sky.</returns>
+		</member>
+		<member name="M:Unigine.CigiCelestialControl.getStarsEnabled const">
+			<summary>
+			Returns the value of the Star Field Enable parameter specified in the packet.
+			</summary>  
+			<returns>Star Field Enable parameter value: 1 if the stars are enabled; otherwise, 0.The value of this parameter, along with the appropriate time-of-day and location on the globe specifies whether stars are seen in the sky.</returns>
+		</member>
+		<member name="M:Unigine.CigiCelestialControl.getStarsIntensity const">
+			<summary>
+			Returns the value of the Star Field Intensity parameter specified in the packet.
+			</summary>  
+			<returns>Star Field Intensity parameter value in the [0; 1] range.</returns>
+		</member>
+		<member name="M:Unigine.CigiComponentShortControl.getInstanceID const">
+			<summary>
+			Returns the instance ID specified in the packet.
+			</summary>  
+			<returns>Instance ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiComponentShortControl.getComponentID const">
+			<summary>
+			Returns the component ID specified in the packet.
+			</summary>  
+			<returns>Component ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiComponentShortControl.getComponentClass const">
+			<summary>
+			Returns the component class specified in the packet.
+			</summary>  
+			<returns>CIGI component class. One of the CIGI_COMPONENT_* values.</returns>
+		</member>
+		<member name="M:Unigine.CigiComponentShortControl.getComponentState const">
+			<summary>
+			Returns the value of the Component State parameter specified in the packet.
+			</summary>  
+			<returns>Component State parameter value. One of the CIGI_STATE_* values.</returns>
+		</member>
+		<member name="M:Unigine.CigiComponentShortControl.getData1 const">
+			<summary>
+			Returns the value of the Data 1 parameter specified in the packet.
+			</summary>  
+			<returns>Data 1 parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiComponentShortControl.getData2 const">
+			<summary>
+			Returns the value of the Data 2 parameter specified in the packet.
+			</summary>  
+			<returns>Data 2 parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiEarthModelDef.getCustomEnabled const">
+			<summary>
+			Returns the value of the Custom ERM Enable parameter specified in the packet.
+			</summary>  
+			<returns>Custom ERM Enable parameter value: 1 - the IG shall use the Equatorial Radius and Flattening values to characterize the ellipsoid; 0 - the IG shall use the WGS 84 reference model and all other parameters in this packet shall be ignored.</returns>
+		</member>
+		<member name="M:Unigine.CigiEarthModelDef.getRadius const">
+			<summary>
+			Returns the value of the Equatorial Radius parameter specified in the packet.
+			</summary>  
+			<returns>Equatorial Radius parameter value. Determines the semi-major axis of the ellipsoid.</returns>
+		</member>
+		<member name="M:Unigine.CigiEarthModelDef.getFlattening const">
+			<summary>
+			Returns the value of the Flattening parameter specified in the packet.
+			</summary>  
+			<returns>Flattening parameter value. Determines the flattening of the ellipsoid.</returns>
+		</member>
+		<member name="M:Unigine.CigiEntityControl.getEntityID const">
+			<summary>
+			Returns the entity ID.
+			</summary>  
+			<returns>Entity ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiEntityControl.getParentID const">
+			<summary>
+			Returns the ID of the entity parent.
+			</summary>  
+			<returns>Entity parent ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiEntityControl.getEntityType const">
+			<summary>
+			Returns the current entity type.
+			</summary>  
+			<returns>Entity type.</returns>
+		</member>
+		<member name="M:Unigine.CigiEntityControl.getEntityState const">
+			<summary>
+			Returns the current entity state.
+			</summary>  
+			<returns>Current entity state. One of the CIGI_STATE_* values.</returns>
+		</member>
+		<member name="M:Unigine.CigiEntityControl.getAttachState const">
+			<summary>
+			Returns the value of the Attach State parameter. It specifies whether the entity is be attached as a child to a parent.
+			</summary>  
+			<returns>Attach State parameter value. 1 the entity shall be or remain attached to the entity specified by the Parent ID parameter; 0 - the entity shall be detached from its parent.</returns>
+		</member>
+		<member name="M:Unigine.CigiEntityControl.getCollision const">
+			<summary>
+			Returns the value indicating if collision detecton shall be enabled for the entity.
+			</summary>  
+			<returns>Collision Detection Enable parameter value. 1 collision detecton for the entity shall be enabled; 0 - collision detecton for the entity shall be enabled.</returns>
+		</member>
+		<member name="M:Unigine.CigiEntityControl.getInheritAlpha const">
+			<summary>
+			Returns the value indicating if the entity uses the alpha value of its parent.
+			</summary>  
+			<returns>1 if the entity uses the alpha value of its parent; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiEntityControl.getGroundClamp const">
+			<summary>
+			Returns the value of the Ground/Ocean Clamp parameter.
+			</summary>  
+			<returns>Ground/Ocean Clamp parameter value. One of the CIGI_ENTITY_* values.</returns>
+		</member>
+		<member name="M:Unigine.CigiEntityControl.getAnimationBack const">
+			<summary>
+			Returns the current entity's animation playback direction.
+			</summary>  
+			<returns>Direction of the entity's animation playback (forward or backward). </returns>
+		</member>
+		<member name="M:Unigine.CigiEntityControl.getAnimationLoop const">
+			<summary>
+			Returns the current entity's animation playback mode.
+			</summary>  
+			<returns>Mode of the entity's animation playback (single-shot or looped). </returns>
+		</member>
+		<member name="M:Unigine.CigiEntityControl.getAnimationState const">
+			<summary>
+			Returns the current entity's animation playback state.
+			</summary>  
+			<returns>State of the entity's animation playback. One of the CIGI_ANIMATION_* values.</returns>
+		</member>
+		<member name="M:Unigine.CigiEntityControl.getInterpolation const">
+			<summary>
+			Returns a value indicating if interpolation and extrapolation are enabled.
+			</summary>  
+			<returns>1 if interpolation and extrapolation are enabled; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiEntityControl.getAlpha const">
+			<summary>
+			Returns the current alpha value, that determines transparency of entity geometry.
+			</summary>  
+			<returns>Alpha value.</returns>
+		</member>
+		<member name="M:Unigine.CigiEntityControl.getRotation const">
+			<summary>
+			Returns the current entity rotation euler angles.
+			</summary>  
+			<returns>Entity rotation euler angles (roll, pitch, yaw).</returns>
+		</member>
+		<member name="M:Unigine.CigiEntityControl.getPosition const">
+			<summary>
+			Returns the current entity position.
+			</summary>  
+			<returns>Entity position coordinates.Geo-coordinates will be returned if there is no parent entity assigned, otherwise - local coordinates will be returned.</returns>
+		</member>
+		<member name="F:Unigine.CigiEntityControl.CIGI_ENTITY_NO_CLAMP">
+			<summary>
+			Altitude clamping for entity is disabled.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiEntityControl.CIGI_ENTITY_NON_CONFORMAL">
+			<summary>
+			Altitude parameter specifies an offset of the entity above the ground level.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiEntityControl.CIGI_ENTITY_CONFORMAL">
+			<summary>
+			Altitude parameter specifies an offset of the entity above the sea level.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiEntityControl.CIGI_ANIMATION_STOP">
+			<summary>
+			Stop entity animation playback.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiEntityControl.CIGI_ANIMATION_PAUSE">
+			<summary>
+			Pause entity animation playback.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiEntityControl.CIGI_ANIMATION_PLAY">
+			<summary>
+			Start entity animation playback.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiEntityControl.CIGI_ANIMATION_CONTINUE">
+			<summary>
+			Resume entity animation playback.
+		</summary>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentControl.getRegionID const">
+			<summary>
+			Returns the Environmental region ID specified in the packet.
+			</summary>  
+			<returns>Environmental region ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentControl.getRegionState const">
+			<summary>
+			Returns the Environmental region state specified in the packet.
+			</summary>  
+			<returns>Environmental region state. The following values are supported:0 - Inactive1 - Active2 - Destroyed</returns>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentControl.getMergeWeather const">
+			<summary>
+			Returns the value of the Merge Weather Properties parameter specified in the packet. Determines whether atmospheric conditions within this region will be merged with those of other regions within areas of overlap.
+			</summary>  
+			<returns>Merge Weather Properties parameter value. The following values are supported:1 - merge0 - use the data from the last Weather Control packet.</returns>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentControl.getMergeAerosol const">
+			<summary>
+			Returns the value of the Merge Aerosol Concentrations parameter specified in the packet. Determines whether atmospheric conditions within this region will be merged with those of other regions within areas of overlap.
+			</summary>  
+			<returns>Merge Aerosol Concentrations parameter value. The following values are supported:1 - merge0 - use the data from the last Weather Control packet.</returns>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentControl.getMergeMaritime const">
+			<summary>
+			Returns the value of the Merge Maritime Surface Conditions parameter specified in the packet. Determines whether the maritime surface conditions found within this region will be merged with those of other regions within areas of overlap.
+			</summary>  
+			<returns>Merge Maritime Surface Conditions parameter value. The following values are supported:1 - merge0 - use the data from the last Maritime Surface Conditions Control packet.</returns>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentControl.getMergeTerrestrial const">
+			<summary>
+			Returns the value of the Merge Terrestrial Surface Conditions parameter specified in the packet. Determines whether the terrestrial surface conditions found within this region will be merged with those of other regions within areas of overlap.
+			</summary>  
+			<returns>Merge Terrestrial Surface Conditions parameter value. The following values are supported:1 - merge0 - use the data from the last Terrestrial Surface Conditions Control packet.</returns>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentControl.getLatitude const">
+			<summary>
+			Returns the value of the Latitude parameter specified in the packet.
+			</summary>  
+			<returns>Latitude parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentControl.getLongitude const">
+			<summary>
+			Returns the value of the Longitude parameter specified in the packet.
+			</summary>  
+			<returns>Longitude parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentControl.getSizeX const">
+			<summary>
+			Returns the value of the Size X parameter specified in the packet. Determines the length of the environmental region along its X-axis at the geoid surface.					This length does not include the width of the transition perimeter.
+			</summary>  
+			<returns>Size X parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentControl.getSizeY const">
+			<summary>
+			Returns the value of the Size Y parameter specified in the packet. Determines the length of the environmental region along its Y-axis at the geoid surface.					This length does not include the width of the transition perimeter.
+			</summary>  
+			<returns>Size Y parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentControl.getRadius const">
+			<summary>
+			Returns the value of the Corner Radius parameter specified in the packet. Determines the radius of the corner of the rounded rectangle. The smaller the radius, the “tighter” the corner.
+			</summary>  
+			<returns>Corner Radius parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentControl.getRotation const">
+			<summary>
+			Returns the value of the Rotation parameter specified in the packet. Determines the yaw angle of the rounded rectangle.
+			</summary>  
+			<returns>Rotation parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentControl.getTransition const">
+			<summary>
+			Returns the value of the Transition Perimeter parameter specified in the packet. Determines the transition perimeter around the environmental region. This perimeter is a region through which the weather conditions are interpolated between those inside the environmental region and those immediately outside the perimeter.
+			</summary>  
+			<returns>Transition Perimeter parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentPolygonControl.getRegionID const">
+			<summary>
+			Returns the Environmental region ID specified in the packet.
+			</summary>  
+			<returns>Environmental region ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentPolygonControl.getRegionState const">
+			<summary>
+			Returns the Environmental region state specified in the packet.
+			</summary>  
+			<returns>Environmental region state. The following values are supported:0 - Inactive1 - Active2 - Destroyed</returns>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentPolygonControl.getMergeWeather const">
+			<summary>
+			Returns the value of the Merge Weather Properties parameter specified in the packet. Determines whether atmospheric conditions within this region will be merged with those of other regions within areas of overlap.
+			</summary>  
+			<returns>Merge Weather Properties parameter value. The following values are supported:1 - merge0 - use the data from the last Weather Control packet.</returns>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentPolygonControl.getMergeAerosol const">
+			<summary>
+			Returns the value of the Merge Aerosol Concentrations parameter specified in the packet. Determines whether atmospheric conditions within this region will be merged with those of other regions within areas of overlap.
+			</summary>  
+			<returns>Merge Aerosol Concentrations parameter value. The following values are supported:1 - merge0 - use the data from the last Weather Control packet.</returns>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentPolygonControl.getMergeMaritime const">
+			<summary>
+			Returns the value of the Merge Maritime Surface Conditions parameter specified in the packet. Determines whether the maritime surface conditions found within this region will be merged with those of other regions within areas of overlap.
+			</summary>  
+			<returns>Merge Maritime Surface Conditions parameter value. The following values are supported:1 - merge0 - use the data from the last Maritime Surface Conditions Control packet.</returns>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentPolygonControl.getMergeTerrestrial const">
+			<summary>
+			Returns the value of the Merge Terrestrial Surface Conditions parameter specified in the packet. Determines whether the terrestrial surface conditions found within this region will be merged with those of other regions within areas of overlap.
+			</summary>  
+			<returns>Merge Terrestrial Surface Conditions parameter value. The following values are supported:1 - merge0 - use the data from the last Terrestrial Surface Conditions Control packet.</returns>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentPolygonControl.getTransition const">
+			<summary>
+			Returns the value of the Transition Perimeter parameter specified in the packet. Determines the transition perimeter around the environmental region. This perimeter is a region through which the weather conditions are interpolated between those inside the environmental region and those immediately outside the perimeter.
+			</summary>  
+			<returns>Transition Perimeter parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentPolygonControl.getPolygonGeoPoints const">
+			<summary>
+			Returns the list of geocoordinates of vertices forming the polygon environmental region specified in the packet.
+			</summary>  
+			<returns>Array of polygon vertex geocoordinates.</returns>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentRequest.getRequestID const">
+			<summary>
+			Returns the value of the Request ID parameter specified in the packet. Identifies the environmental conditions request.
+			</summary>  
+			<returns>Request ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentRequest.getRequestType const">
+			<summary>
+			Returns the value of the Request Type parameter specified in the packet. Determines with which packet the IG shall respond.
+			</summary>  
+			<returns>Request Type parameter value. The following values are supported:1 - Maritime Surface Conditions.2 - Terrestrial Surface Conditions.4 - Weather Conditions.8 - Aerosol Concentration.</returns>
+		</member>
+		<member name="M:Unigine.CigiEnvironmentRequest.getPosition const">
+			<summary>
+			Returns the three-component vector of the values of the Latitude, Longitude and Altitude parameters specified in the packet. Specifies the geodetic latitude, longitude, and altitude at which the environmental state is requested.
+			</summary>  
+			<returns>Three-component vector of the [Latitude, Longitude, Altitude] parameters values.</returns>
+		</member>
+		<member name="M:Unigine.CigiHatHotRequest.getHatHotID const">
+			<summary>
+			Returns the value of the HAT/HOT ID parameter specified in the packet.
+			</summary>  
+			<returns>HAT/HOT ID parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiHatHotRequest.getEntityID const">
+			<summary>
+			Returns the entity ID specified in the packet.
+			</summary>  
+			<returns>Entity ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiHatHotRequest.getRequestType const">
+			<summary>
+			Returns the value of the Request Type parameter specified in the packet.
+			</summary>  
+			<returns>Request Type parameter value. The following values are supported:0 - HAT1 - HOT2 - Extended</returns>
+		</member>
+		<member name="M:Unigine.CigiHatHotRequest.getCoordSystem const">
+			<summary>
+			Returns the value of the Coordinate System parameter specified in the packet.
+			</summary>  
+			<returns>Coordinate System parameter value. The following values are supported:0 - Geodetic1 - Entity</returns>
+		</member>
+		<member name="M:Unigine.CigiHatHotRequest.getUpdatePeriod const">
+			<summary>
+			Returns the value of the Update Period parameter specified in the packet. Determines the interval between successive responses to this request.
+			</summary>  
+			<returns>Update Period parameter value:0 - One-Shot request&gt; 0 - update period</returns>
+		</member>
+		<member name="M:Unigine.CigiHatHotRequest.getPosition const">
+			<summary>
+			Returns the coordinates of the point, from which the HAT/HOT request is being made.
+			</summary>  
+			<returns>Coordinates of the point, from which the HAT/HOT request is being made.</returns>
+		</member>
+		<member name="M:Unigine.CigiHostPacket.getType const">
+			<summary>
+			Returns the type of the CIGI Host packet.
+			</summary>  
+			<returns>CIGI Host packet type. One of the CIGI_OPCODE_* values.</returns>
+		</member>
+		<member name="M:Unigine.CigiHostPacket.getTypeName const">
+			<summary>
+			Returns the name of the CIGI Host packet type.
+			</summary>  
+			<returns>Name of the CIGI Host packet type.</returns>
+		</member>
+		<member name="M:Unigine.CigiHostPacket.isClone const">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.CigiIGMessage.setMessageID(int)">
+			<summary>
+			Sets the ID of the user message.
+			</summary> 
+			<param name="id"> ID of the user message. </param> 
+		</member>
+		<member name="M:Unigine.CigiIGMessage.setMessageText(char)">
+			<summary>
+			Sets the text of the user message.
+			</summary> 
+			<param name="text"> Text of the user message. </param> 
+		</member>
+		<member name="M:Unigine.CigiIGPacket.getType const">
+			<summary>
+			Returns the type of the CIGI IG packet.
+			</summary>  
+			<returns>CIGI IG packet type, one of CIGI_OPCODE_* values.</returns>
+		</member>
+		<member name="M:Unigine.CigiLosExtResponse.setLosID(int)">
+			<summary>
+			Sets the value of the LOS ID parameter to be specified in the packet.
+			</summary> 
+			<param name="id"> LOS ID parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiLosExtResponse.setEntityID(int)">
+			<summary>
+			Sets the value of the Entity ID parameter to be specified in the packet.
+			</summary> 
+			<param name="id"> Entity ID parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiLosExtResponse.setEntityValid(int)">
+			<summary>
+			Sets the value of the Entity Valid parameter to be specified in the packet.
+			</summary> 
+			<param name="valid"> Entity ID Valid parameter value. The following values are supported:0 - invalid (if the intersected polygon was not a part of an entity)1 - valid (if the intersected polygon was a part of an entity) </param> 
+		</member>
+		<member name="M:Unigine.CigiLosExtResponse.setResponseValid(int)">
+			<summary>
+			Sets the value of the Response Valid parameter to be specified in the packet.
+			</summary> 
+			<param name="valid"> Valid parameter value. The following values are supported:0 - invalid (no intersection occurred)1 - valid (one or more intersections occurred) </param> 
+		</member>
+		<member name="M:Unigine.CigiLosExtResponse.setResponseCount(int)">
+			<summary>
+			Sets the value of the Response Count parameter to be specified in the packet. This parameter indicates the total number of Line of Sight Response packets the IG will return for the corresponding request.
+			</summary> 
+			<param name="count"> Response Count parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiLosExtResponse.setRangeValid(int)">
+			<summary>
+			Sets the value of the Range Valid parameter to be specified in the packet.
+			</summary> 
+			<param name="valid"> Range Valid parameter value. The following values are supported:0 - invalid1 - validThe range will be invalid if an intersection occurs before the minimum range or beyond the maximum range specified in an LOS vector request. The range will also be invalid if this packet is in response to a LOS segment request. </param> 
+		</member>
+		<member name="M:Unigine.CigiLosExtResponse.setVisible(int)">
+			<summary>
+			Sets the value of the Visible parameter to be specified in the packet.
+			</summary> 
+			<param name="v"> Visible parameter value. The following values are supported:0 - occluded (not visible)1 - visible </param> 
+		</member>
+		<member name="M:Unigine.CigiLosExtResponse.setRange(double)">
+			<summary>
+			Sets the value of the Range parameter to be specified in the packet.
+			</summary> 
+			<param name="r"> Range parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiLosExtResponse.setPosition(Unigine.Math.dvec3)">
+			<summary>
+			Sets the values of parameters that determine the Position to be specified in the packet.
+			</summary> 
+			<param name="p"> Entity position coordinates.For geodetic coordinate system: (Lat, Lon, Alt)For entity coordinate system: (X-offset, Y-offset, Z-offset) </param> 
+		</member>
+		<member name="M:Unigine.CigiLosExtResponse.setColor(Unigine.Math.vec4)">
+			<summary>
+			Sets the values of parameters that determine the Color of the surface at the point of intersection to be specified in the packet.
+			</summary> 
+			<param name="c"> Color of the surface at the point of intersection: (Red, Green, Blue, Alpha). </param> 
+		</member>
+		<member name="M:Unigine.CigiLosExtResponse.setAzimuth(float)">
+			<summary>
+			Sets the value of the Normal Vector Azimuth parameter to be specified in the packet.
+			</summary> 
+			<param name="a"> Normal Vector Azimuth parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiLosExtResponse.setElevation(float)">
+			<summary>
+			Sets the value of the Normal Vector Elevation parameter to be specified in the packet.
+			</summary> 
+			<param name="e"> Normal Vector Elevation parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiLosExtResponse.setMaterialCode(unsignedint)">
+			<summary>
+			Sets the value of the Material Code parameter to be specified in the packet.
+			</summary> 
+			<param name="code"> Material Code parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiLosSegmentRequest.getLosID const">
+			<summary>
+			Returns the LOS ID specified in the packet.
+			</summary>  
+			<returns>LOS ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiLosSegmentRequest.getSrcEntityID const">
+			<summary>
+			Returns the Source Entity ID specified in the packet.
+			</summary>  
+			<returns>Source Entity ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiLosSegmentRequest.getDestEntityID const">
+			<summary>
+			Returns the value of the Destination Entity ID parameter specified in the packet. Defines the entity to which the test segment endpoints shall be relative.
+			</summary>  
+			<returns>Destination Entity ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiLosSegmentRequest.getRequestType const">
+			<summary>
+			Returns the value of the Request Type parameter specified in the packet. Determines what type of response the IG will return for this request.
+			</summary>  
+			<returns>Request Type parameter value. The following values are supported:0 - Basic. The IG shall respond with a Line of Sight Response packet.1 - Extended. The IG shall respond with a Line of Sight Extended Response packet.</returns>
+		</member>
+		<member name="M:Unigine.CigiLosSegmentRequest.getSrcCoordSystem const">
+			<summary>
+			Returns the value of the Source Point Coordinate System parameter specified in the packet. It indicates the coordinate system relative to which the test segment source endpoint is specified.
+			</summary>  
+			<returns>Source Point Coordinate System parameter value. The following values are supported:0 - Geodetic. The point shall be given by latitude, longitude, and altitude.1 - Entity. The point shall be defined relative to the reference point of the entity specified by Entity ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiLosSegmentRequest.getDestCoordSystem const">
+			<summary>
+			Returns the value of the Destination Point Coordinate System parameter specified in the packet. It indicates the coordinate system relative to which the test segment destination endpoint is specified.
+			</summary>  
+			<returns>Destination Point Coordinate System parameter value. The following values are supported:0 - Geodetic. The endpoint shall be given as a latitude, longitude, and altitude.1 - Entity. There are two cases:If Destination Entity ID Valid is set to Not Valid (0) than the endpoint shall be defined relative to the reference point of the entity specified by Source Entity ID.If Destination Entity ID Valid is set to Valid (1) than the endpoint shall be defined relative to the reference point of the entity specified by Destination Entity ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiLosSegmentRequest.getRespCoordSystem const">
+			<summary>
+			Returns the value of the Response Coordinate System parameter specified in the packet. This value specifies the coordinate system to be used in the response.
+			</summary>  
+			<returns>Response Coordinate System parameter value. The following values are supported:0 - Geodetic. The intersection point shall be reported as a latitude, longitude, and altitude.1 - Entity. The intersection point shall be specified relative to the reference point of the intersected entity.</returns>
+		</member>
+		<member name="M:Unigine.CigiLosSegmentRequest.getDestEntityValid const">
+			<summary>
+			Returns the value of the Destination Entity ID Valid parameter specified in the packet. Determines whether the Destination Entity ID parameter contains a valid entity ID.
+			</summary>  
+			<returns>Destination entity valid parameter value. The following values are supported:0 - Not Valid. The destination endpoint shall be defined with respect to either the source entity (specified by Source Entity ID) or the Geodetic coordinate system as determined by the Destination Point Coordinate System parameter.1 - Valid. The destination endpoint shall be defined with respect to the entity specified by Destination Entity ID, only if Destination Point Coordinate System is set to Entity (1).</returns>
+		</member>
+		<member name="M:Unigine.CigiLosSegmentRequest.getAlphaThreshold const">
+			<summary>
+			Returns the value of the Alpha Threshold parameter specified in the packet. Defines the minimum alpha value (i.e., minimum opacity) a surface may have for an LOS response to be generated.
+			</summary>  
+			<returns>Alpha Threshold parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiLosSegmentRequest.getUpdatePeriod const">
+			<summary>
+			Returns the value of the Update Period parameter specified in the packet. Specifies the interval between successive responses to this request.
+			</summary>  
+			<returns>Update Period parameter value. The following values are supported:0 - One-Shot request.&gt;0 - update period. The value of n&gt;0 indicates that the IG shall return response every nth frame.</returns>
+		</member>
+		<member name="M:Unigine.CigiLosSegmentRequest.getMaterialMask const">
+			<summary>
+			Returns the value of the Material Mask parameter specified in the packet. Specifies the environmental and cultural features to be included in LOS segment testing.
+			</summary>  
+			<returns>Material Mask parameter value. Each bit represents a material code range; setting that bit to one (1) shall cause the IG to register intersections with polygons whose material codes are within that range.Material code ranges are IG-dependent.</returns>
+		</member>
+		<member name="M:Unigine.CigiLosSegmentRequest.getSrcPosition const">
+			<summary>
+			Returns Source Point position represented as a three-component vector of Source Latitude, Source Longitude, Source Altitude or Source X Offset, Source Y Offset, Source Z Offset parameters values specified in the packet corresponding to the Source Point Coordinate System parameter value.
+			</summary>  
+			<returns>Three-component vector that defines Source Point position. The following values are supported:[Latitude, Longitude, Altitude] - if Source Point Coordinate System is set to Geodetic (0).[X Offset, Y Offset, Z Offset] - if Source Point Coordinate System is set to Entity (1).</returns>
+		</member>
+		<member name="M:Unigine.CigiLosSegmentRequest.getDestPosition const">
+			<summary>
+			Returns Destination Point position represented as a three-component vector of Destination Latitude, Destination Longitude, Destination Altitude or Destination X Offset, Destination Y Offset, Destination Z Offset parameters values specified in the packet corresponding to the Destination Point Coordinate System parameter value.
+			</summary>  
+			<returns>Three-component vector that defines Destination Point position. The following values are supported:[Latitude, Longitude, Altitude] - if Destination Point Coordinate System is set to Geodetic (0).[X Offset, Y Offset, Z Offset] - if Destination Point Coordinate System is set to Entity (1). This offset may be relative to either the source entity or destination entity, depending upon the value of the Destination Entity ID Valid flag.</returns>
+		</member>
+		<member name="M:Unigine.CigiLosVectorRequest.getLosID const">
+			<summary>
+			Returns the LOS ID specified in the packet.
+			</summary>  
+			<returns>LOS ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiLosVectorRequest.getEntityID const">
+			<summary>
+			Returns the Entity ID specified in the packet.
+			</summary>  
+			<returns>Entity ID.This parameter shall be ignored if Source Point Coordinate System is set to Geodetic (0).</returns>
+		</member>
+		<member name="M:Unigine.CigiLosVectorRequest.getRequestType const">
+			<summary>
+			Returns the value of the Request Type parameter specified in the packet. Determines what type of response the IG will return for this request.
+			</summary>  
+			<returns>Request Type parameter value. The following values are supported:0 - Basic. The IG shall respond with a Line of Sight Response packet.1 - Extended. The IG shall respond with a Line of Sight Extended Response packet.</returns>
+		</member>
+		<member name="M:Unigine.CigiLosVectorRequest.getSrcCoordSystem const">
+			<summary>
+			Returns the value of the Source Point Coordinate System parameter specified in the packet. This parameter indicates the coordinate system relative to which the test vector source point is specified.
+			</summary>  
+			<returns>Source Point Coordinate System parameter value. The following values are supported:0 - Geodetic. The point shall be given by latitude, longitude, and altitude. The vector, specified by Azimuth and Elevation, shall be defined relative to the Geodetic coordinate system.1 - Entity. The point shall be defined relative to the reference point of the entity specified by Entity ID. The vector shall also be specified relative to the entity’s coordinate system.</returns>
+		</member>
+		<member name="M:Unigine.CigiLosVectorRequest.getRespCoordSystem const">
+			<summary>
+			Returns the value of the Response Coordinate System parameter specified in the packet. This parameter specifies the coordinate system to be used in the response.
+			</summary>  
+			<returns>Response Coordinate System parameter value. The following values are supported:0 - Geodetic. The intersection point shall be reported as a latitude, longitude, and altitude.1 - Entity. The intersection point shall be reported as an XYZ offset relative to the reference point of the intersected entity.</returns>
+		</member>
+		<member name="M:Unigine.CigiLosVectorRequest.getAlphaThreshold const">
+			<summary>
+			Returns the value of the Alpha Threshold parameter specified in the packet. Defines the minimum alpha value (i.e., minimum opacity) a surface may have for an LOS response to be generated.
+			</summary>  
+			<returns>Alpha Threshold parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiLosVectorRequest.getUpdatePeriod const">
+			<summary>
+			Returns the value of the Update Period parameter specified in the packet. Determines the interval between successive responses to this request.
+			</summary>  
+			<returns>Update Period parameter value. The following values are supported:0 - One-Shot request. The IG shall return a single response.&gt;0 - Indicates update period. The value of n&gt;0 indicates that the IG shall return response every nth frame.</returns>
+		</member>
+		<member name="M:Unigine.CigiLosVectorRequest.getMaterialMask const">
+			<summary>
+			Returns the value of the Material Mask parameter specified in the packet. Determines the environmental and cultural features to be included in LOS segment testing.
+			</summary>  
+			<returns>Material Mask parameter value. Each bit represents a material code range; setting that bit to one (1) shall cause the IG to register intersections with polygons whose material codes are within that range.Material code ranges are IG-dependent.</returns>
+		</member>
+		<member name="M:Unigine.CigiLosVectorRequest.getAzimuth const">
+			<summary>
+			Returns the value of the Azimuth parameter specified in the packet. Determines the horizontal angle of the LOS test vector.
+			</summary>  
+			<returns>Azimuth parameter value in the [-180.0; 180.0] range.</returns>
+		</member>
+		<member name="M:Unigine.CigiLosVectorRequest.getElevation const">
+			<summary>
+			Returns the value of the Elevation parameter specified in the packet. Determines the vertical angle of the LOS test vector.
+			</summary>  
+			<returns>Elevation parameter value in the [-90.0; 90.0] range.</returns>
+		</member>
+		<member name="M:Unigine.CigiLosVectorRequest.getMinRange const">
+			<summary>
+			Returns the value of the Minimum Range parameter specified in the packet. Specifies minimum range along the LOS test vector at which intersection testing shall Maximum Range occur.
+			</summary>  
+			<returns>Minimum Range parameter value which is greater than 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiLosVectorRequest.getMaxRange const">
+			<summary>
+			Returns the value of the Maximum Range parameter specified in the packet. Specifies the maximum range along the LOS test vector at which intersection testing shall occur.
+			</summary>  
+			<returns>Maximum Range parameter value which is greater than the Minimum Range parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiLosVectorRequest.getPosition const">
+			<summary>
+			Returns the Source Point position represented as a three-component vector of the Source Latitude, Source Longitude, Source Altitude or Source X Offset, Source Y Offset, Source Z Offset parameters values specified in the packet corresponding to the value of Source Point Coordinate System parameter.
+			</summary>  
+			<returns>Three-component coordinates vector:[Latitude, Longitude, Altitude] - if Source Point Coordinate System is set to Geodetic (0).[X Offset, Y Offset, Z Offset] - if Source Point Coordinate System is set to Entity (1).</returns>
+		</member>
+		<member name="M:Unigine.CigiMaritimeControl.getRegionID const">
+			<summary>
+			Returns the Environmental region ID specified in the packet.
+			</summary>  
+			<returns>Entity ID if Scope is set to Entity (2).Region ID if Scope is set to Regional (1).This value will be ignored if Scope is set to Global (0).</returns>
+		</member>
+		<member name="M:Unigine.CigiMaritimeControl.getSurfaceEnabled const">
+			<summary>
+			Returns the value of the Surface Conditions Enable parameter specified in the packet.
+			</summary>  
+			<returns>Surface Conditions Enable parameter value: 1 - surface conditions are to be defined by this packet; 0 - surface conditions within the region or entity will be the same as the global maritime surface conditions.</returns>
+		</member>
+		<member name="M:Unigine.CigiMaritimeControl.getWhitecapEnabled const">
+			<summary>
+			Returns the value of the Whitecap Enable parameter specified in the packet.
+			</summary>  
+			<returns>Whitecap Enable parameter value: 1 if whitecaps are enabled; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiMaritimeControl.getScope const">
+			<summary>
+			Returns the value of the Scope parameter specified in the packet. Determines whether the weather is global, regional, or assigned to an entity.
+			</summary>  
+			<returns>Scope parameter value. The following values are supported:0 - Global1 - Regional2 - Entity</returns>
+		</member>
+		<member name="M:Unigine.CigiMaritimeControl.getHeight const">
+			<summary>
+			Returns the value of the Sea Surface Height parameter to be specified in the packet.
+			</summary>  
+			<returns>Sea Surface Height parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiMaritimeControl.getTemperature const">
+			<summary>
+			Returns the value of the Surface Water Temperature parameter to be specified in the packet.
+			</summary>  
+			<returns>Surface Water Temperature parameter value, in degrees Celsius.</returns>
+		</member>
+		<member name="M:Unigine.CigiMaritimeControl.getClarity const">
+			<summary>
+			Returns the value of the Surface Clarity parameter to be specified in the packet.
+			</summary>  
+			<returns>Surface Clarity parameter value in the [0; 100] range.</returns>
+		</member>
+		<member name="M:Unigine.CigiPositionRequest.getObjectID const">
+			<summary>
+			Returns the Object ID specified in the packet.
+			</summary>  
+			<returns>Object ID. The following ranges of values are supported depending on Object Class:[0; 65535] - If Object Class is in the [0; 2] range.[1; 255] - If Object Class=3.[0; 255] - If Object Class=4.</returns>
+		</member>
+		<member name="M:Unigine.CigiPositionRequest.getPartID const">
+			<summary>
+			Returns the value of the Articulated Part ID parameter specified in the packet. Identifies the articulated part whose position is being requested.
+			</summary>  
+			<returns>Articulated Part ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiPositionRequest.getUpdateMode const">
+			<summary>
+			Returns the value of the Update Mode parameter specified in the packet. Determines whether the IG will report the position of the requested object each frame.
+			</summary>  
+			<returns>Update Mode parameter value. The following values are supported:0 - One-Shot.1 - Continuous.</returns>
+		</member>
+		<member name="M:Unigine.CigiPositionRequest.getObjectClass const">
+			<summary>
+			Returns the value of the Object Class parameter specified in the packet. Indicates the type of object whose position is being requested.
+			</summary>  
+			<returns>Object Class parameter value. The following values are supported:0 - Entity.1 - Articulated Part.2 - View.3 - View Group.4 - Motion Tracker.</returns>
+		</member>
+		<member name="M:Unigine.CigiPositionRequest.getCoordSystem const">
+			<summary>
+			Returns the value of the Coordinate System parameter specified in the packet. Determines the desired coordinate system relative to which the position and orientation will be given.
+			</summary>  
+			<returns>Coordinate System parameter value. The following values are supported:0 - Geodetic. Position shall be specified as a geodetic latitude, longitude, and altitude. Orientation shall be given with respect to the reference plane.1 - Parent Entity. Position and orientation shall be with respect to the entity to which the specified entity or view is attached. This value shall be invalid for top-level entities.2 - Submodel. Position and orientation shall be specified with respect to the articulated part’s reference coordinate system. This value shall be valid only when Object Class is set to Articulated Part (1).If Object Class is set to Motion Tracker (4), the coordinate system is defined by the tracking device and this parameter</returns>
+		</member>
+		<member name="M:Unigine.CigiPositionResponse.setObjectID(int)">
+			<summary>
+			Sets the value of the Object ID parameter to be specified in the packet.
+			</summary> 
+			<param name="id"> Object ID parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiPositionResponse.setPartID(int)">
+			<summary>
+			Sets the value of the Part ID parameter to be specified in the packet.
+			</summary> 
+			<param name="id"> Part ID parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiPositionResponse.setObjectClass(int)">
+			<summary>
+			Sets the value of the Object Class parameter to be specified in the packet.
+			</summary> 
+			<param name="c"> Object Class parameter value. The following values are supported:0 - Entity.1 - Articulated Part.2 - View.3 - View Group.4 - Motion Tracker. </param> 
+		</member>
+		<member name="M:Unigine.CigiPositionResponse.setCoordSystem(int)">
+			<summary>
+			Sets the value of the Coordinate System parameter to be specified in the packet.
+			</summary> 
+			<param name="s"> Coordinate System parameter value. The following values are supported:0 - Geodetic coordinate system.1 - Local entity coordinate system2 - Local submodel coordinate system </param> 
+		</member>
+		<member name="M:Unigine.CigiPositionResponse.setPosition(Unigine.Math.dvec3)">
+			<summary>
+			Sets the values of parameters that determine the Position to be specified in the packet.
+			</summary> 
+			<param name="p"> Position coordinates.For geodetic coordinate system: (Lat, Lon, Alt)For local coordinate systems: (X-offset, Y-offset, Z-offset) </param> 
+		</member>
+		<member name="M:Unigine.CigiPositionResponse.setRotation(Unigine.Math.vec3)">
+			<summary>
+			Sets the values of parameters that determine the Rotation to be specified in the packet.
+			</summary> 
+			<param name="r"> Rotation euler angles: (Roll, Pitch, Yaw). </param> 
+		</member>
+		<member name="M:Unigine.CigiRateControl.getEntityID const">
+			<summary>
+			Returns the entity ID specified in the packet.
+			</summary>  
+			<returns>Entity ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiRateControl.getPartID const">
+			<summary>
+			Returns the articulated part ID specified in the packet.
+			</summary>  
+			<returns>Articulated part ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiRateControl.getToPart const">
+			<summary>
+			Returns the value of the Aply to Articulated Part parameter specified in the packet.
+			</summary>  
+			<returns>Aply to Articulated Part parameter value: 1 - the rate specified in the packet shall be applied to the articulated part; 0 - the rate specified in the packet shall be applied to the entity.</returns>
+		</member>
+		<member name="M:Unigine.CigiRateControl.getLocal const">
+			<summary>
+			Returns the value of the Coordinate System parameter specified in the packet.
+			</summary>  
+			<returns>Coordinate System parameter value: 1 - Local; 0 - World/Parent.</returns>
+		</member>
+		<member name="M:Unigine.CigiRateControl.getLinear const">
+			<summary>
+			Returns the linear velocity vector specified in the packet.
+			</summary>  
+			<returns>Linear velocity vector.</returns>
+		</member>
+		<member name="M:Unigine.CigiRateControl.getAngular const">
+			<summary>
+			Returns the angular velocity vector specified in the packet.
+			</summary>  
+			<returns>Angular velocity vector.</returns>
+		</member>
+		<member name="M:Unigine.CigiSegmentDef.getEntityID const">
+			<summary>
+			Returns the entity ID specified in the packet.
+			</summary>  
+			<returns>Entity ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiSegmentDef.getSegmentID const">
+			<summary>
+			Returns the segment ID specified in the packet.
+			</summary>  
+			<returns>Segment ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiSegmentDef.getSegmentEnabled const">
+			<summary>
+			Returns the value of the Segment Enable parameter specified in the packet.
+			</summary>  
+			<returns>Segment Enable parameter: 1 - the segment will be considered during collision testing; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiSegmentDef.getMaterialMask const">
+			<summary>
+			Returns the value of the Material Mask parameter specified in the packet. Determines the environmental and cultural features to be included in or excluded from consideration for collision testing.
+			</summary>  
+			<returns>Material Mask parameter value. Each bit represents a range of material code values. Setting that bit to 1 shall cause the IG to register hits with materials within the corresponding range.  Setting this field to 0h has the effect of disabling collision testing for this segment.</returns>
+		</member>
+		<member name="M:Unigine.CigiSegmentDef.getPoint1 const">
+			<summary>
+			Returns the coordinates of the first point of the collision segment specified in the packet.
+			</summary>  
+			<returns>Coordinates of the first point of the collision segment.</returns>
+		</member>
+		<member name="M:Unigine.CigiSegmentDef.getPoint2 const">
+			<summary>
+			Returns the coordinates of the second point of the collision segment specified in the packet.
+			</summary>  
+			<returns>Coordinates of the second point of the collision segment.</returns>
+		</member>
+		<member name="M:Unigine.CigiSensorControl.getViewID const">
+			<summary>
+			Returns the view ID specified in the packet.
+			</summary>  
+			<returns>View ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiSensorControl.getSensorID const">
+			<summary>
+			Returns the sensor ID specified in the packet.
+			</summary>  
+			<returns>Sensor ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiSensorControl.getSensorEnabled const">
+			<summary>
+			Returns the value of the Sensor On/Off parameter specified in the packet.
+			</summary>  
+			<returns>Sensor On/Off parameter value: 1 if the sensor is on; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiSensorControl.getPolarity const">
+			<summary>
+			Returns the value of the Polarity parameter specified in the packet. Determines whether the sensor shows white hot or black hot.
+			</summary>  
+			<returns>Polarity parameter value. The following values are supported:0 - White hot1 - Red hot</returns>
+		</member>
+		<member name="M:Unigine.CigiSensorControl.getDropoutEnabled const">
+			<summary>
+			Returns the value of the Line-by-Line Dropout Enable parameter specified in the packet. This effect is meant to simulate the horizontal stripes caused by a transient loss of video information.
+			</summary>  
+			<returns>Line-by-Line Dropout Enable parameter value: 1 if line-by-line dropout is enabled; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiSensorControl.getAutomaticGain const">
+			<summary>
+			Returns the value of the Automatic Gain parameter specified in the packet.
+			</summary>  
+			<returns>Automatic Gain parameter value: 1 if the sensor automatically adjusts the gain value to optimize the brightness and contrast of the sensor display; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiSensorControl.getTrackColor const">
+			<summary>
+			Returns the value of the Track White/Black parameter specified in the packet.
+			</summary>  
+			<returns>Track White/Black parameter value: 1 - if the sensor tracks black; 0 - if the sensor tracks white.</returns>
+		</member>
+		<member name="M:Unigine.CigiSensorControl.getTrackMode const">
+			<summary>
+			Returns the value of the Track Mode parameter specified in the packet. Determines which track mode the sensor will use.
+			</summary>  
+			<returns>Track Mode parameter value. The following values are supported:0 - Off1 - Force Correlate. Tracking behavior shall be similar to that found in a Maverick missile.2 - Scene. Tracking behavior shall be similar to that found in a FLIR (Forward Looking Infrared).3 - Target. Contrast tracking shall be used to lock to a specific target area.4 - Ship. Contrast tracking shall be used, with adjustment of the tracking point so that the weapon strikes close to the water line.5-7 - Defined by IG</returns>
+		</member>
+		<member name="M:Unigine.CigiSensorControl.getResponse const">
+			<summary>
+			Returns the value of the Response Type parameter specified in the packet.
+			</summary>  
+			<returns>Response Type parameter value: 1 - Extended (gate and target position), the IG will return a Sensor Extended Response packet; 0 - Normal (gate position), the IG will return a Sensor Response packet.The IG shall return one of the two sensor response packets every frame as long as the following two criteria are met:Sensor On/Off is set to On (1).Track Mode is not set to Off (0).</returns>
+		</member>
+		<member name="M:Unigine.CigiSensorControl.getGain const">
+			<summary>
+			Returns the value of the Gain parameter specified in the packet. Determines the contrast of the sensor display.
+			</summary>  
+			<returns>Gain parameter value in the [0.0; 1.0] range.</returns>
+		</member>
+		<member name="M:Unigine.CigiSensorControl.getLevel const">
+			<summary>
+			Returns the value of the Level parameter specified in the packet. Determines the brightness of the sensor display.
+			</summary>  
+			<returns>Level parameter value in the [0.0; 1.0] range.</returns>
+		</member>
+		<member name="M:Unigine.CigiSensorControl.getCoupling const">
+			<summary>
+			Returns the value of the AC Coupling parameter specified in the packet. Determines the AC coupling decay constant for the sensor display.
+			</summary>  
+			<returns>AC Coupling parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiSensorControl.getNoise const">
+			<summary>
+			Returns the value of the Noise parameter specified in the packet. Determines the amount of detector noise for the sensor.
+			</summary>  
+			<returns>Noise parameter value in the [0.0; 1.0] range.</returns>
+		</member>
+		<member name="M:Unigine.CigiSensorExtResponse.setViewID(int)">
+			<summary>
+			Sets the value of the View ID parameter to be specified in the packet.
+			</summary> 
+			<param name="id"> View ID parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiSensorExtResponse.setEntityID(int)">
+			<summary>
+			Sets the value of the Entity ID parameter to be specified in the packet.
+			</summary> 
+			<param name="id"> Entity ID parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiSensorExtResponse.setSensorID(int)">
+			<summary>
+			Sets the value of the Sensor ID parameter to be specified in the packet.
+			</summary> 
+			<param name="id"> Sensor ID parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiSensorExtResponse.setEntityValid(int)">
+			<summary>
+			Sets the value of the Entity Valid parameter to be specified in the packet.
+			</summary> 
+			<param name="valid"> Entity ID Valid parameter value. The following values are supported:0 - invalid (if the target point being tracked is not a part of an entity)1 - valid (if the target point being tracked is a part of an entity) </param> 
+		</member>
+		<member name="M:Unigine.CigiSensorExtResponse.setSensorStatus(int)">
+			<summary>
+			Sets the value of the Sensor Status parameter to be specified in the packet.
+			</summary> 
+			<param name="status"> Sensor Status parameter value. The following values are supported:0 - Searching for target1 - Tracking target2 - Impending breaklock3 - Breaklock </param> 
+		</member>
+		<member name="M:Unigine.CigiSensorExtResponse.setGateSize(Unigine.Math.ivec3)">
+			<summary>
+			Sets the values of parameters that determine the Gate Size to be specified in the packet.
+			</summary> 
+			<param name="size"> Gate Sizes, in pixels: (X-size, Y-size).Only the first two components of the vector are used. </param> 
+		</member>
+		<member name="M:Unigine.CigiSensorExtResponse.setGateOffset(Unigine.Math.vec3)">
+			<summary>
+			Sets the values of parameters that determine the Gate Position to be specified in the packet.
+			</summary> 
+			<param name="offset"> Gate Position coordinates: (X-coordinate, Y-coordinate).Only the first two components of the vector are used. </param> 
+		</member>
+		<member name="M:Unigine.CigiSensorExtResponse.setTrackPoint(Unigine.Math.dvec3)">
+			<summary>
+			Sets the values of parameters that determine the Track Point Coordinates to be specified in the packet.
+			</summary> 
+			<param name="point"> Track point coordinates:(Latitude, Longitude, Altitude).Latitude - [-90.0; 90.0] relative to the Equator.Longitude - [-180.0; 180.0] relative to the Prime Meridian.Altitude - meters above the Mean Sea Level. </param> 
+		</member>
+		<member name="M:Unigine.CigiSensorResponse.setViewID(int)">
+			<summary>
+			Sets the value of the View ID parameter to be specified in the packet.
+			</summary> 
+			<param name="id"> View ID parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiSensorResponse.setSensorID(int)">
+			<summary>
+			Sets the value of the Sensor ID parameter to be specified in the packet.
+			</summary> 
+			<param name="id"> Sensor ID parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiSensorResponse.setSensorStatus(int)">
+			<summary>
+			Sets the value of the Sensor Status parameter to be specified in the packet.
+			</summary> 
+			<param name="status"> Sensor Status parameter value. The following values are supported:0 - Searching for target1 - Tracking target2 - Impending breaklock3 - Breaklock </param> 
+		</member>
+		<member name="M:Unigine.CigiSensorResponse.setGateSize(Unigine.Math.ivec3)">
+			<summary>
+			Sets the values of parameters that determine the Gate Size to be specified in the packet.
+			</summary> 
+			<param name="size"> Gate Sizes, in pixels: (X-size, Y-size).Only the first two components of the vector are used. </param> 
+		</member>
+		<member name="M:Unigine.CigiSensorResponse.setGateOffset(Unigine.Math.vec3)">
+			<summary>
+			Sets the values of parameters that determine the Gate Position to be specified in the packet.
+			</summary> 
+			<param name="offset"> Gate Position coordinates: (X-coordinate, Y-coordinate).Only the first two components of the vector are used. </param> 
+		</member>
+		<member name="M:Unigine.CigiSymbolCircleDef.getSymbolID const">
+			<summary>
+			Returns the Symbol ID specified in the packet.
+			</summary>  
+			<returns>Symbol ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolCircleDef.getDrawStyle const">
+			<summary>
+			Returns the value of the Drawing Style parameter specified in the packet. Determines whether the circles and arcs defined in this packet are defined as curved lines or filled volumes.
+			</summary>  
+			<returns>Draw Style parameter value. The following values are supported:0 - Line.1 - Fill.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolCircleDef.getStipplePattern const">
+			<summary>
+			Returns the value of the Stipple Pattern parameter specified in the packet. Specifies the dash pattern to be used when drawing the curved line of a circle or arc.
+			</summary>  
+			<returns>Stipple Pattern parameter value.If the value of this parameter is 0xFFFF, then the IG shall draw a solid line. If the value is 0x00, then the IG shall not draw the line.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolCircleDef.getPatternLength const">
+			<summary>
+			Returns the value of the Stipple Pattern Length parameter specified in the packet. Specifies the length of one complete repetition of the stipple pattern.
+			</summary>  
+			<returns>Stipple Pattern Length parameter, in symbol surface units.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolCircleDef.getLineWidth const">
+			<summary>
+			Returns the value of the Line Width parameter specified in the packet. Specifies the line thickness that the IG shall use when drawing the circles and arcs defined in this packet.
+			</summary>  
+			<returns>Line Width parameter value, in symbol surface units.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolCircleDef.getNumCircles const">
+			<summary>
+			Returns the number of circles in the instance.
+			</summary>  
+			<returns>Number of circles.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolCircleDef.getCenter(int) const">
+			<summary>
+			Returns a three-component vector with the UV coordinates of the center of the given circle. This vector combines the values of the Center U and Center V parameters specified in the packet.
+			</summary> 
+			<param name="num"> Index of circle. </param> 
+			<returns>Three-component vector with the UV coordinates of the center of the given circle (Center U, Center V, Z).The third component of the vector is ignored.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolCircleDef.getOuterRadius(int) const">
+			<summary>
+			Returns the value of the Radius parameter specified in the packet. Determines the radius of the outer circumference of the given circle or arc.
+			</summary> 
+			<param name="num"> Index of circle. </param> 
+			<returns>Radius parameter value which is greater than InnerRadius parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolCircleDef.getInnerRadius(int) const">
+			<summary>
+			Returns the value of the Inner Radius parameter specified in the packet. Determines the inner radius of the given filled circle or arc.
+			</summary> 
+			<param name="num"> Index of circle. </param> 
+			<returns>Inner Radius parameter value which is &gt;0.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolCircleDef.getStartAngle(int) const">
+			<summary>
+			Returns the value of the Start Angle parameter specified in the packet. Determines the starting angle of the given arc.
+			</summary> 
+			<param name="num"> Index of circle. </param> 
+			<returns>Start Angle parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolCircleDef.getEndAngle(int) const">
+			<summary>
+			Returns the value of the End Angle parameter specified in the packet. Determines the ending angle of the given arc.
+			</summary> 
+			<param name="num"> Index of circle. </param> 
+			<returns>End Angle parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolClone.getSymbolID const">
+			<summary>
+			Returns the Symbol ID specified in the packet. The identifier of the symbol that is being defined.
+			</summary>  
+			<returns>Symbol ID parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolClone.getSourceID const">
+			<summary>
+			Returns the Source ID specified in the packet. Determines whether the new symbol will be a copy of an existing symbol or an instance of an IG-defined symbol template.
+			</summary>  
+			<returns>Source ID parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolClone.getSourceType const">
+			<summary>
+			Returns the value of the Source Type parameter specified in the packet. Defines whether the type of the source symbol is Symbol Template or Symbol.
+			</summary>  
+			<returns>Source Type parameter value: 1 if source type is the Symbol Template; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolControl.getSymbolID const">
+			<summary>
+			Returns the Symbol ID specified in the packet. Determines the symbol to which this packet shall be applied.
+			</summary>  
+			<returns>Symbol ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolControl.getParentID const">
+			<summary>
+			Returns the Parent Symbol ID specified in the packet. Determines the parent to which the IG shall attach the symbol.
+			</summary>  
+			<returns>Parent ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolControl.getSurfaceID const">
+			<summary>
+			Returns the Surface ID specified in the packet. Determines the symbol surface on which the IG shall draw the symbol.
+			</summary>  
+			<returns>Surface ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolControl.getSymbolState const">
+			<summary>
+			Returns the value of the Symbol State parameter specified in the packet. Determines whether the symbol is hidden, visible, or destroyed.
+			</summary>  
+			<returns>Symbol State parameter. The following values are supported:0 - Hidden.1 - Visible.2 - Destroyed.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolControl.getAttachState const">
+			<summary>
+			Returns the value of the Attach State parameter specified in the packet. Determines whether the symbol will be attached as a child to a parent symbol.
+			</summary>  
+			<returns>Attach State parameter value: 1 if the symbol is to be attached to a parent; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolControl.getFlashControl const">
+			<summary>
+			Returns the value of the Flash Control parameter specified in the packet. Determines whether the IG shall continue the symbol’s flash cycle from its present state or restart it from the beginning.
+			</summary>  
+			<returns>Flash Control parameter value. One of the following values:0 - continue1 - restart</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolControl.getInheritColor const">
+			<summary>
+			Returns the value of the Inherit Color parameter specified in the packet. Determines whether the symbol inherits its color from the symbol to which it is attached.
+			</summary>  
+			<returns>Inherit Color parameter value: 1 if the color is inherited; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolControl.getLayer const">
+			<summary>
+			Returns the value of the Layer parameter specified in the packet. Determines the layer to which the symbol shall be assigned.
+			</summary>  
+			<returns>Layer parameter value in the [0 - 255] range.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolControl.getFlashDuty const">
+			<summary>
+			Returns the value of the Flash Duty Cycle Percentage parameter specified in the packet. Determines the duty cycle for a flashing symbol, measured as a percentage of the flash period.
+			</summary>  
+			<returns>Flash Duty parameter value in the [0 - 100] range.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolControl.getFlashPeriod const">
+			<summary>
+			Returns the value of the Flash Period parameter specified in the packet. This parameter specifies the duration of a single flash cycle. The IG makes the symbol visible for the duration of the duty cycle period and invisible for the remainder of the flash period.
+			</summary>  
+			<returns>Flash Period parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolControl.getRotation const">
+			<summary>
+			Returns the value of the Rotation parameter specified in the packet. Determines the contrast of the sensor display.
+			</summary>  
+			<returns>Rotation parameter value in the [0.0; 1.0] range.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolControl.getPosition const">
+			<summary>
+			Returns the UV position of the symbol as a three-component vector combining Position U and Position V parameters specified in the packet.
+			</summary>  
+			<returns>UV position of the symbol. The first two components specify the coordinates position of the symbol along U and V axes. The third component shall be ignored.For top-level (non-child) symbols, the IG defines position of the symbol with respect to the symbol surface’s 2D coordinate system.For child symbols - with respect to the parent symbol’s local coordinate system.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolControl.getScale const">
+			<summary>
+			Returns the scale vector of the symbol as a three-component vector combining Scale U and Scale V parameters specified in the packet.
+			</summary>  
+			<returns>Scale vector for the symbol. The first two components specify scaling factors of the symbol along its local U and V axes. The third component shall be ignored.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolControl.getColor const">
+			<summary>
+			Returns the color of the symbol as a four-component vector combining Red, Green, Blue, and Alpha parameters specified in the packet.
+			</summary>  
+			<returns>Four-component vector representing symbol color (Red, Green, Blue, Alpha).</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolLineDef.getSymbolID const">
+			<summary>
+			Returns the Symbol ID specified in the packet.
+			</summary>  
+			<returns>Symbol ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolLineDef.getPrimitiveType const">
+			<summary>
+			Returns the Primitive Type specified in the packet. Determines the type of point or line primitive defined by this packet.
+			</summary>  
+			<returns>Primitive Type parameter value. One of the CIGI_LINE_* values.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolLineDef.getStipplePattern const">
+			<summary>
+			Returns the value of the Stipple Pattern parameter specified in the packet. Determines the dash pattern to be used when drawing the line.
+			</summary>  
+			<returns>Stipple Pattern parameter value.If the value of this parameter is 0xFFFF, then the IG shall draw a solid line. If the value is 0x00, then the IG shall not draw the line.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolLineDef.getPatternLength const">
+			<summary>
+			Returns the value of the Stipple Pattern Length parameter specified in the packet. Determines the length of one complete repetition of the stipple pattern.
+			</summary>  
+			<returns>Pattern Length parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolLineDef.getLineWidth const">
+			<summary>
+			Returns the value of the Line Width parameter specified in the packet. Specifies the line thickness that the IG shall use when drawing the primitives defined in this packet.
+			</summary>  
+			<returns>Line Width parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolLineDef.getNumVertex const">
+			<summary>
+			Returns the number of vertices in line. Determines the number of vertices by which the line is specified
+			</summary>  
+			<returns>Num Vertex.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolLineDef.getVertex(int) const">
+			<summary>
+			Returns a three-component vector UV coordinates of the given vertex. This vector combines the values of the Center U and Center V parameters specified in the packet.
+			</summary> 
+			<param name="num"> Index of vertex. </param> 
+			<returns>Three-component vector with the UV coordinates of the given vertex (Center U, Center V, Z), in symbol’s local coordinate system.The third component of the vector is ignored.</returns>
+		</member>
+		<member name="F:Unigine.CigiSymbolLineDef.CIGI_LINE_POINT">
+			<summary>
+			Point primitive type.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolLineDef.CIGI_LINE_LINE">
+			<summary>
+			Line primitive type.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolLineDef.CIGI_LINE_LINE_STRIP">
+			<summary>
+			Line Strip primitive type.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolLineDef.CIGI_LINE_LINE_LOOP">
+			<summary>
+			Line Loop primitive type.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolLineDef.CIGI_LINE_TRIANGLE">
+			<summary>
+			Triangle primitive type.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolLineDef.CIGI_LINE_TRIANGLE_STRIP">
+			<summary>
+			Triangle Strip primitive type.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolLineDef.CIGI_LINE_TRIANGLE_FAN">
+			<summary>
+			Triangle fan primitive type.
+		</summary>
+		</member>
+		<member name="M:Unigine.CigiSymbolShortControl.getSymbolID const">
+			<summary>
+			Returns the Symbol ID specified in the packet. It specifies the symbol to which this packet shall be applied.
+			</summary>  
+			<returns>Symbol ID parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolShortControl.getSymbolState const">
+			<summary>
+			Returns the Symbol State specified in the packet.
+			</summary>  
+			<returns>Symbol State parameter value. The following values are supported:0 - Hidden.1 - Visible.2 - Destroyed.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolShortControl.getAttachState const">
+			<summary>
+			Returns the value of the Attach State parameter specified in the packet. Determines whether the symbol will be attached as a child to a parent symbol.
+			</summary>  
+			<returns>Attach State parameter value. 1 the symbol is attached as a child; otherwise, 0. </returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolShortControl.getFlashControl const">
+			<summary>
+			Returns the value of the Flash Control parameter specified in the packet. Defines whether the IG shall continue the symbol’s flash cycle from its present state or restart it from the beginning.
+			</summary>  
+			<returns>Flash Control parameter value: 0 if Continue; otherwise, 1.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolShortControl.getInheritColor const">
+			<summary>
+			Returns the value of the Inherit Color parameter specified in the packet. Specifies whether this symbol inherits its color from the symbol to which it is attached.
+			</summary>  
+			<returns>Inherit Color parameter value: 1 if the color is inherited; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolShortControl.getSelect1 const">
+			<summary>
+			Returns the value of the Attribute Select 1 parameter specified in the packet. Identifies the attribute whose value is returned by the getData1 function.
+			</summary>  
+			<returns>Select 1 parameter value. One of the CIGI_SYMBOL_* values.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolShortControl.getSelect2 const">
+			<summary>
+			Returns the value of the Attribute Select 2 parameter specified in the packet. Identifies the attribute whose value is returned by the getData2 function.
+			</summary>  
+			<returns>Select 2 parameter value. One of the CIGI_SYMBOL_* values.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolShortControl.getData1 const">
+			<summary>
+			Returns the value of the Attribute Value 1 parameter specified in the packet. Specifies the value of the attribute identified by the getAttribute1 function.
+			</summary>  
+			<returns>Data 1 parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolShortControl.getData2 const">
+			<summary>
+			Returns the value of the Attribute Value 2 parameter specified in the packet. Specifies the value of the attribute identified by the getAttribute2 function.
+			</summary>  
+			<returns>Data 2 parameter value.</returns>
+		</member>
+		<member name="F:Unigine.CigiSymbolShortControl.CIGI_SYMBOL_NONE">
+			<summary>
+			Attribute Select None in Short Symbol Control.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolShortControl.CIGI_SYMBOL_SURFACE_ID">
+			<summary>
+			Attribute Select ID in Short Symbol Control.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolShortControl.CIGI_SYMBOL_PARENT_SYMBOL_ID">
+			<summary>
+			Attribute Select Parent Symbol ID in Short Symbol Control.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolShortControl.CIGI_SYMBOL_LAYER">
+			<summary>
+			Attribute Select Layer in Short Symbol Control.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolShortControl.CIGI_SYMBOL_FLASH_DUTY">
+			<summary>
+			Attribute Select Flash Duty in Short Symbol Control.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolShortControl.CIGI_SYMBOL_FLASH_PERIOD">
+			<summary>
+			Attribute Select Flash Period in Short Symbol Control.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolShortControl.CIGI_SYMBOL_POSITION_X">
+			<summary>
+			Attribute Select Position X (U) in Short Symbol Control.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolShortControl.CIGI_SYMBOL_POSITION_Y">
+			<summary>
+			Attribute Select Position Y (V) in Short Symbol Control.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolShortControl.CIGI_SYMBOL_ROTATION">
+			<summary>
+			Attribute Select Rotation in Short Symbol Control.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolShortControl.CIGI_SYMBOL_COLOR">
+			<summary>
+			Attribute Select Color in Short Symbol Control.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolShortControl.CIGI_SYMBOL_SCALE_X">
+			<summary>
+			Attribute Select Scale X (U) in Short Symbol Control.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolShortControl.CIGI_SYMBOL_SCALE_Y">
+			<summary>
+			Attribute Select Scale Y (V) in Short Symbol Control.
+		</summary>
+		</member>
+		<member name="M:Unigine.CigiSymbolSurfaceDef.getSurfaceID const">
+			<summary>
+			Returns the Surface ID specified in the packet.
+			</summary>  
+			<returns>Surface ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolSurfaceDef.getEntityID const">
+			<summary>
+			Returns the Entity ID specified in the packet.
+			</summary>  
+			<returns>Entity ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolSurfaceDef.getSurfaceState const">
+			<summary>
+			Returns the value of the Surface State parameter specified in the packet. Defines whether the surface will be active.
+			</summary>  
+			<returns>Surface State parameter value: 1 (Active) if the surface is enabled; otherwise, 0 (Destroyed).</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolSurfaceDef.getAttachType const">
+			<summary>
+			Returns the value of the Attach Type parameter specified in the packet. Determines  whether the surface will be attached to an entity or a view.
+			</summary>  
+			<returns>Attach Type parameter value: 0 (Entity) specified by the Entity ID parameter; otherwise, 1 (View).If the specified entity or view does not exist, this packet shall be ignored.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolSurfaceDef.getBillboard const">
+			<summary>
+			Returns the value of the Billboard parameter specified in the packet. Determines the way of surface orientation.
+			</summary>  
+			<returns>Billboard parameter value. The following values are supported:1 – Billboard. The surface shall be oriented such that the normal vector from the center of the surface is parallel to the viewing vector.0 - Non-Billboard. The surface shall be oriented in relation to the entity’s local coordinate system by the Yaw, Pitch, and Roll parameters.If the surface is attached to a view, then the IG  shall ignore this parameter.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolSurfaceDef.getPerspective const">
+			<summary>
+			Returns the value of the Perspective Growth Enable parameter specified in the packet.
+			</summary>  
+			<returns>Perspective Growth Enable parameter: 1 (Enabled) if the perspective growth is enabled; otherwise, 0 (Disabled).</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolSurfaceDef.getOffset const">
+			<summary>
+			Returns the offset of the given surface as a three-component vector of X Offset, Y Offset and Z Offset or Left, Right and Top parameters specified in the packet.
+			</summary>  
+			<returns>Three-component vector:[X Offset, Y Offset, Z Offset] - if the surface is attached to an entity. The values are relative to the entity’s reference point.[Left, Right, Top] - if the surface is attached to a view. The IG shall place it at this distance from the left edge of the viewport to the surface’s leftmost and rightmost boundary and from the bottom edge of the viewport to the surface’s topmost boundary respectively. This distance is measured as a fraction of the viewport’s width.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolSurfaceDef.getRotation const">
+			<summary>
+			Returns the orientation of the given surface as a three-component vector of Yaw, Pitch and Roll  parameters (for Entity-attached surfaces) and value of Bottom parameter (for View-attached surfaces) specified in the packet.
+			</summary>  
+			<returns>Three-component vector. [Yaw, Pitch, Roll] values - if the surface is attached to an entity; otherwise, [Bottom, Y, Z].If the given surface is attached to View, than the last two components of the vector shall be ignored.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolSurfaceDef.getWidth const">
+			<summary>
+			Returns the value of the Width parameter specified in the packet.
+			</summary>  
+			<returns>Width parameter value in the [0.0; 180.0] range for surfaces which are entity-attached Billboards with disabled Perspective Growth; the value is greater than 0 for entity-attached Billboards with enabled Perspective Growth and Non-Billboards.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolSurfaceDef.getHeight const">
+			<summary>
+			Returns the value of the Height parameter specified in the packet.
+			</summary>  
+			<returns>Height parameter value in the [0.0; 180.0] range for surfaces which are Billboards, Entity-attached with disabled Perspective Growth; the value is greater than 0 for entity-attached Billboards with enabled Perspective Growth and Non-Billboards.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolSurfaceDef.getMin const">
+			<summary>
+			Returns the three-component vector that contains the values of the Min U, Min V parameters specified in the packet. Specifies the UV coordinates that shall correspond to the leftmost and bottommost boundaries of the symbol surface.
+			</summary>  
+			<returns>Three-component vector of the [Min U, Min V] parameters values.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolSurfaceDef.getMax const">
+			<summary>
+			Returns the three-component vector that contains the values of the Max U, Max V parameters specified in the packet. Specifies the UV coordinates that shall correspond to the rightmost and topmost boundaries of the symbol surface.
+			</summary>  
+			<returns>Three-component vector of the [Max U, Max V] parameters values.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolTextDef.getSymbolID const">
+			<summary>
+			Returns the Symbol ID specified in the packet.
+			</summary>  
+			<returns>Symbol ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolTextDef.getFontID const">
+			<summary>
+			Returns the value of the Font ID parameter specified in the packet. Determines the font that is used for this text symbol.
+			</summary>  
+			<returns>Font ID parameter value. The following values are supported:0 - IG Default.Proportional:1 - Sans Serif.2 - Sans Serif Bold.3 - Sans Serif Italic.4 - Sans Serif Bold Italic.5 - Serif.6 - Serif Bold.7 - Serif Italic.8 - Serif Bold Italic.Monospace:9 - Sans Serif.10 - Sans Serif Bold.11 - Sans Serif Italic.12 - Sans Serif Bold Italic.13 - Serif.14 - Serif Bold.15 - Serif Italic.16 - Serif Bold Italic.17-255 - IG-defined.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolTextDef.getAlignment const">
+			<summary>
+			Returns the value of the Alignment parameter specified in the packet. Specifies the position at which the IG shall place the symbol’s reference point in relation to the text.
+			</summary>  
+			<returns>Alignment parameter value. One of the CIGI_TEXT_ALIGN_* values. </returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolTextDef.getOrientation const">
+			<summary>
+			Returns the value of the Orientation parameter specified in the packet. Determines the orientation of text.
+			</summary>  
+			<returns>Orientation parameter value. One of the CIGI_TEXT_ORIENT_*_TO_* values.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolTextDef.getFontSize const">
+			<summary>
+			Returns the value of the Font Size parameter specified in the packet. Specifies the font size in terms of the vertical units defined by the symbols surface's 2D coordinate system.
+			</summary>  
+			<returns>Font Size parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiSymbolTextDef.getText const">
+			<summary>
+			Returns the value of the Octet parameter specified in the packet.
+			</summary>  
+			<returns>Octet parameter value.The maximum length of the string, including a terminating NULL, is 236 bytes.</returns>
+		</member>
+		<member name="F:Unigine.CigiSymbolTextDef.CIGI_TEXT_ALIGN_TOP_LEFT">
+			<summary>
+			Text alignment in the top left corner.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolTextDef.CIGI_TEXT_ALIGN_TOP_CENTER">
+			<summary>
+			Text alignment in the top center position.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolTextDef.CIGI_TEXT_ALIGN_TOP_RIGHT">
+			<summary>
+			Text alignment in the top right corner.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolTextDef.CIGI_TEXT_ALIGN_CENTER_LEFT">
+			<summary>
+			Text alignment in the middle left position.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolTextDef.CIGI_TEXT_ALIGN_CENTER">
+			<summary>
+			Text alignment in the center of field.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolTextDef.CIGI_TEXT_ALIGN_CENTER_RIGHT">
+			<summary>
+			Text alignment in the middle right position.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolTextDef.CIGI_TEXT_ALIGN_BOTTOM_LEFT">
+			<summary>
+			Text alignment in the bottom left corner.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolTextDef.CIGI_TEXT_ALIGN_BOTTOM_CENTER">
+			<summary>
+			Text alignment in the bottom center position.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolTextDef.CIGI_TEXT_ALIGN_BOTTOM_RIGHT">
+			<summary>
+			Text alignment in the bottom right corner.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolTextDef.CIGI_TEXT_ORIENT_LEFT_TO_RIGHT">
+			<summary>
+			Left to Right orientation of text.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolTextDef.CIGI_TEXT_ORIENT_TOP_TO_BOTTOM">
+			<summary>
+			Top to Bottom orientation of text.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolTextDef.CIGI_TEXT_ORIENT_RIGHT_TO_LEFT">
+			<summary>
+			Right to Left orientation of text.
+		</summary>
+		</member>
+		<member name="F:Unigine.CigiSymbolTextDef.CIGI_TEXT_ORIENT_BOTTOM_TO_TOP">
+			<summary>
+			Bottom to Top orientation of text.
+		</summary>
+		</member>
+		<member name="M:Unigine.CigiTerrestrialControl.getRegionID const">
+			<summary>
+			Returns the Environmental region ID specified in the packet.
+			</summary>  
+			<returns>Entity ID if Scope is set to Entity (2).Region ID if Scope is set to Regional (1).This value will be ignored if Scope is set to Global (0).</returns>
+		</member>
+		<member name="M:Unigine.CigiTerrestrialControl.getSurfaceID const">
+			<summary>
+			Returns the value of the Surface Condition ID specified in the packet. Determines surface condition or contaminant.					Multiple conditions can be specified by sending multiple Terrestrial Surface Conditions Control packets.
+			</summary>  
+			<returns>Surface Condition ID parameter value. The following values are supported:0 - Dry (reset).&gt; 0 - Defined by IG.When this parameter is set to Dry (0), all existing surface conditions will be removed within the specified scope.</returns>
+		</member>
+		<member name="M:Unigine.CigiTerrestrialControl.getSurfaceEnabled const">
+			<summary>
+			Returns the value of the Surface Condition Enable parameter specified in the packet.
+			</summary>  
+			<returns>Surface Condition Enable parameter: 1 - surface condition attribute identified by the Surface Condition ID parameter shall be enabled; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiTerrestrialControl.getScope const">
+			<summary>
+			Returns the value of the Scope parameter specified in the packet. Determines whether the surface conditions are applied globally, regionally, or to an environmental entity.
+			</summary>  
+			<returns>Scope parameter value. The following values are supported:0 - Global1 - Regional2 - Entity</returns>
+		</member>
+		<member name="M:Unigine.CigiTerrestrialControl.getSeverity const">
+			<summary>
+			Returns the value of the Severity parameter specified in the packet.
+			</summary>  
+			<returns>Severity parameter value: 0 – 31 (least to most severe).</returns>
+		</member>
+		<member name="M:Unigine.CigiTerrestrialControl.getCoverage const">
+			<summary>
+			Returns the value of the Coverage parameter specified in the packet. Determines the degree of coverage of the specified surface contaminant.
+			</summary>  
+			<returns>Coverage parameter value in the [0; 100] range.</returns>
+		</member>
+		<member name="M:Unigine.CigiTrackerControl.getViewID const">
+			<summary>
+			Returns the view ID specified in the packet.
+			</summary>  
+			<returns>View ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiTrackerControl.getTrackerID const">
+			<summary>
+			Returns the tracker ID specified in the packet.
+			</summary>  
+			<returns>Tracker ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiTrackerControl.getTrackerEnabled const">
+			<summary>
+			Returns the value of the Tracker Enable parameter specified in the packet.
+			</summary>  
+			<returns>Tracker Enable parameter value: 1 if the tracking device is enabled; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiTrackerControl.getBoresightEnabled const">
+			<summary>
+			Returns the value of the Boresight Enable parameter specified in the packet. The boresight enable mode is used to reestablish the tracker’s “center” position at the current position and orientation.
+			</summary>  
+			<returns>Boresight Enable parameter value: 1 if the boresight state of the tracking device is enabled; otherwise, 0.When enabled, the Host shall send a Motion Tracker Control packet with Boresight Enable set to Disable (0) to return the tracker to normal operation. The IG shall continue to update the boresight position each frame until that occurs.</returns>
+		</member>
+		<member name="M:Unigine.CigiTrackerControl.getGroupSelect const">
+			<summary>
+			Returns the value of the View/View Group Select parameter specified in the packet.
+			</summary>  
+			<returns>View/View Group Select parameter value: 1 if the tracking device is attached to a view group; 0 - if the tracking device is attached to a single view.</returns>
+		</member>
+		<member name="M:Unigine.CigiTrackerControl.getPositionEnabled const">
+			<summary>
+			Returns a three-component vector providing X, Y, and Z coordinates.
+			</summary>  
+			<returns>Vector of three integer values. Each value determines the corresponding coordinate (X, Y, Z).</returns>
+		</member>
+		<member name="M:Unigine.CigiTrackerControl.getRotationEnabled const">
+			<summary>
+			Returns a three-component vector combining Roll/Pitch/Yaw Enable values specified in the packet. Each value determines whether the rotation around the corresponding axis (roll, pitch, yaw) is enabled.
+			</summary>  
+			<returns>Vector of three integer values. Each value determines whether the rotation around the corresponding axis (Roll, Pitch, Yaw) is enabled: 1 - enabled; 0 - disabled.</returns>
+		</member>
+		<member name="M:Unigine.CigiTrajectoryDef.getEntityID const">
+			<summary>
+			Returns the entity ID specified in the packet.
+			</summary>  
+			<returns>Entity ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiTrajectoryDef.getAcceleration const">
+			<summary>
+			Returns the coordinates of the accceleration vector specified in the packet.
+			</summary>  
+			<returns>Acceleration vector of the entity.</returns>
+		</member>
+		<member name="M:Unigine.CigiTrajectoryDef.getRetardationRate const">
+			<summary>
+			Returns the value of the Retardation Rate parameter specified in the packet. Determines the magnitude of an acceleration applied against the entity’s instantaneous linear velocity vector. This is used to simulate drag and other frictional forces acting upon the entity.
+			</summary>  
+			<returns>Retardation Rate parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiTrajectoryDef.getTerminalVelocity const">
+			<summary>
+			Returns the value of the Terminal Velocity parameter specified in the packet. Determines the maximum velocity the entity can obtain.
+			</summary>  
+			<returns>Terminal Velocity parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewControl.getViewID const">
+			<summary>
+			Returns the view ID specified in the packet.
+			</summary>  
+			<returns>View ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewControl.getGroupID const">
+			<summary>
+			Returns the view group ID specified in the packet.
+			</summary>  
+			<returns>View group ID.0 - means the view is not a member of any group.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewControl.getEntityID const">
+			<summary>
+			Returns the entity ID specified in the packet.					This value shall be ignored if the view is in a group.
+			</summary>  
+			<returns>Entity ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewControl.getOffsetEnabled const">
+			<summary>
+			Returns a three-component vector combining Offset Enable values specified in the packet. Each value determines whether the offset for the corresponding axis(X - back, Y - left, Z - down) is enabled.
+			</summary>  
+			<returns>Vector of three integer values. Each value determines whether the offset for the corresponding axis(X - back, Y - left, Z - down) is enabled: 1 - enabled; 0 - disabled.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewControl.getRotationEnabled const">
+			<summary>
+			Returns a three-component vector combining Roll/Pitch/Yaw Enable values specified in the packet. Each value determines whether the rotation around the corresponding axis(roll, pitch, yaw) is enabled.
+			</summary>  
+			<returns>Vector of three integer values. Each value determines whether the rotation around the corresponding axis(Roll, Pitch, Yaw) is enabled: 1 - enabled; 0 - disabled.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewControl.getOffset const">
+			<summary>
+			Returns the offset of the view specified in the packet.
+			</summary>  
+			<returns>View offset coordinates (X - back, Y - left, Z - down).</returns>
+		</member>
+		<member name="M:Unigine.CigiViewControl.getRotation const">
+			<summary>
+			Returns the rotation of the view specified in the packet.
+			</summary>  
+			<returns>View rotation euler angles.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewDef.getViewID const">
+			<summary>
+			Returns the view ID specified in the packet.
+			</summary>  
+			<returns>View ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewDef.getGroupID const">
+			<summary>
+			Returns the view group ID specified in the packet.
+			</summary>  
+			<returns>View group ID.0 - means the view is not a member of any group.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewDef.getNearEnabled const">
+			<summary>
+			Returns the value of the Near Enable parameter specified in the packet.
+			</summary>  
+			<returns>Near Enable parameter value: 1 - use the specified Near parameter to set the near clipping plane for the view; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewDef.getFarEnabled const">
+			<summary>
+			Returns the value of the Far Enable parameter specified in the packet.
+			</summary>  
+			<returns>Far Enable parameter value: 1 - use the specified Far parameter to set the far clipping plane for the view; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewDef.getLeftEnabled const">
+			<summary>
+			Returns the value of the Left Enable parameter specified in the packet.
+			</summary>  
+			<returns>Left Enable parameter value: 1 - use the specified Left parameter to set the left half-angle for the view; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewDef.getRightEnabled const">
+			<summary>
+			Returns the value of the Right Enable parameter specified in the packet.
+			</summary>  
+			<returns>Right Enable parameter value: 1 - use the specified Right parameter to set the right half-angle for the view; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewDef.getTopEnabled const">
+			<summary>
+			Returns the value of the Top Enable parameter specified in the packet.
+			</summary>  
+			<returns>Top Enable parameter value: 1 - use the specified Top parameter to set the top half-angle for the view; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewDef.getBottomEnabled const">
+			<summary>
+			Returns the value of the Bottom Enable parameter specified in the packet.
+			</summary>  
+			<returns>Bottom Enable parameter value: 1 - use the specified Bottom parameter to set the bottom half-angle for the view; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewDef.getMirrorMode const">
+			<summary>
+			Returns the value of the Mirror Mode parameter specified in the packet.
+			</summary>  
+			<returns>Mirror Mode parameter value. One of the MIRROR_* values.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewDef.getReplicationMode const">
+			<summary>
+			Returns the value of the Replication Mode parameter specified in the packet.
+			</summary>  
+			<returns>Replication Mode parameter value. One of the REPLICATION_* values.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewDef.getProjectionType const">
+			<summary>
+			Returns the value of the Projection Type parameter specified in the packet.
+			</summary>  
+			<returns>Projection Type parameter value. One of the PROJECTION_* values.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewDef.getViewType const">
+			<summary>
+			Returns the value of the View Type parameter specified in the packet.
+			</summary>  
+			<returns>View Type parameter value. IG-defined type for the view.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewDef.getReorder const">
+			<summary>
+			Returns the value of the Reorder parameter specified in the packet.
+			</summary>  
+			<returns>Reorder parameter value: 1 - the view will be moved to the top of any overlapping views; 0 - no reordering.In cases where multiple overlapping views are moved to the top, the last view specified shall have priority.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewDef.getNear const">
+			<summary>
+			Returns the distance to the near clipping plane specified in the packet.
+			</summary>  
+			<returns>Near parameter value: distance to the near clipping plane, in units.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewDef.getFar const">
+			<summary>
+			Returns the distance to the far clipping plane specified in the packet.
+			</summary>  
+			<returns>Far parameter value: distance to the far clipping plane, in units.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewDef.getLeft const">
+			<summary>
+			Returns the left half-angle for the view frustum specified in the packet.
+			</summary>  
+			<returns>Left parameter value: left half-angle, in degrees.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewDef.getRight const">
+			<summary>
+			Returns the right half-angle for the view frustum specified in the packet.
+			</summary>  
+			<returns>Right parameter value: right half-angle, in degrees.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewDef.getTop const">
+			<summary>
+			Returns the top half-angle for the view frustum specified in the packet.
+			</summary>  
+			<returns>Top parameter value: top half-angle, in degrees.</returns>
+		</member>
+		<member name="M:Unigine.CigiViewDef.getBottom const">
+			<summary>
+			Returns the bottom half-angle for the view frustum specified in the packet.
+			</summary>  
+			<returns>Bottom parameter value: bottom half-angle, in degrees.</returns>
+		</member>
+		<member name="M:Unigine.CigiVolumeDef.getEntityID const">
+			<summary>
+			Returns the entity ID specified in the packet.
+			</summary>  
+			<returns>Entity ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiVolumeDef.getVolumeID const">
+			<summary>
+			Returns the volume ID specified in the packet.
+			</summary>  
+			<returns>Volume ID.</returns>
+		</member>
+		<member name="M:Unigine.CigiVolumeDef.getVolumeEnabled const">
+			<summary>
+			Returns the value of the Volume Enable parameter specified in the packet.
+			</summary>  
+			<returns>Volume Enable parameter value: 1 - the volume will be considered during collision testing; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiVolumeDef.getVolumeType const">
+			<summary>
+			Returns the value of the Volume Type parameter specified in the packet.
+			</summary>  
+			<returns>Volume Type parameter value. The following values are supported:0 - Sphere1 - Cuboid</returns>
+		</member>
+		<member name="M:Unigine.CigiVolumeDef.getCenter const">
+			<summary>
+			Returns the coordinates of the offset of the center of the collision volume specified in the packet.
+			</summary>  
+			<returns>Offset of the center of the collision volume.Measured with respect to the coordinate system of the entity specified by the Entity ID parameter</returns>
+		</member>
+		<member name="M:Unigine.CigiVolumeDef.getSize const">
+			<summary>
+			Returns the size of the collision volume specified in the packet.
+			</summary>  
+			<returns>Sizes of the collision volume: (height, width, depth).For spherical volumes only the first component of the vector is considered - it is interpreted as radius.</returns>
+		</member>
+		<member name="M:Unigine.CigiVolumeDef.getRotation const">
+			<summary>
+			Returns the rotation euler angles of the collision volume specified in the packet.
+			</summary>  
+			<returns>Collision volume rotation euler angles (roll, pitch, yaw).</returns>
+		</member>
+		<member name="M:Unigine.CigiVolumeDef.getRadius const">
+			<summary>
+			Returns the radius of the spherical collision volume specified in the packet.
+			</summary>  
+			<returns>Collision volume radius.</returns>
+		</member>
+		<member name="M:Unigine.CigiWaveControl.getRegionID const">
+			<summary>
+			Returns the Environmental region ID specified in the packet.
+			</summary>  
+			<returns>Entity ID if Scope is set to Entity (2).Region ID if Scope is set to Regional (1).This value will be ignored if Scope is set to Global (0).</returns>
+		</member>
+		<member name="M:Unigine.CigiWaveControl.getWaveID const">
+			<summary>
+			Returns the value of the Wave ID specified in the packet.
+			</summary>  
+			<returns>Wave ID parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiWaveControl.getWaveEnabled const">
+			<summary>
+			Returns the value of the Wave Enable parameter specified in the packet.
+			</summary>  
+			<returns>Wave Enable parameter: 1 - wave is enabled and will contribute to the shape of water's surface; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiWaveControl.getScope const">
+			<summary>
+			Returns the value of the Scope parameter specified in the packet. Determines whether the wave is defined for global, regional, or entity-controlled maritime surface conditions.
+			</summary>  
+			<returns>Scope parameter value. The following values are supported:0 - Global1 - Regional2 - Entity</returns>
+		</member>
+		<member name="M:Unigine.CigiWaveControl.getBreaker const">
+			<summary>
+			Returns the value of the Breaker Type parameter specified in the packet.
+			</summary>  
+			<returns>Breaker Type parameter value. The following values are supported:0 - Plunging. Plunging waves peak until the wave forms a vertical wall, at which point the crest moves faster than the base of the breaker. The wave shall then break violently into the wave trough.1 - Spilling. Spilling breakers break gradually over a great distance. White water shall form over the crest, which spills down the face of the breaker.2 - Surging. Surging breakers advance toward the beach as vertical walls of water. Unlike with plunging and spilling breakers, the crest shall not fall over the front of the wave.</returns>
+		</member>
+		<member name="M:Unigine.CigiWaveControl.getHeight const">
+			<summary>
+			Returns the value of the Wave Height parameter specified in the packet.
+			</summary>  
+			<returns>Wave Height parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiWaveControl.getLength const">
+			<summary>
+			Returns the value of the Wavelength parameter specified in the packet.
+			</summary>  
+			<returns>Wavelength parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiWaveControl.getPeriod const">
+			<summary>
+			Returns the value of the Period parameter specified in the packet. Determines the time required for one complete oscillation of the wave.
+			</summary>  
+			<returns>Period parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiWaveControl.getWindDirection const">
+			<summary>
+			Returns the value of the Wind Direction parameter specified in the packet. Determines the direction in which the wave propagates.
+			</summary>  
+			<returns>Direction parameter value in the [0; 360] range.</returns>
+		</member>
+		<member name="M:Unigine.CigiWaveControl.getOffset const">
+			<summary>
+			Returns the value of the Phase Offset parameter specified in the packet. Determines the phase offset of the wave.
+			</summary>  
+			<returns>Phase Offset parameter value in the [-360; 360] range.</returns>
+		</member>
+		<member name="M:Unigine.CigiWaveControl.getLeading const">
+			<summary>
+			Returns the value of the Leading parameter specified in the packet.
+			</summary>  
+			<returns>Leading parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiWeatherControl.getRegionID const">
+			<summary>
+			Returns the Environmental region ID specified in the packet.
+			</summary>  
+			<returns>Entity ID if Scope is set to Entity (2).Region ID if Scope is set to Regional (1).This value will be ignored if Scope is set to Global (0).</returns>
+		</member>
+		<member name="M:Unigine.CigiWeatherControl.getLayerID const">
+			<summary>
+			Returns the layer ID specified in the packet.
+			</summary>  
+			<returns>Layer ID. The following values are supported:0 - Ground Fog1 - Cloud Layer 12 - Cloud Layer 23 - Cloud Layer 34 - Rain5 - Snow6 - Sleet7 - Hail8 - Sand9 - Dust10 – 255 - Defined by IG</returns>
+		</member>
+		<member name="M:Unigine.CigiWeatherControl.getWeatherEnabled const">
+			<summary>
+			Returns the value of the Weather Enable parameter specified in the packet.
+			</summary>  
+			<returns>Weather Enable parameter value: 1 if a weather layer/entity and its atmospheric effects are enabled; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiWeatherControl.getScudEnabled const">
+			<summary>
+			Returns the value of the Scud Enable parameter specified in the packet.
+			</summary>  
+			<returns>Scud Enable parameter value: 1 if the weather layer produces scud effects within its transition bands; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiWeatherControl.getWindEnabled const">
+			<summary>
+			Returns the value of the Random Winds Enable parameter specified in the packet.
+			</summary>  
+			<returns>Random Winds Enable parameter value: 1 if a random frequency and duration will be applied to the local wind effects; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CigiWeatherControl.getLightingEnabled const">
+			<summary>
+			Returns the value of the Random Lightning Enable parameter specified in the packet.
+			</summary>  
+			<returns>Random Lightning Enable parameter value: 1 if the weather layer or entity exhibits random lightning effects; otherwise, 0.The frequency and severity of the lightning shall vary according to the Severity parameter</returns>
+		</member>
+		<member name="M:Unigine.CigiWeatherControl.getCloudType const">
+			<summary>
+			Returns the value of the Cloud Type parameter specified in the packet.
+			</summary>  
+			<returns>Cloud Type parameter value. The following values are supported:0 - None1 - Altocumulus2 - Altostratus3 - Cirrocumulus4 - Cirrostratus5 - Cirrus6 - Cumulonimbus7 - Cumulus8 - Nimbostratus9 - Stratocumulus10 - Stratus11 – 15 - Other</returns>
+		</member>
+		<member name="M:Unigine.CigiWeatherControl.getScope const">
+			<summary>
+			Returns the value of the Scope parameter specified in the packet. Determines whether the weather is global, regional, or assigned to an entity.
+			</summary>  
+			<returns>Scope parameter value. The following values are supported:0 - Global1 - Regional2 - Entity</returns>
+		</member>
+		<member name="M:Unigine.CigiWeatherControl.getSeverity const">
+			<summary>
+			Returns the value of the Severity parameter specified in the packet.
+			</summary>  
+			<returns>Severity parameter value: 0 – 5 (least to most severe).</returns>
+		</member>
+		<member name="M:Unigine.CigiWeatherControl.getHumidity const">
+			<summary>
+			Returns the value of the Humidity parameter specified in the packet.
+			</summary>  
+			<returns>Humidity parameter value in the [0; 100] range.</returns>
+		</member>
+		<member name="M:Unigine.CigiWeatherControl.getTemperature const">
+			<summary>
+			Returns the value of the Air Temperature parameter specified in the packet.
+			</summary>  
+			<returns>Air Temperature parameter value, in degrees Celsius.</returns>
+		</member>
+		<member name="M:Unigine.CigiWeatherControl.getVisibility const">
+			<summary>
+			Returns the value of the Visibility Range parameter specified in the packet.
+			</summary>  
+			<returns>Visibility Range parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiWeatherControl.getScudFrequency const">
+			<summary>
+			Returns the value of the Scud Frequency parameter specified in the packet.
+			</summary>  
+			<returns>Scud Frequency parameter value in the [0; 100] range.</returns>
+		</member>
+		<member name="M:Unigine.CigiWeatherControl.getCoverage const">
+			<summary>
+			Returns the value of the Coverage parameter specified in the packet.
+			</summary>  
+			<returns>Coverage parameter value in the [0; 100] range.</returns>
+		</member>
+		<member name="M:Unigine.CigiWeatherControl.getElevation const">
+			<summary>
+			Returns the value of the Base Elevation parameter specified in the packet. Determines the altitude of the base (bottom) of the weather layer.
+			</summary>  
+			<returns>Base Elevation parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiWeatherControl.getThickness const">
+			<summary>
+			Returns the value of the Thickness parameter specified in the packet. Determines the vertical thickness of the weather layer. The altitude of the top of the layer is equal to this value plus that specified by Base Elevation.
+			</summary>  
+			<returns>Thickness parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiWeatherControl.getWindSpeedHorizontal const">
+			<summary>
+			Returns the value of the Horizontal Wind Speeed parameter specified in the packet.
+			</summary>  
+			<returns>Horizontal Wind Speeed parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiWeatherControl.getWindSpeedVertical const">
+			<summary>
+			Returns the value of the Vertical Wind Speeed parameter specified in the packet.
+			</summary>  
+			<returns>Vertical Wind Speeed parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiWeatherControl.getWindDirection const">
+			<summary>
+			Returns the value of the Wind Direction parameter specified in the packet.
+			</summary>  
+			<returns>Wind Direction parameter value in the [0; 360] range.</returns>
+		</member>
+		<member name="M:Unigine.CigiWeatherControl.getPressure const">
+			<summary>
+			Returns the value of the Barometric Pressure parameter specified in the packet.
+			</summary>  
+			<returns>Barometric Pressure parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiWeatherControl.getAerosol const">
+			<summary>
+			Returns the value of the Aerosol Concentration parameter specified in the packet. Determines the concentration of water, smoke, dust, or other particles suspended in the air.					This parameter is provided primarily for sensor applications; any visual effect is secondary and is IG- and layer-dependent.
+			</summary>  
+			<returns>Aerosol Concentration parameter value.</returns>
+		</member>
+		<member name="M:Unigine.CigiWeatherControl.getTransitionThicknessTop const">
+			<summary>
+			Returns the thickness of the top Transition Band specified in the packet.
+			</summary>  
+			<returns>Thickness of the top Transition Band, in meters.</returns>
+		</member>
+		<member name="M:Unigine.CigiWeatherControl.getTransitionThicknessBottom const">
+			<summary>
+			Returns the thickness of the bottom Transition Band specified in the packet.
+			</summary>  
+			<returns>Thickness of the bottom Transition Band, in meters.</returns>
+		</member>
+	</members>
+</doc>

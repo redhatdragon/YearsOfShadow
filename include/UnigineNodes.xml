@@ -1,0 +1,286 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.NodeDummy.#ctor">
+			<summary>
+			Constructor. Creates a dummy node.
+			</summary>  
+		</member>
+		<member name="M:Unigine.NodeDummy.type">
+			<summary>
+			Returns the type of the node.
+			</summary>  
+			<returns>NodeDummy type identifier.</returns>
+		</member>
+		<member name="M:Unigine.NodeExtern.NodeExtern(int)">
+			<summary>
+			Constructor. Creates a custom user-defined node. An instance of the custom node class will be created as well.
+			</summary> 
+			<param name="class_id"> Unique class ID. </param> 
+		</member>
+		<member name="M:Unigine.NodeExtern.getClassID">
+			<summary>
+			Returns the class ID of the node.
+			</summary>  
+			<returns>Class ID if the node exists; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.NodeExtern.getNodeExtern">
+			<summary>
+			Returns the pointer to the custom node class.
+			</summary>  
+			<returns>Pointer to the custom node class.</returns>
+		</member>
+		<member name="M:Unigine.NodeExtern.type">
+			<summary>
+			Returns the type of the node.
+			</summary>  
+			<returns>NodeExtern type identifier.</returns>
+		</member>
+		<member name="M:Unigine.NodeExternBase.addClassID(int)">
+			<summary>
+			Registers the custom node class with a unique class ID.
+			</summary> 
+			<param name="class_id"> Unique class ID. </param> 
+		</member>
+		<member name="M:Unigine.NodeExternBase.copy(NodeExternBase,int)">
+			<summary>
+			Copies the current custom node into the given one.
+			</summary> 
+			<param name="node"> Pointer to a target node. </param>
+			<param name="is_root"> Unique class ID. </param> 
+		</member>
+		<member name="M:Unigine.NodeExternBase.getBoundBox">
+			<summary>
+			Returns the bounding box of the custom node.
+			</summary>  
+			<returns>The bounding box.</returns>
+		</member>
+		<member name="M:Unigine.NodeExternBase.getBoundSphere">
+			<summary>
+			Returns the bounding sphere of the custom node.
+			</summary>  
+			<returns>The bounding sphere.</returns>
+		</member>
+		<member name="M:Unigine.NodeExternBase.getClassID">
+			<summary>
+			Returns a unique class ID.
+			</summary>  
+			<returns>Unique class ID.</returns>
+		</member>
+		<member name="M:Unigine.NodeExternBase.getNode">
+			<summary>
+			Returns the Node smart pointer.
+			</summary>  
+			<returns>Node smart pointer.</returns>
+		</member>
+		<member name="M:Unigine.NodeExternBase.getNodeExtern">
+			<summary>
+			Returns the NodeExtern instance that is created on loading the custom node.
+			</summary>  
+			<returns>NodeExtern smart pointer.</returns>
+		</member>
+		<member name="M:Unigine.NodeExternBase.loadWorld(Unigine.Ptr{Unigine.Xml})">
+			<summary>
+			Loads a node state from the Xml.
+			</summary> 
+			<param name="xml"> Xml smart pointer. </param> 
+			<returns>Returns 1 if the node state was successfully loaded; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.NodeExternBase.renderHandler">
+			<summary>
+			Renders the handler for the custom user-defined node.
+			</summary>  
+		</member>
+		<member name="M:Unigine.NodeExternBase.renderVisualizer">
+			<summary>
+			Renders the visualizer for the custom user-defined node.					You should enable the engine visualizer by the show_visualizer 1 console command.
+			</summary>  
+		</member>
+		<member name="M:Unigine.NodeExternBase.saveState(Unigine.Ptr{Unigine.Stream})">
+			<summary>
+			Saves a node state into the stream.					Saving into the stream requires creating a blob to save into. To restore the saved state the restoreState() method is used:
+			</summary> 
+			<param name="stream"> Stream smart pointer. </param> 
+			<returns>true on success; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.NodeExternBase.restoreState(Unigine.Ptr{Unigine.Stream})">
+			<summary>
+			Restores a node state from the stream.					Restoring from the stream requires creating a blob to save into and saving the state using the saveState() method:
+			</summary> 
+			<param name="stream"> Stream smart pointer. </param> 
+			<returns>true on success; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.NodeExternBase.saveWorld(Unigine.Ptr{Unigine.Xml})">
+			<summary>
+			Saves a node state into the Xml.
+			</summary> 
+			<param name="xml"> Xml smart pointer. </param> 
+			<returns>Returns 1 if the node state was successfully saved; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.NodeExternBase.swap(NodeExternBase)">
+			<summary>
+			Swaps two custom nodes.
+			</summary> 
+			<param name="node"> Pointer to the custom node to swap. </param> 
+		</member>
+		<member name="M:Unigine.NodeExternBase.updateEnabled">
+			<summary>
+			Updates enabled.
+			</summary>  
+		</member>
+		<member name="M:Unigine.NodeExternBase.updatePosition">
+			<summary>
+			Updates a position of the custom node.
+			</summary>  
+		</member>
+		<member name="M:Unigine.NodeExternBase.updateTransform">
+			<summary>
+			Updates transformation matrix of the custom node.
+			</summary>  
+		</member>
+		<member name="M:Unigine.NodeLayer.#ctor(char)">
+			<summary>
+			Constructor. Creates a node layer with specified file name to store it.
+			</summary> 
+			<param name="name"> Name of the layer. </param> 
+		</member>
+		<member name="M:Unigine.NodeLayer.setNodePath(char)">
+			<summary>
+			Updates the name of the node layer: a path to a .node file where child nodes of the layer are stored.
+			</summary> 
+			<param name="name"> Path to a .node file. </param> 
+		</member>
+		<member name="M:Unigine.NodeLayer.getNodePath">
+			<summary>
+			Returns the name of the node layer: a path to a .node file where child nodes of the layer are stored.
+			</summary>  
+			<returns>Path to the .node file.</returns>
+		</member>
+		<member name="M:Unigine.NodeLayer.type">
+			<summary>
+			Returns the type of the node.
+			</summary>  
+			<returns>NodeLayer type identifier.</returns>
+		</member>
+		<member name="M:Unigine.NodeReference.#ctor(char)">
+			<summary>
+			Constructor. Creates a new object that references a node from a given file.
+			</summary> 
+			<param name="name"> Path to a *.node file.  </param> 
+		</member>
+		<member name="M:Unigine.NodeReference.setNodePath(char)">
+			<summary>
+			Sets a reference to a new *.node file.
+			</summary> 
+			<param name="name"> Path to a *.node file. </param> 
+		</member>
+		<member name="M:Unigine.NodeReference.getNodePath">
+			<summary>
+			Returns the path to the referenced *.node file.
+			</summary>  
+			<returns>Path to the referenced *.node file.</returns>
+		</member>
+		<member name="M:Unigine.NodeReference.getReference">
+			<summary>
+			Returns the node stored by the reference. The method should be used when you need to change the referenced node. If getReference() has returned a NodeDummy instance, it means that several nodes of the same hierarchy level has been converted into the NodeReference.
+			</summary>  
+			<returns>Node instance.</returns>
+		</member>
+		<member name="M:Unigine.NodeReference.canBeReference(char,Unigine.Ptr{Unigine.Node})">
+			<summary>
+			Returns a value indicating if the hierarchy of the given node does not contain a node reference with the given name.
+			</summary> 
+			<param name="name"> Node reference name. </param>
+			<param name="node"> Node to check. </param> 
+			<returns>true if the hierarchy of the given node does not contain a node reference with the given name; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.NodeReference.detachReference">
+			<summary>
+			Returns the node stored by the reference and releases this node of ownership so it is no longer owned and referred to by the NodeReference. The node is managed by the World.					To remove the node do the following:
+			</summary>  
+			<returns>Root node of the internal hierarchy.</returns>
+		</member>
+		<member name="M:Unigine.NodeReference.type">
+			<summary>
+			Returns the type of the node.
+			</summary>  
+			<returns>NodeReference type identifier.</returns>
+		</member>
+		<member name="M:Unigine.NodeTrigger.#ctor">
+			<summary>
+			Constructor. Creates a new trigger node.
+			</summary>  
+		</member>
+		<member name="M:Unigine.NodeTrigger.addEnabledCallback(Unigine.CallbackBase1{Unigine.Ptr{NodeTrigger}})">
+			<summary>
+			Sets a pointer to a callback to be fired when the trigger node is enabled or disabled. The callback function must receive a NodeTrigger as its first argument. In addition, it can also take 2 arguments of any type.
+			</summary> 
+			<param name="func"> Callback pointer. </param> 
+			<returns>ID of the last added enabled callback, if the callback was added successfully; otherwise, nullptr. This ID can be used to remove this callback when necessary.</returns>
+		</member>
+		<member name="M:Unigine.NodeTrigger.removeEnabledCallback(void)">
+			<summary>
+			Removes the specified callback from the list of enabled callbacks.
+			</summary> 
+			<param name="id"> Enabled callback ID obtained when adding it. </param> 
+			<returns>True if the enabled callback with the given ID was removed successfully; otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.NodeTrigger.clearEnabledCallbacks">
+			<summary>
+			Clears all added enabled callbacks.
+			</summary>  
+		</member>
+		<member name="M:Unigine.NodeTrigger.setEnabledCallbackName(char)">
+			<summary>
+			Sets a callback function to be fired when the trigger node is enabled. The callback function must be implemented in the world script (on the UnigineScript side). The callback function can take no arguments, a Node or a NodeTrigger.					The method allows for setting a callback with 0 or 1 argument only. To set the callback with additional arguments, use setEnabledCallback().On UnigineScript side:
+			</summary> 
+			<param name="name"> Name of the callback function implemented in the world script (UnigineScript side). </param> 
+		</member>
+		<member name="M:Unigine.NodeTrigger.getEnabledCallbackName">
+			<summary>
+			Returns the name of callback function to be fired on enabling the trigger node. This callback function is set via setEnabledCallbackName().
+			</summary>  
+			<returns>Name of the callback function implemented in the world script (UnigineScript side).</returns>
+		</member>
+		<member name="M:Unigine.NodeTrigger.addPositionCallback(Unigine.CallbackBase1{Unigine.Ptr{NodeTrigger}})">
+			<summary>
+			Adds a pointer to a callback to be fired when the trigger node position has changed. The callback function must receive a NodeTrigger as its first argument. In addition, it can also take 2 arguments of any type.
+			</summary> 
+			<param name="func"> Callback pointer. </param> 
+			<returns>ID of the last added position callback, if the callback was added successfully; otherwise, nullptr. This ID can be used to remove this callback when necessary.</returns>
+		</member>
+		<member name="M:Unigine.NodeTrigger.removePositionCallback(void)">
+			<summary>
+			Removes the specified callback from the list of position callbacks.
+			</summary> 
+			<param name="id"> Position callback ID obtained when adding it. </param> 
+			<returns>True if the position callback with the given ID was removed successfully; otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.NodeTrigger.clearPositionCallbacks">
+			<summary>
+			Clears all added position callbacks.
+			</summary>  
+		</member>
+		<member name="M:Unigine.NodeTrigger.setPositionCallbackName(char)">
+			<summary>
+			Sets a callback function to be fired when the trigger node position has changed. The callback function must be implemented in the world script (on the UnigineScript side). The callback function can take no arguments, a Node or a NodeTrigger.					The method allows for setting a callback with 0 or 1 argument only. To set the callback with additional arguments, use setPositionCallback().On UnigineScript side:
+			</summary> 
+			<param name="name"> Name of the callback function implemented in the world script (UnigineScript side). </param> 
+		</member>
+		<member name="M:Unigine.NodeTrigger.getPositionCallbackName">
+			<summary>
+			Returns the name of callback function to be fired on changing the trigger node position. This function is set by using the setPositionCallbackName() function.
+			</summary>  
+			<returns>Name of the callback function implemented in the world script (UnigineScript side).</returns>
+		</member>
+		<member name="M:Unigine.NodeTrigger.type">
+			<summary>
+			Returns the type of the node.
+			</summary>  
+			<returns>NodeTrigger type identifier.</returns>
+		</member>
+	</members>
+</doc>

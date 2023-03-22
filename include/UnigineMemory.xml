@@ -1,0 +1,64 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Memory.isInitialized">
+			<summary>
+			Returns the status of the memory manager.
+			</summary>  
+			<returns>1 if the memory manager is initialized; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Memory.allocate(size_t)">
+			<summary>
+			Allocates the dynamic memory.
+			</summary> 
+			<param name="size"> Size of the allocated memory block. </param> 
+			<returns>Allocated memory block.</returns>
+		</member>
+		<member name="M:Unigine.Memory.deallocate(void)">
+			<summary>
+			Deallocates the dynamic memory.
+			</summary> 
+			<param name="ptr"> Pointer to the allocated memory block. </param> 
+		</member>
+		<member name="M:Unigine.Memory.deallocate(void,size_t)">
+			<summary>
+			Deallocates the dynamic memory.
+			</summary> 
+			<param name="ptr"> Pointer to the allocated memory block. </param>
+			<param name="size"> Size of the allocated memory block. </param> 
+		</member>
+		<member name="M:Unigine.Memory.getHeapUsage">
+			<summary>
+			Shows the overall amount of allocated memory pools in bytes.
+			</summary>  
+			<returns>Allocated memory pools in bytes.</returns>
+		</member>
+		<member name="M:Unigine.Memory.getMemoryUsage">
+			<summary>
+			Shows the overall amount of used memory in bytes.
+			</summary>  
+			<returns>Used memory in bytes.</returns>
+		</member>
+		<member name="M:Unigine.Memory.getSystemUsage">
+			<summary>
+			Shows the overall amount of used system memory in bytes.
+			</summary>  
+			<returns>Used system memory in bytes.</returns>
+		</member>
+		<member name="M:Unigine.Memory.getNumAllocations">
+			<summary>
+			Shows overall number of memory allocation operations.
+			</summary>  
+			<returns>Number of memory allocations.</returns>
+		</member>
+		<member name="M:Unigine.Memory.getNumFrameAllocations">
+			<summary>
+			Number of memory allocations between calls of this function, which is called each frame by the engine.
+			</summary>  
+			<returns>Number of memory allocations between calls of this function.</returns>
+		</member>
+	</members>
+</doc>

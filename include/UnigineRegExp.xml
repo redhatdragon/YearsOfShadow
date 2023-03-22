@@ -1,0 +1,67 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.RegExp.#ctor">
+			<summary>
+			Default constructor that creates an empty instance.
+			</summary>  
+		</member>
+		<member name="M:Unigine.RegExp.#ctor(char)">
+			<summary>
+			Constructor that creates a regular expression based on a provided pattern.
+			</summary> 
+			<param name="pattern"> Pattern to be used for matching. </param> 
+		</member>
+		<member name="M:Unigine.RegExp.isCompiled">
+			<summary>
+			Returns a value indicating whether the current pattern is compiled and, therefore, can be used for matching.
+			</summary>  
+			<returns>1 if the pattern is compiled; otherwise, 0. </returns>
+		</member>
+		<member name="M:Unigine.RegExp.getGroup(int)">
+			<summary>
+			Returns a partial match corresponding to a specified group. Groups are parts of a pattern that match different components; they are marked by parentheses (()) in the pattern. Groups are numbered starting with 0 from left to right.
+			</summary> 
+			<param name="number"> A non-negative number of a desired group. The number should not exceed the value returned by getNumGroups(). </param> 
+			<returns>Partial match corresponding to the group.</returns>
+		</member>
+		<member name="M:Unigine.RegExp.getNumGroups">
+			<summary>
+			Returns a number of groups in the current pattern. Groups are marked by parentheses (()) and are numbered starting with 0 from left to right.
+			</summary>  
+			<returns>Number of groups in the current pattern.</returns>
+		</member>
+		<member name="M:Unigine.RegExp.compile(char)">
+			<summary>
+			Compiles a provided regular expression pattern. This expression will be used for future matches.
+			</summary> 
+			<param name="pattern"> Pattern to be used for matching, etc. </param> 
+			<returns>1 if the pattern is compiled successfully; otherwise, 0. </returns>
+		</member>
+		<member name="M:Unigine.RegExp.match(char)">
+			<summary>
+			Matches the pattern against a string.
+			</summary> 
+			<param name="str"> String to match. </param> 
+			<returns>1 if the whole string is matched; otherwise, 0. </returns>
+		</member>
+		<member name="M:Unigine.RegExp.replace(char,char)">
+			<summary>
+			Searches for the pattern in a given string and replaces all its occurrences with another string.
+			</summary> 
+			<param name="str"> String to search and replace in. </param>
+			<param name="after"> Replacement string. </param> 
+			<returns>Modified string.</returns>
+		</member>
+		<member name="M:Unigine.RegExp.search(char)">
+			<summary>
+			Searches for a sub-string matching the pattern in a given string.
+			</summary> 
+			<param name="str"> String to search in. </param> 
+			<returns>Number of groups in the pattern, if a match is found; otherwise, 0. </returns>
+		</member>
+	</members>
+</doc>

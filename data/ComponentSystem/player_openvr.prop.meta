@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.16.1.0">
+	<guid>8a03156898f298e60df7604d9fd262a4dfad57ef</guid>
+	<type>property</type>
+	<hash>411ec4d2</hash>
+	<runtimes>
+		<runtime id="8a03156898f298e60df7604d9fd262a4dfad57ef" name="player_openvr" link="0" type="4"/>
+	</runtimes>
+</asset>

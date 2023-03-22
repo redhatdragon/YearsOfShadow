@@ -1,0 +1,1209 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Json.#ctor">
+			<summary>
+			Default constructor that creates an empty instance.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Json.#ctor(char)">
+			<summary>
+			Constructor that creates a JSON node with a given name.
+			</summary> 
+			<param name="name"> Name of the Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.setArray">
+			<summary>
+			Sets the array type to the current Json node.					This method can be called for a newly added node or for the existing node to change its type. However, in certain cases, this can lead to data loss. For example, if you change the type from object to array, names of the child nodes will be lost.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Json.isArray const">
+			<summary>
+			Returns a value indicating if the Json node has an array type.
+			</summary>  
+			<returns>1 if the Json has an array type; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Json.setBool(int)">
+			<summary>
+			Sets a boolean value and type to the current Json node.
+			</summary> 
+			<param name="var"> Argument of one of the following types:string value - all strings except "true", set "false".int value - all int values except 0, set "true".double value - all double values except 0.0, set "true".float value - all float values except 0.0f, set "true". </param>
+			<param name="arg1"> Integer value. </param> 
+		</member>
+		<member name="M:Unigine.Json.getBool const">
+			<summary>
+			Reads a boolean value of the current Json node.
+			</summary>  
+			<returns>1 if the Json node has a bool type; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Json.isBool const">
+			<summary>
+			Returns a value indicating if the Json node has a bool type.
+			</summary>  
+			<returns>1 if the Json has a bool type; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Json.getChild(int) const">
+			<summary>
+			Returns the child node of the current Json node.
+			</summary> 
+			<param name="num"> Argument of one of the following types:string name - Name of the Json node.int number - Number of the child of the Json node. </param>
+			<param name="var"> Argument of one of the following types:string name - Name of the Json node.int number - Number of the child of the Json node. </param> 
+			<returns>Child Json node.</returns>
+		</member>
+		<member name="M:Unigine.Json.getChild(char) const">
+			<summary>
+			Returns the child node of the current Json node.
+			</summary> 
+			<param name="name"> Argument of one of the following types:string name - Name of the Json node.int number - Number of the child of the Json node. </param> 
+			<returns>Child Json node.</returns>
+		</member>
+		<member name="M:Unigine.Json.isChild(char) const">
+			<summary>
+			Checks if a child node with a given name exists.
+			</summary> 
+			<param name="name"> Name of the child node. </param> 
+			<returns>1 if a child with the provided name exists; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Json.addChild(char,double,double)">
+			<summary>
+			Adds a new name-value pair as a child node to the current Json node.
+			</summary> 
+			<param name="name"> Node name. </param>
+			<param name="value"> Argument of one of the following types:int value - integer value.float value - float value.string value - string value. </param>
+			<param name="value"> Argument of one of the following types:int value - integer value.float value - float value.string value - string value. </param>
+			<param name="var"> Argument of one of the following types:Json json - Json node.string name - Name of the Json node. </param> 
+			<returns>Child Json node.</returns>
+		</member>
+		<member name="M:Unigine.Json.addChild(char)">
+			<summary>
+			Adds a new name-value pair as a child node to the current Json node.
+			</summary> 
+			<param name="name"> Node name. </param> 
+			<returns>Child Json node.</returns>
+		</member>
+		<member name="M:Unigine.Json.addChild(char,char)">
+			<summary>
+			Adds a new name-value pair as a child node to the current Json node.
+			</summary> 
+			<param name="name"> Node name. </param>
+			<param name="value"> Argument of one of the following types:int value - integer value.float value - float value.string value - string value. </param> 
+			<returns>Child Json node.</returns>
+		</member>
+		<member name="M:Unigine.Json.addChild(Unigine.Ptr{Json})">
+			<summary>
+			Adds a new name-value pair as a child node to the current Json node.
+			</summary> 
+			<param name="json"> Node name. </param>
+			<param name="value"> Argument of one of the following types:int value - integer value.float value - float value.string value - string value. </param>
+			<param name="var"> Argument of one of the following types:Json json - Json node.string name - Name of the Json node. </param> 
+			<returns>Child Json node.</returns>
+		</member>
+		<member name="M:Unigine.Json.addChild(char,int)">
+			<summary>
+			Adds a new name-value pair as a child node to the current Json node.
+			</summary> 
+			<param name="name"> Node name. </param>
+			<param name="value"> Argument of one of the following types:int value - integer value.float value - float value.string value - string value. </param> 
+			<returns>Child Json node.</returns>
+		</member>
+		<member name="M:Unigine.Json.addChild">
+			<summary>
+			Adds a child node to the current Json node.
+			</summary>  
+			<returns>Child Json node.</returns>
+		</member>
+		<member name="M:Unigine.Json.getSubTree(char)">
+			<summary>
+			Returns a subtree of a Json node as the non-formatted string.
+			</summary> 
+			<param name="name"> The name of a child node. If there is a name, the function returns formatted subtree for this child Json node. </param> 
+			<returns>Non-formatted subtree.</returns>
+		</member>
+		<member name="M:Unigine.Json.getFormattedSubTree(char)">
+			<summary>
+			Returns a subtree of a Json node as the formatted string.
+			</summary> 
+			<param name="name"> The name of a child node. If there is a name, the function returns formatted subtree for this child Json node. </param> 
+			<returns>Formatted subtree.</returns>
+		</member>
+		<member name="M:Unigine.Json.setName(char)">
+			<summary>
+			Sets the given name to the Json node.
+			</summary> 
+			<param name="name"> Name of the Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.getName const">
+			<summary>
+			Returns the name of the current Json node.
+			</summary>  
+			<returns>The name of the Json node.</returns>
+		</member>
+		<member name="M:Unigine.Json.setNull">
+			<summary>
+			Sets null type to the current Json node.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Json.isNull const">
+			<summary>
+			Returns a value indicating if the Json node has a null type.
+			</summary>  
+			<returns>1 if the Json has a null type; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Json.setNumber(double)">
+			<summary>
+			Sets a number value and type to the current Json node.
+			</summary> 
+			<param name="var"> Argument of one of the following types:int number - integer value. For example, 5.double number - double value. For example, 5.0.float number - float value. For example, 5.0f.string value - string with value. For example, "5". </param>
+			<param name="arg1"> Double value. </param> 
+		</member>
+		<member name="M:Unigine.Json.getNumber const">
+			<summary>
+			Returns the number value of the current Json node.
+			</summary>  
+			<returns>Number value of the current Json node.</returns>
+		</member>
+		<member name="M:Unigine.Json.isNumber const">
+			<summary>
+			Returns a value indicating if the Json node has a number type.
+			</summary>  
+			<returns>1 if the Json has a number type; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Json.getNumChildren const">
+			<summary>
+			Returns the number of child nodes of the current Json node.
+			</summary>  
+			<returns>Number of child nodes.</returns>
+		</member>
+		<member name="M:Unigine.Json.setObject">
+			<summary>
+			Sets object type to the current Json node.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Json.isObject const">
+			<summary>
+			Returns a value indicating if the Json node has an object type.
+			</summary>  
+			<returns>1 if the Json has an object type; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Json.getParent">
+			<summary>
+			Returns the parent node of the current Json node.
+			</summary>  
+			<returns>Parent Json node.</returns>
+		</member>
+		<member name="M:Unigine.Json.setString(char)">
+			<summary>
+			Sets a string value and type to the current Json node. The function automatically casts number values to string type.
+			</summary> 
+			<param name="var"> Argument of one of the following types:string value - string value.int number - integer value.double number - double value.float number - float value. </param>
+			<param name="arg1"> String value. </param> 
+		</member>
+		<member name="M:Unigine.Json.getString">
+			<summary>
+			Returns the value of the current Json node as string.
+			</summary>  
+			<returns>Value of the current Json node</returns>
+		</member>
+		<member name="M:Unigine.Json.isString const">
+			<summary>
+			Returns a value indicating if the Json node has a string type.
+			</summary>  
+			<returns>1 if the Json has a string type; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Json.clear">
+			<summary>
+			Clears all data of the current Json node including type, value, name and all children. If the current Json node has a parent, it also removed from the parent Json node.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Json.removeChild(Unigine.Ptr{Json})">
+			<summary>
+			Removes the child Json node.
+			</summary> 
+			<param name="var"> Argument of one of the following types:Json json - Json node.string name - Name of the Json node. </param>
+			<param name="json"> Argument of one of the following types:Json json - Json node.string name - Name of the Json node. </param> 
+			<returns>Removed child Json node.</returns>
+		</member>
+		<member name="M:Unigine.Json.removeChild(char)">
+			<summary>
+			Removes the child Json node.
+			</summary> 
+			<param name="name"> Argument of one of the following types:Json json - Json node.string name - Name of the Json node. </param> 
+			<returns>Removed child Json node.</returns>
+		</member>
+		<member name="M:Unigine.Json.clearChildren">
+			<summary>
+			Clears all children of the current Json node.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Json.copy(Unigine.Ptr{Json})">
+			<summary>
+			Copies type, name and value from the source Json node to the current Json node and adds the source Json child nodes as child nodes to the current Json node.
+			</summary> 
+			<param name="source"> Source Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.find(char)">
+			<summary>
+			Finds Json node by its name in current Json node tree.
+			</summary> 
+			<param name="name"> Name of the Json node. </param> 
+			<returns>Founded Json node.</returns>
+		</member>
+		<member name="M:Unigine.Json.load(char)">
+			<summary>
+			Loads the data to the current Json node from the file with a given path.
+			</summary> 
+			<param name="path"> Path of the file. </param> 
+			<returns>1 if the Json node was loaded successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Json.parse(char)">
+			<summary>
+			Parses a given string into the Json node.					Usage Example										Now the json_2 node contains:
+			</summary> 
+			<param name="source"> String to parse. </param> 
+			<returns>1 if the string was parsed successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Json.save(char) const">
+			<summary>
+			Saves the Json node into a file with a given path. Creates the given file path if it doesn’t exist yet (including subdirectories).
+			</summary> 
+			<param name="path"> Path to the file. </param> 
+			<returns>1 if the file was saved successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Json.read(char,bool) const">
+			<summary>
+			Reads a boolean value of a Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Target boolean variable to which the value of the Json node with the specified name is saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,int) const">
+			<summary>
+			Reads an integer value of a Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Target integer variable to which the value of the Json node with the specified name is saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,unsignedint) const">
+			<summary>
+			Reads an unsigned integer value of a Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Target unsigned integer variable to which the value of the Json node with the specified name is saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,char) const">
+			<summary>
+			Reads a character value of a Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Target character variable to which the value of the Json node with the specified name is saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,double) const">
+			<summary>
+			Reads a double value of a Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Target double variable to which the value of the Json node with the specified name is saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,float) const">
+			<summary>
+			Reads a float value of a Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Target float variable to which the value of the Json node with the specified name is saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.UGUID) const">
+			<summary>
+			Reads a value of a Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> UGUID of the variable to which the value of the Json node with the specified name is saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.Math.vec2) const">
+			<summary>
+			Reads a two-component value of the array-type Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Target vector variable to which the value of the Json node with the specified name is saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.Math.vec3) const">
+			<summary>
+			Reads a three-component value of the array-type Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Target vector variable to which the value of the Json node with the specified name is saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.Math.vec4) const">
+			<summary>
+			Reads a four-component value of the array-type Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Target vector variable to which the value of the Json node with the specified name is saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.Math.dvec2) const">
+			<summary>
+			Reads a two-component value of the array-type Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Target vector variable to which the value of the Json node with the specified name is saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.Math.dvec3) const">
+			<summary>
+			Reads a three-component value of the array-type Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Target vector variable to which the value of the Json node with the specified name is saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.Math.dvec4) const">
+			<summary>
+			Reads a four-component value of the array-type Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Target vector variable to which the value of the Json node with the specified name is saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.Math.ivec2) const">
+			<summary>
+			Reads a two-component value of the array-type Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Target vector variable to which the value of the Json node with the specified name is saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.Math.ivec3) const">
+			<summary>
+			Reads a three-component value of the array-type Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Target vector variable to which the value of the Json node with the specified name is saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.Math.ivec4) const">
+			<summary>
+			Reads a four-component value of the array-type Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Target vector variable to which the value of the Json node with the specified name is saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.Vector{int,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.Vector{char,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.Vector{double,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.Vector{float,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.Vector{String,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.Vector{Unigine.Math.vec2,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.Vector{Unigine.Math.vec3,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.Vector{Unigine.Math.vec4,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.Vector{Unigine.Math.dvec2,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.Vector{Unigine.Math.dvec3,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.Vector{Unigine.Math.dvec4,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.Vector{Unigine.Math.ivec2,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.Vector{Unigine.Math.ivec3,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char,Unigine.Vector{Unigine.Math.ivec4,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node with the specified name to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the Json node. </param>
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(bool) const">
+			<summary>
+			Reads a boolean value of the Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Target boolean variable to which the value of the Json node is saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(int) const">
+			<summary>
+			Reads an integer value of the Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Target integer variable to which the value of the Json node is saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char) const">
+			<summary>
+			Reads a character value of the Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Target character variable to which the value of the Json node is saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(double) const">
+			<summary>
+			Reads a double value of the Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Target double variable to which the value of the Json node is saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(float) const">
+			<summary>
+			Reads a float value of the Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Target float variable to which the value of the Json node is saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Math.vec2) const">
+			<summary>
+			Reads a two-component value of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Target vector variable to which two components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Math.vec3) const">
+			<summary>
+			Reads a three-component value of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Target vector variable to which three components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Math.vec4) const">
+			<summary>
+			Reads a four-component value of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Target vector variable to which four components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Math.dvec2) const">
+			<summary>
+			Reads a two-component value of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Target vector variable to which two components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Math.dvec3) const">
+			<summary>
+			Reads a three-component value of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Target vector variable to which three components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Math.dvec4) const">
+			<summary>
+			Reads a four-component value of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Target vector variable to which four components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Math.ivec2) const">
+			<summary>
+			Reads a two-component value of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Target vector variable to which two components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Math.ivec3) const">
+			<summary>
+			Reads a three-component value of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Target vector variable to which three components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Math.ivec4) const">
+			<summary>
+			Reads a four-component value of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Target vector variable to which four components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Vector{bool,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Vector{int,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Vector{char,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Vector{double,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Vector{float,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Vector{String,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Vector{Unigine.Math.vec2,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Vector{Unigine.Math.vec3,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Vector{Unigine.Math.vec4,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Vector{Unigine.Math.dvec2,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Vector{Unigine.Math.dvec3,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Vector{Unigine.Math.dvec4,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Vector{Unigine.Math.ivec2,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Vector{Unigine.Math.ivec3,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(Unigine.Vector{Unigine.Math.ivec4,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Reads values of the array-type Json node to the specified target variable.
+			</summary> 
+			<param name="value"> Vector to which components of the array-type Json node are saved. </param> 
+		</member>
+		<member name="M:Unigine.Json.read(char) const">
+			<summary>
+			Returns a value of a Json node with the specified name as a string.
+			</summary> 
+			<param name="name"> Name of the Json node. </param> 
+			<returns>Node value</returns>
+		</member>
+		<member name="M:Unigine.Json.write(char,bool)">
+			<summary>
+			Writes the specified boolean value to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Boolean value to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,int)">
+			<summary>
+			Writes the specified integer value to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Integer value to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,unsignedint)">
+			<summary>
+			Writes the specified unsigned integer value to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Unsigned integer value to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,char)">
+			<summary>
+			Writes the specified character value to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Character value to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,char)">
+			<summary>
+			Writes the specified value to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Value to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,double)">
+			<summary>
+			Writes the specified double value to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Double value to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,float)">
+			<summary>
+			Writes the specified float value to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Float value to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.Math.vec2)">
+			<summary>
+			Writes the specified two-component value to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Two-component value to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.Math.vec3)">
+			<summary>
+			Writes the specified three-component value to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Three-component value to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.Math.vec4)">
+			<summary>
+			Writes the specified four-component value to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Four-component value to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.Math.dvec2)">
+			<summary>
+			Writes the specified two-component value to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Two-component value to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.Math.dvec3)">
+			<summary>
+			Writes the specified three-component value to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Three-component value to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.Math.dvec4)">
+			<summary>
+			Writes the specified four-component value to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Four-component value to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.Math.ivec2)">
+			<summary>
+			Writes the specified two-component value to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Two-component value to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.Math.ivec3)">
+			<summary>
+			Writes the specified three-component value to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Three-component value to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.Math.ivec4)">
+			<summary>
+			Writes the specified four-component value to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Four-component value to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.Vector{int,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Vector of values to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.Vector{char,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Vector of values to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.Vector{double,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Vector of values to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.Vector{float,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Vector of values to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.Vector{String,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Vector of values to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.Vector{Unigine.Math.vec2,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Vector of values to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.Vector{Unigine.Math.vec3,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Vector of values to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.Vector{Unigine.Math.vec4,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Vector of values to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.Vector{Unigine.Math.dvec2,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Vector of values to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.Vector{Unigine.Math.dvec3,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Vector of values to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.Vector{Unigine.Math.dvec4,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Vector of values to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.Vector{Unigine.Math.ivec2,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Vector of values to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.Vector{Unigine.Math.ivec3,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Vector of values to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.Vector{Unigine.Math.ivec4,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Vector of values to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char,Unigine.UGUID)">
+			<summary>
+			Writes the specified value to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> UGUID of the value to be written to the Json node with the specified name. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.UGUID)">
+			<summary>
+			Writes the specified value to the current Json node.
+			</summary> 
+			<param name="value"> UGUID of the value to be written to the Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(bool)">
+			<summary>
+			Writes the specified boolean value to the current Json node.
+			</summary> 
+			<param name="value"> Boolean value to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(int)">
+			<summary>
+			Writes the specified integer value to the current Json node.
+			</summary> 
+			<param name="value"> Integer value to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char)">
+			<summary>
+			Writes the specified character value to the current Json node.
+			</summary> 
+			<param name="value"> Character value to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(char)">
+			<summary>
+			Writes the specified value to the current Json node.
+			</summary> 
+			<param name="value"> Value to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(double)">
+			<summary>
+			Writes the specified double value to the current Json node.
+			</summary> 
+			<param name="value"> Double value to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(float)">
+			<summary>
+			Writes the specified float value to the current Json node.
+			</summary> 
+			<param name="value"> Float value to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Math.vec2)">
+			<summary>
+			Writes the specified two-component value to the current Json node.
+			</summary> 
+			<param name="value"> Two-component value to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Math.vec3)">
+			<summary>
+			Writes the specified three-component value to the current Json node.
+			</summary> 
+			<param name="value"> Three-component value to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Math.vec4)">
+			<summary>
+			Writes the specified four-component value to the current Json node.
+			</summary> 
+			<param name="value"> Four-component value to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Math.dvec2)">
+			<summary>
+			Writes the specified two-component value to the current Json node.
+			</summary> 
+			<param name="value"> Two-component value to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Math.dvec3)">
+			<summary>
+			Writes the specified three-component value to the current Json node.
+			</summary> 
+			<param name="value"> Three-component value to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Math.dvec4)">
+			<summary>
+			Writes the specified four-component value to the current Json node.
+			</summary> 
+			<param name="value"> Four-component value to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Math.ivec2)">
+			<summary>
+			Writes the specified two-component value to the current Json node.
+			</summary> 
+			<param name="value"> Two-component value to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Math.ivec3)">
+			<summary>
+			Writes the specified three-component value to the current Json node.
+			</summary> 
+			<param name="value"> Three-component value to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Math.ivec4)">
+			<summary>
+			Writes the specified four-component value to the current Json node.
+			</summary> 
+			<param name="value"> Four-component value to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Vector{bool,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the current Json node.
+			</summary> 
+			<param name="value"> Vector of values to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Vector{int,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the current Json node.
+			</summary> 
+			<param name="value"> Vector of values to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Vector{char,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the current Json node.
+			</summary> 
+			<param name="value"> Vector of values to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Vector{double,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the current Json node.
+			</summary> 
+			<param name="value"> Vector of values to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Vector{float,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the current Json node.
+			</summary> 
+			<param name="value"> Vector of values to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Vector{String,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the current Json node.
+			</summary> 
+			<param name="value"> Vector of values to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Vector{Unigine.Math.vec2,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the current Json node.
+			</summary> 
+			<param name="value"> Vector of values to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Vector{Unigine.Math.vec3,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the current Json node.
+			</summary> 
+			<param name="value"> Vector of values to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Vector{Unigine.Math.vec4,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the current Json node.
+			</summary> 
+			<param name="value"> Vector of values to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Vector{Unigine.Math.dvec2,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the current Json node.
+			</summary> 
+			<param name="value"> Vector of values to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Vector{Unigine.Math.dvec3,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the current Json node.
+			</summary> 
+			<param name="value"> Vector of values to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Vector{Unigine.Math.dvec4,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the current Json node.
+			</summary> 
+			<param name="value"> Vector of values to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Vector{Unigine.Math.ivec2,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the current Json node.
+			</summary> 
+			<param name="value"> Vector of values to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Vector{Unigine.Math.ivec3,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the current Json node.
+			</summary> 
+			<param name="value"> Vector of values to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.write(Unigine.Vector{Unigine.Math.ivec4,int,Unigine.VectorAllocator})">
+			<summary>
+			Writes the specified values to the current Json node.
+			</summary> 
+			<param name="value"> Vector of values to be written to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.getTypeName const">
+			<summary>
+			Returns the name of the type of the Json node.
+			</summary>  
+			<returns>Name of the Json node type.</returns>
+		</member>
+		<member name="M:Unigine.Json.setInt(int)">
+			<summary>
+			Sets the specified integer value to the current Json node.
+			</summary> 
+			<param name="value"> Value to be set to the current Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.setInt(char,int)">
+			<summary>
+			Sets the specified integer value to the target Json node with the specified name. In case such node is not found, a new one is added with the name specified.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param>
+			<param name="value"> Value to be set to the target Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.getInt const">
+			<summary>
+			Returns the value of the current Json node as an integer value, if possible.
+			</summary>  
+			<returns>Node value.</returns>
+		</member>
+		<member name="M:Unigine.Json.getInt(char) const">
+			<summary>
+			Returns the value of the target Json node with the specified name as an integer value, if possible.
+			</summary> 
+			<param name="name"> Name of the target Json node. </param> 
+		</member>
+		<member name="M:Unigine.Json.setVec2(Unigine.Math.vec2)">
+			<summary>
+			Sets the first two elements of the array-type Json node.
+			</summary> 
+			<param name="value"> Vector setting the first two elements of the array-type Json node </param> 
+		</member>
+		<member name="M:Unigine.Json.getVec2 const">
+			<summary>
+			Returns a two-component vector composed of the first two elements of the array-type Json node. If the node is not an array, a zero-vector (0.0f, 0.0f) shall be returned.
+			</summary>  
+			<returns>Vector composed of the first two elements of the array-type Json node</returns>
+		</member>
+		<member name="M:Unigine.Json.setVec3(Unigine.Math.vec3)">
+			<summary>
+			Sets the first three elements of the array-type Json node.
+			</summary> 
+			<param name="value"> Vector setting the first three elements of the array-type Json node </param> 
+		</member>
+		<member name="M:Unigine.Json.getVec3 const">
+			<summary>
+			Returns a three-component vector composed of the first three elements of the array-type Json node. If the node is not an array, a zero-vector (0.0f, 0.0f, 0.0f) shall be returned.
+			</summary>  
+			<returns>Vector composed of the first three elements of the array-type Json node</returns>
+		</member>
+		<member name="M:Unigine.Json.setVec4(Unigine.Math.vec4)">
+			<summary>
+			Sets the first four elements of the array-type Json node.
+			</summary> 
+			<param name="value"> Vector setting the first four elements of the array-type Json node </param> 
+		</member>
+		<member name="M:Unigine.Json.getVec4 const">
+			<summary>
+			Returns a four-component vector composed of the first four elements of the array-type Json node. If the node is not an array, a zero-vector (0.0f, 0.0f, 0.0f, 0.0f) shall be returned.
+			</summary>  
+			<returns>Vector composed of the first four elements of the array-type Json node</returns>
+		</member>
+		<member name="M:Unigine.Json.setDVec2(Unigine.Math.dvec2)">
+			<summary>
+			Sets the first two elements of the array-type Json node.
+			</summary> 
+			<param name="value"> Vector setting the first two elements of the array-type Json node </param> 
+		</member>
+		<member name="M:Unigine.Json.getDVec2 const">
+			<summary>
+			Returns a two-component vector composed of the first two elements of the array-type Json node. If the node is not an array, a zero-vector (0.0, 0.0) shall be returned.
+			</summary>  
+			<returns>Vector composed of the first two elements of the array-type Json node</returns>
+		</member>
+		<member name="M:Unigine.Json.setDVec3(Unigine.Math.dvec3)">
+			<summary>
+			Sets the first three elements of the array-type Json node.
+			</summary> 
+			<param name="value"> Vector setting the first three elements of the array-type Json node </param> 
+		</member>
+		<member name="M:Unigine.Json.getDVec3 const">
+			<summary>
+			Returns a three-component vector composed of the first three elements of the array-type Json node. If the node is not an array a zero-vector (0.0, 0.0, 0.0) shall be returned.
+			</summary>  
+			<returns>Vector composed of the first three elements of the array-type Json node</returns>
+		</member>
+		<member name="M:Unigine.Json.setDVec4(Unigine.Math.dvec4)">
+			<summary>
+			Sets the first four elements of the array-type Json node.
+			</summary> 
+			<param name="value"> Vector setting the first four elements of the array-type Json node </param> 
+		</member>
+		<member name="M:Unigine.Json.getDVec4 const">
+			<summary>
+			Returns a four-component vector composed of the first four elements of the array-type Json node. If the node is not an array a zero-vector (0.0, 0.0, 0.0, 0.0) shall be returned.
+			</summary>  
+			<returns>Vector composed of the first four elements of the array-type Json node</returns>
+		</member>
+		<member name="M:Unigine.Json.setIVec2(Unigine.Math.ivec2)">
+			<summary>
+			Sets the first two elements of the array-type Json node.
+			</summary> 
+			<param name="value"> Vector setting the first two elements of the array-type Json node </param> 
+		</member>
+		<member name="M:Unigine.Json.getIVec2 const">
+			<summary>
+			Returns a two-component vector composed of the first two elements of the array-type Json node. If the node is not an array a zero-vector (0, 0) shall be returned.
+			</summary>  
+			<returns>Vector composed of the first two elements of the array-type Json node</returns>
+		</member>
+		<member name="M:Unigine.Json.setIVec3(Unigine.Math.ivec3)">
+			<summary>
+			Sets the first three elements of the array-type Json node.
+			</summary> 
+			<param name="value"> Vector setting the first three elements of the array-type Json node </param> 
+		</member>
+		<member name="M:Unigine.Json.getIVec3 const">
+			<summary>
+			Returns a three-component vector composed of the first three elements of the array-type Json node. If the node is not an array a zero-vector (0, 0, 0) shall be returned.
+			</summary>  
+			<returns>Vector composed of the first three elements of the array-type Json node</returns>
+		</member>
+		<member name="M:Unigine.Json.setIVec4(Unigine.Math.ivec4)">
+			<summary>
+			Sets the first four elements of the array-type Json node.
+			</summary> 
+			<param name="value"> Vector setting the first four elements of the array-type Json node </param> 
+		</member>
+		<member name="M:Unigine.Json.getIVec4 const">
+			<summary>
+			Returns a four-component vector composed of the first four elements of the array-type Json node. If the node is not an array a zero-vector (0, 0, 0, 0) shall be returned.
+			</summary>  
+			<returns>Vector composed of the first four elements of the array-type Json node</returns>
+		</member>
+	</members>
+</doc>

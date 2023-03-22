@@ -1,0 +1,90 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Polygon.clear">
+			<summary>
+			Clears the data (vertices and indices) of the polygon.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Polygon.createConvex(Unigine.vec3,int,Unigine.vec3)">
+			<summary>
+			Creates the convex polygon.
+			</summary> 
+			<param name="v"> Pointer to an array of vertices. </param>
+			<param name="num_vertex"> Number of vertices.Must be greater than or equal to 3. </param>
+			<param name="normal"> Normal of the polygon. </param> 
+			<returns>true if the convex polygon was successfully created; otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.Polygon.createConvex(Unigine.Vector{Unigine.vec3,int,Unigine.VectorAllocator},Unigine.vec3)">
+			<summary>
+			Creates the convex polygon.
+			</summary> 
+			<param name="v"> Vector of polygon vertices. </param>
+			<param name="normal"> Normal of the polygon. </param> 
+			<returns>true if the convex polygon was successfully created; otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.Polygon.createConcave(Unigine.vec3,int,Unigine.vec3)">
+			<summary>
+			Creates the concave polygon.
+			</summary> 
+			<param name="v"> Pointer to an array of vertices. </param>
+			<param name="num_vertex"> Number of vertices.Must be greater than or equal to 3. </param>
+			<param name="normal"> Normal of the polygon. </param> 
+			<returns>true if the concave polygon was successfully created; otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.Polygon.createConcave(Unigine.Vector{Unigine.vec3,int,Unigine.VectorAllocator},Unigine.vec3)">
+			<summary>
+			Creates the concave polygon.
+			</summary> 
+			<param name="v"> Vector of polygon vertices. </param>
+			<param name="normal"> Normal of the polygon. </param> 
+			<returns>true if the concave polygon was successfully created; otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.Polygon.getNumVertex const">
+			<summary>
+			Returns the number of vertices.
+			</summary>  
+			<returns>Number of vertices.</returns>
+		</member>
+		<member name="M:Unigine.Polygon.getVertex(int) const">
+			<summary>
+			Returns the vertex with the given number.
+			</summary> 
+			<param name="num"> Number of the vertex. </param> 
+			<returns>Resulting vertex.</returns>
+		</member>
+		<member name="M:Unigine.Polygon.getVertexIndex(int) const">
+			<summary>
+			Returns the index of the vertex with the given number.
+			</summary> 
+			<param name="num"> Number of the vertex. </param> 
+			<returns>Index of the vertex.</returns>
+		</member>
+		<member name="M:Unigine.Polygon.getNumIndices const">
+			<summary>
+			Returns the number of indices.
+			</summary>  
+			<returns>Number of indices.</returns>
+		</member>
+		<member name="M:Unigine.Polygon.getIndex(int) const">
+			<summary>
+			Returns the index with a given number.
+			</summary> 
+			<param name="num"> Number of the index. </param> 
+			<returns>Resulting index.</returns>
+		</member>
+		<member name="F:Unigine.Polygon.NUM_VERTEX">
+			<summary>
+			Number of vertices.
+		</summary>
+		</member>
+		<member name="F:Unigine.Polygon.NUM_INDICES">
+			<summary>
+			Number of indices.
+		</summary>
+		</member>
+	</members>
+</doc>

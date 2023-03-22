@@ -1,0 +1,1913 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.BoundBox.BoundBox">
+			<summary>
+			Constructor. Creates an empty bounding box.
+			</summary>  
+		</member>
+		<member name="M:Unigine.BoundBox.BoundBox(Unigine.BoundBox)">
+			<summary>
+			Constructor. Initialization by the bounding box.
+			</summary> 
+			<param name="bb"> Bounding box. </param> 
+		</member>
+		<member name="M:Unigine.BoundBox.BoundBox(Unigine.BoundSphere)">
+			<summary>
+			Constructor. Initialization by the bounding sphere.
+			</summary> 
+			<param name="bs"> Bounding sphere. </param> 
+		</member>
+		<member name="M:Unigine.BoundBox.BoundBox(Unigine.BoundBox,Unigine.mat4)">
+			<summary>
+			Constructor. Initialization by the bounding box with the transformation matrix taken into account.
+			</summary> 
+			<param name="bb"> Bounding box. </param>
+			<param name="transform"> Transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.BoundBox.#ctor(Unigine.Math.vec3,int)">
+			<summary>
+			Constructor. Initialization by the vector of points.
+			</summary> 
+			<param name="points"> Vector of points. </param>
+			<param name="num_points"> Number of points. </param> 
+		</member>
+		<member name="M:Unigine.BoundBox.BoundBox(Unigine.vec3,Unigine.vec3)">
+			<summary>
+			Constructor. Initialization by minimum and maximum coordinates of the bounding box.
+			</summary> 
+			<param name="min"> Bounding box minimum coordinates. </param>
+			<param name="max"> Bounding box maximum coordinates. </param> 
+		</member>
+		<member name="M:Unigine.BoundBox.#ctor(float,float,float,float,float,float)">
+			<summary>
+			Constructor. Initialization by minimum and maximum coordinates of the bounding box specified as float values.
+			</summary> 
+			<param name="x_min"> Minimum X-coordinate of the bounding box. </param>
+			<param name="y_min"> Minimum Y-coordinate of the bounding box. </param>
+			<param name="z_min"> Minimum Y-coordinate of the bounding box. </param>
+			<param name="x_max"> Maximum X-coordinate of the bounding box. </param>
+			<param name="y_max"> Maximum Y-coordinate of the bounding box. </param>
+			<param name="z_max"> Maximum Z-coordinate of the bounding box. </param> 
+		</member>
+		<member name="M:Unigine.BoundBox.getSize const">
+			<summary>
+			Returns the size of the bounding box along the axes.
+			</summary>  
+			<returns>Vector containing sizes of the bounding box along the axes, in units.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.operator=(Unigine.BoundBox)">
+			<summary>
+			Assignment operator for the bounding box.
+			</summary> 
+			<param name="bb"> Bounding box. </param> 
+			<returns>Bounding box.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.clear">
+			<summary>
+			Clears the bounding box.
+			</summary>  
+		</member>
+		<member name="M:Unigine.BoundBox.set(Unigine.Math.vec3,Unigine.Math.vec3)">
+			<summary>
+			Sets the bounding box by its minimum and maximum coordinates.
+			</summary> 
+			<param name="min"> Minimum coordinates of the bounding box. </param>
+			<param name="max"> Maximum coordinates of the bounding box. </param> 
+		</member>
+		<member name="M:Unigine.BoundBox.set(Unigine.Math.vec3,int)">
+			<summary>
+			Sets the bounding box by the coordinates of points in space to be enclosed by it.
+			</summary> 
+			<param name="points"> List of points to be enclosed by the bounding box. </param>
+			<param name="num_points"> Number of points to be enclosed by the bounding box. </param> 
+		</member>
+		<member name="M:Unigine.BoundBox.set(Unigine.BoundSphere)">
+			<summary>
+			Sets the bounding box by the bounding sphere.
+			</summary> 
+			<param name="bs"> Bounding sphere. </param> 
+		</member>
+		<member name="M:Unigine.BoundBox.set(Unigine.BoundBox)">
+			<summary>
+			Sets the bounding box equal to the specified source bounding box.
+			</summary> 
+			<param name="bb"> Source bounding box. </param> 
+		</member>
+		<member name="M:Unigine.BoundBox.set(Unigine.BoundBox,Unigine.Math.mat4)">
+			<summary>
+			Sets the bounding box by the given bounding box with the given transformation matrix taken into account.
+			</summary> 
+			<param name="bb"> Bounding box. </param>
+			<param name="transform"> Transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.BoundBox.setTransform(Unigine.Math.mat4)">
+			<summary>
+			Sets the given transformation matrix to the bounding box.
+			</summary> 
+			<param name="transform"> Transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.BoundBox.setTransform(Unigine.Math.dmat4)">
+			<summary>
+			Sets the given transformation matrix to the bounding box.
+			</summary> 
+			<param name="transform"> Transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.BoundBox.setTransform(Unigine.BoundSphere,Unigine.Math.mat4)">
+			<summary>
+			Sets the transformation matrix of the current bounding box for including the given bounding sphere with the given transformation matrix taken into account.
+			</summary> 
+			<param name="bs"> Bounding sphere. </param>
+			<param name="transform"> Transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.BoundBox.setTransform(Unigine.BoundSphere,Unigine.Math.dmat4)">
+			<summary>
+			Sets the transformation matrix of the current bounding box for including the given bounding sphere with the given transformation matrix taken into account.
+			</summary> 
+			<param name="bs"> Bounding sphere. </param>
+			<param name="transform"> Transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.BoundBox.compare(Unigine.BoundBox) const">
+			<summary>
+			Compares the current bounding box with the given one.
+			</summary> 
+			<param name="bb"> The bounding box to compare with. </param> 
+			<returns>true if the size and position of both bounding boxes are equal; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.operator==(Unigine.BoundBox) const">
+			<summary>
+			Compares the current bounding box with the given one.
+			</summary> 
+			<param name="bb"> The bounding box to compare with. </param> 
+			<returns>true if the size and position of both bounding boxes are equal; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.operator!=(Unigine.BoundBox) const">
+			<summary>
+			Bounding boxes not equal comparison operator.
+			</summary> 
+			<param name="bb"> The bounding box to compare with. </param> 
+			<returns>true if the size and position of both bounding boxes are not equal; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.expand(Unigine.Math.vec3)">
+			<summary>
+			Expands the current bounding box to enclose the given point.
+			</summary> 
+			<param name="point"> Point coordinates. </param> 
+		</member>
+		<member name="M:Unigine.BoundBox.expand(Unigine.Math.vec3,int)">
+			<summary>
+			Expands the current bounding box to enclose all given points.
+			</summary> 
+			<param name="points"> List of points to be enclosed by the bounding box. </param>
+			<param name="num_points"> Number of points to be enclosed by the bounding box. </param> 
+		</member>
+		<member name="M:Unigine.BoundBox.expand(Unigine.BoundSphere)">
+			<summary>
+			Expands the current bounding box to enclose the given bounding sphere.
+			</summary> 
+			<param name="bs"> Bounding sphere. </param> 
+		</member>
+		<member name="M:Unigine.BoundBox.expand(Unigine.BoundBox)">
+			<summary>
+			Expands the current bounding box to enclose the given bounding box.
+			</summary> 
+			<param name="bb"> Bounding box. </param> 
+		</member>
+		<member name="M:Unigine.BoundBox.inside(Unigine.Math.vec3) const">
+			<summary>
+			Checks if the given point is inside the bounding box.
+			</summary> 
+			<param name="point"> Point. </param> 
+			<returns>true if the point is inside the bounding box; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.inside(Unigine.Math.vec3,float) const">
+			<summary>
+			Checks if the given sphere is inside the current bounding box.
+			</summary> 
+			<param name="point"> Coordinates of the center of the sphere. </param>
+			<param name="radius"> Sphere radius. </param> 
+			<returns>true if the sphere is inside the bounding box; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.inside(Unigine.Math.vec3,Unigine.Math.vec3) const">
+			<summary>
+			Checks if the box with the given coordinates is inside the current bounding box.
+			</summary> 
+			<param name="min"> Minimum coordinates of the box. </param>
+			<param name="max"> Maximum coordinates of the box. </param> 
+			<returns>true if the box is inside the bounding box; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.inside(Unigine.BoundSphere) const">
+			<summary>
+			Checks if the specified bounding sphere is inside the current bounding box.
+			</summary> 
+			<param name="bs"> Bounding sphere. </param> 
+			<returns>true if the bounding sphere is inside the bounding box; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.inside(Unigine.BoundBox) const">
+			<summary>
+			Checks if the specified bounding box is inside the current bounding box.
+			</summary> 
+			<param name="bb"> Bounding box. </param> 
+			<returns>true if the bounding box is inside the bounding box; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.insideValid(Unigine.Math.vec3) const">
+			<summary>
+			Checks if the given point is inside the bounding box.					The method doesn't check if the minimum and maximum coordinates of the current bounding box are valid.
+			</summary> 
+			<param name="point"> Point. </param> 
+			<returns>true if the point is inside the bounding box; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.insideValid(Unigine.vec3,int) const">
+			<summary>
+			Checks if any of the given points is inside the bounding box.					The method doesn't check if the minimum and maximum coordinates of the current bounding box are valid.
+			</summary> 
+			<param name="points"> Array of points to be checked. </param>
+			<param name="num_points"> Number of points to be checked. </param> 
+			<returns>true if any of the given points is inside the bounding box; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.insideValid(Unigine.Math.vec3,float) const">
+			<summary>
+			Checks if the sphere is inside the bounding box.					The method doesn't check if the minimum and maximum coordinates of the current bounding box are valid.
+			</summary> 
+			<param name="point"> Coordinates of the center of the sphere. </param>
+			<param name="radius"> Sphere radius. </param> 
+			<returns>true if the sphere is inside the bounding box; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.insideValid(Unigine.Math.vec3,Unigine.Math.vec3) const">
+			<summary>
+			Checks if the box is inside the bounding box.					The method doesn't check if the minimum and maximum coordinates of the current bounding box are valid.
+			</summary> 
+			<param name="min"> Box minimum coordinates. </param>
+			<param name="max"> Box maximum coordinates. </param> 
+			<returns>true if the box is inside the bounding box; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.insideValid(Unigine.BoundSphere) const">
+			<summary>
+			Checks if the bounding sphere is inside the bounding box.					The method doesn't check if the minimum and maximum coordinates of the current bounding box are valid.
+			</summary> 
+			<param name="bs"> Bounding sphere. </param> 
+			<returns>true if the bounding sphere is inside the bounding box; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.insideValid(Unigine.BoundBox) const">
+			<summary>
+			Checks if the bounding box is inside the bounding box.					The method doesn't check if the minimum and maximum coordinates of the current bounding box are valid.
+			</summary> 
+			<param name="bb"> Bounding box. </param> 
+			<returns>true if the bounding box is inside the bounding box; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.insideAll(Unigine.BoundSphere) const">
+			<summary>
+			Checks if the given bounding sphere is inside the current bounding box.
+			</summary> 
+			<param name="bs"> Bounding sphere. </param> 
+			<returns>true if the whole bounding sphere is inside the bounding box; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.insideAll(Unigine.BoundBox) const">
+			<summary>
+			Checks if the whole given bounding box is inside the current bounding box.
+			</summary> 
+			<param name="bb"> Bounding box. </param> 
+			<returns>true if the whole bounding box is inside the bounding box; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.insideAllValid(Unigine.BoundSphere) const">
+			<summary>
+			Checks if the given bounding sphere is inside the current bounding box.					The method doesn't check if the minimum and maximum coordinates of the current bounding box are valid.
+			</summary> 
+			<param name="bs"> Bounding sphere. </param> 
+			<returns>true if the whole bounding sphere is inside the bounding box; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.insideAllValid(Unigine.BoundBox) const">
+			<summary>
+			Checks if the whole given bounding box is inside the current bounding box.					The method doesn't check if the minimum and maximum coordinates of the current bounding box are valid.
+			</summary> 
+			<param name="bb"> Bounding box. </param> 
+			<returns>true if the whole bounding box is inside the bounding box; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.insideAllValid(Unigine.vec3,int) const">
+			<summary>
+			Checks if all specified points are inside the current bounding box.					The method doesn't check if the minimum and maximum coordinates of the current bounding box are valid.
+			</summary> 
+			<param name="points"> Array of points to be checked. </param>
+			<param name="num_points"> Number of points to be checked. </param> 
+			<returns>true if the all specified points are inside the bounding box; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.insideCube(int,Unigine.Math.vec3) const">
+			<summary>
+			Checks if a face of the current bounding box is inside the cube represented by minimum and maximum coordinates of the bounding box.
+			</summary> 
+			<param name="face"> The face index from 0 to 5. </param>
+			<param name="offset"> Offset. </param> 
+			<returns>true if the face is inside the bounding cube; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.rayIntersection(Unigine.Math.vec3,Unigine.Math.vec3) const">
+			<summary>
+			Checks for an intersection between a ray and the current bounding box.
+			</summary> 
+			<param name="point"> Starting point of the ray. </param>
+			<param name="direction"> Direction vector of the ray. </param> 
+			<returns>true if the given ray intersects the bounding box; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.irayIntersection(Unigine.Math.vec3,Unigine.Math.vec3) const">
+			<summary>
+			Checks for an intersection between a ray and the current bounding box. This function uses the inverse direction of the ray, which increases performance.
+			</summary> 
+			<param name="point"> Starting point of the ray. </param>
+			<param name="idirection"> Inverse direction of the ray. </param> 
+			<returns>true if the given ray intersects the bounding box; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.getIntersection(Unigine.Math.vec3,Unigine.Math.vec3) const">
+			<summary>
+			Checks for an intersection between a line and the current bounding box.
+			</summary> 
+			<param name="p0"> Starting point of the line. </param>
+			<param name="p1"> Enging point of the line. </param> 
+			<returns>true if the given line intersects the bounding box; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.rayIntersectionValid(Unigine.Math.vec3,Unigine.Math.vec3) const">
+			<summary>
+			Checks for an intersection between a ray and the current bounding box.					This function doesn't check if the minimum and maximum coordinates of the bounding box are valid.
+			</summary> 
+			<param name="point"> Starting point of the ray. </param>
+			<param name="direction"> Direction vector of the ray. </param> 
+			<returns>true if the given ray intersects the bounding box; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.irayIntersectionValid(Unigine.Math.vec3,Unigine.Math.vec3) const">
+			<summary>
+			Checks for an intersection between a ray and the current bounding box. This function uses the inverse direction of the ray, which increases performance.					This function doesn't check if the minimum and maximum coordinates of the bounding box are valid.
+			</summary> 
+			<param name="point"> Starting point of the ray. </param>
+			<param name="idirection"> Inverse direction of the ray. </param> 
+			<returns>true if the given ray intersects the bounding box; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.getIntersectionValid(Unigine.Math.vec3,Unigine.Math.vec3) const">
+			<summary>
+			Checks for an intersection between a line and the current bounding box.					This function doesn't check if the minimum and maximum coordinates of the bounding box are valid.
+			</summary> 
+			<param name="p0"> Starting point of the line. </param>
+			<param name="p1"> Enging point of the line. </param> 
+			<returns>true if the given line intersects the bounding box; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.distance const">
+			<summary>
+			Returns the distance from the origin of coordinates to the closest vertex of the bounding box.
+			</summary>  
+			<returns>Distance in units, if the minimum and maximum coordinates of the bounding box are valid; otherwise, INF.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.distance(Unigine.Math.vec3) const">
+			<summary>
+			Returns the distance from the given point to the closest vertex of the bounding box.
+			</summary> 
+			<param name="point"> Coordinates of a point. </param> 
+			<returns>Distance, in units.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.distanceValid const">
+			<summary>
+			Returns the distance from the origin of coordinates to the closest vertex of the bounding box.
+			</summary>  
+			<returns>Distance, in units.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.distanceValid(Unigine.Math.vec3) const">
+			<summary>
+			Returns the distance from the given point to the closest vertex of the bounding box.
+			</summary> 
+			<param name="point"> Point. </param> 
+			<returns>Distance, in units.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.getPoints(Unigine.vec3,int) const">
+			<summary>
+			Puts the vertices of the current bounding box into the given vector.
+			</summary> 
+			<param name="points"> Target vector. </param>
+			<param name="num_points"> Number of points, must be equal to 8. </param> 
+		</member>
+		<member name="M:Unigine.BoundBox.getPlanes(Unigine.vec4,int) const">
+			<summary>
+			Puts the planes created based on the vertices of the current bounding box into the given vector.
+			</summary> 
+			<param name="planes"> Target vector. </param>
+			<param name="num_planes"> Number of planes, must be equal to 6. </param> 
+		</member>
+		<member name="M:Unigine.BoundBox.getCenter const">
+			<summary>
+			Returns the center point of the current bounding box.
+			</summary>  
+			<returns>Center point.</returns>
+		</member>
+		<member name="M:Unigine.BoundBox.isValid const">
+			<summary>
+			Checks the bounding box status.
+			</summary>  
+			<returns>true if the bounding box minimum and maximum coordinates are valid; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.BoundFrustum">
+			<summary>
+			Constructor. Creates an empty bounding frustum.
+			</summary>  
+		</member>
+		<member name="M:Unigine.BoundFrustum.BoundFrustum(Unigine.mat4,Unigine.mat4)">
+			<summary>
+			Initialization by the projection and modelview matrices.
+			</summary> 
+			<param name="projection"> Projection matrix. </param>
+			<param name="modelview"> Modelview matrix. </param> 
+		</member>
+		<member name="M:Unigine.BoundFrustum.BoundFrustum(BoundFrustum)">
+			<summary>
+			Initialization by the bounding frustum.
+			</summary> 
+			<param name="bf"> The bounding frustum. </param> 
+		</member>
+		<member name="M:Unigine.BoundFrustum.#ctor(BoundFrustum,Unigine.mat4)">
+			<summary>
+			Initialization by the bounding frustum and transformation matrix.
+			</summary> 
+			<param name="bf"> The bounding frustum. </param>
+			<param name="itransform"> The inverse transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.BoundFrustum.operator=(BoundFrustum)">
+			<summary>
+			Assignment operator.
+			</summary> 
+			<param name="bf"> The bounding frustum. </param> 
+			<returns>Bounding frustum.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.clear">
+			<summary>
+			Clears the bounding frustum.
+			</summary>  
+		</member>
+		<member name="M:Unigine.BoundFrustum.set(Unigine.Math.mat4)">
+			<summary>
+			Sets the bounding frustum by the specified projection matrix.
+			</summary> 
+			<param name="proj"> Projection matrix. </param> 
+		</member>
+		<member name="M:Unigine.BoundFrustum.set(Unigine.Math.mat4,Unigine.Math.mat4)">
+			<summary>
+			Sets the bounding frustum by matrices.
+			</summary> 
+			<param name="projection"> Projection matrix. </param>
+			<param name="modelview"> Modelview matrix. </param> 
+		</member>
+		<member name="M:Unigine.BoundFrustum.set(BoundFrustum)">
+			<summary>
+			Sets the bounding frustum by the bounding frustum.
+			</summary> 
+			<param name="bf"> The bounding frustum. </param> 
+		</member>
+		<member name="M:Unigine.BoundFrustum.set(BoundFrustum,Unigine.Math.mat4)">
+			<summary>
+			Sets the bounding frustum by the bounding frustum and transformation matrix.
+			</summary> 
+			<param name="bf"> The bounding frustum. </param>
+			<param name="itransform"> The inverse transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.BoundFrustum.setTransform(Unigine.mat4)">
+			<summary>
+			Sets the current transformation matrix by the specified source transformation matrix.
+			</summary> 
+			<param name="transform"> Source transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.BoundFrustum.setTransform(Unigine.dmat4)">
+			<summary>
+			Sets the current transformation matrix by the specified source transformation matrix.
+			</summary> 
+			<param name="transform"> Source transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.BoundFrustum.setITransform(Unigine.Math.mat4)">
+			<summary>
+			Sets the current transformation matrix by an inverse transformation matrix.
+			</summary> 
+			<param name="itransform"> Inverse transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.BoundFrustum.setITransform(Unigine.Math.dmat4)">
+			<summary>
+			Sets the current transformation matrix by an inverse transformation matrix.
+			</summary> 
+			<param name="itransform"> Inverse transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.BoundFrustum.compare(BoundFrustum) const">
+			<summary>
+			Compares the current bounding frustum with the given one.
+			</summary> 
+			<param name="bf"> Bounding frustum. </param> 
+			<returns>true if the current bounding frustum is equal to the given one; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.operator==(BoundFrustum) const">
+			<summary>
+			Bounding frustum equal comparison operator.
+			</summary> 
+			<param name="bf"> The bounding frustum to compare with. </param> 
+			<returns>true if the current bounding frustum is equal to the given one; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.operator!=(BoundFrustum) const">
+			<summary>
+			Bounding frustum not equal comparison operator.
+			</summary> 
+			<param name="bf"> The bounding frustum to compare with. </param> 
+			<returns>true if the current bounding frustum is not equal to the given one; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.inside(Unigine.Math.vec3) const">
+			<summary>
+			Checks if the point is inside the bounding frustum.
+			</summary> 
+			<param name="point"> The coordinates of the point. </param> 
+			<returns>true if the point is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.inside(Unigine.Math.vec3,float) const">
+			<summary>
+			Checks if the sphere is inside the bounding frustum.
+			</summary> 
+			<param name="point"> The coordinates of the center of the sphere. </param>
+			<param name="radius"> The sphere radius. </param> 
+			<returns>true if the sphere is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.inside(Unigine.Math.vec3,Unigine.Math.vec3) const">
+			<summary>
+			Checks if the box is inside the bounding frustum.
+			</summary> 
+			<param name="min"> The box minimum coordinate. </param>
+			<param name="max"> The box maximum coordinate. </param> 
+			<returns>true if the box is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.inside(Unigine.Math.vec3,int) const">
+			<summary>
+			Checks if a set of points is inside the bounding frustum.
+			</summary> 
+			<param name="points"> Vector of points. </param>
+			<param name="num"> Number of points. </param> 
+			<returns>true if the points are inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.inside(Unigine.BoundSphere) const">
+			<summary>
+			Checks if the bounding sphere is inside the bounding frustum.
+			</summary> 
+			<param name="bs"> Bounding sphere. </param> 
+			<returns>true if the bounding sphere is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.inside(Unigine.BoundBox) const">
+			<summary>
+			Checks if the bounding box is inside the bounding frustum.
+			</summary> 
+			<param name="bb"> Bounding box. </param> 
+			<returns>true if the bounding box is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.inside(BoundFrustum) const">
+			<summary>
+			Checks if the specified bounding frustum is inside the current bounding frustum.
+			</summary> 
+			<param name="bf"> Bounding frustum. </param> 
+			<returns>true if the specified bounding frustum is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insideFast(Unigine.Math.vec3) const">
+			<summary>
+			Performs a fast check if the point is inside the bounding frustum.
+			</summary> 
+			<param name="point"> Point. </param> 
+			<returns>true if the point is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insideFast(Unigine.Math.vec3,float) const">
+			<summary>
+			Performs a fast check if the sphere is inside the bounding frustum.
+			</summary> 
+			<param name="point"> Center point. </param>
+			<param name="radius"> Radius. </param> 
+			<returns>true if the sphere is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insideFast(Unigine.Math.vec3,Unigine.Math.vec3) const">
+			<summary>
+			Performs a fast check if the box is inside the bounding frustum.
+			</summary> 
+			<param name="min"> Minimum point. </param>
+			<param name="max"> Maximum point. </param> 
+			<returns>true if the box is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insideFast(Unigine.Math.vec3,int) const">
+			<summary>
+			Performs a fast check if the set of points is inside the bounding frustum.
+			</summary> 
+			<param name="points"> Vector of points. </param>
+			<param name="num"> Number of points. </param> 
+			<returns>true if the point is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insideValid(Unigine.BoundSphere) const">
+			<summary>
+			Checks if the given bounding sphere is inside the bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+			<returns>true if the given bounding sphere is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insideValid(Unigine.BoundBox) const">
+			<summary>
+			Checks if the given bounding box is inside the bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+			<returns>true if the given bounding box is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insideValid(BoundFrustum) const">
+			<summary>
+			Checks if the given bounding frustum is inside the current bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bf"> The bounding frustum. </param> 
+			<returns>true if the given bounding frustum is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insideValidFast(Unigine.BoundSphere) const">
+			<summary>
+			Performs a fast check if the given bounding sphere is inside the current bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+			<returns>true if the given bounding sphere is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insideValidFast(Unigine.BoundBox) const">
+			<summary>
+			Performs a fast check if the given bounding box is inside the current bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+			<returns>true if the given bounding box is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insideValidFast(BoundFrustum) const">
+			<summary>
+			Performs a fast check if the given bounding frustum is inside the current bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bf"> The bounding frustum. </param> 
+			<returns>true if the given bounding frustum is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insideAll(Unigine.BoundBox) const">
+			<summary>
+			Checks if the whole given bounding box is inside the current bounding frustum.
+			</summary> 
+			<param name="bb"> Bounding box. </param> 
+			<returns>true if the whole bounding box is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insideAll(Unigine.BoundSphere) const">
+			<summary>
+			Checks if the whole given bounding sphere is inside the current bounding frustum.
+			</summary> 
+			<param name="bs"> Bounding sphere. </param> 
+			<returns>true if the whole bounding sphere is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insideAll(BoundFrustum) const">
+			<summary>
+			Checks if the whole specified bounding frustum is inside the current bounding frustum.
+			</summary> 
+			<param name="bf"> Bounding frustum. </param> 
+			<returns>true if the whole specified bounding frustum is inside the current bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insideAllValid(Unigine.BoundSphere) const">
+			<summary>
+			Checks if the whole given bounding sphere is inside the current bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+			<returns>true if the given bounding sphere is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insideAllValid(Unigine.BoundBox) const">
+			<summary>
+			Checks if the whole given bounding box is inside the current bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+			<returns>true if the given bounding box is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insideAllValid(BoundFrustum) const">
+			<summary>
+			Checks if the whole given bounding frustum is inside the current bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bf"> The bounding frustum. </param> 
+			<returns>true if the given bounding frustum is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insideAllValidFast(Unigine.BoundSphere) const">
+			<summary>
+			Performs a fast check if the whole given bounding sphere is inside the current bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+			<returns>true if the given bounding sphere is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insideAllValidFast(Unigine.BoundBox) const">
+			<summary>
+			Performs a fast check if the whole given bounding box is inside the current bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+			<returns>true if the given bounding box is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insideAllValidFast(BoundFrustum) const">
+			<summary>
+			Performs a fast check if the whole given bounding frustum is inside the current bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bf"> The bounding frustum. </param> 
+			<returns>true if the given bounding frustum is inside the bounding frustum; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insidePlanes(Unigine.BoundSphere) const">
+			<summary>
+			Checks if the given bounding sphere is inside the volume defined by the planes of the current bounding frustum.
+			</summary> 
+			<param name="bs"> Bounding sphere. </param> 
+			<returns>true if the given bounding sphere is inside the volume; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insidePlanes(Unigine.BoundBox) const">
+			<summary>
+			Checks if the given bounding box is inside the volume defined by the planes of the current bounding frustum.
+			</summary> 
+			<param name="bb"> Bounding box. </param> 
+			<returns>true if the given bounding box is inside the volume; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insidePlanes(BoundFrustum) const">
+			<summary>
+			Checks if the given bounding frustum is inside the volume defined by the planes of the current bounding frustum.
+			</summary> 
+			<param name="bf"> Bounding frustum. </param> 
+			<returns>true if the given bounding frustum is inside the volume; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insidePlanesValid(Unigine.BoundSphere) const">
+			<summary>
+			Checks if the given bounding sphere is inside the volume defined by the planes of the current bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+			<returns>true if the given bounding sphere is inside the volume; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insidePlanesValid(Unigine.BoundBox) const">
+			<summary>
+			Checks if the given bounding box is inside the volume defined by the planes of the current bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+			<returns>true if the given bounding box is inside the volume; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insidePlanesValid(BoundFrustum) const">
+			<summary>
+			Checks if the given bounding frustum is inside the volume defined by the planes of the current bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bf"> The bounding frustum. </param> 
+			<returns>true if the given bounding frustum is inside the volume; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insidePlanesValidFast(Unigine.BoundSphere) const">
+			<summary>
+			Performs a fast check if the given bounding sphere is inside the volume defined by the planes of the current bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+			<returns>true if the given bounding sphere is inside the volume; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insidePlanesValidFast(Unigine.BoundBox) const">
+			<summary>
+			Performs a fast check if the given bounding box is inside the volume defined by the planes of the current bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+			<returns>true if the given bounding box is inside the volume; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insidePlanesValidFast(BoundFrustum) const">
+			<summary>
+			Performs a fast check if the given bounding frustum is inside the volume defined by the planes of the current bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bf"> The bounding frustum. </param> 
+			<returns>true if the given bounding frustum is inside the volume; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insideShadowValid(Unigine.BoundSphere,Unigine.Math.vec3) const">
+			<summary>
+			Checks if the given bounding sphere is inside the shadow of the current bounding frustum.					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="object"> Bounding sphere. </param>
+			<param name="direction"> The direction vector. </param> 
+			<returns>true if the given bounding sphere is inside the shadow; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.insideShadowValid(Unigine.BoundSphere,Unigine.BoundSphere,Unigine.Math.vec3) const">
+			<summary>
+			Checks if the given bounding sphere is inside the shadow of the current bounding frustum and outside the bounding sphere of a light source.					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="object"> Bounding sphere. </param>
+			<param name="light"> The bounding sphere of the light source. </param>
+			<param name="offset"> The offset vector. </param> 
+			<returns>true if the given bounding sphere is inside the shadow and outside the given light source bounding sphere; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundFrustum.isValid const">
+			<summary>
+			Checks the bounding frustum status.
+			</summary>  
+			<returns>true if the bounding frustum is valid, otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.BoundSphere">
+			<summary>
+			Constructor. Creates an empty bounding sphere.
+			</summary>  
+		</member>
+		<member name="M:Unigine.BoundSphere.#ctor(Unigine.vec3,float)">
+			<summary>
+			Constructor. Initialization by the center and radius of the bounding sphere.
+			</summary> 
+			<param name="center"> The bounding sphere center. </param>
+			<param name="radius"> The bounding sphere radius. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.#ctor(float,float,float,float)">
+			<summary>
+			Constructor. Initialization by the coordinates of the center and radius of the bounding sphere.
+			</summary> 
+			<param name="x"> X-coordinate of the center of the bounding sphere. </param>
+			<param name="y"> Y-coordinate of the center of the bounding sphere. </param>
+			<param name="z"> Z-coordinate of the center of the bounding sphere. </param>
+			<param name="radius"> Radius of the bounding sphere. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.#ctor(Unigine.vec3,int,bool)">
+			<summary>
+			Constructor. Initialization by the vector of points.
+			</summary> 
+			<param name="points"> Vector of points. </param>
+			<param name="num_points"> Number of points in the vector. </param>
+			<param name="optimal"> Flag defining if the optimal sphere should be used. If false, the sphere will be expanded for including all the given points. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.BoundSphere(Unigine.BoundSphere)">
+			<summary>
+			Initialization by the bounding sphere.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.BoundSphere(Unigine.BoundSphere,Unigine.mat4)">
+			<summary>
+			Constructor. Initialization by the bounding sphere and setting the given transformation matrix to the new bounding sphere.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param>
+			<param name="transform"> Transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.#ctor(Unigine.BoundBox)">
+			<summary>
+			Constructor. Initialization by the bounding box.
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.operator=(Unigine.BoundSphere)">
+			<summary>
+			Assignment operator for the bounding sphere.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.clear">
+			<summary>
+			Clears the bounding sphere.
+			</summary>  
+		</member>
+		<member name="M:Unigine.BoundSphere.set(Unigine.Math.vec3,float)">
+			<summary>
+			Sets the bounding sphere by its center and radius.
+			</summary> 
+			<param name="center"> Center of the bounding sphere. </param>
+			<param name="radius"> Radius of the bounding sphere. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.set(float,float,float,float)">
+			<summary>
+			Sets the bounding sphere by the specified coordinates of the center and radius.
+			</summary> 
+			<param name="x_"> X-coordinate of the center of the bounding sphere. </param>
+			<param name="y_"> Y-coordinate of the center of the bounding sphere. </param>
+			<param name="z_"> Z-coordinate of the center of the bounding sphere. </param>
+			<param name="radius_"> Radius of the bounding sphere. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.set(Unigine.Math.vec3,int,bool)">
+			<summary>
+			Set the bounding sphere by a vector of points.
+			</summary> 
+			<param name="points"> Vector of points. </param>
+			<param name="num_points"> Number of points in the vector. </param>
+			<param name="optimal"> Flag defining if the optimal sphere should be used. If false, the sphere will be expanded for including all the given points. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.set(Unigine.BoundSphere)">
+			<summary>
+			Sets the bounding sphere.
+			</summary> 
+			<param name="bs"> Bounding sphere. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.set(Unigine.BoundSphere,Unigine.Math.mat4)">
+			<summary>
+			Sets the bounding sphere by a bounding sphere with a transformation matrix taken into account.
+			</summary> 
+			<param name="bs"> Bounding sphere. </param>
+			<param name="transform"> Transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.set(Unigine.BoundBox)">
+			<summary>
+			Sets the bounding sphere by the bounding box.
+			</summary> 
+			<param name="bb"> Bounding box. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.setCenter(Unigine.vec3)">
+			<summary>
+			Sets the specified coordinates for the center of the bounding sphere.
+			</summary> 
+			<param name="center"> Coordinates of the center of the bounding sphere. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.setTransform(Unigine.Math.mat4)">
+			<summary>
+			Sets the given transformation matrix to bounding sphere.
+			</summary> 
+			<param name="transform"> Transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.setTransform(Unigine.Math.dmat4)">
+			<summary>
+			Sets the given transformation matrix to bounding sphere.
+			</summary> 
+			<param name="transform"> Transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.compare(Unigine.BoundSphere)">
+			<summary>
+			Compares the bounding sphere with the given one. The degree of precision is equal to 1.0e-6f.
+			</summary> 
+			<param name="bs"> The bounding sphere to compare with. </param> 
+			<returns>1 if the radii and the centers of both bounding spheres are equal; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.operator==(Unigine.BoundSphere) const">
+			<summary>
+			Compares the bounding sphere with the given one according to the degree of precision equal to 1.0e-6f.
+			</summary> 
+			<param name="bs"> The bounding sphere to compare with. </param> 
+			<returns>1 if the radii and the centers of both bounding spheres are equal; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.operator!=(Unigine.BoundSphere) const">
+			<summary>
+			Bounding spheres not equal comparison operator.
+			</summary> 
+			<param name="bs"> The bounding sphere to compare with. </param> 
+			<returns>1 if the radii and the centers of both bounding spheres are not equal; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.expand(Unigine.Math.vec3)">
+			<summary>
+			Expands the current bounding sphere to include the given point.
+			</summary> 
+			<param name="point"> Coordinates of the point. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.expand(Unigine.Math.vec3,int)">
+			<summary>
+			Expands the current bounding sphere for including all points in the vector.
+			</summary> 
+			<param name="points"> Vector of points. </param>
+			<param name="num_points"> Number of points. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.expand(Unigine.BoundSphere)">
+			<summary>
+			Expands the current bounding sphere to include the given bounding sphere.
+			</summary> 
+			<param name="bs"> Bounding sphere to be included. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.expand(Unigine.BoundBox)">
+			<summary>
+			Expands the current bounding sphere to include the given bounding box.
+			</summary> 
+			<param name="bb"> Bounding box to be included. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.expandRadius(Unigine.Math.vec3)">
+			<summary>
+			Expands the radius of the bounding sphere.
+			Expands the radius of the bounding sphere.
+			</summary> 
+			<param name="point"> Point coordinates setting the end point of radius. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.expandRadius(Unigine.Math.vec3,int)">
+			<summary>
+			Expands the radius of the current bounding sphere for including all points in the vector.
+			</summary> 
+			<param name="points"> Vector of points. </param>
+			<param name="num_points"> Number of points. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.expandRadius(Unigine.BoundSphere)">
+			<summary>
+			Expands the radius of the bounding sphere by using the radius of the given bounding sphere.
+			Expands the radius of the bounding sphere by using the radius of the given bounding sphere.
+			</summary> 
+			<param name="bs"> Bounding sphere. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.expandRadius(Unigine.BoundBox)">
+			<summary>
+			Expands the radius of the bounding sphere by using the max and min points of the given bounding box.
+			Expands the radius of the bounding sphere by using the max and min points of the given bounding box. It uses the expandRadius method.
+			</summary> 
+			<param name="bb"> Bounding box. </param> 
+		</member>
+		<member name="M:Unigine.BoundSphere.inside(Unigine.Math.vec3) const">
+			<summary>
+			Checks if the given point is inside the current bounding sphere.
+			</summary> 
+			<param name="point"> Point coordinates. </param> 
+			<returns>true if the given point is inside the bounding sphere; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.inside(Unigine.Math.vec3,float) const">
+			<summary>
+			Checks if the sphere is inside the bounding sphere.
+			</summary> 
+			<param name="point"> Center of the sphere. </param>
+			<param name="radius"> Radius of the sphere. </param> 
+			<returns>true if the sphere is inside the bounding sphere; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.inside(Unigine.Math.vec3,Unigine.Math.vec3) const">
+			<summary>
+			Checks if the box is inside the bounding sphere.
+			</summary> 
+			<param name="min"> The box minimum coordinates. </param>
+			<param name="max"> The box maximum coordinates. </param> 
+			<returns>true if the box is inside the bounding sphere; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.inside(Unigine.BoundSphere) const">
+			<summary>
+			Checks if the specified bounding sphere is inside the bounding sphere.
+			</summary> 
+			<param name="bs"> Bounding sphere. </param> 
+			<returns>true if the specified bounding sphere is inside the bounding sphere; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.inside(Unigine.BoundBox) const">
+			<summary>
+			Checks if the bounding box is inside the bounding sphere.
+			</summary> 
+			<param name="bb"> Bounding box. </param> 
+			<returns>true if the bounding box is inside the bounding sphere; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.insideValid(Unigine.Math.vec3) const">
+			<summary>
+			Checks if the given point is inside the current bounding sphere.					The method doesn't check if the bounding sphere is valid (has a positive radius).
+			</summary> 
+			<param name="point"> Point. </param> 
+			<returns>true if the given point is inside the bounding sphere; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.insideValid(Unigine.Math.vec3,float) const">
+			<summary>
+			Checks if the given sphere is inside the current bounding sphere.					The method doesn't check if the bounding sphere is valid (has a positive radius).
+			</summary> 
+			<param name="point"> Cente of the sphere. </param>
+			<param name="radius"> Radius of the sphere. </param> 
+			<returns>true if the sphere is inside the bounding sphere; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.insideValid(Unigine.Math.vec3,Unigine.Math.vec3) const">
+			<summary>
+			Checks if the box is inside the bounding sphere.					The method doesn't check if the bounding sphere is valid (has a positive radius).
+			</summary> 
+			<param name="min"> The box minimum coordinates. </param>
+			<param name="max"> The box maximum coordinates. </param> 
+			<returns>true if the box is inside the bounding sphere; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.insideValid(Unigine.BoundSphere) const">
+			<summary>
+			Checks if the bounding sphere is inside the bounding sphere.					The method doesn't check if the bounding sphere is valid (has a positive radius).
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+			<returns>true if the bounding sphere is inside the bounding sphere; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.insideValid(Unigine.BoundBox) const">
+			<summary>
+			Checks if the bounding box is inside the bounding sphere.					The method doesn't check if the bounding sphere is valid (has a positive radius).
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+			<returns>true if the bounding box is inside the bounding sphere; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.insideAll(Unigine.BoundSphere) const">
+			<summary>
+			Checks if the whole specified bounding sphere is inside the current bounding sphere.
+			</summary> 
+			<param name="bs"> Bounding sphere. </param> 
+			<returns>true if the whole bounding sphere is inside the bounding sphere; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.insideAll(Unigine.BoundBox) const">
+			<summary>
+			Checks if the whole specified bounding box is inside the current bounding sphere.
+			</summary> 
+			<param name="bb"> Bounding box. </param> 
+			<returns>true if the whole bounding box is inside the bounding sphere; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.insideAllValid(Unigine.BoundSphere) const">
+			<summary>
+			Checks if the whole given bounding sphere is inside the current bounding sphere.					The method doesn't check if the bounding sphere is valid (has a positive radius).
+			</summary> 
+			<param name="bs"> Bounding sphere. </param> 
+			<returns>true if the whole bounding sphere is inside the bounding sphere; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.insideAllValid(Unigine.BoundBox) const">
+			<summary>
+			Checks if the whole given bounding box is inside the current bounding sphere.					The method doesn't check if the bounding sphere is valid (has a positive radius).
+			</summary> 
+			<param name="bb"> Bounding box. </param> 
+			<returns>true if the whole bounding box is inside the bounding sphere; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.rayIntersection(Unigine.Math.vec3,Unigine.Math.vec3) const">
+			<summary>
+			Checks for an intersection of a ray with the current bounding sphere.
+			</summary> 
+			<param name="point"> The starting point of the ray. </param>
+			<param name="direction"> The direction vector of the ray. </param> 
+			<returns>true if an intersection has occurred; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.getIntersection(Unigine.Math.vec3,Unigine.Math.vec3) const">
+			<summary>
+			Checks for an intersection of a line with the current bounding sphere.
+			</summary> 
+			<param name="p0"> The starting point of the line. </param>
+			<param name="p1"> The ending point of the line. </param> 
+			<returns>true if an intersection has occurred; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.rayIntersectionValid(Unigine.Math.vec3,Unigine.Math.vec3) const">
+			<summary>
+			Checks for an intersection of a ray with the current bounding sphere.					This method doesn't check if the current bounding sphere is valid (has a positive radius).
+			</summary> 
+			<param name="point"> The starting point of the ray. </param>
+			<param name="direction"> The direction vector of the ray. </param> 
+			<returns>true if an intersection has occurred; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.getIntersectionValid(Unigine.Math.vec3,Unigine.Math.vec3) const">
+			<summary>
+			Checks for an intersection of a line with the current bounding sphere.					This method doesn't check if the current bounding sphere is valid (has a positive radius).
+			</summary> 
+			<param name="p0"> The starting point of the line. </param>
+			<param name="p1"> The ending point of the line. </param> 
+			<returns>true if an intersection has occurred; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.distance const">
+			<summary>
+			Returns the distance from the origin of coordinates to the closest point of the current bounding sphere.
+			</summary>  
+			<returns>Distance from the origin, in units.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.distance(Unigine.Math.vec3) const">
+			<summary>
+			Returns the distance from the given point to the closest point of the current bounding sphere.
+			</summary> 
+			<param name="point"> Coordinates of the point. </param> 
+			<returns>Distance from the point, in units.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.distanceValid const">
+			<summary>
+			Returns the distance from the origin of coordinates to the closest point of the current bounding sphere.
+			</summary>  
+			<returns>Distance from the origin, in units.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.distanceValid(Unigine.Math.vec3) const">
+			<summary>
+			Returns the distance from the given point to the closest point of the current bounding sphere.
+			</summary> 
+			<param name="point"> Point </param> 
+			<returns>Distance from the point, in units.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.isValid const">
+			<summary>
+			Checks the bounding sphere status.
+			</summary>  
+			<returns>true if the bounding sphere radius has a positive value; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BoundSphere.isCameraVisible(Unigine.vec3,float,float) const">
+			<summary>
+			Returns a value indicating if the bounding sphere is visible fro the camera.
+			</summary> 
+			<param name="camera"> Coordinates of the camera position. </param>
+			<param name="min_distance"> Minimum visibility distance, in meters. </param>
+			<param name="max_distance"> Maximum visibility distance, in meters. </param> 
+			<returns>true if the bounding sphere radius has a positive value; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.WorldBoundBox">
+			<summary>
+			Default constructor. Creates an empty bounding box.
+			</summary>  
+		</member>
+		<member name="M:Unigine.WorldBoundBox.WorldBoundBox(Unigine.Math.Vec3,Unigine.Math.Vec3)">
+			<summary>
+			Constructor. Initializes new bounding box by minimum and maximum coordinates of the bounding box.
+			</summary> 
+			<param name="min"> The bounding box minimum coordinates. </param>
+			<param name="max"> The bounding box maximum coordinates. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundBox.WorldBoundBox(Unigine.WorldBoundBox)">
+			<summary>
+			Constructor. Initializes new bounding box by using given bounding box.
+			</summary> 
+			<param name="bb"> Bounding box. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundBox.WorldBoundBox(Unigine.WorldBoundSphere)">
+			<summary>
+			Constructor. Initializes new bounding box by the using given bounding sphere.
+			</summary> 
+			<param name="bs"> Bounding sphere. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundBox.WorldBoundBox(Unigine.BoundBox,Unigine.Math.Mat4)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.WorldBoundBox.operator=(Unigine.WorldBoundBox)">
+			<summary>
+			Assignment operator for the bounding box.
+			</summary> 
+			<param name="bb"> Bounding box. </param> 
+			<returns>Bounding box.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.clear">
+			<summary>
+			Clears the bounding box.
+			</summary>  
+		</member>
+		<member name="M:Unigine.WorldBoundBox.set(Unigine.Math.Vec3,Unigine.Math.Vec3)">
+			<summary>
+			Sets the bounding box by its minimum and maximum coordinates.
+			</summary> 
+			<param name="min"> Minimum coordinates of the bounding box. </param>
+			<param name="max"> Maximum coordinates of the bounding box. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundBox.set(Unigine.Math.Vec3,int)">
+			<summary>
+			Sets the bounding box by the coordinates of points in space to be enclosed by it.
+			</summary> 
+			<param name="points"> List of points to be enclosed by the bounding box. </param>
+			<param name="num_points"> Number of points to be enclosed by the bounding box. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundBox.set(Unigine.BoundBox,Unigine.Math.Mat4)">
+			<summary>
+			Sets the bounding box by the given bounding box with the given transformation matrix taken into account.
+			</summary> 
+			<param name="bb"> Source bounding box. </param>
+			<param name="transform"> Transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundBox.set(Unigine.WorldBoundSphere)">
+			<summary>
+			Sets the bounding box by the bounding sphere.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundBox.set(Unigine.WorldBoundBox)">
+			<summary>
+			Sets the bounding box.
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundBox.setTransform(Unigine.Math.Mat4)">
+			<summary>
+			Sets the given transformation matrix to the bounding box.
+			</summary> 
+			<param name="transform"> Transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundBox.compare(Unigine.WorldBoundBox) const">
+			<summary>
+			Compares the current bounding box with the given one.
+			</summary> 
+			<param name="bb"> The bounding box to compare with. </param> 
+			<returns>1 if the size and position of both bounding boxes are equal; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.expand(Unigine.Math.Vec3)">
+			<summary>
+			Expands the current bounding box to include the given point.
+			</summary> 
+			<param name="point"> Coordinates of the point. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundBox.expand(Unigine.Math.Vec3,int)">
+			<summary>
+			Expands the current bounding box to enclose all given points.
+			</summary> 
+			<param name="points"> List of points to be enclosed by the bounding box. </param>
+			<param name="num_points"> Number of points to be enclosed by the bounding box. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundBox.expand(Unigine.WorldBoundSphere)">
+			<summary>
+			Expands the current bounding box to include the given bounding sphere.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundBox.expand(Unigine.WorldBoundBox)">
+			<summary>
+			Expands the current bounding box to include the given bounding box.
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundBox.inside(Unigine.Math.Vec3) const">
+			<summary>
+			Checks if the specified point is inside the current bounding box.
+			</summary> 
+			<param name="point"> Coordinates of the point. </param> 
+			<returns>1 if the point is inside the bounding box; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.inside(Unigine.Math.Vec3,Unigine.Math.Scalar) const">
+			<summary>
+			Checks if the specified sphere is inside the current bounding box.
+			</summary> 
+			<param name="point"> The coordinates of the center of the sphere. </param>
+			<param name="radius"> The sphere radius. </param> 
+			<returns>1 if the sphere is inside the bounding box; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.inside(Unigine.Math.Vec3,Unigine.Math.Vec3) const">
+			<summary>
+			Checks if the given box is inside the current bounding box.
+			</summary> 
+			<param name="min"> Minimum coordinates of the box. </param>
+			<param name="max"> Maximum coordinates of the box. </param> 
+			<returns>1 if the box is inside the bounding box; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.inside(Unigine.WorldBoundSphere) const">
+			<summary>
+			Checks if the specified bounding sphere is inside the current bounding box.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+			<returns>1 if the bounding sphere is inside the bounding box; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.inside(Unigine.WorldBoundBox) const">
+			<summary>
+			Checks if the given bounding box is inside the current bounding box.
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+			<returns>1 if the bounding box is inside the bounding box; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.insideValid(Unigine.Math.Vec3) const">
+			<summary>
+			Checks if the given point is inside the current bounding box.					The method doesn't check if the bounding box is valid (has a positive radius).
+			</summary> 
+			<param name="point"> Point. </param> 
+			<returns>1 if the given point is inside the bounding box; otherwise,0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.insideValid(Unigine.Math.Vec3,Unigine.Math.Scalar) const">
+			<summary>
+			Checks if the given sphere is inside the current bounding box.					The method doesn't check if the bounding box is valid (has a positive radius).
+			</summary> 
+			<param name="point"> Cente of the sphere. </param>
+			<param name="radius"> Radius of the sphere. </param> 
+			<returns>1 if the sphere is inside the bounding box; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.insideValid(Unigine.Math.Vec3,Unigine.Math.Vec3) const">
+			<summary>
+			Checks if the box is inside the bounding box.					The method doesn't check if the bounding box is valid (has a positive radius).
+			</summary> 
+			<param name="min"> The box minimum coordinates. </param>
+			<param name="max"> The box maximum coordinates. </param> 
+			<returns>1 if the box is inside the bounding box; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.insideValid(Unigine.WorldBoundSphere) const">
+			<summary>
+			Checks if the bounding sphere is inside the bounding box.					The method doesn't check if the bounding box is valid (has a positive radius).
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+			<returns>1 if the bounding sphere is inside the bounding box; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.insideValid(Unigine.WorldBoundBox) const">
+			<summary>
+			Checks if the given bounding box is inside the current bounding box.					The method doesn't check if the bounding box is valid (has a positive radius).
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+			<returns>1 if the bounding box is inside the current bounding box; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.insideAll(Unigine.WorldBoundSphere) const">
+			<summary>
+			Checks if the whole given bounding sphere is inside the current bounding box.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+			<returns>1 if the whole sphere is inside the bounding box; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.insideAll(Unigine.WorldBoundBox) const">
+			<summary>
+			Checks if the whole given bounding box is inside the current bounding box.
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+			<returns>1 if the whole box is inside the bounding box; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.insideAllValid(Unigine.WorldBoundSphere) const">
+			<summary>
+			Checks if the whole given bounding sphere is inside the current bounding box.					The method doesn't check if the bounding box is valid (has a positive radius).
+			</summary> 
+			<param name="bs"> Bounding sphere. </param> 
+			<returns>1 if the whole bounding sphere is inside the bounding box; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.insideAllValid(Unigine.WorldBoundBox) const">
+			<summary>
+			Checks if the whole given bounding box is inside the current bounding box.					The method doesn't check if the bounding box is valid (has a positive radius).
+			</summary> 
+			<param name="bb"> Bounding box. </param> 
+			<returns>1 if the whole given bounding box is inside the bounding box; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.insideCube(int,Unigine.Math.Vec3) const">
+			<summary>
+			Checks if a face of the current bounding box is inside the cube represented by minimum and maximum coordinates of the bounding box.
+			</summary> 
+			<param name="face"> The face index from 0 to 5. </param>
+			<param name="point"> Offset. </param> 
+			<returns>1 if the face is inside the bounding cube; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.rayIntersection(Unigine.Math.Vec3,Unigine.Math.Vec3) const">
+			<summary>
+			Checks for an intersection between a ray and the current bounding box.
+			</summary> 
+			<param name="p"> Starting point of the ray. </param>
+			<param name="direction"> Direction vector of the ray. </param> 
+			<returns>1 if the given ray intersects the bounding box; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.irayIntersection(Unigine.Math.Vec3,Unigine.Math.Vec3) const">
+			<summary>
+			Checks for an intersection between a ray and the current bounding box. This function uses the inverse direction of the ray, which increases performance.
+			</summary> 
+			<param name="p"> Starting point of the ray. </param>
+			<param name="idirection"> Inverse direction of the ray. </param> 
+			<returns>1 if the given ray intersects the bounding box; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.getIntersection(Unigine.Math.Vec3,Unigine.Math.vec3) const">
+			<summary>
+			Checks for an intersection between a line and the current bounding box.
+			</summary> 
+			<param name="p0"> Starting point of the line. </param>
+			<param name="p1"> Ending point of the line. </param> 
+			<returns>1 if the given line intersects the bounding box; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.rayIntersectionValid(Unigine.Math.Vec3,Unigine.Math.Vec3) const">
+			<summary>
+			Checks for an intersection between a ray and the current bounding box.					This function doesn't check if the minimum and maximum coordinates of the bounding box are valid.
+			</summary> 
+			<param name="point"> Starting point of the ray. </param>
+			<param name="direction"> Direction vector of the ray. </param> 
+			<returns>1 if the given ray intersects the bounding box; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.irayIntersectionValid(Unigine.Math.Vec3,Unigine.Math.Vec3) const">
+			<summary>
+			Checks for an intersection between a ray and the current bounding box. This function uses the inverse direction of the ray, which increases performance.
+			</summary> 
+			<param name="p"> Starting point of the ray. </param>
+			<param name="idirection"> Inverse direction of the ray. </param> 
+			<returns>1 if the given ray intersects the bounding box; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.getIntersectionValid(Unigine.Math.Vec3,Unigine.Math.vec3) const">
+			<summary>
+			Checks for an intersection between a line and the current bounding box.					This function doesn't check if the minimum and maximum coordinates of the bounding box are valid.
+			</summary> 
+			<param name="p0"> Starting point of the line. </param>
+			<param name="p1"> Enging point of the line. </param> 
+			<returns>1 if the given line intersects the bounding box; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.distanceValid(Unigine.Math.Vec3) const">
+			<summary>
+			Returns the distance from the given point to the closest vertex of the bounding box.
+			</summary> 
+			<param name="point"> Coordinates of the point. </param> 
+			<returns>Distance from the given point to the closest vertex of the bounding box, in units.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.isValid const">
+			<summary>
+			Checks if the bounding box coordinates are valid (minimum coordinate along the X axis is less or equal to the maximum coordinate along the X axis).
+			</summary>  
+			<returns>true if the bounding box minimum and maximum coordinates are valid, otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.getMin const">
+			<summary>
+			Returns the minimum coordinates of the bounding box.
+			</summary>  
+			<returns>Bounding box minimum coordinates.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.getMax const">
+			<summary>
+			Returns the maximum coordinates of the bounding box.
+			</summary>  
+			<returns>Bounding box maximum coordinates.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundBox.getCenter const">
+			<summary>
+			Returns the center point of the current bounding box.
+			</summary>  
+			<returns>Center point.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.WorldBoundFrustum">
+			<summary>
+			Default constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.WorldBoundFrustum(Unigine.Math.mat4,Unigine.Math.Mat4)">
+			<summary>
+			Constructor. Initializes the bounding frustum by given matrices.
+			</summary> 
+			<param name="projection"> A projection matrix. </param>
+			<param name="modelview"> A modelview matrix. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.WorldBoundFrustum(WorldBoundFrustum)">
+			<summary>
+			Constructor. Initializes by given bounding frustum.
+			</summary> 
+			<param name="bf"> The bounding frustum. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.WorldBoundFrustum(BoundFrustum,Unigine.Math.Mat4)">
+			<summary>
+			Constructor. Initializes by given bounding frustum and transformation matrix.
+			</summary> 
+			<param name="bf"> The bounding frustum. </param>
+			<param name="itransform"> The inverse transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.WorldBoundFrustum(WorldBoundFrustum,Unigine.Math.Mat4)">
+			<summary>
+			Constructor. Initializes by given bounding frustum and transformation matrix.
+			</summary> 
+			<param name="bf"> The bounding frustum. </param>
+			<param name="transform"> The transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.operator=(BoundFrustum)">
+			<summary>
+			Assignment operator.
+			</summary> 
+			<param name="bf"> The bounding frustum. </param> 
+			<returns>Bounding frustum.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.clear">
+			<summary>
+			Clears the bounding frustum.
+			</summary>  
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.set(Unigine.Math.mat4,Unigine.Math.Mat4)">
+			<summary>
+			Sets the bounding frustum by given matrices.
+			</summary> 
+			<param name="projection"> A projection matrix. </param>
+			<param name="modelview"> A modelview matrix. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.set(WorldBoundFrustum)">
+			<summary>
+			Sets the bounding frustum by given bounding frustum.
+			</summary> 
+			<param name="bf"> The bounding frustum. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.set(BoundFrustum,Unigine.Math.Mat4)">
+			<summary>
+			Sets the bounding frustum by given bounding frustum and transformation matrix.
+			</summary> 
+			<param name="bf"> The bounding frustum. </param>
+			<param name="itransform"> The inverse transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.set(WorldBoundFrustum,Unigine.Math.Mat4)">
+			<summary>
+			Sets the bounding frustum by given bounding frustum and transformation matrix.
+			</summary> 
+			<param name="bf"> The bounding frustum. </param>
+			<param name="itransform"> The inverse transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.inside(Unigine.Math.Vec3) const">
+			<summary>
+			Checks if the point is inside the bounding frustum.
+			</summary> 
+			<param name="point"> The coordinates of the point. </param> 
+			<returns>1 if the point is inside the bounding frustum; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.inside(Unigine.Math.Vec3,Unigine.Math.Scalar) const">
+			<summary>
+			Checks if the sphere is inside the bounding frustum.
+			</summary> 
+			<param name="point"> The coordinates of the center of the sphere. </param>
+			<param name="radius"> The sphere radius. </param> 
+			<returns>1 if the sphere is inside the bounding frustum; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.inside(Unigine.Math.Vec3,Unigine.Math.Vec3) const">
+			<summary>
+			Checks if the box is inside the bounding frustum.
+			</summary> 
+			<param name="min"> The box minimum coordinate. </param>
+			<param name="max"> The box maximum coordinate. </param> 
+			<returns>1 if the box is inside the bounding frustum; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.inside(Unigine.Math.Vec3,int) const">
+			<summary>
+			Checks if a set of points is inside the bounding frustum.
+			</summary> 
+			<param name="points"> Vector of points. </param>
+			<param name="num"> Number of points. </param> 
+			<returns>1 if the points are inside the bounding frustum; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.inside(Unigine.WorldBoundBox) const">
+			<summary>
+			Checks if the bounding box is inside the bounding frustum.
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+			<returns>1 if the bounding box is inside the bounding frustum; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.inside(Unigine.WorldBoundSphere) const">
+			<summary>
+			Checks if the bounding sphere is inside the bounding frustum.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+			<returns>1 if the bounding sphere is inside the bounding frustum; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.insideFast(Unigine.Math.Vec3) const">
+			<summary>
+			Performs a fast check if the point is inside the bounding frustum.
+			</summary> 
+			<param name="point"> Point. </param> 
+			<returns>1 if the point is inside the bounding frustum; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.insideFast(Unigine.Math.Vec3,Unigine.Math.Scalar) const">
+			<summary>
+			Performs a fast check if the sphere is inside the bounding frustum.
+			</summary> 
+			<param name="point"> Center point. </param>
+			<param name="radius"> Radius. </param> 
+			<returns>1 if the sphere is inside the bounding frustum; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.insideFast(Unigine.Math.Vec3,Unigine.Math.Vec3) const">
+			<summary>
+			Performs a fast check if the box is inside the bounding frustum.
+			</summary> 
+			<param name="min"> Minimum point. </param>
+			<param name="max"> Maximum point. </param> 
+			<returns>1 if the box is inside the bounding frustum; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.insideFast(Unigine.Math.Vec3,int) const">
+			<summary>
+			Performs a fast check if the set of points is inside the bounding frustum.
+			</summary> 
+			<param name="points"> Vector of points. </param>
+			<param name="num"> Number of points. </param> 
+			<returns>1 if the point is inside the bounding frustum; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.insideValid(Unigine.WorldBoundSphere) const">
+			<summary>
+			Checks if the given bounding sphere is inside the bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+			<returns>1 if the given bounding sphere is inside the bounding frustum; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.insideValid(Unigine.WorldBoundBox) const">
+			<summary>
+			Checks if the given bounding box is inside the bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+			<returns>1 if the given bounding box is inside the bounding frustum; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.insideValidFast(Unigine.WorldBoundSphere) const">
+			<summary>
+			Performs a fast check if the given bounding sphere is inside the current bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+			<returns>1 if the given bounding sphere is inside the bounding frustum; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.insideValidFast(Unigine.WorldBoundBox) const">
+			<summary>
+			Performs a fast check if the given bounding box is inside the current bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+			<returns>1 if the given bounding box is inside the bounding frustum; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.insideAll(Unigine.WorldBoundBox) const">
+			<summary>
+			Checks if the whole given bounding box is inside the current bounding frustum.
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+			<returns>1 if the whole box is inside the bounding frustum; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.insideAll(Unigine.WorldBoundSphere) const">
+			<summary>
+			Checks if the whole given bounding sphere is inside the current bounding frustum.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+			<returns>1 if the whole sphere is inside the bounding frustum; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.insideAllValid(Unigine.WorldBoundSphere) const">
+			<summary>
+			Checks if the whole given bounding sphere is inside the current bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+			<returns>1 if the given bounding sphere is inside the bounding frustum; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.insideAllValid(Unigine.WorldBoundBox) const">
+			<summary>
+			Checks if the whole given bounding box is inside the current bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+			<returns>1 if the given bounding box is inside the bounding frustum; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.insideAllValidFast(Unigine.WorldBoundSphere) const">
+			<summary>
+			Performs a fast check if the whole given bounding sphere is inside the current bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+			<returns>1 if the given bounding sphere is inside the bounding frustum; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.insideAllValidFast(Unigine.WorldBoundBox) const">
+			<summary>
+			Performs a fast check if the whole given bounding box is inside the current bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+			<returns>1 if the given bounding box is inside the bounding frustum; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.insideShadowValid(Unigine.WorldBoundSphere,Unigine.Math.Vec3) const">
+			<summary>
+			Checks if the given bounding sphere is inside the shadow of the current bounding frustum (assuming that the current bound coordinates are valid).					The method doesn't check the status of the current bounding frustum.
+			</summary> 
+			<param name="object"> Bounding sphere. </param>
+			<param name="direction"> The direction vector. </param> 
+			<returns>1 if the given bounding sphere is inside the shadow; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.isValid const">
+			<summary>
+			Checks the bounding frustum status.
+			</summary>  
+			<returns>true if the bounding frustum is valid, otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.getCamera const">
+			<summary>
+			Returns the position of the camera.
+			</summary>  
+			<returns>Camera position.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundFrustum.getPlanes const">
+			<summary>
+			Returns the bounding frustum cliping planes array.
+			</summary>  
+			<returns>The bounding frustum cliping planes array.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.WorldBoundSphere">
+			<summary>
+			Constructor. Creates an empty bounding sphere.
+			</summary>  
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.WorldBoundSphere(Unigine.Math.Vec3,Unigine.Math.Scalar)">
+			<summary>
+			Constructor. Initializes bounding sphere by the center and radius of the bounding sphere.
+			</summary> 
+			<param name="center"> The bounding sphere center. </param>
+			<param name="radius"> The bounding sphere radius. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.WorldBoundSphere(Unigine.WorldBoundSphere)">
+			<summary>
+			Constructor. Initializes by given bounding sphere.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.WorldBoundSphere(Unigine.WorldBoundBox)">
+			<summary>
+			Constructor. Initializes by given bounding box.
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.WorldBoundSphere(Unigine.BoundSphere,Unigine.Math.Mat4)">
+			<summary>
+			Initialization by the bounding sphere and setting the given transformation matrix to the new bounding sphere.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param>
+			<param name="transform"> Transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.operator=(Unigine.WorldBoundSphere)">
+			<summary>
+			Assignment operator for the bounding sphere.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.clear">
+			<summary>
+			Clears the bounding sphere.
+			</summary>  
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.set(Unigine.Math.Vec3,Unigine.Math.Scalar)">
+			<summary>
+			Sets the bounding sphere by its center and radius.
+			</summary> 
+			<param name="center"> The bounding sphere center. </param>
+			<param name="radius"> The bounding sphere radius. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.set(Unigine.WorldBoundSphere)">
+			<summary>
+			Sets the bounding sphere.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.set(Unigine.WorldBoundBox)">
+			<summary>
+			Sets the bounding sphere by the bounding box.
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.set(Unigine.BoundSphere,Unigine.Math.Mat4)">
+			<summary>
+			Sets the bounding sphere by a bounding sphere with a transformation matrix taken into account.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param>
+			<param name="transform"> Transformation matrix. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.expand(Unigine.Math.Vec3)">
+			<summary>
+			Expands the current bounding sphere for including given point.
+			</summary> 
+			<param name="point"> Point coordinates. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.expand(Unigine.WorldBoundSphere)">
+			<summary>
+			Expands the current bounding sphere for including given bounding sphere.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.expand(Unigine.WorldBoundBox)">
+			<summary>
+			Expands the current bounding sphere for including given bounding box.
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.inside(Unigine.Math.Vec3) const">
+			<summary>
+			Checks if the given point is inside the current bounding sphere.
+			</summary> 
+			<param name="point"> Point coordinates. </param> 
+			<returns>1 if the given point is inside the bounding sphere; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.inside(Unigine.Math.Vec3,Unigine.Math.Scalar) const">
+			<summary>
+			Checks if the sphere is inside the bounding sphere.
+			</summary> 
+			<param name="point"> The coordinates of the center of the sphere . </param>
+			<param name="radius"> The sphere radius. </param> 
+			<returns>1 if the sphere is inside the bounding sphere; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.inside(Unigine.Math.Vec3,Unigine.Math.Vec3) const">
+			<summary>
+			Checks if the box is inside the bounding sphere.
+			</summary> 
+			<param name="min"> The box minimum coordinates. </param>
+			<param name="max"> The box maximum coordinates. </param> 
+			<returns>1 if the box is inside the bounding sphere; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.inside(Unigine.WorldBoundSphere) const">
+			<summary>
+			Checks if the specified bounding sphere is inside the current bounding sphere.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+			<returns>1 if the specified bounding sphere is inside the current bounding sphere; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.inside(Unigine.WorldBoundBox) const">
+			<summary>
+			Checks if the bounding box is inside the bounding sphere.
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+			<returns>1 if the bounding box is inside the bounding sphere; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.insideValid(Unigine.Math.Vec3) const">
+			<summary>
+			Checks if the given point is inside the current bounding sphere.					The method doesn't check if the bounding sphere is valid (has a positive radius).
+			</summary> 
+			<param name="point"> Point. </param> 
+			<returns>1 if the given point is inside the bounding sphere; otherwise,0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.insideValid(Unigine.Math.Vec3,Unigine.Math.Scalar) const">
+			<summary>
+			Checks if the given sphere is inside the current bounding sphere.					The method doesn't check if the bounding sphere is valid (has a positive radius).
+			</summary> 
+			<param name="point"> Cente of the sphere. </param>
+			<param name="radius"> Radius of the sphere. </param> 
+			<returns>1 if the sphere is inside the bounding sphere; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.insideValid(Unigine.Math.Vec3,Unigine.Math.Vec3) const">
+			<summary>
+			Checks if the box is inside the bounding sphere.					The method doesn't check if the bounding sphere is valid (has a positive radius).
+			</summary> 
+			<param name="min"> The box minimum coordinates. </param>
+			<param name="max"> The box maximum coordinates. </param> 
+			<returns>1 if the box is inside the bounding sphere; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.insideValid(Unigine.WorldBoundSphere) const">
+			<summary>
+			Checks if the bounding sphere is inside the bounding sphere.					The method doesn't check if the bounding sphere is valid (has a positive radius).
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+			<returns>1 if the bounding sphere is inside the bounding sphere; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.insideValid(Unigine.WorldBoundBox) const">
+			<summary>
+			Checks if the bounding box is inside the bounding sphere.					The method doesn't check if the bounding sphere is valid (has a positive radius).
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+			<returns>1 if the bounding box is inside the bounding sphere; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.insideAll(Unigine.WorldBoundSphere) const">
+			<summary>
+			Checks if the whole specified bounding sphere is inside the current bounding sphere.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param> 
+			<returns>1 if the whole specified sphere is inside the current bounding sphere; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.insideAll(Unigine.WorldBoundBox) const">
+			<summary>
+			Checks if the whole bounding box is inside the bounding sphere.
+			</summary> 
+			<param name="bb"> The bounding box. </param> 
+			<returns>1 if the whole box is inside the bounding sphere; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.insideAllValid(Unigine.WorldBoundSphere) const">
+			<summary>
+			Checks if the whole given bounding sphere is inside the current bounding sphere.					The method doesn't check if the bounding sphere is valid (has a positive radius).
+			</summary> 
+			<param name="bs"> Bounding sphere. </param> 
+			<returns>1 if the whole bounding sphere is inside the bounding sphere; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.insideAllValid(Unigine.WorldBoundBox) const">
+			<summary>
+			Checks if the whole given bounding box is inside the current bounding sphere.					The method doesn't check if the bounding sphere is valid (has a positive radius).
+			</summary> 
+			<param name="bb"> Bounding box. </param> 
+			<returns>1 if the whole bounding box is inside the bounding sphere; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.distanceValid(Unigine.Math.Vec3) const">
+			<summary>
+			Returns the distance from the given point to the closest point of the current bounding sphere.
+			</summary> 
+			<param name="point"> Point </param> 
+			<returns>Distance from the point, in units.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.isValid const">
+			<summary>
+			Checks the bounding sphere status.
+			</summary>  
+			<returns>1 if the bounding sphere radius has a positive value.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.getCenter const">
+			<summary>
+			Gets the bounding sphere center.
+			</summary>  
+			<returns>The bounding sphere center.</returns>
+		</member>
+		<member name="M:Unigine.WorldBoundSphere.getRadius const">
+			<summary>
+			Gets the bounding sphere radius.
+			</summary>  
+			<returns>The bounding sphere radius.</returns>
+		</member>
+	</members>
+</doc>

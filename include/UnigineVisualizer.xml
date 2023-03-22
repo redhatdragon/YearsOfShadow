@@ -1,0 +1,520 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Visualizer.setEnabled(bool)">
+			<summary>
+			Enables or disables the visualizer.
+			</summary> 
+			<param name="enabled"> true to enable the visualizer, false to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.isEnabled">
+			<summary>
+			Returns a value indicating if the visualizer is enabled.
+			</summary>  
+			<returns>1 if the visualizer is enabled; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Visualizer.setSize(int)">
+			<summary>
+			Updates the current size of the handler. All handlers have the same size.
+			</summary> 
+			<param name="size"> A new handler size in pixels. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.getSize">
+			<summary>
+			Returns the handler size. All handlers have the same size.
+			</summary>  
+			<returns>The current size of the handler in pixels.</returns>
+		</member>
+		<member name="M:Unigine.Visualizer.setTextureName(char)">
+			<summary>
+			Updates the current name of the texture.
+			</summary> 
+			<param name="name"> A new name of the texture. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.getTextureName">
+			<summary>
+			Returns the string with the name of the texture.
+			</summary>  
+			<returns>The name of the texture.</returns>
+		</member>
+		<member name="M:Unigine.Visualizer.clear">
+			<summary>
+			Clears all internal primitives created by calls to renderSmth functions. These primitives are accumulated in the internal buffer and then rendered together.					This method can be used to render several viewports with visualizer.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Visualizer.renderPoint2D(Unigine.Math.vec2,float,Unigine.Math.vec4,float,float) const">
+			<summary>
+			Renders a 2D point of a given size and color. 2D points are rendered in the screen plane; coordinates of the upper left corner are (0; 0), of the lower right corner—(1; 1).
+			</summary> 
+			<param name="v"> Point coordinates. </param>
+			<param name="size"> Point size in range [0;1]. The point size is set in proportion to the screen resolution. </param>
+			<param name="color"> Point color. </param>
+			<param name="order"> Z-order value for the rendered element. An element having a lower order shall be rendered over the one having a higher one. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderPoint3D(Unigine.Math.Vec3,float,Unigine.Math.vec4,bool,float,bool) const">
+			<summary>
+			Renders a 3D point of a given size and color. 3D points are rendered in the world space.
+			</summary> 
+			<param name="v"> Point coordinates. </param>
+			<param name="size"> Point size in range [0;1]. The point size is set in proportion to the screen resolution. </param>
+			<param name="color"> Point color. </param>
+			<param name="screen_space"> Flag indicating the type of dimensions to be used:false - use the world space dimensionstrue - use the screen space dimensions </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderLine2D(Unigine.Math.vec2,Unigine.Math.vec2,Unigine.Math.vec4,float,float)">
+			<summary>
+			Renders a 2D line of a given color. 2D lines are rendered in the screen plane; coordinates of the upper left corner are (0; 0), of the lower right corner — (1; 1).
+			</summary> 
+			<param name="v0"> Starting point of the line. </param>
+			<param name="v1"> Ending point of the line. </param>
+			<param name="color"> Line color. </param>
+			<param name="order"> Z-order value for the rendered element. An element having a lower order shall be rendered over the one having a higher one. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderLine3D(Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.vec4,float,bool)">
+			<summary>
+			Renders a 3D line of a given color. 3D lines are rendered in the world space.
+			</summary> 
+			<param name="v0"> Starting point of the line. </param>
+			<param name="v1"> Ending point of the line. </param>
+			<param name="color"> Line color. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderLine2D(Unigine.Math.vec2,Unigine.Math.vec2,Unigine.Math.vec2,Unigine.Math.vec4,float,float)">
+			<summary>
+			Renders a 2D line of a given color by using 3 points. 2D lines are rendered in the screen plane; coordinates of the upper left corner are (0; 0), of the lower right corner — (1; 1).
+			</summary> 
+			<param name="v0"> Coordinates of the starting point of the line. </param>
+			<param name="v1"> Coordinates of the intermediate point of the line. </param>
+			<param name="v2"> Coordinates of the ending point of the line. </param>
+			<param name="color"> Line color. </param>
+			<param name="order"> Z-order value for the rendered element. An element having a lower order shall be rendered over the one having a higher one. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderLine3D(Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.vec4,float,bool)">
+			<summary>
+			Renders a 3D line of a given color. 3D lines are rendered in the world space.
+			</summary> 
+			<param name="v0"> Coordinates of the starting point of the line. </param>
+			<param name="v1"> Coordinates of the intermediate point of the line. </param>
+			<param name="v2"> Coordinates of the ending point of the line. </param>
+			<param name="color"> Line color. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderLine2D(Unigine.Math.vec2,Unigine.Math.vec2,Unigine.Math.vec2,Unigine.Math.vec2,Unigine.Math.vec4,float,float)">
+			<summary>
+			Renders a 2D line of a given color. 2D lines are rendered in the screen plane; coordinates of the upper left corner are (0; 0), of the lower right corner — (1; 1).
+			</summary> 
+			<param name="v0"> Coordinates of the starting point of the line. </param>
+			<param name="v1"> Coordinates of the first intermediate point of the line. </param>
+			<param name="v2"> Coordinates of the second intermediate point of the line. </param>
+			<param name="v3"> Coordinates of the ending point of the line. </param>
+			<param name="color"> Color, in which the line will be rendered. </param>
+			<param name="order"> Z-order value for the rendered element. An element having a lower order shall be rendered over the one having a higher one. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderLine3D(Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.vec4,float,bool)">
+			<summary>
+			Renders a 3D line of a given color. 3D lines are rendered in the world space.
+			</summary> 
+			<param name="v0"> Coordinates of the starting point of the line. </param>
+			<param name="v1"> Coordinates of the first intermediate point of the line. </param>
+			<param name="v2"> Coordinates of the second intermediate point of the line. </param>
+			<param name="v3"> Coordinates of the ending point of the line. </param>
+			<param name="color"> Color, in which the line will be rendered. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderTriangle2D(Unigine.Math.vec2,Unigine.Math.vec2,Unigine.Math.vec2,Unigine.Math.vec4,float,float) const">
+			<summary>
+			Renders a 2D triangle of a given color. 2D triangles are rendered in the screen plane; coordinates of the upper left corner are (0; 0), of the lower right corner—(1; 1).
+			</summary> 
+			<param name="v0"> Coordinates of the first vertex. </param>
+			<param name="v1"> Coordinates of the second vertex. </param>
+			<param name="v2"> Coordinates of the third vertex. </param>
+			<param name="color"> Triangle color. </param>
+			<param name="order"> Z-order value for the rendered element. An element having a lower order shall be rendered over the one having a higher one. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderTriangle3D(Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.vec4,float,bool) const">
+			<summary>
+			Renders a 3D triangle of a given color. 3D triangles are rendered in the world space.
+			</summary> 
+			<param name="v0"> Coordinates of the first vertex. </param>
+			<param name="v1"> Coordinates of the second vertex. </param>
+			<param name="v2"> Coordinates of the third vertex. </param>
+			<param name="color"> Triangle color. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderQuad2D(Unigine.Math.vec2,Unigine.Math.vec2,Unigine.Math.vec2,Unigine.Math.vec2,Unigine.Math.vec4,float,float) const">
+			<summary>
+			Renders a 2D quad of a given color. 2D quads are rendered in the screen plane; coordinates of the upper left corner are (0; 0), of the lower right corner—(1; 1).
+			</summary> 
+			<param name="v0"> Coordinates of the first vertex. </param>
+			<param name="v1"> Coordinates of the second vertex. </param>
+			<param name="v2"> Coordinates of the third vertex. </param>
+			<param name="v3"> Coordinates of the fourth vertex. </param>
+			<param name="color"> Color, in which the quad will be rendered. </param>
+			<param name="order"> Z-order value for the rendered element. An element having a lower order shall be rendered over the one having a higher one. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderQuad3D(Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.vec4,float,bool) const">
+			<summary>
+			Renders a 3D quad of a given color. 3D quads are rendered in the world space.
+			</summary> 
+			<param name="v0"> Coordinates of the first vertex. </param>
+			<param name="v1"> Coordinates of the second vertex. </param>
+			<param name="v2"> Coordinates of the third vertex. </param>
+			<param name="v3"> Coordinates of the fourth vertex. </param>
+			<param name="color"> Color, in which the quad will be rendered. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderBillboard3D(Unigine.Math.Vec3,float,Unigine.Math.vec4,bool,float,bool) const">
+			<summary>
+			Renders a 3D billboard of the specified size.
+			</summary> 
+			<param name="v"> Coordinates of the billboard. </param>
+			<param name="size"> The billboard size. </param>
+			<param name="texcoord"> The billboard texture coordinates. </param>
+			<param name="screen_space"> Flag indicating the type of dimensions to be used:false - use the world space dimensionstrue - use the screen space dimensions </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderVector(Unigine.Math.Vec3,Unigine.Math.Vec3,Unigine.Math.vec4,float,bool,float,bool) const">
+			<summary>
+			Renders a vector of a given color.
+			</summary> 
+			<param name="position_start"> Coordinates of the vector origin. </param>
+			<param name="position_end"> Coordinates of the vector target. </param>
+			<param name="color"> Vector color. </param>
+			<param name="arrow_size"> Arrow size. </param>
+			<param name="screen_space"> Flag indicating the type of dimensions to be used:false - use the world space dimensionstrue - use the screen space dimensions </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderDirection(Unigine.Math.Vec3,Unigine.Math.vec3,Unigine.Math.vec4,float,bool,float,bool) const">
+			<summary>
+			Renders a direction vector of a given color.
+			</summary> 
+			<param name="position"> Coordinates of the vector origin. </param>
+			<param name="direction"> Target vector direction. </param>
+			<param name="color"> Vector color. </param>
+			<param name="arrow_size"> Arrow size. </param>
+			<param name="screen_space"> Flag indicating the type of dimensions to be used:false - use the world space dimensionstrue - use the screen space dimensions </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderBox(Unigine.Math.vec3,Unigine.Math.Mat4,Unigine.Math.vec4,float,bool) const">
+			<summary>
+			Renders a box of a given color.
+			</summary> 
+			<param name="size"> Dimensions of the box. </param>
+			<param name="transform"> Transformation matrix, which is used to position the box. </param>
+			<param name="color"> Color, in which the box will be rendered. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderFrustum(Unigine.Math.mat4,Unigine.Math.Mat4,Unigine.Math.vec4,float,bool) const">
+			<summary>
+			Renders a wireframe frustum of a given color.
+			</summary> 
+			<param name="projection"> Projection matrix used to transform the coordinates. </param>
+			<param name="transform"> Transformation matrix used to position the frustum. </param>
+			<param name="color"> Color, in which the frustum will be rendered. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderCircle(float,Unigine.Math.Mat4,Unigine.Math.vec4,float,bool) const">
+			<summary>
+			Renders a wireframe circle of a given color.
+			</summary> 
+			<param name="radius"> Radius of the circle. </param>
+			<param name="transform"> Transformation matrix used to position the circle. </param>
+			<param name="color"> Circle color. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderSector(float,float,Unigine.Math.Mat4,Unigine.Math.vec4,float,bool) const">
+			<summary>
+			Renders a wireframe sector of a given color.
+			</summary> 
+			<param name="radius"> Radius of the circle from which a sector is cut. </param>
+			<param name="angle"> Angle of the sector. </param>
+			<param name="transform"> Transformation matrix used to position the sector. </param>
+			<param name="color"> Sector color. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderCone(float,float,Unigine.Math.Mat4,Unigine.Math.vec4,float,bool) const">
+			<summary>
+			Renders a wireframe cone of a given color.
+			</summary> 
+			<param name="radius"> Radius of the cone. </param>
+			<param name="angle"> Angle of the cone. </param>
+			<param name="transform"> Transformation matrix used to position the cone. </param>
+			<param name="color"> Color, in which the cone will be rendered. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderSphere(float,Unigine.Math.Mat4,Unigine.Math.vec4,float,bool) const">
+			<summary>
+			Renders a wireframe sphere of a given color.
+			</summary> 
+			<param name="radius"> Radius of the sphere. </param>
+			<param name="transform"> Transformation matrix used to position the sphere. </param>
+			<param name="color"> Sphere color. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderCapsule(float,float,Unigine.Math.Mat4,Unigine.Math.vec4,float,bool) const">
+			<summary>
+			Renders a wireframe capsule (capped cylinder) of a given color.
+			</summary> 
+			<param name="radius"> Radius of the capsule. </param>
+			<param name="height"> Height of the capsule. </param>
+			<param name="transform"> Transformation matrix used to position the capsule. </param>
+			<param name="color"> Capsule color. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderCylinder(float,float,Unigine.Math.Mat4,Unigine.Math.vec4,float,bool) const">
+			<summary>
+			Renders a wireframe cylinder of a given color.
+			</summary> 
+			<param name="radius"> Radius of the cylinder. </param>
+			<param name="height"> Height of the cylinder. </param>
+			<param name="transform"> Transformation matrix used to position the cylinder. </param>
+			<param name="color"> Cylinder color. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderEllipse(Unigine.Math.vec3,Unigine.Math.Mat4,Unigine.Math.vec4,float,bool) const">
+			<summary>
+			Renders a wireframe ellipse of a given color.
+			</summary> 
+			<param name="radius"> Ellipse radius values along three axes. </param>
+			<param name="transform"> Transformation matrix for the ellipse. </param>
+			<param name="color"> Ellipse color. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderSolidBox(Unigine.Math.vec3,Unigine.Math.Mat4,Unigine.Math.vec4,float,bool) const">
+			<summary>
+			Renders a solid box of a given color.
+			</summary> 
+			<param name="size"> Size of the solid box. </param>
+			<param name="transform"> Transformation matrix used to position the solid box. </param>
+			<param name="color"> Box color. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderSolidSphere(float,Unigine.Math.Mat4,Unigine.Math.vec4,float,bool) const">
+			<summary>
+			Renders a solid sphere of a given color.
+			</summary> 
+			<param name="radius"> Radius of the solid sphere. </param>
+			<param name="transform"> Transformation matrix used to position the solid sphere. </param>
+			<param name="color"> Sphere color. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderSolidCapsule(float,float,Unigine.Math.Mat4,Unigine.Math.vec4,float,bool) const">
+			<summary>
+			Renders a solid capsule af a given color.
+			</summary> 
+			<param name="radius"> Radius of the capsule. </param>
+			<param name="height"> Height of the capsule. </param>
+			<param name="transform"> Transformation matrix used to position the capsule. </param>
+			<param name="color"> Capsule color. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderSolidCylinder(float,float,Unigine.Math.Mat4,Unigine.Math.vec4,float,bool) const">
+			<summary>
+			Renders a solid cylinder of a given color.
+			</summary> 
+			<param name="radius"> Radius of the cylinder. </param>
+			<param name="height"> Height of the cylinder. </param>
+			<param name="transform"> Transformation matrix used to position the cylinder. </param>
+			<param name="color"> Cylinder color. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderSolidEllipse(Unigine.Math.vec3,Unigine.Math.Mat4,Unigine.Math.vec4,float,bool) const">
+			<summary>
+			Renders a solid ellipse of a given color.
+			</summary> 
+			<param name="radius"> Ellipse radius values along three axes. </param>
+			<param name="transform"> Transformation matrix used to position the ellipse. </param>
+			<param name="color"> Ellipse color. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderRectangle(Unigine.Math.vec4,Unigine.Math.vec4,float)">
+			<summary>
+			Renders a 2D wireframe rectangle of a given color.
+			</summary> 
+			<param name="rectangle"> Four-component vector containing the coordinates of the upper-left (first two components) and bottom-right (second two components) corners of the rectangle. </param>
+			<param name="color"> Rectangle color. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderBoundBox(Unigine.BoundBox,Unigine.Math.Mat4,Unigine.Math.vec4,float,bool)">
+			<summary>
+			Renders the bounding box of a given color.
+			</summary> 
+			<param name="bb"> The bounding box. </param>
+			<param name="transform"> Transformation matrix for the bounding box. </param>
+			<param name="color"> Color, in which the box will be rendered. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderBoundSphere(Unigine.BoundSphere,Unigine.Math.Mat4,Unigine.Math.vec4,float,bool)">
+			<summary>
+			Renders the bounding sphere of a given color.
+			</summary> 
+			<param name="bs"> The bounding sphere. </param>
+			<param name="transform"> Transformation matrix for the bounding sphere. </param>
+			<param name="color"> Color, in which the sphere will be rendered. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderNodeBoundBox(Unigine.Ptr{Unigine.Node},Unigine.Math.vec4,float,bool)">
+			<summary>
+			Renders an axis-aligned bound box of a given node.
+			</summary> 
+			<param name="node"> Node, for which the bound box is rendered. </param>
+			<param name="color"> Color, in which the box will be rendered. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderNodeBoundSphere(Unigine.Ptr{Unigine.Node},Unigine.Math.vec4,float,bool)">
+			<summary>
+			Renders a bound sphere of a given node.
+			</summary> 
+			<param name="node"> Node, for which the bound sphere is rendered. </param>
+			<param name="color"> Color, in which the sphere will be rendered. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderObjectSurfaceBoundBox(Unigine.Ptr{Unigine.Object},int,Unigine.Math.vec4,float,bool)">
+			<summary>
+			Renders a bound box of a given object surface.
+			</summary> 
+			<param name="object"> Object, which contains the target surface. </param>
+			<param name="surface"> The number of the target surface in the object. </param>
+			<param name="color"> Color, in which the box will be rendered. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderObjectSurfaceBoundSphere(Unigine.Ptr{Unigine.Object},int,Unigine.Math.vec4,float,bool)">
+			<summary>
+			Renders a bound sphere of a given object surface.
+			</summary> 
+			<param name="object"> Object, which contains the target surface. </param>
+			<param name="surface"> The number of the target surface in the object. </param>
+			<param name="color"> Color, in which the sphere will be rendered. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param>
+			<param name="depth_test"> true to enable depth testing for the element (if it should be obscured by elements closer to the camera); false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderNodeHandler(Unigine.Ptr{Unigine.Node},float) const">
+			<summary>
+			Renders a handler for the specified node.
+			</summary> 
+			<param name="node"> Node, for which the handler is to be rendered. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderObject(Unigine.Ptr{Unigine.Object},Unigine.Math.vec4,float) const">
+			<summary>
+			Renders an object wireframe.
+			</summary> 
+			<param name="object"> Object, which wireframe will be rendered. </param>
+			<param name="color"> Color, in which the wireframe will be rendered. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderObjectSurface(Unigine.Ptr{Unigine.Object},int,Unigine.Math.vec4,float) const">
+			<summary>
+			Renders borders of a given object surface.
+			</summary> 
+			<param name="object"> Object, which contains the target surface. </param>
+			<param name="surface"> The number of the target surface in the object. </param>
+			<param name="color"> Color, in which the borders will be rendered. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderSolidObject(Unigine.Ptr{Unigine.Object},Unigine.Math.vec4,float) const">
+			<summary>
+			Renders a solid-colored object.
+			</summary> 
+			<param name="object"> Object smart pointer. </param>
+			<param name="color"> Color in which the object will be rendered. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderSolidObjectSurface(Unigine.Ptr{Unigine.Object},int,Unigine.Math.vec4,float) const">
+			<summary>
+			Renders a solid-colored surface of a given object.
+			</summary> 
+			<param name="object"> Object smart pointer. </param>
+			<param name="surface"> The number of the object's surface. </param>
+			<param name="color"> Color, in which the object's surface will be rendered. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderMessage2D(Unigine.Math.vec3,Unigine.Math.vec3,char,Unigine.Math.vec4,int,int,float)">
+			<summary>
+			Renders a message in a given color. Message position is specified in screen coordinates.
+			</summary> 
+			<param name="position"> Coordinates of the anchor point of the message, each in [0;1] range. </param>
+			<param name="center"> Message alignment. The first two values in the vector set the offset, the third one is ignored. For example, vec3(-1,-1,0) sets the offset of the center of the message to its upper left edge. vec3(1,1,0) - to the lower right corner. </param>
+			<param name="str"> Message text to display. </param>
+			<param name="color"> Color, in which the message will be rendered. </param>
+			<param name="outline"> 1 to use font outlining, 0 not to use. </param>
+			<param name="font_size"> Font size. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.renderMessage3D(Unigine.Math.Vec3,Unigine.Math.vec3,char,Unigine.Math.vec4,int,int,float)">
+			<summary>
+			Renders a message in a given color. Message position is specified in world coordinates.
+			</summary> 
+			<param name="position"> Coordinates of the anchor point of the message (in world coordinates). </param>
+			<param name="center"> Message alignment. The first two values in the vector set the offset, the third one is ignored. For example, vec3(-1,-1,0) sets the offset of the center of the message to its upper left edge. vec3(1,1,0) - to the lower right corner. </param>
+			<param name="str"> Message text to display. </param>
+			<param name="color"> Color, in which the message will be rendered. </param>
+			<param name="outline"> 1 to use font outlining, 0 not to use. </param>
+			<param name="font_size"> Font size. </param>
+			<param name="duration"> Time period (in seconds) during which the rendered element shall be displayed. The default value of 0 means that the visualizer is rendered for 1 frame only. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.setMode(Visualizer::MODE)">
+			<summary>
+			Sets a new Visualizer mode to be used. You can choose to display Visualizer with or without depth testing, or turn it off completely.
+			</summary> 
+			<param name="mode"> New Visualizer mode to be set. </param> 
+		</member>
+		<member name="M:Unigine.Visualizer.getMode">
+			<summary>
+			Returns the current Visualizer mode.
+			</summary>  
+		</member>
+		<member name="F:Unigine.Visualizer.MODE_ENABLED_DEPTH_TEST_DISABLED">
+			<summary>
+			Display the Visualizer without depth testing.
+		</summary>
+		</member>
+		<member name="F:Unigine.Visualizer.MODE_ENABLED_DEPTH_TEST_ENABLED">
+			<summary>
+			Display the Visualizer with depth testing enabled.
+		</summary>
+		</member>
+		<member name="F:Unigine.Visualizer.MODE_DISABLED">
+			<summary>
+			Do not display the Visualizer at all.
+		</summary>
+		</member>
+	</members>
+</doc>

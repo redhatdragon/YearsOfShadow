@@ -1,0 +1,454 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.BiMap.#ctor">
+			<summary>
+			Default constructor that produces an empty bimap.
+			</summary>  
+		</member>
+		<member name="M:Unigine.BiMap.#ctor(std::initializer_list{Pair{Key,Type}})">
+			<summary>
+			Constructor. Creates a bimap from the given key-value pairs.
+			</summary> 
+			<param name="list"> List of pairs. </param> 
+		</member>
+		<member name="M:Unigine.BiMap.#ctor(BiMap)">
+			<summary>
+			Constructor. Creates a bimap by copying a source bimap.
+			</summary> 
+			<param name="o"> Bimap. </param> 
+		</member>
+		<member name="M:Unigine.BiMap.#ctor(BiMap)">
+			<summary>
+			Constructor. Creates a bimap by copying a source bimap.
+			</summary> 
+			<param name="o"> Bimap. </param> 
+		</member>
+		<member name="M:Unigine.BiMap.operator=(BiMap)">
+			<summary>
+			Assignment operator for the bimap.
+			</summary> 
+			<param name="o"> Bimap. </param> 
+		</member>
+		<member name="M:Unigine.BiMap.operator=(BiMap)">
+			<summary>
+			Assignment operator for the bimap.
+			</summary> 
+			<param name="o"> Bimap. </param> 
+		</member>
+		<member name="M:Unigine.BiMap.swap(BiMap)">
+			<summary>
+			Swaps contents of the current bimap and the given one.
+			</summary> 
+			<param name="o"> Bimap. </param> 
+		</member>
+		<member name="M:Unigine.BiMap.clear">
+			<summary>
+			Deletes all contents of the bimap.
+			</summary>  
+		</member>
+		<member name="M:Unigine.BiMap.getMemoryUsage const">
+			<summary>
+			Shows the amount of memory used by the bimap in bytes.
+			</summary>  
+			<returns>Used memory in bytes.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.insert(Key,Type)">
+			<summary>
+			Inserts an item with a given key and value into the bimap. If the item with the given key already exists and its value differs from the given one, the value is replaced.
+			</summary> 
+			<param name="key"> Key. </param>
+			<param name="value"> Value. </param> 
+			<returns>Item iterator. If the item with the given key and value already exists in the bimap, its iterator will be returned.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.insert(Key,Type)">
+			<summary>
+			Inserts an item with a given key and value into the bimap. If the item with the given key already exists and its value differs from the given one, the value is replaced.
+			</summary> 
+			<param name="key"> Key. </param>
+			<param name="value"> Value. </param> 
+			<returns>Item iterator. If the item with the given key and value already exists in the bimap, its iterator will be returned.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.insert(Key,Type)">
+			<summary>
+			Inserts an item with a given key and value into the bimap. If the item with the given key already exists and its value differs from the given one, the value is replaced.
+			</summary> 
+			<param name="key"> Key. </param>
+			<param name="value"> Value. </param> 
+			<returns>Item iterator. If the item with the given key and value already exists in the bimap, its iterator will be returned.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.insert(Key,Type)">
+			<summary>
+			Inserts an item with a given key and value into the bimap. If the item with the given key already exists and its value differs from the given one, the value is replaced.
+			</summary> 
+			<param name="key"> Key. </param>
+			<param name="value"> Value. </param> 
+			<returns>Item iterator. If the item with the given key and value already exists in the bimap, its iterator will be returned.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.insert(BiMap)">
+			<summary>
+			Inserts a given bimap into the current one. If the item with the given key already exists in the current bimap and its value differs from the given one, the value is replaced.
+			</summary> 
+			<param name="m"> Bimap. </param> 
+		</member>
+		<member name="M:Unigine.BiMap.insert(BiMap)">
+			<summary>
+			Inserts a given bimap into the current one. If the item with the given key already exists in the current bimap and its value differs from the given one, the value is replaced.
+			</summary> 
+			<param name="m"> Bimap. </param> 
+		</member>
+		<member name="M:Unigine.BiMap.append(Key,Type)">
+			<summary>
+			Appends an item with a given key and value to the bimap. If the item with the given key already exists and its value differs from the given one, the value is replaced.
+			</summary> 
+			<param name="key"> Key. </param>
+			<param name="value"> Value. </param> 
+			<returns>Added item iterator. If the item with the given key and value already exists in the bimap, its iterator will be returned.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.append(Key,Type)">
+			<summary>
+			Appends an item with a given key and value to the bimap. If the item with the given key already exists and its value differs from the given one, the value is replaced.
+			</summary> 
+			<param name="key"> Key. </param>
+			<param name="value"> Value. </param> 
+			<returns>Added item iterator. If the item with the given key and value already exists in the bimap, its iterator will be returned.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.append(Key,Type)">
+			<summary>
+			Appends an item with a given key and value to the bimap. If the item with the given key already exists and its value differs from the given one, the value is replaced.
+			</summary> 
+			<param name="key"> Key. </param>
+			<param name="value"> Value. </param> 
+			<returns>Added item iterator. If the item with the given key and value already exists in the bimap, its iterator will be returned.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.append(Key,Type)">
+			<summary>
+			Appends an item with a given key and value to the bimap. If the item with the given key already exists and its value differs from the given one, the value is replaced.
+			</summary> 
+			<param name="key"> Key. </param>
+			<param name="value"> Value. </param> 
+			<returns>Added item iterator. If the item with the given key and value already exists in the bimap, its iterator will be returned.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.append(BiMap)">
+			<summary>
+			Appends a given bimap to the current one. If the item with the given key already exists in the current bimap and its value differs from the given one, the value is replaced.
+			</summary> 
+			<param name="m"> Bimap. </param> 
+		</member>
+		<member name="M:Unigine.BiMap.append(BiMap)">
+			<summary>
+			Appends a given bimap to the current one. If the item with the given key already exists in the current bimap and its value differs from the given one, the value is replaced.
+			</summary> 
+			<param name="m"> Bimap. </param> 
+		</member>
+		<member name="M:Unigine.BiMap.emplace(Key,Args)">
+			<summary>
+			Inserts an item with a specified key into the bimap. The new item value is constructed in-place with the given arguments avoiding unnecessary copying. If the item with the given key already exists and its value differs from the constructed one, the value is replaced.
+			</summary> 
+			<param name="key"> Key. </param>
+			<param name="args"> Arguments for an item value constructor. </param> 
+			<returns>Inserted item value. If the item already exists in the bimap, its iterator will be returned.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.emplace(Key,Args)">
+			<summary>
+			Inserts an item with a specified key into the bimap. The new item value is constructed in-place with the given arguments avoiding unnecessary copying. If the item with the given key already exists and its value differs from the constructed one, the value is replaced.
+			</summary> 
+			<param name="key"> Key. </param>
+			<param name="args"> Arguments for an item value constructor. </param> 
+			<returns>Inserted item value. If the item already exists in the bimap, its iterator will be returned.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.appendFast(Key,Type)">
+			<summary>
+			Appends an item with a given key and value to the bimap.
+			</summary> 
+			<param name="key"> Key. </param>
+			<param name="value"> Value. </param> 
+			<returns>Added item iterator.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.appendFast(Key,Type)">
+			<summary>
+			Appends an item with a given key and value to the bimap.
+			</summary> 
+			<param name="key"> Key. </param>
+			<param name="value"> Value. </param> 
+			<returns>Added item iterator.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.appendFast(Key,Type)">
+			<summary>
+			Appends an item with a given key and value to the bimap.
+			</summary> 
+			<param name="key"> Key. </param>
+			<param name="value"> Value. </param> 
+			<returns>Added item iterator.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.appendFast(Key,Type)">
+			<summary>
+			Appends an item with a given key and value to the bimap.
+			</summary> 
+			<param name="key"> Key. </param>
+			<param name="value"> Value. </param> 
+			<returns>Added item iterator.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.appendFast(BiMap)">
+			<summary>
+			Appends a given bimap to the current one.
+			</summary> 
+			<param name="m"> Bimap. </param> 
+		</member>
+		<member name="M:Unigine.BiMap.appendFast(BiMap)">
+			<summary>
+			Appends a given bimap to the current one.
+			</summary> 
+			<param name="m"> Bimap. </param> 
+		</member>
+		<member name="M:Unigine.BiMap.emplaceFast(Key,Args)">
+			<summary>
+			Inserts an item with a specified key into the bimap. The new item value is constructed in-place with the given arguments avoiding unnecessary copying.
+			</summary> 
+			<param name="key"> Key. </param>
+			<param name="args"> Arguments for an item value constructor. </param> 
+			<returns>Inserted item value.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.emplaceFast(Key,Args)">
+			<summary>
+			Inserts an item with a specified key into the bimap. The new item value is constructed in-place with the given arguments avoiding unnecessary copying.
+			</summary> 
+			<param name="key"> Key. </param>
+			<param name="args"> Arguments for an item value constructor. </param> 
+			<returns>Inserted item value.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.contains(T) const">
+			<summary>
+			Checks if an item with a given key exists in the bimap.
+			</summary> 
+			<param name="key"> Key. </param> 
+			<returns>Returns 1 if the item exists; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.contains(TypeKey,Type) const">
+			<summary>
+			Checks if an item with a given key and value exists in the bimap.
+			</summary> 
+			<param name="key"> Key. </param>
+			<param name="value"> Value. </param> 
+			<returns>Returns 1 if the item exists; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.replace(TypeKey,TypeValue)">
+			<summary>
+			Searches for an item with a given key in the bimap and replaces its value with a given one.
+			</summary> 
+			<param name="key"> Key. </param>
+			<param name="value"> Value. </param> 
+			<returns>Item iterator.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.replaceData(TypeKey,TypeValue)">
+			<summary>
+			Searches for an item with a given value in the bimap and replaces its key with a given one.
+			</summary> 
+			<param name="key"> Key. </param>
+			<param name="value"> Value. </param> 
+			<returns>Item iterator.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.operator[](Key) const">
+			<summary>
+			Bimap item access.
+			</summary> 
+			<param name="key"> Key. </param> 
+			<returns>Accessed item value.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.get(Key) const">
+			<summary>
+			Returns a value by a given key.
+			</summary> 
+			<param name="key"> Key. </param> 
+			<returns>Value.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.getKey(Type) const">
+			<summary>
+			Returns a key by a given value.
+			</summary> 
+			<param name="value"> Value. </param> 
+			<returns>Key.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.findData(T)">
+			<summary>
+			Searches for an item with a given value in the bimap.
+			</summary> 
+			<param name="v"> Value. </param> 
+			<returns>Item iterator.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.findData(T) const">
+			<summary>
+			Searches for an item with a given value in the bimap.
+			</summary> 
+			<param name="v"> Value. </param> 
+			<returns>Item iterator.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.containsData(T) const">
+			<summary>
+			Checks if an item with a specified value exists in the bimap.
+			</summary> 
+			<param name="v"> Value. </param> 
+			<returns>Returns 1 if the item exists; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.remove(Key)">
+			<summary>
+			Removes an item with a given key from the bimap.
+			</summary> 
+			<param name="key"> Key. </param> 
+			<returns>Returns 1 if the item is removed successfully; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.remove(Iterator)">
+			<summary>
+			Removes a given item from the bimap.
+			</summary> 
+			<param name="it"> Item iterator. </param> 
+			<returns>Returns 1 if the item is removed successfully; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.remove(ConstIterator)">
+			<summary>
+			Removes a given item from the bimap.
+			</summary> 
+			<param name="it"> Item iterator. </param> 
+			<returns>Returns 1 if the item is removed successfully; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.erase(Key)">
+			<summary>
+			Removes an item by the given key from the bimap.
+			</summary> 
+			<param name="key"> Key. </param> 
+			<returns>Returns 1 if the item is deleted successfully; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.erase(Iterator)">
+			<summary>
+			Removes a given item from the bimap.
+			</summary> 
+			<param name="it"> Item iterator. </param> 
+			<returns>Iterator of the item following the removed one.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.erase(ConstIterator)">
+			<summary>
+			Removes a given item from the bimap.
+			</summary> 
+			<param name="it"> Item iterator. </param> 
+			<returns>Iterator of the item following the removed one.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.removeData(Type)">
+			<summary>
+			Removes an item with a given value from the bimap.
+			</summary> 
+			<param name="value"> Value. </param> 
+			<returns>Returns 1 if the item is removed successfully; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.take(Key)">
+			<summary>
+			Removes an item with a given key from the bimap and returns its value.
+			</summary> 
+			<param name="key"> Key. </param> 
+			<returns>Removed item value.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.take(Key,Type)">
+			<summary>
+			Removes an item with a given key from the bimap and writes the item value to the second argument.
+			</summary> 
+			<param name="key"> Key. </param>
+			<param name="ret"> Removed item value. </param> 
+			<returns>Returns 1 if the item is removed successfully; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.takeData(Type)">
+			<summary>
+			Removes an item with a given value from the bimap and returns its key.
+			</summary> 
+			<param name="value"> Value. </param> 
+			<returns>Removed item key.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.takeData(Type,Key)">
+			<summary>
+			Removes an item with a given value from the bimap and writes the item key to the second argument.
+			</summary> 
+			<param name="value"> Value. </param>
+			<param name="ret"> Removed item key. </param> 
+			<returns>Returns 1 if the item is removed successfully; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.value(Key) const">
+			<summary>
+			Returns a value mapped to a given key in the bimap. If there is no such key, returns a default-constructed value.
+			</summary> 
+			<param name="key"> Key. </param> 
+			<returns>Value.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.value(Key,Type) const">
+			<summary>
+			Returns a value mapped to a given key in the bimap. If there is no such key, returns a default value.
+			</summary> 
+			<param name="key"> Key. </param>
+			<param name="def"> Default value. </param> 
+			<returns>Value.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.valueRef(Key,Type) const">
+			<summary>
+			Returns a value mapped to a given key in the bimap. If there is no such key, returns a default value.
+			</summary> 
+			<param name="key"> Key. </param>
+			<param name="def"> Default value. </param> 
+			<returns>Value.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.key(Type) const">
+			<summary>
+			Returns a key mapped to a given value in the bimap. If there is no such value, returns a default-constructed key.
+			</summary> 
+			<param name="value"> Value. </param> 
+			<returns>Key.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.key(Type,Key) const">
+			<summary>
+			Returns a key mapped to a given value in the bimap. If there is no such value, returns a default key.
+			</summary> 
+			<param name="value"> Value. </param>
+			<param name="def"> Default key. </param> 
+			<returns>Key.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.keyRef(Type,Key) const">
+			<summary>
+			Returns a key mapped to a specified value in the bimap. If there is no such value, returns a default key.
+			</summary> 
+			<param name="value"> Value. </param>
+			<param name="def"> Default key. </param> 
+			<returns>Key.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.values const">
+			<summary>
+			Returns a vector of all values of the bimap.
+			</summary>  
+			<returns>Vector of bimap values.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.getValues(Unigine.Vector{Type,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Appends the bimap values to a given vector.
+			</summary> 
+			<param name="values"> Vector of bimap values. </param> 
+		</member>
+		<member name="M:Unigine.BiMap.getPairs(Unigine.Vector{Pair{Key,Type},int,Unigine.VectorAllocator}) const">
+			<summary>
+			Appends the bimap key-value pairs to a given vector.
+			</summary> 
+			<param name="pairs"> Vector of bimap key-value pairs. </param> 
+		</member>
+		<member name="M:Unigine.BiMap.operator==(BiMap) const">
+			<summary>
+			Checks if two bimaps are equal. The bimaps are considered equal if their key-value pairs are the same.
+			</summary> 
+			<param name="o"> Bimap. </param> 
+			<returns>Returns 1 if bimaps are equal; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.BiMap.operator!=(BiMap) const">
+			<summary>
+			Checks if two bimaps are not equal. The bimaps are considered equal if their key-value pairs are the same.
+			</summary> 
+			<param name="o"> Bimap. </param> 
+			<returns>Returns 1 if bimaps are not equal; otherwise, 0 is returned.</returns>
+		</member>
+	</members>
+</doc>

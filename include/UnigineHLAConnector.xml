@@ -1,0 +1,378 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.IG.HLA.Connector.init(int,char,char,char)">
+			<summary>
+			Initializes the HLA Connector using the given parameters.
+			</summary> 
+			<param name="version"> Callback type. One of the following values: RTI13, RTI1516, or RTI1516E. </param>
+			<param name="fom_path"> path to FOM file (.fed or .xml, depends on version) </param>
+			<param name="federate_name"> name of the current instance </param>
+			<param name="federation_execution_name"> name of the group of federates with the same FOM.OpenRTI uses names like "rti://fedExecName", Pitch RTI uses simple "fedExecName". </param> 
+			<returns>1 if the HLA Connector was initialized successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.setTimeRegulation(bool,bool)">
+			<summary>
+			Sets time management mode for the federate. In general, a federate may be "regulating," "constrained," "regulating and constrained," or "neither regulating nor constrained.
+			</summary> 
+			<param name="start_constrained"> Constrained flag: true if the federate is a constrained one (can receive TSO messages); otherwise, false. </param>
+			<param name="start_regulating"> Regulating flag: true if the federate is a regulating one (can send TSO messages); otherwise, false. </param> 
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.isConstrained">
+			<summary>
+			Returns a value indicating if the federate is a constrained one, i.e. can receive TSO (time-stamped order) messages.
+			</summary>  
+			<returns>1 if the federate is a constrained one; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.isRegulating">
+			<summary>
+			Returns a value indicating if the federate is a regulating one, i.e. can send TSO (time-stamped order) messages.
+			</summary>  
+			<returns>1 if the federate is a regulating one; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.setTimeStep(double)">
+			<summary>
+			Sets a lookahead value for a regulating federate, this value determines the frequency of calling the timeAdvanceRequest() method.
+			</summary> 
+			<param name="time_step"> Enable flag. Use 1 to show the debug window, or 0 - to hide it. </param> 
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.getLocalTime">
+			<summary>
+			Returns the local time of the current federate.
+			</summary>  
+			<returns>Local time of the current federate.</returns>
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.registerFederationSynchronizationPoint(char,char)">
+			<summary>
+			Registers a new synchronization point for all federates.
+			</summary> 
+			<param name="label"> String uniquely identifying the synchronization point. </param>
+			<param name="tag"> User-supplied tag. </param> 
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.registerFederationSynchronizationPoint(char,char,Unigine.Vector{unsignedlong,int,Unigine.VectorAllocator})">
+			<summary>
+			Registers a new synchronization point.
+			</summary> 
+			<param name="label"> String uniquely identifying the synchronization point. </param>
+			<param name="tag"> User-supplied tag. </param>
+			<param name="sync_set"> List containing handles of federates to synchronize. </param> 
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.synchronizationPointAchieved(char)">
+			<summary>
+			Sends a message that specified synchronization point was successfully achieved with all requirements fulfilled.
+			</summary> 
+			<param name="label"> String uniquely identifying the synchronization point. </param> 
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.getInteractionClassHandle(char)">
+			<summary>
+			Returns interaction class handle.
+			</summary> 
+			<param name="name"> Interaction class name. </param> 
+			<returns>Interaction class handle.</returns>
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.getParameterHandle(char,unsignedlong)">
+			<summary>
+			Returns parameter handle.
+			</summary> 
+			<param name="name"> Parameter name. </param>
+			<param name="which_class"> Class to which the parameter belongs. </param> 
+			<returns>Handle of the specified parameter.</returns>
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.getObjectClassHandle(char)">
+			<summary>
+			Returns object class handle.
+			</summary> 
+			<param name="name"> Object class name </param> 
+			<returns>Handle of the specified object class.</returns>
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.getAttributeHandle(char,unsignedlong)">
+			<summary>
+			Returns attribute handle.
+			</summary> 
+			<param name="name"> Attribute name. </param>
+			<param name="which_class"> Class to which the attribute belongs. </param> 
+			<returns>Handle of the specified attribute.</returns>
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.publishAndSubscribeObject(unsignedlong,int)">
+			<summary>
+			Publish and subscribe for the specified Object Class.
+			</summary> 
+			<param name="handle_id"> Handle ID. </param>
+			<param name="attributes"> List of attributes. </param> 
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.publishObject(unsignedlong,int)">
+			<summary>
+			Publish the specified Object Class.
+			</summary> 
+			<param name="handle_id"> Handle ID. </param>
+			<param name="attributes"> List of attributes. </param> 
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.subscribeObject(unsignedlong,int)">
+			<summary>
+			Subscribe for the specified Object Class.
+			</summary> 
+			<param name="handle_id"> Handle ID. </param>
+			<param name="attributes"> List of attributes. </param> 
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.publishAndSubscribeInteraction(unsignedlong)">
+			<summary>
+			Publish and subscribe for the specified Interaction Class.
+			</summary> 
+			<param name="handle_id"> Class handle ID. </param> 
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.publishInteraction(unsignedlong)">
+			<summary>
+			Publish the specified Interaction Class.
+			</summary> 
+			<param name="handle_id"> Class handle ID. </param> 
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.subscribeInteraction(unsignedlong)">
+			<summary>
+			Subscribe to the specified Interaction Class.
+			</summary> 
+			<param name="handle_id"> Class handle ID. </param> 
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.registerObjectInstance(unsignedlong,char)">
+			<summary>
+			Registers a new object instance instance with the specified name.
+			</summary> 
+			<param name="class_handle_id"> Class handle ID. </param>
+			<param name="name"> Object name. </param> 
+			<returns>Object handle.</returns>
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.updateAttributeValues(unsignedlong,int,char)">
+			<summary>
+			Updates attribute values for the specified object instance.
+			</summary> 
+			<param name="object_id"> Object ID. </param>
+			<param name="attributes"> List of attributes. </param>
+			<param name="tag"> User-supplied tag. </param> 
+			<returns>1 if the specified attribute values were updated successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.updateAttributeValues(unsignedlong,int,double,char)">
+			<summary>
+			Updates attribute values for the specified object instance.
+			</summary> 
+			<param name="object_id"> Object ID. </param>
+			<param name="attributes"> List of attributes. </param>
+			<param name="time"> Federation time. </param>
+			<param name="tag"> User-supplied tag. </param> 
+			<returns>1 if the specified attribute values were updated successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.deleteObjectInstance(unsignedlong,char)">
+			<summary>
+			Deletes the specified object instance.
+			</summary> 
+			<param name="object_id"> Object ID. </param>
+			<param name="tag"> User-supplied tag. </param> 
+			<returns>1 if the specified object instance was deleted successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.deleteObjectInstance(unsignedlong,double,char)">
+			<summary>
+			Deletes the specified object instance.
+			</summary> 
+			<param name="object_id"> Object ID. </param>
+			<param name="time"> Federation time. </param>
+			<param name="tag"> User-supplied tag. </param> 
+			<returns>1 if the specified object instance was deleted successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.sendInteraction(unsignedlong,int,char)">
+			<summary>
+			Sends an interaction with the specified parameters.
+			</summary> 
+			<param name="handle_id"> Handle ID. </param>
+			<param name="parameters"> List of parameters. </param>
+			<param name="tag"> User-supplied tag. </param> 
+			<returns>1 if interaction was sent successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.sendInteraction(unsignedlong,int,double,char)">
+			<summary>
+			Sends an interaction with the specified parameters.
+			</summary> 
+			<param name="handle_id"> Handle ID. </param>
+			<param name="parameters"> List of parameters. </param>
+			<param name="time"> Federation time. </param>
+			<param name="tag"> User-supplied tag. </param> 
+			<returns>1 if interaction was sent successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.enableTimeRegulation(double,double)">
+			<summary>
+			Enables time regulation mode for the federate.
+			</summary> 
+			<param name="federate_time"> Federate time. </param>
+			<param name="lookahead"> Lookahead value for a regulating federate, this value determines the frequency of calling the timeAdvanceRequest() method. </param> 
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.disableTimeRegulation">
+			<summary>
+			Disables time regulation mode for the federate.
+			</summary>  
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.enableTimeConstrained">
+			<summary>
+			Enables time-constrained mode for the federate.
+			</summary>  
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.disableTimeConstrained">
+			<summary>
+			Disables time-constrained mode for the federate.
+			</summary>  
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.timeAdvanceRequest(double)">
+			<summary>
+			Issues a Time Advance Request for the federate.						This method is used by time-stepped federates.
+			</summary> 
+			<param name="time"> Time value. </param> 
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.timeAdvanceRequestAvailable(double)">
+			<summary>
+			Enables time regulation mode for the federate.						This method is used by time-stepped federates.
+			</summary> 
+			<param name="time"> Time value. </param> 
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.nextEventRequest(double)">
+			<summary>
+			Advances the federate’s logical time to the time-stamp of the next relevant TSO event in the federation.						This method is used by event-based federates.
+			</summary> 
+			<param name="time"> Time stamp of the next local event the federate wishes to advance to. </param> 
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.nextEventRequestAvailable(double)">
+			<summary>
+			Advances the federate’s logical time to the time-stamp of the next relevant TSO event in the federation. The method is similar to nextEventRequest(), except that a time advance might be granted before all TSO events at the grant time have been delivered to the federate.This method is used by event-based federates.
+			</summary> 
+			<param name="time"> Time stamp of the next local event the federate wishes to advance to. </param> 
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.flushQueueRequest(double)">
+			<summary>
+			Process all federation events regardless of time.
+			</summary> 
+			<param name="time"> Time value. </param> 
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.enableAsynchronousDelivery">
+			<summary>
+			Instructs the LRC to begin delivering receive-ordered events to the federate even while no time-advancement service is in progress.
+			</summary>  
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.disableAsynchronousDelivery">
+			<summary>
+			Instructs  the  LRC  not  to  deliver  receive-ordered  events  in  the  absense of an in-progress time-advancement service. This has only a meaning for time-constrained federates, since non-constrained federates receive all events in receive order.
+			</summary>  
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.modifyLookahead(double)">
+			<summary>
+			Sets the new lookahead window for the federate.
+			</summary> 
+			<param name="lookahead"> New  size  of  the  interval  extending  forward  from  the  federate’s  logical  time  at  a  given  point  in execution in which a federate will not generate any time stamp ordered events. </param> 
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.queryLookahead(double)">
+			<summary>
+			Returns the current lookahead window being used for the federate.
+			</summary> 
+			<param name="lookahead"> Time value. </param> 
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.addCallback(int,Unigine.CallbackBase)">
+			<summary>
+			Adds a callback function of the specified type.
+			</summary> 
+			<param name="callback"> Callback type. One of the CALLBACK_* variables. </param>
+			<param name="func"> Callback pointer. </param> 
+			<returns>Pointer to the added callback.</returns>
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.removeCallback(int,Unigine.CallbackBase)">
+			<summary>
+			Removes a specified callback function of the specified type.
+			</summary> 
+			<param name="callback"> Callback type. One of the CALLBACK_* variables. </param>
+			<param name="func"> Callback pointer. </param> 
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.clearCallbacks(int)">
+			<summary>
+			Clears all callback functions of the specified type.
+			</summary> 
+			<param name="callback"> Callback type. One of the CALLBACK_* variables. </param> 
+		</member>
+		<member name="M:Unigine.IG.HLA.Connector.shutdown">
+			<summary>
+			Shuts down the HLA Connector.
+			</summary>  
+			<returns>1 if the HLA Connector was shut down successfully; otherwise, 0.</returns>
+		</member>
+		<member name="F:Unigine.IG.HLA.Connector.RTI13">
+			<summary>
+			HLA version 1.3.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.HLA.Connector.RTI1516">
+			<summary>
+			HLA version IEEE 1516.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.HLA.Connector.RTI1516E">
+			<summary>
+			HLA version IEEE 1516e.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.HLA.Connector.CALLBACK_DISCOVER_OBJECT_INSTANCE">
+			<summary>
+			Discover Object Instance event callback.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.HLA.Connector.CALLBACK_REFLECT_ATTRIBUTE_VALUES">
+			<summary>
+			Reflect Attribute Values event callback.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.HLA.Connector.CALLBACK_RECEIVE_INTERACTION">
+			<summary>
+			Receive Interaction event callback.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.HLA.Connector.CALLBACK_REMOVE_OBJECT_INSTANCE">
+			<summary>
+			Remove Object Instance event callback.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.HLA.Connector.CALLBACK_SYNC_POINT_REG_SUCCEEDED">
+			<summary>
+			Synchronization Point Registration Succeeded event callback.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.HLA.Connector.CALLBACK_SYNC_POINT_REG_FAILED">
+			<summary>
+			Synchronization Point Registration Failed event callback.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.HLA.Connector.CALLBACK_SYNC_ANNOUNCE_SYNC_POINT">
+			<summary>
+			Announce Synchronization Point event callback.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.HLA.Connector.CALLBACK_FEDERATION_SYNCHRONIZED">
+			<summary>
+			Federation Synchronized event callback.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.HLA.Connector.CALLBACK_TIME_REGULATION_ENABLED">
+			<summary>
+			Time Regulation Enabled event callback.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.HLA.Connector.CALLBACK_TIME_CONSTRAINED_ENABLED">
+			<summary>
+			Time Constrained Enadled event callback.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.HLA.Connector.CALLBACK_TIME_ADVANCE_GRANT">
+			<summary>
+			Time Advance event callback.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.HLA.Connector.CALLBACK_REQUEST_RETRACTION">
+			<summary>
+			Request Retraction event callback.
+		</summary>
+		</member>
+	</members>
+</doc>

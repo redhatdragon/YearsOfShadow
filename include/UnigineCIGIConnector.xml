@@ -1,0 +1,878 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.IG.CIGI.Connector.init(int,char,int,int,int)">
+			<summary>
+			Initializes the CIGI Connector using the given parameters.
+			</summary> 
+			<param name="version"> CIGI protocol version. One of the CIGI_VERSION_* values. </param>
+			<param name="host"> CIGI Host address. </param>
+			<param name="send"> TCP port number to be used for sending packets to the CIGI Host. </param>
+			<param name="recv"> TCP port number to be used for receiving packets from the CIGI Host. </param>
+			<param name="size"> Packet size. The default value is 1432. </param> 
+			<returns>1 if the CIGI Connector was initialized successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.shutdown">
+			<summary>
+			Returns a value indicating if the CIGI Connector was shutdown successfully.
+			</summary>  
+			<returns>true if the CIGI Connector was shutdown successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.isInitialized const">
+			<summary>
+			Returns a value indicating if the CIGI Connector was initialized successfully.
+			</summary>  
+			<returns>true if the CIGI Connector was initialized successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.setIGMode(CIGI::CIGI_MODE)">
+			<summary>
+			Sets the current IG mode.
+			</summary> 
+			<param name="mode"> IG mode. One of the CIGI_MODE_* values. </param> 
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.getIGMode const">
+			<summary>
+			Returns the current IG mode.
+			</summary>  
+			<returns>IG mode. One of the CIGI_MODE_* values.</returns>
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.setIGStatus(int)">
+			<summary>
+			Sets the current IG status.
+			</summary> 
+			<param name="status"> IG status. The following values are supported:0 - normal1-255 - an error has occurred </param> 
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.getIGStatus const">
+			<summary>
+			Returns the current IG status.
+			</summary>  
+			<returns>IG status. The following values are supported:0 - normal1-255 - an error has occurred</returns>
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.setSynchronous(bool)">
+			<summary>
+			Sets a value indicating if synchronous operation mode is currently enabled (when disabled, asynchronous mode is used).
+			</summary> 
+			<param name="synchronous"> true to enable synchronous operation mode; false - to use asynchronous mode. </param> 
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.isSynchronous const">
+			<summary>
+			Returns a value indicating if synchronous operation mode is currently enabled (when disabled, asynchronous mode is used).
+			</summary>  
+			<returns>true if synchronous operation mode is currently enabled; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.isInterpolation const">
+			<summary>
+			Returns a value indicating if interpolation and extrapolation are enabled.
+			</summary>  
+			<returns>true if interpolation and extrapolation are enabled; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.getIGFrame const">
+			<summary>
+			Returns the number of the current frame for the IG.
+			</summary>  
+			<returns>Current IG frame number.</returns>
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.getHostFrame const">
+			<summary>
+			Returns the number of the current frame for the Host.
+			</summary>  
+			<returns>Current Host frame number.</returns>
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.getTime const">
+			<summary>
+			Returns the IG's simulation time.
+			</summary>  
+			<returns>IG's simulation time, in seconds.</returns>
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.getLastReceivedHostTime const">
+			<summary>
+			Returns the last received Host time (timestamp value in "IG Control").
+			</summary>  
+			<returns>Last received Host time, in seconds.</returns>
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.addOnConnectCallback(Unigine.CallbackBase)">
+			<summary>
+			Adds a callback function to be fired when the Host has connected.
+			</summary> 
+			<param name="func"> Callback pointer. </param> 
+			<returns>ID of the last added connect callback, if the callback was added successfully; otherwise, nullptr. This ID can be used to remove this callback when necessary.</returns>
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.removeOnConnectCallback(void)">
+			<summary>
+			Removes the specified callback from the list of Connect callbacks.
+			</summary> 
+			<param name="id"> Connect callback ID obtained when adding it. </param> 
+			<returns>True if the Connect callback with the given ID was removed successfully; otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.addOnReceivePacketCallback(int,Unigine.CallbackBase1{})">
+			<summary>
+			Sets a callback function to be fired when a packet of the specified type has been received from the Host.
+			</summary> 
+			<param name="cigi_opcode"> CIGI data packet opcode. One of the CIGI_OPCODE_* values. </param>
+			<param name="func"> Callback pointer. The callback function must have the following signature:(Unigine::Plugins::IG::CIGI::CigiHostPacket *packet) </param> 
+			<returns>ID of the last added Receive Packet callback, if the callback was added successfully; otherwise, nullptr. This ID can be used to remove this callback when necessary.</returns>
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.removeOnReceivePacketCallback(void)">
+			<summary>
+			Removes the specified callback from the list of Receive Packet callbacks.
+			</summary> 
+			<param name="id"> Receive Packet callback ID obtained when adding it. </param> 
+			<returns>true if the Receive Packet callback with the given ID was removed successfully; otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.addOnSendPacketCallback(int,Unigine.CallbackBase4{})">
+			<summary>
+			Sets a callback function to be fired right before sending a response to a request. This can be used to send additional data required by a host (e.g., velocities of the point of intersection for LOS/HAT queries which is useful in case of landing on a moving platform).						A callback function has the following signature:						(bool &ret, IG::CIGI::CigiIGPacket *response, IG::CIGI::CigiHostPacket *request, IG::IGIntersection *intersection)													ret - boolean value indicating if the packet is to be sent or not;							response - the packet to be sent;							request - request for which a packet is to be sent as a response (can be nullptr);							intersection - additional info on intersection (if necessary).
+			</summary> 
+			<param name="cigi_opcode"> CIGI data packet opcode. One of the CIGI_OPCODE_* values. </param>
+			<param name="func"> Callback pointer. The callback function must have the following signature:(bool &ret, IG::CIGI::CigiIGPacket *response, IG::CIGI::CigiHostPacket *request, IG::IGIntersection *intersection) </param> 
+			<returns>ID of the last added Send Packet callback, if the callback was added successfully; otherwise, nullptr. This ID can be used to remove this callback when necessary.</returns>
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.removeOnSendPacketCallback(void)">
+			<summary>
+			Removes the specified callback from the list of Send Packet callbacks.
+			</summary> 
+			<param name="id"> Send Packet callback ID obtained when adding it. </param> 
+			<returns>True if the Send Packet callback with the given ID was removed successfully; otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.getNumHostPackets">
+			<summary>
+			Returns the total number of packets received from the Host.
+			</summary>  
+			<returns>Total number of packets received from the Host.</returns>
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.getHostPacket(int)">
+			<summary>
+			Returns the specified CIGI Host packet.
+			</summary> 
+			<param name="num"> ID of the Host packet. </param> 
+			<returns>CIGI Host packet.</returns>
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.createIGPacket(int)">
+			<summary>
+			Creates IG Packet to be sent to the Host.
+			</summary> 
+			<param name="ig_opcode"> IG opcode, one of CIGI_OPCODE_* values. </param> 
+			<returns>IG Packet to be sent to the Host.</returns>
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.addIGPacket(CigiIGPacket)">
+			<summary>
+			Sends the specified IG packet to the Host.
+			</summary> 
+			<param name="packet"> IG Packet to be sent to the Host. </param> 
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.setProcessPacket(int,bool)">
+			<summary>
+			Sets a value indicating if the specified IG packets received are to be processed or skipped.
+			</summary> 
+			<param name="op_code"> IG opcode, one of CIGI_OPCODE_* values. </param>
+			<param name="enabled"> true to process packets of the specified type, false to skip them.  </param> 
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.showDebug">
+			<summary>
+			Displays the debug information.
+			</summary>  
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.setWeatherLayerType(int,CigiWeatherLayerType)">
+			<summary>
+			</summary> 
+			<param name="id"> Weather layer ID. </param>
+			<param name="type"> Weather layer type, one of the following values:Plugins::IG::WeatherLayerType::LAYER_BASE - base layer.Plugins::IG::WeatherLayerType::LAYER_CLOUD - cloud layer.Plugins::IG::WeatherLayerType::LAYER_PRECIPITATION - precipitation layer. </param> 
+		</member>
+		<member name="M:Unigine.IG.CIGI.Connector.getWeatherLayerType(int) const">
+			<summary>
+			</summary> 
+			<param name="id"> Weather layer ID. </param> 
+			<returns>Weather layer type, one of the following values:Plugins::IG::WeatherLayerType::LAYER_BASE - base layer.Plugins::IG::WeatherLayerType::LAYER_CLOUD - cloud layer.Plugins::IG::WeatherLayerType::LAYER_PRECIPITATION - precipitation layer.</returns>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_VERSION_30">
+			<summary>
+			CIGI protocol version 3.0.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_VERSION_32">
+			<summary>
+			CIGI protocol version 3.2.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_VERSION_33">
+			<summary>
+			CIGI protocol version 3.3.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_MODE_STANDBY">
+			<summary>
+			Standby mode of the IG. This is the normal real-time operating mode for the IG. All packets issued by the Host will be processed by the IG. The IG should not perform diagnostics in this mode.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_MODE_OPERATE">
+			<summary>
+			Operate mode of the IG. This is the normal real-time operating mode for the IG. All packets issued by the Host will be processed by the IG. The IG should not perform diagnostics in this mode.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_MODE_DEBUG">
+			<summary>
+			Debug mode of the IG. This mode is similar to the Operate mode but provides data and/or error logging and other debugging features to aid integration or troubleshooting of the Host and IG interface. Because of the overhead of these debugging features, the IG may not always operate in a hard real-time fashion.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_MODE_OFFLINE">
+			<summary>
+			Offline Maintenance mode of the IG. In this mode, the IG ignores all data from the Host and sends only Start of Frame packets. This mode can be activated only from the IG. Because the IG Control packets from the Host are ignored by the IG, the IG must be placed into Reset/Standby mode before the Host can initiate further mode changes.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_IG_CONTROL">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_ENTITY_CONTROL">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_ENTITY_CLAMPED_CONTROL">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_COMPONENT_CONTROL">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_COMPONENT_SHORT_CONTROL">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_ARTICULATED_CONTROL">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_ARTICULATED_SHORT_CONTROL">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_RATE_CONTROL">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_CELESTIAL_CONTROL">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_ATMOSPHERE_CONTROL">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_ENVIRONMENT_CONTROL">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_WEATHER_CONTROL">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_MARITIME_CONTROL">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_WAVE_CONTROL">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_TERRESTRIAL_CONTROL">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_VIEW_CONTROL">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_SENSOR_CONTROL">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_TRACKER_CONTROL">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_EARTH_MODEL_DEF">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_TRAJECTORY_DEF">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_VIEW_DEF">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_SEGMENT_DEF">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_VOLUME_DEF">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_HAT_HOT_REQUEST">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_LOS_SEGMENT_REQUEST">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_LOS_VECTOR_REQUEST">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_POSITION_REQUEST">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_ENVIRONMENT_REQUEST">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_SYMBOL_SURFACE_DEF">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_SYMBOL_TEXT_DEF">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_SYMBOL_CIRCLE_DEF">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_SYMBOL_LINE_DEF">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_SYMBOL_CLONE">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_SYMBOL_CONTROL">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_SYMBOL_SHORT_CONTROL">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_ENVIRONMENT_POLYGON_CONTROL">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_USER_DEFINED">
+			<summary>
+			CIGI Host packet opcode (id of incoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_STATE_DISABLED">
+			<summary>
+			Entity state - disabled.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_STATE_ENABLED">
+			<summary>
+			Entity state - enabled.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_STATE_DESTROYED">
+			<summary>
+			Entity state - destroyed.
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_START_OF_FRAME">
+			<summary>
+			CIGI IG packet opcode (id of outcoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_HAT_HOT_RESPONSE">
+			<summary>
+			CIGI IG packet opcode (id of outcoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_HAT_HOT_EXT_RESPONSE">
+			<summary>
+			CIGI IG packet opcode (id of outcoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_LOS_RESPONSE">
+			<summary>
+			CIGI IG packet opcode (id of outcoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_LOS_EXT_RESPONSE">
+			<summary>
+			CIGI IG packet opcode (id of outcoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_SENSOR_RESPONSE">
+			<summary>
+			CIGI IG packet opcode (id of outcoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_SENSOR_EXT_RESPONSE">
+			<summary>
+			CIGI IG packet opcode (id of outcoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_POSITION_RESPONSE">
+			<summary>
+			CIGI IG packet opcode (id of outcoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_WEATHER_RESPONSE">
+			<summary>
+			CIGI IG packet opcode (id of outcoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_AEROSOL_RESPONSE">
+			<summary>
+			CIGI IG packet opcode (id of outcoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_MARITIME_RESPONSE">
+			<summary>
+			CIGI IG packet opcode (id of outcoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_TERRESTRIAL_RESPONSE">
+			<summary>
+			CIGI IG packet opcode (id of outcoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_SEGMENT_NOTIFY">
+			<summary>
+			CIGI IG packet opcode (id of outcoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_VOLUME_NOTIFY">
+			<summary>
+			CIGI IG packet opcode (id of outcoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_ANIMATION_NOTIFY">
+			<summary>
+			CIGI IG packet opcode (id of outcoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_EVENT_NOTIFY">
+			<summary>
+			CIGI IG packet opcode (id of outcoming packets).
+		</summary>
+		</member>
+		<member name="F:Unigine.IG.CIGI.Connector.CIGI_OPCODE_IG_MESSAGE">
+			<summary>
+			CIGI IG packet opcode (id of outcoming packets).
+		</summary>
+		</member>
+		<member name="M:Unigine.CigiAerosolResponse.setRequestID(int)">
+			<summary>
+			Sets the value of the Request ID parameter to be specified in the packet.
+			</summary> 
+			<param name="id"> Request ID parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiAerosolResponse.setLayerID(int)">
+			<summary>
+			Sets the value of the Layer ID parameter to be specified in the packet.
+			</summary> 
+			<param name="id"> Layer ID parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiAerosolResponse.setAerosol(float)">
+			<summary>
+			Sets the value of the Aerosol Concentration parameter to be specified in the packet.
+			</summary> 
+			<param name="a"> Aerosol Concentration parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiAnimationNotify.setEntityID(int)">
+			<summary>
+			Sets the entity ID of the animation that has stopped.
+			</summary> 
+			<param name="id"> Entity ID of the animation that has stopped. </param> 
+		</member>
+		<member name="M:Unigine.CigiEventNotify.setEventID(int)">
+			<summary>
+			Sets ID for the event.
+			</summary> 
+			<param name="id"> ID of the event. </param> 
+		</member>
+		<member name="M:Unigine.CigiEventNotify.setData1(unsignedint)">
+			<summary>
+			Adds a set of data to the event.
+			</summary> 
+			<param name="d"> Data added to the event. </param> 
+		</member>
+		<member name="M:Unigine.CigiEventNotify.setData2(unsignedint)">
+			<summary>
+			Adds a set of data to the event.
+			</summary> 
+			<param name="d"> Data added to the event. </param> 
+		</member>
+		<member name="M:Unigine.CigiEventNotify.setData3(unsignedint)">
+			<summary>
+			Adds a set of data to the event.
+			</summary> 
+			<param name="d"> Data added to the event. </param> 
+		</member>
+		<member name="M:Unigine.CigiHatHotExtResponse.setHatHotID(int)">
+			<summary>
+			Sets the value of the HAT/HOT ID parameter to be specified in the packet.
+			</summary> 
+			<param name="id"> HAT/HOT ID parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiHatHotExtResponse.setResponseValid(int)">
+			<summary>
+			Sets the value of the Response Valid parameter to be specified in the packet.
+			</summary> 
+			<param name="valid"> Response Valid parameter value. The following values are supported:0 - invalid (update period limit is exceeded)1 - valid (update period limit is not exceeded) </param> 
+		</member>
+		<member name="M:Unigine.CigiHatHotExtResponse.setHeightAbove(double)">
+			<summary>
+			Sets the value of the HAT parameter to be specified in the packet.
+			</summary> 
+			<param name="height"> HAT parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiHatHotExtResponse.setHeightOf(double)">
+			<summary>
+			Sets the value of the HOT parameter to be specified in the packet.
+			</summary> 
+			<param name="height"> HOT parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiHatHotExtResponse.setAzimuth(float)">
+			<summary>
+			Sets the value of the Normal Vector Azimuth parameter to be specified in the packet.
+			</summary> 
+			<param name="a"> Normal Vector Azimuth parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiHatHotExtResponse.setElevation(float)">
+			<summary>
+			Sets the value of the Normal Vector Elevation parameter to be specified in the packet.
+			</summary> 
+			<param name="e"> Normal Vector Elevation parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiHatHotExtResponse.setMaterialCode(unsignedint)">
+			<summary>
+			Sets the value of the Material Code parameter to be specified in the packet.
+			</summary> 
+			<param name="valid"> Material Code parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiHatHotResponse.setHatHotID(int)">
+			<summary>
+			Sets the value of the HAT/HOT ID parameter to be specified in the packet.
+			</summary> 
+			<param name="id"> HAT/HOT ID parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiHatHotResponse.setResponseType(int)">
+			<summary>
+			Sets the value of the Response Type parameter to be specified in the packet.
+			</summary> 
+			<param name="type"> Response Type parameter value. The following values are supported:0 - HAT1 - HOT </param> 
+		</member>
+		<member name="M:Unigine.CigiHatHotResponse.setResponseValid(int)">
+			<summary>
+			Sets the value of the Response Valid parameter to be specified in the packet.
+			</summary> 
+			<param name="valid"> Response Valid parameter value. The following values are supported:0 - invalid (update period limit is exceeded)1 - valid (update period limit is not exceeded) </param> 
+		</member>
+		<member name="M:Unigine.CigiHatHotResponse.setHeight(double)">
+			<summary>
+			Sets the value of the Height parameter to be specified in the packet.
+			</summary> 
+			<param name="height"> Height parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiHostUserDefined.getData">
+			<summary>
+			Returns user-defined packet.
+			</summary>  
+			<returns>User-defined packet.</returns>
+		</member>
+		<member name="M:Unigine.CigiIGUserDefined.setPacketID(int)">
+			<summary>
+			Sets the ID of the user-defined packet.
+			</summary> 
+			<param name="id"> ID of the user-defined packet. </param> 
+		</member>
+		<member name="M:Unigine.CigiIGUserDefined.setData(unsignedchar,int)">
+			<summary>
+			Sets the user-defined data.						Bytes are read and written starting from the 2nd byte (not from the 4th). If you want to align bytes starting from the 4th one, you should add a couple of bytes in the beginning. The CIGI ICD recommends to start reading/writing bytes starting from the 4th one (see Data before the Data Block 1 shown in the images below), although it is mentioned, that it is possible to start from the 2nd.
+			</summary> 
+			<param name="data"> User-defined data. </param>
+			<param name="size"> Size of the packet. </param> 
+		</member>
+		<member name="M:Unigine.CigiLosResponse.setLosID(int)">
+			<summary>
+			Sets the value of the LOS ID parameter to be specified in the packet.
+			</summary> 
+			<param name="id"> LOS ID parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiLosResponse.setEntityID(int)">
+			<summary>
+			Sets the value of the Entity ID parameter to be specified in the packet.
+			</summary> 
+			<param name="id"> Entity ID parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiLosResponse.setEntityValid(int)">
+			<summary>
+			Sets the value of the Entity Valid parameter to be specified in the packet.
+			</summary> 
+			<param name="valid"> Entity ID Valid parameter value. The following values are supported:0 - invalid (if the intersected polygon was not a part of an entity)1 - valid (if the intersected polygon was a part of an entity) </param> 
+		</member>
+		<member name="M:Unigine.CigiLosResponse.setResponseValid(int)">
+			<summary>
+			Sets the value of the Response Valid parameter to be specified in the packet.
+			</summary> 
+			<param name="valid"> Valid parameter value. The following values are supported:0 - invalid (no intersection occurred)1 - valid (one or more intersections occurred) </param> 
+		</member>
+		<member name="M:Unigine.CigiLosResponse.setResponseCount(int)">
+			<summary>
+			Sets the value of the Response Count parameter to be specified in the packet. This parameter indicates the total number of Line of Sight Response packets the IG will return for the corresponding request.
+			</summary> 
+			<param name="count"> Response Count parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiLosResponse.setVisible(int)">
+			<summary>
+			Sets the value of the Visible parameter to be specified in the packet.
+			</summary> 
+			<param name="v"> Visible parameter value. The following values are supported:0 - occluded (not visible)1 - visible </param> 
+		</member>
+		<member name="M:Unigine.CigiLosResponse.setRange(double)">
+			<summary>
+			Sets the value of the Range parameter to be specified in the packet.
+			</summary> 
+			<param name="range"> Range parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiMaritimeResponse.setRequestID(int)">
+			<summary>
+			Sets the value of the Request ID parameter to be specified in the packet.
+			</summary> 
+			<param name="id"> Request ID parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiMaritimeResponse.setHeight(float)">
+			<summary>
+			Sets the value of the Sea Surface Height parameter to be specified in the packet.
+			</summary> 
+			<param name="h"> Sea Surface Height parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiMaritimeResponse.setTemperature(float)">
+			<summary>
+			Sets the value of the Surface Water Temperature parameter to be specified in the packet.
+			</summary> 
+			<param name="t"> Surface Water Temperature parameter value, in degrees Celsius. </param> 
+		</member>
+		<member name="M:Unigine.CigiMaritimeResponse.setClarity(float)">
+			<summary>
+			Sets the value of the Surface Clarity parameter to be specified in the packet.
+			</summary> 
+			<param name="c"> Surface Clarity parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiSegmentNotify.setEntityID(int)">
+			<summary>
+			Sets ID of the entity to which the collision detection segment belongs.
+			</summary> 
+			<param name="id"> ID of the entity to which the collision detection segment belongs. </param> 
+		</member>
+		<member name="M:Unigine.CigiSegmentNotify.setSegmentID(int)">
+			<summary>
+			Sets the ID of the collision detection segment along which the collision occurred. This parameter, along with Entity ID, allows the Host to match this response with the corresponding request.
+			</summary> 
+			<param name="id"> ID of the collision detection segment along which the collision occurred. </param> 
+		</member>
+		<member name="M:Unigine.CigiSegmentNotify.setContactEntityID(int)">
+			<summary>
+			Sets the entity with which the collision occurred. If Collision Type is set to Non-entity (0), this parameter is ignored.
+			</summary> 
+			<param name="id"> ID of contacted entity. </param> 
+		</member>
+		<member name="M:Unigine.CigiSegmentNotify.setCollisionType(int)">
+			<summary>
+			This parameter indicates whether the collision occurred with another entity or with a non-entity object such as the terrain.
+			</summary> 
+			<param name="type"> Type of collision. Available values:0 — for collisions with a non-entity object.1 — for collisions with other entities. </param> 
+		</member>
+		<member name="M:Unigine.CigiSegmentNotify.setMaterialCode(unsignedint)">
+			<summary>
+			Sets the material code of the surface at the point of collision.
+			</summary> 
+			<param name="code"> Material code of the surface at the point of collision. </param> 
+		</member>
+		<member name="M:Unigine.CigiSegmentNotify.setDistance(float)">
+			<summary>
+			Sets the distance along the collision test vector from the source endpoint (the first point of the collision segment) to the point of intersection.
+			</summary> 
+			<param name="d"> Length along the segment from the source endpoint, in meters. </param> 
+		</member>
+		<member name="M:Unigine.CigiStartOfFrame.setDatabase(int)">
+			<summary>
+			Sets the value of the Database Number parameter to be specified in the packet.
+			</summary> 
+			<param name="db"> Database Number parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiStartOfFrame.setIGMode(int)">
+			<summary>
+			Sets the value of the IG Mode parameter to be specified in the packet.
+			</summary> 
+			<param name="mode"> IG Mode parameter value. One of the CIGI_MODE_* values. </param> 
+		</member>
+		<member name="M:Unigine.CigiStartOfFrame.setIGStatus(int)">
+			<summary>
+			Sets the value of the IG Status parameter to be specified in the packet.
+			</summary> 
+			<param name="mode"> IG Status parameter value. The following values are supported:0 - normal1-255 - an error has occurred </param> 
+		</member>
+		<member name="M:Unigine.CigiStartOfFrame.setTimeValid(int)">
+			<summary>
+			Sets the value of the Timestamp Valid parameter to be specified in the packet.
+			</summary> 
+			<param name="valid"> Timestamp Valid parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiStartOfFrame.setEarthModel(int)">
+			<summary>
+			Sets the value of the Earth Reference Model parameter to be specified in the packet.
+			</summary> 
+			<param name="model"> Earth Reference Model parameter value. The following values are supported:0 - WGS 841 - Host-defined </param> 
+		</member>
+		<member name="M:Unigine.CigiStartOfFrame.setIGFrame(unsignedint)">
+			<summary>
+			Sets the value of the IG Frame Number parameter to be specified in the packet.
+			</summary> 
+			<param name="frame"> IG Frame Number parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiStartOfFrame.setTimeStamp(unsignedint)">
+			<summary>
+			Sets the value of the Timestamp parameter to be specified in the packet.
+			</summary> 
+			<param name="time"> Timestamp parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiTerrestrialResponse.setRequestID(int)">
+			<summary>
+			Sets the value of the Request ID parameter to be specified in the packet.
+			</summary> 
+			<param name="id"> Request ID parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiTerrestrialResponse.setSurfaceID(int)">
+			<summary>
+			Sets the value of the Surface Condition ID parameter to be specified in the packet.
+			</summary> 
+			<param name="id"> Surface Condition ID parameter value in the [0, 65535] range.Used to indicate the presence of a specific surface condition or contaminant at the test point. Surface condition codes are IG-dependent. </param> 
+		</member>
+		<member name="M:Unigine.CigiVolumeNotify.setEntityID(int)">
+			<summary>
+			Sets the ID of the entity to which the collision detection volume belongs.
+			</summary> 
+			<param name="id"> ID of the entity to which the collision detection volume belongs. </param> 
+		</member>
+		<member name="M:Unigine.CigiVolumeNotify.setVolumeID(int)">
+			<summary>
+			Sets the ID of the collision detection volume within which the collision occurred. This parameter, along with Entity ID, allows the Host to match this response with the corresponding request.
+			</summary> 
+			<param name="id"> ID of the collision detection volume within which the collision occurred. </param> 
+		</member>
+		<member name="M:Unigine.CigiVolumeNotify.setContactEntityID(int)">
+			<summary>
+			Sets the entity with which the collision occurred. If Collision Type is set to Non-entity (0), this parameter is ignored.
+			</summary> 
+			<param name="id"> ID of contacted entity. </param> 
+		</member>
+		<member name="M:Unigine.CigiVolumeNotify.setContactVolumeID(int)">
+			<summary>
+			Sets the ID of the collision detection volume with which the collision occurred.
+			</summary> 
+			<param name="id"> ID of the collision detection volume with which the collision occurred. </param> 
+		</member>
+		<member name="M:Unigine.CigiVolumeNotify.setCollisionType(int)">
+			<summary>
+			This parameter indicates whether the collision occurred with another entity or with a non-entity object such as the terrain.
+			</summary> 
+			<param name="type"> Type of collision. Available values:0 — for collisions with a non-entity object.1 — for collisions with other entities. </param> 
+		</member>
+		<member name="M:Unigine.CigiWeatherResponse.setRequestID(int)">
+			<summary>
+			Sets the value of the Request ID parameter to be specified in the packet.
+			</summary> 
+			<param name="id"> Request ID parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiWeatherResponse.setHumidity(int)">
+			<summary>
+			Sets the value of the Humidity parameter to be specified in the packet.
+			</summary> 
+			<param name="h"> Humidity parameter value in the [0; 100] range. </param> 
+		</member>
+		<member name="M:Unigine.CigiWeatherResponse.setTemperature(float)">
+			<summary>
+			Sets the value of the Air Temperature parameter to be specified in the packet.
+			</summary> 
+			<param name="t"> Air Temperature parameter value, in degrees Celsius. </param> 
+		</member>
+		<member name="M:Unigine.CigiWeatherResponse.setVisibility(float)">
+			<summary>
+			Sets the value of the Visibility Range parameter to be specified in the packet.
+			</summary> 
+			<param name="v"> Visibility Range parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiWeatherResponse.setHorizontal(float)">
+			<summary>
+			Sets the value of the Horizontal Wind Speeed parameter to be specified in the packet.
+			</summary> 
+			<param name="h"> Horizontal Wind Speeed parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiWeatherResponse.setVertical(float)">
+			<summary>
+			Sets the value of the Vertical Wind Speeed parameter to be specified in the packet.
+			</summary> 
+			<param name="v"> Vertical Wind Speeed parameter value. </param> 
+		</member>
+		<member name="M:Unigine.CigiWeatherResponse.setDirection(float)">
+			<summary>
+			Sets the value of the Wind Direction parameter to be specified in the packet.
+			</summary> 
+			<param name="d"> Wind Direction parameter value in the [0; 360] range. </param> 
+		</member>
+		<member name="M:Unigine.CigiWeatherResponse.setPressure(float)">
+			<summary>
+			Sets the value of the Barometric Pressure parameter to be specified in the packet.
+			</summary> 
+			<param name="p"> Barometric Pressure parameter value. </param> 
+		</member>
+	</members>
+</doc>

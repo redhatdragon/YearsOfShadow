@@ -1,0 +1,36 @@
+#custom
+Builds #packaged projects should go here...
+
+#common
+.thumbnails
+bin
+data/.thumbnails
+data/microprofile_dump_html
+junk
+obj
+source/x64
+CMakeCache.txt
+source/**/*.obj
+unigine_editor.cfg
+*.cache
+*.modified
+*.tlog
+
+#VS 2015+
+.vs
+*.vcxproj.user
+*.VC.db
+*.opendb
+*.opensdf
+*.pro.user
+*.sdf
+*.suo
+
+#user settings
+
+data/configs/unigine.user
+data/configs/default.user
+data/.editor2/*
+
+#other
+*.cache

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nodes version="2.16.1.0">
+	<node type="ObjectMeshStatic" id="1581523881" name="teleport_point">
+		<mesh_name>guid://6f96a15ca5c4508beac6fd73d8efd5d757dbeead</mesh_name>
+		<surface name="vive_teleport_white_mat" lighting_mode="0" intersection="0" physics_friction="1" physics_restitution="1" material="d9834c640e4dac73c0518736b0b8551df789d3d8"/>
+		<surface name="vive_teleport_black_mat" lighting_mode="0" intersection="0" physics_friction="1" physics_restitution="1" material="9f53b18cb6a39966c5c5483d1433599916351a48"/>
+		<transform>0.99999988 0 0 0.0 5.6843419e-14 0.99999988 0 0.0 0 0 1 0.0 0 0 3.7252903e-09 1.0</transform>
+	</node>
+</nodes>

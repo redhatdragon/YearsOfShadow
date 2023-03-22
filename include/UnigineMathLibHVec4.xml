@@ -1,0 +1,115 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Math.hvec4.#ctor">
+			<summary>
+			Default constructor. Produces a zero vector.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Math.hvec4.#ctor(hvec4)">
+			<summary>
+			Constructor. Initializes the vector by copying a given source vector.
+			</summary> 
+			<param name="v"> Source vector. </param> 
+		</member>
+		<member name="M:Unigine.Math.hvec4.#ctor(half,half,half,half)">
+			<summary>
+			Constructor. Initializes the vector using given half values.
+			</summary> 
+			<param name="x"> X component of the vector. </param>
+			<param name="y"> Y component of the vector. </param>
+			<param name="z"> Z component of the vector. </param>
+			<param name="w"> W component of the vector. </param> 
+		</member>
+		<member name="M:Unigine.Math.hvec4.#ctor(half)">
+			<summary>
+			Constructor. Initializes the vector using given half value.
+			</summary> 
+			<param name="v"> Scalar value. </param> 
+		</member>
+		<member name="M:Unigine.Math.hvec4.#ctor(float)">
+			<summary>
+			Constructor. Initializes the vector using a given scalar value: x=v, y=v, z=v, w=v.
+			</summary> 
+			<param name="v"> Scalar value. </param> 
+		</member>
+		<member name="M:Unigine.Math.hvec4.#ctor(Unigine.vec4)">
+			<summary>
+			Constructor. Initializes the vector using a given vec4 source vector.
+			</summary> 
+			<param name="v"> Source vector. </param> 
+		</member>
+		<member name="M:Unigine.Math.hvec4.#ctor(Unigine.dvec4)">
+			<summary>
+			Constructor. Initializes the vector using a given dvec4 source vector.
+			</summary> 
+			<param name="v"> Source vector. </param> 
+		</member>
+		<member name="M:Unigine.Math.hvec4.operator const Unigine::Math::half * const">
+			<summary>
+			Performs type conversion to const half *.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Math.hvec4.operator const void * const">
+			<summary>
+			Performs type conversion to const void *.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Math.hvec4.operator Unigine::Math::half *">
+			<summary>
+			Performs type conversion to half *.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Math.hvec4.operator void *">
+			<summary>
+			Performs type conversion to void *.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Math.hvec4.operator=(hvec4)">
+			<summary>
+			Performs vector assignment. Destination vector = Source vector.
+			</summary> 
+			<param name="v"> Source vector. </param> 
+			<returns>Result.</returns>
+		</member>
+		<member name="M:Unigine.Math.hvec4.operator[](int)">
+			<summary>
+			Performs array access to the vector item reference by using given item index.
+			</summary> 
+			<param name="i"> Vector item index. </param> 
+			<returns>Vector item reference.</returns>
+		</member>
+		<member name="M:Unigine.Math.hvec4.operator[](int) const">
+			<summary>
+			Performs array access to the vector item by using given item index.
+			</summary> 
+			<param name="i"> Vector item index. </param> 
+			<returns>Vector item.</returns>
+		</member>
+		<member name="M:Unigine.Math.hvec4.get">
+			<summary>
+			Returns the X component of the vector.
+			</summary>  
+			<returns>X component of the vector.</returns>
+		</member>
+		<member name="M:Unigine.Math.hvec4.get const">
+			<summary>
+			Returns the X component of the vector a constant.
+			</summary>  
+			<returns>X component of the vector.</returns>
+		</member>
+		<member name="F:Unigine.Math.hvec4.hvec4_one">
+			<summary>
+			Vector filled with ones (1).
+		</summary>
+		</member>
+		<member name="F:Unigine.Math.hvec4.hvec4_zero">
+			<summary>
+			Vector filled with zeros (0).
+		</summary>
+		</member>
+	</members>
+</doc>

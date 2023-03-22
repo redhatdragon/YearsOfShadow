@@ -1,0 +1,2647 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Input.getMousePosition const">
+			<summary>
+			Returns a vector containing integer values of mouse pointer position. In case of a mouse button event, the mouse position at the moment of the processed event is returned. In case of no such event, the mouse position at the beginning of the frame is returned. To get the mouse position during another type of event, get this event (for example getKeyEvent()) and get the mouse position stored inside it.
+			</summary>  
+			<returns>Integer mouse pointer position.</returns>
+		</member>
+		<member name="M:Unigine.Input.getMouseDeltaPosition">
+			<summary>
+			Returns a vector containing screen position change of the mouse pointer along the X and Y axes — the difference between the values in the previous and the current frames.
+			</summary>  
+			<returns>Float mouse pointer position delta.</returns>
+		</member>
+		<member name="M:Unigine.Input.getMouseWheel const">
+			<summary>
+			Returns the current mouse scroll value. Negative values correspond to scrolling downwards; positive values correspond to scrolling upwards; the value is zero when the mouse wheel is not scrolled.
+			</summary>  
+			<returns>Mouse scroll value in the [-1;1] range.</returns>
+		</member>
+		<member name="M:Unigine.Input.getMouseWheelHorizontal const">
+			<summary>
+			Returns the current horizontal mouse scroll value.
+			</summary>  
+			<returns>Horizontal mouse scroll value in the [-1;1] range.</returns>
+		</member>
+		<member name="M:Unigine.Input.setMouseGrab(bool)">
+			<summary>
+			Sets the value indicating if the mouse pointer is bound to the application window.
+			</summary> 
+			<param name="grab"> 1 if the mouse cannot leave the application window; otherwise, 0. </param> 
+		</member>
+		<member name="M:Unigine.Input.isMouseGrab const">
+			<summary>
+			Returns the value indicating if the mouse pointer is bound to the application window.
+			</summary>  
+			<returns>true if the mouse cannot leave the application window; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Input.getCountGamePads const">
+			<summary>
+			Returns the number of all game pads.
+			</summary>  
+			<returns>Number of all game pads.</returns>
+		</member>
+		<member name="M:Unigine.Input.getGamePad(int) const">
+			<summary>
+			Returns a game pad of the given index.
+			</summary> 
+			<param name="num"> Gamepad index. </param> 
+			<returns>InputGamepad object.</returns>
+		</member>
+		<member name="M:Unigine.Input.getCountActiveGamePads const">
+			<summary>
+			Returns the number of active game pads.
+			</summary>  
+			<returns>Number of active game pads.</returns>
+		</member>
+		<member name="M:Unigine.Input.getActiveGamePad(int) const">
+			<summary>
+			Returns an active game pad of the given index.
+			</summary> 
+			<param name="num"> Gamepad index. </param> 
+			<returns>InputGamePad object.</returns>
+		</member>
+		<member name="M:Unigine.Input.isKeyPressed(Input::KEY) const">
+			<summary>
+			Returns a value indicating if the given key is pressed. Check this value to perform continuous actions.
+			</summary> 
+			<param name="key"> One of the preset KEY_ codes. </param> 
+			<returns>true if the key is pressed; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Input.isKeyDown(Input::KEY) const">
+			<summary>
+			Returns a value indicating if the given key was pressed during the current frame. Check this value to perform one-time actions on pressing a key.
+			</summary> 
+			<param name="key"> One of the preset KEY_ codes. </param> 
+			<returns>1 during the first frame when the key was pressed, 0 for the following ones until it is released and pressed again.</returns>
+		</member>
+		<member name="M:Unigine.Input.isKeyUp(Input::KEY) const">
+			<summary>
+			Returns a value indicating if the given key was released during the current frame. Check this value to perform one-time actions on releasing a key.
+			</summary> 
+			<param name="key"> One of the preset KEY_ codes. </param> 
+			<returns>true during the first frame when the key was released; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Input.isMouseButtonPressed(Input::MOUSE_BUTTON) const">
+			<summary>
+			Returns a value indicating if the given mouse button is pressed. Check this value to perform continuous actions.
+			</summary> 
+			<param name="button"> One of the preset MOUSE_BUTTON_ codes. </param> 
+			<returns>1 if the mouse button is pressed; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Input.isMouseButtonDown(Input::MOUSE_BUTTON) const">
+			<summary>
+			Returns a value indicating if the given mouse button was pressed during the current frame. Check this value to perform one-time actions on pressing a mouse button.
+			</summary> 
+			<param name="button"> One of the preset MOUSE_BUTTON_ codes. </param> 
+			<returns>1 during the first frame when the mouse button was released; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Input.isMouseButtonUp(Input::MOUSE_BUTTON) const">
+			<summary>
+			Returns a value indicating if the given mouse button was released during the current frame. Check this value to perform one-time actions on releasing a mouse button.
+			</summary> 
+			<param name="button"> One of the preset MOUSE_BUTTON_ codes. </param> 
+			<returns>1 during the first frame when the mouse button was released; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Input.setMouseHandle(Input::MOUSE_HANDLE)">
+			<summary>
+			Sets the mouse behavior mode.
+			</summary> 
+			<param name="handle"> Mouse behavior mode, one of the MOUSE_HANDLE_* values. </param> 
+		</member>
+		<member name="M:Unigine.Input.getMouseHandle const">
+			<summary>
+			Returns the mouse behavior mode.
+			</summary>  
+			<returns>Mouse behavior mode, one of the MOUSE_HANDLE_* values.</returns>
+		</member>
+		<member name="M:Unigine.Input.isTouchPressed(int) const">
+			<summary>
+			Returns a value indicating if the touchscreen is pressed by the finger.
+			</summary> 
+			<param name="index"> Touch input index. </param> 
+			<returns>true if the touchscreen is pressed; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Input.isTouchDown(int) const">
+			<summary>
+			Returns a value indicating if the given touch was pressed during the current frame.
+			</summary> 
+			<param name="index"> Touch input index. </param> 
+			<returns>true if the touchscreen is pressed during the current frame; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Input.isTouchUp(int) const">
+			<summary>
+			Returns a value indicating if the given touch was released.
+			</summary> 
+			<param name="index"> Touch input index. </param> 
+			<returns>true during the first frame when the touch was released; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Input.getTouchPosition(int) const">
+			<summary>
+			Returns a vector containing integer values of touch position.
+			</summary> 
+			<param name="index"> Touch input index. </param> 
+			<returns>The touch position.</returns>
+		</member>
+		<member name="M:Unigine.Input.getTouchDelta(int) const">
+			<summary>
+			Returns a vector containing screen position change of the touch along the X and Y axes — the difference between the values in the previous and the current frames.
+			</summary> 
+			<param name="index"> Touch input index. </param> 
+			<returns>The touch position delta.</returns>
+		</member>
+		<member name="M:Unigine.Input.getTouchEvent(int)">
+			<summary>
+			Returns the action cast to the touch event.
+			</summary> 
+			<param name="index"> Touch input index. </param> 
+			<returns>Touch input event.</returns>
+		</member>
+		<member name="M:Unigine.Input.getTouchEvents(int,Unigine.Vector{Unigine.Ptr{InputEventTouch},int,Unigine.VectorAllocator})">
+			<summary>
+			Returns the actions cast to the touch event.
+			</summary> 
+			<param name="index"> Touch input index. </param>
+			<param name="events"> The buffer with touch input events. </param> 
+		</member>
+		<member name="M:Unigine.Input.getKeyEvent(Input::KEY)">
+			<summary>
+			Returns the currently processed keyboard input event.
+			</summary> 
+			<param name="key"> One of the preset KEY_ codes. </param> 
+			<returns>Keyboard input event, or nullptr if there are no events for the specified key in the current frame.</returns>
+		</member>
+		<member name="M:Unigine.Input.getKeyEvents(Input::KEY,Unigine.Vector{Unigine.Ptr{InputEventKeyboard},int,Unigine.VectorAllocator})">
+			<summary>
+			Returns the buffer with events for the specified key.
+			</summary> 
+			<param name="key"> One of the preset KEY_ codes. </param>
+			<param name="events"> The buffer with input events. </param> 
+		</member>
+		<member name="M:Unigine.Input.getKeyName(Input::KEY) const">
+			<summary>
+			Returns the specified key name.
+			</summary> 
+			<param name="key"> One of the preset KEY_ codes. </param> 
+			<returns>Key name.</returns>
+		</member>
+		<member name="M:Unigine.Input.getKeyByName(char) const">
+			<summary>
+			Returns the key by its name.
+			</summary> 
+			<param name="name"> Key name. </param> 
+			<returns>One of the preset KEY_ codes.</returns>
+		</member>
+		<member name="M:Unigine.Input.getMouseButtonEvent(Input::MOUSE_BUTTON)">
+			<summary>
+			Returns the mouse motion input event for the specified button.
+			</summary> 
+			<param name="button"> One of the preset MOUSE_BUTTON_ codes. </param> 
+			<returns>Mouse motion input event.</returns>
+		</member>
+		<member name="M:Unigine.Input.getMouseButtonName(Input::MOUSE_BUTTON) const">
+			<summary>
+			Returns the mouse button name.
+			</summary> 
+			<param name="button"> One of the preset MOUSE_BUTTON_ codes. </param> 
+			<returns>Mouse button name.</returns>
+		</member>
+		<member name="M:Unigine.Input.getMouseButtonByName(char) const">
+			<summary>
+			Returns the mouse button by its name.
+			</summary> 
+			<param name="name"> Mouse button name. </param> 
+			<returns>One of the preset MOUSE_BUTTON_ codes.</returns>
+		</member>
+		<member name="M:Unigine.Input.getEventsBuffer(int,Unigine.Vector{Unigine.Ptr{InputEvent},int,Unigine.VectorAllocator}) const">
+			<summary>
+			Returns the buffer with the input events for the specified frame.
+			</summary> 
+			<param name="frame"> Number of frame for which the buffer of input events is to be obtained. Input events are stored for the last 60 frames. 0 is the current frame, 1 is the previous frame, etc. </param>
+			<param name="events"> The buffer with input events. </param> 
+		</member>
+		<member name="M:Unigine.Input.sendEvent(Unigine.Ptr{InputEvent})">
+			<summary>
+			Creates a user event and dispatches it to the Engine.
+			</summary> 
+			<param name="e"> Input event. </param> 
+		</member>
+		<member name="M:Unigine.Input.setEventsFilter(int(*)(constPtr{InputEvent}&))">
+			<summary>
+			Sets a callback function to be executed on receiving input events. This input event filter enables you to reject certain input events for the Engine and get necessary information on all input events.
+			</summary> 
+			<param name="func"> Input event callback. </param> 
+		</member>
+		<member name="M:Unigine.Input.isModifierEnabled(Input::MODIFIER) const">
+			<summary>
+			Returns the value indicating if the specified modifier is enabled.
+			</summary> 
+			<param name="modifier"> One of the preset MODIFIER_ codes. </param> 
+			<returns>true if the modifier is enabled; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Input.keyToUnicode(Input::KEY) const">
+			<summary>
+			Returns the specified key transformed to unicode.
+			</summary> 
+			<param name="key"> One of the preset KEY_ codes. </param> 
+			<returns>Unicode symbol.</returns>
+		</member>
+		<member name="M:Unigine.Input.unicodeToKey(unsignedint) const">
+			<summary>
+			Returns the specified key transformed to unicode.
+			</summary> 
+			<param name="unicode"> Unicode symbol. </param> 
+			<returns>One of the preset KEY_ codes.</returns>
+		</member>
+		<member name="M:Unigine.Input.getMouseDeltaRaw const">
+			<summary>
+			Returns the physical change in the absolute mouse position (not the screen cursor).
+			</summary>  
+			<returns>The change in the absolute mouse position, dots per inch.</returns>
+		</member>
+		<member name="M:Unigine.Input.isEmptyClipboard const">
+			<summary>
+			Returns a value indicating if the clipboard is empty.
+			</summary>  
+			<returns>true if the clipboard is empty; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Input.setClipboard(char)">
+			<summary>
+			Updates the contents of the system clipboard.
+			</summary> 
+			<param name="clipboard"> Contents to set. </param> 
+		</member>
+		<member name="M:Unigine.Input.getClipboard const">
+			<summary>
+			Retrieves the contents of the system clipboard.
+			</summary>  
+			<returns>Contents of the system clipboard.</returns>
+		</member>
+		<member name="M:Unigine.Input.setMouseCursorHide(bool)">
+			<summary>
+			Sets a value indicating if the mouse cursor should be hidden. Can be used, for example, to hide mouse cursor for a certain element.This method hides the cursor only for one frame. So, you should call it each frame if a longer period is required.
+			</summary> 
+			<param name="hide"> true to hide the mouse cursor for a single frame, false - to show it. </param> 
+		</member>
+		<member name="M:Unigine.Input.isMouseCursorHide const">
+			<summary>
+			Returns a value indicating if the mouse cursor is hidden in the current frame.
+			</summary>  
+			<returns>true if mouse cursor is hidden in the current frame, false - to show it.</returns>
+		</member>
+		<member name="M:Unigine.Input.setMouseCursorSystem(bool)">
+			<summary>
+			Sets a value indicating if the OS mouse pointer should be displayed.
+			</summary> 
+			<param name="system"> true to display the OS mouse pointer; otherwise, false. </param> 
+		</member>
+		<member name="M:Unigine.Input.isMouseCursorSystem const">
+			<summary>
+			Returns a value indicating if the OS mouse pointer is displayed.
+			</summary>  
+			<returns>true if the OS mouse pointer is displayed; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Input.setMouseCursorNeedUpdate(bool)">
+			<summary>
+			Sets a value indicating that some changes were made to the cursor (e.g., it was shown, hidden, changed to system, etc.) and it has to be updated. Suppose the cursor was modified, for example, by the Interface plugin. After closing the plugin's window the cursor shall not return to its previous state because SDL doesn't even know about the changes. You can use this flag to signalize, that mouse cursor must be updated.
+			</summary> 
+			<param name="update"> true to signalize that the mouse cursor has to be updated; otherwise, false. </param> 
+		</member>
+		<member name="M:Unigine.Input.isMouseCursorNeedUpdate const">
+			<summary>
+			Returns a value indicating that changes were made to the cursor (e.g., it was shown, hidden, changed to system, etc.) and it has to be updated. Suppose the cursor was modified, for example, by the Interface plugin. After closing the plugin's window the cursor shall not return to its previous state because SDL doesn't even know about the changes. You can use this flag to signalize, that mouse cursor must be updated.
+			</summary>  
+			<returns>true if the mouse cursor has to be updated; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Input.setMouseCursorSkinCustom(Unigine.Ptr{Unigine.Image})">
+			<summary>
+			Sets a custom image to be used for the mouse cursor.
+			</summary> 
+			<param name="image"> Image containing pointer shapes to be set for the mouse cursor (e.g., select, move, resize, etc.). </param> 
+		</member>
+		<member name="M:Unigine.Input.setMouseCursorSkinSystem">
+			<summary>
+			Sets the current OS cursor skin (pointer shapes like select, move, resize, etc.).
+			</summary>  
+		</member>
+		<member name="M:Unigine.Input.setMouseCursorSkinDefault">
+			<summary>
+			Sets the default Engine cursor skin (pointer shapes like select, move, resize, etc.).
+			</summary>  
+		</member>
+		<member name="M:Unigine.Input.setMouseCursorCustom(Unigine.Ptr{Unigine.Image},int,int)">
+			<summary>
+			Sets a custom image for the OS mouse cursor. The image must be of the square size and RGBA8 format.
+			</summary> 
+			<param name="image"> Cursor image to be set. </param>
+			<param name="x"> X coordinate of the cursor's hot spot. </param>
+			<param name="y"> Y coordinate of the cursor's hot spot. </param> 
+		</member>
+		<member name="M:Unigine.Input.clearMouseCursorCustom">
+			<summary>
+			Clears the custom mouse cursor set via the setMouseCursorCustom() method.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Input.updateMouseCursor">
+			<summary>
+			Updates the mouse cursor. This method should be called after making changes to the mouse cursor to apply them all together. After calling this method the cursor shall be updated in the next frame.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Input.getKeyLocalName(Input::KEY) const">
+			<summary>
+			Returns the name for the specified key taken from the currently selected keyboard layout.The returned value is affected by the modifier such as Shift.
+			</summary> 
+			<param name="key"> One of the preset KEY_ codes. </param> 
+			<returns>Localized name for the specified key.</returns>
+		</member>
+		<member name="M:Unigine.Input.getMouseButtonEvents(Input::MOUSE_BUTTON,Unigine.Vector{Unigine.Ptr{InputEventMouseButton},int,Unigine.VectorAllocator})">
+			<summary>
+			Returns the buffer with events for the specified mouse button.
+			</summary> 
+			<param name="events"> The buffer with input events. </param> 
+		</member>
+		<member name="M:Unigine.Input.getForceMousePosition">
+			<summary>
+			Returns the absolute mouse position obtained from the OS.
+			</summary>  
+			<returns>The absolute mouse position.</returns>
+		</member>
+		<member name="M:Unigine.Input.isKeyText(Input::KEY) const">
+			<summary>
+			Returns a value indicating if the given key has a corresponding printable symbol (current Num Lock state is taken into account). For example, pressing 2 on the numpad with Num Lock enabled produces "2", while with disabled Num Lock the same key acts as a down arrow. Keys like Esc, PrintScreen, BackSpace do not produce any printable symbol at all.
+			</summary> 
+			<param name="key"> One of the preset KEY_ codes. </param> 
+			<returns>true if the key value is a symbol; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Input.addCallback(Unigine.Input.CALLBACK_INDEX,Unigine.CallbackBase1{Input::MOUSE_BUTTON})">
+			<summary>
+			Adds a callback of the specified type for mouse button events. Callback functions can be used to determine actions to be performed when various input events occur. Here is an example of tracking mouse button events via callbacks:
+			
+			</summary> 
+			<param name="callback"> Callback type. One of the following: </param>
+			<param name="func"> Callback function pointer. The callback signature should be as follows: void callback_function_name(Input::MOUSE_BUTTON button); </param>
+			<param name="func">  button - mouse button. </param> 
+			<returns>ID of the last added callback of the specified type, if the callback was added successfully; otherwise, nullptr. This ID can be used to remove this callback when necessary.</returns>
+		</member>
+		<member name="M:Unigine.Input.addCallback(Unigine.Input.CALLBACK_INDEX,Unigine.CallbackBase2{int,int})">
+			<summary>
+			Adds a callback of the specified type for the mouse motion event. Callback functions can be used to determine actions to be performed when various input events occur.
+			</summary> 
+			<param name="callback"> Callback type. One of the following: </param>
+			<param name="func"> Callback function pointer. The callback signature should be as follows: void callback_function_name(int x, int y); </param>
+			<param name="func">  (x, y) - mouse coordinates delta. </param> 
+			<returns>ID of the last added callback of the specified type, if the callback was added successfully; otherwise, nullptr. This ID can be used to remove this callback when necessary.</returns>
+		</member>
+		<member name="M:Unigine.Input.addCallback(Unigine.Input.CALLBACK_INDEX,Unigine.CallbackBase1{Input::KEY})">
+			<summary>
+			Adds a callback of the specified type for keyboard events. Callback functions can be used to determine actions to be performed when various input events occur.
+			</summary> 
+			<param name="callback"> Callback type. One of the following: </param>
+			<param name="func"> Callback function pointer. The callback signature should be as follows: void callback_function_name(Input::KEY key); </param>
+			<param name="func">  key - keyboard key code. </param> 
+			<returns>ID of the last added callback of the specified type, if the callback was added successfully; otherwise, nullptr. This ID can be used to remove this callback when necessary.</returns>
+		</member>
+		<member name="M:Unigine.Input.addCallback(Unigine.Input.CALLBACK_INDEX,Unigine.CallbackBase1{unsignedint})">
+			<summary>
+			Adds a callback of the specified type for a unicode key or a touch event. Callback functions can be used to determine actions to be performed when various input events occur.
+			</summary> 
+			<param name="callback"> Callback type. One of the following: </param>
+			<param name="func"> Callback function pointer. The callback signature should be as follows: void callback_function_name(unsigined int code); </param>
+			<param name="func">  code - unicode value displayed for the key or touch index (depending on the callback type). </param> 
+			<returns>ID of the last added callback of the specified type, if the callback was added successfully; otherwise, nullptr. This ID can be used to remove this callback when necessary.</returns>
+		</member>
+		<member name="M:Unigine.Input.addCallback(Unigine.Input.CALLBACK_INDEX,Unigine.CallbackBase1{Unigine.Ptr{InputEvent}})">
+			<summary>
+			Adds a callback of the specified type. Callback functions can be used to determine actions to be performed when various input events occur.
+			</summary> 
+			<param name="callback"> Callback type. One of the following: </param>
+			<param name="func"> Callback function pointer. The callback signature should be as follows: void callback_function_name(InputEventPtr event); </param>
+			<param name="func">  event - input event. </param> 
+			<returns>ID of the last added callback of the specified type, if the callback was added successfully; otherwise, nullptr. This ID can be used to remove this callback when necessary.</returns>
+		</member>
+		<member name="M:Unigine.Input.removeCallback(Unigine.Input.CALLBACK_INDEX,void)">
+			<summary>
+			Removes the specified callback from the list of callbacks of the specified type. Callback functions can be used to determine actions to be performed when various input events occur.
+			</summary> 
+			<param name="callback"> Callback type. One of the CALLBACK_* variables. </param>
+			<param name="id"> Callback ID obtained when adding it. </param> 
+			<returns>true if the callback with the given ID was removed successfully; otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.Input.clearCallbacks(Unigine.Input.CALLBACK_INDEX)">
+			<summary>
+			Clears all added callbacks of the specified type. Callback functions can be used to determine actions to be performed when various input events occur.
+			</summary> 
+			<param name="callback"> Callback type. One of the CALLBACK_* variables. </param> 
+		</member>
+		<member name="M:Unigine.Input.getModifierName(Input::MODIFIER) const">
+			<summary>
+			Returns the name of the key modifier by its scancode.
+			</summary> 
+			<param name="modifier"> Scancode of the modifier. </param> 
+			<returns>Key name of the modifier.</returns>
+		</member>
+		<member name="M:Unigine.Input.getModifierByName(char) const">
+			<summary>
+			Returns the scancode of the key modifier by its name.
+			</summary> 
+			<param name="name"> Key name of the modifier. </param> 
+			<returns>Scancode of the modifier.</returns>
+		</member>
+		<member name="F:Unigine.Input.MOUSE_BUTTON_UNKNOWN">
+			<summary>
+			Unknown mouse button.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MOUSE_BUTTON_LEFT">
+			<summary>
+			Left mouse button.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MOUSE_BUTTON_MIDDLE">
+			<summary>
+			Middle mouse button.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MOUSE_BUTTON_RIGHT">
+			<summary>
+			Right mouse button.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MOUSE_BUTTON_DCLICK">
+			<summary>
+			Left mouse button double click.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MOUSE_BUTTON_AUX_0">
+			<summary>
+			Auxiliary mouse button.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MOUSE_BUTTON_AUX_1">
+			<summary>
+			Auxiliary mouse button.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MOUSE_BUTTON_AUX_2">
+			<summary>
+			Auxiliary mouse button.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MOUSE_BUTTON_AUX_3">
+			<summary>
+			Auxiliary mouse button.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MOUSE_NUM_BUTTONS">
+			<summary>
+			Number of mouse buttons.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.NUM_GAME_PADS">
+			<summary>
+			Number of game pads
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.NUM_TOUCHES">
+			<summary>
+			The current number of touches
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.NUM_JOYSTICKS">
+			<summary>
+			The number of joysticks
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_UNKNOWN">
+			<summary>
+			Unknown key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ESC">
+			<summary>
+			Escape key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_F1">
+			<summary>
+			F1 key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_F2">
+			<summary>
+			F2 key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_F3">
+			<summary>
+			F3 key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_F4">
+			<summary>
+			F4 key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_F5">
+			<summary>
+			F5 key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_F6">
+			<summary>
+			F6 key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_F7">
+			<summary>
+			F7 key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_F8">
+			<summary>
+			F8 key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_F9">
+			<summary>
+			F9 key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_F10">
+			<summary>
+			F10 key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_F11">
+			<summary>
+			F11 key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_F12">
+			<summary>
+			F12 key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_PRINTSCREEN">
+			<summary>
+			Print Screen key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_SCROLL_LOCK">
+			<summary>
+			Scroll Lock key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_PAUSE">
+			<summary>
+			Pause key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_BACK_QUOTE">
+			<summary>
+			Back quote key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_DIGIT_1">
+			<summary>
+			The 1 key of the alphanumeric keyboard
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_DIGIT_2">
+			<summary>
+			The 2 key of the alphanumeric keyboard
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_DIGIT_3">
+			<summary>
+			The 3 key of the alphanumeric keyboard
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_DIGIT_4">
+			<summary>
+			The 4 key of the alphanumeric keyboard
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_DIGIT_5">
+			<summary>
+			The 5 key of the alphanumeric keyboard
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_DIGIT_6">
+			<summary>
+			The 6 key of the alphanumeric keyboard
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_DIGIT_7">
+			<summary>
+			The 7 key of the alphanumeric keyboard
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_DIGIT_8">
+			<summary>
+			The 8 key of the alphanumeric keyboard
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_DIGIT_9">
+			<summary>
+			The 9 key of the alphanumeric keyboard
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_DIGIT_0">
+			<summary>
+			The 0 key of the alphanumeric keyboard
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_MINUS">
+			<summary>
+			Minus key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_EQUALS">
+			<summary>
+			Equals key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_BACKSPACE">
+			<summary>
+			Backspace key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_TAB">
+			<summary>
+			Tab key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_Q">
+			<summary>
+			Q key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_W">
+			<summary>
+			W key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_E">
+			<summary>
+			E key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_R">
+			<summary>
+			R key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_T">
+			<summary>
+			T key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_Y">
+			<summary>
+			Y key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_U">
+			<summary>
+			U key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_I">
+			<summary>
+			I key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_O">
+			<summary>
+			O key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_P">
+			<summary>
+			P key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_LEFT_BRACKET">
+			<summary>
+			Left square bracket key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_RIGHT_BRACKET">
+			<summary>
+			Right square bracket key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ENTER">
+			<summary>
+			Enter key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_CAPS_LOCK">
+			<summary>
+			Caps Lock key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_A">
+			<summary>
+			A key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_S">
+			<summary>
+			S key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_D">
+			<summary>
+			D key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_F">
+			<summary>
+			F key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_G">
+			<summary>
+			G key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_H">
+			<summary>
+			H key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_J">
+			<summary>
+			J key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_K">
+			<summary>
+			K key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_L">
+			<summary>
+			L key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_SEMICOLON">
+			<summary>
+			Semicolon key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_QUOTE">
+			<summary>
+			Quote key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_BACK_SLASH">
+			<summary>
+			Backward slash key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_LEFT_SHIFT">
+			<summary>
+			Left					Shift key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_LESS">
+			<summary>
+			Less than key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_Z">
+			<summary>
+			Z key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_X">
+			<summary>
+			X key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_C">
+			<summary>
+			C key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_V">
+			<summary>
+			V key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_B">
+			<summary>
+			B key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_N">
+			<summary>
+			N key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_M">
+			<summary>
+			M key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_COMMA">
+			<summary>
+			Comma key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_DOT">
+			<summary>
+			Dot key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_SLASH">
+			<summary>
+			Slash key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_RIGHT_SHIFT">
+			<summary>
+			Right Shift key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_LEFT_CTRL">
+			<summary>
+			Left Ctrl key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_LEFT_CMD">
+			<summary>
+			Left Command key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_LEFT_ALT">
+			<summary>
+			Left Alt key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_SPACE">
+			<summary>
+			Space key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_RIGHT_ALT">
+			<summary>
+			Right Alt key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_RIGHT_CMD">
+			<summary>
+			Right Command key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_MENU">
+			<summary>
+			Menu key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_RIGHT_CTRL">
+			<summary>
+			Right Ctrl key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_INSERT">
+			<summary>
+			Insert key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_DELETE">
+			<summary>
+			Delete key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_HOME">
+			<summary>
+			Home key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_END">
+			<summary>
+			End key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_PGUP">
+			<summary>
+			Page Up key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_PGDOWN">
+			<summary>
+			Page down
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_UP">
+			<summary>
+			Up arrow key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_LEFT">
+			<summary>
+			Left arrow key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_DOWN">
+			<summary>
+			Down arrow key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_RIGHT">
+			<summary>
+			Right arrow key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_NUM_LOCK">
+			<summary>
+			Num Lock key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_NUMPAD_DIVIDE">
+			<summary>
+			Divide key of the numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_NUMPAD_MULTIPLY">
+			<summary>
+			Multiply key of the numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_NUMPAD_MINUS">
+			<summary>
+			Minus key of the numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_NUMPAD_DIGIT_7">
+			<summary>
+			The 7 key of the numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_NUMPAD_DIGIT_8">
+			<summary>
+			The 8 key of the numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_NUMPAD_DIGIT_9">
+			<summary>
+			The 9 key of the numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_NUMPAD_PLUS">
+			<summary>
+			Plus key of the numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_NUMPAD_DIGIT_4">
+			<summary>
+			The 4 key of the numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_NUMPAD_DIGIT_5">
+			<summary>
+			The 5 key of the numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_NUMPAD_DIGIT_6">
+			<summary>
+			The 6 key of the numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_NUMPAD_DIGIT_1">
+			<summary>
+			The 1 key of the numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_NUMPAD_DIGIT_2">
+			<summary>
+			The 2 key of the numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_NUMPAD_DIGIT_3">
+			<summary>
+			The 3 key of the numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_NUMPAD_ENTER">
+			<summary>
+			Enter key of the numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_NUMPAD_DIGIT_0">
+			<summary>
+			The 0 key of the numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_NUMPAD_DOT">
+			<summary>
+			Dot key of the numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_SHIFT">
+			<summary>
+			Any Shift key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_CTRL">
+			<summary>
+			Any Ctrl key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_ALT">
+			<summary>
+			Any Alt key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_CMD">
+			<summary>
+			Any Command key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_UP">
+			<summary>
+			Any up arrow key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_LEFT">
+			<summary>
+			Any left arrow key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_DOWN">
+			<summary>
+			Any down arrow key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_RIGHT">
+			<summary>
+			Any right arrow key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_ENTER">
+			<summary>
+			Any up arrow key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_DELETE">
+			<summary>
+			Any Delete key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_INSERT">
+			<summary>
+			Any Insert key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_HOME">
+			<summary>
+			Any Home key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_END">
+			<summary>
+			Any End key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_PGUP">
+			<summary>
+			Any Page Up key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_PGDOWN">
+			<summary>
+			Any Page Down key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_DIGIT_1">
+			<summary>
+			The 1 key of either alphanumeric keyboard or numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_DIGIT_2">
+			<summary>
+			The 2 key of either alphanumeric keyboard or numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_DIGIT_3">
+			<summary>
+			The 3 key of either alphanumeric keyboard or numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_DIGIT_4">
+			<summary>
+			The 4 key of either alphanumeric keyboard or numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_DIGIT_5">
+			<summary>
+			The 5 key of either alphanumeric keyboard or numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_DIGIT_6">
+			<summary>
+			The 6 key of either alphanumeric keyboard or numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_DIGIT_7">
+			<summary>
+			The 7 key of either alphanumeric keyboard or numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_DIGIT_8">
+			<summary>
+			The 8 key of either alphanumeric keyboard or numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_DIGIT_9">
+			<summary>
+			The 9 key of either alphanumeric keyboard or numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_DIGIT_0">
+			<summary>
+			The 0 key of either alphanumeric keyboard or numeric keypad
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_MINUS">
+			<summary>
+			Any minus key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_EQUALS">
+			<summary>
+			Any Equals key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.KEY_ANY_DOT">
+			<summary>
+			Any dot key
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MOUSE_HANDLE_GRAB">
+			<summary>
+			The mouse is grabbed when clicked (the cursor disappears and camera movement is controlled by the mouse).
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MOUSE_HANDLE_SOFT">
+			<summary>
+			The mouse cursor disappears after being idle for a short time period.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MOUSE_HANDLE_USER">
+			<summary>
+			The mouse is not handled by the system (allows input handling by some custom module).
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.CALLBACK_MOUSE_DOWN">
+			<summary>
+			Callback when the mouse button is pressed.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.CALLBACK_MOUSE_UP">
+			<summary>
+			Callback when the mouse button is released.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.CALLBACK_MOUSE_WHEEL">
+			<summary>
+			Callback when the mouse scroll wheel is moved.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.CALLBACK_MOUSE_WHEEL_HORIZONTAL">
+			<summary>
+			Callback when the mouse wheel is moved horizontally.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.CALLBACK_MOUSE_MOTION">
+			<summary>
+			Callback when the mouse is moved.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.CALLBACK_KEY_DOWN">
+			<summary>
+			Callback when the key is pressed and held.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.CALLBACK_KEY_UP">
+			<summary>
+			Callback when the key is released.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.CALLBACK_KEY_REPEAT">
+			<summary>
+			Callback when the key is pressed repeatedly.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.CALLBACK_TEXT_PRESS">
+			<summary>
+			Callback when the key that has a corresponding printable symbol is pressed.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.CALLBACK_TOUCH_DOWN">
+			<summary>
+			Callback when the touch is pressed.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.CALLBACK_TOUCH_UP">
+			<summary>
+			Callback when the touch is released.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.CALLBACK_TOUCH_MOTION">
+			<summary>
+			Callback when the touch is moved.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.CALLBACK_IMMEDIATE_INPUT">
+			<summary>
+			Callback that allows receiving input events immediately from proxy before being processed by the engine. This callback can be called in different threads depending on the proxy implementation.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.NUM_CALLBACKS">
+			<summary>
+			Callback counter.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.DEVICE_TYPE_UNKNOWN">
+			<summary>
+			Unknown device.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.DEVICE_TYPE_GAME_CONTROLLER">
+			<summary>
+			Game controller device.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.DEVICE_TYPE_WHEEL">
+			<summary>
+			Wheel device.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.DEVICE_TYPE_ARCADE_STICK">
+			<summary>
+			Arcade stick device.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.DEVICE_TYPE_FLIGHT_STICK">
+			<summary>
+			Flight stick device.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.DEVICE_TYPE_DANCE_PAD">
+			<summary>
+			Dance pad device.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.DEVICE_TYPE_GUITAR">
+			<summary>
+			Guitar.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.DEVICE_TYPE_DRUM_KIT">
+			<summary>
+			Drum kit.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.DEVICE_TYPE_THROTTLE">
+			<summary>
+			Throttle device.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MODIFIER_LEFT_SHIFT">
+			<summary>
+			Left Shift key used as modifier.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MODIFIER_RIGHT_SHIFT">
+			<summary>
+			Right Shift key used as modifier.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MODIFIER_LEFT_CTRL">
+			<summary>
+			Left Ctrl key used as modifier.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MODIFIER_RIGHT_CTRL">
+			<summary>
+			Right Ctrl key used as modifier.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MODIFIER_LEFT_ALT">
+			<summary>
+			Left Alt key used as modifier.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MODIFIER_RIGHT_ALT">
+			<summary>
+			Right Alt key used as modifier.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MODIFIER_LEFT_CMD">
+			<summary>
+			Left Command key used as modifier.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MODIFIER_RIGHT_CMD">
+			<summary>
+			Right Command key used as modifier.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MODIFIER_NUM_LOCK">
+			<summary>
+			Num Lock key used as modifier.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MODIFIER_CAPS_LOCK">
+			<summary>
+			Caps Lock key used as modifier.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MODIFIER_SCROLL_LOCK">
+			<summary>
+			Scroll Lock key used as modifier.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MODIFIER_ALT_GR">
+			<summary>
+			Alt Gr key used as modifier.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MODIFIER_ANY_SHIFT">
+			<summary>
+			Any Shift key used as modifier.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MODIFIER_ANY_CTRL">
+			<summary>
+			Any Ctrl key used as modifier.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MODIFIER_ANY_ALT">
+			<summary>
+			Any Alt key used as modifier.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.MODIFIER_ANY_CMD">
+			<summary>
+			Any Command key used as modifier.
+		</summary>
+		</member>
+		<member name="F:Unigine.Input.NUM_KEYS">
+			<summary>
+			Number of keys.
+		</summary>
+		</member>
+		<member name="M:Unigine.InputEvent.getType const">
+			<summary>
+			Returns the type of the input event.
+			</summary>  
+			<returns>Type of the input event, one of the TYPE.INPUT_EVENT values.</returns>
+		</member>
+		<member name="M:Unigine.InputEvent.getTypeName const">
+			<summary>
+			Returns the name of the input event type.
+			</summary>  
+			<returns>The name of the input event type.</returns>
+		</member>
+		<member name="M:Unigine.InputEvent.setTimestamp(unsignedint)">
+			<summary>
+			Sets the timestamp of the event.
+			</summary> 
+			<param name="timestamp"> The timestamp of the event, in milliseconds. </param> 
+		</member>
+		<member name="M:Unigine.InputEvent.getTimestamp const">
+			<summary>
+			Returns the timestamp of the event.
+			</summary>  
+			<returns>The timestamp of the event, in milliseconds.</returns>
+		</member>
+		<member name="M:Unigine.InputEvent.setMousePosition(Unigine.Math.ivec2)">
+			<summary>
+			Sets the mouse position for the event.
+			</summary> 
+			<param name="pos"> The position of the mouse. </param> 
+		</member>
+		<member name="M:Unigine.InputEvent.getMousePosition const">
+			<summary>
+			Returns the mouse position for the event.
+			</summary>  
+			<returns>The position of the mouse.</returns>
+		</member>
+		<member name="M:Unigine.InputEvent.getFrame const">
+			<summary>
+			Returns the engine frame during which the event has been sent from proxy to Input.
+			</summary>  
+		</member>
+		<member name="F:Unigine.InputEvent.INPUT_EVENT">
+			<summary>
+			Basic type. Cannot be created.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEvent.INPUT_EVENT_MOUSE_BUTTON">
+			<summary>
+			Mouse button has been clicked.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEvent.INPUT_EVENT_MOUSE_WHEEL">
+			<summary>
+			Mouse wheel has been moved.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEvent.INPUT_EVENT_MOUSE_MOTION">
+			<summary>
+			Mouse has been moved.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEvent.INPUT_EVENT_KEYBOARD">
+			<summary>
+			Keyboard button has been pressed.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEvent.INPUT_EVENT_TEXT">
+			<summary>
+			Text has been entered.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEvent.INPUT_EVENT_TOUCH">
+			<summary>
+			Touch device has been touched.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEvent.INPUT_EVENT_JOY_DEVICE">
+			<summary>
+			Joystick has been connected or disconnected.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEvent.INPUT_EVENT_JOY_BUTTON">
+			<summary>
+			Joystick button has been pressed.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEvent.INPUT_EVENT_JOY_AXIS_MOTION">
+			<summary>
+			Joystick axis has been moved.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEvent.INPUT_EVENT_JOY_POV_MOTION">
+			<summary>
+			Joystick POV hat has been moved.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEvent.INPUT_EVENT_PAD_DEVICE">
+			<summary>
+			Game pad has been connected or disconnected.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEvent.INPUT_EVENT_PAD_BUTTON">
+			<summary>
+			Game pad button has been pressed.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEvent.INPUT_EVENT_PAD_AXIS_MOTION">
+			<summary>
+			Game pad axis has been moved.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEvent.INPUT_EVENT_SYSTEM">
+			<summary>
+			System event has occurred (keyboard layout or input language has changed).
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEvent.NUM_INPUT_EVENTS">
+			<summary>
+			Counter of input events.
+		</summary>
+		</member>
+		<member name="M:Unigine.InputEventKeyboard.#ctor">
+			<summary>
+			Default constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.InputEventKeyboard.#ctor(unsignedlonglong,Unigine.Math.ivec2,InputEventKeyboard::ACTION,Input::KEY)">
+			<summary>
+			Keyboard input event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param>
+			<param name="action"> Action performed. </param>
+			<param name="key"> Virtual keyboard key value (dependent on the language). </param> 
+		</member>
+		<member name="M:Unigine.InputEventKeyboard.#ctor(unsignedlonglong,Unigine.Math.ivec2)">
+			<summary>
+			Keyboard input event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param> 
+		</member>
+		<member name="M:Unigine.InputEventKeyboard.setAction(InputEventKeyboard::ACTION)">
+			<summary>
+			Sets the action to be performed by the keyboard.
+			</summary> 
+			<param name="action"> Action performed by the keyboard. </param> 
+		</member>
+		<member name="M:Unigine.InputEventKeyboard.getAction const">
+			<summary>
+			Returns the action performed by the mouse button.
+			</summary>  
+			<returns>Action performed by the keyboard.</returns>
+		</member>
+		<member name="M:Unigine.InputEventKeyboard.setKey(Input::KEY)">
+			<summary>
+			Sets the keyboard key language-dependent value.
+			</summary> 
+			<param name="key"> Virtual keyboard key value (dependent on the keyboard language). </param> 
+		</member>
+		<member name="M:Unigine.InputEventKeyboard.getKey const">
+			<summary>
+			Returns the keyboard key language-dependent value.
+			</summary>  
+			<returns>Virtual keyboard key value (dependent on the keyboard language).</returns>
+		</member>
+		<member name="F:Unigine.InputEventKeyboard.ACTION_DOWN">
+			<summary>
+			Keyboard button is held down.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEventKeyboard.ACTION_REPEAT">
+			<summary>
+			Keyboard button has been pressed repeatedly.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEventKeyboard.ACTION_UP">
+			<summary>
+			Keyboard button has been released.
+		</summary>
+		</member>
+		<member name="M:Unigine.InputEventMouseButton.#ctor">
+			<summary>
+			Default constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.InputEventMouseButton.#ctor(unsignedlonglong,Unigine.Math.ivec2)">
+			<summary>
+			Mouse button input event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param> 
+		</member>
+		<member name="M:Unigine.InputEventMouseButton.#ctor(unsignedlonglong,Unigine.Math.ivec2,InputEventMouseButton::ACTION,Input::MOUSE_BUTTON)">
+			<summary>
+			Mouse button input event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param>
+			<param name="action"> Action performed. </param>
+			<param name="button"> Mouse button. </param> 
+		</member>
+		<member name="M:Unigine.InputEventMouseButton.setAction(InputEventMouseButton::ACTION)">
+			<summary>
+			Sets the action to be performed by the mouse button.
+			</summary> 
+			<param name="action"> Action performed by the mouse button. </param> 
+		</member>
+		<member name="M:Unigine.InputEventMouseButton.getAction const">
+			<summary>
+			Returns the action performed by the mouse button.
+			</summary>  
+			<returns>Action performed by the mouse button.</returns>
+		</member>
+		<member name="M:Unigine.InputEventMouseButton.setButton(Input::MOUSE_BUTTON)">
+			<summary>
+			Sets the mouse button for the input event.
+			</summary> 
+			<param name="button"> Mouse button, one of the MOUSE_BUTTON_* values. </param> 
+		</member>
+		<member name="M:Unigine.InputEventMouseButton.getButton const">
+			<summary>
+			Returns the mouse button for the input event.
+			</summary>  
+			<returns>Mouse button, one of the MOUSE_BUTTON_* values.</returns>
+		</member>
+		<member name="F:Unigine.InputEventMouseButton.ACTION_DOWN">
+			<summary>
+			Mouse button has been pressed.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEventMouseButton.ACTION_UP">
+			<summary>
+			Mouse button has been released.
+		</summary>
+		</member>
+		<member name="M:Unigine.InputEventMouseMotion.#ctor">
+			<summary>
+			Default constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.InputEventMouseMotion.#ctor(unsignedlonglong,Unigine.Math.ivec2,Unigine.Math.ivec2)">
+			<summary>
+			Mouse motion input event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param>
+			<param name="delta"> Delta of the mouse position from the previous event. </param> 
+		</member>
+		<member name="M:Unigine.InputEventMouseMotion.#ctor(unsignedlonglong,Unigine.Math.ivec2)">
+			<summary>
+			Mouse motion input event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param> 
+		</member>
+		<member name="M:Unigine.InputEventMouseMotion.setDelta(Unigine.Math.ivec2)">
+			<summary>
+			Sets the delta of the mouse position from the previous event.
+			</summary> 
+			<param name="delta"> Delta of the mouse position from the previous event. </param> 
+		</member>
+		<member name="M:Unigine.InputEventMouseMotion.getDelta const">
+			<summary>
+			Returns the delta of the mouse position from the previous event.
+			</summary>  
+			<returns>Delta of the mouse position from the previous event.</returns>
+		</member>
+		<member name="M:Unigine.InputEventMouseWheel.#ctor">
+			<summary>
+			Default constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.InputEventMouseWheel.#ctor(unsignedlonglong,Unigine.Math.ivec2)">
+			<summary>
+			Mouse wheel input event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param> 
+		</member>
+		<member name="M:Unigine.InputEventMouseWheel.#ctor(unsignedlonglong,Unigine.Math.ivec2,int,int)">
+			<summary>
+			Mouse wheel input event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param>
+			<param name="wheel"> Delta amount scrolled vertically (positive value - away from the user, negative - towards the user. </param>
+			<param name="wheel_h"> Delta amount scrolled horizontally (positive value - to the right, negative - to the left). </param> 
+		</member>
+		<member name="M:Unigine.InputEventMouseWheel.setWheel(int)">
+			<summary>
+			Sets the delta of the vertical mouse scroll movement.
+			</summary> 
+			<param name="wheel"> The amount scrolled vertically, positive away from the user and negative towards the user. </param> 
+		</member>
+		<member name="M:Unigine.InputEventMouseWheel.getWheel const">
+			<summary>
+			Returns the delta of the vertical mouse scroll movement.
+			</summary>  
+			<returns>The amount scrolled vertically, positive away from the user and negative towards the user.</returns>
+		</member>
+		<member name="M:Unigine.InputEventMouseWheel.setWheelHorizontal(int)">
+			<summary>
+			Sets the delta of the horizontal mouse scroll movement.
+			</summary> 
+			<param name="horizontal"> The amount scrolled horizontally, positive to the right and negative to the left. </param> 
+		</member>
+		<member name="M:Unigine.InputEventMouseWheel.getWheelHorizontal const">
+			<summary>
+			Returns the delta of the horizontal mouse scroll movement.
+			</summary>  
+			<returns>The amount scrolled horizontally, positive to the right and negative to the left.</returns>
+		</member>
+		<member name="M:Unigine.InputEventSystem.#ctor">
+			<summary>
+			Default constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.InputEventSystem.#ctor(unsignedint,Unigine.Math.ivec2)">
+			<summary>
+			Default constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event (time when the event occurred). </param>
+			<param name="mouse_pos"> Coordinates of the mouse cursor position along X and Y axes. </param> 
+		</member>
+		<member name="M:Unigine.InputEventSystem.#ctor(unsignedint,Unigine.Math.ivec2,InputEventSystem::ACTION)">
+			<summary>
+			Default constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event (time when the event occurred). </param>
+			<param name="mouse_pos"> Coordinates of the mouse cursor position along X and Y axes. </param>
+			<param name="action"> action of the system event. </param> 
+		</member>
+		<member name="M:Unigine.InputEventSystem.setAction(InputEventSystem::ACTION)">
+			<summary>
+			Sets the action for the system event.
+			</summary> 
+			<param name="action"> New action to be set for the system event. </param> 
+		</member>
+		<member name="M:Unigine.InputEventSystem.getAction const">
+			<summary>
+			Returns the action of the system event.
+			</summary>  
+			<returns>Current system event action.</returns>
+		</member>
+		<member name="F:Unigine.InputEventSystem.ACTION_KEYBOARD_LAYOUT_CHANGED">
+			<summary>
+			Keyboard layout has changed.
+		</summary>
+		</member>
+		<member name="M:Unigine.InputEventText.#ctor">
+			<summary>
+			Default constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.InputEventText.#ctor(unsignedlonglong,Unigine.Math.ivec2)">
+			<summary>
+			Text input event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param> 
+		</member>
+		<member name="M:Unigine.InputEventText.#ctor(unsignedlonglong,Unigine.Math.ivec2,unsignedint)">
+			<summary>
+			Text input event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param>
+			<param name="unicode"> Unicode symbol. </param> 
+		</member>
+		<member name="M:Unigine.InputEventText.setUnicode(unsignedint)">
+			<summary>
+			Sets the input symbol.
+			</summary> 
+			<param name="unicode"> Unicode symbol. </param> 
+		</member>
+		<member name="M:Unigine.InputEventText.getUnicode const">
+			<summary>
+			Returns the input symbol.
+			</summary>  
+			<returns>Unicode symbol.</returns>
+		</member>
+		<member name="M:Unigine.InputEventTouch.#ctor">
+			<summary>
+			Default constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.InputEventTouch.#ctor(unsignedlonglong,Unigine.Math.ivec2)">
+			<summary>
+			Touch input event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param> 
+		</member>
+		<member name="M:Unigine.InputEventTouch.#ctor(unsignedlonglong,Unigine.Math.ivec2,InputEventTouch::ACTION,longlong,longlong)">
+			<summary>
+			Touch input event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param>
+			<param name="action"> The type of the touch input event, one of the ACTION_* values. </param>
+			<param name="device_id"> Device identifier. </param>
+			<param name="touch_id"> Touch identifier. </param> 
+		</member>
+		<member name="M:Unigine.InputEventTouch.#ctor(unsignedlonglong,Unigine.Math.ivec2,InputEventTouch::ACTION,longlong,longlong,Unigine.Math.ivec2,Unigine.Math.ivec2,float)">
+			<summary>
+			Touch input event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param>
+			<param name="action"> The type of the touch input event, one of the ACTION_* values. </param>
+			<param name="device_id"> Device identifier. </param>
+			<param name="touch_id"> Touch identifier. </param>
+			<param name="pos"> Touch position. </param>
+			<param name="delta"> Delta of the mouse position from the previous event. </param>
+			<param name="pressure"> Pressure with which the finger is currently pressed. </param> 
+		</member>
+		<member name="M:Unigine.InputEventTouch.setAction(InputEventTouch::ACTION)">
+			<summary>
+			Sets the type of the touch input event.
+			</summary> 
+			<param name="action"> The type of the touch input event, one of the ACTION_* values. </param> 
+		</member>
+		<member name="M:Unigine.InputEventTouch.getAction const">
+			<summary>
+			Returns the type of the touch input event.
+			</summary>  
+			<returns>The type of the touch input event, one of the ACTION_* values.</returns>
+		</member>
+		<member name="M:Unigine.InputEventTouch.setDeviceID(longlong)">
+			<summary>
+			Sets the touch device identifier.
+			</summary> 
+			<param name="id"> The device identifier. </param> 
+		</member>
+		<member name="M:Unigine.InputEventTouch.getDeviceID const">
+			<summary>
+			Returns the current touch device identifier.
+			</summary>  
+			<returns>The device identifier.</returns>
+		</member>
+		<member name="M:Unigine.InputEventTouch.setTouchID(longlong)">
+			<summary>
+			Sets the touch identifier.
+			</summary> 
+			<param name="id"> The touch identifier. </param> 
+		</member>
+		<member name="M:Unigine.InputEventTouch.getTouchID const">
+			<summary>
+			Returns the current touch identifier.
+			</summary>  
+			<returns>The touch identifier.</returns>
+		</member>
+		<member name="M:Unigine.InputEventTouch.setPosition(Unigine.Math.ivec2)">
+			<summary>
+			Sets the touch position.
+			</summary> 
+			<param name="pos"> The touch position. </param> 
+		</member>
+		<member name="M:Unigine.InputEventTouch.getPosition const">
+			<summary>
+			Returns the current touch position.
+			</summary>  
+			<returns>The touch position.</returns>
+		</member>
+		<member name="M:Unigine.InputEventTouch.setDelta(Unigine.Math.ivec2)">
+			<summary>
+			Sets the delta of the mouse position from the previous event.
+			</summary> 
+			<param name="delta"> The delta of the mouse position from the previous event. </param> 
+		</member>
+		<member name="M:Unigine.InputEventTouch.getDelta const">
+			<summary>
+			Returns the delta of the mouse position from the previous event.
+			</summary>  
+			<returns>The delta of the mouse position from the previous event.</returns>
+		</member>
+		<member name="M:Unigine.InputEventTouch.setPressure(float)">
+			<summary>
+			Sets the pressure with which the finger is pressed.
+			</summary> 
+			<param name="pressure"> The pressure with which the finger is pressed. </param> 
+		</member>
+		<member name="M:Unigine.InputEventTouch.getPressure const">
+			<summary>
+			Returns the pressure with which the finger is pressed.
+			</summary>  
+			<returns>The pressure with which the finger is currently pressed.</returns>
+		</member>
+		<member name="F:Unigine.InputEventTouch.ACTION_DOWN">
+			<summary>
+			Touch state is "pressed".
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEventTouch.ACTION_MOTION">
+			<summary>
+			Touch state is "pressed and moving".
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEventTouch.ACTION_UP">
+			<summary>
+			Touch state is "released".
+		</summary>
+		</member>
+		<member name="M:Unigine.InputEventJoyDevice.#ctor">
+			<summary>
+			Default constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.InputEventJoyDevice.#ctor(unsignedlonglong,Unigine.Math.ivec2)">
+			<summary>
+			Joystick input event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param> 
+		</member>
+		<member name="M:Unigine.InputEventJoyDevice.#ctor(unsignedlonglong,Unigine.Math.ivec2,InputEventJoyDevice::ACTION,int,int,char)">
+			<summary>
+			Joystick input event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param>
+			<param name="action"> Type of the joystick input event, one of the ACTION_* values. </param>
+			<param name="connection_id"> Connection identifier. </param>
+			<param name="player_index"> Index of the player. </param>
+			<param name="model_guid"> GUID of the joystick model. </param> 
+		</member>
+		<member name="M:Unigine.InputEventJoyDevice.setAction(InputEventJoyDevice::ACTION)">
+			<summary>
+			Sets the type of the joystick input event.
+			</summary> 
+			<param name="action"> Type of the joystick input event, one of the ACTION_* values. </param> 
+		</member>
+		<member name="M:Unigine.InputEventJoyDevice.getAction const">
+			<summary>
+			Returns the type of the joystick input event.
+			</summary>  
+			<returns>Type of the joystick input event, one of the ACTION_* values.</returns>
+		</member>
+		<member name="M:Unigine.InputEventJoyDevice.setConnectionID(int)">
+			<summary>
+			Sets the connection identifier.
+			</summary> 
+			<param name="id"> Сonnection identifier to be set. </param> 
+		</member>
+		<member name="M:Unigine.InputEventJoyDevice.getConnectionID const">
+			<summary>
+			Returns the connection identifier.
+			</summary>  
+			<returns>Сonnection identifier.</returns>
+		</member>
+		<member name="M:Unigine.InputEventJoyDevice.setPlayerIndex(int)">
+			<summary>
+			Sets the player index.
+			</summary> 
+			<param name="index"> Player index. </param> 
+		</member>
+		<member name="M:Unigine.InputEventJoyDevice.getPlayerIndex const">
+			<summary>
+			Returns the player index.
+			</summary>  
+			<returns>Player index.</returns>
+		</member>
+		<member name="M:Unigine.InputEventJoyDevice.setModelGUID(char)">
+			<summary>
+			Sets the GUID of the joystick model.
+			</summary> 
+			<param name="modelguid"> GUID of the joystick model. </param> 
+		</member>
+		<member name="M:Unigine.InputEventJoyDevice.getModelGUID const">
+			<summary>
+			Returns the GUID of the joystick model.
+			</summary>  
+			<returns>GUID of the joystick model.</returns>
+		</member>
+		<member name="F:Unigine.InputEventJoyDevice.ACTION_CONNECTED">
+			<summary>
+			Joystick state is "connected".
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEventJoyDevice.ACTION_DISCONNECTED">
+			<summary>
+			Joystick state is "disconnected".
+		</summary>
+		</member>
+		<member name="M:Unigine.InputEventJoyButton.#ctor">
+			<summary>
+			Default constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.InputEventJoyButton.#ctor(unsignedlonglong,Unigine.Math.ivec2)">
+			<summary>
+			Joystick button input event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param> 
+		</member>
+		<member name="M:Unigine.InputEventJoyButton.#ctor(unsignedlonglong,Unigine.Math.ivec2,InputEventJoyButton::ACTION,int,int)">
+			<summary>
+			Joystick button input event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param>
+			<param name="action"> Type of the joystick button input event, one of the ACTION_* values. </param>
+			<param name="connection_id"> Connection identifier. </param>
+			<param name="button"> Joystick button index. </param> 
+		</member>
+		<member name="M:Unigine.InputEventJoyButton.setAction(InputEventJoyButton::ACTION)">
+			<summary>
+			Sets the type of the joystick button input event.
+			</summary> 
+			<param name="action"> Type of the joystick button input event, one of the ACTION_* values. </param> 
+		</member>
+		<member name="M:Unigine.InputEventJoyButton.getAction const">
+			<summary>
+			Returns the type of the joystick button input event.
+			</summary>  
+			<returns>Type of the joystick button input event, one of the ACTION_* values.</returns>
+		</member>
+		<member name="M:Unigine.InputEventJoyButton.setConnectionID(int)">
+			<summary>
+			Sets the connection identifier.
+			</summary> 
+			<param name="id"> Connection identifier. </param> 
+		</member>
+		<member name="M:Unigine.InputEventJoyButton.getConnectionID const">
+			<summary>
+			Returns the current connection identifier.
+			</summary>  
+			<returns>Connection identifier.</returns>
+		</member>
+		<member name="M:Unigine.InputEventJoyButton.setButton(int)">
+			<summary>
+			Sets the joystick button index.
+			</summary> 
+			<param name="button"> Joystick button index. </param> 
+		</member>
+		<member name="M:Unigine.InputEventJoyButton.getButton const">
+			<summary>
+			Returns the joystick button index.
+			</summary>  
+			<returns>Joystick button index.</returns>
+		</member>
+		<member name="F:Unigine.InputEventJoyButton.ACTION_DOWN">
+			<summary>
+			Button state is "pressed".
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEventJoyButton.ACTION_UP">
+			<summary>
+			Button state is "released".
+		</summary>
+		</member>
+		<member name="M:Unigine.InputEventJoyAxisMotion.#ctor">
+			<summary>
+			Default constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.InputEventJoyAxisMotion.#ctor(unsignedlonglong,Unigine.Math.ivec2)">
+			<summary>
+			Joystick axis motion event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param> 
+		</member>
+		<member name="M:Unigine.InputEventJoyAxisMotion.#ctor(unsignedlonglong,Unigine.Math.ivec2,int,int,float)">
+			<summary>
+			Joystick axis motion event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param>
+			<param name="connection_id"> Connection identifier. </param>
+			<param name="axis"> Joystick axis index. </param>
+			<param name="value"> Axis position value. </param> 
+		</member>
+		<member name="M:Unigine.InputEventJoyAxisMotion.setConnectionID(int)">
+			<summary>
+			Sets the connection identifier.
+			</summary> 
+			<param name="id"> Connection identifier. </param> 
+		</member>
+		<member name="M:Unigine.InputEventJoyAxisMotion.getConnectionID const">
+			<summary>
+			Returns the current connection identifier.
+			</summary>  
+			<returns>Connection identifier.</returns>
+		</member>
+		<member name="M:Unigine.InputEventJoyAxisMotion.setAxis(int)">
+			<summary>
+			Sets the joystick axis index.
+			</summary> 
+			<param name="axis"> Joystick axis index. </param> 
+		</member>
+		<member name="M:Unigine.InputEventJoyAxisMotion.getAxis const">
+			<summary>
+			Sets the joystick axis index.
+			</summary>  
+			<returns>Joystick axis index.</returns>
+		</member>
+		<member name="M:Unigine.InputEventJoyAxisMotion.setValue(float)">
+			<summary>
+			Sets the axis position value.
+			</summary> 
+			<param name="value"> Axis position value. </param> 
+		</member>
+		<member name="M:Unigine.InputEventJoyAxisMotion.getValue const">
+			<summary>
+			Returns the axis position value.
+			</summary>  
+			<returns>Axis position value.</returns>
+		</member>
+		<member name="M:Unigine.InputEventJoyPovMotion.#ctor">
+			<summary>
+			Default constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.InputEventJoyPovMotion.#ctor(unsignedlonglong,Unigine.Math.ivec2)">
+			<summary>
+			Joystick POV hat motion event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param> 
+		</member>
+		<member name="M:Unigine.InputEventJoyPovMotion.#ctor(unsignedlonglong,Unigine.Math.ivec2,int,int,int)">
+			<summary>
+			Joystick POV hat motion event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param>
+			<param name="connection_id"> Connection identifier. </param>
+			<param name="pov"> Index of the POV hat. </param>
+			<param name="value"> Position of the POV hat. </param> 
+		</member>
+		<member name="M:Unigine.InputEventJoyPovMotion.setConnectionID(int)">
+			<summary>
+			Sets the connection identifier.
+			</summary> 
+			<param name="id"> Connection identifier to be set. </param> 
+		</member>
+		<member name="M:Unigine.InputEventJoyPovMotion.getConnectionID const">
+			<summary>
+			Returns the connection identifier.
+			</summary>  
+			<returns>Connection identifier.</returns>
+		</member>
+		<member name="M:Unigine.InputEventJoyPovMotion.setPov(int)">
+			<summary>
+			Sets the index of the POV hat.
+			</summary> 
+			<param name="pov"> Index of the POV hat. </param> 
+		</member>
+		<member name="M:Unigine.InputEventJoyPovMotion.getPov const">
+			<summary>
+			Returns the index of the POV hat.
+			</summary>  
+			<returns>Index of the POV hat.</returns>
+		</member>
+		<member name="M:Unigine.InputEventJoyPovMotion.setValue(int)">
+			<summary>
+			Sets the position of the POV hat.
+			</summary> 
+			<param name="value"> Position of the POV hat. </param> 
+		</member>
+		<member name="M:Unigine.InputEventJoyPovMotion.getValue const">
+			<summary>
+			Returns the position of the POV hat.
+			</summary>  
+			<returns>Position of the POV hat.</returns>
+		</member>
+		<member name="M:Unigine.InputEventPadDevice.#ctor">
+			<summary>
+			Default constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.InputEventPadDevice.#ctor(unsignedlonglong,Unigine.Math.ivec2)">
+			<summary>
+			Game pad input event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param> 
+		</member>
+		<member name="M:Unigine.InputEventPadDevice.#ctor(unsignedlonglong,Unigine.Math.ivec2,InputEventPadDevice::ACTION,int,int,char)">
+			<summary>
+			Game pad input event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param>
+			<param name="action"> Type of the game pad input event, one of the ACTION_* values. </param>
+			<param name="connection_id"> Connection identifier. </param>
+			<param name="player_index"> Index of the player. </param>
+			<param name="model_guid"> GUID of the game pad model. </param> 
+		</member>
+		<member name="M:Unigine.InputEventPadDevice.setAction(InputEventPadDevice::ACTION)">
+			<summary>
+			Sets the type of the game pad input event.
+			</summary> 
+			<param name="action"> Type of the game pad input event, one of the ACTION_* values. </param> 
+		</member>
+		<member name="M:Unigine.InputEventPadDevice.getAction const">
+			<summary>
+			Returns the type of the game pad input event.
+			</summary>  
+			<returns>Type of the game pad input event, one of the ACTION_* values.</returns>
+		</member>
+		<member name="M:Unigine.InputEventPadDevice.setConnectionID(int)">
+			<summary>
+			Sets the connection identifier.
+			</summary> 
+			<param name="id"> Connection identifier. </param> 
+		</member>
+		<member name="M:Unigine.InputEventPadDevice.getConnectionID const">
+			<summary>
+			Returns the connection identifier.
+			</summary>  
+			<returns>Connection identifier.</returns>
+		</member>
+		<member name="M:Unigine.InputEventPadDevice.setPlayerIndex(int)">
+			<summary>
+			Sets the player index.
+			</summary> 
+			<param name="index"> Player index. </param> 
+		</member>
+		<member name="M:Unigine.InputEventPadDevice.getPlayerIndex const">
+			<summary>
+			Returns the player index.
+			</summary>  
+			<returns>Player index.</returns>
+		</member>
+		<member name="M:Unigine.InputEventPadDevice.setModelGUID(char)">
+			<summary>
+			Sets the GUID of the game pad model.
+			</summary> 
+			<param name="modelguid"> GUID of the game pad model. </param> 
+		</member>
+		<member name="M:Unigine.InputEventPadDevice.getModelGUID const">
+			<summary>
+			Returns the GUID of the game pad model.
+			</summary>  
+			<returns>GUID of the game pad model.</returns>
+		</member>
+		<member name="F:Unigine.InputEventPadDevice.ACTION_CONNECTED">
+			<summary>
+			Game pad state is "connected".
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEventPadDevice.ACTION_DISCONNECTED">
+			<summary>
+			Game pad state is "disconnected".
+		</summary>
+		</member>
+		<member name="M:Unigine.InputEventPadButton.#ctor">
+			<summary>
+			Default constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.InputEventPadButton.#ctor(unsignedlonglong,Unigine.Math.ivec2)">
+			<summary>
+			game pad button input event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param> 
+		</member>
+		<member name="M:Unigine.InputEventPadButton.#ctor(unsignedlonglong,Unigine.Math.ivec2,InputEventJoyButton::ACTION,int,int)">
+			<summary>
+			game pad button input event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param>
+			<param name="action"> Type of the game pad button input event, one of the ACTION_* values. </param>
+			<param name="connection_id"> Connection identifier. </param>
+			<param name="button"> game pad button index. </param> 
+		</member>
+		<member name="M:Unigine.InputEventPadButton.setAction(InputEventPadButton::ACTION)">
+			<summary>
+			Sets the type of the game pad button input event.
+			</summary> 
+			<param name="action"> Type of the game pad button input event, one of the ACTION_* values. </param> 
+		</member>
+		<member name="M:Unigine.InputEventPadButton.getAction const">
+			<summary>
+			Returns the type of the game pad button input event.
+			</summary>  
+			<returns>Type of the game pad button input event, one of the ACTION_* values.</returns>
+		</member>
+		<member name="M:Unigine.InputEventPadButton.setConnectionID(int)">
+			<summary>
+			Sets the connection identifier.
+			</summary> 
+			<param name="id"> Connection identifier. </param> 
+		</member>
+		<member name="M:Unigine.InputEventPadButton.getConnectionID const">
+			<summary>
+			Returns the current connection identifier.
+			</summary>  
+			<returns>Connection identifier.</returns>
+		</member>
+		<member name="M:Unigine.InputEventPadButton.setButton(InputGamePad::BUTTON)">
+			<summary>
+			Sets the game pad button.
+			</summary> 
+			<param name="button"> Game pad button, one of the BUTTON_* values. </param> 
+		</member>
+		<member name="M:Unigine.InputEventPadButton.getButton const">
+			<summary>
+			Returns the game pad button.
+			</summary>  
+			<returns>Game pad button, one of the BUTTON_* values.</returns>
+		</member>
+		<member name="F:Unigine.InputEventPadButton.ACTION_DOWN">
+			<summary>
+			Button state is "pressed".
+		</summary>
+		</member>
+		<member name="F:Unigine.InputEventPadButton.ACTION_UP">
+			<summary>
+			Button state is "released".
+		</summary>
+		</member>
+		<member name="M:Unigine.InputEventPadAxisMotion.#ctor">
+			<summary>
+			Default constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.InputEventPadAxisMotion.#ctor(unsignedlonglong,Unigine.Math.ivec2)">
+			<summary>
+			Game pad axis motion event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param> 
+		</member>
+		<member name="M:Unigine.InputEventPadAxisMotion.#ctor(unsignedlonglong,Unigine.Math.ivec2,int,int,float)">
+			<summary>
+			Game pad axis motion event constructor.
+			</summary> 
+			<param name="timestamp"> Timestamp of the event. </param>
+			<param name="mouse_pos"> Position of the mouse. </param>
+			<param name="connection_id"> Connection identifier. </param>
+			<param name="axis"> Game pad axis index. </param>
+			<param name="value"> Axis position value. </param> 
+		</member>
+		<member name="M:Unigine.InputEventPadAxisMotion.setConnectionID(int)">
+			<summary>
+			Sets the connection identifier.
+			</summary> 
+			<param name="id"> Connection identifier to be set. </param> 
+		</member>
+		<member name="M:Unigine.InputEventPadAxisMotion.getConnectionID const">
+			<summary>
+			Returns the current connection identifier.
+			</summary>  
+			<returns>Connection identifier.</returns>
+		</member>
+		<member name="M:Unigine.InputEventPadAxisMotion.setAxis(InputGamePad::AXIS)">
+			<summary>
+			Sets the game pad axis.
+			</summary> 
+			<param name="axis"> The game pad axis, one of the AXIS_* values. </param> 
+		</member>
+		<member name="M:Unigine.InputEventPadAxisMotion.getAxis const">
+			<summary>
+			Returns the game pad axis.
+			</summary>  
+			<returns>The game pad axis, one of the AXIS_* values.</returns>
+		</member>
+		<member name="M:Unigine.InputEventPadAxisMotion.setValue(float)">
+			<summary>
+			Sets the axis position value.
+			</summary> 
+			<param name="value"> The axis position value. </param> 
+		</member>
+		<member name="M:Unigine.InputEventPadAxisMotion.getValue const">
+			<summary>
+			Returns the axis position value.
+			</summary>  
+			<returns>The axis position value.</returns>
+		</member>
+		<member name="M:Unigine.InputGamePad.getNumber const">
+			<summary>
+			Returns the game pad number (up to four game pads are supported).
+			</summary>  
+			<returns>Game pad number.</returns>
+		</member>
+		<member name="M:Unigine.InputGamePad.getName const">
+			<summary>
+			Returns the name of the game pad.
+			</summary>  
+			<returns>User-friendly name of the game pad. One of the following:GamePadWheelArcade StickFlight StickDance PadGuitarDrum KitUnknown</returns>
+		</member>
+		<member name="M:Unigine.InputGamePad.setFilter(float)">
+			<summary>
+			Sets a filter value used to correct the current state of the analog axis relative to the previous one. Axis states are interpolated for thumbsticks and triggers.
+			</summary> 
+			<param name="filter"> Filter value for interpolation between axis states. The provided value is clamped to a range [0;1].Filter value of 0 means there is no interpolation and the current value is not corrected.Filter value of 1 means the previous state is used instead of the current one. </param> 
+		</member>
+		<member name="M:Unigine.InputGamePad.getFilter const">
+			<summary>
+			A filter value used to correct the current state of the analog axis (thumbsticks and triggers) relative to the previous one:											Filter value of 0 means there is no interpolation and the current value is not corrected.						Filter value of 1 means the previous state is used instead of the current one.
+			</summary>  
+			<returns>The filter of the gamepad.</returns>
+		</member>
+		<member name="M:Unigine.InputGamePad.getAxesLeft const">
+			<summary>
+			Returns a vector of axes of the left thumbstick. When a thumbstick is in the center position, this value is [0,0]. The values correspond to the following thumbstick positions:											First value corresponds to the X axis. Negative values indicate the left position; positive values indicate right.						Second value corresponds to the Y axis. Negative values indicate the down position; positive values indicate up.
+			</summary>  
+			<returns>A vector of two values in the [-1;1] range.</returns>
+		</member>
+		<member name="M:Unigine.InputGamePad.getAxesLeftDelta const">
+			<summary>
+			Returns a vector of delta values of the left thumbstick axes — the difference between the values in the previous and the current frames.
+			</summary>  
+			<returns>Vector of delta axes.</returns>
+		</member>
+		<member name="M:Unigine.InputGamePad.getAxesRight const">
+			<summary>
+			Returns a vector of axes of the right thumbstick. When a thumbstick is in the center position, this value is [0,0]. The values correspond to the following thumbstick positions:											First value corresponds to the X axis. Negative values indicate the left position; positive values indicate right.						Second value corresponds to the Y axis. Negative values indicate the down position; positive values indicate up.
+			</summary>  
+			<returns>A vector of two values in the [-1;1] range.</returns>
+		</member>
+		<member name="M:Unigine.InputGamePad.getAxesRightDelta const">
+			<summary>
+			Returns a vector of delta values of the right thumbstick axes — the difference between the values in the previous and the current frames.
+			</summary>  
+			<returns>Vector of delta axes.</returns>
+		</member>
+		<member name="M:Unigine.InputGamePad.getTriggerLeft const">
+			<summary>
+			Returns an axis state value (the position) of the left trigger. 0 means the trigger is not pressed; 1 means the trigger is pressed to the maximum.
+			</summary>  
+			<returns>Value in range [0; 1].</returns>
+		</member>
+		<member name="M:Unigine.InputGamePad.getTriggerLeftDelta const">
+			<summary>
+			Returns the delta value of the left trigger — the difference between the values in the previous and the current frame.
+			</summary>  
+			<returns>Left trigger delta.</returns>
+		</member>
+		<member name="M:Unigine.InputGamePad.getTriggerRight const">
+			<summary>
+			Returns an axis state value (the position) of the right trigger. 0 means the trigger is not pressed; 1 means the trigger is pressed to the maximum.
+			</summary>  
+			<returns>Value in range [0; 1].</returns>
+		</member>
+		<member name="M:Unigine.InputGamePad.getTriggerRightDelta const">
+			<summary>
+			Returns the delta value of the right trigger — the difference between the values in the previous and the current frame.
+			</summary>  
+			<returns>Right trigger delta.</returns>
+		</member>
+		<member name="M:Unigine.InputGamePad.setVibration(float,float,float)">
+			<summary>
+			Sets the amount of vibration for the right (high-frequency) and left (low-frequency) motors for the time period specified in milliseconds.
+			</summary> 
+			<param name="low_frequency"> Vibration value in the [0.0f; 1.0f] range for the left (low-frequency) motor. </param>
+			<param name="high_frequency"> Vibration value in the [0.0f; 1.0f] range for the right (high-frequency) motor. </param>
+			<param name="duration_ms"> Vibration period duration, in milliseconds. </param> 
+		</member>
+		<member name="M:Unigine.InputGamePad.isAvailable const">
+			<summary>
+			Checks if the game pad is available.
+			</summary>  
+			<returns>true if the game pad is available; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.InputGamePad.isButtonPressed(InputGamePad::BUTTON) const">
+			<summary>
+			Returns a value indicating if the given button is pressed.
+			</summary> 
+			<param name="button"> One of the preset BUTTON_ codes. </param> 
+			<returns>true if the button is pressed; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.InputGamePad.isButtonDown(InputGamePad::BUTTON) const">
+			<summary>
+			Returns a value indicating if the given button was pressed during the current frame.
+			</summary> 
+			<param name="button"> One of the preset BUTTON_ codes. </param> 
+			<returns>true if the button was pressed during the current frame; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.InputGamePad.isButtonUp(InputGamePad::BUTTON) const">
+			<summary>
+			Returns a value indicating if the given button was released during the current frame.
+			</summary> 
+			<param name="button"> One of the preset BUTTON_ codes. </param> 
+			<returns>true if the button was released during the current frame; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.InputGamePad.getPlayerIndex const">
+			<summary>
+			Returns the index of player for the gamepad. Some devices support connection of multiple players (e.g., XBox 360 supports up to four players connected through XBox 360 gamepads). This method enables you to get this index.
+			</summary>  
+			<returns>Player index for the gamepad.</returns>
+		</member>
+		<member name="M:Unigine.InputGamePad.getDeviceType const">
+			<summary>
+			Returns a value indicating the type of the device (wheel, throttle, etc.).
+			</summary>  
+			<returns>Device type. One of the Input::DEVICE_TYPE_* values.</returns>
+		</member>
+		<member name="M:Unigine.InputGamePad.getModelType const">
+			<summary>
+			Returns a value indicating the game pad model type.
+			</summary>  
+			<returns>Game pad model type identifier.</returns>
+		</member>
+		<member name="F:Unigine.InputGamePad.BUTTON_A">
+			<summary>
+			Button A.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.BUTTON_B">
+			<summary>
+			Button B.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.BUTTON_X">
+			<summary>
+			Button X.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.BUTTON_Y">
+			<summary>
+			Button Y.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.BUTTON_BACK">
+			<summary>
+			Button "Back".
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.BUTTON_START">
+			<summary>
+			Button "Start".
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.BUTTON_DPAD_UP">
+			<summary>
+			Button "Up".
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.BUTTON_DPAD_DOWN">
+			<summary>
+			Button "Down".
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.BUTTON_DPAD_LEFT">
+			<summary>
+			Button "Left".
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.BUTTON_DPAD_RIGHT">
+			<summary>
+			Button "Right".
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.BUTTON_THUMB_LEFT">
+			<summary>
+			Left thumbstick button.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.BUTTON_THUMB_RIGHT">
+			<summary>
+			Right thumbstick button.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.BUTTON_SHOULDER_LEFT">
+			<summary>
+			Left shoulder (bumper) button.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.BUTTON_SHOULDER_RIGHT">
+			<summary>
+			Right shoulder (bumper) button.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.NUM_BUTTONS">
+			<summary>
+			Number of buttons on a game pad.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.AXIS_LEFT_X">
+			<summary>
+			X axis of the left stick.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.AXIS_LEFT_Y">
+			<summary>
+			Y axis of the left stick.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.AXIS_RIGHT_X">
+			<summary>
+			X axis of the right stick.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.AXIS_RIGHT_Y">
+			<summary>
+			Y axis of the right stick.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.AXIS_LEFT_TRIGGER">
+			<summary>
+			Left trigger.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.AXIS_RIGHT_TRIGGER">
+			<summary>
+			Right trigger.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.NUM_AXES">
+			<summary>
+			Number of axes on a game pad.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.MODEL_TYPE_UNKNOWN">
+			<summary>
+			Unknown model.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.MODEL_TYPE_XBOX_360">
+			<summary>
+			Xbox 360.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.MODEL_TYPE_XBOX_ONE">
+			<summary>
+			Xbox One.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.MODEL_TYPE_PS3">
+			<summary>
+			PlayStation 3.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.MODEL_TYPE_PS4">
+			<summary>
+			PlayStation 4.
+		</summary>
+		</member>
+		<member name="F:Unigine.InputGamePad.MODEL_TYPE_PS5">
+			<summary>
+			PlayStation 5.
+		</summary>
+		</member>
+	</members>
+</doc>

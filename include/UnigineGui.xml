@@ -1,0 +1,1203 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Gui.getCurrent">
+			<summary>
+			Returns the current GUI instance.
+			</summary>  
+			<returns>Current GUI instance.</returns>
+		</member>
+		<member name="M:Unigine.Gui.isActive const">
+			<summary>
+			Returns a value indicating if any widget in the GUI is in focus.
+			</summary>  
+			<returns>true if any widget is focused; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getChild(int) const">
+			<summary>
+			Returns a child widget with a given number.
+			</summary> 
+			<param name="num"> Child widget number. </param> 
+			<returns>Child widget.</returns>
+		</member>
+		<member name="M:Unigine.Gui.isChild(Unigine.Ptr{Unigine.Widget}) const">
+			<summary>
+			Checks if a given widget belongs to the GUI.
+			</summary> 
+			<param name="widget"> Widget to check. </param> 
+			<returns>true if the widget belongs to the GUI; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setColor(Unigine.Math.vec4)">
+			<summary>
+			Sets a color for the global color multiplier. The default is equivalent to #ffffff (white).
+			</summary> 
+			<param name="color"> Color multiplier. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getColor const">
+			<summary>
+			Returns the color of the global color multiplier.
+			</summary>  
+			<returns>Color multiplier.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setDefaultAlpha(float)">
+			<summary>
+			Sets a standard alpha value for widgets.
+			</summary> 
+			<param name="alpha"> Alpha value. 0 means completely transparent. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getDefaultAlpha const">
+			<summary>
+			Returns the standard alpha value of a widget.
+			</summary>  
+			<returns>Alpha value.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setDefaultColor(Unigine.Math.vec4)">
+			<summary>
+			Sets a standard font color for widgets. The default is equivalent to #ddddff (blue-white).
+			</summary> 
+			<param name="color"> Font color. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getDefaultColor const">
+			<summary>
+			Returns the standard font color of a widget.
+			</summary>  
+			<returns>Font color.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setDefaultSize(int)">
+			<summary>
+			Sets a standard font size for widgets.
+			</summary> 
+			<param name="size"> Font size. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getDefaultSize const">
+			<summary>
+			Returns the standard font size of a widget.
+			</summary>  
+			<returns>Font size.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setDisabledAlpha(float)">
+			<summary>
+			Sets an alpha value for disabled widgets.
+			</summary> 
+			<param name="alpha"> Alpha value. 0 means completely transparent. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getDisabledAlpha const">
+			<summary>
+			Returns the alpha value of a disabled widget.
+			</summary>  
+			<returns>Alpha value.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setDisabledColor(Unigine.Math.vec4)">
+			<summary>
+			Sets a font color for disabled widgets. The default is equivalent to #869caa (light bluish).
+			</summary> 
+			<param name="color"> Font color. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getDisabledColor const">
+			<summary>
+			Returns the font color of a disabled widget.
+			</summary>  
+			<returns>Font color.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setDisabledEnabled(bool)">
+			<summary>
+			Sets a value indicating if a widget can be rendered as disabled (i.e. change its color accordingly), when necessary.
+			</summary> 
+			<param name="enabled"> Positive value if the widget can be rendered as disabled; otherwise, 0. </param> 
+		</member>
+		<member name="M:Unigine.Gui.isDisabledEnabled const">
+			<summary>
+			Returns a value indicating if a widget can be rendered as disabled (i.e. change its color accordingly), when necessary.
+			</summary>  
+			<returns>1 if the widget can be rendered as disabled; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setEnabled(bool)">
+			<summary>
+			Sets a value indicating if a widget should be enabled/disabled.
+			</summary> 
+			<param name="enabled"> 1 to enable the GUI, 0 to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Gui.isEnabled const">
+			<summary>
+			Returns a value indicating if the GUI is enabled.
+			</summary>  
+			<returns>Return 1 if the GUI is enabled; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setExposeSpeed(float)">
+			<summary>
+			Sets a duration of animation played when the widget appears.
+			</summary> 
+			<param name="speed"> Duration in cycles per second, for example, 6 means that the duration is a 1/6 of a second. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getExposeSpeed const">
+			<summary>
+			Returns the duration of animation played when a widget appears.
+			</summary>  
+			<returns>Duration in cycles per second.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setFadeInSpeed(float)">
+			<summary>
+			Sets a duration of fade-in animation played when the widget gets focused.
+			</summary> 
+			<param name="speed"> Duration in cycles per second, for example, 8 means that the duration is a 1/8 of a second. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getFadeInSpeed const">
+			<summary>
+			Returns the duration of fade-in animation played when a widget gets focused.
+			</summary>  
+			<returns>Duration in cycles per second.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setFadeOutSpeed(float)">
+			<summary>
+			Sets a duration of fade-out animation played when the widget loses focus.
+			</summary> 
+			<param name="speed"> Duration in cycles per second, for example, 4 means that the duration is a 1/4 of a second. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getFadeOutSpeed const">
+			<summary>
+			Returns the duration of fade-out animation played when a widget loses focus.
+			</summary>  
+			<returns>Duration in cycles per second.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getFocus const">
+			<summary>
+			Returns the widget that is currently in focus.
+			</summary>  
+			<returns>Focused widget smart pointer.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setFocusedAlpha(float)">
+			<summary>
+			Sets an alpha value for focused widgets. The default is 1 (completely opaque).
+			</summary> 
+			<param name="alpha"> Alpha value. 0 means completely transparent. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getFocusedAlpha const">
+			<summary>
+			Returns the alpha value of a focused widget.
+			</summary>  
+			<returns>Alpha value.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setFocusedColor(Unigine.Math.vec4)">
+			<summary>
+			Sets an font color for focused widgets. The default is equivalent to #ffffff (white).
+			</summary> 
+			<param name="color"> Font color. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getFocusedColor const">
+			<summary>
+			Returns the font color of a focused widget.
+			</summary>  
+			<returns>Font color.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setFocusedEnabled(bool)">
+			<summary>
+			Sets a value indicating if a widget can be rendered as focused on (i.e. change its color accordingly), when necessary.
+			</summary> 
+			<param name="enabled"> Positive value if the widget can be rendered as focused on; otherwise, 0. </param> 
+		</member>
+		<member name="M:Unigine.Gui.isFocusedEnabled const">
+			<summary>
+			Returns a value indicating if a widget can be rendered as focused on (i.e. change its color accordingly), when necessary.
+			</summary>  
+			<returns>1 if the widget can be rendered as focused on; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setFocusedPermanent(bool)">
+			<summary>
+			Changes the permanent color of the focused widget.
+			</summary> 
+			<param name="permanent"> 1 - a font color is overridden with the global GUI focused color; 0 - a font color is unchanged. </param> 
+		</member>
+		<member name="M:Unigine.Gui.isFocusedPermanent const">
+			<summary>
+			Returns a value indicating if the permanent color of the focused widget is changed.
+			</summary>  
+			<returns>1 if the font color is overridden with the global GUI focused color; 0 if the font color is unchanged.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setFont(char)">
+			<summary>
+			Changes the font used in the system GUI.
+			</summary> 
+			<param name="name"> Path to the font file. </param> 
+			<returns>1 if the font is successfully changed; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getHeight const">
+			<summary>
+			Returns the current screen height.
+			</summary>  
+			<returns>Screen height, in pixels.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setHidden(bool)">
+			<summary>
+			Sets a value indicating if a widget should not be rendered.
+			</summary> 
+			<param name="hidden"> 1 to show the GUI, 0 to hide it. </param> 
+		</member>
+		<member name="M:Unigine.Gui.isHidden const">
+			<summary>
+			Returns a value indicating if a widget is rendered visible.
+			</summary>  
+			<returns>1 if the widget is rendered; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getKeyActivity(unsignedint) const">
+			<summary>
+			Checks if a given key already has a special purpose for the widget in focus.
+			</summary> 
+			<param name="key"> One of the standard ASCII control codes or one of the KEY_* pre-defined variables. </param> 
+			<returns>1 if the key cannot be used; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setMouseButtons(int)">
+			<summary>
+			Sets mouse button(s), whose input should be received.
+			</summary> 
+			<param name="buttons"> Input::MOUSE_BUTTON_LEFT or Input::MOUSE_BUTTON_RIGHT, or Input::MOUSE_BUTTON_MIDDLE. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getMouseButtons const">
+			<summary>
+			Returns mouse button(s), whose input is received.
+			</summary>  
+			<returns>Input::MOUSE_BUTTON_LEFT or Input::MOUSE_BUTTON_RIGHT, or Input::MOUSE_BUTTON_MIDDLE.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setMouseCursor(int)">
+			<summary>
+			Sets a mouse pointer to display.
+			</summary> 
+			<param name="cursor"> One of the CURSOR_* pre-defined variables. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getMouseCursor const">
+			<summary>
+			One of the CURSOR_* pre-defined variables.
+			</summary>  
+			<returns>Returns the type of mouse pointer currently displayed.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getMouseDX const">
+			<summary>
+			Returns the difference between the previous position of the mouse pointer and the current one along the X axis.
+			</summary>  
+			<returns>Difference along the X axis.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getMouseDY const">
+			<summary>
+			Returns the difference between the previous position of the mouse pointer and the current one along the Y axis.
+			</summary>  
+			<returns>Difference along the Y axis.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setMouseEnabled(bool)">
+			<summary>
+			Enables or disables rendering of the mouse cursor.
+			</summary> 
+			<param name="enabled"> 1 to enable the mouse, 0 to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Gui.isMouseEnabled const">
+			<summary>
+			Returns a value indicating if the mouse cursor is rendered.
+			</summary>  
+			<returns>1 if the mouse is rendered; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setMouseGrab(int)">
+			<summary>
+			Sets a value indicating if the mouse pointer is bound to the GUI.
+			</summary> 
+			<param name="grab"> 1 if the mouse pointer cannot leave the GUI; otherwise, 0. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getMouseGrab const">
+			<summary>
+			Returns a value indicating if the mouse pointer is bound to the GUI.
+			</summary>  
+			<returns>1 if the mouse pointer cannot leave the GUI; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setMouseSprite(Unigine.Ptr{WidgetSprite})">
+			<summary>
+			Sets a custom mouse pointer.
+			</summary> 
+			<param name="sprite"> Sprite with a custom mouse pointer, or NULL to fall back to the standard mouse pointer. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getMouseSprite const">
+			<summary>
+			Returns the custom mouse pointer currently in use.
+			</summary>  
+			<returns>Sprite with a custom mouse pointer, or NULL if the standard mouse pointer is used.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getMouseX const">
+			<summary>
+			Returns the current X coordinate of the mouse pointer in the coordinate system of the application window.
+			</summary>  
+			<returns>X coordinate of the mouse pointer.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getMouseY const">
+			<summary>
+			Returns the current Y coordinate of the mouse pointer in the coordinate system of the application window.
+			</summary>  
+			<returns>Y coordinate of the mouse pointer.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getNumChildren const">
+			<summary>
+			Returns the number of widgets in the GUI.
+			</summary>  
+			<returns>Number of widgets.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getOverlappedFocus const">
+			<summary>
+			Returns the widget placed under the currently focused widget.
+			</summary>  
+			<returns>Overlapped widget.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getPermanentFocus const">
+			<summary>
+			Returns a widget that is always in focus.
+			</summary>  
+			<returns>Widget always in focus.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setResource(char)">
+			<summary>
+			Changes the resource skin file used in the system GUI.
+			</summary> 
+			<param name="name"> Path to the rc file. </param> 
+			<returns>1 if the resource file is successfully changed; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setSkin(char)">
+			<summary>
+			Changes the GUI skin used in the system GUI.
+			</summary> 
+			<param name="name"> Path to the skin file (an RC file and textures). </param> 
+			<returns>1 if the skin is successfully changed; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setToolTip(int,int,char)">
+			<summary>
+			Sets a tooltip.
+			</summary> 
+			<param name="x"> X coordinate of the tooltip position. </param>
+			<param name="y"> Y coordinate of the tooltip position. </param>
+			<param name="str"> ToolTip text. </param> 
+		</member>
+		<member name="M:Unigine.Gui.setToolTipAlpha(float)">
+			<summary>
+			Sets an alpha value for tooltips. The default is 0.95 (translucent).
+			</summary> 
+			<param name="alpha"> Alpha value. 0 means completely transparent. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getToolTipAlpha const">
+			<summary>
+			Returns the alpha value of a tooltip.
+			</summary>  
+			<returns>Alpha value.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setToolTipColor(Unigine.Math.vec4)">
+			<summary>
+			Sets a font color for tooltips. The default is equivalent to #000000 (black).
+			</summary> 
+			<param name="color"> Font color. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getToolTipColor const">
+			<summary>
+			Returns the font color of a tooltip.
+			</summary>  
+			<returns>Font color.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setToolTipEnabled(bool)">
+			<summary>
+			Sets a value indicating whether tooltips are available or not.
+			</summary> 
+			<param name="enabled"> 1 to enable tooltips; otherwise, 0. </param> 
+		</member>
+		<member name="M:Unigine.Gui.isToolTipEnabled const">
+			<summary>
+			Returns a value indicating if tooltips are available or not.
+			</summary>  
+			<returns>Return 1 if tooltips are enabled; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getToolTipHeight(char) const">
+			<summary>
+			Returns a height of the given tooltip.					Height of a single-line tooltip is equal to 21 pixels.
+			</summary> 
+			<param name="str"> A tooltip text. </param> 
+			<returns>Height of the given tooltip (in pixels).</returns>
+		</member>
+		<member name="M:Unigine.Gui.setToolTipSize(int)">
+			<summary>
+			Sets a font size for widgets.
+			</summary> 
+			<param name="size"> Font size. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getToolTipSize const">
+			<summary>
+			Returns the font size of a tooltip.
+			</summary>  
+			<returns>Font size.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setToolTipText(char)">
+			<summary>
+			Sets a new text for the tooltip.
+			</summary> 
+			<param name="text"> Text for the tooltip to be set. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getToolTipText const">
+			<summary>
+			Returns the text of the currently displayed tooltip.
+			</summary>  
+			<returns>Text of the GUI tooltip.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setToolTipTime(float)">
+			<summary>
+			Sets a delay before tooltip appearance.
+			</summary> 
+			<param name="time"> Delay in cycles per second. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getToolTipTime const">
+			<summary>
+			Returns the delay before tooltip appearing.
+			</summary>  
+			<returns>Delay in cycles per second.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setToolTipWidth(int)">
+			<summary>
+			Sets the width for the tooltip.
+			</summary> 
+			<param name="width"> New tooltip width. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getToolTipWidth(char) const">
+			<summary>
+			Returns the current width of the tooltip.
+			</summary> 
+			<param name="str"> A tooltip text. </param> 
+			<returns>Width of the tooltip.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getToolTipWidth const">
+			<summary>
+			Returns the current width of the tooltip.
+			</summary>  
+			<returns>Width of the tooltip.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setToolTipX(int)">
+			<summary>
+			Sets the ToolTip position along the X axis.
+			</summary> 
+			<param name="tooltipx"> New X coordinate of the ToolTip to be set. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getToolTipX const">
+			<summary>
+			Returns the ToolTip position along the X axis.
+			</summary>  
+			<returns>X coordinate of the ToolTip.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setToolTipY(int)">
+			<summary>
+			Sets the ToolTip position along the Y axis.
+			</summary> 
+			<param name="tooltipy"> New Y coordinate of the ToolTip to be set. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getToolTipY const">
+			<summary>
+			Returns the ToolTip position along the Y axis.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Gui.setTransform(Unigine.Math.mat4)">
+			<summary>
+			Sets the global GUI transformation matrix. This 2D matrix can be tilted, rotated, moved or modified in many ways in 3D space.
+			</summary> 
+			<param name="transform"> Transformation matrix. </param> 
+			<returns>1 if the matrix is successfully set; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getTransform const">
+			<summary>
+			Returns the global GUI transformation matrix.
+			</summary>  
+			<returns>GUI transformation matrix.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setTransparentAlpha(float)">
+			<summary>
+			Sets an alpha value for transparent widgets. A widget is transparent, if it uses blending. The default is 0.8 (translucent).
+			</summary> 
+			<param name="alpha"> Alpha value. 0 means completely transparent. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getTransparentAlpha const">
+			<summary>
+			Returns the alpha value of a transparent widget. A widget is transparent, if it uses blending.
+			</summary>  
+			<returns>Alpha value.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setTransparentColor(Unigine.Math.vec4)">
+			<summary>
+			Sets a font color for transparent widgets. A widget is transparent, if it uses blending. The default is equivalent to #869caa (light bluish).
+			</summary> 
+			<param name="color"> Font color. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getTransparentColor const">
+			<summary>
+			Returns the font color of a transparent widget. A widget is transparent, if it uses blending.
+			</summary>  
+			<returns>Font color of a transparent widget.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setTransparentEnabled(bool)">
+			<summary>
+			Sets a value indicating if a widget can be rendered as transparent (i.e. change its color accordingly), when necessary. For example, this function allows to control whether the drop-down list of combobox is transparent or not.
+			</summary> 
+			<param name="enabled"> Positive value if the widget can be rendered as transparent; otherwise, 0. </param> 
+		</member>
+		<member name="M:Unigine.Gui.isTransparentEnabled const">
+			<summary>
+			Returns a value indicating if a widget can be rendered as transparent (i.e. change its color accordingly), when necessary. For example, it can indicate whether the drop-down list of combobox is transparent or not.
+			</summary>  
+			<returns>1 if the widget can be rendered as transparent; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getWidth const">
+			<summary>
+			Returns the current screen width.
+			</summary>  
+			<returns>Screen width, in pixels.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getVBox const">
+			<summary>
+			Returns the root widget of the GUI (WidgetVBox).
+			</summary>  
+			<returns>The root widget of the GUI.</returns>
+		</member>
+		<member name="M:Unigine.Gui.addChild(Unigine.Ptr{Unigine.Widget},int)">
+			<summary>
+			Adds a given widget to the GUI.
+			</summary> 
+			<param name="widget"> Widget to add. </param>
+			<param name="flags"> One of the ALIGN_* pre-defined variables. This is an optional parameter. </param> 
+		</member>
+		<member name="M:Unigine.Gui.addDictionary(char,char)">
+			<summary>
+			Adds a new dictionary with localized interface strings. Dictionaries cannot be modified in run-time.
+			</summary> 
+			<param name="name"> Path to the dictionary file. </param>
+			<param name="language"> Name of the dictionary language. </param> 
+			<returns>Returns 1 if the dictionary is added successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Gui.clearDictionaries">
+			<summary>
+			Clears all dictionaries.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Gui.clearTexture(char)">
+			<summary>
+			Clears the specified GUI texture file cache.
+			</summary> 
+			<param name="name"> Texture name. </param> 
+			<returns>1 if the texture is successfully cleared; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Gui.create(char)">
+			<summary>
+			GUI constructor.
+			</summary> 
+			<param name="name"> GUI skin name. </param> 
+			<returns>Pointer to the created GUI.</returns>
+		</member>
+		<member name="M:Unigine.Gui.destroy">
+			<summary>
+			Destroys all GUI resources.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Gui.disable">
+			<summary>
+			Disables GUI rendering.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Gui.enable">
+			<summary>
+			Enables GUI rendering.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Gui.hasTranslation(char) const">
+			<summary>
+			Returns a value indicating if there is translation for a given string in the localization dictionary.
+			</summary> 
+			<param name="arg1"> String to check. </param> 
+			<returns>1 if there is translation for the given string; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Gui.parseColor(char) const">
+			<summary>
+			Converts a color string in the Web format (RRGGBB / #RRGGBB or RRGGBBAA / #RRGGBBAA) into its vec4 equivalent.
+			</summary> 
+			<param name="str"> Color string in the Web format. </param> 
+			<returns>Color value as a vec4 vector (R, G, B, A).</returns>
+		</member>
+		<member name="M:Unigine.Gui.removeChild(Unigine.Ptr{Unigine.Widget})">
+			<summary>
+			Removes the specified widget from the GUI.
+			</summary> 
+			<param name="widget"> Child widget to be removed. </param> 
+		</member>
+		<member name="M:Unigine.Gui.removeFocus">
+			<summary>
+			Removes focus from the GUI.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Gui.render">
+			<summary>
+			Renders the GUI.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Gui.render(int)">
+			<summary>
+			Renders the GUI.
+			</summary> 
+			<param name="custom_mouse_buttons"> Pressed mouse button. </param> 
+		</member>
+		<member name="M:Unigine.Gui.replaceChild(Unigine.Ptr{Unigine.Widget},Unigine.Ptr{Unigine.Widget},int)">
+			<summary>
+			Replaces a given widget in the GUI with another widget.
+			</summary> 
+			<param name="widget"> Replacement widget. </param>
+			<param name="old_widget"> Widget to be replaced. </param>
+			<param name="flags"> One of the ALIGN_* pre-defined variables. This is an optional parameter. </param> 
+		</member>
+		<member name="M:Unigine.Gui.saveDictionary(char,char)">
+			<summary>
+			Saves the current dictionary on disk. This function can be used to save the currently loaded dictionary into another file.
+			</summary> 
+			<param name="name"> Name of the dictionary language. </param>
+			<param name="language"> Dictionary language name. </param> 
+			<returns>1 if the dictionary is saved successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Gui.translate(char)">
+			<summary>
+			Returns the source string translated using the dictionary.
+			</summary> 
+			<param name="str"> String to translate (source). </param> 
+			<returns>Target (translated) string if it is found in the localization dictionary; otherwise, the source string.</returns>
+		</member>
+		<member name="M:Unigine.Gui.update">
+			<summary>
+			Updates GUI.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Gui.isRenderingBootScreen">
+			<summary>
+			Returns a value indicating if the GUI currently renders the boot screen.
+			</summary>  
+			<returns>true if the GUI currently renders the boot screen; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Gui.isRenderingSplashScreen">
+			<summary>
+			Returns a value indicating if the GUI currently renders the splash screen.
+			</summary>  
+			<returns>true if the GUI currently renders the splash screen; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Gui.isRenderingLoadingScreen">
+			<summary>
+			Returns a value indicating if the GUI currently renders the loading screen.
+			</summary>  
+			<returns>true if the GUI currently renders the loading screen; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Gui.focusGained">
+			<summary>
+			The focus is set on the GUI object.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Gui.focusLost">
+			<summary>
+			The focus is removed from the GUI.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Gui.isHover(int,int) const">
+			<summary>
+			Returns a value indicating if the cursor is hovering over the GUI object.
+			</summary> 
+			<param name="global_pos_x"> The X coordinate of the cursor in global coordinates. </param>
+			<param name="global_pos_y"> The Y coordinate of the cursor in global coordinates. </param> 
+			<returns>true if the cursor is hovering over the GUI object; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getWidgetIntersection(int,int)">
+			<summary>
+			Returns the intersected widget that is visually perceptible (not empty, not transparent).
+			</summary> 
+			<param name="global_pos_x"> The X coordinate of the cursor in global coordinates. </param>
+			<param name="global_pos_y"> The Y coordinate of the cursor in global coordinates. </param> 
+			<returns>The intersected widget that is visually perceptible.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getUnderCursorWidget">
+			<summary>
+			Returns the visually perceptible widget, over which the cursor is currently hovering.
+			</summary>  
+			<returns>The widget, over which the cursor is currently hovering.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getFocusGui">
+			<summary>
+			Returns the GUI object that is currently in focus.
+			</summary>  
+			<returns>The GUI object currently in focus.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getGuiIntersection(int,int)">
+			<summary>
+			Returns the intersected GUI object.This method takes Z-ordering into consideration: if the GUI object is overlapped by any other window, the method returns nullptr.
+			</summary> 
+			<param name="global_pos_x"> The X coordinate of the intersection point in global coordinates. </param>
+			<param name="global_pos_y"> The Y coordinate of the intersection point in global coordinates. </param> 
+			<returns>The intersected GUI object.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getUnderCursorGui">
+			<summary>
+			Returns the GUI object that is currently under cursor.If case of dragging or resizing a window, this method returns nullptr. To receive the intersected GUI in such a case, use getGuiIntersection().
+			</summary>  
+			<returns>GUI object currently under cursor.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getWorldGuiInstances(Unigine.Vector{Unigine.Ptr{Gui},int,Unigine.VectorAllocator})">
+			<summary>
+			Returns all GUI instances that are available in the scene hierarchy and rendered as world objects.
+			</summary> 
+			<param name="ret_instances"> All GUI instances that are available in the scene hierarchy and rendered as world objects. </param> 
+		</member>
+		<member name="M:Unigine.Gui.setSize(Unigine.Math.ivec2)">
+			<summary>
+			Sets the GUI object size.
+			</summary> 
+			<param name="size"> GUI object size (width and height). </param> 
+		</member>
+		<member name="M:Unigine.Gui.getSize const">
+			<summary>
+			Returns the GUI object size.
+			</summary>  
+			<returns>GUI object size (width and height).</returns>
+		</member>
+		<member name="M:Unigine.Gui.setPosition(Unigine.Math.ivec2)">
+			<summary>
+			Sets the GUI object position (top left corner) in screen coordinates.
+			</summary> 
+			<param name="position"> GUI object position. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getPosition const">
+			<summary>
+			Sets the GUI object position (top left corner) in screen coordinates.
+			</summary>  
+			<returns>GUI object position.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setWinHandle(unsignedlonglong)">
+			<summary>
+			Sets the engine handle of the window.
+			</summary> 
+			<param name="handle"> The window handle. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getWinHandle const">
+			<summary>
+			Returns the engine handle of the window.
+			</summary>  
+			<returns>The window handle.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setWorldObject(bool)">
+			<summary>
+			Sets the value indicating if the GUI object is available in the hierarchy and rendered as a world object.
+			</summary> 
+			<param name="val"> true if the GUI object should be available in the hierarchy and rendered as a world object; false if it should have the window handle. </param> 
+		</member>
+		<member name="M:Unigine.Gui.isWorldObject const">
+			<summary>
+			Returns the value indicating if the GUI object is available in the hierarchy and rendered as a world object.
+			</summary>  
+			<returns>true if the GUI object is available in the hierarchy and rendered as a world object; false if it has the window handle.</returns>
+		</member>
+		<member name="M:Unigine.Gui.setMouseShow(bool)">
+			<summary>
+			Sets the value indicating if the OS mouse pointer should be displayed.
+			</summary> 
+			<param name="show"> true if the OS mouse pointer should be displayed; false if the application cursor is used only. </param> 
+		</member>
+		<member name="M:Unigine.Gui.isMouseShow const">
+			<summary>
+			Returns the value indicating if the OS mouse pointer should be displayed.
+			</summary>  
+			<returns>true if the OS mouse pointer is displayed; false if the application cursor is used only.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getMouseWheel const">
+			<summary>
+			Returns the current mouse scroll value. Negative values correspond to scrolling downwards; positive values correspond to scrolling upwards; the value is zero when the mouse wheel is not scrolled.
+			</summary>  
+			<returns>The mouse scroll value in the [-1;1] range.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getAndClearMouseWheel">
+			<summary>
+			Returns the mouse scroll value and clears the mouse scroll state info.
+			</summary>  
+			<returns>The mouse scroll value in the [-1;1] range.</returns>
+		</member>
+		<member name="M:Unigine.Gui.forceSetMouseWheel(int)">
+			<summary>
+			Sets the mouse scroll value.
+			</summary> 
+			<param name="value"> The mouse scroll value in the [-1;1] range. </param> 
+		</member>
+		<member name="M:Unigine.Gui.getMouseWheelHorizontal const">
+			<summary>
+			Returns the current horizontal mouse scroll value.
+			</summary>  
+			<returns>The horizontal mouse scroll value in the [-1;1] range.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getAndClearMouseWheelHorizontal">
+			<summary>
+			Returns the mouse horizontal scroll value and clears the mouse scroll state info.
+			</summary>  
+			<returns>The horizontal mouse scroll value in the [-1;1] range.</returns>
+		</member>
+		<member name="M:Unigine.Gui.forceSetMouseWheelHorizontal(int)">
+			<summary>
+			Sets the mouse vertical scroll value.
+			</summary> 
+			<param name="value"> The horizontal mouse scroll value in the [-1;1] range. </param> 
+		</member>
+		<member name="M:Unigine.Gui.isUnderCursor const">
+			<summary>
+			Returns the value indicating if the GUI object is under cursor.
+			</summary>  
+			<returns>true if the GUI object is under cursor; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getKey(Input::KEY)">
+			<summary>
+			Returns the value indicating if the specified key is pressed.
+			</summary> 
+			<param name="key"> One of the standard ASCII control codes or one of the KEY_* pre-defined variables. </param> 
+			<returns>true if the key is pressed; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Gui.getAndClearKey(Input::KEY)">
+			<summary>
+			Returns the value indicating if the specified key is pressed and clears the key state info.
+			</summary> 
+			<param name="key"> One of the standard ASCII control codes or one of the KEY_* pre-defined variables. </param> 
+			<returns>true if the key is pressed; otherwise, false.</returns>
+		</member>
+		<member name="F:Unigine.Gui.ALIGN_CENTER">
+			<summary>
+			Widget is centered relative to its container.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.ALIGN_LEFT">
+			<summary>
+			Widget is aligned to the left side of its container.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.ALIGN_RIGHT">
+			<summary>
+			Widget is aligned to the right side of its container.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.ALIGN_TOP">
+			<summary>
+			Widget is aligned to the top of its container.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.ALIGN_BOTTOM">
+			<summary>
+			Widget is aligned to the bottom of its container.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.ALIGN_EXPAND">
+			<summary>
+			Widget occupies all available space inside its container.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.ALIGN_OVERLAP">
+			<summary>
+			Widget is rendered over other widgets, on the foreground (or over the contents of the parent container). Overlapping widgets are sorted between each other (i.e. pop up when focused on). This flag also makes the window movable.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.ALIGN_BACKGROUND">
+			<summary>
+			Widget is always placed under other widgets. If clicked on, it does not pop up. Use this flag together with ALIGN_OVERLAP one.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.ALIGN_FIXED">
+			<summary>
+			Widget in focus stays on the background or on the foreground (depending on where it was created). This flag is valid only if GUI_ALIGN_OVERLAP is also set. Non-fixed overlapping windows can pop over the fixed ones, while the latter cannot do it.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.ATTACH_LOG10">
+			<summary>
+			Attached slider uses a logarithmic scale with the base ten.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.ATTACH_MIN_EXPAND">
+			<summary>
+			Minimum value of the attached slider can be lowered.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.ATTACH_MAX_EXPAND">
+			<summary>
+			Maximum value of the attached slider can be raised.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.BLEND_NONE">
+			<summary>
+			No blending is used for a widget.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.BLEND_ZERO">
+			<summary>
+			Components of each widget color are multiplied by zero.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.BLEND_ONE">
+			<summary>
+			Components of each widget color are multiplied by one.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.BLEND_SRC_COLOR">
+			<summary>
+			Components of each widget color are multiplied by these factors (per component): (wR, wG, wB, wA) .
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.BLEND_ONE_MINUS_SRC_COLOR">
+			<summary>
+			Components of each widget color are multiplied by these factors (per component): (1 - wR, 1 - wG, 1 - wB, 1 - wA) .
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.BLEND_SRC_ALPHA">
+			<summary>
+			Components of each widget color are multiplied by wA.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.BLEND_ONE_MINUS_SRC_ALPHA">
+			<summary>
+			Components of each widget color are multiplied by 1- wA.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.BLEND_DEST_COLOR">
+			<summary>
+			Components of each widget color are multiplied by these factors (per component): (bR, bG, bB, bA) .
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.BLEND_ONE_MINUS_DEST_COLOR">
+			<summary>
+			Components of each widget color are multiplied by these factors (per component): (1 - bR, 1 - bG, 1 - bB, 1 - bA) .
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.BLEND_DEST_ALPHA">
+			<summary>
+			Components of each widget color are multiplied by bA.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.BLEND_ONE_MINUS_DEST_ALPHA">
+			<summary>
+			Components of each widget color are multiplied by 1- bA.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.BUFFER_ALL">
+			<summary>
+			Mask that specifies all channels.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.BUFFER_RED">
+			<summary>
+			Mask that specifies the red channel.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.BUFFER_GREEN">
+			<summary>
+			Mask that specifies the green channel.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.BUFFER_BLUE">
+			<summary>
+			Mask that specifies the blue channel.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.BUFFER_ALPHA">
+			<summary>
+			Mask that specifies the alpha channel.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.CURSOR_NONE">
+			<summary>
+			Mouse pointer is not displayed.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.CURSOR_ARROW">
+			<summary>
+			Default arrow pointer is displayed.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.CURSOR_NA">
+			<summary>
+			Pointer indicating that an operation is not available is displayed.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.CURSOR_DND">
+			<summary>
+			Pointer for a drag-and-drop operation is displayed.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.CURSOR_WIDTH">
+			<summary>
+			Pointer for horizontal resizing is displayed.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.CURSOR_HEIGHT">
+			<summary>
+			Pointer for vertical resizing is displayed.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.CURSOR_NESW">
+			<summary>
+			Pointer for top-right / bottom-left resizing is displayed.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.CURSOR_NWSE">
+			<summary>
+			Pointer for top-left / bottom-right resizing is displayed.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.CURSOR_MOVE">
+			<summary>
+			Pointer for move operation is displayed.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.CURSOR_ROTATE">
+			<summary>
+			Pointer for rotation operation is displayed.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.CURSOR_SCALE">
+			<summary>
+			Pointer for operation of object scaling is displayed.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.NUM_CURSORS">
+			<summary>
+			Number of cursors.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.SHOW">
+			<summary>
+			Callback is used when a widget is shown. Supported by all widgets.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.HIDE">
+			<summary>
+			Callback is used when a widget is removed via Gui::removeChild(). Supported by all widgets.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.FOCUS_IN">
+			<summary>
+			Callback is used when a widget is focused. Supported by all widgets.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.FOCUS_OUT">
+			<summary>
+			Callback is used when a widget loses focus. Supported by all widgets.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.CHANGED">
+			<summary>
+			Callback is used when a widget has changed its state. Supported by the following widgets:											WidgetButton						WidgetCheckBox						WidgetComboBox						WidgetDialogColor						WidgetEditLine						WidgetEditText						WidgetHPaned						WidgetScroll						WidgetScrollBox						WidgetSlider						WidgetIcon						WidgetLabel						WidgetListBox						WidgetManipulator						WidgetManipulatorRotator						WidgetManipulatorScaler						WidgetManipulatorTranslator						WidgetSpinBox						WidgetSpinBoxDouble						WidgetTabBox						WidgetTreeBox						WidgetVPaned
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.CLICKED">
+			<summary>
+			Callback is used when the mouse is clicked somewhere on a widget. Supported by the following widgets:											WidgetButton						WidgetCheckBox						WidgetComboBox						WidgetDialog						WidgetDialogFile						WidgetEditLine						WidgetEditText						WidgetHPaned						WidgetScroll						WidgetSlider						WidgetIcon						WidgetListBox						WidgetManipulatorRotator						WidgetManipulatorScaler						WidgetManipulatorTranslator						WidgetMenuBox						WidgetSpinBox						WidgetSprite						WidgetTreeBox						WidgetVPaned
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.DOUBLE_CLICKED">
+			<summary>
+			Callback is used when the mouse is double-clicked somewhere on a widget. Supported by the following widgets:											WidgetButton						WidgetCheckBox						WidgetComboBox						WidgetEditLine						WidgetEditText						WidgetHPaned						WidgetIcon						WidgetLabel						WidgetListBox						WidgetManipulatorRotator						WidgetManipulatorScaler						WidgetManipulatorTranslator						WidgetScroll						WidgetSpinBox						WidgetTreeBox						WidgetVPaned						WidgetWindow
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.PRESSED">
+			<summary>
+			Callback is used when a mouse button or ENTER (RETURN) is pressed, while the mouse pointer is somewhere on a widget. Supported by the following widgets:											WidgetButton						WidgetCanvas						WidgetEditLine						WidgetSlider						WidgetIcon						WidgetLabel						WidgetListBox						WidgetSpinBox						WidgetSprite						WidgetTreeBox						WidgetWindow
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.RELEASED">
+			<summary>
+			Callback is used when the mouse was released after clicking somewhere on a widget. Supported by the following widgets:											WidgetButton						WidgetCanvas						WidgetIcon						WidgetLabel						WidgetSprite						WidgetWindow
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.KEY_PRESSED">
+			<summary>
+			Callback us used when a key (by scan code) is pressed while a widget is in focus. Supported by the following widgets:											WidgetEditLine						WidgetEditText										Scan code - is a code assigned to avery key on the keyboard. Keyboard drivers use scan codes to detect which key is pressed. Scan codes are assigned to leys on the hardware level and are not affected by the states of modifiers like Caps Lock, Num Lock, Scroll Lock, Shift, Alt, and Ctrl making it possible to implement identical control on different types of keyboards (QWERTY, AZERTY, QWERTC, etc.). Scan codes are used when only a physical position of a key (a button) is important (e.g. in the ControlsApp class or Console key.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.TEXT_PRESSED">
+			<summary>
+			Callback us used when a virtual key is pressed while a widget is in focus. Supported by the following widgets:											WidgetEditLine						WidgetEditText										Virtual key - is a value to which a scan code was converted by an Operating System (e.g., the Q scan code will have the Q virtual key on a QWERTY-keyboard, while on an AZERTY-keyboard it will have the A virtual key; or NUMPAD_DIGIT_7 scan code can be translated into virtual NUMPAD_HOME or NUMPAD_DIGIT_7 depending on the current Num Lock state. Virtual keys are used, when it is important to know what exactly did user type (not just the physical button, but rather a letter).
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.ENTER">
+			<summary>
+			Callback is used when the mouse pointer enters a widget. Supported by all widgets.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.LEAVE">
+			<summary>
+			Callback is used when the mouse pointer leaves a widget. Supported by all widgets.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.DRAG_MOVE">
+			<summary>
+			Callback is used when a focused widget is moved.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.DRAG_DROP">
+			<summary>
+			Callback is used when a drag-and-drop operation is performed with a widget. Supported by all widgets. A callback can receive dragged widgets inside additional arguments. Clicked or pressed callbacks receive a mouse button or a key inside an additional callback argument.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.REMOVE">
+			<summary>
+			Callback is used when a widget is removed.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.NUM_CALLBACKS">
+			<summary>
+			Number of GUI callbacks.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.VALIDATOR_ANY">
+			<summary>
+			Input control accepts any data.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.VALIDATOR_INT">
+			<summary>
+			Input control accepts only integer data.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.VALIDATOR_UINT">
+			<summary>
+			Input control accepts only unsigned integer data.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.VALIDATOR_FLOAT">
+			<summary>
+			Input control accepts only floating point data.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.VALIDATOR_ASCII">
+			<summary>
+			Input control accepts only ASCII based symbols.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.VERTICAL">
+			<summary>
+			Widget has vertical orientation.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.HORIZONTAL">
+			<summary>
+			Widget has horizontal orientation.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.MOUSE_MASK_LEFT">
+			<summary>
+			The bit mask value of the left mouse button.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.MOUSE_MASK_MIDDLE">
+			<summary>
+			The bit mask value of the middle mouse button.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.MOUSE_MASK_RIGHT">
+			<summary>
+			The bit mask value of the right mouse button.
+		</summary>
+		</member>
+		<member name="F:Unigine.Gui.MOUSE_MASK_DCLICK">
+			<summary>
+			The bit mask value of the double click.
+		</summary>
+		</member>
+	</members>
+</doc>

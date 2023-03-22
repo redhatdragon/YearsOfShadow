@@ -1,0 +1,62 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Signal.#ctor">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Signal.#ctor(Signal)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Signal.#ctor(Signal)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Signal.add(Unigine.CallbackBase)">
+			<summary>
+			Adds a callback function to be fired when the signal is invoked (subscription for the signal). Callback functions can be used to determine specific actions to be performed when the signal is invoked.
+			</summary>  
+			<returns>ID of the added callback, if the callback was added successfully; otherwise, nullptr. This ID can be used to remove this callback when necessary.</returns>
+		</member>
+		<member name="M:Unigine.Signal.remove(void)">
+			<summary>
+			Removes the specified callback from the list of callbacks associated with the signal. Callback functions can be used to determine specific actions to be performed when the signal is invoked.
+			</summary> 
+			<param name="id"> Callback ID obtained when adding it. </param> 
+			<returns>true if the callback with the given ID was removed successfully; otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.Signal.clear">
+			<summary>
+			Clears the list of callbacks subscribed for the signal (all subscriptions are removed).
+			</summary>  
+		</member>
+		<member name="M:Unigine.Signal.empty const">
+			<summary>
+			Returns a value indicating if the list of subscriptions for the signal is empty.
+			</summary>  
+			<returns>true if the list of subscriptions for the signal is empty otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.Signal.size const">
+			<summary>
+			Returns the total number of callback functions subscribed for the signal.
+			</summary>  
+			<returns>Number of subscriptions for the signal.</returns>
+		</member>
+		<member name="M:Unigine.Signal.invoke(Ts)">
+			<summary>
+			Invokes the signal. Callback functions subscribed for this signal are executed according to their order in the list.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Signal.swap(Signal,Signal)">
+			<summary>
+			Swaps the two specified signals.
+			</summary> 
+			<param name="first"> First signal. </param>
+			<param name="second"> Second signal. </param> 
+		</member>
+	</members>
+</doc>

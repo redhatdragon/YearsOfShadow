@@ -1,0 +1,73 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Concave.#ctor">
+			<summary>
+			Constructor. Initializes the new concave shape by clearing data of the prevoius concave shape.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Concave.#ctor(Concave)">
+			<summary>
+			Constructor. Initializes the new concave shape using the given shape.
+			</summary> 
+			<param name="concave"> Input concave shape. </param> 
+		</member>
+		<member name="M:Unigine.Concave.operator=(Concave)">
+			<summary>
+			Sets the concave shape to be equal the given concave shape.
+			</summary> 
+			<param name="concave"> Concave shape. </param> 
+			<returns>Resulting concave shape.</returns>
+		</member>
+		<member name="M:Unigine.Concave.clear">
+			<summary>
+			Clears the data of the prevoius concave shape.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Concave.create(Unigine.vec3,int,int,float,float)">
+			<summary>
+			Creates the concave shape using the given vertices.
+			</summary> 
+			<param name="vertex_"> Vertices. </param>
+			<param name="num_vertex_"> Number of vertices. </param>
+			<param name="depth_"> Recursion depth. </param>
+			<param name="error_"> Convex error. </param>
+			<param name="threshold_"> Merge threshold. </param> 
+			<returns>true if the shape was successfully created; otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.Concave.getError const">
+			<summary>
+			Returns the convex error.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Concave.getThreshold const">
+			<summary>
+			Returns the merge threshold.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Concave.getNumConvexes const">
+			<summary>
+			Returns the number of convex hulls used to create this concave shape.
+			</summary>  
+			<returns>Number of convex hulls.</returns>
+		</member>
+		<member name="M:Unigine.Concave.getConvex(int) const">
+			<summary>
+			Returns the convex shape that is a part of this concave shape.
+			</summary> 
+			<param name="num"> Number of the convex shape. </param> 
+			<returns>Convex shape.</returns>
+		</member>
+		<member name="M:Unigine.ConcaveConvexCompare.operator()(Convex,Convex)">
+			<summary>
+			Compares the volume of two convex shapes.
+			</summary> 
+			<param name="c0"> First shape. </param>
+			<param name="c1"> Second shape. </param> 
+			<returns>1 if the first shape's volume is greater than the second shape's volume; otherwise 0.</returns>
+		</member>
+	</members>
+</doc>

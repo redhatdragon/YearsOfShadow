@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.16.1.0">
+	<guid>32c0ab98522f35527a3ec2a98d52db3e087cef55</guid>
+	<type>node</type>
+	<hash>6c65fa51</hash>
+	<runtimes>
+		<runtime id="32c0ab98522f35527a3ec2a98d52db3e087cef55" name="vive_basestation.node" link="0" type="3"/>
+	</runtimes>
+</asset>

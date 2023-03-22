@@ -1,0 +1,47 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Map.#ctor">
+			<summary>
+			Default constructor that produces an empty map.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Map.get(Key)">
+			<summary>
+			Return an item by key.
+			</summary> 
+			<param name="key"> Item key. </param> 
+			<returns>The item.</returns>
+		</member>
+		<member name="M:Unigine.Map.append(Key,Type)">
+			<summary>
+			Appends an item.
+			</summary> 
+			<param name="key"> Key. </param>
+			<param name="t"> Item. </param> 
+		</member>
+		<member name="M:Unigine.Map.append(Map{Key,Type})">
+			<summary>
+			Appends a map.
+			</summary> 
+			<param name="m"> Map. </param> 
+		</member>
+		<member name="M:Unigine.Map.findData(Type) const">
+			<summary>
+			Finds an item in the map.
+			</summary> 
+			<param name="t"> Item. </param> 
+			<returns>The iterator.</returns>
+		</member>
+		<member name="M:Unigine.Map.operator[](Key)">
+			<summary>
+			Map access.
+			</summary> 
+			<param name="key"> Item key. </param> 
+			<returns>The item.</returns>
+		</member>
+	</members>
+</doc>

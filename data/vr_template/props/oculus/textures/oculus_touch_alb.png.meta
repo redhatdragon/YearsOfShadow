@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.16.1.0">
+	<guid>b3070596720fa3524c7a2dfd7767111f8df1169f</guid>
+	<type>texture</type>
+	<hash>9139bbb2</hash>
+	<runtimes>
+		<runtime id="b3070596720fa3524c7a2dfd7767111f8df1169f" name="oculus_touch_alb.png" link="0" type="6"/>
+		<runtime id="17424e27092551cb5719e7b340cc7082bb7f9b12" name="oculus_touch_alb.texture" link="1" type="6"/>
+	</runtimes>
+	<parameters>
+		<parameter type="string" name="height">auto</parameter>
+		<parameter type="string" name="image_format">DXT1</parameter>
+		<parameter type="string" name="image_type">2d</parameter>
+		<parameter type="bool" name="invert_g">0</parameter>
+		<parameter type="string" name="mipmap_type">box</parameter>
+		<parameter type="string" name="preset_name">albedo (rgb)</parameter>
+		<parameter type="bool" name="srgb_correction">1</parameter>
+		<parameter type="bool" name="unchanged">0</parameter>
+		<parameter type="string" name="width">auto</parameter>
+	</parameters>
+</asset>

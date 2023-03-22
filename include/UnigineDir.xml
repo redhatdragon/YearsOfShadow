@@ -1,0 +1,250 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Dir.#ctor">
+			<summary>
+			Default constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Dir.#ctor(char)">
+			<summary>
+			Constructor. Creates a new directory instance.
+			</summary> 
+			<param name="name"> Directory path to open. </param> 
+		</member>
+		<member name="M:Unigine.Dir.getDirName(int) const">
+			<summary>
+			Returns name of the directory with given index.
+			</summary> 
+			<param name="num"> Directory index. </param> 
+			<returns>Name of the directory with num index.</returns>
+		</member>
+		<member name="M:Unigine.Dir.getFileMTime(int) const">
+			<summary>
+			Returns the time of the file last modification.
+			</summary> 
+			<param name="num"> File index. </param> 
+			<returns>Time of the last modification.</returns>
+		</member>
+		<member name="M:Unigine.Dir.getFileName(int) const">
+			<summary>
+			Returns name of the file with given index.
+			</summary> 
+			<param name="num"> File index. </param> 
+			<returns>Name of the file with num index.</returns>
+		</member>
+		<member name="M:Unigine.Dir.getFileSize(int) const">
+			<summary>
+			Returns the size of the file with the given index.
+			</summary> 
+			<param name="num"> File index. </param> 
+			<returns>File size.</returns>
+		</member>
+		<member name="M:Unigine.Dir.getFileSize(char)">
+			<summary>
+			Returns the size of the specified file.
+			</summary> 
+			<param name="path"> Path to an existing file to retrieve the size for. </param> 
+			<returns>File size in bytes.</returns>
+		</member>
+		<member name="M:Unigine.Dir.setMTime(char,longlong)">
+			<summary>
+			Sets the time of the last directory modification.
+			</summary> 
+			<param name="path"> Directory name. </param>
+			<param name="time"> Time of the last modification. </param> 
+			<returns>1 if the time of the last directory modification was set successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Dir.getMTime(char)">
+			<summary>
+			Returns the time of the last directory modification.
+			</summary> 
+			<param name="path"> Directory name. </param> 
+			<returns>Time of the last modification.</returns>
+		</member>
+		<member name="M:Unigine.Dir.getName const">
+			<summary>
+			Returns the name of the current directory.
+			</summary>  
+			<returns>Directory name.</returns>
+		</member>
+		<member name="M:Unigine.Dir.getNumDirs const">
+			<summary>
+			Returns number of nested directories.
+			</summary>  
+			<returns>Number of directories.</returns>
+		</member>
+		<member name="M:Unigine.Dir.getNumFiles const">
+			<summary>
+			Returns number of files inside the directory.
+			</summary>  
+			<returns>Number of files.</returns>
+		</member>
+		<member name="M:Unigine.Dir.isFile(char)">
+			<summary>
+			Returns a value indicating if the specified file path exists.
+			</summary> 
+			<param name="path"> File path to be checked. </param> 
+			<returns>true if the specified file path exists; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Dir.isOpened const">
+			<summary>
+			Checks whether the directory is opened.
+			</summary>  
+			<returns>true if the directory is opened; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Dir.getSize const">
+			<summary>
+			Returns the size of the current directory.
+			</summary>  
+			<returns>Directory size.</returns>
+		</member>
+		<member name="M:Unigine.Dir.close">
+			<summary>
+			Closes the directory descriptor.
+			</summary>  
+			<returns>true if the directory descriptor is closed successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Dir.open(char)">
+			<summary>
+			Opens the directory. Always close the directory descriptor via  before leaving the scope:
+			
+			</summary> 
+			<param name="name"> Directory path. </param> 
+			<returns>Directory descriptor.</returns>
+		</member>
+		<member name="M:Unigine.Dir.isAbsolute(char)">
+			<summary>
+			Returns a value indicating if the specified directory path is an absolute one.
+			</summary> 
+			<param name="path"> Directory path. </param> 
+			<returns>1 if the specified directory path is an absolute one; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Dir.copy(char,char)">
+			<summary>
+			Copies the specified file to a new destination path.
+			</summary> 
+			<param name="path"> Source file path. </param>
+			<param name="new_name"> Destination file path. </param> 
+			<returns>1 if the specified file was successfully copied; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Dir.isDir(char)">
+			<summary>
+			Returns a value indicating if the specified directory exists.
+			</summary> 
+			<param name="path"> Directory path to be checked. </param> 
+			<returns>true if the specified directory exists; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Dir.getHomeDir">
+			<summary>
+			Returns a path to the home directory.
+			</summary>  
+			<returns>Path to the current working directory.</returns>
+		</member>
+		<member name="M:Unigine.Dir.getCurrentDir">
+			<summary>
+			Returns a path to the current working directory.
+			</summary>  
+			<returns>Path to the current working directory.</returns>
+		</member>
+		<member name="M:Unigine.Dir.chdir(char)">
+			<summary>
+			Changes the current working directory to the given path.
+			</summary> 
+			<param name="path"> New path to which the current working directory is to be chahged. </param> 
+			<returns>1 if the current working directory is changed successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Dir.mkdir(char)">
+			<summary>
+			Creates a directory named path.
+			</summary> 
+			<param name="path"> Path to a new directory to be created. </param> 
+			<returns>1 if the specified directory is created successfully or has been created before (i.e. already exists); otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Dir.mkdir(char,bool)">
+			<summary>
+			Creates a directory named path.
+			</summary> 
+			<param name="path"> Path to a new directory to be created. </param>
+			<param name="recursion">  Use true to create non-existent directories recursively; otherwise, false. </param> 
+			<returns>1 if the specified directory is created successfully or has been created before (i.e. already exists); otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Dir.rmdir(char)">
+			<summary>
+			Removes the specified directory path. It works only when the directory is empty and is neither the current working directory or the home directory.
+			</summary> 
+			<param name="path"> Path of the directory to be removed. </param> 
+		</member>
+		<member name="M:Unigine.Dir.rmdir(char,bool)">
+			<summary>
+			Removes the specified directory path. It works only when the directory is empty and is neither the current working directory or the home directory.
+			</summary> 
+			<param name="path"> Path of the directory to be removed. </param>
+			<param name="recursion">  Use true to remove directories recursively; otherwise, false. </param> 
+			<returns>1 if the specified directory path is removed successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Dir.remove(char)">
+			<summary>
+			Removes the specified file.
+			</summary> 
+			<param name="path"> Path to a file to be removed. </param> 
+			<returns>1 if the specified file is removed successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Dir.rename(char,char)">
+			<summary>
+			Renames the specified file path to new_name.
+			</summary> 
+			<param name="path"> Path to a file to be renamed. </param>
+			<param name="new_name"> New path to a file. </param> 
+			<returns>1 if the specified file is renamed successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Dir.chmod(char,int)">
+			<summary>
+			Changes the permission setting of the specified file. The permission setting controls the read and write access to the file.
+			</summary> 
+			<param name="path"> Path to an existing file to change the permission setting for. </param>
+			<param name="mode"> New permission setting for the specified file (1 - RW, 0 - RO).  </param> 
+			<returns>1 if the permission setting of the specified file is successfully changed; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Dir.getmod(char)">
+			<summary>
+			Returns the permission setting of the specified file. The permission setting controls the read and write access to the file.
+			</summary> 
+			<param name="path"> Path to an existing file to retrieve the permission setting for. </param> 
+			<returns>Permission setting for the specified file (1 - RW, 0 - RO); otherwise, -1 - if the filename or path could not be found.</returns>
+		</member>
+		<member name="M:Unigine.Dir.setAttribute(char,int)">
+			<summary>
+			Sets a new file system attribute for the specified file or directory.
+			</summary> 
+			<param name="path"> Path to a file or directory for which a new attribute is to be set. </param>
+			<param name="attribute"> New file or directory attribute to be set. One of the ATTRIBUTE_* values. </param> 
+			<returns>1 if the specified file attribute is successfully set for the specified file/directory path; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Dir.getAttribute(char)">
+			<summary>
+			Returns a file system attribute for a specified file or directory.
+			</summary> 
+			<param name="path"> Path to a file or directory for which an attribute is to be retrieved. </param> 
+			<returns>File or directory attribute. One of the ATTRIBUTE_* values.</returns>
+		</member>
+		<member name="F:Unigine.Dir.ATTRIBUTE_HIDDEN">
+			<summary>
+			File or directory is hidden. It is not included in an ordinary directory listing.
+		</summary>
+		</member>
+		<member name="F:Unigine.Dir.ATTRIBUTE_READONLY">
+			<summary>
+			File is read-only. You can read the file, but cannot write to it or delete it. This attribute is not honored on directories.
+		</summary>
+		</member>
+		<member name="F:Unigine.Dir.ATTRIBUTE_TEMPORARY">
+			<summary>
+			File that is being used for temporary storage. File systems avoid writing data back to mass storage if sufficient cache memory is available, because typically, an application deletes a temporary file after the handle is closed. In that scenario, the system can entirely avoid writing the data. Otherwise, the data is written after the handle is closed..
+		</summary>
+		</member>
+	</members>
+</doc>

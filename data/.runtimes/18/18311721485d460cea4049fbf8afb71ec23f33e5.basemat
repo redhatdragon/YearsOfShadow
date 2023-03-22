@@ -1,0 +1,291 @@
+//ver=2
+BaseMaterial<
+				parent=Unigine::mesh
+				guid=18311721485d460cea4049fbf8afb71ec23f33e5
+				manual=false
+				
+			>
+{
+	// optimization
+	State static_shadow = false
+	
+Group "Parameters"
+{
+Float4 "specular_color"=[0.800000 0.800000 0.800000 1.000000]<  shader_name="var_4b93d8479cb2d112283ef34d1b437d234adde333">
+Float4 "albedo_color"=[0.800000 0.800000 0.800000 1.000000]<  shader_name="var_3faaa105866f6f4f9c67d41c181297eadd5ff3e1">
+}
+	State static_shadow = true
+
+	
+	Shader vertex_struct =
+	#{
+		INIT_BASE_DATA
+		
+		INIT_USER_DATA(float3, DATA_VERTEX_POSITION)
+		MODIFIER_NOINTERPOLATION INIT_USER_DATA(float4x4, DATA_TRANSFORM)
+		MODIFIER_NOINTERPOLATION INIT_USER_DATA(float4x4, DATA_ITRANSFORM)
+		MODIFIER_NOINTERPOLATION INIT_USER_DATA(float3x3, DATA_OBJECT_ROTATION)
+		
+		MODIFIER_NOINTERPOLATION INIT_USER_DATA(uint, DATA_INSTANCE_ID)
+		MODIFIER_NOINTERPOLATION INIT_USER_DATA(uint, DATA_VERTEX_ID)
+	#}
+	
+	Shader common =
+	#{
+		#include <core/materials/shaders/render/graph/common.h>
+		#ifdef FRAGMENT
+			
+			
+		#elif VERTEX
+			
+			
+		#elif EVALUATE
+			
+			
+		#endif
+		
+		#ifdef PASS_SHADOW
+			#define IS_SHADOW true
+		#else
+			#define IS_SHADOW false
+		#endif
+		
+		#ifdef PASS_AUXILIARY
+			#define IS_AUXILIARY true
+		#else
+			#define IS_AUXILIARY false
+		#endif
+		
+		#ifdef PASS_DEFERRED
+			#define IS_GBUFFER true
+		#else
+			#define IS_GBUFFER false
+		#endif
+		
+		#ifdef BAKING_GI
+			#define IS_BAKING_GI true
+		#else
+			#define IS_BAKING_GI false
+		#endif
+		
+		#ifdef STATE_LIGHTMAP
+			#define IS_LIGHTMAP true
+		#else
+			#define IS_LIGHTMAP false
+		#endif
+	#}
+	
+	Shader vertex =
+	#{
+		DATA_INSTANCE_ID = IN_INSTANCE;
+		DATA_VERTEX_ID = IN_VERTEX_ID;
+		DATA_TRANSFORM = VERTEX_IN_TRANSFORM;
+		DATA_ITRANSFORM = inverseTransform(DATA_TRANSFORM);
+		DATA_OBJECT_ROTATION = orthonormalize(toFloat3x3(DATA_TRANSFORM));
+		DATA_VERTEX_POSITION = VERTEX_IN_POSITION;
+		
+		const float3 object_position = colW(DATA_TRANSFORM).xyz;
+		
+		const float4x4 object_to_view = DATA_TRANSFORM;
+		const float4x4 view_to_object = DATA_ITRANSFORM;
+		
+		const float4x4 absolute_world_to_view = VERTEX_IN_MODELVIEW;
+		const float4x4 view_to_absolute_world = VERTEX_IN_IMODELVIEW;
+		
+		const float3x3 camera_world_to_view = toFloat3x3(VERTEX_IN_MODELVIEW);
+		const float3x3 view_to_camera_world = toFloat3x3(VERTEX_IN_IMODELVIEW);
+		
+		const float4x4 object_to_absolute_world = mul4(view_to_absolute_world, object_to_view);
+		const float4x4 absolute_world_to_object = mul4(view_to_object, absolute_world_to_view);
+		
+		const float4x4 object_to_camera_world = mul4(camera_world_to_view, object_to_view);
+		const float4x4 camera_world_to_object = mul4(view_to_object, view_to_camera_world);
+		
+		const float3x3 rotate_object_to_view = DATA_OBJECT_ROTATION;
+		const float3x3 rotate_view_to_tangent = matrix3Row(DATA_TANGENT, DATA_BINORMAL, DATA_NORMAL);
+		const float3x3 rotate_view_to_world = view_to_camera_world;
+		
+		const float3x3 rotate_object_to_world = mul3(rotate_view_to_world, rotate_object_to_view);
+		const float3x3 rotate_world_to_tangent = mul3(rotate_view_to_tangent, camera_world_to_view);
+		const float3x3 rotate_object_to_tangent = mul3(rotate_view_to_tangent, rotate_object_to_view);
+		
+		const uint2 screen_resolution = toUInt2(s_viewport.xy);
+		const float2 screen_iresolution = s_viewport.zw;
+		const float2 screen_uv = positionToScreenUV(DATA_POSITION);
+		const uint2 screen_coord = toUInt2(screen_uv * s_viewport.xy);
+		
+		const float3 view_direction = positionToViewDirection(DATA_POSITION);
+		
+		const float auto_time = VERTEX_IN_TIME;
+		const float auto_game_time = VERTEX_IN_GAME_TIME;
+		
+		const float2 cord_sample_Texture2D = DATA_UV.xy;
+		const float2 cord_sample_Texture2DInt = DATA_UV.xy;
+		const float2 cord_sample_Texture2DUint = DATA_UV.xy;
+		const float2 cord_sample_Texture2DArray = DATA_UV.xy;
+		const float  cord_sample_TextureRamp = DATA_UV.x;
+		const float3 cord_sample_Texture3D = DATA_VERTEX_POSITION;
+		const float3 cord_sample_TextureCube = mul3(rotate_view_to_world, reflect(-view_direction, DATA_NORMAL));
+		
+		#define NORMAL_TS_UV1(NORMAL_TS)
+		#define NORMAL_TS_AUTO(NORMAL_TS, UV)
+		
+		
+		
+		#undef NORMAL_TS_UV1
+		#undef NORMAL_TS_AUTO
+	#}
+	Shader evaluate =
+	#{
+		const float3 object_position = colW(DATA_TRANSFORM).xyz;
+		
+		const float4x4 object_to_view = DATA_TRANSFORM;
+		const float4x4 view_to_object = DATA_ITRANSFORM;
+		
+		const float4x4 absolute_world_to_view = s_modelview;
+		const float4x4 view_to_absolute_world = s_imodelview;
+		
+		const float3x3 camera_world_to_view = toFloat3x3(s_modelview);
+		const float3x3 view_to_camera_world = toFloat3x3(s_imodelview);
+		
+		const float4x4 object_to_absolute_world = mul4(view_to_absolute_world, object_to_view);
+		const float4x4 absolute_world_to_object = mul4(view_to_object, absolute_world_to_view);
+		
+		const float4x4 object_to_camera_world = mul4(view_to_camera_world, object_to_view);
+		const float4x4 camera_world_to_object = mul4(view_to_object, camera_world_to_view);
+		
+		const float3x3 rotate_object_to_view = DATA_OBJECT_ROTATION;
+		const float3x3 rotate_view_to_tangent = matrix3Row(DATA_TANGENT, DATA_BINORMAL, DATA_NORMAL);
+		const float3x3 rotate_view_to_world = view_to_camera_world;
+		
+		const float3x3 rotate_object_to_world = mul3(rotate_view_to_world, rotate_object_to_view);
+		const float3x3 rotate_world_to_tangent = mul3(rotate_view_to_tangent, camera_world_to_view);
+		const float3x3 rotate_object_to_tangent = mul3(rotate_view_to_tangent, rotate_object_to_view);
+		
+		const uint2 screen_resolution = toUInt2(s_viewport.xy);
+		const float2 screen_iresolution = s_viewport.zw;
+		const float2 screen_uv = positionToScreenUV(DATA_POSITION);
+		const uint2 screen_coord = toUInt2(screen_uv * s_viewport.xy);
+		
+		const float3 view_direction = positionToViewDirection(DATA_POSITION);
+		
+		const float auto_time = s_time;
+		const float auto_game_time = s_game_time;
+		
+		const float2 cord_sample_Texture2D = DATA_UV.xy;
+		const float2 cord_sample_Texture2DInt = DATA_UV.xy;
+		const float2 cord_sample_Texture2DUint = DATA_UV.xy;
+		const float2 cord_sample_Texture2DArray = DATA_UV.xy;
+		const float  cord_sample_TextureRamp = DATA_UV.x;
+		const float3 cord_sample_Texture3D = DATA_VERTEX_POSITION;
+		const float3 cord_sample_TextureCube = mul3(rotate_view_to_world, reflect(-view_direction, DATA_NORMAL));
+		
+		#define NORMAL_TS_UV1(NORMAL_TS)
+		#define NORMAL_TS_AUTO(NORMAL_TS, UV)
+		
+		
+		
+		#undef NORMAL_TS_UV1
+		#undef NORMAL_TS_AUTO
+	#}
+	
+	Shader fragment =
+	#{
+		const float3 object_position = colW(DATA_TRANSFORM).xyz;
+		
+		const float4x4 object_to_view = DATA_TRANSFORM;
+		const float4x4 view_to_object = DATA_ITRANSFORM;
+		
+		const float4x4 absolute_world_to_view = s_modelview;
+		const float4x4 view_to_absolute_world = s_imodelview;
+		
+		const float3x3 camera_world_to_view = toFloat3x3(s_modelview);
+		const float3x3 view_to_camera_world = toFloat3x3(s_imodelview);
+		
+		const float4x4 object_to_absolute_world = mul4(view_to_absolute_world, object_to_view);
+		const float4x4 absolute_world_to_object = mul4(view_to_object, absolute_world_to_view);
+		
+		const float4x4 object_to_camera_world = mul4(view_to_camera_world, object_to_view);
+		const float4x4 camera_world_to_object = mul4(view_to_object, camera_world_to_view);
+		
+		
+		normalizationTBN(DATA_TANGENT, DATA_BINORMAL, DATA_NORMAL, DATA_SIGN_BINORMAL);
+		
+		const float3x3 rotate_object_to_view = DATA_OBJECT_ROTATION;
+		const float3x3 rotate_view_to_tangent = matrix3Row(DATA_TANGENT, DATA_BINORMAL, DATA_NORMAL);
+		const float3x3 rotate_view_to_world = view_to_camera_world;
+		
+		const float3x3 rotate_object_to_world = mul3(rotate_view_to_world, rotate_object_to_view);
+		const float3x3 rotate_world_to_tangent = mul3(rotate_view_to_tangent, camera_world_to_view);
+		const float3x3 rotate_object_to_tangent = mul3(rotate_view_to_tangent, rotate_object_to_view);
+		
+		
+		const float3 N = DATA_NORMAL;
+		float3 T_DY = cross(ddy(DATA_POSITION), DATA_NORMAL);
+		float3 T_DX = cross(DATA_NORMAL, ddx(DATA_POSITION));
+		
+		float3x3 rotate_tangent_uv1_to_uv0;
+		{
+			float3 T = T_DY * ddx(DATA_UV.z) + T_DX * ddy(DATA_UV.z);
+			T = normalize(N * dot(T, N) - T);
+			float3 B = cross(T, N);
+			rotate_tangent_uv1_to_uv0 = mul3(rotate_view_to_tangent, matrix3Col(T,B,N));
+		}
+		
+		#define NORMAL_TS_UV1(NORMAL_TS) NORMAL_TS = mul3(rotate_tangent_uv1_to_uv0, NORMAL_TS);
+		#define NORMAL_TS_AUTO(NORMAL_TS, UV)\
+		{\
+			float3 T = T_DY * ddx(UV.x) + T_DX * ddy(UV.x);\
+			T = normalize(N * dot(T, N) - T);\
+			float3 B = cross(T, N);\
+			NORMAL_TS = mul3(matrix3Col(T,B,N), NORMAL_TS);\
+			NORMAL_TS = mul3(DATA_TANGENT, DATA_BINORMAL, DATA_NORMAL, NORMAL_TS);\
+		}
+		
+		const uint2 screen_resolution = toUInt2(s_viewport.xy);
+		const float2 screen_iresolution = s_viewport.zw;
+		const uint2 screen_coord = toUInt2(IN_POSITION.xy);
+		const float2 screen_uv = IN_POSITION.xy * s_viewport.zw;
+		
+		const float3 view_direction = positionToViewDirection(DATA_POSITION);
+		
+		const float auto_time = s_time;
+		const float auto_game_time = s_game_time;
+		
+		const float2 cord_sample_Texture2D = DATA_UV.xy;
+		const float2 cord_sample_Texture2DInt = DATA_UV.xy;
+		const float2 cord_sample_Texture2DArray = DATA_UV.xy;
+		const float  cord_sample_TextureRamp = DATA_UV.x;
+		const float3 cord_sample_Texture3D = DATA_VERTEX_POSITION;
+		const float3 cord_sample_TextureCube = mul3(rotate_view_to_world, reflect(-view_direction, DATA_NORMAL));
+		
+		#ifdef OPTION_TRANSPARENT
+			float shadow_clip_threshold = 0.5f;
+		#endif
+		#ifdef OPTION_TRANSPARENT || ALPHA_TEST
+			float auxiliary_clip_threshold = 0.5f;
+		#endif
+		
+		float var_2 = float_zero;
+		float3 var_1 = float3_zero;
+		var_1 = toFloat3(var_3faaa105866f6f4f9c67d41c181297eadd5ff3e1);
+		
+		var_2 = toFloat(var_4b93d8479cb2d112283ef34d1b437d234adde333);
+		
+		OUT_FRAG_ALBEDO = var_1;
+		
+		OUT_FRAG_SPECULAR = var_2;
+		
+		
+		
+		#ifdef PASS_SHADOW && OPTION_TRANSPARENT
+			OUT_FRAG_OPACITY_THRESHOLD = shadow_clip_threshold;
+		#endif
+		#ifdef PASS_AUXILIARY && (OPTION_TRANSPARENT || ALPHA_TEST)
+			OUT_FRAG_OPACITY_THRESHOLD = auxiliary_clip_threshold;
+		#endif
+		
+		#undef NORMAL_TS_UV1
+		#undef NORMAL_TS_AUTO
+	#}
+}

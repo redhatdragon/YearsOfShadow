@@ -1,0 +1,197 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.SystemInfo.getBinaryInfo">
+			<summary>
+			Returns information on the Engine binary.
+			</summary>  
+			<returns>Information on the Engine binary.</returns>
+		</member>
+		<member name="M:Unigine.SystemInfo.getRevisionInfo">
+			<summary>
+			Returns information on the Engine version.
+			</summary>  
+			<returns>Information on the Engine version, date.</returns>
+		</member>
+		<member name="M:Unigine.SystemInfo.getSystemInfo">
+			<summary>
+			Returns operating system information.
+			</summary>  
+			<returns>Operating system information.</returns>
+		</member>
+		<member name="M:Unigine.SystemInfo.getCPUInfo">
+			<summary>
+			Returns information on the CPU.
+			</summary>  
+			<returns>CPU information.</returns>
+		</member>
+		<member name="M:Unigine.SystemInfo.getSystemMemory">
+			<summary>
+			Returns the current system memory amount.
+			</summary>  
+			<returns>Current system memory amount, in Mbytes.</returns>
+		</member>
+		<member name="M:Unigine.SystemInfo.getCPUFrequency">
+			<summary>
+			Returns the current CPU frequency.
+			</summary>  
+			<returns>Current CPU frequency, in MHz.</returns>
+		</member>
+		<member name="M:Unigine.SystemInfo.getCPUCount">
+			<summary>
+			Returns the number of available CPUs.
+			</summary>  
+			<returns>Number of available CPUs.</returns>
+		</member>
+		<member name="M:Unigine.SystemInfo.getCPUThreads">
+			<summary>
+			Returns the number of available CPU threads.
+			</summary>  
+			<returns>Number of available CPU threads.</returns>
+		</member>
+		<member name="M:Unigine.SystemInfo.hasMMX">
+			<summary>
+			Returns a value indicating if the system supports MMX (Multi-Media Extensions).
+			</summary>  
+			<returns>true if the system supports MMX extension; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.SystemInfo.hasSSE">
+			<summary>
+			Returns a value indicating if the system supports SSE (Streaming SIMD Extensions).
+			</summary>  
+			<returns>true if the system supports SSE extension; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.SystemInfo.hasSSE2">
+			<summary>
+			Returns a value indicating if the system supports SSE2 (Streaming SIMD Extensions).
+			</summary>  
+			<returns>true if the system supports SSE2 extension; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.SystemInfo.hasSSE3">
+			<summary>
+			Returns a value indicating if the system supports SSE3 (Streaming SIMD Extensions).
+			</summary>  
+			<returns>true if the system supports SSE3 extension; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.SystemInfo.hasSSE4">
+			<summary>
+			Returns a value indicating if the system supports SSE4 (Streaming SIMD Extensions).
+			</summary>  
+			<returns>true if the system supports SSE4 extension; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.SystemInfo.hasSSE5">
+			<summary>
+			Returns a value indicating if the system supports SSE5 (Streaming SIMD Extensions).
+			</summary>  
+			<returns>true if the system supports SSE5 extension; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.SystemInfo.hasAVX">
+			<summary>
+			Returns a value indicating if the system supports AVX (Advanced Vector Extensions).
+			</summary>  
+			<returns>true if the system supports AVX extension; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.SystemInfo.hasAVX2">
+			<summary>
+			Returns a value indicating if the system supports AVX2 (Advanced Vector Extensions).
+			</summary>  
+			<returns>true if the system supports AVX2 extension; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.SystemInfo.hasNeon">
+			<summary>
+			Returns a value indicating if the system supports Neon (Advanced Vector Extensions).
+			</summary>  
+			<returns>true if the system supports Neon extension; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.SystemInfo.hasHyperThreading">
+			<summary>
+			Returns a value indicating if the system supports hyper-threading.
+			</summary>  
+			<returns>true if the system supports hyper-threading; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.SystemInfo.getGPUCount">
+			<summary>
+			Returns the number of available GPUs.
+			</summary>  
+			<returns>Number of available GPUs.</returns>
+		</member>
+		<member name="M:Unigine.SystemInfo.getGPUInfo(int)">
+			<summary>
+			Returns information on the video adapter with the specified number (video card, driver versions).
+			</summary> 
+			<param name="video_adapter_num"> Number of the video adapter. </param> 
+			<returns>Information on the video adapter.</returns>
+		</member>
+		<member name="M:Unigine.SystemInfo.getGPUMemory(int)">
+			<summary>
+			Returns the video memory size for the video adapter with the specified number.
+			</summary> 
+			<param name="video_adapter_num"> Number of the video adapter. </param> 
+			<returns>Video memory size, in Mbytes.</returns>
+		</member>
+		<member name="M:Unigine.SystemInfo.getGPUID(int)">
+			<summary>
+			Returns the GPU ID for the video adapter with the specified number in the list of detected ones.
+			</summary> 
+			<param name="video_adapter_num"> Number of the graphics adapter (GPU) in the list of detected ones. </param> 
+			<returns>GPU ID for the video adapter with the specified number.</returns>
+		</member>
+		<member name="M:Unigine.SystemInfo.getGPUName(char)">
+			<summary>
+			Returns the type of the GPU win the specified name.
+			</summary> 
+			<param name="str"> GPU name (e.g. GeForce GTX 770). </param> 
+			<returns>GPU type identifier, one of the GPU_* values.</returns>
+		</member>
+		<member name="M:Unigine.SystemInfo.getGPUName(int)">
+			<summary>
+			Returns the GPU type for the video adapter with the specified number in the list of detected ones.
+			</summary> 
+			<param name="video_adapter_num"> Number of the graphics adapter (GPU) in the list of detected ones. </param> 
+			<returns>GPU type identifier, one of the GPU_* values.</returns>
+		</member>
+		<member name="F:Unigine.SystemInfo.GPU_UNKNOWN">
+			<summary>
+			Graphics processing unit (GPU) of an unknowm vendor.
+		</summary>
+		</member>
+		<member name="F:Unigine.SystemInfo.GPU_AMD">
+			<summary>
+			Graphics processing unit (GPU) developed by AMD.
+		</summary>
+		</member>
+		<member name="F:Unigine.SystemInfo.GPU_NVIDIA">
+			<summary>
+			Graphics processing unit (GPU) developed by NVIDIA.
+		</summary>
+		</member>
+		<member name="F:Unigine.SystemInfo.GPU_INTEL">
+			<summary>
+			Graphics processing unit (GPU) developed by Intel.
+		</summary>
+		</member>
+		<member name="F:Unigine.SystemInfo.GPU_ARM">
+			<summary>
+			Graphics processing unit (GPU) developed by ARM (Advanced RISC Machines) Holdings.
+		</summary>
+		</member>
+		<member name="F:Unigine.SystemInfo.GPU_APPLE">
+			<summary>
+			Graphics processing unit (GPU) developed by Apple Inc.
+		</summary>
+		</member>
+		<member name="F:Unigine.SystemInfo.GPU_IMGTEC">
+			<summary>
+			Graphics processing unit (GPU) developed by Imagination Technologies Group plc.
+		</summary>
+		</member>
+		<member name="F:Unigine.SystemInfo.GPU_QUALCOMM">
+			<summary>
+			Graphics processing unit (GPU) developed by Qualcomm.
+		</summary>
+		</member>
+	</members>
+</doc>

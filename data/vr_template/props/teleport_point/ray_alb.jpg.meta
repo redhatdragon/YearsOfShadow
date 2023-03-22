@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.16.1.0">
+	<guid>5b5b997d7dad03c4abf082bf2bf70ccb37397c0e</guid>
+	<type>texture</type>
+	<hash>d52e7f7a</hash>
+	<runtimes>
+		<runtime id="5b5b997d7dad03c4abf082bf2bf70ccb37397c0e" name="ray_alb.jpg" link="0" type="6"/>
+		<runtime id="b72d1f9d899b1390853700f0dcefe4b5d7b47488" name="ray_alb.texture" link="1" type="6"/>
+	</runtimes>
+	<parameters>
+		<parameter type="string" name="height">auto</parameter>
+		<parameter type="string" name="image_format">DXT1</parameter>
+		<parameter type="string" name="image_type">2d</parameter>
+		<parameter type="bool" name="invert_g">0</parameter>
+		<parameter type="string" name="mipmap_type">box</parameter>
+		<parameter type="string" name="preset_name">albedo (rgb)</parameter>
+		<parameter type="bool" name="srgb_correction">1</parameter>
+		<parameter type="bool" name="unchanged">0</parameter>
+		<parameter type="string" name="width">auto</parameter>
+	</parameters>
+</asset>

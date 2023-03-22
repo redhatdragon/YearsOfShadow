@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nodes version="2.16.1.0">
+	<node type="ObjectMeshStatic" id="1195764552" name="vive_pad">
+		<mesh_name>guid://44d5e9392bfd098638c8d8c025686f1ea5be9f95</mesh_name>
+		<surface name="vive_pad_mat" intersection="0" physics_friction="1" physics_restitution="1" material="ed7107044398b39d2fe07e2cbbdf06935f850a1a"/>
+		<transform>1.0000014 0 0 0.0 5.6843419e-14 1.0000017 0 0.0 0 0 1.0000027 0.0 0 0 5.9604645e-08 1.0</transform>
+		<node type="ObjectMeshStatic" id="817189958" name="vive_trigger">
+			<mesh_name>guid://37d4a4e2e2a76edc5cd5205b12343532073b4b59</mesh_name>
+			<surface name="vive_pad_mat" intersection="0" physics_friction="1" physics_restitution="1" material="ed7107044398b39d2fe07e2cbbdf06935f850a1a"/>
+			<transform>1 0 0 0.0 0 1 0 0.0 0 0 1 0.0 2.8655566e-07 -0.039276078 -0.018286467 1.0</transform>
+		</node>
+	</node>
+</nodes>

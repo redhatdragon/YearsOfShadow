@@ -1,0 +1,626 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Vector.set(size_t,Type)">
+			<summary>
+			Sets an item with a given index.
+			</summary> 
+			<param name="index"> Item index. </param>
+			<param name="t"> Item to set. </param> 
+		</member>
+		<member name="M:Unigine.Vector.get(size_t)">
+			<summary>
+			Returns an item by a given index.
+			</summary> 
+			<param name="index"> Item index. </param> 
+			<returns>Item.</returns>
+		</member>
+		<member name="M:Unigine.Vector.get(size_t) const">
+			<summary>
+			Returns a constant item by a given index.
+			</summary> 
+			<param name="index"> Item index. </param> 
+			<returns>Item.</returns>
+		</member>
+		<member name="M:Unigine.Vector.get">
+			<summary>
+			Returns the pointer to the vector.
+			</summary>  
+			<returns>Pointer to the vector.</returns>
+		</member>
+		<member name="M:Unigine.Vector.get const">
+			<summary>
+			Returns the constant pointer to the vector.
+			</summary>  
+			<returns>Constant pointer to the vector.</returns>
+		</member>
+		<member name="M:Unigine.Vector.allocate(size_t)">
+			<summary>
+			Reserves the exact amount of memory enough to contain the specified number of items.
+			</summary> 
+			<param name="size"> Exact vector size.If the specified value is greater than the current vector capacity, the method causes the container to reallocate its storage increasing capacity to the specified value. In all other cases the capacity is not affected. </param> 
+		</member>
+		<member name="M:Unigine.Vector.append(Type)">
+			<summary>
+			Appends an item.
+			</summary> 
+			<param name="t"> Item to append. </param> 
+		</member>
+		<member name="M:Unigine.Vector.append(size_t,Type)">
+			<summary>
+			Appends an item at a given position.
+			</summary> 
+			<param name="pos"> Position. </param>
+			<param name="t"> Item to append. </param> 
+		</member>
+		<member name="M:Unigine.Vector.append(Unigine.Vector{Type,int,Unigine.VectorAllocator})">
+			<summary>
+			Appends a vector.
+			</summary> 
+			<param name="v"> Vector to append. </param> 
+		</member>
+		<member name="M:Unigine.Vector.append(Type,size_t)">
+			<summary>
+			Appends a vector with a given size.
+			</summary> 
+			<param name="v"> Pointer to the vector to append. </param>
+			<param name="size"> Vector size. </param> 
+		</member>
+		<member name="M:Unigine.Vector.back">
+			<summary>
+			Returns the back iterator.
+			</summary>  
+			<returns>Back iterator.</returns>
+		</member>
+		<member name="M:Unigine.Vector.back const">
+			<summary>
+			Returns the back iterator.
+			</summary>  
+			<returns>Back iterator.</returns>
+		</member>
+		<member name="M:Unigine.Vector.begin">
+			<summary>
+			Returns the begin iterator.
+			</summary>  
+			<returns>Begin iterator.</returns>
+		</member>
+		<member name="M:Unigine.Vector.begin const">
+			<summary>
+			Returns the begin iterator.
+			</summary>  
+			<returns>Begin iterator.</returns>
+		</member>
+		<member name="M:Unigine.Vector.cbegin const">
+			<summary>
+			Returns the begin iterator.
+			</summary>  
+			<returns>Begin iterator.</returns>
+		</member>
+		<member name="M:Unigine.Vector.rbegin const">
+			<summary>
+			Returns the begin iterator.
+			</summary>  
+			<returns>Begin iterator.</returns>
+		</member>
+		<member name="M:Unigine.Vector.crbegin const">
+			<summary>
+			Returns the begin iterator.
+			</summary>  
+			<returns>Begin iterator.</returns>
+		</member>
+		<member name="M:Unigine.Vector.clear">
+			<summary>
+			Clears the vector.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Vector.destroy">
+			<summary>
+			Destroys the vector.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Vector.empty const">
+			<summary>
+			Returns a value indicating if the vector is empty.
+			</summary>  
+			<returns>true if the vector is empty; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Vector.end">
+			<summary>
+			Returns the end iterator.
+			</summary>  
+			<returns>End iterator.</returns>
+		</member>
+		<member name="M:Unigine.Vector.end const">
+			<summary>
+			Returns the end iterator.
+			</summary>  
+			<returns>End iterator.</returns>
+		</member>
+		<member name="M:Unigine.Vector.cend const">
+			<summary>
+			Returns the end iterator.
+			</summary>  
+			<returns>End iterator.</returns>
+		</member>
+		<member name="M:Unigine.Vector.rend const">
+			<summary>
+			Returns the end iterator.
+			</summary>  
+			<returns>End iterator.</returns>
+		</member>
+		<member name="M:Unigine.Vector.crend const">
+			<summary>
+			Returns the end iterator.
+			</summary>  
+			<returns>End iterator.</returns>
+		</member>
+		<member name="M:Unigine.Vector.find(T)">
+			<summary>
+			Finds an item in the vector.
+			</summary> 
+			<param name="t"> Item. </param> 
+			<returns>Iterator.</returns>
+		</member>
+		<member name="M:Unigine.Vector.find(T) const">
+			<summary>
+			Finds an item in the vector.
+			</summary> 
+			<param name="t"> Item. </param> 
+			<returns>Const iterator.</returns>
+		</member>
+		<member name="M:Unigine.Vector.findIndex(T) const">
+			<summary>
+			Finds an index of a given item in the vector.
+			</summary> 
+			<param name="t"> Item. </param> 
+			<returns>Item index.</returns>
+		</member>
+		<member name="M:Unigine.Vector.leftIndex(T) const">
+			<summary>
+			Returns the index of the left neighbor of a given item.
+			</summary> 
+			<param name="t"> Item. </param> 
+			<returns>Left neighbor index.</returns>
+		</member>
+		<member name="M:Unigine.Vector.operator=(Unigine.Vector{Type,int,Unigine.VectorAllocator})">
+			<summary>
+			Assignment operator for the vector.
+			</summary> 
+			<param name="v"> Vector. </param> 
+		</member>
+		<member name="M:Unigine.Vector.operator[](size_t)">
+			<summary>
+			Vector item access.
+			</summary> 
+			<param name="index"> Item index. </param> 
+			<returns>Vector item.</returns>
+		</member>
+		<member name="M:Unigine.Vector.operator[](size_t) const">
+			<summary>
+			Vector item access.
+			</summary> 
+			<param name="index"> Item index. </param> 
+			<returns>Vector item.</returns>
+		</member>
+		<member name="M:Unigine.Vector.remove">
+			<summary>
+			Removes the last item.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Vector.remove(size_t,size_t)">
+			<summary>
+			Removes an item(s) at a given position.
+			</summary> 
+			<param name="pos"> Position. </param>
+			<param name="size"> Number of items to remove. </param> 
+		</member>
+		<member name="M:Unigine.Vector.remove(Iterator)">
+			<summary>
+			Removes an item indicated by a given iterator.
+			</summary> 
+			<param name="it"> Iterator. </param> 
+		</member>
+		<member name="M:Unigine.Vector.removeFast(size_t)">
+			<summary>
+			Removes an item at a given position.
+			</summary> 
+			<param name="pos"> Position. </param> 
+		</member>
+		<member name="M:Unigine.Vector.removeFast(Iterator)">
+			<summary>
+			Removes an item indicated by a given iterator.
+			</summary> 
+			<param name="it"> Iterator. </param> 
+		</member>
+		<member name="M:Unigine.Vector.reserve(size_t)">
+			<summary>
+			Reserves memory at least enough to contain the specified number of items.
+			</summary> 
+			<param name="size"> Minimum vector size.If the specified value is greater than the current vector capacity, the method causes the container to reallocate its storage increasing capacity to the specified value (or greater). In all other cases the capacity is not affected. </param> 
+		</member>
+		<member name="M:Unigine.Vector.resize(size_t)">
+			<summary>
+			Resizes a vector.
+			</summary> 
+			<param name="size"> New vector size. </param> 
+		</member>
+		<member name="M:Unigine.Vector.rightIndex(T) const">
+			<summary>
+			Returns the index of the right neighbor of a given item.
+			</summary> 
+			<param name="t"> Item. </param> 
+			<returns>Right neighbor index.</returns>
+		</member>
+		<member name="M:Unigine.Vector.size const">
+			<summary>
+			Returns the size of the vector.
+			</summary>  
+			<returns>Vector size.</returns>
+		</member>
+		<member name="M:Unigine.Vector.space const">
+			<summary>
+			Returns the capacity of the vector. The value may be greater than the size.
+			</summary>  
+			<returns>Vector capacity.</returns>
+		</member>
+		<member name="M:Unigine.Vector.Vector">
+			<summary>
+			Default constructor. Produces an empty vector.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Vector.Vector(Unigine.Vector{Type,int,Unigine.VectorAllocator})">
+			<summary>
+			Copy constructor.
+			</summary> 
+			<param name="v"> Vector. </param> 
+		</member>
+		<member name="M:Unigine.Vector.Vector(Type,size_t)">
+			<summary>
+			Constructor. Produces a vector with a specified size and initialization.
+			</summary> 
+			<param name="t"> Item value. </param>
+			<param name="size"> Vector size. </param> 
+		</member>
+		<member name="M:Unigine.Vector.Vector(Type,size_t)">
+			<summary>
+			Copy constructor. Produces a vector with a specified size.
+			</summary> 
+			<param name="v"> Vector pointer. </param>
+			<param name="size"> Vector size. </param> 
+		</member>
+		<member name="M:Unigine.Vector.Vector(size_t)">
+			<summary>
+			Explicit constructor. Produces a vector with specified size.
+			</summary> 
+			<param name="size"> Vector size. </param> 
+		</member>
+		<member name="M:Unigine.Vector.~Vector">
+			<summary>
+			Destructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Vector.ConstIterator.get const">
+			<summary>
+			Returns iterator's node pointer.
+			</summary>  
+			<returns>The iterator's node pointer.</returns>
+		</member>
+		<member name="M:Unigine.Vector.ConstIterator.ConstIterator">
+			<summary>
+			Default constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Vector.ConstIterator.ConstIterator(Iterator)">
+			<summary>
+			Copy constructor.
+			</summary> 
+			<param name="it"> Iterator. </param> 
+		</member>
+		<member name="M:Unigine.Vector.ConstIterator.operator!=(typenameVector{Type}::Iterator) const">
+			<summary>
+			Check if two iterators are not the same.
+			</summary> 
+			<param name="it"> The second iterator. </param> 
+			<returns>Returns 1 if iterators are not the same; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.Vector.ConstIterator.operator!=(ConstIterator) const">
+			<summary>
+			Check if two iterators are not the same.
+			</summary> 
+			<param name="it"> The second iterator. </param> 
+			<returns>Returns 1 if iterators are not the same; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.Vector.ConstIterator.operator* const">
+			<summary>
+			Returns iterator's node reference.
+			</summary>  
+			<returns>The iterator's node reference.</returns>
+		</member>
+		<member name="M:Unigine.Vector.ConstIterator.operator+(int) const">
+			<summary>
+			Increases the iterator position.
+			</summary> 
+			<param name="n"> The iterator increment. </param> 
+			<returns>The iterator referring to the next element.</returns>
+		</member>
+		<member name="M:Unigine.Vector.ConstIterator.operator++">
+			<summary>
+			Increases the iterator position.
+			</summary>  
+			<returns>The iterator referring to the next element.</returns>
+		</member>
+		<member name="M:Unigine.Vector.ConstIterator.operator++">
+			<summary>
+			Increases the iterator position.
+			</summary>  
+			<returns>The iterator referring to the current element.</returns>
+		</member>
+		<member name="M:Unigine.Vector.ConstIterator.operator+=(int)">
+			<summary>
+			Increases the iterator position.
+			</summary> 
+			<param name="n"> The iterator increment. </param> 
+			<returns>The iterator referring to the next element.</returns>
+		</member>
+		<member name="M:Unigine.Vector.ConstIterator.operator-(int) const">
+			<summary>
+			Decreases the iterator position.
+			</summary> 
+			<param name="n"> The iterator decrement. </param> 
+			<returns>The iterator referring to the prev element.</returns>
+		</member>
+		<member name="M:Unigine.Vector.ConstIterator.operator-(Iterator) const">
+			<summary>
+			Returns the distance between iterators.
+			</summary> 
+			<param name="it"> The second iterator. </param> 
+			<returns>The distance between iterators.</returns>
+		</member>
+		<member name="M:Unigine.Vector.ConstIterator.operator-(ConstIterator) const">
+			<summary>
+			Returns the distance between iterators.
+			</summary> 
+			<param name="it"> The second iterator. </param> 
+			<returns>The distance between iterators.</returns>
+		</member>
+		<member name="M:Unigine.Vector.ConstIterator.operator-=(int)">
+			<summary>
+			Decreases the iterator position.
+			</summary> 
+			<param name="n"> The iterator decrement. </param> 
+			<returns>The iterator referring to the prev element.</returns>
+		</member>
+		<member name="M:Unigine.Vector.ConstIterator.operator-&gt; const">
+			<summary>
+			Returns iterator's node pointer.
+			</summary>  
+			<returns>The iterator's node.</returns>
+		</member>
+		<member name="M:Unigine.Vector.ConstIterator.operator=(ConstIterator)">
+			<summary>
+			Assignment operator for the iterator.
+			</summary> 
+			<param name="it"> Iterator. </param> 
+		</member>
+		<member name="M:Unigine.Vector.ConstIterator.operator==(typenameVector{Type}::Iterator) const">
+			<summary>
+			Check if two iterators are actually the same.
+			</summary> 
+			<param name="it"> The second iterator. </param> 
+			<returns>Returns 1 if iterators are the same; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.Vector.ConstIterator.operator==(ConstIterator) const">
+			<summary>
+			Check if two iterators are actually the same.
+			</summary> 
+			<param name="it"> The second iterator. </param> 
+			<returns>Returns 1 if iterators are the same; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.Vector.ConstIterator.~ConstIterator">
+			<summary>
+			Destructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Vector.Iterator.get const">
+			<summary>
+			Returns iterator's node pointer.
+			</summary>  
+			<returns>The iterator's node pointer.</returns>
+		</member>
+		<member name="M:Unigine.Vector.Iterator.Iterator">
+			<summary>
+			Default constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Vector.Iterator.Iterator(Iterator)">
+			<summary>
+			Copy constructor.
+			</summary> 
+			<param name="it"> Iterator. </param> 
+		</member>
+		<member name="M:Unigine.Vector.Iterator.operator!=(Iterator) const">
+			<summary>
+			Check if two iterators are not the same.
+			</summary> 
+			<param name="it"> The second iterator. </param> 
+			<returns>Returns 1 if iterators are not the same; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.Vector.Iterator.operator!=(typenameVector{Type}::ConstIterator) const">
+			<summary>
+			Check if two iterators are not the same.
+			</summary> 
+			<param name="it"> The second iterator. </param> 
+			<returns>Returns 1 if iterators are not the same; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.Vector.Iterator.operator* const">
+			<summary>
+			Returns iterator's node reference.
+			</summary>  
+			<returns>The iterator's node reference.</returns>
+		</member>
+		<member name="M:Unigine.Vector.Iterator.operator+(int) const">
+			<summary>
+			Increases the iterator position.
+			</summary> 
+			<param name="n"> The iterator increment. </param> 
+			<returns>The iterator referring to the next element.</returns>
+		</member>
+		<member name="M:Unigine.Vector.Iterator.operator++">
+			<summary>
+			Increases the iterator position.
+			</summary>  
+			<returns>The iterator referring to the next element.</returns>
+		</member>
+		<member name="M:Unigine.Vector.Iterator.operator++">
+			<summary>
+			Increases the iterator position.
+			</summary>  
+			<returns>The iterator referring to the current element.</returns>
+		</member>
+		<member name="M:Unigine.Vector.Iterator.operator+=(int)">
+			<summary>
+			Increases the iterator position.
+			</summary> 
+			<param name="n"> The iterator increment. </param> 
+			<returns>The iterator referring to the next element.</returns>
+		</member>
+		<member name="M:Unigine.Vector.Iterator.operator-(int) const">
+			<summary>
+			Decreases the iterator position.
+			</summary> 
+			<param name="n"> The iterator decrement. </param> 
+			<returns>The iterator referring to the prev element.</returns>
+		</member>
+		<member name="M:Unigine.Vector.Iterator.operator-(Iterator) const">
+			<summary>
+			Returns the distance between iterators.
+			</summary> 
+			<param name="it"> The second iterator. </param> 
+			<returns>The distance between iterators.</returns>
+		</member>
+		<member name="M:Unigine.Vector.Iterator.operator-(ConstIterator) const">
+			<summary>
+			Returns the distance between iterators.
+			</summary> 
+			<param name="it"> The second iterator. </param> 
+			<returns>The distance between iterators.</returns>
+		</member>
+		<member name="M:Unigine.Vector.Iterator.operator-=(int)">
+			<summary>
+			Decreases the iterator position.
+			</summary> 
+			<param name="n"> The iterator decrement. </param> 
+			<returns>The iterator referring to the prev element.</returns>
+		</member>
+		<member name="M:Unigine.Vector.Iterator.operator-&gt; const">
+			<summary>
+			Returns iterator's node pointer.
+			</summary>  
+			<returns>The iterator's node.</returns>
+		</member>
+		<member name="M:Unigine.Vector.Iterator.operator=(Iterator)">
+			<summary>
+			Assignment operator for the iterator.
+			</summary> 
+			<param name="it"> Iterator. </param> 
+		</member>
+		<member name="M:Unigine.Vector.Iterator.operator==(Iterator) const">
+			<summary>
+			Check if two iterators are actually the same.
+			</summary> 
+			<param name="it"> The second iterator. </param> 
+			<returns>Returns 1 if iterators are the same; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.Vector.Iterator.operator==(typenameVector{Type}::ConstIterator) const">
+			<summary>
+			Check if two iterators are actually the same.
+			</summary> 
+			<param name="it"> The second iterator. </param> 
+			<returns>Returns 1 if iterators are the same; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.Vector.Iterator.~Iterator">
+			<summary>
+			Destructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.VectorStack.#ctor">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.VectorStack.#ctor(std::initializer_list{Type})">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.VectorStack.#ctor(VectorStack)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.VectorStack.#ctor(VectorStack)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.VectorStack.#ctor(size_t)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.VectorStack.#ctor(Type,size_t)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.VectorStack.#ctor(Type,size_t)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.VectorStack.VectorStack&lt;Type, Capacity, Counter&gt;(VectorStack{Type,OtherCapacity,OtherCounter})">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.VectorStack.VectorStack&lt;Type, Capacity, Counter&gt;(VectorStack{Type,OtherCapacity,OtherCounter})">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.VectorStack.VectorStack&lt;Type, Capacity, Counter&gt;(Unigine.Vector{Type,OtherCounter,int,Unigine.VectorAllocator})">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.VectorStack.VectorStack&lt;Type, Capacity, Counter&gt;(Unigine.Vector{Type,OtherCounter,int,Unigine.VectorAllocator})">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.VectorStack.operator=(VectorStack)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.VectorStack.operator=(VectorStack)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.VectorStack.operator=(VectorStack{Type,OtherCapacity,OtherCounter})">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.VectorStack.operator=(VectorStack{Type,OtherCapacity,OtherCounter})">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.VectorStack.operator=(Unigine.Vector{Type,OtherCounter,int,Unigine.VectorAllocator})">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.VectorStack.operator=(Unigine.Vector{Type,OtherCounter,int,Unigine.VectorAllocator})">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.VectorStack.getMemoryUsage const">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.VectorStack.destroy">
+			<summary>
+			</summary>  
+		</member>
+	</members>
+</doc>

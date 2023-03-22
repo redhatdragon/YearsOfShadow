@@ -1,0 +1,2201 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.ArrayMap.#ctor(ArrayMap)">
+			<summary>
+			Copy constructor.
+			</summary> 
+			<param name="map"> Map. </param> 
+		</member>
+		<member name="M:Unigine.ArrayMap.set(Unigine.Variable,Unigine.Variable) const">
+			<summary>
+			Set an item by key.
+			</summary> 
+			<param name="key"> Item key. </param>
+			<param name="v"> Item to set. </param> 
+		</member>
+		<member name="M:Unigine.ArrayMap.get(void,Unigine.Variable)">
+			<summary>
+			Return a map from UnigineScript.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="id"> Map ID. </param> 
+			<returns>The map.</returns>
+		</member>
+		<member name="M:Unigine.ArrayMap.get(Unigine.Variable) const">
+			<summary>
+			Return an item by key.
+			</summary> 
+			<param name="key"> Item key. </param> 
+			<returns>The item.</returns>
+		</member>
+		<member name="M:Unigine.ArrayMap.size const">
+			<summary>
+			Return map length.
+			</summary>  
+			<returns>Map length.</returns>
+		</member>
+		<member name="M:Unigine.ArrayMap.clear const">
+			<summary>
+			Clear all items of the map.
+			</summary>  
+		</member>
+		<member name="M:Unigine.ArrayMap.append(Unigine.Variable,Unigine.Variable) const">
+			<summary>
+			Append an item with a given key to the map.
+			</summary> 
+			<param name="key"> Item key. </param>
+			<param name="v"> Item. </param> 
+		</member>
+		<member name="M:Unigine.ArrayMap.remove(Unigine.Variable) const">
+			<summary>
+			Remove an item with a given key from the map.
+			</summary> 
+			<param name="key"> Item key. </param> 
+		</member>
+		<member name="M:Unigine.ArrayMap.back">
+			<summary>
+			Return an iterator referring to the back element.
+			</summary>  
+			<returns>Back iterator.</returns>
+		</member>
+		<member name="M:Unigine.ArrayMap.begin">
+			<summary>
+			Return an iterator referring to the first element.
+			</summary>  
+			<returns>Begin iterator.</returns>
+		</member>
+		<member name="M:Unigine.ArrayMap.end">
+			<summary>
+			Return an iterator referring to the end element.
+			</summary>  
+			<returns>End iterator.</returns>
+		</member>
+		<member name="M:Unigine.ArrayMap.find(Unigine.Variable) const">
+			<summary>
+			Find an item by a given key.
+			</summary> 
+			<param name="key"> Item key. </param> 
+			<returns>Iterator to it if found; otherwise returns an iterator to end.</returns>
+		</member>
+		<member name="M:Unigine.ArrayMap.operator=(ArrayMap)">
+			<summary>
+			Assignment operator for the map.
+			</summary> 
+			<param name="map"> Map to be assigned. </param> 
+		</member>
+		<member name="M:Unigine.ArrayMap.operator[](Unigine.Variable) const">
+			<summary>
+			Map access.
+			</summary> 
+			<param name="key"> Item key. </param> 
+			<returns>The item.</returns>
+		</member>
+		<member name="M:Unigine.ArrayMap.Iterator.#ctor">
+			<summary>
+			Iterator default constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.ArrayMap.Iterator.#ctor(ArrayMap::Iterator)">
+			<summary>
+			Iterator copy constructor.
+			</summary> 
+			<param name="it"> Iterator instance to be copied. </param> 
+		</member>
+		<member name="M:Unigine.ArrayMap.Iterator.get">
+			<summary>
+			Returns iterator's data.
+			</summary>  
+			<returns>The iterator's data.</returns>
+		</member>
+		<member name="M:Unigine.ArrayMap.Iterator.key">
+			<summary>
+			Returns iterator's key.
+			</summary>  
+			<returns>The iterator's key.</returns>
+		</member>
+		<member name="M:Unigine.ArrayMap.Iterator.operator!=(ArrayMap::Iterator)">
+			<summary>
+			Iterator not equal comparison.
+			</summary> 
+			<param name="it"> The second iterator to be compared with. </param> 
+			<returns>The result of operation.</returns>
+		</member>
+		<member name="M:Unigine.ArrayMap.Iterator.operator++">
+			<summary>
+			Increases the iterator position (performs pre-increment operation: ++iterator).
+			</summary>  
+			<returns>The result of operation.</returns>
+		</member>
+		<member name="M:Unigine.ArrayMap.Iterator.operator++(int)">
+			<summary>
+			Increases the iterator position (performs post-increment operation: iterator++)
+			</summary>  
+			<returns>The result of operation.</returns>
+		</member>
+		<member name="M:Unigine.ArrayMap.Iterator.operator--(int)">
+			<summary>
+			Decreases the iterator position (performs post-decrement operation: iterator--).
+			</summary>  
+			<returns>The result of operation.</returns>
+		</member>
+		<member name="M:Unigine.ArrayMap.Iterator.operator--">
+			<summary>
+			Decreases the iterator position (performs pre-decrement operation: --iterator)
+			</summary>  
+			<returns>The result of operation.</returns>
+		</member>
+		<member name="M:Unigine.ArrayMap.Iterator.operator=(ArrayMap::Iterator)">
+			<summary>
+			Assignment operator for the iterator.
+			</summary> 
+			<param name="it"> Assignment operator for the iterator. </param> 
+			<returns>The assigned iterator.</returns>
+		</member>
+		<member name="M:Unigine.ArrayMap.Iterator.operator==(ArrayMap::Iterator)">
+			<summary>
+			Iterator equal comparison.
+			</summary> 
+			<param name="it"> The second iterator. </param> 
+			<returns>The result.</returns>
+		</member>
+		<member name="M:Unigine.ArrayVector.#ctor(ArrayVector)">
+			<summary>
+			Copy constructor.
+			</summary> 
+			<param name="vector"> Vector. </param> 
+		</member>
+		<member name="M:Unigine.ArrayVector.set(int,Unigine.Variable) const">
+			<summary>
+			Sets an item by index.
+			</summary> 
+			<param name="index"> Item index. </param>
+			<param name="v"> Item to set. </param> 
+		</member>
+		<member name="M:Unigine.ArrayVector.get(void,Unigine.Variable)">
+			<summary>
+			Returns a vector from UnigineScript.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="id"> Vector ID. </param> 
+			<returns>The vector.</returns>
+		</member>
+		<member name="M:Unigine.ArrayVector.get(int) const">
+			<summary>
+			Returns an item by index.
+			</summary> 
+			<param name="index"> Item index. </param> 
+			<returns>The item.</returns>
+		</member>
+		<member name="M:Unigine.ArrayVector.append(Unigine.Variable) const">
+			<summary>
+			Appends an item to the vector.
+			</summary> 
+			<param name="v"> Item. </param> 
+		</member>
+		<member name="M:Unigine.ArrayVector.append(int,Unigine.Variable) const">
+			<summary>
+			Appends an item to the vector at a given position.
+			</summary> 
+			<param name="pos"> Position index. </param>
+			<param name="v"> Item. </param> 
+		</member>
+		<member name="M:Unigine.ArrayVector.clear const">
+			<summary>
+			Clears all items of the vector.
+			</summary>  
+		</member>
+		<member name="M:Unigine.ArrayVector.find(Unigine.Variable) const">
+			<summary>
+			Returns an index of a given item.
+			</summary> 
+			<param name="v"> Item. </param> 
+			<returns>Index, if found; otherwise, -1.</returns>
+		</member>
+		<member name="M:Unigine.ArrayVector.operator=(ArrayVector)">
+			<summary>
+			Assignment operator for the vector.
+			</summary> 
+			<param name="vector"> Vector to be assigned. </param> 
+		</member>
+		<member name="M:Unigine.ArrayVector.operator[](int) const">
+			<summary>
+			Vector access.
+			</summary> 
+			<param name="index"> Item index. </param> 
+			<returns>The item.</returns>
+		</member>
+		<member name="M:Unigine.ArrayVector.remove(int) const">
+			<summary>
+			Removes an item from a given position of the vector.
+			</summary> 
+			<param name="pos"> Position index. </param> 
+		</member>
+		<member name="M:Unigine.ArrayVector.resize(int) const">
+			<summary>
+			Resizes a vector.
+			</summary> 
+			<param name="size"> New vector capacity. </param> 
+		</member>
+		<member name="M:Unigine.ArrayVector.size const">
+			<summary>
+			Returns vector length.
+			</summary>  
+			<returns>Vector length.</returns>
+		</member>
+		<member name="M:Unigine.Interpreter.get">
+			<summary>
+			Returns the current interpreter pointer.
+			</summary>  
+			<returns>Interpreter pointer.</returns>
+		</member>
+		<member name="M:Unigine.Interpreter.getExternClass(char)">
+			<summary>
+			Returns an external user class from UnigineScript.
+			</summary> 
+			<param name="name"> Name of the class. </param> 
+			<returns>Pointer to the external class.</returns>
+		</member>
+		<member name="M:Unigine.Interpreter.getExternFunction(char)">
+			<summary>
+			Returns an external user function from UnigineScript.
+			</summary> 
+			<param name="name"> Name of the function. </param> 
+			<returns>Pointer to the external function.</returns>
+		</member>
+		<member name="M:Unigine.Interpreter.getExternVariable(char)">
+			<summary>
+			Returns an external user variable from UnigineScript.
+			</summary> 
+			<param name="name"> Name of the variable. </param> 
+			<returns>Pointer to the external variable.</returns>
+		</member>
+		<member name="M:Unigine.Interpreter.getStack">
+			<summary>
+			Returns the current interpreter stack depth.
+			</summary>  
+			<returns>Interpreter stack depth.</returns>
+		</member>
+		<member name="M:Unigine.Interpreter.addExternClass(char,ExternClassBase,int)">
+			<summary>
+			Adds an external user class to UnigineScript. To create an external function use MakeExternClass() command.
+			</summary> 
+			<param name="name"> Name of the class. </param>
+			<param name="extern_class"> Pointer to the external class. </param>
+			<param name="group_id"> ID of the group. </param> 
+		</member>
+		<member name="M:Unigine.Interpreter.addExternDefine(char,int)">
+			<summary>
+			Adds a definition to UnigineScript. This function is similar to #define Foo.
+			</summary> 
+			<param name="name"> Name of the definition. </param>
+			<param name="group_id"> ID of the group. </param> 
+		</member>
+		<member name="M:Unigine.Interpreter.addExternFunction(char,ExternFunctionBase,int)">
+			<summary>
+			Adds an external user function to UnigineScript. To create an external function use addExternFunction() command.
+			</summary> 
+			<param name="name"> Name of the function. </param>
+			<param name="extern_function"> Pointer to the external function. </param>
+			<param name="group_id"> ID of the group. </param> 
+		</member>
+		<member name="M:Unigine.Interpreter.addExternLibrary(char,int)">
+			<summary>
+			Adds an external library namespace to UnigineScript.					All external variables and functions with names like library.function() will be treated as library functions.
+			</summary> 
+			<param name="name"> Name of the library. </param>
+			<param name="group_id"> ID of the group. </param> 
+		</member>
+		<member name="M:Unigine.Interpreter.addExternVariable(char,ExternVariableBase,int)">
+			<summary>
+			Adds an external user variable to UnigineScript.
+			</summary> 
+			<param name="name"> Name of the variable. </param>
+			<param name="extern_variable"> Pointer to the external variable. </param>
+			<param name="group_id"> ID of the group. </param> 
+		</member>
+		<member name="M:Unigine.Interpreter.addGroup(char)">
+			<summary>
+			Adds a new group with the specified name. This group is assigned as an argument to the element via the following methods:											addExternDefine()						addExternLibrary()						addExternVariable()						addExternFunction()						addExternClass()					If the same group is added to several elements (definitions, libraries, variables, functions, classes), all of them can be removed from interpreter at once via					removeGroup().
+			</summary> 
+			<param name="group_name"> Name of the group. </param> 
+			<returns>ID of the group.</returns>
+		</member>
+		<member name="M:Unigine.Interpreter.error(char)">
+			<summary>
+			Interpreter error function.
+			</summary> 
+			<param name="format"> Format string. It is similar to the format string for printf() in C. </param> 
+		</member>
+		<member name="M:Unigine.Interpreter.popStack">
+			<summary>
+			Pops the variable from the current interpreter stack.
+			</summary>  
+			<returns>A variable.</returns>
+		</member>
+		<member name="M:Unigine.Interpreter.removeExternClass(char)">
+			<summary>
+			Remove a user class from UnigineScript.
+			</summary> 
+			<param name="name"> Name of the class. </param> 
+		</member>
+		<member name="M:Unigine.Interpreter.removeExternDefine(char)">
+			<summary>
+			Removes an external definition with the specified name from UnigineScript. This function is similar to #undef Foo.
+			</summary> 
+			<param name="name"> Name of the definition. </param> 
+		</member>
+		<member name="M:Unigine.Interpreter.removeExternFunction(char)">
+			<summary>
+			Removes an external user function from UnigineScript.
+			</summary> 
+			<param name="name"> Name of the function. </param> 
+		</member>
+		<member name="M:Unigine.Interpreter.removeExternLibrary(char)">
+			<summary>
+			Removes an external library namespace from UnigineScript.
+			</summary> 
+			<param name="name"> Name of the library. </param> 
+		</member>
+		<member name="M:Unigine.Interpreter.removeExternVariable(char)">
+			<summary>
+			Removes an external user variable from UnigineScript.
+			</summary> 
+			<param name="name"> Name of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Interpreter.removeGroup(char)">
+			<summary>
+			Removes all the elements (definitions, libraries, variables, functions, classes) added via addExternDefine(), addExternLibrary(), addExternVariable(), addExternFunction() and addExternClass() methods that belong to the specified group.
+			</summary> 
+			<param name="group_name"> Name of the group. </param> 
+		</member>
+		<member name="M:Unigine.Reflection.#ctor(void,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.getNumFunctionDefaultArgs(int)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,char,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,char,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,char,int,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,int)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,int,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,char,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,int,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,int,int,Unigine.Vector{Unigine.Variable,int,Unigine.VectorAllocator})">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,char,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,char)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,char,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,int,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,int,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,char,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,int,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,char,int,Unigine.Vector{Unigine.Variable,int,Unigine.VectorAllocator})">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,char,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,int,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,char,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,char,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,int,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,int,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,int,int,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternClassFunction(Unigine.Variable,int,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(char,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(char,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(int,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(char,int,Unigine.Vector{Unigine.Variable,int,Unigine.VectorAllocator})">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(int,int,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(char,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(char)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(int,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(char,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(char,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(char,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(char,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(int,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(int,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(int,int,Unigine.Vector{Unigine.Variable,int,Unigine.VectorAllocator})">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(int,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(char,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(int,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(int,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(char,int,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(int)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(char,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(int,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.callExternFunction(int,Unigine.Variable,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Reflection.reflect(void,Unigine.Variable)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Variable.#ctor">
+			<summary>
+			Default constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Variable.#ctor(Unigine.Variable)">
+			<summary>
+			Copy constructor.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(int)">
+			<summary>
+			Explicit constructor for a variable of int type.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(longlong)">
+			<summary>
+			Explicit constructor for a variable of long long type.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(float)">
+			<summary>
+			Explicit constructor for a variable of float type.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(double)">
+			<summary>
+			Explicit constructor for a variable of double type.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(Unigine.vec2)">
+			<summary>
+			Explicit constructor for a variable of vec2 type.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(Unigine.vec3)">
+			<summary>
+			Explicit constructor for a variable of vec3 type.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(Unigine.vec4)">
+			<summary>
+			Explicit constructor for a variable of vec4 type.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(Unigine.dvec2)">
+			<summary>
+			Explicit constructor for a variable of dvec2 type.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(Unigine.dvec3)">
+			<summary>
+			Explicit constructor for a variable of dvec3 type.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(Unigine.dvec4)">
+			<summary>
+			Explicit constructor for a variable of dvec4 type.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(Unigine.ivec2)">
+			<summary>
+			Explicit constructor for a variable of ivec2 type.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(Unigine.ivec3)">
+			<summary>
+			Explicit constructor for a variable of ivec3 type.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(Unigine.ivec4)">
+			<summary>
+			Explicit constructor for a variable of ivec4 type.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(Unigine.mat4)">
+			<summary>
+			Explicit constructor for a variable of mat4 type.
+			</summary> 
+			<param name="m"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(Unigine.dmat4)">
+			<summary>
+			Explicit constructor for a variable of dmat4 type.
+			</summary> 
+			<param name="m"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(Unigine.quat)">
+			<summary>
+			Explicit constructor for a variable of quad type.
+			</summary> 
+			<param name="q"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(char)">
+			<summary>
+			Explicit constructor for a variable of string type.
+			</summary> 
+			<param name="s"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,char,void,int,int)">
+			<summary>
+			External class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="type_name"> Name of the external class object type. </param>
+			<param name="object"> Pointer to the object. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,BodyPtr,int,int)">
+			<summary>
+			Body smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="body"> Body smart pointer. </param>
+			<param name="append"> The script will take ownership of the Body and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the Body lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,CameraPtr,int,int)">
+			<summary>
+			Camera smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="camera"> Camera smart pointer. </param>
+			<param name="append"> The script will take ownership of the camera and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the camera lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,ControlsPtr,int,int)">
+			<summary>
+			Controls smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="controls"> Controls smart pointer. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,DatasetPtr,int,int)">
+			<summary>
+			Dataset smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="dataset"> Dataset smart pointer. </param>
+			<param name="append"> The script will take ownership of the Dataset and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the Dataset lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,DecalPtr,int,int)">
+			<summary>
+			Decal smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="decal"> Decal smart pointer. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,EllipsoidPtr,int,int)">
+			<summary>
+			Ellipsoid smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="ellipsoid"> Ellipsoid smart pointer. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,GuiPtr,int,int)">
+			<summary>
+			Gui smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="gui"> Gui smart pointer. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,ImagePtr,int,int)">
+			<summary>
+			Image smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="image"> Image smart pointer. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,LightPtr,int,int)">
+			<summary>
+			Light smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="light"> Light smart pointer. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,MaterialPtr,int,int)">
+			<summary>
+			Material smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="material"> Material smart pointer. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,MeshPtr,int,int)">
+			<summary>
+			Mesh smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="mesh"> Mesh smart pointer. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,NodePtr,int,int)">
+			<summary>
+			Node smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="node"> Node smart pointer. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,ObjectPtr,int,int)">
+			<summary>
+			Object smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="object"> Object smart pointer. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,PathPtr,int,int)">
+			<summary>
+			Path smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="path"> Path smart pointer. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,PlayerPtr,int,int)">
+			<summary>
+			Player smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="player"> Player smart pointer. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,ShapePtr,int,int)">
+			<summary>
+			Shape smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="shape"> Shape smart pointer. </param>
+			<param name="append"> The script will take ownership of the Shape and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the Shape lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,StreamPtr,int,int)">
+			<summary>
+			Stream smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="stream"> Stream smart pointer. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,PropertyPtr,int,int)">
+			<summary>
+			Property smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="property"> Property smart pointer. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,PropertyParameterPtr,int,int)">
+			<summary>
+			PropertyParameter smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="property_parameter"> PropertyParameter smart pointer. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,RenderEnvironmentPresetPtr,int,int)">
+			<summary>
+			RenderEnvironmentPreset smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="preset"> RenderEnvironmentPreset smart pointer. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,TerrainGlobalDetailPtr,int,int)">
+			<summary>
+			TerrainGlobalDetail smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="detail"> TerrainGlobalDetail smart pointer. </param>
+			<param name="append"> The script will take ownership of the TerrainGlobalDetail and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the TerrainGlobalDetail lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,TerrainGlobalLodHeightPtr,int,int)">
+			<summary>
+			TerrainGlobalLodHeight smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="lod"> TerrainGlobalLodHeight smart pointer. </param>
+			<param name="append"> The script will take ownership of the TerrainGlobalLodHeight and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the TerrainGlobalLodHeight lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,TerrainGlobalLodPtr,int,int)">
+			<summary>
+			TerrainGlobalLod smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="lod"> TerrainGlobalLod smart pointer. </param>
+			<param name="append"> The script will take ownership of the TerrainGlobalLod and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the TerrainGlobalLod lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,TerrainGlobalLodsPtr,int,int)">
+			<summary>
+			TerrainGlobalLods smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="lods"> TerrainGlobalLods smart pointer. </param>
+			<param name="append"> The script will take ownership of the TerrainGlobalLods and be responsible for deleting it. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,TypeInfo,void,int,int)">
+			<summary>
+			External class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="type_info"> Type information. </param>
+			<param name="object"> Pointer to the object. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,WidgetPtr,int,int)">
+			<summary>
+			Widget smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="widget"> Widget smart pointer. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,XmlPtr,int,int)">
+			<summary>
+			XML smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="xml"> XML smart pointer. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(Unigine.UGUID)">
+			<summary>
+			UGUID smart pointer class object constructor.
+			</summary> 
+			<param name="g"> UGUID smart pointer. </param> 
+		</member>
+		<member name="M:Unigine.Variable.#ctor(void,JointPtr,int,int)">
+			<summary>
+			Joint smart pointer class object constructor.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="joint"> Joint smart pointer. </param>
+			<param name="append"> The script will take ownership of the Joint and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the Joint lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.set(Unigine.Variable)">
+			<summary>
+			Sets a variable.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.get const">
+			<summary>
+			Returns the current variable.
+			</summary>  
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setBody(void,BodyPtr,int,int)">
+			<summary>
+			Sets a Body smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="body"> Body smart pointer. </param>
+			<param name="append"> The script will take ownership of the Body and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the Body lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getBody(void)">
+			<summary>
+			Returns the current variable as a Body smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>Body smart pointer.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isBody(void)">
+			<summary>
+			Returns a value indicating if the variable is a Body.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>1 if the variable is a Body; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setCamera(void,CameraPtr,int,int)">
+			<summary>
+			Sets a Camera smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="camera"> Camera smart pointer. </param>
+			<param name="append"> The script will take ownership of the Camera and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the Camera lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getCamera(void)">
+			<summary>
+			Returns the current variable as a Camera smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>Camera smart pointer.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isCamera(void)">
+			<summary>
+			Returns a value indicating if the variable is a Camera.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>1 if the variable is a Camera; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setControls(void,ControlsPtr,int,int)">
+			<summary>
+			Sets a controls smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="controls"> Controls smart pointer. </param>
+			<param name="append"> The script will take ownership of the controls and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the controls lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getControls(void) const">
+			<summary>
+			Returns the current variable as a controls smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>Controls smart pointer.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isControls(void) const">
+			<summary>
+			Returns a value indicating if the variable is a controls.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>1 if the variable is a controls; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.getData">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Variable.setDataset(void,DatasetPtr,int,int)">
+			<summary>
+			Sets a Dataset smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="dataset"> Dataset smart pointer. </param>
+			<param name="append"> The script will take ownership of the Dataset and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the Dataset lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getDataset(void)">
+			<summary>
+			Returns the current variable as a Dataset smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>Dataset smart pointer.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isDataset(void)">
+			<summary>
+			Returns a value indicating if the variable is a Dataset.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>1 if the variable is a Dataset; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setDecal(void,DecalPtr,int,int)">
+			<summary>
+			Sets a decal smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="decal"> Decal smart pointer. </param>
+			<param name="append"> The script will take ownership of the decal and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the decal lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getDecal(void) const">
+			<summary>
+			Returns the current variable as a decal smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isDecal(void) const">
+			<summary>
+			Returns a value indicating if the variable is a decal.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>Returns 1 if the variable is a decal; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setDMat4(Unigine.dmat4)">
+			<summary>
+			Sets a 3x4 matrix for the variable.
+			</summary> 
+			<param name="m"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getDMat4 const">
+			<summary>
+			Returns the current variable as a 3x4 matrix, if possible.
+			</summary>  
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isDMat4 const">
+			<summary>
+			Returns a value indicating if the variable is a 3x4 matrix.
+			</summary>  
+			<returns>Returns 1 if the variable is a 3x4 matrix; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setDouble(double)">
+			<summary>
+			Sets a double value for the variable.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getDouble const">
+			<summary>
+			Returns the current variable as a double value, if possible.
+			</summary>  
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isDouble const">
+			<summary>
+			Returns a value indicating if the variable is a double value.
+			</summary>  
+			<returns>1 if the variable is a double value; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setDVec2(Unigine.dvec2)">
+			<summary>
+			Sets a two component vector for the variable.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getDVec2">
+			<summary>
+			Returns the current variable as a two component vector, if possible.
+			</summary>  
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isDVec2">
+			<summary>
+			Returns a value indicating if the variable is a three component vector.
+			</summary>  
+			<returns>1 if the variable is a two component vector; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setDVec3(Unigine.dvec3)">
+			<summary>
+			Sets a three component vector for the variable.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getDVec3 const">
+			<summary>
+			Returns the current variable as a three component vector, if possible.
+			</summary>  
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isDVec3 const">
+			<summary>
+			Returns a value indicating if the variable is a three component vector.
+			</summary>  
+			<returns>1 if the variable is a three component vector; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setDVec4(Unigine.dvec4)">
+			<summary>
+			Sets a four component vector for the variable.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getDVec4 const">
+			<summary>
+			Returns the current variable as a four component vector, if possible.
+			</summary>  
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isDVec4 const">
+			<summary>
+			Returns a value indicating if the variable is a four component vector.
+			</summary>  
+			<returns>Returns 1 if the variable is a four component vector; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setEllipsoid(void,EllipsoidPtr,int,int)">
+			<summary>
+			Sets a ellipsoid smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="ellipsoid"> A smart pointer to Ellipsoid. </param>
+			<param name="append"> The script will take ownership of the ellipsoid and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the ellipsoid lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getEllipsoid(void)">
+			<summary>
+			Returns the current variable as an ellipsoid smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>A smart pointer to Ellipsoid.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isEllipsoid(void)">
+			<summary>
+			Returns a value indicating if the variable is an ellipsoid.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>1 if the variable is an ellipsoid; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isExternClass const">
+			<summary>
+			Returns a value indicating if the variable belongs to the external class.
+			</summary>  
+			<returns>1 is the variable belongs to the external class; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setExternClassObject(void,char,void,int,int)">
+			<summary>
+			Sets an external class object for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="type_name"> Name of the external class object type. </param>
+			<param name="object"> Pointer to the object. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.setExternClassObject(void,TypeInfo,void,int,int)">
+			<summary>
+			Sets an external class object for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="type_info"> Type information. </param>
+			<param name="object"> Pointer to the object. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.setExternClassObject(void,Type,int,int)">
+			<summary>
+			Sets an external class object for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="object"> Pointer to the object. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getExternClassObject(void,TypeInfo) const">
+			<summary>
+			Returns the external class object pointer.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="type_info"> Type information. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getExternClassObject(void) const">
+			<summary>
+			Returns the type of the external class object.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>Object type.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isExternClassObject(void) const">
+			<summary>
+			Returns a value indicating if the object belongs to the external class.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>1 is the variable belongs to the external class; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.getExternClassObjectRef(void) const">
+			<summary>
+			Returns the type of the external class object stored in the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>Object type.</returns>
+		</member>
+		<member name="M:Unigine.Variable.getExternClassType(void) const">
+			<summary>
+			Returns type information about the external class object stored in the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>Type information.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setFloat(float)">
+			<summary>
+			Sets a float value for the variable.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getFloat const">
+			<summary>
+			Returns the current variable as a float value, if possible.
+			</summary>  
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isFloat const">
+			<summary>
+			Returns a value indicating if the variable is a float value.
+			</summary>  
+			<returns>Returns 1 if the variable is a float value; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setGui(void,GuiPtr,int,int)">
+			<summary>
+			Sets a gui smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="gui"> Gui smart pointer. </param>
+			<param name="append"> The script will take ownership of the gui data and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the gui data lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getGui(void) const">
+			<summary>
+			Returns the current variable as a gui smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isGui(void) const">
+			<summary>
+			Returns a value indicating if the variable is a gui.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>Returns 1 if the variable is a gui; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setGUID(Unigine.UGUID)">
+			<summary>
+			Sets a GUID value for the variable.
+			</summary> 
+			<param name="g"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getGUID">
+			<summary>
+			Returns the current variable as a GUID smart pointer, if possible.
+			</summary>  
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isGUID">
+			<summary>
+			Returns a value indicating if the variable is a GUID.
+			</summary>  
+			<returns>Returns 1 if the variable is a GUID; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setImage(void,ImagePtr,int,int)">
+			<summary>
+			Sets an image smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="image"> Image smart pointer. </param>
+			<param name="append"> The script will take ownership of the image and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the image lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getImage(void) const">
+			<summary>
+			Returns the current variable as a image smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isImage(void) const">
+			<summary>
+			Returns a value indicating if the variable is an image.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>Returns 1 if the variable is an image; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setInt(int)">
+			<summary>
+			Sets an integer value for the variable.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getInt const">
+			<summary>
+			Returns the current variable as an integer value, if possible.
+			</summary>  
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isInt const">
+			<summary>
+			Returns a value indicating if the variable is an integer value.
+			</summary>  
+			<returns>Returns 1 if the variable is an integer value; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setIVec2(Unigine.ivec2)">
+			<summary>
+			Sets an inverse two component vector for the variable.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getIVec2">
+			<summary>
+			Returns the current variable as an inverse two component vector, if possible.
+			</summary>  
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isIVec2">
+			<summary>
+			Returns a value indicating if the variable is an inverse two component vector.
+			</summary>  
+			<returns>1 if the variable is an inverse two component vector; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setIVec3(Unigine.ivec3)">
+			<summary>
+			Sets a three component vector for the variable.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getIVec3 const">
+			<summary>
+			Returns the current variable as a three component vector, if possible.
+			</summary>  
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isIVec3 const">
+			<summary>
+			Returns a value indicating if the variable is a three component vector.
+			</summary>  
+			<returns>Returns 1 if the variable is a three component vector; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setIVec4(Unigine.ivec4)">
+			<summary>
+			Sets a four component vector for the variable.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getIVec4 const">
+			<summary>
+			Returns the current variable as a four component vector, if possible.
+			</summary>  
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isIVec4 const">
+			<summary>
+			Returns a value indicating if the variable is a four component vector.
+			</summary>  
+			<returns>Returns 1 if the variable is a four component vector; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setJoint(void,JointPtr,int,int)">
+			<summary>
+			Sets a Joint smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="joint"> Joint smart pointer. </param>
+			<param name="append"> The script will take ownership of the Joint and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the Joint lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getJoint(void)">
+			<summary>
+			Returns the current variable as a Joint smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>Joint smart pointer.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isJoint(void)">
+			<summary>
+			Returns a value indicating if the variable is a Joint.
+			</summary>  
+			<returns>1 if the variable is a Joint; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setLight(void,LightPtr,int,int)">
+			<summary>
+			Sets a light smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="light"> Light smart pointer. </param>
+			<param name="append"> The script will take ownership of the light and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the light lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getLight(void) const">
+			<summary>
+			Returns the current variable as a light smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isLight(void) const">
+			<summary>
+			Returns a value indicating if the variable is a light.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>1 if the variable is a light; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setLong(longlong)">
+			<summary>
+			Sets a long long value for the variable.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getLong const">
+			<summary>
+			Returns the current variable as a long long value, if possible.
+			</summary>  
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isLong const">
+			<summary>
+			Returns a value indicating if the variable is a long long value.
+			</summary>  
+			<returns>1 if the variable is a long long value; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setMat4(Unigine.mat4)">
+			<summary>
+			Sets a 4x4 matrix for the variable.
+			</summary> 
+			<param name="m"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getMat4 const">
+			<summary>
+			Returns the current variable as a 4x4 matrix, if possible.
+			</summary>  
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isMat4 const">
+			<summary>
+			Returns a value indicating if the variable is a 4x4 matrix.
+			</summary>  
+			<returns>1 if the variable is a 4x4 matrix; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setMaterial(void,MaterialPtr,int,int)">
+			<summary>
+			Sets a material smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="material"> Material smart pointer. </param>
+			<param name="append"> The script will take ownership of the material and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the material lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getMaterial(void) const">
+			<summary>
+			Returns the current variable as a material smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isMaterial(void) const">
+			<summary>
+			Returns a value indicating if the variable is a material.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>1 if the variable is a material; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setMesh(void,MeshPtr,int,int)">
+			<summary>
+			Sets a mesh smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="mesh"> Mesh smart pointer. </param>
+			<param name="append"> The script will take ownership of the mesh data and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the mesh data lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getMesh(void) const">
+			<summary>
+			Returns the current variable as a mesh smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isMesh(void) const">
+			<summary>
+			Returns a value indicating if the variable is a mesh.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>1 if the variable is a mesh; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setNode(void,NodePtr,int,int)">
+			<summary>
+			Sets a node smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="node"> Node smart pointer. </param>
+			<param name="append"> The script will take ownership of the node and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the node lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getNode(void) const">
+			<summary>
+			Returns the current variable as a node smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isNode(void) const">
+			<summary>
+			Returns a value indicating if the variable is a node.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>Returns 1 if the variable is a node; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isNull const">
+			<summary>
+			Returns a value indicating if the variable is a null value.
+			</summary>  
+			<returns>1 if the variable is a null value; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setObject(void,ObjectPtr,int,int)">
+			<summary>
+			Sets a object smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="object"> Object smart pointer. </param>
+			<param name="append"> The script will take ownership of the object and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the object lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getObject(void) const">
+			<summary>
+			Returns the current variable as an object smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isObject(void) const">
+			<summary>
+			Returns a value indicating if the variable is an object.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>1 if the variable is an object; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setPath(void,PathPtr,int,int)">
+			<summary>
+			Sets a path smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="path"> Path smart pointer. </param>
+			<param name="append"> The script will take ownership of the path data and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the path data lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getPath(void) const">
+			<summary>
+			Returns the current variable as a path smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isPath(void) const">
+			<summary>
+			Returns a value indicating if the variable is a path.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>1 if the variable is a path; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setPlayer(void,PlayerPtr,int,int)">
+			<summary>
+			Sets a player smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="player"> Player smart pointer. </param>
+			<param name="append"> The script will take ownership of the player and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the player lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getPlayer(void) const">
+			<summary>
+			Returns the current variable as a player smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isPlayer(void) const">
+			<summary>
+			Returns a value indicating if the variable is a player.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>1 if the variable is a player; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setProperty(void,PropertyPtr,int,int)">
+			<summary>
+			Sets a property smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="property"> Property smart pointer. </param>
+			<param name="append"> The script will take ownership of the property and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the property lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getProperty(void) const">
+			<summary>
+			Returns the current variable as a property smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isProperty(void) const">
+			<summary>
+			Returns a value indicating if the variable is a property.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>1 if the variable is a property; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setPropertyParameter(void,PropertyParameterPtr,int,int)">
+			<summary>
+			Sets a property parameter smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="property_parameters"> PropertyParameter smart pointer. </param>
+			<param name="append"> The script will take ownership of the property parameter and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the property parameter lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getPropertyParameter(void)">
+			<summary>
+			Returns the current variable as a property parameter smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isPropertyParameter(void)">
+			<summary>
+			Returns a value indicating if the variable is a property parameter.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>1 if the variable is a property parameter; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setQuat(Unigine.quat)">
+			<summary>
+			Sets a quaternion for the variable.
+			</summary> 
+			<param name="q"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getQuat const">
+			<summary>
+			Returns the current variable as a quaternion, if possible.
+			</summary>  
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isQuat const">
+			<summary>
+			Returns a value indicating if the variable is a quaternion.
+			</summary>  
+			<returns>1 if the variable is a quaternion; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setRenderEnvironmentPreset(void,RenderEnvironmentPresetPtr,int,int)">
+			<summary>
+			Sets a RenderEnvironmentPreset smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="append"> The script will take ownership of the RenderEnvironmentPreset and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the RenderEnvironmentPreset lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getRenderEnvironmentPreset(void)">
+			<summary>
+			Returns the current variable as a RenderEnvironmentPreset smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>RenderEnvironmentPreset smart pointer.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isRenderEnvironmentPreset(void)">
+			<summary>
+			Returns a value indicating if the variable is a RenderEnvironmentPreset.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>1 if the variable is a RenderEnvironmentPreset; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setShape(void,ShapePtr,int,int)">
+			<summary>
+			Sets a Shape smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="shape"> Shape smart pointer. </param>
+			<param name="append"> The script will take ownership of the Shape and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the Shape lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getShape(void)">
+			<summary>
+			Returns the current variable as a Shape, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>Shape smart pointer.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isShape(void)">
+			<summary>
+			Returns a value indicating if the variable is a Shape.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>1 if the variable is a Shape; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setStream(void,StreamPtr,int,int)">
+			<summary>
+			Sets a stream smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="stream"> Stream smart pointer. </param>
+			<param name="append"> The script will take ownership of the stream data and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the stream data lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getStream(void) const">
+			<summary>
+			Returns the current variable as a stream smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isStream(void) const">
+			<summary>
+			Returns a value indicating if the variable is a stream.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>Returns 1 if the variable is a stream; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setString(char)">
+			<summary>
+			Sets a string for the variable.
+			</summary> 
+			<param name="s"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getString const">
+			<summary>
+			Returns the current variable as a string, if possible.
+			</summary>  
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isString const">
+			<summary>
+			Returns a value indicating if the variable is a string.
+			</summary>  
+			<returns>Returns 1 if the variable is a string; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setTerrainGlobalLod(void,TerrainGlobalLodPtr,int,int)">
+			<summary>
+			Sets a TerrainGlobalLod smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="lod"> TerrainGlobalLod smart pointer. </param>
+			<param name="append"> The script will take ownership of the TerrainGlobalLod and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the TerrainGlobalLod lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getTerrainGlobalLod(void)">
+			<summary>
+			Returns the current variable as a TerrainGlobalLod smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>TerrainGlobalLod smart pointer.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isTerrainGlobalLod(void)">
+			<summary>
+			Returns a value indicating if the variable is a TerrainGlobalLod.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>1 if the variable is a TerrainGlobalLod; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setTerrainGlobalLods(void,TerrainGlobalLodsPtr,int,int)">
+			<summary>
+			Sets a TerrainGlobalLods smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="lods"> TerrainGlobalLods smart pointer. </param>
+			<param name="append"> The script will take ownership of the TerrainGlobalLods and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the TerrainGlobalLods lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getTerrainGlobalLods(void)">
+			<summary>
+			Returns the current variable as a TerrainGlobalLods smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>TerrainGlobalLods smart pointer.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isTerrainGlobalLods(void)">
+			<summary>
+			Returns a value indicating if the variable is a TerrainGlobalLods.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>1 if the variable is a TerrainGlobalLods; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setTerrainGlobalLodHeight(void,TerrainGlobalLodHeightPtr,int,int)">
+			<summary>
+			Sets a TerrainGlobalLodHeight smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="lod"> TerrainGlobalLodHeight smart pointer. </param>
+			<param name="append"> The script will take ownership of the TerrainGlobalLodHeight and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the TerrainGlobalLodHeight lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getTerrainGlobalLodHeight(void)">
+			<summary>
+			Returns the current variable as a TerrainGlobalLodHeight smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>TerrainGlobalLodHeight smart pointer.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isTerrainGlobalLodHeight(void)">
+			<summary>
+			Returns a value indicating if the variable is a TerrainGlobalLodHeight.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>1 if the variable is a TerrainGlobalLodHeight; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setTerrainGlobalDetail(void,TerrainGlobalDetailPtr,int,int)">
+			<summary>
+			Sets a TerrainGlobalDetail smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="detail"> TerrainGlobalDetail smart pointer. </param>
+			<param name="append"> The script will take ownership of the TerrainGlobalDetail and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the TerrainGlobalDetail lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getTerrainGlobalDetail(void)">
+			<summary>
+			Returns the current variable as a TerrainGlobalDetail smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>TerrainGlobalDetail smart pointer.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isTerrainGlobalDetail(void)">
+			<summary>
+			Returns a value indicating if the variable is a TerrainGlobalDetail.
+			</summary>  
+			<returns>1 if the variable is a TerrainGlobalDetail; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.getType const">
+			<summary>
+			Returns the variable type.
+			</summary>  
+			<returns>Variable type (see Unigine::Variable:: Enumeration).</returns>
+		</member>
+		<member name="M:Unigine.Variable.getTypeInfo const">
+			<summary>
+			Returns the variable type info.
+			</summary>  
+			<returns>Variable type info string.</returns>
+		</member>
+		<member name="M:Unigine.Variable.getTypeName const">
+			<summary>
+			Returns the variable type name.
+			</summary>  
+			<returns>Variable type name string.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setUserClass(int,int,int)">
+			<summary>
+			Sets a user class for the variable.
+			</summary> 
+			<param name="type"> User class type ID. </param>
+			<param name="number"> User class number. </param>
+			<param name="instance"> User class instance. </param> 
+		</member>
+		<member name="M:Unigine.Variable.isUserClass const">
+			<summary>
+			Returns a value indicating if the variable is an user class.
+			</summary>  
+			<returns>Returns 1 if the variable is an user class; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.getUserClassInstance const">
+			<summary>
+			Returns user class instance.
+			</summary>  
+			<returns>User class instance.</returns>
+		</member>
+		<member name="M:Unigine.Variable.getUserClassNumber const">
+			<summary>
+			Returns user class number.
+			</summary>  
+			<returns>User class number.</returns>
+		</member>
+		<member name="M:Unigine.Variable.getUserClassType const">
+			<summary>
+			Returns user class type.
+			</summary>  
+			<returns>User class type ID.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setVec2(Unigine.vec2)">
+			<summary>
+			Sets a two component vector for the variable.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getVec2">
+			<summary>
+			Returns the current variable as a two component vector, if possible.
+			</summary>  
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isVec2">
+			<summary>
+			Returns a value indicating if the variable is a two component vector.
+			</summary>  
+			<returns>1 if the variable is a two component vector; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setVec3(Unigine.vec3)">
+			<summary>
+			Sets a three component vector for the variable.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getVec3 const">
+			<summary>
+			Returns the current variable as a three component vector, if possible.
+			</summary>  
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isVec3 const">
+			<summary>
+			Returns a value indicating if the variable is a three component vector.
+			</summary>  
+			<returns>Returns 1 if the variable is a three component vector; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setVec4(Unigine.vec4)">
+			<summary>
+			Sets a four component vector for the variable.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getVec4 const">
+			<summary>
+			Returns the current variable as a four component vector, if possible.
+			</summary>  
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isVec4 const">
+			<summary>
+			Returns a value indicating if the variable is a four component vector.
+			</summary>  
+			<returns>Returns 1 if the variable is a four component vector; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setWidget(void,WidgetPtr,int,int)">
+			<summary>
+			Sets a widget smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="widget"> Widget smart pointer. </param>
+			<param name="append"> The script will take ownership of the widget and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the widget lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getWidget(void) const">
+			<summary>
+			Returns the current variable as a widget smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isWidget(void) const">
+			<summary>
+			Returns a value indicating if the variable is a widget.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>1 if the variable is a widget; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.setXml(void,XmlPtr,int,int)">
+			<summary>
+			Sets a XML smart pointer for the variable.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param>
+			<param name="xml"> XML smart pointer. </param>
+			<param name="append"> The script will take ownership of the XML data and be responsible for deleting it. </param>
+			<param name="manage"> The script will manage the XML data lifetime through reference counting. </param> 
+		</member>
+		<member name="M:Unigine.Variable.getXml(void) const">
+			<summary>
+			Returns the current variable as a XML smart pointer, if possible.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>The value of the variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.isXml(void) const">
+			<summary>
+			Returns a value indicating if the variable is an XML.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+			<returns>Returns 1 if the variable is an XML; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Variable.appendExternClass(void) const">
+			<summary>
+			The script will take ownership of the object and be responsible for deleting it.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+		</member>
+		<member name="M:Unigine.Variable.manageExternClass(void) const">
+			<summary>
+			The script will manage the object lifetime through reference counting.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+		</member>
+		<member name="M:Unigine.Variable.operator!=(Unigine.Variable) const">
+			<summary>
+			Variable not equal comparison.
+			</summary> 
+			<param name="v"> The value of the second variable. </param> 
+			<returns>The resulting variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.operator%(Unigine.Variable) const">
+			<summary>
+			Variable modulo operation.
+			</summary> 
+			<param name="v"> The value of the second variable. </param> 
+			<returns>The resulting variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.operator&amp;(Unigine.Variable) const">
+			<summary>
+			Variable binary and.
+			</summary> 
+			<param name="v"> The value of the second variable. </param> 
+			<returns>The resulting variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.operator&amp;&amp;(Unigine.Variable) const">
+			<summary>
+			Variable logical and.
+			</summary> 
+			<param name="v"> The value of the second variable. </param> 
+			<returns>The resulting variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.operator*(Unigine.Variable) const">
+			<summary>
+			Variable multiplication.
+			</summary> 
+			<param name="v"> The value of the second variable. </param> 
+			<returns>The resulting variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.operator+(Unigine.Variable) const">
+			<summary>
+			Variable addition.
+			</summary> 
+			<param name="v"> The value of the second variable. </param> 
+			<returns>The resulting variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.operator-(Unigine.Variable) const">
+			<summary>
+			Variable subtraction.
+			</summary> 
+			<param name="v"> The value of the second variable. </param> 
+			<returns>The resulting variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.operator/(Unigine.Variable) const">
+			<summary>
+			Variable division.
+			</summary> 
+			<param name="v"> The value of the second variable. </param> 
+			<returns>The resulting variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.operator&lt;(Unigine.Variable) const">
+			<summary>
+			Variable less than comparison.
+			</summary> 
+			<param name="v"> The value of the second variable. </param> 
+			<returns>The resulting variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.operator&lt;&lt;(Unigine.Variable) const">
+			<summary>
+			Variable binary left shift.
+			</summary> 
+			<param name="v"> The value of the second variable. </param> 
+			<returns>The resulting variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.operator&lt;=(Unigine.Variable) const">
+			<summary>
+			Variable less than or equal to comparison.
+			</summary> 
+			<param name="v"> The value of the second variable. </param> 
+			<returns>The resulting variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.operator=(Unigine.Variable)">
+			<summary>
+			Assignment operator for the variable.
+			</summary> 
+			<param name="v"> The value of the variable. </param> 
+		</member>
+		<member name="M:Unigine.Variable.operator==(Unigine.Variable) const">
+			<summary>
+			Variable equal comparison.
+			</summary> 
+			<param name="v"> The value of the second variable. </param> 
+			<returns>The resulting variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.operator&gt;(Unigine.Variable) const">
+			<summary>
+			Variable greater than comparison.
+			</summary> 
+			<param name="v"> The value of the second variable. </param> 
+			<returns>The resulting variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.operator&gt;=(Unigine.Variable) const">
+			<summary>
+			Variable greater than or equal to comparison.
+			</summary> 
+			<param name="v"> The value of the second variable. </param> 
+			<returns>The resulting variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.operator&gt;&gt;(Unigine.Variable) const">
+			<summary>
+			Variable binary right shift.
+			</summary> 
+			<param name="v"> The value of the second variable. </param> 
+			<returns>The resulting variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.operator^(Unigine.Variable) const">
+			<summary>
+			Variable binary xor.
+			</summary> 
+			<param name="v"> The value of the second variable. </param> 
+			<returns>The resulting variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.operator|(Unigine.Variable) const">
+			<summary>
+			Variable binary or.
+			</summary> 
+			<param name="v"> The value of the second variable. </param> 
+			<returns>The resulting variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.operator||(Unigine.Variable) const">
+			<summary>
+			Variable logical or.
+			</summary> 
+			<param name="v"> The value of the second variable. </param> 
+			<returns>The resulting variable.</returns>
+		</member>
+		<member name="M:Unigine.Variable.releaseExternClass(void) const">
+			<summary>
+			The script will drop ownership of the object and clear all references to it.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+		</member>
+		<member name="M:Unigine.Variable.removeExternClass(void) const">
+			<summary>
+			The script will drop ownership of the object and be not responsible for deleting it.
+			</summary> 
+			<param name="interpreter"> Interpreter pointer. </param> 
+		</member>
+	</members>
+</doc>

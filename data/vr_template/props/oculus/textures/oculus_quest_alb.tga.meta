@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.16.1.0">
+	<guid>4aead61383826456aa6e4fbda1434df8db22b8f7</guid>
+	<type>texture</type>
+	<hash>6856acd3</hash>
+	<runtimes>
+		<runtime id="4aead61383826456aa6e4fbda1434df8db22b8f7" name="oculus_quest_alb.tga" link="0" type="6"/>
+		<runtime id="4303c1ea12bd08414fab44ac3a49f81be5ae4ebe" name="oculus_quest_alb.texture" link="1" type="6"/>
+	</runtimes>
+	<parameters>
+		<parameter type="string" name="height">auto</parameter>
+		<parameter type="string" name="image_format">DXT5</parameter>
+		<parameter type="string" name="image_type">2d</parameter>
+		<parameter type="bool" name="invert_g">0</parameter>
+		<parameter type="string" name="mipmap_type">box</parameter>
+		<parameter type="string" name="preset_name">custom</parameter>
+		<parameter type="bool" name="srgb_correction">1</parameter>
+		<parameter type="bool" name="unchanged">0</parameter>
+		<parameter type="string" name="width">auto</parameter>
+	</parameters>
+</asset>

@@ -1,0 +1,273 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.ScopedLock.#ctor(Mutex)">
+			<summary>
+			Constructs a scoped lock for the specified synchronization object (simple mutex).
+			</summary> 
+			<param name="m"> Synchronization object (Mutex). </param> 
+		</member>
+		<member name="M:Unigine.ScopedReaderLock.#ctor(RWMutex)">
+			<summary>
+			Constructs a scoped reader lock for the specified synchronization object (read-write mutex).
+			</summary> 
+			<param name="l"> Synchronization object (RWMutex). </param> 
+		</member>
+		<member name="M:Unigine.ScopedReentrantLock.#ctor(ReentrantMutex)">
+			<summary>
+			Constructs a scoped lock for the specified synchronization object (reentrant mutex).
+			</summary> 
+			<param name="m"> Synchronization object (ReentrantMutex). </param> 
+		</member>
+		<member name="M:Unigine.ScopedWriterLock.#ctor(RWMutex)">
+			<summary>
+			Constructs a scoped writer lock for the specified synchronization object (read-write mutex).
+			</summary> 
+			<param name="l"> Synchronization object (RWMutex). </param> 
+		</member>
+		<member name="M:Unigine.Atomic.#ctor">
+			<summary>
+			Default constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Atomic.#ctor(T)">
+			<summary>
+			Constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Atomic.#ctor(Atomic{T})">
+			<summary>
+			Constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Atomic.#ctor(Atomic{T})">
+			<summary>
+			Constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Atomic.load">
+			<summary>
+			Reads the current value atomically.
+			</summary>  
+			<returns>Current value.</returns>
+		</member>
+		<member name="M:Unigine.Atomic.store(T)">
+			<summary>
+			Writes the current value atomically.
+			</summary> 
+			<param name="v"> Value to be written. </param> 
+		</member>
+		<member name="M:Unigine.BackoffSpinner.#ctor">
+			<summary>
+			Constructor. Creates a new backoff spinner.
+			</summary>  
+		</member>
+		<member name="M:Unigine.BackoffSpinner.spin">
+			<summary>
+			</summary>  
+		</member>
+		<member name="M:Unigine.Mutex.#ctor">
+			<summary>
+			Constructor. Creates a new simple mutex.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Mutex.lock">
+			<summary>
+			Locks the mutex.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Mutex.unlock">
+			<summary>
+			Releases the mutex.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Mutex.isLocked">
+			<summary>
+			Returns a value indicating whether the mutex is locked.
+			</summary>  
+			<returns>true if the mutex is locked; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Mutex.wait">
+			<summary>
+			Wait for the mutex to become unlocked.
+			</summary>  
+		</member>
+		<member name="M:Unigine.ReentrantMutex.#ctor">
+			<summary>
+			Constructor. Creates a new reentrant mutex.
+			</summary>  
+		</member>
+		<member name="M:Unigine.ReentrantMutex.lock">
+			<summary>
+			Locks the mutex.The mutex must be unlocked corresponding number of times.
+			</summary>  
+		</member>
+		<member name="M:Unigine.ReentrantMutex.unlock">
+			<summary>
+			Releases the mutex.
+			</summary>  
+		</member>
+		<member name="M:Unigine.ReentrantMutex.isLocked">
+			<summary>
+			Returns a value indicating whether the mutex is locked.
+			</summary>  
+			<returns>true if the mutex is locked; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.ReentrantMutex.wait">
+			<summary>
+			Wait for the mutex to become unlocked.
+			</summary>  
+		</member>
+		<member name="F:Unigine.ReentrantMutex.INVALID_ID">
+			<summary>
+			Invalid identifier.
+		</summary>
+		</member>
+		<member name="M:Unigine.RWMutex.#ctor">
+			<summary>
+			Constructor. Creates a new read-write mutex.
+			</summary>  
+		</member>
+		<member name="M:Unigine.RWMutex.lockRead">
+			<summary>
+			Locks the mutex for reading.
+			</summary>  
+		</member>
+		<member name="M:Unigine.RWMutex.unlockRead">
+			<summary>
+			Unlocks the mutex for reading.
+			</summary>  
+		</member>
+		<member name="M:Unigine.RWMutex.lockWrite">
+			<summary>
+			Locks the mutex for writing.
+			</summary>  
+		</member>
+		<member name="M:Unigine.RWMutex.unlockWrite">
+			<summary>
+			Unlocks the mutex for writing.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Thread.#ctor">
+			<summary>
+			Constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Thread.getID">
+			<summary>
+			Returns the current thread identifier.
+			</summary>  
+			<returns>The unique thread identifier.</returns>
+		</member>
+		<member name="M:Unigine.Thread.setPriority(int)">
+			<summary>
+			Sets the thread priority.
+			</summary> 
+			<param name="priority"> Thread priority to set in range [-3;3]                             . The default thread priority is 0.  </param> 
+			<returns>Returns 1                             if the operation was a success; otherwise, 0                             is returned. </returns>
+		</member>
+		<member name="M:Unigine.Thread.getPriority const">
+			<summary>
+			Gets the thread priority.
+			</summary>  
+			<returns>Returns the thread priority in range [-3;3]                             . </returns>
+		</member>
+		<member name="M:Unigine.Thread.isRunning const">
+			<summary>
+			Checks if the thread is running.
+			</summary>  
+			<returns>Returns 1                             if the thread is running; otherwise, 0                             is returned. </returns>
+		</member>
+		<member name="M:Unigine.Thread.isWaiting const">
+			<summary>
+			Checks if the thread is waiting.
+			</summary>  
+			<returns>Returns 1                             if the thread is waiting; otherwise, 0                             is returned. </returns>
+		</member>
+		<member name="M:Unigine.Thread.process">
+			<summary>
+			Thread process function.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Thread.run(size_t)">
+			<summary>
+			Runs the thread.
+			</summary> 
+			<param name="size"> Thread stack size in bytes. </param> 
+			<returns>Returns 1 if the thread was successfully run; otherwise, 0. </returns>
+		</member>
+		<member name="M:Unigine.Thread.signal">
+			<summary>
+			Signals the thread.
+			</summary>  
+			<returns>Returns 1                             if the operation was a success; otherwise, 0                             is returned. </returns>
+		</member>
+		<member name="M:Unigine.Thread.stop">
+			<summary>
+			Stops the thread.
+			</summary>  
+			<returns>Returns 1                             if the operation was a success; otherwise, 0                             is returned. </returns>
+		</member>
+		<member name="M:Unigine.Thread.terminate">
+			<summary>
+			Terminates the thread.
+			</summary>  
+			<returns>Returns 1                             if the operation was a success; otherwise, 0                             is returned. </returns>
+		</member>
+		<member name="M:Unigine.Thread.sleep(unsignedint)">
+			<summary>
+			Suspends thread execution in milliseconds.
+			</summary> 
+			<param name="usec"> Time in milliseconds. </param> 
+		</member>
+		<member name="M:Unigine.Thread.wait">
+			<summary>
+			Puts the thread into the waiting state.
+			</summary>  
+		</member>
+		<member name="M:Unigine.CPUShader.#ctor">
+			<summary>
+			Default CPUShader class constructor.
+			</summary>  
+		</member>
+		<member name="M:Unigine.CPUShader.runSync(int)">
+			<summary>
+			Runs CPU shader code synchronously. This method is blocking. No additional threads are created, as the Engine's thread pool is used.
+			</summary> 
+			<param name="threads_count"> Number of threads to be used. The default value of -1 sets an optimum number of threads calculated for the particular PC. </param> 
+		</member>
+		<member name="M:Unigine.CPUShader.runAsync(int)">
+			<summary>
+			Runs CPU shader code asynchronously. This method is non-blocking. No additional threads are created, as the Engine's thread pool is used.
+			</summary> 
+			<param name="threads_count"> Number of threads to be used. The default value of -1 sets an optimum number of threads calculated for the particular PC. </param> 
+		</member>
+		<member name="M:Unigine.CPUShader.wait">
+			<summary>
+			Waits for running asynchronous shader code execution.
+			</summary>  
+		</member>
+		<member name="M:Unigine.CPUShader.isRunning">
+			<summary>
+			Returns a value indicating if the CPU shader code is currently executed.
+			</summary>  
+			<returns>1 if the shader code is currently executed; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.CPUShader.getNumThreads">
+			<summary>
+			Returns the currently used number of threads.
+			</summary>  
+			<returns>Number of currently used threads.</returns>
+		</member>
+		<member name="M:Unigine.CPUShader.process(int,int)">
+			<summary>
+			Override this method to implement calculations.
+			</summary> 
+			<param name="thread_num"> Current thread number. This number is not a thread ID, it just a virtual number. </param>
+			<param name="threads_count"> Number of threads to be used. </param> 
+		</member>
+	</members>
+</doc>

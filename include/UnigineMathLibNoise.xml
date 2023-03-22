@@ -1,0 +1,145 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Noise.#ctor">
+			<summary>
+			Constructor. Initializes the noise generator.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Noise.#ctor(unsignedint)">
+			<summary>
+			Constructor. Initializes the noise generator by setting a new seed.
+			</summary> 
+			<param name="seed_"> New seed. </param> 
+		</member>
+		<member name="M:Unigine.Noise.setSeed(unsignedint)">
+			<summary>
+			Sets a new seed for noise generator.
+			</summary> 
+			<param name="seed_"> New seed. </param> 
+		</member>
+		<member name="M:Unigine.Noise.getSeed const">
+			<summary>
+			Returns the current seed.
+			</summary>  
+			<returns>Current seed.</returns>
+		</member>
+		<member name="M:Unigine.Noise.get1(float) const">
+			<summary>
+			Returns the one-dimensional white noise.
+			</summary> 
+			<param name="x"> Seed. </param> 
+			<returns>One-dimensional white noise.</returns>
+		</member>
+		<member name="M:Unigine.Noise.get2(float,float) const">
+			<summary>
+			Returns the two-dimensional white noise.
+			</summary> 
+			<param name="x"> Seed 1. </param>
+			<param name="y"> Seed 2. </param> 
+			<returns>Two-dimensional white noise.</returns>
+		</member>
+		<member name="M:Unigine.Noise.get3(float,float,float) const">
+			<summary>
+			Returns the three-dimensional (3D) white noise.
+			</summary> 
+			<param name="x"> Seed 1. </param>
+			<param name="y"> Seed 2. </param>
+			<param name="z"> Seed 3. </param> 
+			<returns>Three-dimensional (3D) white noise.</returns>
+		</member>
+		<member name="M:Unigine.Noise.getTurbulence1(float,int) const">
+			<summary>
+			Returns the one-dimensional turbulence noise.
+			</summary> 
+			<param name="x"> Seed. </param>
+			<param name="frequency"> Frequency. </param> 
+			<returns>One-dimensional turbulence noise.</returns>
+		</member>
+		<member name="M:Unigine.Noise.getTurbulence2(float,float,int) const">
+			<summary>
+			Returns the two-dimensional turbulence noise.
+			</summary> 
+			<param name="x"> Seed 1. </param>
+			<param name="y"> Seed 2. </param>
+			<param name="frequency"> Frequency. </param> 
+			<returns>Two-dimensional turbulence noise.</returns>
+		</member>
+		<member name="M:Unigine.Noise.getTurbulence3(float,float,float,int) const">
+			<summary>
+			Returns the three-dimensional (3D) turbulence noise.
+			</summary> 
+			<param name="x"> Seed 1. </param>
+			<param name="y"> Seed 2. </param>
+			<param name="z"> Seed 3. </param>
+			<param name="frequency"> Frequency. </param> 
+			<returns>Three-dimensional (3D) turbulence noise.</returns>
+		</member>
+		<member name="M:Unigine.Noise.getTileable1(float,float) const">
+			<summary>
+			Returns the one-dimensional tileable noise.
+			</summary> 
+			<param name="x"> Seed. </param>
+			<param name="width"> Tile width. </param> 
+			<returns>One-dimensional tileable noise.</returns>
+		</member>
+		<member name="M:Unigine.Noise.getTileable2(float,float,float,float) const">
+			<summary>
+			Returns the two-dimensional tileable noise.
+			</summary> 
+			<param name="x"> Seed 1. </param>
+			<param name="y"> Seed 2. </param>
+			<param name="width"> Tile width. </param>
+			<param name="height"> Tile height. </param> 
+			<returns>Two-dimensional tileable noise.</returns>
+		</member>
+		<member name="M:Unigine.Noise.getTileable3(float,float,float,float,float,float) const">
+			<summary>
+			Returns the three-dimensional (3D) tileable noise.
+			</summary> 
+			<param name="x"> Seed 1. </param>
+			<param name="y"> Seed 2. </param>
+			<param name="z"> Seed 3. </param>
+			<param name="width"> Tile width. </param>
+			<param name="height"> Tile height. </param>
+			<param name="depth"> Tile depth. </param> 
+			<returns>Three-dimensional (3D) tileable noise.</returns>
+		</member>
+		<member name="M:Unigine.Noise.getTileableTurbulence1(float,float,int) const">
+			<summary>
+			Returns the one-dimensional tileable turbulence noise.
+			</summary> 
+			<param name="x"> Seed 1. </param>
+			<param name="width"> Tile width. </param>
+			<param name="frequency"> Frequency. </param> 
+			<returns>One-dimensional tileable turbulence noise.</returns>
+		</member>
+		<member name="M:Unigine.Noise.getTileableTurbulence2(float,float,float,float,int) const">
+			<summary>
+			Returns the two-dimensional tileable turbulence noise.
+			</summary> 
+			<param name="x"> Seed 1. </param>
+			<param name="y"> Seed 2. </param>
+			<param name="width"> Tile width. </param>
+			<param name="height"> Tile height. </param>
+			<param name="frequency"> Frequency. </param> 
+			<returns>Two-dimensional tileable turbulence noise.</returns>
+		</member>
+		<member name="M:Unigine.Noise.getTileableTurbulence3(float,float,float,float,float,float,int) const">
+			<summary>
+			Returns the three-dimensional (3D) tileable turbulence noise.
+			</summary> 
+			<param name="x"> Seed 1. </param>
+			<param name="y"> Seed 2. </param>
+			<param name="z"> Seed 3. </param>
+			<param name="width"> Tile width. </param>
+			<param name="height"> Tile height. </param>
+			<param name="depth"> Tile depth. </param>
+			<param name="frequency"> Frequency. </param> 
+			<returns>Three-dimensional (3D) tileable turbulence noise.</returns>
+		</member>
+	</members>
+</doc>

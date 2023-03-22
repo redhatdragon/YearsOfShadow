@@ -1,0 +1,1310 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Xml.#ctor">
+			<summary>
+			Default constructor that creates an empty instance.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Xml.#ctor(char,char)">
+			<summary>
+			Creates an XML tree with a given node as a root.
+			</summary> 
+			<param name="name"> Name of the node that will be a root. </param>
+			<param name="args"> Optional arguments to the root node. If provided, they should be in this form:arg1=\"value1\" arg2=\"value2\" … If values do not contain spaces, escaped quotes can be omitted. </param> 
+		</member>
+		<member name="M:Unigine.Xml.#ctor(Unigine.Ptr{Unigine.Xml})">
+			<summary>
+			Constructor. Creates a path out of the specified XML file.
+			</summary> 
+			<param name="xml"> Pointer to the XML file. </param> 
+		</member>
+		<member name="M:Unigine.Xml.setArg(char,char)">
+			<summary>
+			Sets a literal value of a given argument.
+			</summary> 
+			<param name="name"> The XML argument name. </param>
+			<param name="value"> The XML argument value. </param> 
+			<returns>true if the argument is set successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getArg(char) const">
+			<summary>
+			Gets an XML argument.
+			</summary> 
+			<param name="name"> The XML argument name. </param> 
+			<returns>Value of the argument, if it is found; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.isArg(char) const">
+			<summary>
+			Checks whether an argument with a given name exists.
+			</summary> 
+			<param name="name"> Name of XML argument. </param> 
+			<returns>true if the argument exists; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setArgName(int,char)">
+			<summary>
+			Sets the XML argument name.
+			</summary> 
+			<param name="num"> The argument number. </param>
+			<param name="name"> The argument name. </param> 
+		</member>
+		<member name="M:Unigine.Xml.getArgName(int) const">
+			<summary>
+			Returns argument name by its number.
+			</summary> 
+			<param name="num"> Argument number. </param> 
+			<returns>Argument name.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setArgValue(int,char)">
+			<summary>
+			Sets the XML argument value.
+			</summary> 
+			<param name="num"> The argument number. </param>
+			<param name="value"> The argument value. </param> 
+		</member>
+		<member name="M:Unigine.Xml.getArgValue(int) const">
+			<summary>
+			Returns the XML argument value.
+			</summary> 
+			<param name="num"> The argument number. </param> 
+			<returns>Argument value.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setBoolArg(char,bool)">
+			<summary>
+			Sets a value of a given boolean argument.
+			</summary> 
+			<param name="name"> Name of an argument. </param>
+			<param name="value"> Value of the argument. Any non-zero value means true, the zero value means false. </param> 
+			<returns>true if the operation was successful; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getBoolArg(char,bool) const">
+			<summary>
+			Returns a value of a given boolean argument.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Name of a target argument. </param>
+			<param name="value"> Default value of the argument. </param> 
+			<returns>1 if the argument has a value 1, true or TRUE; 0, if the argument has a value 0, false or FALSE; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getBoolArg(char) const">
+			<summary>
+			Returns a value of a given boolean argument.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Name of a target argument. </param> 
+			<returns>1 if the argument has a value 1, true or TRUE; 0, if the argument has a value 0, false or FALSE; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setBoolData(bool)">
+			<summary>
+			Sets a boolean content for the node. This can be done only for nodes with no children.
+			</summary> 
+			<param name="data"> Content to set. Any non-zero value means true, the zero value means false. </param> 
+			<returns>1 if the content is set successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getBoolData const">
+			<summary>
+			Returns a boolean interpretation of data stored in the node.
+			</summary>  
+			<returns>1 if a value equals to 1, true or TRUE; 0, if the value equals to 0, false or FALSE; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getChild(char) const">
+			<summary>
+			Returns the child of the XML tree.
+			</summary> 
+			<param name="name"> The child number. </param> 
+			<returns>Pointer to XML.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getChild(int) const">
+			<summary>
+			Returns a child node by its name or index number in the child list.					To check, if a child with a given name exists, use the isChild() method.
+			</summary> 
+			<param name="num"> The child number. </param> 
+			<returns>Target child node, if it is found; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.isChild(char) const">
+			<summary>
+			Checks if a child element with a given name exists.
+			</summary> 
+			<param name="name"> Element name to check. </param> 
+			<returns>true if a child with the provided name exists; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getChildData(char) const">
+			<summary>
+			Gets the data from the XML child node.
+			</summary> 
+			<param name="name"> Name of the child node. </param>
+			<param name="value"> Type of the child (int, float, vec3, vec4, dvec3, dvec4, ivec3, ivec4, mat4, dmat4, quat, string). </param> 
+			<returns>The value of the child node.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setData(char)">
+			<summary>
+			Sets an XML data.
+			</summary> 
+			<param name="data"> The XML data. </param> 
+			<returns>1 if the operation was successful; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getData const">
+			<summary>
+			Gets a data from the XML file.
+			</summary>  
+			<returns>Data.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setDMat4Arg(char,Unigine.Math.dmat4)">
+			<summary>
+			Sets a value of a given dmat4 argument.
+			</summary> 
+			<param name="name"> Name of an argument. </param>
+			<param name="value"> Value of an argument. </param> 
+			<returns>Always true.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getDMat4Arg(char) const">
+			<summary>
+			Returns a value of a given dmat4 argument.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Name of a target argument. </param> 
+			<returns>Argument value.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setDMat4Data(Unigine.Math.dmat4)">
+			<summary>
+			Sets a dmat4 matrix content for the node. This can be done only for nodes with no children.
+			</summary> 
+			<param name="data"> Content to set. </param> 
+			<returns>1 if the content is set successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getDMat4Data const">
+			<summary>
+			Returns a dmat4 matrix interpretation of data stored in the node.
+			</summary>  
+			<returns>Data stored in the node.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setDoubleArg(char,double)">
+			<summary>
+			Sets a value of a given double argument.
+			</summary> 
+			<param name="name"> Name of an argument. </param>
+			<param name="value"> Value of an argument. </param> 
+			<returns>Always 1.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getDoubleArg(char,double) const">
+			<summary>
+			Returns a value of a given double argument.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Name of a target argument. </param>
+			<param name="value"> Default value of the argument. </param> 
+			<returns>Argument value.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getDoubleArg(char) const">
+			<summary>
+			Returns a value of a given double argument.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Name of a target argument. </param> 
+			<returns>Argument value.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setDoubleArrayArg(char,double[])">
+			<summary>
+			Sets a vector of double as a value of a given argument.
+			</summary> 
+			<param name="name"> Name of an argument. </param>
+			<param name="src"> Reference to a vector with double components. </param> 
+			<returns>Always 1.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getDoubleArrayArg(char,outdouble[]) const">
+			<summary>
+			Returns a set of double values stored in an argument and puts them in a vector.
+			</summary> 
+			<param name="name"> Name of a target argument. </param> 
+			<returns>1 if dest contains anything; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setDoubleArrayData(double[])">
+			<summary>
+			Sets a vector of double components as a content for the node. This can be done only for nodes with no children.
+			</summary> 
+			<param name="src"> Reference to a vector with double components. </param> 
+			<returns>1 if the content is set successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getDoubleArrayData(outdouble[]) const">
+			<summary>
+			Returns an interpretation of data stored in the node as a vector of double components.
+			</summary> 
+			<param name="dest"> Reference to a vector with double components. </param> 
+			<returns>1 if dest contains anything; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setDoubleData(double)">
+			<summary>
+			Sets a double content for the node. This can be done only for nodes with no children.
+			</summary> 
+			<param name="data"> Content to set. </param> 
+			<returns>1 if the content is set successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getDoubleData const">
+			<summary>
+			Returns a double interpretation of data stored in the node.
+			</summary>  
+			<returns>Data stored in the node.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setDVec2Arg(char,Unigine.Math.dvec2)">
+			<summary>
+			Sets a value of a given dvec2 argument.
+			</summary> 
+			<param name="name"> Name of an argument. </param>
+			<param name="value"> Value of an argument. </param> 
+			<returns>Always 1.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getDVec2Arg(char) const">
+			<summary>
+			Returns a value of a given dvec2 argument.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Name of a target argument. </param> 
+			<returns>Argument value.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setDVec2Data(Unigine.Math.dvec2)">
+			<summary>
+			Sets a dvec2 content for the node. This can be done only for nodes with no children.
+			</summary> 
+			<param name="data"> Content to set. </param> 
+		</member>
+		<member name="M:Unigine.Xml.getDVec2Data const">
+			<summary>
+			Returns a dvec2 interpretation of data stored in the node.
+			</summary>  
+			<returns>Data stored in the node.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setDVec3Arg(char,Unigine.Math.dvec3)">
+			<summary>
+			Sets a value of a given dvec3 argument.
+			</summary> 
+			<param name="name"> Name of an argument. </param>
+			<param name="value"> Value of an argument. </param> 
+			<returns>Always 1.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getDVec3Arg(char) const">
+			<summary>
+			Returns a value of a given dvec3 argument.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Name of a target argument. </param> 
+			<returns>Argument value.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setDVec3Data(Unigine.Math.dvec3)">
+			<summary>
+			Sets a dvec3 content for the node. This can be done only for nodes with no children.
+			</summary> 
+			<param name="data"> Content to set. </param> 
+		</member>
+		<member name="M:Unigine.Xml.getDVec3Data const">
+			<summary>
+			Returns a dvec3 interpretation of data stored in the node.
+			</summary>  
+			<returns>Data stored in the node.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setDVec4Arg(char,Unigine.Math.dvec4)">
+			<summary>
+			Sets a value of a given dvec4 argument.
+			</summary> 
+			<param name="name"> Name of an argument. </param>
+			<param name="value"> Value of an argument. </param> 
+			<returns>Always 1.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getDVec4Arg(char) const">
+			<summary>
+			Returns a value of a given dvec4 argument.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Name of a target argument. </param> 
+			<returns>Argument value.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setDVec4Data(Unigine.Math.dvec4)">
+			<summary>
+			Sets a dvec4 content for the node. This can be done only for nodes with no children.
+			</summary> 
+			<param name="data"> Content to set. </param> 
+			<returns>1 if the content is set successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getDVec4Data const">
+			<summary>
+			Returns a dvec4 interpretation of data stored in the node.
+			</summary>  
+			<returns>Data stored in the node.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setFloatArg(char,float)">
+			<summary>
+			Sets a value of a given float argument.
+			</summary> 
+			<param name="name"> Name of an argument. </param>
+			<param name="value"> Value of an argument. </param> 
+			<returns>Always 1.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getFloatArg(char,float) const">
+			<summary>
+			Returns a value of a given float argument.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Name of a target argument. </param>
+			<param name="value"> Default value of the argument. </param> 
+			<returns>Argument value.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getFloatArg(char) const">
+			<summary>
+			Returns a value of a given float argument.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Name of a target argument. </param> 
+			<returns>Argument value.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setFloatArrayArg(char,float[])">
+			<summary>
+			Sets a vector of floats as a value of a given argument.
+			</summary> 
+			<param name="name"> Name of an argument. </param> 
+			<returns>Always 1.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getFloatArrayArg(char,outfloat[]) const">
+			<summary>
+			Returns a set of float values stored in an argument and puts them in a vector.
+			</summary> 
+			<param name="name"> Name of a target argument. </param>
+			<param name="dest"> Target vector. </param> 
+			<returns>1 if dest contains anything; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setFloatArrayData(float[])">
+			<summary>
+			Sets a vector of floats as a content for the node. This can be done only for nodes with no children.
+			</summary> 
+			<param name="src"> A float array data. </param> 
+			<returns>1 if the content is set successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getFloatArrayData(outfloat[]) const">
+			<summary>
+			Returns an interpretation of data stored in the node as a vector of floats.
+			</summary> 
+			<param name="dest"> Reference to a vector. </param> 
+			<returns>1 if dest contains anything; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setFloatData(float)">
+			<summary>
+			Sets a float content for the node. This can be done only for nodes with no children.
+			</summary> 
+			<param name="data"> Content to set. </param> 
+			<returns>1 if the content is set successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getFloatData const">
+			<summary>
+			Returns a float interpretation of data stored in the node.
+			</summary>  
+			<returns>Data stored in the node.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getFormattedSubTree(char,char) const">
+			<summary>
+			Converts the specified XML subtree into a formatted string for "pretty printing". If no arguments are passed, the entire XML tree is converted.
+			</summary> 
+			<param name="path"> Path to the XML subtree to be formatted. See the description of find() for more details. </param>
+			<param name="indent"> String to be used for indenting (e.g. "\t"). </param> 
+			<returns>Multi-line indented output of the specified XML subtree.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setIntArg(char,int,int)">
+			<summary>
+			Sets a value for a given int argument in a given number notation. By default, the decimal number notation is used.
+			</summary> 
+			<param name="name"> Name of an argument. </param>
+			<param name="value"> Value of an argument. </param>
+			<param name="radix"> Radix to use when setting a value. </param> 
+			<returns>1 if the value is set successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getIntArg(char) const">
+			<summary>
+			Returns a value of a given int argument.					To check whether the argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Name of a target argument. </param> 
+			<returns>Argument value.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getIntArg(char,int) const">
+			<summary>
+			Returns a value of a given int argument.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Name of a target argument. </param>
+			<param name="value"> Default value of the argument. </param> 
+			<returns>Argument value.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setIntArrayArg(char,int[],int)">
+			<summary>
+			Sets an array of integers as xml argument in a given number notation. By default, the decimal number notation is used.
+			</summary> 
+			<param name="name"> Name of an argument. </param>
+			<param name="src"> An array of integers. </param>
+			<param name="radix"> Radix to use when setting a value. </param> 
+			<returns>1 if the array is set successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getIntArrayArg(char,outint[]) const">
+			<summary>
+			Returns a set of int values stored in an argument and puts them in a vector.
+			</summary> 
+			<param name="name"> Name of a target argument. </param>
+			<param name="dest"> Reference to a vector or an array of integers. </param> 
+			<returns>1 if values are read successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setIntArrayData(int[],int)">
+			<summary>
+			Sets a vector of integers as a content for the XML node in a given number notation. By default, the decimal number notation is used. This can be done only for XML nodes with no children.
+			</summary> 
+			<param name="src"> Reference to a vector. </param>
+			<param name="radix"> Radix to use when setting a value. </param> 
+			<returns>1 if the content is set successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getIntArrayData(outint[]) const">
+			<summary>
+			Returns an interpretation of data stored in the node as a vector of integers.
+			</summary> 
+			<param name="dest"> Reference to a vector. </param> 
+			<returns>1 if values are read successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setIntData(int,int)">
+			<summary>
+			Sets an integer as a content for the XML node in a given number notation. By default, the decimal number notation is used. This can be done only for XML nodes with no children.
+			</summary> 
+			<param name="value"> Content to set. </param>
+			<param name="radix"> Radix to use when setting a value. </param> 
+			<returns>1 if the content is set successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getIntData const">
+			<summary>
+			Returns an integer interpretation of data stored in the node.
+			</summary>  
+			<returns>Data stored in the node.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setIVec2Arg(char,Unigine.Math.ivec2)">
+			<summary>
+			Sets a value of a given ivec2 argument.
+			</summary> 
+			<param name="name"> Name of an argument. </param>
+			<param name="value"> Value of an argument. </param> 
+			<returns>Always 1.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getIVec2Arg(char) const">
+			<summary>
+			Returns a value of a given ivec2 argument.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Name of a target argument. </param> 
+			<returns>Argument value.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setIVec2Data(Unigine.Math.ivec2)">
+			<summary>
+			Sets a ivec2 content for the node. This can be done only for nodes with no children.
+			</summary> 
+			<param name="data"> Content to set. </param> 
+		</member>
+		<member name="M:Unigine.Xml.getIVec2Data const">
+			<summary>
+			Returns a ivec2 interpretation of data stored in the node.
+			</summary>  
+			<returns>Data stored in the node.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setIVec3Arg(char,Unigine.Math.ivec3)">
+			<summary>
+			Sets a value of a given ivec3 argument.
+			</summary> 
+			<param name="name"> Name of an argument. </param>
+			<param name="value"> Value of an argument. </param> 
+			<returns>Always 1.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getIVec3Arg(char) const">
+			<summary>
+			Returns a value of a given ivec3 argument.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Name of a target argument. </param> 
+			<returns>Argument value.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setIVec3Data(Unigine.Math.ivec3)">
+			<summary>
+			Sets a ivec3 content for the node. This can be done only for nodes with no children.
+			</summary> 
+			<param name="data"> Content to set. </param> 
+		</member>
+		<member name="M:Unigine.Xml.getIVec3Data const">
+			<summary>
+			Returns a ivec3 interpretation of data stored in the node.
+			</summary>  
+			<returns>Data stored in the node.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setIVec4Arg(char,Unigine.Math.ivec4)">
+			<summary>
+			Sets a value of a given ivec4 argument.
+			</summary> 
+			<param name="name"> Name of an argument. </param>
+			<param name="value"> Value of an argument. </param> 
+			<returns>Always 1.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getIVec4Arg(char) const">
+			<summary>
+			Returns a value of a given ivec4 argument.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Name of a target argument. </param> 
+			<returns>Argument value.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setIVec4Data(Unigine.Math.ivec4)">
+			<summary>
+			Sets a ivec4 content for the node. This can be done only for nodes with no children.
+			</summary> 
+			<param name="data"> Content to set. </param> 
+			<returns>1 if the content is set successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getIVec4Data const">
+			<summary>
+			Returns a ivec4 interpretation of data stored in the node.
+			</summary>  
+			<returns>Data stored in the node.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setLongData(longlong)">
+			<summary>
+			Sets a long content for the node. This can be done only for nodes with no children.
+			</summary> 
+			<param name="data"> Content to be set. </param> 
+		</member>
+		<member name="M:Unigine.Xml.getLongData const">
+			<summary>
+			Returns a long interpretation of data stored in the node.
+			</summary>  
+			<returns>Data stored in the node.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setMat4Arg(char,Unigine.Math.mat4)">
+			<summary>
+			Sets a value of a given mat4 argument.
+			</summary> 
+			<param name="name"> Name of an argument. </param>
+			<param name="value"> Value of an argument. </param> 
+			<returns>Always 1.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getMat4Arg(char) const">
+			<summary>
+			Returns a value of a given mat4 argument.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Name of a target argument. </param> 
+			<returns>Argument value.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setMat4Data(Unigine.Math.mat4)">
+			<summary>
+			Sets a mat4 matrix content for the node. This can be done only for nodes with no children.
+			</summary> 
+			<param name="data"> Content to set. </param> 
+			<returns>1 if the content is set successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getMat4Data const">
+			<summary>
+			Returns a mat4 matrix interpretation of data stored in the node.
+			</summary>  
+			<returns>Data stored in the node.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setName(char)">
+			<summary>
+			Sets a name of the node.
+			</summary> 
+			<param name="name"> Node name. </param> 
+		</member>
+		<member name="M:Unigine.Xml.getName const">
+			<summary>
+			Returns a name of the node.
+			</summary>  
+			<returns>Node name.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getNumArgs const">
+			<summary>
+			Returns a number of arguments.
+			</summary>  
+			<returns>Number of arguments.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getNumChildren const">
+			<summary>
+			Returns the number of the node children.
+			</summary>  
+			<returns>The result.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getParent const">
+			<summary>
+			Returns the parent of the current XML node.
+			</summary>  
+			<returns>XML node.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setQuatArg(char,Unigine.Math.quat)">
+			<summary>
+			Sets a value of a given quat argument.
+			</summary> 
+			<param name="name"> Name of an argument. </param>
+			<param name="value"> Value of an argument. </param> 
+			<returns>Always 1.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getQuatArg(char) const">
+			<summary>
+			Returns a value of a given quat argument.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Name of a target argument. </param> 
+			<returns>Argument value.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setQuatData(Unigine.Math.quat)">
+			<summary>
+			Sets a quaternion content for the node. This can be done only for nodes with no children.
+			</summary> 
+			<param name="data"> Content to set. </param> 
+			<returns>1 if the content is set successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getQuatData const">
+			<summary>
+			Returns a quaternion interpretation of data stored in the node.
+			</summary>  
+			<returns>Data stored in the node.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setRawData(char)">
+			<summary>
+			Sets a raw content for the node. Raw data will be automatically formatted as a CDATA section. This can be done only for nodes with no children.
+			</summary> 
+			<param name="data"> Content to set. </param> 
+			<returns>1 if the content is set successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setStringArrayArg(char,Unigine.Vector{String,int,Unigine.VectorAllocator})">
+			<summary>
+			Sets a vector of strings as a value of a given argument in a given number notation. By default, the decimal number notation is used.
+			</summary> 
+			<param name="name"> Name of an argument. </param>
+			<param name="src"> An array of strings. </param> 
+			<returns>Always 1.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getStringArrayArg(char,Unigine.Vector{String,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Returns a set of string values stored in an argument and puts them in a vector.
+			</summary> 
+			<param name="name"> Name of the string. </param>
+			<param name="dest"> Reference to a vector. </param> 
+			<returns>1 if dest contains anything; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setStringArrayData(Unigine.Vector{String,int,Unigine.VectorAllocator},char)">
+			<summary>
+			Sets a vector of strings as a content for the node. This can be done only for nodes with no children.
+			</summary> 
+			<param name="src"> Reference to a vector of strings. </param>
+			<param name="delimiter"> Character(s) to be used as a delimiter to split tokens. </param> 
+			<returns>true if the content is set successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getStringArrayData(Unigine.Vector{String,int,Unigine.VectorAllocator},char) const">
+			<summary>
+			Returns an interpretation of data stored in the node as a vector of strings.
+			</summary> 
+			<param name="dest"> Reference to a vector of strings. </param>
+			<param name="delimiter"> Character(s) to be used as a delimiter to split tokens. </param> 
+			<returns>1 if dest contains anything; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getSubTree(char) const">
+			<summary>
+			Dumps the node tree.
+			</summary> 
+			<param name="path"> Path to XML sub-tree. </param> 
+			<returns>Single-line non-indented output of the node tree. If no arguments are passed, the entire XML tree would be output.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setVec2Arg(char,Unigine.Math.vec2)">
+			<summary>
+			Sets a value of a given vec2 argument.
+			</summary> 
+			<param name="name"> Name of an argument. </param>
+			<param name="value"> Value of an argument. </param> 
+			<returns>Always 1.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getVec2Arg(char) const">
+			<summary>
+			Returns a value of a given vec2 argument.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Name of a target argument. </param> 
+			<returns>Argument value.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setVec2Data(Unigine.Math.vec2)">
+			<summary>
+			Sets a vec2 content for the node. This can be done only for nodes with no children.
+			</summary> 
+			<param name="data"> Content to set. </param> 
+		</member>
+		<member name="M:Unigine.Xml.getVec2Data const">
+			<summary>
+			Returns a vec2 interpretation of data stored in the node.
+			</summary>  
+			<returns>Data stored in the node.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setVec3Arg(char,Unigine.Math.vec3)">
+			<summary>
+			Sets a value of a given vec3 argument.
+			</summary> 
+			<param name="name"> Name of an argument. </param>
+			<param name="value"> Value of an argument. </param> 
+			<returns>Always 1.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getVec3Arg(char) const">
+			<summary>
+			Returns a value of a given vec3 argument.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Name of a target argument. </param> 
+			<returns>Argument value.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setVec3Data(Unigine.Math.vec3)">
+			<summary>
+			Sets a vec3 content for the node. This can be done only for nodes with no children.
+			</summary> 
+			<param name="data"> Content to set. </param> 
+		</member>
+		<member name="M:Unigine.Xml.getVec3Data const">
+			<summary>
+			Returns a vec3 interpretation of data stored in the node.
+			</summary>  
+			<returns>Data stored in the node.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setVec4Arg(char,Unigine.Math.vec4)">
+			<summary>
+			Sets a value of a given vec4 argument.
+			</summary> 
+			<param name="name"> Name of an argument. </param>
+			<param name="value"> Value of an argument. </param> 
+			<returns>Always 1.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getVec4Arg(char) const">
+			<summary>
+			Returns a value of a given vec4 argument.					To check, if an argument exists, use the isArg() method.
+			</summary> 
+			<param name="name"> Name of a target argument. </param> 
+			<returns>Argument value.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setVec4Data(Unigine.Math.vec4)">
+			<summary>
+			Sets a vec4 content for the node. This can be done only for nodes with no children.
+			</summary> 
+			<param name="data"> Content to set. </param> 
+			<returns>1 if the content is set successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getVec4Data const">
+			<summary>
+			Returns a vec4 interpretation of data stored in the node.
+			</summary>  
+			<returns>Data stored in the node.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setXmlData(char)">
+			<summary>
+			Sets an unquoted string to data stored in the node. This string can also contain XML sub-tree with rich text formatting.
+			</summary> 
+			<param name="data"> Unquoted string to set. </param> 
+			<returns>1 if the string is set successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.addChild(char,char) const">
+			<summary>
+			Appends a new XML node to the current XML node as a child.
+			</summary> 
+			<param name="name"> Name of the XML node. </param>
+			<param name="args"> Arguments of the XML node. The default value is 0.This value should be passed if the first argument is a string </param> 
+			<returns>Created XML node.</returns>
+		</member>
+		<member name="M:Unigine.Xml.addChild(Unigine.Ptr{Unigine.Xml}) const">
+			<summary>
+			Appends a new XML node to the current XML node as a child.
+			</summary> 
+			<param name="xml"> XML sub-tree smart pointer. </param> 
+			<returns>Created XML node.</returns>
+		</member>
+		<member name="M:Unigine.Xml.clear">
+			<summary>
+			Clears all data associated with the node.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Xml.clearChildren">
+			<summary>
+			Clears all children of the current XML node.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Xml.clearUnusedData">
+			<summary>
+			Clears the unused nodes and arguments.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Xml.copy(Unigine.Ptr{Unigine.Xml})">
+			<summary>
+			Copies all data (name, arguments, data, flags and a child hierarchy) from the source XML node to the current one.
+			</summary> 
+			<param name="source"> Source XML node. </param> 
+		</member>
+		<member name="M:Unigine.Xml.decode(char)">
+			<summary>
+			Decodes special XML characters (less-than, greater-than, ampersand, double-quote and apostrophe) and numeric character references.
+			</summary> 
+			<param name="arg1"> Data to decode. </param> 
+			<returns>Decoded string.</returns>
+		</member>
+		<member name="M:Unigine.Xml.encode(char)">
+			<summary>
+			Encodes special XML characters (less-than, greater-than, ampersand, double-quote and apostrophe) to their character entity reference.
+			</summary> 
+			<param name="arg1"> Data to encode. </param> 
+			<returns>Encoded string.</returns>
+		</member>
+		<member name="M:Unigine.Xml.find(char) const">
+			<summary>
+			Searches for an XML sub-tree.
+			</summary> 
+			<param name="path"> Path to the XML sub-tree. </param> 
+			<returns>Pointer to the XML node.</returns>
+		</member>
+		<member name="M:Unigine.Xml.findArg(char) const">
+			<summary>
+			Searches for a XML argument by its name.
+			</summary> 
+			<param name="name"> XML argument name. </param> 
+			<returns>XML argument number.</returns>
+		</member>
+		<member name="M:Unigine.Xml.findChild(char) const">
+			<summary>
+			Searches for the number of the XML node child by name.
+			</summary> 
+			<param name="name"> Name of the XML node child. </param> 
+			<returns>The number of the XML node child if it is exists; otherwise, -1.</returns>
+		</member>
+		<member name="M:Unigine.Xml.load(char,bool)">
+			<summary>
+			Loads an XML document and sets the current node to be the root of the parsed tree.
+			</summary> 
+			<param name="name"> File name. </param>
+			<param name="skip_errors"> true to enable automatic skipping of errors (the file will be loaded in any case); false — to disable it (the file will not be loaded in case of any error). </param> 
+			<returns>true if the file is read and parsed successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.load(Unigine.Ptr{Unigine.Stream},size_t,bool,bool)">
+			<summary>
+			Loads XML data from the specified stream and sets the current node to be the root of the parsed tree.
+			</summary> 
+			<param name="stream"> Stream from which the data of the XML node is to be loaded. </param>
+			<param name="read_size"> Size of the data block to be read from the stream, in bytes. </param>
+			<param name="binary"> Binary format flag: use true to load data in binary format, or false - to load it in text format. </param>
+			<param name="skip_errors"> true to enable automatic skipping of errors (the data will be loaded in any case); false — to disable it (the data will not be loaded in case of any error). </param> 
+			<returns>true if the data is read and parsed successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.parse(char)">
+			<summary>
+			Parses a string with XML mark-up and sets the current node to be the root of the parsed tree.
+			</summary> 
+			<param name="src"> String pointer. </param> 
+			<returns>true if a string is successfully parsed; otherwise false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.printUnusedData(char) const">
+			<summary>
+			Logs warnings of unused data for debugging.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Xml.removeArg(char)">
+			<summary>
+			Removes the argument with the given name from the list of the current XML node arguments.
+			</summary> 
+			<param name="name"> Name of the target argument. </param> 
+			<returns>1 if the argument is deleted successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.removeChild(Unigine.Ptr{Unigine.Xml})">
+			<summary>
+			Removes a child node and its descendants from the current XML node.
+			</summary> 
+			<param name="xml"> XML sub-tree smart pointer. </param> 
+			<returns>Removed child node and its descendants, if they are found; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.save(char,bool,char) const">
+			<summary>
+			Formats the tree of the current node and writes it to the specified file in the specified format. Creates the given file path if it doesn’t exist yet (including subdirectories).
+			</summary> 
+			<param name="name"> Path to the file. </param>
+			<param name="binary"> Binary format flag: use true to save data to a binary file, or false - to save it to a text file. </param>
+			<param name="indent"> String to be used for indentation (e.g. "\t"). </param> 
+			<returns>true if the file is written successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.save(Unigine.Ptr{Unigine.Stream},bool,char) const">
+			<summary>
+			Formats the tree of the current node and writes is to the specified stream in the specified format.
+			</summary> 
+			<param name="stream"> Stream to which the data of the XML node is to be written. </param>
+			<param name="binary"> Binary format flag: use true to save data to a binary file, or false - to save it to a text file. </param>
+			<param name="indent"> String to be used for indentation (e.g. "\t"). </param> 
+			<returns>true if the file is written successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.symbols(char)">
+			<summary>
+			Replaces ampersand characters with character entity references.
+			</summary> 
+			<param name="arg1"> String to encode. </param> 
+			<returns>String which contains replaced ampersand characters with character entity references.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getLoadPath const">
+			<summary>
+			Returns the path to an XML file from which the data of the XML instance was loaded.
+			</summary>  
+			<returns>Path to the XML file.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setData(Unigine.UGUID)">
+			<summary>
+			Sets a UGUID content for the node.
+			</summary> 
+			<param name="guid"> Content to set. </param> 
+			<returns>true if the content is set successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setData(bool)">
+			<summary>
+			Sets a boolean content for the node.
+			</summary> 
+			<param name="value"> Content to set. </param> 
+			<returns>true if the content is set successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setData(int,int)">
+			<summary>
+			Sets an integer content in the specified form (binary, octal, decimal, hexadecimal) for the node.
+			</summary> 
+			<param name="value"> Content to set. </param>
+			<param name="radix"> Radix (base) specifying the form of representation of the value, one of the following:2 - binary8 - octal10 - decimal (default)16 - hexadecimal </param> 
+			<returns>true if the content is set successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setData(longlong)">
+			<summary>
+			Sets a long integer content for the node.
+			</summary> 
+			<param name="value"> Content to set. </param> 
+			<returns>true if the content is set successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setData(float)">
+			<summary>
+			Sets a float content for the node.
+			</summary> 
+			<param name="value"> Content to set. </param> 
+			<returns>true if the content is set successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setData(double)">
+			<summary>
+			Sets a double content for the node.
+			</summary>  
+			<returns>true if the content is set successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setData(Unigine.Math.vec2)">
+			<summary>
+			Sets a vec2 vector content for the node.
+			</summary> 
+			<param name="value"> Content to set. </param> 
+			<returns>true if the content is set successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setData(Unigine.Math.vec3)">
+			<summary>
+			Sets a vec3 vector content for the node.
+			</summary> 
+			<param name="value"> Content to set. </param> 
+			<returns>true if the content is set successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setData(Unigine.Math.vec4)">
+			<summary>
+			Sets a vec4 vector content for the node.
+			</summary> 
+			<param name="value"> Content to set. </param> 
+			<returns>true if the content is set successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setData(Unigine.Math.dvec2)">
+			<summary>
+			Sets a dvec2 vector content for the node.
+			</summary> 
+			<param name="value"> Content to set. </param> 
+			<returns>true if the content is set successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setData(Unigine.Math.dvec3)">
+			<summary>
+			Sets a dvec3 vector content for the node.
+			</summary> 
+			<param name="value"> Content to set. </param> 
+			<returns>true if the content is set successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setData(Unigine.Math.dvec4)">
+			<summary>
+			Sets a dvec4 vector content for the node.
+			</summary> 
+			<param name="value"> Content to set. </param> 
+			<returns>true if the content is set successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setData(Unigine.Math.ivec3)">
+			<summary>
+			Sets an ivec3 vector content for the node.
+			</summary> 
+			<param name="value"> Content to set. </param> 
+			<returns>true if the content is set successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setData(Unigine.Math.ivec2)">
+			<summary>
+			Sets an ivec2 vector content for the node.
+			</summary> 
+			<param name="value"> Content to set. </param> 
+			<returns>true if the content is set successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setData(Unigine.Math.ivec4)">
+			<summary>
+			Sets an ivec4 vector content for the node.
+			</summary> 
+			<param name="value"> Content to set. </param> 
+			<returns>true if the content is set successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setData(Unigine.Math.mat4)">
+			<summary>
+			Sets a mat4 matrix content for the node.
+			</summary> 
+			<param name="value"> Content to set. </param> 
+			<returns>true if the content is set successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setData(Unigine.Math.dmat4)">
+			<summary>
+			Sets a dmat4 matrix content for the node.
+			</summary> 
+			<param name="value"> Content to set. </param> 
+			<returns>true if the content is set successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setData(Unigine.Math.quat)">
+			<summary>
+			Sets a quaternion content for the node.
+			</summary> 
+			<param name="value"> Content to set. </param> 
+			<returns>true if the content is set successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setData(Palette)">
+			<summary>
+			Sets a palette content for the node.
+			</summary> 
+			<param name="value"> Content to set. </param> 
+			<returns>true if the content is set successfully; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Xml.readChildData(char,bool) const">
+			<summary>
+			Reads a boolean interpretation of the data stored in the node with the specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Child node name. </param>
+			<param name="value"> Target boolean variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readChildData(char,int) const">
+			<summary>
+			Reads an integer interpretation of the data stored in the node with the specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Child node name. </param>
+			<param name="value"> Target integer variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readChildData(char,char) const">
+			<summary>
+			Reads a character interpretation of the data stored in the node with the specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Child node name. </param>
+			<param name="value"> Target character variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readChildData(char,longlong) const">
+			<summary>
+			Reads a long integer interpretation of the data stored in the node with the specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Child node name. </param>
+			<param name="value"> Target long integer variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readChildData(char,float) const">
+			<summary>
+			Reads a float interpretation of the data stored in the node with the specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Child node name. </param>
+			<param name="value"> Target float variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readChildData(char,double) const">
+			<summary>
+			Reads a double interpretation of the data stored in the node with the specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Child node name. </param>
+			<param name="value"> Target double variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readChildData(char,Unigine.Math.vec2) const">
+			<summary>
+			Reads a vec2 vector interpretation of the data stored in the node with the specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Child node name. </param>
+			<param name="value"> Target vec2 variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readChildData(char,Unigine.Math.vec3) const">
+			<summary>
+			Reads a vec3 vector interpretation of the data stored in the node with the specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Child node name. </param>
+			<param name="value"> Target vec3 variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readChildData(char,Unigine.Math.vec4) const">
+			<summary>
+			Reads a vec4 vector interpretation of the data stored in the node with the specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Child node name. </param>
+			<param name="value"> Target vec4 variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readChildData(char,Unigine.Math.dvec2) const">
+			<summary>
+			Reads a dvec2 vector interpretation of the data stored in the node with the specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Child node name. </param>
+			<param name="value"> Target dvec2 variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readChildData(char,Unigine.Math.dvec3) const">
+			<summary>
+			Reads a dvec3 vector interpretation of the data stored in the node with the specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Child node name. </param>
+			<param name="value"> Target dvec3 variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readChildData(char,Unigine.Math.dvec4) const">
+			<summary>
+			Reads a dvec4 vector interpretation of the data stored in the node with the specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Child node name. </param>
+			<param name="value"> Target dvec4 variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readChildData(char,Unigine.Math.ivec2) const">
+			<summary>
+			Reads an ivec2 vector interpretation of the data stored in the node with the specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Child node name. </param>
+			<param name="value"> Target ivec2 variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readChildData(char,Unigine.Math.ivec3) const">
+			<summary>
+			Reads an ivec3 vector interpretation of the data stored in the node with the specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Child node name. </param>
+			<param name="value"> Target ivec3 variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readChildData(char,Unigine.Math.ivec4) const">
+			<summary>
+			Reads an ivec4 vector interpretation of the data stored in the node with the specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Child node name. </param>
+			<param name="value"> Target ivec4 variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readChildData(char,Palette) const">
+			<summary>
+			Reads a palette interpretation of the data stored in the node with the specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Child node name. </param>
+			<param name="value"> Target palette variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readArg(char,bool) const">
+			<summary>
+			Reads a boolean interpretation of the argument in the node with specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the target argument. </param>
+			<param name="value"> Target boolean variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readArg(char,int) const">
+			<summary>
+			Reads an integer interpretation of the argument in the node with specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the target argument. </param>
+			<param name="value"> Target integer variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readArg(char,char) const">
+			<summary>
+			Reads a character interpretation of the argument in the node with specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the target argument. </param>
+			<param name="value"> Target character variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readArg(char,float) const">
+			<summary>
+			Reads a float interpretation of the argument in the node with specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the target argument. </param>
+			<param name="value"> Target float variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readArg(char,double) const">
+			<summary>
+			Reads a double interpretation of the argument in the node with specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the target argument. </param>
+			<param name="value"> Target double variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readArg(char,Unigine.Math.vec2) const">
+			<summary>
+			Reads a vec2 interpretation of the argument in the node with specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the target argument. </param>
+			<param name="value"> Target vec2 variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readArg(char,Unigine.Math.vec3) const">
+			<summary>
+			Reads a vec3 interpretation of the argument in the node with specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the target argument. </param>
+			<param name="value"> Target vec3 variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readArg(char,Unigine.Math.vec4) const">
+			<summary>
+			Reads a vec4 interpretation of the argument in the node with specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the target argument. </param>
+			<param name="value"> Target vec4 variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readArg(char,Unigine.Math.dvec2) const">
+			<summary>
+			Reads a dvec2 interpretation of the argument in the node with specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the target argument. </param>
+			<param name="value"> Target dvec2 variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readArg(char,Unigine.Math.dvec3) const">
+			<summary>
+			Reads a dvec3 interpretation of the argument in the node with specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the target argument. </param>
+			<param name="value"> Target dvec3 variable </param> 
+		</member>
+		<member name="M:Unigine.Xml.readArg(char,Unigine.Math.dvec4) const">
+			<summary>
+			Reads a dvec4 interpretation of the argument in the node with specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the target argument. </param>
+			<param name="value"> Target dvec4 variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readArg(char,Unigine.Math.ivec2) const">
+			<summary>
+			Reads a ivec2 interpretation of the argument in the node with specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the target argument. </param>
+			<param name="value"> Target ivec2 variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readArg(char,Unigine.Math.ivec3) const">
+			<summary>
+			Reads a ivec3 interpretation of the argument in the node with specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the target argument. </param>
+			<param name="value"> Target ivec3 variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readArg(char,Unigine.Math.ivec4) const">
+			<summary>
+			Reads a ivec4 interpretation of the argument in the node with specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the target argument. </param>
+			<param name="value"> Target ivec4 variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.readArg(char,Palette) const">
+			<summary>
+			Reads a palette interpretation of the argument in the node with specified name and puts it to the specified target variable.
+			</summary> 
+			<param name="name"> Name of the target argument. </param>
+			<param name="value"> Target palette variable. </param> 
+		</member>
+		<member name="M:Unigine.Xml.setPaletteArg(char,Palette)">
+			<summary>
+			Sets a palette value of a given argument.
+			</summary> 
+			<param name="name"> The argument name. </param>
+			<param name="value"> The argument value. </param> 
+			<returns>Always 1.</returns>
+		</member>
+		<member name="M:Unigine.Xml.getPaletteArg(char) const">
+			<summary>
+			Returns a palette value of a specified argument.
+			</summary> 
+			<param name="name"> The argument name. </param> 
+			<returns>Value of the argument, if it is found; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Xml.setPaletteData(Palette)">
+			<summary>
+			Sets a palette content for the node. This can be done only for nodes with no children.
+			</summary> 
+			<param name="data"> Content to set. </param> 
+		</member>
+		<member name="M:Unigine.Xml.getPaletteData const">
+			<summary>
+			Returns a palette interpretation of data stored in the node.
+			</summary>  
+			<returns>Data stored in the node.</returns>
+		</member>
+	</members>
+</doc>

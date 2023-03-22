@@ -1,0 +1,258 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.SplineGraph.#ctor">
+			<summary>
+			Default constructor. Creates an empty spline graph.
+			</summary>  
+		</member>
+		<member name="M:Unigine.SplineGraph.#ctor(char)">
+			<summary>
+			Constructor. Creates an empty spline graph with a given name.
+			</summary> 
+			<param name="name"> Spline graph name. </param> 
+		</member>
+		<member name="M:Unigine.SplineGraph.#ctor(Unigine.Ptr{SplineGraph})">
+			<summary>
+			Constructor. Creates a spline graph by copying a given source spline graph.
+			</summary> 
+			<param name="graph"> Source spline graph. </param> 
+		</member>
+		<member name="M:Unigine.SplineGraph.getLength(int) const">
+			<summary>
+			Returns the length of the segment with a given index.
+			</summary> 
+			<param name="index"> Segment index. </param> 
+			<returns>Segment length.</returns>
+		</member>
+		<member name="M:Unigine.SplineGraph.getNumPoints const">
+			<summary>
+			Returns the total number of points in the spline graph.
+			</summary>  
+			<returns>Number of points.</returns>
+		</member>
+		<member name="M:Unigine.SplineGraph.getNumSegments const">
+			<summary>
+			Returns the total number of segments in the spline graph.
+			</summary>  
+			<returns>Number of segments.</returns>
+		</member>
+		<member name="M:Unigine.SplineGraph.setPoint(int,Unigine.Math.Vec3)">
+			<summary>
+			Sets new coordinates for the point with a given index.
+			</summary> 
+			<param name="index"> Point index. </param>
+			<param name="point"> New point coordinates. </param> 
+		</member>
+		<member name="M:Unigine.SplineGraph.getPoint(int) const">
+			<summary>
+			Returns the coordinates of the point with a given index.
+			</summary> 
+			<param name="index"> Point index. </param> 
+			<returns>Point coordinates.</returns>
+		</member>
+		<member name="M:Unigine.SplineGraph.setSegmentEndPoint(int,Unigine.Math.Vec3)">
+			<summary>
+			Sets the coordinates of the end point for the segment with a given index.
+			</summary> 
+			<param name="index"> Segment index. </param>
+			<param name="point"> Segment end point coordinates to be set. </param> 
+		</member>
+		<member name="M:Unigine.SplineGraph.getSegmentEndPoint(int) const">
+			<summary>
+			Returns the coordinates of the end point for the segment with a given index.
+			</summary> 
+			<param name="index"> Segment index. </param> 
+			<returns>Segment end point coordinates.</returns>
+		</member>
+		<member name="M:Unigine.SplineGraph.getSegmentEndPointIndex(int) const">
+			<summary>
+			Returns the index of the end point for the segment with a given index.
+			</summary> 
+			<param name="index"> Segment index. </param> 
+			<returns>Segment end point index.</returns>
+		</member>
+		<member name="M:Unigine.SplineGraph.setSegmentEndTangent(int,Unigine.Math.vec3)">
+			<summary>
+			Sets the tangent coordinates for the end point of the segment with a given index.
+			</summary> 
+			<param name="index"> Segment index. </param>
+			<param name="tangent"> End point tangent coordinates. </param> 
+		</member>
+		<member name="M:Unigine.SplineGraph.getSegmentEndTangent(int) const">
+			<summary>
+			Returns the tangent coordinates for the end point of the segment with a given index.
+			</summary> 
+			<param name="index"> Segment index. </param> 
+			<returns>End point tangent coordinates.</returns>
+		</member>
+		<member name="M:Unigine.SplineGraph.setSegmentEndUpVector(int,Unigine.Math.vec3)">
+			<summary>
+			Sets the "up" vector coordinates for the end point of the segment with a given index.
+			</summary> 
+			<param name="index"> Segment index. </param>
+			<param name="up"> End point "up" vector coordinates. </param> 
+		</member>
+		<member name="M:Unigine.SplineGraph.getSegmentEndUpVector(int) const">
+			<summary>
+			Returns the "up" vector coordinates for the end point of the segment with a given index.
+			</summary> 
+			<param name="index"> Segment index. </param> 
+			<returns>End point "up" vector coordinates.</returns>
+		</member>
+		<member name="M:Unigine.SplineGraph.setSegmentStartPoint(int,Unigine.Math.Vec3)">
+			<summary>
+			Sets the coordinates of the start point for the segment with a given index.
+			</summary> 
+			<param name="index"> Segment index. </param>
+			<param name="point"> Segment start point coordinates to be set. </param> 
+		</member>
+		<member name="M:Unigine.SplineGraph.getSegmentStartPoint(int) const">
+			<summary>
+			Returns the coordinates of the start point for the segment with a given index.
+			</summary> 
+			<param name="index"> Segment index. </param> 
+			<returns>Segment start point coordinates.</returns>
+		</member>
+		<member name="M:Unigine.SplineGraph.getSegmentStartPointIndex(int) const">
+			<summary>
+			Returns the index of the end point for the segment with a given index.
+			</summary> 
+			<param name="index"> Segment index. </param> 
+			<returns>Segment start point index.</returns>
+		</member>
+		<member name="M:Unigine.SplineGraph.setSegmentStartTangent(int,Unigine.Math.vec3)">
+			<summary>
+			Sets the tangent coordinates for the start point of the segment with a given index.
+			</summary> 
+			<param name="index"> Segment index. </param>
+			<param name="tangent"> Start point tangent coordinates. </param> 
+		</member>
+		<member name="M:Unigine.SplineGraph.getSegmentStartTangent(int) const">
+			<summary>
+			Returns the tangent coordinates for the start point of the segment with a given index.
+			</summary> 
+			<param name="index"> Segment index. </param> 
+			<returns>Start point tangent coordinates.</returns>
+		</member>
+		<member name="M:Unigine.SplineGraph.setSegmentStartUpVector(int,Unigine.Math.vec3)">
+			<summary>
+			Sets the "up" vector coordinates for the start point of the segment with a given index.
+			</summary> 
+			<param name="index"> Segment index. </param>
+			<param name="up"> Start point "up" vector coordinates. </param> 
+		</member>
+		<member name="M:Unigine.SplineGraph.getSegmentStartUpVector(int) const">
+			<summary>
+			Returns the "up" vector coordinates for the start point of the segment with a given index.
+			</summary> 
+			<param name="index"> Segment index. </param> 
+			<returns>Start point "up" vector coordinates.</returns>
+		</member>
+		<member name="M:Unigine.SplineGraph.addPoint(Unigine.Math.Vec3)">
+			<summary>
+			Adds a point with specified coordinates to the spline graph.
+			</summary> 
+			<param name="point"> Point coordinates. </param> 
+			<returns>Current number of points in the spline graph.</returns>
+		</member>
+		<member name="M:Unigine.SplineGraph.addSegment(int,Unigine.Math.vec3,Unigine.Math.vec3,int,Unigine.Math.vec3,Unigine.Math.vec3)">
+			<summary>
+			Adds a segment to the spline graph.
+			</summary> 
+			<param name="start_index"> Start point index. </param>
+			<param name="start_tangent"> Start point tangent coordinates. </param>
+			<param name="start_up"> Start point "up" vector coordinates. </param>
+			<param name="end_index"> End point index. </param>
+			<param name="end_tangent"> End point tangent coordinates. </param>
+			<param name="end_up"> End point "up" vector coordinates. </param> 
+			<returns>Number of segments in the spline graph if a segment was adds successfully; otherwise, -1</returns>
+		</member>
+		<member name="M:Unigine.SplineGraph.calcSegmentPoint(int,float) const">
+			<summary>
+			Returns the coordinates of the point at the parametrically specified position on the segment (along the T axis).
+			</summary> 
+			<param name="index"> Segment index. </param>
+			<param name="t"> Position of the point on the segment, specified parametrically along the T (times axis) in the [0.0f, 1.0f] range. </param> 
+			<returns>Coordinates of the point on the given segment.</returns>
+		</member>
+		<member name="M:Unigine.SplineGraph.calcSegmentTangent(int,float) const">
+			<summary>
+			Returns the tangent coordinates for the point at the parametrically specified position on the segment (along the T axis).
+			</summary> 
+			<param name="index"> Segment index. </param>
+			<param name="t"> Position of the point on the segment, specified parametrically along the T (times axis) in the [0.0f, 1.0f] range. </param> 
+			<returns>Tangent coordinates for the point on the given segment.</returns>
+		</member>
+		<member name="M:Unigine.SplineGraph.calcSegmentUpVector(int,float) const">
+			<summary>
+			Returns the "up" vector coordinates for the point at the parametrically specified position on the segment (along the T axis).
+			</summary> 
+			<param name="index"> Segment index. </param>
+			<param name="t"> Position of the point on the segment, specified parametrically along the T (times axis) in the [0.0f, 1.0f] range. </param> 
+			<returns>"Up" vector coordinates for the point on the given segment.</returns>
+		</member>
+		<member name="M:Unigine.SplineGraph.clear">
+			<summary>
+			Clears the spline graph.
+			</summary>  
+		</member>
+		<member name="M:Unigine.SplineGraph.load(char)">
+			<summary>
+			Loads the spline graph from the specified XML-file.
+			</summary> 
+			<param name="name"> Name of the XML-file to load the spline graph from. </param> 
+			<returns>true if the spline graph was successfully loaded; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.SplineGraph.removePoint(int,bool)">
+			<summary>
+			Removes a point with a given index from the spline graph.
+			</summary> 
+			<param name="index"> Point index. </param>
+			<param name="merge"> Merge flag. When there are two segments attached to the point, use true to merge these segments into one; false removes all segments attached to the point (by default). </param> 
+		</member>
+		<member name="M:Unigine.SplineGraph.splitPoint(int)">
+			<summary>
+			Splits the point with the specified index into N points, where N is the number of segments attached to the point. The number of points in the graph shall increase by N-1. All new points will be attached to the corresponding segments.
+			</summary> 
+			<param name="index"> Point index. </param> 
+		</member>
+		<member name="M:Unigine.SplineGraph.weldPoints(Unigine.Vector{int,int,Unigine.VectorAllocator})">
+			<summary>
+			Merges all points with given indices into one.					All common segments between these points shall be removed. All points with given indices are removed from the graph, except for the one having the minimum index value, all segments shall be attached to this point. Resulting point shall be moved to the position of the first point in the given array.
+			</summary> 
+			<param name="indices"> Array containing indices of points to be merged into one. </param> 
+		</member>
+		<member name="M:Unigine.SplineGraph.removeSegment(int,bool)">
+			<summary>
+			Removes the segment with a given index.
+			</summary> 
+			<param name="index"> Segment index. </param>
+			<param name="with_points"> Use true to remove segment with its starting and ending points, or false to remove the segment only.Points will be removed only in case if they do not belong to other segments. After removal, the last element of the vector of spline graph segments shall be moved to the position of the one removed. </param> 
+		</member>
+		<member name="M:Unigine.SplineGraph.save(char) const">
+			<summary>
+			Saves the spline graph to the specified XML-file.
+			</summary> 
+			<param name="name"> Name of the XML-file to save the spline graph to. </param> 
+			<returns>true if the spline graph was successfully saved; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.SplineGraph.insertPointToSegment(int,float)">
+			<summary>
+			Inserts a new point into the given segment. The point is parametrically specified on the T (times axis) in the [0.0f, 1.0f] range from the segment's start point.
+			</summary> 
+			<param name="segment_index"> Segment index. </param>
+			<param name="new_point_t"> Coordinate of the new point to be added along the horizontal T (times) axis in the range [0.0f, 1.0f]. </param> 
+		</member>
+		<member name="M:Unigine.SplineGraph.getPointSegmentsIndices(int,Unigine.Vector{int,int,Unigine.VectorAllocator}) const">
+			<summary>
+			Retrieves indices of all segments attached to the specified point and puts them to the given index buffer.
+			</summary> 
+			<param name="index"> Point index. </param>
+			<param name="indices"> Index buffer to which segment indices will be added. </param> 
+		</member>
+	</members>
+</doc>

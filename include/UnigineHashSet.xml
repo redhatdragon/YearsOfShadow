@@ -1,0 +1,167 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.HashSet.#ctor">
+			<summary>
+			Default constructor that produces an empty hash set.
+			</summary>  
+		</member>
+		<member name="M:Unigine.HashSet.#ctor(HashSet)">
+			<summary>
+			Constructor. Creates a hash set by copying a source hash set.
+			</summary> 
+			<param name="o"> Hash set. </param> 
+		</member>
+		<member name="M:Unigine.HashSet.#ctor(HashSet)">
+			<summary>
+			Constructor. Creates a hash set by copying a source hash set.
+			</summary> 
+			<param name="o"> Hash set. </param> 
+		</member>
+		<member name="M:Unigine.HashSet.#ctor(std::initializer_list{Key})">
+			<summary>
+			Constructor. Creates a hash set from given list of keys.
+			</summary> 
+			<param name="list"> List of keys. </param> 
+		</member>
+		<member name="M:Unigine.HashSet.operator=(HashSet)">
+			<summary>
+			Assignment operator for the hash set.
+			</summary> 
+			<param name="o"> Hash set. </param> 
+		</member>
+		<member name="M:Unigine.HashSet.operator=(HashSet)">
+			<summary>
+			Assignment operator for the hash set.
+			</summary> 
+			<param name="o"> Hash set. </param> 
+		</member>
+		<member name="M:Unigine.HashSet.append(Key)">
+			<summary>
+			Appends a key to the hash set.
+			</summary> 
+			<param name="key"> Key. </param> 
+		</member>
+		<member name="M:Unigine.HashSet.append(Key)">
+			<summary>
+			Appends a key to the hash set.
+			</summary> 
+			<param name="key"> Key. </param> 
+		</member>
+		<member name="M:Unigine.HashSet.append(HashSet)">
+			<summary>
+			Appends a given hash set to the current one.
+			</summary> 
+			<param name="o"> Hash set. </param> 
+		</member>
+		<member name="M:Unigine.HashSet.append(HashSet)">
+			<summary>
+			Appends a given hash set to the current one.
+			</summary> 
+			<param name="o"> Hash set. </param> 
+		</member>
+		<member name="M:Unigine.HashSet.remove(HashSet)">
+			<summary>
+			Removes all keys of a given hash set from the current one.
+			</summary> 
+			<param name="o"> Hash set. </param> 
+		</member>
+		<member name="M:Unigine.HashSet.insert(Key)">
+			<summary>
+			Inserts a key into the hash set.
+			</summary> 
+			<param name="key"> Key. </param> 
+		</member>
+		<member name="M:Unigine.HashSet.insert(Key)">
+			<summary>
+			Inserts a key into the hash set.
+			</summary> 
+			<param name="key"> Key. </param> 
+		</member>
+		<member name="M:Unigine.HashSet.insert(HashSet)">
+			<summary>
+			Inserts a given hash set into the current one.
+			</summary> 
+			<param name="o"> Hash set. </param> 
+		</member>
+		<member name="M:Unigine.HashSet.insert(HashSet)">
+			<summary>
+			Inserts a given hash set into the current one.
+			</summary> 
+			<param name="o"> Hash set. </param> 
+		</member>
+		<member name="M:Unigine.HashSet.subtract(HashSet)">
+			<summary>
+			Removes all keys of a given hash set from the current one.
+			</summary> 
+			<param name="o"> Hash set. </param> 
+		</member>
+		<member name="M:Unigine.HashSet.operator==(HashSet) const">
+			<summary>
+			Checks if two hash sets are equal. The hash sets are considered equal if their keys are the same.
+			</summary> 
+			<param name="o"> Hash set. </param> 
+			<returns>Returns 1 if sets are equal; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.HashSet.operator!=(HashSet) const">
+			<summary>
+			Checks if two hash sets are not equal. The hash sets are considered equal if their keys are the same.
+			</summary> 
+			<param name="o"> Hash set. </param> 
+			<returns>Returns 1 if sets are not equal; otherwise, 0 is returned.</returns>
+		</member>
+		<member name="M:Unigine.HashSet.operator+=(Key)">
+			<summary>
+			Inserts a given key into the hash set and returns the updated set.
+			</summary> 
+			<param name="key"> Key. </param> 
+			<returns>Updated hash set.</returns>
+		</member>
+		<member name="M:Unigine.HashSet.operator+=(HashSet)">
+			<summary>
+			Inserts a given hash set into the current one and returns the updated set.
+			</summary> 
+			<param name="o"> Hash set. </param> 
+			<returns>Updated hash set.</returns>
+		</member>
+		<member name="M:Unigine.HashSet.operator-=(Key)">
+			<summary>
+			Removes a given key from the current hash set and returns the updated set.
+			</summary> 
+			<param name="key"> Key. </param> 
+			<returns>Updated hash set.</returns>
+		</member>
+		<member name="M:Unigine.HashSet.operator-=(HashSet)">
+			<summary>
+			Removes a given hash set from the current one and returns the updated set.
+			</summary> 
+			<param name="o"> Hash set. </param> 
+			<returns>Updated hash set.</returns>
+		</member>
+		<member name="M:Unigine.HashSet.fromKeys(Key,size_t)">
+			<summary>
+			Appends keys to the hash set and returns the updated set.
+			</summary> 
+			<param name="keys"> Keys pointer. </param>
+			<param name="size"> Keys size. </param> 
+			<returns>Updated hash set.</returns>
+		</member>
+		<member name="M:Unigine.HashSet.fromKeys(Unigine.Vector{Key,int,Unigine.VectorAllocator})">
+			<summary>
+			Appends keys to the hash set and returns the updated set.
+			</summary> 
+			<param name="keys"> Vector of keys. </param> 
+			<returns>Updated hash set.</returns>
+		</member>
+		<member name="M:Unigine.HashSet.fromKeys(Unigine.Vector{Key,int,Unigine.VectorAllocator})">
+			<summary>
+			Appends keys to the hash set and returns the updated set.
+			</summary> 
+			<param name="keys"> Vector of keys. </param> 
+			<returns>Updated hash set.</returns>
+		</member>
+	</members>
+</doc>

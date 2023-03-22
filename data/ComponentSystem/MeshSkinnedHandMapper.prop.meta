@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.16.1.0">
+	<guid>42dc126c359d8b30d74aa0599632ef2a8ec93052</guid>
+	<type>property</type>
+	<hash>262006d9</hash>
+	<runtimes>
+		<runtime id="42dc126c359d8b30d74aa0599632ef2a8ec93052" name="MeshSkinnedHandMapper" link="0" type="4"/>
+	</runtimes>
+</asset>

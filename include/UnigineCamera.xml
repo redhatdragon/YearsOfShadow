@@ -1,0 +1,399 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Camera.#ctor">
+			<summary>
+			Constructor. Creates a new camera with default settings:											Modelview, inverse modelview and offset matrices are 4×4 identity matrices.						FOV is 60 degrees.						Distance to the near clipping plane is 0.1 unit.						Distance to the far clipping plane is 10000 units.						Up direction vector is (0,0,1).						Viewport, reflection, source and reverb masks are set to 00000001.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Camera.getDirectionFromScreen(Unigine.Math.Vec3,Unigine.Math.Vec3,float,float,float) const">
+			<summary>
+			Casts the ray from a certain position on the screen.
+			</summary> 
+			<param name="p0"> Start coordinate of the ray. </param>
+			<param name="p1"> End coordinate of the ray. </param>
+			<param name="screen_x"> X-coordinate of screen, in the [0;1] range, where 0 is the left upper point, 1 is the right lower point. </param>
+			<param name="screen_y"> Y-coordinate of screen, in the [0;1] range, where 0 is the left upper point, 1 is the right lower point. </param>
+			<param name="aspect"> Screen's aspect ratio (height to width). </param> 
+		</member>
+		<member name="M:Unigine.Camera.getDirectionFromScreen(float,float,float) const">
+			<summary>
+			Casts the ray from a certain position on the screen.
+			</summary> 
+			<param name="screen_x"> X-coordinate of screen, in the [0;1] range, where 0 is the left upper point, 1 is the right lower point. </param>
+			<param name="screen_y"> Y-coordinate of screen, in the [0;1] range, where 0 is the left upper point, 1 is the right lower point. </param>
+			<param name="aspect"> Screen's aspect ratio (height to width). </param> 
+			<returns>Point coordinate.</returns>
+		</member>
+		<member name="M:Unigine.Camera.setFov(float)">
+			<summary>
+								Sets a vertical field of view of the camera and updates the projection matrix.					Horizontal FOV cannot be used since it varies depending on the viewport's aspect ratio. Setting FOV recalculates projection matrix with aspect ratio = 1.					You can use the following formula to calculate horizontal FOV from the vertical one for the given aspect ratio (width/height): FOV_h = 2 × atan ( (width / height) × tan(FOV_v / 2)).
+			</summary> 
+			<param name="fov"> New vertical field of view in degrees. The provided value will be saturated in the range [0;180]. </param> 
+		</member>
+		<member name="M:Unigine.Camera.getFov const">
+			<summary>
+								Returns the current vertical field of view of the camera.					Horizontal FOV cannot be used since it varies depending on the viewport's aspect ratio.					You can use the following formula to calculate horizontal FOV from the vertical one for the given aspect ratio (width/height): FOV_h = 2 × atan ( (width / height) × tan(FOV_v / 2)).
+			</summary>  
+			<returns>Vertical field of view in degrees.</returns>
+		</member>
+		<member name="M:Unigine.Camera.getIModelview const">
+			<summary>
+			Returns the inverted view matrix of the camera.
+			</summary>  
+			<returns>Inverse view matrix.</returns>
+		</member>
+		<member name="M:Unigine.Camera.setModelview(Unigine.Math.Mat4)">
+			<summary>
+			Updates a modelview and inverse modelview matrices for the camera.
+			</summary> 
+			<param name="modelview"> New view matrix. </param> 
+		</member>
+		<member name="M:Unigine.Camera.getModelview const">
+			<summary>
+			Returns the current view matrix of the camera.
+			</summary>  
+			<returns>Current view matrix.</returns>
+		</member>
+		<member name="M:Unigine.Camera.setObliqueFrustum(bool)">
+			<summary>
+			Enables or disables obliqueness of the viewing frustum.					It is recommended to set oblique viewing frustum using this method, as it doesn't affect the projection matrix. To specify the near clipping plane use the setObliqueFrustumPlane() method.
+			</summary> 
+			<param name="frustum"> true to enable oblique viewing frustum; false to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Camera.isObliqueFrustum const">
+			<summary>
+			Returns a value indicating if the viewing frustum is oblique.
+			</summary>  
+			<returns>true if the viewing frustum is oblique; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Camera.setObliqueFrustumPlane(Unigine.Math.Vec4)">
+			<summary>
+			Sets the oblique near clipping plane of the viewing frustum.					This method does not affect the projection matrix. To enable the oblique frustum use the setObliqueFrustum() method.
+			
+			</summary> 
+			<param name="plane"> World coordinates of the oblique near clipping plane to set (Nx, Ny, Nz, D), where Nx, Ny, Nz - coordinates of the plane normal, D - distance from the origin to the plane. </param> 
+		</member>
+		<member name="M:Unigine.Camera.getObliqueFrustumPlane const">
+			<summary>
+			Returns the oblique near clipping plane of the viewing frustum.
+			</summary>  
+			<returns>World coordinates of the oblique near clipping plane to set (Nx, Ny, Nz, D), where Nx, Ny, Nz - coordinates of the plane normal, D - distance from the origin to the plane.</returns>
+		</member>
+		<member name="M:Unigine.Camera.setOffset(Unigine.Math.mat4)">
+			<summary>
+			Sets an additional transformation (an offset matrix) for the camera. This transformation is applied after the modelview transformation. The offset matrix does not affect the view matrix or the position of the camera. For example, the offset matrix can be used to simulate camera shaking from an explosion.
+			</summary> 
+			<param name="offset"> Offset matrix. </param> 
+		</member>
+		<member name="M:Unigine.Camera.getOffset const">
+			<summary>
+			Returns an additional transformation (an offset matrix) set for the camera. This transformation is applied after modelview transformation. The offset matrix does not affect the view matrix or the position of the camera. For example, it can be used to simulate camera shake from an explosion.
+			</summary>  
+			<returns>Offset matrix.</returns>
+		</member>
+		<member name="M:Unigine.Camera.setPosition(Unigine.Math.Vec3)">
+			<summary>
+			Sets a new position of the camera and updates the modelview and inverse modelview (its 3rd column) matrices.
+			</summary> 
+			<param name="position"> Camera position in the world space. </param> 
+		</member>
+		<member name="M:Unigine.Camera.getPosition const">
+			<summary>
+			Returns the current position of the camera. The position vector is stored in the 3rd column of the inverse view matrix.
+			</summary>  
+			<returns>Camera position in the world space.</returns>
+		</member>
+		<member name="M:Unigine.Camera.setProjection(Unigine.Math.mat4)">
+			<summary>
+			Updates the current projection matrix.					It is not recommended to use this method for setting obliqueness of the near clipping plane of the frustum, as in this case a number of features (such as clouds, shadows, TAA, a number of engine optimizations, etc.) will not function properly. Please, use the setObliqueFrustum() method instead.					This method allows you to set your camera to use perspective or orthographic projection, depending on your project's requirements.					For example, you can use the following code to set up orthographic projection or perspective projection for your camera depending on a flag value:
+			
+			</summary> 
+			<param name="projection"> Projection matrix. </param> 
+		</member>
+		<member name="M:Unigine.Camera.getProjection const">
+			<summary>
+			Returns the current projection matrix with unit (1.0) aspect ratio.
+			</summary>  
+			<returns>Projection matrix.</returns>
+		</member>
+		<member name="M:Unigine.Camera.getProjectionFromScreen(float,float,float,float,float) const">
+			<summary>
+			Creates a projection matrix out of 2 screen positions. This is required for the frame selection.
+			</summary> 
+			<param name="screen_x0"> X-coordinate of the first screen position, in the [0;1] range, where 0 is the left upper point, 1 is the right lower point. </param>
+			<param name="screen_y0"> Y-coordinate of the first screen position, in the [0;1] range, where 0 is the left upper point, 1 is the right lower point. </param>
+			<param name="screen_x1"> X-coordinate of the second screen position, in the [0;1] range, where 0 is the left upper point, 1 is the right lower point. </param>
+			<param name="screen_y1"> Y-coordinate of the second screen position, in the [0;1] range, where 0 is the left upper point, 1 is the right lower point. </param>
+			<param name="aspect"> Screen's aspect ratio (height to width). </param> 
+			<returns>Projection matrix.</returns>
+		</member>
+		<member name="M:Unigine.Camera.setReflectionViewportMask(int)">
+			<summary>
+			Sets a bit mask for rendering reflections into the viewport. Reflections are rendered in the viewport if masks of reflective materials match this one (one bit at least).
+			</summary> 
+			<param name="mask"> Integer, each bit of which is used to set a mask. </param> 
+		</member>
+		<member name="M:Unigine.Camera.getReflectionViewportMask const">
+			<summary>
+			Returns the current bit mask for rendering reflections into the camera viewport. Reflections are rendered in the camera viewport if masks of reflective materials match this one (one bit at least).
+			</summary>  
+			<returns>Integer, each bit of which is used to set a mask.</returns>
+		</member>
+		<member name="M:Unigine.Camera.setReverbMask(int)">
+			<summary>
+			Updates a bit mask that determines what reverberation zones can be heard. For sound to reverberate, at least one bit of this mask should match a reverb mask of the sound source and a reverb mask of the reverberation zone. Masks of a sound source and reverberation zone can match the camera's one in several bits, not necessarily one.
+			</summary> 
+			<param name="mask"> Integer, each bit of which is a mask for reverberating sound sources and reverberation zones. </param> 
+		</member>
+		<member name="M:Unigine.Camera.getReverbMask const">
+			<summary>
+			Returns the current bit mask that determines what reverberation zones can be heard. For sound to reverberate, at least one bit of this mask should match a reverb mask of the sound source and a reverb mask of the reverberation zone. Masks of a sound source and reverberation zone can match with the camera's one in several bits, not necessarily one.
+			</summary>  
+			<returns>Integer, each bit of which is used to set a mask for reverberating sound sources and reverberation zones.</returns>
+		</member>
+		<member name="M:Unigine.Camera.getScreenPosition(float,float,Unigine.Math.Vec3,float) const">
+			<summary>
+			Projects the point in world coordinates to the screen. Screen coordinates are written into the first 2 variables passed to the method.
+			</summary> 
+			<param name="screen_x"> X-coordinate of the screen position. </param>
+			<param name="screen_y"> Y-coordinate of the screen position. </param>
+			<param name="point"> Point coordinates. </param>
+			<param name="aspect"> Aspect ratio (screen height to width). </param> 
+			<returns>1 if the point has been projected successfully; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Camera.setSourceMask(int)">
+			<summary>
+			Updates a bit mask that determines what sound sources can be heard. For a sound source to be heard, its mask should match this one in at least one bit. Plus, the volume of sound channel in which the sound plays (its number also depends on this mask) should not be equal to 0.
+			</summary> 
+			<param name="mask"> Integer, each bit of which specifies a sound channel. </param> 
+		</member>
+		<member name="M:Unigine.Camera.getSourceMask const">
+			<summary>
+			Returns a bit mask that determines what sound channels can be heard. For a sound source to be heard, its mask should match this one in at least one bit. Plus, the volume of sound channel in which the sound plays (its number also depends on this mask) should not be equal to 0.
+			</summary>  
+			<returns>Integer, each bit of which specifies a sound channel.</returns>
+		</member>
+		<member name="M:Unigine.Camera.setUp(Unigine.Math.vec3)">
+			<summary>
+			Sets an up direction of the camera's viewport (i.e. tilt of the camera's viewport).
+			</summary> 
+			<param name="up"> New upward direction vector. The vector is normalized to 1. </param> 
+		</member>
+		<member name="M:Unigine.Camera.getUp const">
+			<summary>
+			Returns the current up direction of the camera's viewport (i.e. tilt of the camera's viewport).
+			</summary>  
+			<returns>Upward direction vector.</returns>
+		</member>
+		<member name="M:Unigine.Camera.setViewportMask(int)">
+			<summary>
+			Sets a bit mask for rendering into the viewport. Object surfaces, materials, decals, lights and GUI objects will be rendered into the viewport only if their viewport masks match the camera's one (one matching bit is enough).
+			</summary> 
+			<param name="mask"> Integer, each bit of which is used to set a mask. </param> 
+		</member>
+		<member name="M:Unigine.Camera.getViewportMask const">
+			<summary>
+			Returns the current bit mask for rendering into the viewport. Object surfaces, materials, decals, lights and GUI objects will be rendered into the viewport only if their viewport mask matches the camera's one (one matching bit is enough).
+			</summary>  
+			<returns>Integer, each bit of which is used to set a mask.</returns>
+		</member>
+		<member name="M:Unigine.Camera.setZFar(float)">
+			<summary>
+			Sets a distance to the far clipping plane of the camera's viewing frustum and updates the projection matrix.
+			</summary> 
+			<param name="zfar"> New distance in units. If a negative value is provided, 0 will be used instead. </param> 
+		</member>
+		<member name="M:Unigine.Camera.getZFar const">
+			<summary>
+			Returns the current distance to the far clipping plane of the camera's viewing frustum.
+			</summary>  
+			<returns>Distance in units.</returns>
+		</member>
+		<member name="M:Unigine.Camera.setZNear(float)">
+			<summary>
+			Sets a distance to the near clipping plane of the camera's viewing frustum and updates the projection matrix.
+			</summary> 
+			<param name="znear"> New distance in units. If a negative value is provided, 0 will be used instead. </param> 
+		</member>
+		<member name="M:Unigine.Camera.getZNear const">
+			<summary>
+			Returns the current distance to the near clipping plane of the camera's viewing frustum.
+			</summary>  
+			<returns>Distance in units.</returns>
+		</member>
+		<member name="M:Unigine.Camera.clone const">
+			<summary>
+			Clones the current camera and saves it to the given camera instance.
+			</summary>  
+			<returns>Copy of the camera.</returns>
+		</member>
+		<member name="M:Unigine.Camera.setFovMode(int)">
+			<summary>
+			Sets the value indicating the type of FOV that is used for the camera:											For the classic camera, the vertical FOV should be set. In this case, FOV is directly set in degrees.						For the physically-based camera, the horizontal FOV should be set. In this case, FOV is calculated depending on the film gate and focal length of the camera.
+			</summary> 
+			<param name="mode"> FOV_MODE_VERTICAL for the camera with the vertical FOV; FOV_MODE_PHYSICALLY_BASED_CAMERA for the physically-based camera with the horizontal FOV. </param> 
+		</member>
+		<member name="M:Unigine.Camera.getFovMode const">
+			<summary>
+			Sets the value indicating the type of FOV that is used for the camera.
+			</summary>  
+			<returns>0 if the camera with the vertical FOV is used; 1 if the physically-based camera with the horizontal FOV is used.</returns>
+		</member>
+		<member name="M:Unigine.Camera.setFilmGate(float)">
+			<summary>
+			Sets a film gate for the physically-based camera with horizontal FOV.
+			</summary> 
+			<param name="gate"> Film gate. </param> 
+		</member>
+		<member name="M:Unigine.Camera.getFilmGate const">
+			<summary>
+			Returns a film gate for the physically-based camera with horizontal FOV.
+			</summary>  
+			<returns>Film gate.</returns>
+		</member>
+		<member name="M:Unigine.Camera.setFocalLength(float)">
+			<summary>
+			Sets a focal length of the physically-based camera lens.
+			</summary> 
+			<param name="length"> Camera lens focal length. </param> 
+		</member>
+		<member name="M:Unigine.Camera.getFocalLength const">
+			<summary>
+			Returns the focal length of the physically-based camera lens.
+			</summary>  
+			<returns>Camera lens focal length.</returns>
+		</member>
+		<member name="M:Unigine.Camera.getAspectCorrectedProjection(float) const">
+			<summary>
+			Returns projection matrix after correction for the specified aspect ratio. Currently fixed FOV component is taken into account.
+			</summary> 
+			<param name="aspect"> Aspect ratio. </param> 
+			<returns>Projection matrix after correction for the specified aspect ratio.</returns>
+		</member>
+		<member name="M:Unigine.Camera.getFovFixed const">
+			<summary>
+			Returns a value indicating which FOV component (horizontal or vertical) is currently fixed.
+			</summary>  
+			<returns>Current fixed FOV component, one of the FOV_FIXED_* values.</returns>
+		</member>
+		<member name="M:Unigine.Camera.addScriptableMaterial(Unigine.Ptr{Unigine.Material})">
+			<summary>
+			Attaches a new scriptable material to the camera. To apply a scriptable material globally, use the addScriptableMaterial() method of the Render class. The order of execution for scripts assigned to scriptable materials is defined by material's number in the list of the camera.Scriptable materials applied globally have their expressions executed before the ones that are applied per-camera.
+			</summary> 
+			<param name="material"> Scriptable material to be attached to the camera. </param> 
+		</member>
+		<member name="M:Unigine.Camera.insertScriptableMaterial(int,Unigine.Ptr{Unigine.Material})">
+			<summary>
+			Inserts a new scriptable material into the list of the ones assigned to the camera. To apply a scriptable material globally, use the insertScriptableMaterial() method of the Render class. The order of execution for scripts assigned to scriptable materials is defined by material's number in the camera's list.Scriptable materials applied globally have their expressions executed before the ones that are applied per-camera.
+			</summary> 
+			<param name="num"> Position at which a new scriptable material is to be inserted. </param>
+			<param name="material"> Scriptable material to be inserted. </param> 
+		</member>
+		<member name="M:Unigine.Camera.removeScriptableMaterial(int)">
+			<summary>
+			Removes the scriptable material with the specified number from the camera.
+			</summary> 
+			<param name="num"> Scriptable material number in the range from 0 to the total number of scriptable materials. </param> 
+		</member>
+		<member name="M:Unigine.Camera.getNumScriptableMaterials const">
+			<summary>
+			Returns the total number of scriptable materials attached to the camera.
+			</summary>  
+			<returns>Total number of scriptable materials attached to the camera.</returns>
+		</member>
+		<member name="M:Unigine.Camera.findScriptableMaterial(Unigine.Ptr{Unigine.Material}) const">
+			<summary>
+			Returns the number of the specified scriptable material for the camera. This number is camera-specific (valid for this camera only) and determines the order in which the assigned expressions are executed.					Scriptable materials applied globally have their expressions executed before the ones that are applied per-camera.
+			</summary> 
+			<param name="material"> Scriptable material for which a number is to be found. </param> 
+			<returns>Scriptable material number in the range from 0 to the total number of scriptable materials, or -1 if the specified material was not found.</returns>
+		</member>
+		<member name="M:Unigine.Camera.setScriptableMaterial(int,Unigine.Ptr{Unigine.Material})">
+			<summary>
+			Replaces the scriptable material with the specified number with the new scriptable material specified. The number of material determines the order in which the expressions assigned to it are executed. This number is camera-specific (valid for this camera only).					Scriptable materials applied globally have their expressions executed before the ones that are applied per-camera.
+			</summary> 
+			<param name="num"> Scriptable material number in the range from 0 to the total number of scriptable materials. </param>
+			<param name="material"> New scriptable material to replace the one with the specified number. </param> 
+		</member>
+		<member name="M:Unigine.Camera.getScriptableMaterial(int) const">
+			<summary>
+			Returns a scriptable material attached to the camera by its number.
+			</summary> 
+			<param name="num"> Scriptable material number in the range from 0 to the total number of scriptable materials. </param> 
+			<returns>Scriptable material attached to the camera with the specified number.</returns>
+		</member>
+		<member name="M:Unigine.Camera.setScriptableMaterialEnabled(int,bool)">
+			<summary>
+			Enables or disables the scriptable material with the specified number. When a material is disabled (inactive), the scripts attached to it are not executed.
+			</summary> 
+			<param name="num"> Scriptable material number in the range from 0 to the total number of scriptable materials. </param>
+			<param name="enabled"> 1 to enable the scriptable material with the specified number, 0 to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Camera.getScriptableMaterialEnabled(int) const">
+			<summary>
+			Returns a value indicating if the scriptable material with the specified number attached to the camera is enabled (active). When a material is disabled (inactive), the scripts attached to it are not executed.
+			</summary> 
+			<param name="num"> Scriptable material number in the range from 0 to the total number of scriptable materials. </param> 
+			<returns>1 if the scriptable material with the specified number is enabled; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Camera.swapScriptableMaterials(int,int)">
+			<summary>
+			Swaps two scriptable materials with specified numbers. The number of material determines the order in which the expressions assigned to it are executed.					The number is camera-specific (valid for this camera only).
+			</summary> 
+			<param name="num_0"> Number of the first scriptable material in the range from 0 to the total number of scriptable materials. </param>
+			<param name="num_1"> Number of the second scriptable material in the range from 0 to the total number of scriptable materials. </param> 
+		</member>
+		<member name="M:Unigine.Camera.clearScriptableMaterials">
+			<summary>
+			Clears all scriptable materials attached to the camera.
+			</summary>  
+		</member>
+		<member name="M:Unigine.Camera.copy(Unigine.Ptr{Unigine.Camera}) const">
+			<summary>
+			Copies the parameters from the source camera to this camera instance.
+			</summary> 
+			<param name="camera"> Smart pointer to the source camera. </param> 
+			<returns>Smart pointer to this camera.</returns>
+		</member>
+		<member name="M:Unigine.Camera.swap(Unigine.Ptr{Unigine.Camera})">
+			<summary>
+			Swaps the parameters between the specified camera and this camera instance.
+			</summary> 
+			<param name="camera"> Camera smart pointer. </param> 
+		</member>
+		<member name="F:Unigine.Camera.FOV_MODE_PHYSICALLY_BASED_CAMERA">
+			<summary>
+								FOV_h = 2 * atan(film_gate / (2 * focal_length)) * RAD2DEG
+		</summary>
+		</member>
+		<member name="F:Unigine.Camera.FOV_MODE_VERTICAL">
+			<summary>
+			Vertical FOV mode. Vertical FOV of the camera is determined by the FOV value.
+		</summary>
+		</member>
+		<member name="F:Unigine.Camera.FOV_FIXED_HORIZONTAL">
+			<summary>
+			Horizontal FOV component is fixed.
+		</summary>
+		</member>
+		<member name="F:Unigine.Camera.FOV_FIXED_VERTICAL">
+			<summary>
+			Vertical FOV component is fixed.
+		</summary>
+		</member>
+		<member name="F:Unigine.EngineExpression.ifps">
+			<summary>
+			Scaled inverse FPS value (the time in seconds it took to complete the last frame).
+		</summary>
+		</member>
+		<member name="F:Unigine.EngineExpression.time">
+			<summary>
+			Current time spent in the game. It is counted off starting from the world loading and does not take game pauses into account.
+		</summary>
+		</member>
+	</members>
+</doc>

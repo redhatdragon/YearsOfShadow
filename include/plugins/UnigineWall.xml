@@ -1,0 +1,79 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Plugins.Wall.getGui(int,int)">
+			<summary>
+			Returns a GUI instance to draw interface on the specified monitor.
+			</summary> 
+			<param name="x"> Monitor number in a horizontal row. </param>
+			<param name="y"> Monitor number in a vertical column. </param> 
+			<returns>GUI instance.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Wall.getWallHeight const">
+			<summary>
+			Returns the number of Wall monitors in a vertical column (how many rows of monitors there are).
+			</summary>  
+			<returns>Number of Wall monitors.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Wall.getPrimaryX const">
+			<summary>
+			Returns the number of the monitor in a horizontal row, which is the primary and can render GUI, wireframe and other additional information.
+			</summary>  
+			<returns>Monitor number in a horizontal row.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Wall.getPrimaryY const">
+			<summary>
+			Returns the number of the monitor in a vertical column, which is the primary and can render GUI, wireframe and other additional information.
+			</summary>  
+			<returns>Monitor number in a vertical column.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Wall.getWallWidth const">
+			<summary>
+			Returns the number of Wall monitors in a horizontal row.
+			</summary>  
+			<returns>Number of Wall monitors.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Wall.isEnabled(int,int) const">
+			<summary>
+			Returns a value indicating if the specified Wall monitor is enabled for viewport rendering.
+			</summary> 
+			<param name="x"> Monitor number in a horizontal row. </param>
+			<param name="y"> Monitor number in a vertical column. </param> 
+			<returns>Returns 1 if the monitor is enabled for rendering; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Wall.setEnabled(int,int,int)">
+			<summary>
+			Enables the specified Wall monitor for viewport rendering.
+			</summary> 
+			<param name="x"> Monitor number in a horizontal row. </param>
+			<param name="y"> Monitor number in a vertical column. </param>
+			<param name="enable"> 1 to enable the monitor for rendering; 0 to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Wall.setPrimary(int,int)">
+			<summary>
+			Sets the monitor to be the primary display that can render GUI, wireframe and other additional information.
+			</summary> 
+			<param name="x"> Monitor number in a horizontal row. </param>
+			<param name="y"> Monitor number in a vertical column. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.Wall.getCamera(int,int)">
+			<summary>
+			Returns the camera from the specified monitor.
+			</summary> 
+			<param name="x"> Column of the monitor. </param>
+			<param name="y"> Row of the monitor. </param> 
+			<returns>Camera smart pointer.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.Wall.setCamera(int,int,Unigine.Ptr{Unigine.Camera}) const">
+			<summary>
+			Copies the camera from the specified monitor to the provided camera.
+			</summary> 
+			<param name="x"> Column of the monitor. </param>
+			<param name="y"> Row of the monitor. </param>
+			<param name="camera"> Camera smart pointer. </param> 
+		</member>
+	</members>
+</doc>

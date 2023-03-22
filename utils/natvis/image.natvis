@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+
+  <UIVisualizer ServiceId="{A452AFEA-3DF6-46BB-9177-C0B08F318025}" Id="1" MenuName="Add to Image Watch"/>
+  <Type Name="Image">
+    <UIVisualizer ServiceId="{A452AFEA-3DF6-46BB-9177-C0B08F318025}" Id="1" />
+  </Type>
+
+  <Type Name="Image">
+    <DisplayString Condition="depth==1">{{width={width} height={height} format={(ImageFormat)(format)} }}</DisplayString>
+    <DisplayString Condition="depth!=1">{{width={width} height={height} depth={depth} format={(ImageFormat)(format)} }}</DisplayString>
+    <Expand>
+      <Synthetic Name="[type]" Condition="format&gt;=0 &amp;&amp; format &lt;= 3">
+        <DisplayString>UINT8</DisplayString>
+      </Synthetic>
+      <Synthetic Name="[type]" Condition="format&gt;=4 &amp;&amp; format &lt;= 7">
+        <DisplayString>UINT16</DisplayString>
+      </Synthetic>
+      <Synthetic Name="[type]" Condition="format&gt;=8 &amp;&amp; format &lt;= 11">
+        <DisplayString>FLOAT16</DisplayString>
+      </Synthetic>
+      <Synthetic Name="[type]" Condition="format&gt;=12 &amp;&amp; format &lt;= 15">
+        <DisplayString>FLOAT32</DisplayString>
+      </Synthetic>
+      
+      <Item Name="[channels]">number_of_channels[(int)format] </Item >
+      
+      <Item Name="[width]">width</Item>
+      <Item Name="[height]">height</Item>
+      <Item Name="[data]">data</Item>
+      <Item Name="[stride]" >width * pixel_and_block_sizes[(int)format]</Item>
+      
+      <Item Name="depth">depth</Item>
+      <Item Name="format">(ImageFormat)(format)</Item>
+      <Item Name="type">(ImageType)(type)</Item>
+      <Item Name="num_mipmaps">num_mipmaps</Item>
+      <Item Name="num_layers">num_layers</Item>
+      <Item Name="num_faces">num_faces</Item>
+    </Expand>
+  </Type>
+
+</AutoVisualizer>

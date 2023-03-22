@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<property version="2.16.1.0" name="UltraleapHandControllerVarjo" manual="1" parent_name="node_base">
+	<parameter name="controller_0" type="node">0</parameter>
+	<parameter name="controller_1" type="node">0</parameter>
+	<parameter name="teleport_allowed_marker" type="node">0</parameter>
+	<parameter name="teleport_forbidden_marker" type="node">0</parameter>
+	<parameter name="teleport_allowed_mat" type="material"/>
+	<parameter name="teleport_forbidden_mat" type="material"/>
+	<parameter name="obstacles" type="node">0</parameter>
+	<parameter name="hand_force_multiplier" type="float">1.3</parameter>
+	<parameter name="controller_buffer_count" type="int">4</parameter>
+	<parameter name="player_spawner_component" type="node">0</parameter>
+	<parameter name="visualize_hands" type="toggle">0</parameter>
+	<parameter name="gui_spawn_point" type="node">0</parameter>
+	<parameter name="noderef_hands_skinned_mesh" type="node">0</parameter>
+	<parameter name="show_help" type="toggle">1</parameter>
+	<parameter name="help_img" type="file">vr_sample/props/hands/helper.png</parameter>
+</property>

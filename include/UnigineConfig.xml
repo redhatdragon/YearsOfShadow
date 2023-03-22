@@ -1,0 +1,617 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.BootConfig.setPath(char)">
+			<summary>
+			Sets a new path to the startup configuration file (default: configs/default.boot). The path can be specified as an absolute path or relative to the -data_path or &lt;project_name&gt; folder if the -project_name is set. To run the application with another boot configuration file, specify the path to it using the ‑boot_config command-line option.
+			</summary> 
+			<param name="path"> New path to the startup configuration file to be set. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getPath const">
+			<summary>
+			Returns the current path to the startup configuration file (default: configs/default.boot).
+			</summary>  
+			<returns>Current path to the startup configuration file.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setAutosave(bool)">
+			<summary>
+			Sets a value indicating if current startup configuration settings are automatically saved to the corresponding config file on loading, closing, and saving the world, as well as on the Engine shutdown.
+			</summary> 
+			<param name="autosave"> true to enable automatic saving of current startup configuration settings; false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.isAutosave const">
+			<summary>
+			Returns a value indicating if current startup configuration settings are automatically saved to the corresponding config file on loading, closing, and saving the world, as well as on the Engine shutdown.
+			</summary>  
+			<returns>true if automatic saving of current Engine configuration settings is enabled; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.load">
+			<summary>
+			Loads Engine startup configuration from the file. To change the path to the configuration file use the setPath() method.
+			</summary>  
+			<returns>true if the config is successfully loaded from the file; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.save const">
+			<summary>
+			Saves the current Engine startup configuration to the file. To change the path to the configuration file use the setPath() method.
+			</summary>  
+			<returns>true if the current configuration is successfully saved to the file; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.reset">
+			<summary>
+			Resets the settings in the Engine startup configuration file to the default.
+			</summary>  
+		</member>
+		<member name="M:Unigine.BootConfig.setGuiPath(char)">
+			<summary>
+			Sets a path to a GUI skin to be used for the engine interface. The path can be specified as an absolute path or relatively to the data folder.
+			</summary> 
+			<param name="path"> Path to a GUI skin to be used for the Engine interface (absolute path or path relative to the data folder). </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getGuiPath const">
+			<summary>
+			Returns a path to a GUI skin currently used for the Engine interface. The path can be specified as absolute or relatively to the data folder.
+			</summary>  
+			<returns>Path to a GUI skin currently used for the Engine interface (absolute path or path relative to the data folder).</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setEngineLog(char)">
+			<summary>
+			Sets a log file (in txt format) to be created and used by the Engine. The path can be absolute or relative to the binary executable. For relative paths, if the Project Name startup parameter is set, the log file with the specified name will be created in the corresponding directory in the User profile (only the name will be used, the remaining part of the relative path will be discarded).
+			</summary> 
+			<param name="log"> Log file (in txt format) to be used by the Engine. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getEngineLog const">
+			<summary>
+			Returns a log file (in txt format) currently used by the Engine. The path can be absolute or relative to the binary executable. For relative paths, if the Project Name startup parameter is set, the log file with the specified name will be created in the corresponding directory in the User profile (only the name will be used, the remaining part of the relative path will be discarded).
+			</summary>  
+			<returns>Log file (in txt format) currently used by the Engine.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setSystemScript(char)">
+			<summary>
+			Sets a new path to the system script (corresponds to the system_script element of the .boot configuration file).
+			</summary> 
+			<param name="script"> Path to the system script (specified relative to the data folder). </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getSystemScript const">
+			<summary>
+			Returns the path to the system script (corresponds to the system_script element of the .boot configuration file).
+			</summary>  
+			<returns>Path to the system script (specified relative to the data folder).</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setEditorScript(char)">
+			<summary>
+			Sets a new path to the editor script (corresponds to the system_script element of the .boot configuration file).
+			</summary> 
+			<param name="script"> Path to the editor script (specified relative to the data folder). </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getEditorScript const">
+			<summary>
+			Returns the path to the editor script (corresponds to the system_script element of the .boot configuration file).
+			</summary>  
+			<returns>Path to the editor script (specified relative to the data folder).</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setCachePath(char)">
+			<summary>
+			Sets a new path to store system and Editor cache files(corresponds to the cache_path element of the .boot configuration file).
+			</summary> 
+			<param name="path"> Path to store system and Editor cache files. Can be an absolute path or a relative path to the data path. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getCachePath const">
+			<summary>
+			Returns the current path to store system and Editor cache files(corresponds to the cache_path element of the .boot configuration file).
+			</summary>  
+			<returns>Path to store system and Editor cache files. Can be an absolute path or a relative path to the data path.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setEditorCache(char)">
+			<summary>
+			Sets a new path to a cache file to be used by the UnigineEditor (corresponds to the editor_cache element of the .boot configuration file).
+			</summary> 
+			<param name="cache"> Path to a cache file to be used by the UnigineEditor. Can be an absolute path or a path relative to the data path, or to the cache path (if any). </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getEditorCache const">
+			<summary>
+			Returns the path to a cache file currently used by the UnigineEditor (corresponds to the editor_cache element of the .boot configuration file).
+			</summary>  
+			<returns>Path to a cache file to be used by the UnigineEditor. Can be an absolute path or a path relative to the data path, or to the cache path (if any).</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setSystemCache(char)">
+			<summary>
+			Sets a new path to a cache file to be used by the Engine (corresponds to the system_cache element of the .boot configuration file).
+			</summary> 
+			<param name="cache"> Path to a cache file currently used by the Engine. Can be an absolute path or a path relative to the data path, or to the cache path (if any). </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getSystemCache const">
+			<summary>
+			Returns the current path to a cache file to be used by the Engine (corresponds to the system_cache element of the .boot configuration file).
+			</summary>  
+			<returns>Path to a cache file currently used by the Engine. Can be an absolute path or a path relative to the data path, or to the cache path (if any).</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setVideoApp(char)">
+			<summary>
+			Sets a new graphics API to be used for rendering. (corresponds to the video_app element of the .boot configuration file).
+			</summary> 
+			<param name="app"> Graphics API used for rendering: null, auto, dx, or gl. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getVideoApp const">
+			<summary>
+			Returns the graphics API currently used for rendering (corresponds to the video_app element of the .boot configuration file).
+			</summary>  
+			<returns>Graphics API used for rendering: null, auto, dx, or gl.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setSoundApp(char)">
+			<summary>
+			Sets a new sound API to be used (corresponds to the sound_app element of the .boot configuration file).
+			</summary> 
+			<param name="app"> Sound API used for rendering: nosound, auto, or openal. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getSoundApp const">
+			<summary>
+			Returns the sound API currently used (corresponds to the sound_app element of the .boot configuration file).
+			</summary>  
+			<returns>Sound API used for rendering: nosound, auto, or openal.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setExternDefine(char)">
+			<summary>
+			Sets extern define(s) to be used at the Engine startup (corresponds to the extern_define element of the .boot configuration file).
+			</summary> 
+			<param name="defines"> External definition(s) to be used. Several definitions are comma separated (no whitespaces). Definitions can be specified as follows:DEFINITION_NAMEDEFINITION_NAME=VALUEDEFINITION_NAME_1,DEFINITION_NAME_2,DEFINITION_NAME_3=VALUE,...,DEFINITION_NAME_N </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getExternDefine const">
+			<summary>
+			Returns extern define(s) currently used at the Engine startup (corresponds to the extern_define element of the .boot configuration file).
+			</summary>  
+			<returns>External definition(s) to be used. Several definitions are comma separated (no whitespaces). Definitions can be specified as follows:DEFINITION_NAMEDEFINITION_NAME=VALUEDEFINITION_NAME_1,DEFINITION_NAME_2,DEFINITION_NAME_3=VALUE,...,DEFINITION_NAME_N</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setConsoleCommand(char)">
+			<summary>
+			Sets a new Console command(s) to be used at the Engine startup (corresponds to the console_command element of the .boot configuration file).
+			</summary> 
+			<param name="command"> Console command(s) to be used at the engine startup. Several commands can be separated using the &amp;&amp; sequence. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getConsoleCommand const">
+			<summary>
+			Returns Console command(s) currently used at the Engine startup (corresponds to the console_command element of the .boot configuration file).
+			</summary>  
+			<returns>Console command(s) currently used at the Engine startup. Several commands can be separated using the &amp;&amp; sequence.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.getNumPluginPaths const">
+			<summary>
+			Returns the number of directory(ies) containing plugins to be automatically loaded at the Engine startup. These directories are specified in the .boot configuration file via the plugin_path element.					The list of these plugin paths can be obtained via the getNumPluginPaths() and getPluginPath(int num) methods.					The order of loading plugins matters, you can rearrange the paths via swapPluginPath()
+			</summary>  
+			<returns>Current number of plugin directories.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.removePluginPath(int)">
+			<summary>
+			Removes a plugin path with the specified number from the list of the plugin paths specified in the .boot configuration file via the plugin_path element. A plugin path is a directory containing plugins to be automatically loaded at the Engine startup.
+			</summary> 
+			<param name="num"> Number of the plugin path to be removed from the list of the specified plugin paths, in the range from 0 to the total number of plugin paths specified. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.swapPluginPath(int,int)">
+			<summary>
+			Swaps two plugin paths with the given numbers specified in the .boot configuration file. A plugin path is a directory containing plugins to be automatically loaded at the Engine startup. 					The list of these plugin paths can be obtained via the getNumPluginPaths() and getPluginPath(int num) methods.					The order of loading plugins matters, you can rearrange the paths via swapPluginPath()
+			</summary> 
+			<param name="num0"> Number of the first plugin path in the list of the specified plugin paths to be swapped, in the range from 0 to the total number of plugin paths specified. </param>
+			<param name="num1"> Number of the second plugin path in the list of the specified plugin paths to be swapped, in the range from 0 to the total number of plugin paths specified. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getPluginPath(int)">
+			<summary>
+			Returns a plugin path with the given number specified in the .boot configuration file via the plugin_path element. A plugin path is a directory containing plugins to be automatically loaded at the Engine startup. The order of loading plugins matters, you can rearrange the paths via swapPluginPath().
+			</summary> 
+			<param name="num"> Plugin path number in the list of the specified plugin paths, in the range from 0 to the total number of plugin paths specified. </param> 
+			<returns>Path to the plugins directory with the given number in the list of the plugin paths. Сan be absolute or specified relatively to the binary executable.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setPluginPath(int,char)">
+			<summary>
+			Sets a new path for the item of the list of the plugin paths with the given number specified in the .boot configuration file via the plugin_path element. A plugin path is a directory containing plugins to be automatically loaded at the Engine startup. The order of loading plugins matters, you can rearrange the paths via swapPluginPath().
+			</summary> 
+			<param name="num"> Plugin path number in the list of the specified plugin paths. </param>
+			<param name="value"> New path to be set for the specified item of the list of the plugin paths. Сan be specified relatively to the binary executable or as an absolute path. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getNumExternPlugins const">
+			<summary>
+			Returns the number of plugin libraries to be automatically loaded at the Engine startup. These plugins  are specified in the .boot configuration file via the extern_plugin element.					The list of these plugin paths can be obtained via the getNumExternPlugins() and getExternPlugin(int num) methods.					The order of loading plugins matters, you can rearrange them via swapPluginPath().
+			</summary>  
+			<returns>Current number of plugin libraries to be loaded at the Engine startup.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.removeExternPlugin(int)">
+			<summary>
+			Removes a plugin with the specified number from the list of the plugins specified in the .boot configuration file via the extern_plugin element.
+			</summary> 
+			<param name="num"> Number of the plugin to be removed from the list of the specified plugins, in the range from 0 to the total number of plugins specified. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.swapExternPlugin(int,int)">
+			<summary>
+			Swaps two plugins with the given numbers specified in the .boot configuration file.					The list of these plugins can be obtained via the getNumExternPlugins() and getExternPlugin(int num) methods.					The order of loading plugins matters, this method enables you to rearrange plugins to change loading order.
+			</summary> 
+			<param name="num0"> Number of the first plugin in the list of the specified plugins to be swapped, in the range from 0 to the total number of plugins specified. </param>
+			<param name="num1"> Number of the second plugin in the list of the specified plugins to be swapped, in the range from 0 to the total number of plugins specified. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getExternPlugin(int)">
+			<summary>
+			Returns the name of the plugin with the given number specified in the .boot configuration file via the extern_plugin element. The order of loading plugins matters, you can rearrange the paths via swapExternPlugin().
+			</summary> 
+			<param name="num"> Number of the plugin in the list of the specified plugins, in the range from 0 to the total number of plugins specified. </param> 
+			<returns>Name of the plugin with the given number specified in the .boot configuration file. Plugin library name goes without any prefixes and postfixes (e.g., libNetwork_x64d.so is listed as "Network").</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setExternPlugin(int,char)">
+			<summary>
+			Sets a new name of the plugin with the given number specified in the .boot configuration file via the extern_plugin element. The order of loading plugins matters, you can rearrange the paths via swapExternPlugin().
+			</summary> 
+			<param name="num"> Number of the plugin to be set in the list of the specified plugins, in the range from 0 to the total number of plugins specified. </param>
+			<param name="value"> Name of the plugin with the given number specified in the .boot configuration file. Plugin library name goes without any prefixes and postfixes (e.g., libNetwork_x64d.so is listed as "Network"). </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.setScreenWidth(int)">
+			<summary>
+			Sets the width of the boot screen window, in pixels.
+			</summary> 
+			<param name="width"> Width of the boot screen window, in pixels. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getScreenWidth const">
+			<summary>
+			Returns the current width of the boot screen window.
+			</summary>  
+			<returns>Current width of the boot screen window, in pixels.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setScreenHeight(int)">
+			<summary>
+			Sets the height of the boot screen window, in pixels.
+			</summary> 
+			<param name="height"> Height of the boot screen window, in pixels. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getScreenHeight const">
+			<summary>
+			Returns the height of the boot screen window, in pixels.
+			</summary>  
+			<returns>Current height of the boot screen window, in pixels.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setScreenBackgroundColor(Unigine.Math.vec4)">
+			<summary>
+			Sets the background color of the screen. The default value is vec4_zero.
+			</summary> 
+			<param name="color"> Background color defined by a vector of four numbers in the [0; 1] range. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getScreenBackgroundColor const">
+			<summary>
+			Returns the current background color of the screen.
+			</summary>  
+			<returns>Background color defined by a vector of four numbers in the [0; 1] range.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setScreenTransform(Unigine.Math.vec4)">
+			<summary>
+			Sets the transformation of the boot screen texture. The default value is vec4(1.0f, 1.0f, 0.5f, 0.5f).
+			</summary> 
+			<param name="transform"> Transformation of the screen defined by a vector of four numbers in the [0; 1] range:Texture size multiplierWindow size multiplierHorizontal positionVertical position </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getScreenTransform const">
+			<summary>
+			Returns the current transformation of the boot screen texture.
+			</summary>  
+			<returns>Transformation of the screen defined by a vector of four numbers in the [0; 1] range:Texture size multiplierWindow size multiplierHorizontal positionVertical position</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setScreenThreshold(int)">
+			<summary>
+			Sets the threshold for blending based on the alpha-channel.
+			</summary> 
+			<param name="threshold"> Threshold for blending based on the alpha-channel. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getScreenThreshold const">
+			<summary>
+			Returns the current threshold for blending based on the alpha-channel.
+			</summary>  
+			<returns>Threshold for blending based on the alpha-channel.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setScreenTexture(char)">
+			<summary>
+			Sets the path to the boot screen texture.Textures or any other resources used in the Boot screen cannot be packed into an UNG archive.
+			</summary> 
+			<param name="texture"> Path to the boot screen texture. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getScreenTexture const">
+			<summary>
+			Returns the current path to the boot screen texture.
+			</summary>  
+			<returns>Path to the boot screen texture.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setScreenFont(char)">
+			<summary>
+			Sets the path to the font for text rendering.Fonts or any other resources used in the Boot screen cannot be packed into an UNG archive.
+			</summary> 
+			<param name="font"> Path to the font for text rendering. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getScreenFont const">
+			<summary>
+			Returns the current path to the font for text rendering.
+			</summary>  
+			<returns>Path to the font for text rendering.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setScreenText(char)">
+			<summary>
+			Sets the text of the boot screen.
+			</summary> 
+			<param name="text"> Text of the boot screen. Can be either a plain or rich text. A number of aliases is provided:UNIGINE_COPYRIGHT — the UNIGINE copyright text.UNIGINE_VERSION — the current UNIGINE version.LOADING_PROGRESS — the loading progress going from 0 to 100. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getScreenText const">
+			<summary>
+			Returns the current text of the boot screen.
+			</summary>  
+			<returns>Text of the boot screen.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setScreenMessageEngineInit(char)">
+			<summary>
+			Sets the message to be displayed on the engine initialization. The message is set the same way as the screen text.
+			</summary> 
+			<param name="init"> Message on the engine initialization. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getScreenMessageEngineInit const">
+			<summary>
+			Returns the message currently displayed on the engine initialization.
+			</summary>  
+			<returns>Message on the engine initialization.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setScreenMessageFileSystemInit(char)">
+			<summary>
+			Sets the message to be displayed on the file system initialization. The message is set the same way as the screen text.
+			</summary> 
+			<param name="init"> Message for file system initialization. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getScreenMessageFileSystemInit const">
+			<summary>
+			Returns the message currently displayed on the file system initialization.
+			</summary>  
+			<returns>Message for file system initialization.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setScreenMessageMaterialsInit(char)">
+			<summary>
+			Sets the message to be displayed on materials initialization. The message is set the same way as the screen text.
+			</summary> 
+			<param name="init"> Message for materials initialization. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getScreenMessageMaterialsInit const">
+			<summary>
+			Returns the message currently displayed on materials initialization.
+			</summary>  
+			<returns>Message for materials initialization.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setScreenMessagePropertiesInit(char)">
+			<summary>
+			Sets the message to be displayed on properties initialization. The message is set the same way as the screen text.
+			</summary> 
+			<param name="init"> Message for properties initialization. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getScreenMessagePropertiesInit const">
+			<summary>
+			Returns the message currently displayed on properties initialization.
+			</summary>  
+			<returns>Message for properties initialization.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setScreenMessageShadersCompilation(char)">
+			<summary>
+			Sets the message to be displayed on shaders compilation. The message is set the same way as the screen text.
+			</summary> 
+			<param name="compilation"> Message for shaders compilation. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getScreenMessageShadersCompilation const">
+			<summary>
+			Returns the message currently displayed on shaders compilation.
+			</summary>  
+			<returns>Message for shaders compilation.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setWindowTitle(char)">
+			<summary>
+			Sets a new title for the application window.
+			</summary> 
+			<param name="title"> New application window title to be set. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getWindowTitle const">
+			<summary>
+			Returns the current application window title.
+			</summary>  
+			<returns>Current application window title.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setWindowIconPath(char)">
+			<summary>
+			Sets the path to the custom icon for the final application's window.
+			</summary> 
+			<param name="path"> Path to the custom icon for the final application's window. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.getWindowIconPath">
+			<summary>
+			Returns the path to the custom icon for the final application's window.
+			</summary>  
+			<returns>Path to the custom icon for the final application's window.</returns>
+		</member>
+		<member name="M:Unigine.BootConfig.setScreenEnabled(bool)">
+			<summary>
+			Sets the value indicating if the boot screen is enabled.
+			</summary> 
+			<param name="enabled"> true to enable the boot screen; false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.BootConfig.isScreenEnabled const">
+			<summary>
+			Returns the value indicating if the boot screen is enabled.
+			</summary>  
+			<returns>true if the boot screen is enabled; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Config.setBool(char,int)">
+			<summary>
+			Sets a value of the given boolean setting. If the setting with this name already exists, its value is overwritten.
+			</summary> 
+			<param name="name"> Name of the setting. </param>
+			<param name="value"> Boolean value (0 or 1). 0 stands for false, 1 stands for true. </param> 
+		</member>
+		<member name="M:Unigine.Config.getBool(char)">
+			<summary>
+			Reads the value of the given boolean setting.
+			</summary> 
+			<param name="name"> Name of the setting. </param> 
+			<returns>Boolean value (0 or 1) of the setting. 0 stands for false, 1 stands for true.</returns>
+		</member>
+		<member name="M:Unigine.Config.getBool(char,int)">
+			<summary>
+			Reads the value of the given boolean setting. Returns the value specified as the second argument if the setting isn't found.
+			</summary> 
+			<param name="name"> Name of the setting. </param>
+			<param name="value"> Custom value to be returned if the setting isn't found. </param> 
+			<returns>Boolean value (0 or 1) of the setting. 0 stands for false, 1 stands for true.</returns>
+		</member>
+		<member name="M:Unigine.Config.isExist(char)">
+			<summary>
+			Checks if the setting with the given name exists.
+			</summary> 
+			<param name="name"> Name of the setting. </param> 
+			<returns>1 if the setting exists; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.Config.setFloat(char,float)">
+			<summary>
+			Sets a value of the given float setting. If the setting with this name already exists, its value is overwritten.
+			</summary> 
+			<param name="name"> Name of the setting. </param>
+			<param name="value"> Float value of the setting. </param> 
+		</member>
+		<member name="M:Unigine.Config.getFloat(char,float)">
+			<summary>
+			Reads the value of the given float setting. Returns the value specified as the second argument if the setting isn't found.
+			</summary> 
+			<param name="name"> Name of the setting. </param>
+			<param name="value"> Custom value to be returned if the setting isn't found. </param> 
+			<returns>Float value of the setting.</returns>
+		</member>
+		<member name="M:Unigine.Config.getFloat(char)">
+			<summary>
+			Reads the value of the given float setting.
+			</summary> 
+			<param name="name"> Name of the setting. </param> 
+			<returns>Float value of the setting.</returns>
+		</member>
+		<member name="M:Unigine.Config.setInt(char,int)">
+			<summary>
+			Sets a value of the given integer setting. If the setting with this name already exists, its value is overwritten.
+			</summary> 
+			<param name="name"> Name of the setting. </param>
+			<param name="value"> Integer value of the setting. </param> 
+		</member>
+		<member name="M:Unigine.Config.getInt(char)">
+			<summary>
+			Reads the value of the given integer setting.
+			</summary> 
+			<param name="name"> Name of the setting. </param> 
+			<returns>Integer value of the setting.</returns>
+		</member>
+		<member name="M:Unigine.Config.getInt(char,int)">
+			<summary>
+			Reads the value of the given integer setting. Returns the value specified as the second argument if the setting isn't found.
+			</summary> 
+			<param name="name"> Name of the setting. </param>
+			<param name="value"> Custom value to be returned if the setting isn't found. </param> 
+			<returns>Integer value of the setting.</returns>
+		</member>
+		<member name="M:Unigine.Config.setString(char,char)">
+			<summary>
+			Sets a value of the given string setting. If the setting with this name already exists, its value is overwritten.
+			</summary> 
+			<param name="name"> Name of the setting. </param>
+			<param name="value"> String value of the setting. </param> 
+		</member>
+		<member name="M:Unigine.Config.getString(char,char)">
+			<summary>
+			Reads the value of the given string setting. Returns the value specified as the second argument if the setting isn't found.
+			</summary> 
+			<param name="name"> Name of the setting. </param>
+			<param name="value"> Custom value to be returned if the setting is found. </param> 
+			<returns>String value of the setting.</returns>
+		</member>
+		<member name="M:Unigine.Config.getString(char)">
+			<summary>
+			Reads the value of the given string setting.
+			</summary> 
+			<param name="name"> Name of the setting. </param> 
+			<returns>String value of the setting.</returns>
+		</member>
+		<member name="M:Unigine.Config.load">
+			<summary>
+			Loads config from the file. To change the path to the configuration file use the setPath() method.
+			</summary>  
+			<returns>true if the config is successfully loaded from the file; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Config.remove(char)">
+			<summary>
+			Removes the setting with the given name from the configuration file.
+			</summary> 
+			<param name="name"> Name of the setting. </param> 
+		</member>
+		<member name="M:Unigine.Config.save">
+			<summary>
+			Saves the current configuration to the file. To change the path to the configuration file use the setPath() method.
+			</summary>  
+			<returns>true if the current configuration is successfully saved to the file; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.Config.setPath(char)">
+			<summary>
+			Sets a new path to the Engine config file (default: configs/default.config). The path can be specified as an absolute path or relative to the -data_path or &lt;project_name&gt; folder if the -project_name is set.
+			</summary> 
+			<param name="path"> New path to the Engine configuration file to be set. </param> 
+		</member>
+		<member name="M:Unigine.Config.getPath const">
+			<summary>
+			Returns the current path to the Engine config file (default: configs/default.config).
+			</summary>  
+			<returns>Current path to the Engine configuration file.</returns>
+		</member>
+		<member name="M:Unigine.Config.setAutosave(bool)">
+			<summary>
+			Sets a value indicating if current Engine configuration settings are automatically saved to the corresponding config file on loading, closing, and saving the world, as well as on the Engine shutdown.
+			</summary> 
+			<param name="autosave"> true to enable automatic saving of current Engine configuration settings; false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.Config.isAutosave const">
+			<summary>
+			Returns a value indicating if current Engine configuration settings are automatically saved to the corresponding config file on loading, closing, and saving the world, as well as on the Engine shutdown.
+			</summary>  
+			<returns>true if automatic saving of current Engine configuration settings is enabled; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.UserConfig.setPath(char)">
+			<summary>
+			Sets a new path to the user configuration file (default: configs/default.user). The path can be specified as an absolute path or relative to the -data_path or &lt;project_name&gt; folder if the -project_name is set.
+			</summary> 
+			<param name="path"> New path to the user configuration file to be set. </param> 
+		</member>
+		<member name="M:Unigine.UserConfig.getPath const">
+			<summary>
+			Returns the current path to the user configuration file (default: configs/default.user).
+			</summary>  
+			<returns>Current path to the user configuration file.</returns>
+		</member>
+		<member name="M:Unigine.UserConfig.setAutosave(bool)">
+			<summary>
+			Sets a value indicating if current user configuration settings are automatically saved to the corresponding user config file (configs/default.user by default) on loading, closing, and saving the world, as well as on the Engine shutdown.
+			</summary> 
+			<param name="autosave"> true to enable automatic saving of current user configuration settings; false — to disable it. </param> 
+		</member>
+		<member name="M:Unigine.UserConfig.isAutosave const">
+			<summary>
+			Returns a value indicating if current user configuration settings are automatically saved to the corresponding user config file (configs/default.user by default) on loading, closing, and saving the world, as well as on the Engine shutdown.
+			</summary>  
+			<returns>true if automatic saving of current user configuration settings is enabled; otherwise, 0.</returns>
+		</member>
+		<member name="M:Unigine.UserConfig.load">
+			<summary>
+			Loads user configuration from the file. To change the path to the configuration file use the setPath() method.
+			</summary>  
+			<returns>true if the user configuration is successfully loaded from the file; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.UserConfig.save const">
+			<summary>
+			Saves the current user configuration to the file. To change the path to the configuration file use the setPath() method.
+			</summary>  
+			<returns>true if the current user configuration is successfully saved to the file; otherwise, false.</returns>
+		</member>
+		<member name="M:Unigine.UserConfig.reset">
+			<summary>
+			Resets the settings in the user configuration file to the default.
+			</summary>  
+		</member>
+	</members>
+</doc>

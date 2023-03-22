@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.16.1.0">
+	<guid>2eef981df00a3ad83f7e0057b276a1ca5da5a6a1</guid>
+	<type>texture</type>
+	<hash>1e377cc4</hash>
+	<runtimes>
+		<runtime id="2eef981df00a3ad83f7e0057b276a1ca5da5a6a1" name="photos_2017_10_6_fst_grass-texture-lawn.jpg" link="0" type="6"/>
+		<runtime id="28af12f8e919b9f77bf4ceea4728b1415f78d9ac" name="photos_2017_10_6_fst_grass-texture-lawn.texture" link="1" type="6"/>
+	</runtimes>
+	<parameters>
+		<parameter type="string" name="height">auto</parameter>
+		<parameter type="string" name="image_format">DXT1</parameter>
+		<parameter type="string" name="image_type">2d</parameter>
+		<parameter type="bool" name="invert_g">0</parameter>
+		<parameter type="string" name="mipmap_type">box</parameter>
+		<parameter type="string" name="preset_name">custom</parameter>
+		<parameter type="bool" name="srgb_correction">1</parameter>
+		<parameter type="bool" name="unchanged">0</parameter>
+		<parameter type="string" name="width">auto</parameter>
+	</parameters>
+</asset>

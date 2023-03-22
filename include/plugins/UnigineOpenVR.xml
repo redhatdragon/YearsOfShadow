@@ -1,0 +1,351 @@
+<?xml version='1.0'?>
+<doc>
+	<assembly>
+		<name>Unigine</name>
+	</assembly>
+	<members>
+		<member name="M:Unigine.Plugins.OpenVR.getControllerAxis(int,int)">
+			<summary>
+			Returns the coordinates of the specified controller axis along the X and Y axes.
+			</summary> 
+			<param name="device_num"> Device ID. </param>
+			<param name="axis_num"> Axis number. </param> 
+			<returns>X and Y in the range of [-1;1] ([0;1] for a trigger).</returns>
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.getControllerButtonPressed(int,OpenVR::BUTTON)">
+			<summary>
+			Returns the value indicating if the specified button is pressed.
+			</summary> 
+			<param name="device_num"> Device ID. </param>
+			<param name="button"> A button, one of the BUTTON variables. </param> 
+			<returns>true if the button is pressed; otherwise - false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.getControllerButtonTouched(int,OpenVR::BUTTON)">
+			<summary>
+			Returns the value indicating if the specified button is touched.
+			</summary> 
+			<param name="device_num"> Device ID. </param>
+			<param name="button"> A button, one of the BUTTON variables. </param> 
+			<returns>true if the button is pressed; otherwise - false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.getControllerPacketNum(int)">
+			<summary>
+			Returns the number of the controller packet.
+			</summary> 
+			<param name="device_num"> Device ID. </param> 
+			<returns>Number of the controller packet.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.setControllerVibration(int,unsignedshort)">
+			<summary>
+			Sets the vibration of the given duration and amplitude.
+			</summary> 
+			<param name="device_num"> Device ID. </param>
+			<param name="duration"> Duration of the vibration. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.getDeviceAngularVelocity(int)">
+			<summary>
+			Returns a device angular velocity, in radians per second.
+			</summary> 
+			<param name="device_num"> Device ID. </param> 
+			<returns>Angular velocity.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.isDeviceConnected(int)">
+			<summary>
+			Returns a value indicating if the device connected to the slot.
+			</summary> 
+			<param name="device_num"> Device ID. </param> 
+			<returns>true - connected; false - not connected.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.getDeviceTransform(int)">
+			<summary>
+			Returns a single pose for a tracked device.
+			</summary> 
+			<param name="device_num"> Device ID. </param> 
+			<returns>Identity matrix.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.getDeviceType(int)">
+			<summary>
+			Returns the device type.
+			</summary> 
+			<param name="device_num"> Device ID. </param> 
+			<returns>Device type, one of the DEVICE variables.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.getDeviceVelocity(int)">
+			<summary>
+			Returns a device velocity in tracker space, in meters per second.
+			</summary> 
+			<param name="device_num"> Device ID. </param> 
+			<returns>Velocity.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.setHeadPositionLock(bool)">
+			<summary>
+			Locks the head position.
+			</summary> 
+			<param name="lock"> true to lock the head position. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.isHeadPositionLock const">
+			<summary>
+			Returns the value indicating if the head position is locked.
+			</summary>  
+			<returns>true if the head position is locked; otherwise - false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.setHeadRotationLock(bool)">
+			<summary>
+			Locks the head rotation.
+			</summary> 
+			<param name="lock"> true to lock the head rotation. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.isHeadRotationLock const">
+			<summary>
+			Returns the value indicating if the head rotation is locked.
+			</summary>  
+			<returns>true if the head rotation is locked; otherwise - false.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.isPoseValid(int)">
+			<summary>
+			Returns a value indicating if the device pose is valid.
+			</summary> 
+			<param name="device_num"> Device ID. </param> 
+			<returns>true - valid; false - invalid.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.getTrackingResult(int)">
+			<summary>
+			Returns the value indicating the tracking result:											Uninitialized						Calibrating in progress						Calibrating out of range						Running correctly						Running out of range
+			</summary> 
+			<param name="device_num"> Device ID. </param> 
+			<returns>Tracking result.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.getViewportMode const">
+			<summary>
+			Returns a value indicating the current viewport mode, that determines the type of image to be displayed in the viewport.
+			</summary>  
+			<returns>Current viewport mode. One of the VIEWPORT variables.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.setViewportMode(OpenVR::VIEWPORT)">
+			<summary>
+			Sets the viewport mode, that determines the type of image to be displayed in the viewport.
+			</summary> 
+			<param name="mode"> Viewport mode. One of the VIEWPORT variables. </param> 
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.getMaxTrackedDeviceCount const">
+			<summary>
+			Returns the maximum value of tracked devices.
+			</summary>  
+			<returns>The maximum value of tracked devices.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.getControllerStateAxisCount const">
+			<summary>
+			Returns a number of axes.
+			</summary>  
+			<returns>Number of axes.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.getDeviceAxisType(int,int)">
+			<summary>
+			Returns the value that identifies what type of axis is on the indicated controller.
+			</summary> 
+			<param name="device_num"> Device ID. </param>
+			<param name="axis_num"> Axis number. </param> 
+			<returns>Axis of a corresponding type. One of the AXIS variables.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.getDeviceManufacturerName(int)">
+			<summary>
+			Returns the manufacturer name of the specified device.
+			</summary> 
+			<param name="device"> Device ID. </param> 
+			<returns>Manufacturer name.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.getDeviceModelNumber(int)">
+			<summary>
+			Returns the model of the specified device.
+			</summary> 
+			<param name="device"> Device ID. </param> 
+			<returns>Model.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.getControllerRole(int)">
+			<summary>
+			Returns a specific role associated with a tracked device.
+			</summary> 
+			<param name="device_num"> Device ID. </param> 
+			<returns>Role associated with a tracked device. One of the CONTROLLER_ROLE variables.</returns>
+		</member>
+		<member name="M:Unigine.Plugins.OpenVR.render(Unigine.Ptr{Player},Unigine.Math.ivec2,bool)">
+			<summary>
+			</summary>  
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.VIEWPORT_BLACK_SCREEN">
+			<summary>
+			No image (black screen).
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.VIEWPORT_MONO">
+			<summary>
+			Mono image.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.VIEWPORT_STEREO">
+			<summary>
+			Stereo image (left and right eye).
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.DEVICE_INVALID">
+			<summary>
+			A tracked device with an invalid index.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.DEVICE_HMD">
+			<summary>
+			A tracked head-mounted display.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.DEVICE_CONTROLLER">
+			<summary>
+			A tracked controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.DEVICE_GENERIC_TRACKER">
+			<summary>
+			A tracked tracker device (Vive Tracker).
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.DEVICE_TRACKING">
+			<summary>
+			A tracked camera and base stations that serve as tracking reference points.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.AXIS_NONE">
+			<summary>
+			No axis is identified on the controller.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.AXIS_TRACKPAD">
+			<summary>
+			An axis of a trackpad type.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.AXIS_JOYSTICK">
+			<summary>
+			An axis of a joystick type.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.AXIS_TRIGGER">
+			<summary>
+			An axis of a trigger type.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.BUTTON_SYSTEM">
+			<summary>
+			The system button. These events are not visible to applications and are used internally to bring up the Steam Overlay or the Steam Client.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.BUTTON_APPLICATIONMENU">
+			<summary>
+			The application menu button.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.BUTTON_GRIP">
+			<summary>
+			The grip button.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.BUTTON_DPAD_LEFT">
+			<summary>
+			The sensor panel left button.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.BUTTON_DPAD_UP">
+			<summary>
+			The sensor panel up button.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.BUTTON_DPAD_RIGHT">
+			<summary>
+			The sensor panel right button.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.BUTTON_DPAD_DOWN">
+			<summary>
+			The sensor panel down button.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.BUTTON_A">
+			<summary>
+			The button reserved for manual controllers.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.BUTTON_AXIS0">
+			<summary>
+			The axis reserved for manual controllers.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.BUTTON_AXIS1">
+			<summary>
+			The axis reserved for manual controllers.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.BUTTON_AXIS2">
+			<summary>
+			The axis reserved for manual controllers.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.BUTTON_AXIS3">
+			<summary>
+			The axis reserved for manual controllers.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.BUTTON_AXIS4">
+			<summary>
+			The axis reserved for manual controllers.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.BUTTON_STEAMVR_TOUCHPAD">
+			<summary>
+			The touchpad on the SteamVR controller. It is the same as BUTTON_AXIS0.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.BUTTON_STEAMVR_TRIGGER">
+			<summary>
+			The trigger on the SteamVR controller. It is the same as BUTTON_AXIS1.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.BUTTON_DASHBOARD_BACK">
+			<summary>
+			The back to dashboard button.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.BUTTON_MAX">
+			<summary>
+			This is not an actual button. It just indicates the maximum number of buttons in the system.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.CONTROLLER_ROLE_INVALID">
+			<summary>
+			Invalid value for controller type.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.CONTROLLER_ROLE_LEFT_HAND">
+			<summary>
+			Tracked device is associated with the left hand.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.CONTROLLER_ROLE_RIGHT_HAND">
+			<summary>
+			Tracked device is associated with the right hand.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.CONTROLLER_ROLE_OPT_OUT">
+			<summary>
+			Tracked device is opting out of left/right hand.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.CONTROLLER_ROLE_TREADMILL">
+			<summary>
+			Tracked device is a treadmill.
+		</summary>
+		</member>
+		<member name="F:Unigine.Plugins.OpenVR.CONTROLLER_ROLE_MAX">
+			<summary>
+			Indicates the maximum number of controller roles.
+		</summary>
+		</member>
+	</members>
+</doc>

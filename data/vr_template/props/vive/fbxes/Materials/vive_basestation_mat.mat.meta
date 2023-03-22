@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.16.1.0">
+	<guid>442137272a1bb38b7b01b3bf0d4af460437ef7bd</guid>
+	<type>material</type>
+	<hash>421c6312</hash>
+	<runtimes>
+		<runtime id="442137272a1bb38b7b01b3bf0d4af460437ef7bd" name="vive_basestation_mat" link="0" type="5"/>
+	</runtimes>
+</asset>

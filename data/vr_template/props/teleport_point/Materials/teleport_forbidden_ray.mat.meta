@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.16.1.0">
+	<guid>109731041b080893a59cf4d617daa63dccbab278</guid>
+	<type>material</type>
+	<hash>6d24a4a4</hash>
+	<runtimes>
+		<runtime id="109731041b080893a59cf4d617daa63dccbab278" name="teleport_forbidden_ray" link="0" type="5"/>
+	</runtimes>
+</asset>

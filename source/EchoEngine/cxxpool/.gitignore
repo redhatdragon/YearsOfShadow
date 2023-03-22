@@ -1,0 +1,10 @@
+/.settings
+.project
+.cproject
+*~
+/Debug
+/Release
+*.dot
+*.debug
+*.release
+*.dSYM

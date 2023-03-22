@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.16.1.0">
+	<guid>a2dd7ec666aacd57fc6d0571db038b51deb9fb6e</guid>
+	<type>property</type>
+	<hash>7dfba636</hash>
+	<runtimes>
+		<runtime id="a2dd7ec666aacd57fc6d0571db038b51deb9fb6e" name="handle.prop" link="0" type="4"/>
+	</runtimes>
+</asset>
