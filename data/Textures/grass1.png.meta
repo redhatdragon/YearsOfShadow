@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <asset version="2.16.1.0">
-	<guid>2eef981df00a3ad83f7e0057b276a1ca5da5a6a1</guid>
+	<guid>7c2362a845f1e5e79ee0aa1a6e27f2b17271cc5c</guid>
 	<type>texture</type>
-	<hash>1e377cc4</hash>
+	<hash>7d4d5d03</hash>
 	<runtimes>
-		<runtime id="2eef981df00a3ad83f7e0057b276a1ca5da5a6a1" name="photos_2017_10_6_fst_grass-texture-lawn.jpg" link="0" type="6"/>
-		<runtime id="28af12f8e919b9f77bf4ceea4728b1415f78d9ac" name="photos_2017_10_6_fst_grass-texture-lawn.texture" link="1" type="6"/>
+		<runtime id="7c2362a845f1e5e79ee0aa1a6e27f2b17271cc5c" name="grass1.png" link="0" type="6"/>
+		<runtime id="589efc0bb20121ee0a40807500511750d6a7026f" name="grass1.texture" link="1" type="6"/>
 	</runtimes>
 	<parameters>
 		<parameter type="string" name="height">auto</parameter>

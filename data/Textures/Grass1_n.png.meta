@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<asset version="2.16.1.0">
+	<guid>09a5231ff3d715f275bb7ca917209df4d4da30c3</guid>
+	<type>texture</type>
+	<hash>baa99bf8</hash>
+	<runtimes>
+		<runtime id="09a5231ff3d715f275bb7ca917209df4d4da30c3" name="Grass1_n.png" link="0" type="6"/>
+		<runtime id="bdfc1f4664886ded6f4df66803b9e6a7051533da" name="Grass1_n.texture" link="1" type="6"/>
+	</runtimes>
+	<parameters>
+		<parameter type="string" name="height">auto</parameter>
+		<parameter type="string" name="image_format">ATI2</parameter>
+		<parameter type="string" name="image_type">2d</parameter>
+		<parameter type="bool" name="invert_g">0</parameter>
+		<parameter type="string" name="mipmap_type">box</parameter>
+		<parameter type="string" name="preset_name">normal map (rg)</parameter>
+		<parameter type="bool" name="srgb_correction">0</parameter>
+		<parameter type="bool" name="unchanged">0</parameter>
+		<parameter type="string" name="width">auto</parameter>
+	</parameters>
+</asset>

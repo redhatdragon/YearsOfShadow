@@ -182,7 +182,7 @@
 		<render_bent_normal_ray_tracing>1</render_bent_normal_ray_tracing>
 		<render_bent_normal_ray_tracing_denoise>0</render_bent_normal_ray_tracing_denoise>
 		<render_bent_normal_ray_tracing_threshold>1</render_bent_normal_ray_tracing_threshold>
-		<render_bloom>1</render_bloom>
+		<render_bloom>0</render_bloom>
 		<render_bloom_passes>6</render_bloom_passes>
 		<render_bloom_power>1</render_bloom_power>
 		<render_bloom_resolution>0</render_bloom_resolution>
@@ -589,7 +589,7 @@
 		<render_textures_max_resolution>6</render_textures_max_resolution>
 		<render_textures_min_resolution>0</render_textures_min_resolution>
 		<render_textures_quality>2</render_textures_quality>
-		<render_tonemapper>1</render_tonemapper>
+		<render_tonemapper>0</render_tonemapper>
 		<render_tonemapper_mode>2</render_tonemapper_mode>
 		<render_translucent_color>1 1 1 1</render_translucent_color>
 		<render_transparent_ambient>1</render_transparent_ambient>
@@ -628,7 +628,7 @@
 		<render_water_visible_distance>30000</render_water_visible_distance>
 		<render_water_voxel_probes>1</render_water_voxel_probes>
 		<render_water_waterline_accuracy>0</render_water_waterline_accuracy>
-		<render_white_balance>1</render_white_balance>
+		<render_white_balance>0</render_white_balance>
 		<render_white_balance_adaptation_time>1</render_white_balance_adaptation_time>
 		<render_white_balance_intensity>0.300000012</render_white_balance_intensity>
 		<render_wireframe_antialiasing>1</render_wireframe_antialiasing>

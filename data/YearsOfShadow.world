@@ -197,7 +197,7 @@
 		<render_bent_normal_ray_tracing>1</render_bent_normal_ray_tracing>
 		<render_bent_normal_ray_tracing_denoise>0</render_bent_normal_ray_tracing_denoise>
 		<render_bent_normal_ray_tracing_threshold>1</render_bent_normal_ray_tracing_threshold>
-		<render_bloom>1</render_bloom>
+		<render_bloom>0</render_bloom>
 		<render_bloom_passes>6</render_bloom_passes>
 		<render_bloom_power>1</render_bloom_power>
 		<render_bloom_resolution>0</render_bloom_resolution>
@@ -604,7 +604,7 @@
 		<render_textures_max_resolution>6</render_textures_max_resolution>
 		<render_textures_min_resolution>0</render_textures_min_resolution>
 		<render_textures_quality>2</render_textures_quality>
-		<render_tonemapper>1</render_tonemapper>
+		<render_tonemapper>0</render_tonemapper>
 		<render_tonemapper_mode>2</render_tonemapper_mode>
 		<render_translucent_color>1 1 1 1</render_translucent_color>
 		<render_transparent_ambient>1</render_transparent_ambient>
@@ -643,7 +643,7 @@
 		<render_water_visible_distance>30000</render_water_visible_distance>
 		<render_water_voxel_probes>1</render_water_voxel_probes>
 		<render_water_waterline_accuracy>0</render_water_waterline_accuracy>
-		<render_white_balance>1</render_white_balance>
+		<render_white_balance>0</render_white_balance>
 		<render_white_balance_adaptation_time>1</render_white_balance_adaptation_time>
 		<render_white_balance_intensity>0.300000012</render_white_balance_intensity>
 		<render_wireframe_antialiasing>1</render_wireframe_antialiasing>
@@ -745,7 +745,7 @@
 		</node>
 		<node type="NodeLayer" id="1288429609" name="vr_layer">
 			<layer>guid://b03195226669367d96539fcd0e3123eb67801c46</layer>
-			<transform>0.999999880791 0 0 0.0 0 0.999999880791 0 0.0 0 0 0.999999940395 0.0 0 0 -99.8447114507 1.0</transform>
+			<transform>0.999999880791 0 0 0.0 0 0.999999880791 0 0.0 0 0 0.999999940395 0.0 0 0 -150 1.0</transform>
 		</node>
 		<node type="NodeDummy" id="1521463490" name="Cube2">
 			<transform>1 1.25134720854e-22 1.54980178403e-15 0.0 -7.01859771012e-23 1 -3.54553364446e-08 0.0 -1.54980178403e-15 3.54553364446e-08 1 0.0 0 0 -1.19209282398e-07 1.0</transform>
@@ -753,7 +753,7 @@
 		<node type="ObjectMeshStatic" id="1315167217" name="Plane">
 			<mesh_name>guid://b763c0dd20eccc983cd1e7178669d98a7af5fb61</mesh_name>
 			<surface name="plane" collision="1" intersection_mask="0x3" material="4dfec30f491f753f6e89094db6d3d695e89f9d6f"/>
-			<transform>1 0 0 0.0 0 1 0 0.0 0 0 1 0.0 0 0 -100 1.0</transform>
+			<transform>1 0 0 0.0 0 1 0 0.0 0 0 1 0.0 0 0 -150 1.0</transform>
 		</node>
 	</editor>
 	<console>

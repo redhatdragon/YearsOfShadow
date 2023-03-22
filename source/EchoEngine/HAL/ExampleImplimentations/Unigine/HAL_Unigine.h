@@ -65,12 +65,12 @@ void EE_drawMesh(void* meshID) {
 //void translateMesh(void* meshID, float x, float y, float z) {
 //	meshPtrPool[(size_t)meshID]->translate({ x * visualScale, y * visualScale, z * visualScale });
 //}
-void EE_setTextureSubmesh(void* meshID, uint8_t submeshIndex, uint8_t textureIndex, const char* path) {
+void EE_setTextureSubmesh(void* meshID, uint8_t submeshIndex, const char* textureType, const char* path) {
 	Unigine::ObjectMeshDynamicPtr meshPtr;
 	memcpy(&meshPtr, &meshID, sizeof(void*));
 	//mesh->setMaterialTexture("diffuse", path, submeshIndex);
 	//mesh->setMaterialTexture("albedo", "core/textures/common/noise.dds", submeshIndex);
-	meshPtr->setMaterialTexture("albedo", path, submeshIndex);
+	meshPtr->setMaterialTexture(textureType, path, submeshIndex);
 
 	//// update texture
 	//MaterialPtr material = mesh->getMaterialInherit(0);
@@ -120,7 +120,7 @@ void* EE_getNewInstancedMesh(const char* filePath) {
 	//instancedMeshPtr->setMaterialTexture("albedo", "Textures/photos_2017_10_6_fst_grass-texture-lawn.jpg", 0);
 	void* meshID = (void*)meshClusterPtrPool.size();
 	meshClusterPtrPool.push_back(instancedMeshPtr);
-	instancedMeshPtr->setMaxVisibleDistance(16*12, 0);
+	instancedMeshPtr->setMaxVisibleDistance((16*12) / 2, 0);
 	return meshID;
 }
 void EE_releaseInstancedMesh(void* meshID) {
@@ -154,7 +154,7 @@ void EE_setInstancedMeshScale(void* meshID, EE_Point3Df scale) {
 }
 void EE_setInstancedSubmeshTexture(void* meshID, uint8_t submeshIndex, const char* textureType, const char* path) {
 	auto& cluster = meshClusterPtrPool[(size_t)meshID];
-	cluster->setMaterialTexture("albedo", path, 0);
+	cluster->setMaterialTexture(textureType, path, 0);
 }
 
 void EE_setCameraRotation(float rx, float ry, float rz) {

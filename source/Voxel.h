@@ -63,7 +63,8 @@ public:
 		path += "Meshes/Cube2.fbx/cube.001.mesh";
 		blockMesh = EE_getNewInstancedMesh(path.c_str());
 		EE_setInstancedMeshScale(blockMesh, { 100, 100, 100 });
-		EE_setInstancedSubmeshTexture(blockMesh, 0, 0, "Textures/photos_2017_10_6_fst_grass-texture-lawn.jpg");
+		EE_setInstancedSubmeshTexture(blockMesh, 0, "albedo", "Textures/Grass1.png");
+		EE_setInstancedSubmeshTexture(blockMesh, 0, "normal", "Textures/Grass1_n.png");
 		//EE_setTextureSubmesh(blockMesh, 0, 0, "../data/Textures/Grass2.png");
 
 		for (uint32_t z = 0; z < depth; z++)
