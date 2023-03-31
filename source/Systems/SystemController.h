@@ -28,11 +28,10 @@ public:
 		Controller controller = {};
 		controller.cam.init();
 		ecs.emplace(entity, controllerComponentID, &controller);
-
-		EE_setMouseEnable(true);
-		EE_setMouseCursorHide(true);
 	}
 	virtual void run() {
+		EE_setMouseEnable(true);
+		EE_setMouseCursorHide(true);
 		if (ecs.getComponentCount(controllerComponentID) == 0)
 			return;
 		Controller* controller = (Controller*)ecs.getComponentBuffer(controllerComponentID);
