@@ -54,7 +54,6 @@ public:
 		};
 
 		FPSCamera& cam = controller->cam;
-		float mouseX = 1.0f, mouseY = 1.0f;
 		cam.setPosition(pos.x.getAsFloat(), pos.y.getAsFloat(), pos.z.getAsFloat());
 		cam.ProcessMouseMovement(mouseOffset.x, mouseOffset.y);
 		Vec3D<float> newRotF;
