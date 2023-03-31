@@ -29,7 +29,7 @@ public:
 		}
 	}
 	virtual void run() {
-		for(uint32_t i = 0; i < 1 * 4; i++)
+		for(uint32_t i = 0; i < 1; i++)
 			spawnRandom();
 
 		register uint32_t explodeCount = ecs.getComponentCount(explodeComponentID);
