@@ -21,7 +21,7 @@ public:
 		meshComponentID = ecs.registerComponent("mesh", sizeof(void*));
 		deadComponentID = ecs.registerComponent("dead", NULL);
 
-		constexpr uint32_t maxExplodiesSqrt = 10*2;
+		constexpr uint32_t maxExplodiesSqrt = 10*1;
 		for (uint32_t i = 0; i < maxExplodiesSqrt; i++) {
 			for (uint32_t j = 0; j < maxExplodiesSqrt; j++) {
 				spawnRandom();
@@ -29,7 +29,7 @@ public:
 		}
 	}
 	virtual void run() {
-		for(uint32_t i = 0; i < 1 * 4 * 4; i++)
+		for(uint32_t i = 0; i < 1 * 4; i++)
 			spawnRandom();
 
 		register uint32_t explodeCount = ecs.getComponentCount(explodeComponentID);
@@ -96,7 +96,7 @@ private:
 
 		redo:
 		overlappingBodies.clear();
-		Vec3D<uint32_t> pos = { rand() % (70 * 3), 40, rand() % (70 * 3) };
+		Vec3D<uint32_t> pos = { rand() % (70 * 2), 40, rand() % (70 * 2) };
 		pos.x += 30; pos.z += 30;
 		overlappingBodies = physics.getBodiesInRectRough(pos, siz);
 		if (overlappingBodies.size())

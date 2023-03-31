@@ -48,6 +48,7 @@ void EE_pushMatrix();
 void EE_popMatrix();
 
 void* EE_getNewCamera();
+void EE_cameraLookAt(void* self, float x, float y, float z);
 void EE_setCameraRotation(void* self, float x, float y, float z);
 void EE_setCameraPos(void* self, float x, float y, float z);
 void EE_useCamera(void* self);

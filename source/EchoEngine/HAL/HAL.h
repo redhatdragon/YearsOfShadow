@@ -49,6 +49,8 @@ extern "C" {
 	void EE_getMouseState(uint8_t* leftButton, uint8_t* middleButton, uint8_t* rightButton);
 	void EE_getMouseCanvasPos(int* x, int* y);
 	void EE_setMouseCanvasPos(int x, int y);
+	void EE_setMouseCursorHide(uint8_t isTrue);
+	void EE_setMouseEnable(uint8_t isTrue);
 
 	//void getWindowSize(unsigned int *width, unsigned int *height);
 	//void setWindowSize(unsigned int width, unsigned int height);

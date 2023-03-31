@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <nodes version="2.16.1.0">
-	<node type="NodeDummy" id="1807330459" name="VR">
+	<node type="NodeDummy" id="1807330459" enabled="0" name="VR">
 		<transform>0.999999762372 -2.38418550868e-07 0 0.0 2.38418550868e-07 0.999999762372 0 0.0 0 0 1.0000000004 0.0 0 0 0 1.0</transform>
 		<node type="PlayerDummy" id="757766267" name="spawn_point">
 			<znear>0.00999999978</znear>

@@ -120,6 +120,11 @@ struct Vec3D {
 		y = (y * num);
 		z = (z * num);
 	}
+	__forceinline void operator*=(Vec3D& other) {
+		x = (x * other.x);
+		y = (y * other.y);
+		z = (z * other.z);
+	}
 	__forceinline Vec3D<T> operator+(const Vec3D& other) const {
 		return { x + other.x, y + other.y, z + other.z };
 	}
@@ -131,6 +136,9 @@ struct Vec3D {
 	}
 	__forceinline Vec3D<T> operator*(const T num) const {
 		return { x * num, y * num, z * num };
+	}
+	__forceinline Vec3D<T> operator*(const Vec3D& other) const {
+		return { x * other.x, y * other.y, z * other.z };
 	}
 	__forceinline bool isZero() {
 		if (x == 0 && y == 0 && z == 0)

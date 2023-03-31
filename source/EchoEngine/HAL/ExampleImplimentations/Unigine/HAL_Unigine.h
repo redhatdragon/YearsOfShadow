@@ -5,10 +5,45 @@
 #include <UnigineObjects.h>
 #include "../../Framework/Components/Players/VRPlayerVR.h"
 #include <vector>
+#include <iostream>
+
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32)
+#include <windows.h>
+#else
+#include <X11/Xlib.h>
+#endif
 
 
 
 //HAL
+void EE_getMouseCanvasPos(int* x, int* y) {
+	auto pos = Unigine::Input::getMousePosition();
+	*x = pos.x; *y = pos.y;
+}
+void EE_setMouseCanvasPos(int x, int y) {
+	Unigine::Input::setMousePosition({ x, y });
+	Unigine::Input::setMouseCursorNeedUpdate(true);
+	Unigine::Input::updateMouseCursor();
+}
+void EE_setMouseCursorHide(uint8_t isTrue) {
+	Unigine::Input::setMouseCursorHide(true);
+}
+void EE_setMouseEnable(uint8_t isTrue) {
+	Unigine::ControlsApp::setMouseEnabled(isTrue);
+}
+
+void EE_getCanvasSize(unsigned int* width, unsigned int* height) {
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32)
+	*width = GetSystemMetrics(SM_CXSCREEN);
+	*height = GetSystemMetrics(SM_CYSCREEN);
+#else
+	Display* disp = XOpenDisplay(NULL);
+	Screen* scrn = DefaultScreenOfDisplay(disp);
+	*width = scrn->width;
+	*height = scrn->height;
+#endif
+}
+
 const char* EE_getDirData() {
 	return "./";
 }
@@ -157,40 +192,74 @@ void EE_setInstancedSubmeshTexture(void* meshID, uint8_t submeshIndex, const cha
 	cluster->setMaterialTexture(textureType, path, 0);
 }
 
-void EE_setCameraRotation(float rx, float ry, float rz) {
-	fixYZ(ry, rz);
-	/*VRPlayer* p = VRPlayerVR::get();
-	CameraPtr cam = p->getPlayer()->getCamera();
-	NodePtr head = p->getHead();
-	Unigine::Math::Vec3 headPos = head->getPosition();
-
-	Unigine::Math::Vec3 camPos = cam->getPosition();*/
-	PlayerPtr p = Unigine::Game::getPlayer();
-	CameraPtr cam = p->getCamera();
-	auto pos = p->getPosition();
-	p->setViewDirection({ rx, ry, rz });
-	p->setPosition(pos);  //TODO: verify if requierd
+void* EE_getNewCamera() {
+	PlayerDummyPtr player = PlayerDummy::create();
+	player->setPosition(Vec3(0, 0, -145));
+	//player->setDirection(vec3(0.0f, -1.0f, -0.5f), vec3_up);
+	player->setMainPlayer(true);
+	void* retValue;
+	memcpy(&retValue, &player, sizeof(player));
+	return retValue;
 }
-//void rotateCamera(float rx, float ry, float rz) {
-//
-//}
-void EE_setCameraPos(void* self, float x, float y, float z) {
+void EE_cameraLookAt(void* self, float x, float y, float z) {
+	PlayerDummyPtr player;
+	memcpy(&player, &self, sizeof(player));
 	fixYZ(y, z);
-	//VRPlayer* p = VRPlayerVR::get();
-	PlayerPtr p = Unigine::Game::getPlayer();
 
-	//CameraPtr cam = p->getPlayer()->getCamera();
-	CameraPtr cam = p->getCamera();
-	auto rot = p->getViewDirection();
+	//float t = x;
+	//x = z;
+	//z = -t;
+	////y = -30;
+
+	Vec3 atPos = { x, y, z };
+	player->worldLookAt({x, y, z});
+
+	//auto pos = player->getWorldPosition();
+	//std::cout << "StartPos: " << pos.x << ", " << pos.y << ", " << pos.z
+	//	<< "; AtPos: " << atPos.x << ", " << atPos.y << ", " << atPos.z << std::endl;
+}
+void EE_setCameraRotation(void* self, float rx, float ry, float rz) {
+	PlayerDummyPtr player;
+	memcpy(&player, &self, sizeof(player));
+	fixYZ(ry, rz);
+	//constexpr float C_PI = 3.14159265358979323846f;
+	//rx = rx * ((float)C_PI / 180);
+	//ry = ry * ((float)C_PI / 180);
+	//rz = rz * ((float)C_PI / 180);
+	//rx = rx * ((float)180 / C_PI);
+	//ry = ry * ((float)180 / C_PI);
+	//rz = rz * ((float)180 / C_PI);
+	Unigine::Math::quat q = {};
+	q.set(rx, ry, rz);
+	vec3 vec;
+	vec = q.getNormal();
+	//player->setWorldRotation({ rx, ry, rz });
+	//player->setWorldRotation(q);
+
+	//player->setPosition(player->getPosition());
+	//player->setDirection({ rx, ry, rz }, vec3_up);
+	//player->setDirection(vec, vec3_up);
+
+	//auto pos = player->getPosition();
+	//Vec3 atPos = pos;
+	//atPos.x *= rx; atPos.y *= ry; atPos.z *= rz;
+	//player->worldLookAt(atPos);
+
+	//player->setViewDirection({ rx, ry, rz });
+	
+	//CameraPtr cam = player->getCamera();
+	//auto pos = player->getPosition();
+	//player->setViewDirection({ rx, ry, rz });
+	//player->setPosition(pos);  //TODO: verify if requierd
+}
+void EE_setCameraPos(void* self, float x, float y, float z) {
+	PlayerDummyPtr player;
+	memcpy(&player, &self, sizeof(player));
+	fixYZ(y, z);
+	CameraPtr cam = player->getCamera();
+	//auto rot = player->getViewDirection();
 	Unigine::Math::Vec3 pos = { x, y, z };
 	pos *= visualScale;
-	//p->setPosition(pos);
-	//p->setWorldPosition(p->getWorldPosition()-pos);
-	p->setWorldPosition(pos);
-	p->setViewDirection(rot);  //seems required for some reason..
-
-	//cam->setPosition({ x, y, z });
+	player->setWorldPosition(pos);
+	//player->setViewDirection(rot);  //seems required for some reason..
 }
-//void getRotationCamera(void* self, float* rx, float* ry, float* rz) {
-//
-//}

@@ -21,73 +21,11 @@
 
 
 void EE_appStart() {
-	//testMesh = EE_getNewMesh("Meshes/Cube2.fbx/cube.001.mesh");
-	//EE_setPositionMesh(testMesh, 100, 100, 100);
-	//EE_setTextureSubmesh(testMesh, 0, 0, "Textures/photos_2017_10_6_fst_grass-texture-lawn.jpg");
-	//EE_setScaleMesh(testMesh, 10, 10, 10);
-
-	//uint32_t maxRoot = 100;
-	//for (uint32_t i = 0; i < maxRoot; i++) {
-	//	for (uint32_t j = 0; j < maxRoot; j++) {
-	//		void* mesh = EE_getNewMesh("Meshes/Cube2.fbx/cube.001.mesh");
-	//		EE_setPositionMesh(mesh, 100 + i * 100, 100 + j * 100, 200);
-	//		EE_setTextureSubmesh(mesh, 0, 0, "Textures/photos_2017_10_6_fst_grass-texture-lawn.jpg");
-	//		EE_setScaleMesh(mesh, 50, 50, 50);
-	//	}
-	//}
-
-	//uint32_t maxRoot = 100;
-	//std::vector<EE_Point3Df> positions;
-	//positions.reserve(maxRoot * maxRoot);
-	//void* instancedMesh = EE_getNewInstancedMesh("Meshes/Cube2.fbx/cube.001.mesh");
-	//for (uint32_t i = 0; i < maxRoot; i++) {
-	//	for (uint32_t j = 0; j < maxRoot; j++) {
-	//		for (uint32_t k = 0; k < maxRoot; k++) {
-	//			EE_Point3Df p = { 100 + i * 100, 100 + j * 100, 200 + k * 100 };
-	//			positions.push_back(p);
-	//		}
-	//	}
-	//}
-	//EE_setInstancedMeshPos(instancedMesh, &positions[0], positions.size());
-
-	//physics.init();
-	//voxelWorld.init(100, 0, 0, 0);
-	//testMesh = EE_getNewMesh("Meshes/Cube2.fbx/cube.001.mesh");
-	////EE_setTextureSubmesh(testMesh, 0, 0, "Textures/photos_2017_10_6_fst_grass-texture-lawn.jpg");
-	//EE_setScaleMesh(testMesh, 50*2, 50*2, 50*2);
-	//testBody = physics.addBodyBox(10, 0, 10, 1, 1, 1);
-	//physics.setSolid(testBody, true);
-	//physics.setVelocity(testBody, 0, "0.1f", 0);
-	////EE_setPositionMesh(testMesh, 10, 20, 10);
-	//
-	//testMesh2 = EE_getNewMesh("Meshes/Cube2.fbx/cube.001.mesh");
-	////EE_setTextureSubmesh(testMesh, 0, 0, "Textures/photos_2017_10_6_fst_grass-texture-lawn.jpg");
-	//EE_setScaleMesh(testMesh2, 50 * 2, 50 * 2, 50 * 2);
-	////testBody2 = physics.addBodyBox(10, 150, 10, 1, 1, 1);
-	//testBody2 = physics.addBodyBox(10, 25, 10, 1, 1, 1);
-	//physics.setVelocity(testBody2, 0, "0.1f", 0);
-	//physics.setSolid(testBody2, true);
 	testFlatFlaggedBuffer();
 	initSystems();
 }
 void EE_appLoop() {
-	//voxelWorld.display();
-	//auto pos = physics.getPos<uint32_t>(testBody);
-	//EE_setPositionMesh(testMesh, pos.x, pos.y, pos.z);
-	//pos = physics.getPos<uint32_t>(testBody2);
-	//EE_setPositionMesh(testMesh2, pos.x, pos.y, pos.z);
-	////EE_setPositionMesh(testMesh, 10, 20, 10);
-	//EE_drawMesh(testMesh);
-	//physics.tick();
 	ecs.runSystems();
-	//std::cout << physics.getBodyCount() << std::endl;
-	//for (auto& str : physics.getDbgInfo())
-	//	std::cout << str << std::endl;
-
-	//std::vector<std::string> dbgInfo = ecs.getDebugInfoStr();
-	//for (auto& str : dbgInfo) {
-	//	std::cout << str << std::endl;
-	//}
 }
 void EE_appEnd() {
 
@@ -117,6 +55,8 @@ int AppWorldLogic::init() {
 ////////////////////////////////////////////////////////////////////////////////
 
 int AppWorldLogic::update() {
+	EE_appLoop();
+
 	// Write here code to be called before updating each render frame: specify all graphics-related functions you want to be called every frame while your application executes.
 	return 1;
 }
@@ -160,7 +100,6 @@ int AppWorldLogic::restore(const Unigine::StreamPtr& stream)
 }
 
 int AppWorldLogic::swap() {
-	EE_appLoop();
 
 	return 1;
 }

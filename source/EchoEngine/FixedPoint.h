@@ -122,7 +122,7 @@ public:
 	}
 	inline float getAsFloat() const {
 		if (data == 0) return 0;  //TODO: consider if this is needed and where else it may be needed to avoid runtime crashing.
-		return ((float)data) / decScale;
+		return ((float)(int32_t)data) / decScale;
 	}
 	inline int32_t getRaw() const {
 		return data;

@@ -103,6 +103,8 @@
     <ClInclude Include="AppEditorLogic.h" />
     <ClInclude Include="AppSystemLogic.h" />
     <ClInclude Include="AppWorldLogic.h" />
+    <ClInclude Include="FPSCamera.h" />
+    <ClInclude Include="FP_FPSCamera.h" />
     <ClInclude Include="Framework\Components\Objects\ObjHandle.h" />
     <ClInclude Include="Framework\Components\Objects\ObjMovable.h" />
     <ClInclude Include="Framework\Components\Objects\ObjSwitch.h" />

@@ -43,6 +43,7 @@ constexpr uint64_t sizeOfECS = sizeof(ecs);
 #include "SystemPhysics.h"
 #include "SystemVoxel.h"
 #include "SystemExplosionTest.h"
+#include "SystemController.h"
 
 #include "SystemDisplay.h"
 
@@ -54,6 +55,8 @@ void meshDestructor(ComponentID id, uint32_t index) {
 	EE_releaseMesh(mesh);
 }
 
+#include <UniginePlayers.h>
+
 void initSystems() {
 	ComponentID meshComponentID = ecs.registerComponent("mesh", sizeof(void*));
 	ecs.registerDestructor(meshComponentID, meshDestructor);
@@ -62,6 +65,7 @@ void initSystems() {
 	ecs.registerSystem<SystemPhysics>();
 	ecs.registerSystem<SystemVoxel>();
 	ecs.registerSystem<SystemExplosionTest>();
+	ecs.registerSystem<SystemController>();
 
 	ecs.registerSystem<SystemDisplay>();
 }
