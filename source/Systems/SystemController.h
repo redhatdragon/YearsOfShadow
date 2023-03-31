@@ -33,8 +33,6 @@ public:
 		EE_setMouseCursorHide(true);
 	}
 	virtual void run() {
-		float time = (float)(clock() - end) / (float)CLOCKS_PER_SEC;
-
 		if (ecs.getComponentCount(controllerComponentID) == 0)
 			return;
 		Controller* controller = (Controller*)ecs.getComponentBuffer(controllerComponentID);
