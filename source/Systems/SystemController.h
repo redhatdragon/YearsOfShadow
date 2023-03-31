@@ -1,13 +1,10 @@
 #pragma once
 #include INC_UTILS_PATH(ENGINE_PATH, DDECS.h)
 #include INC_UTILS_PATH(ENGINE_PATH, PhysicsEngineAABB3D.h)
-//#include "../FP_FPSCamera.h"
 #include "../FPSCamera.h"
 #include <iostream>
 
 struct Controller {
-	//Vec3D<FixedPoint<256 * 256>> pos, rot;
-	//Vec3D<FixedPoint<256 * 256>> rot;
 	FPSCamera cam;
 };
 
@@ -29,7 +26,6 @@ public:
 		BodyID bodyID = physics.addStaticBodyBox(30, 155, 30, 1, 1, 1);
 		ecs.emplace(entity, bodyComponentID, &bodyID);
 		Controller controller = {};
-		//controller.cam.init({ 30, 155, 30 });  //useful?
 		controller.cam.init();
 		ecs.emplace(entity, controllerComponentID, &controller);
 
@@ -37,9 +33,7 @@ public:
 		EE_setMouseCursorHide(true);
 	}
 	virtual void run() {
-		clock_t end;
 		float time = (float)(clock() - end) / (float)CLOCKS_PER_SEC;
-		//std::cout << time << std::endl;
 
 		if (ecs.getComponentCount(controllerComponentID) == 0)
 			return;
@@ -61,12 +55,10 @@ public:
 			(float)mouseDelta.x / ((float)winDimensions.x / 2),
 			(float)mouseDelta.y / ((float)winDimensions.y / 2)
 		};
-		//std::cout << winDimensions.getDebugStr<int32_t>() << std::endl;
 
 		FPSCamera& cam = controller->cam;
 		float mouseX = 1.0f, mouseY = 1.0f;
 		cam.setPosition(pos.x.getAsFloat(), pos.y.getAsFloat(), pos.z.getAsFloat());
-		//cam.ProcessMouseMovement(mouseX, mouseY);
 		cam.ProcessMouseMovement(mouseOffset.x, mouseOffset.y);
 		Vec3D<float> newRotF;
 		cam.getWorldLookAtPos(newRotF.x, newRotF.y, newRotF.z);
@@ -74,28 +66,9 @@ public:
 		EE_cameraLookAt(EE_camera, newRotF.x, newRotF.y, newRotF.z);
 
 		EE_setMouseCanvasPos(winDimensions.x / 2, winDimensions.y / 2);
-
-		end = clock();
 	}
 	virtual const char* getName() {
 		return "SystemController";
 	}
 private:
-	void loopBetween(float& input, float max) {
-		if (input > max) {
-			//input = -(input - (input / max) * max);
-			input = -max;
-			return;
-		}
-		if (input < -max) {
-			//input = -(input + (-input / max) * max);
-			input = max;
-		}
-	}
-	void radianToDegree(float& input) {
-		input = input * ((float)180 / 3.141592653589793238463);
-	}
-	void degreeToRadian(float& input) {
-		input = input * ((float)3.141592653589793238463 / 180);
-	}
 };
