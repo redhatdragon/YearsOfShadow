@@ -12,7 +12,6 @@ class SystemController : public System {
 	ComponentID bodyComponentID;
 	ComponentID controllerComponentID;
 	void* EE_camera;
-	float x;
 
 public:
 	virtual void init() {
@@ -20,7 +19,6 @@ public:
 		controllerComponentID = ecs.registerComponent("controller", sizeof(Controller));
 		Unigine::Input::getMouseDeltaPosition();
 		EE_camera = EE_getNewCamera();
-		x = 0;
 
 		EntityID entity = ecs.getNewEntity();
 		BodyID bodyID = physics.addStaticBodyBox(30, 155, 30, 1, 1, 1);
