@@ -74,11 +74,9 @@
     <ClCompile Include="AppEditorLogic.cpp" />
     <ClCompile Include="AppSystemLogic.cpp" />
     <ClCompile Include="AppWorldLogic.cpp" />
-    <ClCompile Include="EchoEngine\Asset.cpp" />
     <ClCompile Include="EchoEngine\BitBool\BitBool.cpp" />
     <ClCompile Include="EchoEngine\HAL\HAL.cpp" />
-    <ClCompile Include="EchoEngine\Name.cpp" />
-    <ClCompile Include="EchoEngine\Widget.cpp" />
+    <ClCompile Include="EchoEngine\Sources.cpp" />
     <ClCompile Include="Framework\Components\Objects\ObjHandle.cpp" />
     <ClCompile Include="Framework\Components\Objects\ObjMovable.cpp" />
     <ClCompile Include="Framework\Components\Objects\ObjSwitch.cpp" />

@@ -1,6 +1,7 @@
 #pragma once
 #include INC_UTILS_PATH(ENGINE_PATH, DDECS.h)
 #include INC_UTILS_PATH(ENGINE_PATH, PhysicsEngineAABB3D.h)
+//#include "../FP_FPSCamera.h"  //Postoned till fixed
 #include "../FPSCamera.h"
 #include <iostream>
 
@@ -52,12 +53,13 @@ public:
 		};
 
 		FPSCamera& cam = controller->cam;
-		cam.setPosition(pos.x.getAsFloat(), pos.y.getAsFloat(), pos.z.getAsFloat());
+		cam.setPosition({ pos.x.getAsFloat(), pos.y.getAsFloat(), pos.z.getAsFloat() });
+		//cam.setPosition(pos);
 		cam.ProcessMouseMovement(mouseOffset.x, mouseOffset.y);
-		Vec3D<float> newRotF;
-		cam.getWorldLookAtPos(newRotF.x, newRotF.y, newRotF.z);
+		auto lookAt = cam.getWorldLookAtPos();
 		EE_setCameraPos(EE_camera, pos.x.getAsFloat(), pos.y.getAsFloat(), pos.z.getAsFloat());
-		EE_cameraLookAt(EE_camera, newRotF.x, newRotF.y, newRotF.z);
+		EE_cameraLookAt(EE_camera, lookAt.x, lookAt.y, lookAt.z);
+		//EE_cameraLookAt(EE_camera, lookAt.x.getAsFloat(), lookAt.y.getAsFloat(), lookAt.z.getAsFloat());
 
 		EE_setMouseCanvasPos(winDimensions.x / 2, winDimensions.y / 2);
 	}

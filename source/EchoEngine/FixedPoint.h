@@ -218,6 +218,90 @@ public:
 	}
 };
 
+
+constexpr uint32_t _FP_MAX_SIN_INPUT = 7;
+extern FixedPoint<256 * 256> _sinLookupTable16[256 * 256 * 2 * _FP_MAX_SIN_INPUT];
+extern FixedPoint<256 * 256> _cosinLookupTable16[256 * 256 * 2 * _FP_MAX_SIN_INPUT];
+extern FixedPoint<256> _sinLookupTable8[256 * 2 * _FP_MAX_SIN_INPUT];
+extern FixedPoint<256> _cosinLookupTable8[256 * 2 * _FP_MAX_SIN_INPUT];
+extern void initFixedPointUtilities();
+extern void setupFixedPointTableFiles();
+
+template<uint32_t decScale>
+inline FixedPoint<decScale> factorial(FixedPoint<decScale> val) {
+	if (val == 0) {
+		return 1;
+	}
+	return val * (factorial(val - 1));
+}
+template<uint32_t decScale>
+inline FixedPoint<decScale> power(FixedPoint<decScale> val, FixedPoint<decScale> power) {
+	FixedPoint<decScale> result = val;
+	for (FixedPoint<decScale> i = 1; i < power; i+=1) {
+		result = val * result;
+	}
+	return result;
+}
+template<uint32_t decScale>  //Potentially still doesn't work
+inline FixedPoint<decScale> fmod(FixedPoint<decScale> a, FixedPoint<decScale> b) {
+	//FixedPoint<decScale> frac = a / b;
+	//int32_t floor;
+	//if (frac > 0)
+	//	floor = frac.getAsInt();
+	//else {
+	//	frac.setRaw(frac.getRaw() - 1);
+	//	floor = frac.getAsInt();
+	//}
+	//return a - b * floor;
+
+	//return ((FixedPoint<decScale>)(a.getRaw() % b.getRaw())) / decScale;
+
+	auto result = a;
+	while (result >= b) {
+		auto scaledB = b;
+		while (scaledB * 10 < result)
+			scaledB *= 10;
+		while (result > scaledB)
+			result -= scaledB;
+	}
+	return result;
+}
+
+inline FixedPoint<256 * 256> sin16(FixedPoint<256 * 256> a) {
+	if (a > 7 || a < -7) {
+		std::cout << "Error: sin16() input invalid, should be between -7 and 7, value is: "
+			<< a.getAsString();
+		throw;
+	}
+	return sin(a.getAsFloat());
+	int32_t index;
+	if (a < 0) {
+		a = -a;
+		index = a.getRaw() + 256 * 256 * _FP_MAX_SIN_INPUT;
+	} else
+		index = a.getRaw();
+	return _sinLookupTable16[index];
+}
+inline FixedPoint<256 * 256> cosin16(FixedPoint<256 * 256> a) {
+	if (a > 7 || a < -7) {
+		std::cout << "Error: cosin16() input invalid, should be between -7 and 7, value is: "
+			<< a.getAsString();
+		throw;
+	}
+	float f = a.getAsFloat();
+	float fresult = cos(f);
+	FixedPoint<256 * 256> retValue = fresult;
+	return retValue;
+	int32_t index;
+	if (a < 0) {
+		a = -a;
+		index = a.getRaw() + 256 * 256 * _FP_MAX_SIN_INPUT;
+	}
+	else
+		index = a.getRaw();
+	return _cosinLookupTable16[index];
+}
+
 /*FixedPoint<> sqrt(FixedPoint<> number) {
 	//return fp_sqrt(number.getRaw(), 8);
 	return sqrt(number.getAsFloat());

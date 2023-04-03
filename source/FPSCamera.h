@@ -56,31 +56,12 @@ public:
     /*glm::mat4 GetViewMatrix() {
         return glm::lookAt(Position, Position + Front, Up);
     }*/
-
-    //TODO: FIX THESE TO BE SCREEN SPACE!
-    void getFront(float& x, float& y, float& z) {
-        x = front.x;
-        y = -front.y;
-        z = -front.z;
-        //translateGLToScreen3D(x, y, z);
+    Vec3D<DECIMAL_TYPE> getWorldLookAtPos() {
+        Vec3D<DECIMAL_TYPE> atPos = front;
+        return front + position;
     }
-    void getRight(float& x, float& y, float& z) {
-        x = right.x;
-        y = -right.y;
-        z = -right.z;
-        //translateGLToScreen3D(x, y, z);
-    }
-    void getWorldLookAtPos(float& x, float& y, float& z) {
-        Vec3D<float> atPos = front;
-        //Vec3D<float> atPos;
-        //getFront(atPos.x, atPos.y, atPos.z);
-        x = position.x + atPos.x;
-        y = position.y + atPos.y;
-        z = position.z + atPos.z;
-        //std::cout << "StartPos: " << position.getDebugStr<float>() << "AtPos: " << atPos.getDebugStr<float>() << std::endl;
-    }
-    void setPosition(float x, float y, float z) {
-        position = { x, y, z };
+    void setPosition(Vec3D<DECIMAL_TYPE> pos) {
+        position = pos;
     }
 
     // processes input received from a mouse input system. Expects the offset value in both the x and y direction.
@@ -91,10 +72,13 @@ public:
         yaw += xoffset;
         pitch += yoffset;
 
-        //uint32_t rotationCount = (uint32_t)(yaw.getAsInt() / 360);
-        //if (rotationCount)
-        //    yaw -= (DECIMAL_TYPE)(rotationCount * 360);
-        //rotationCount = (uint32_t)(pitch.getAsInt() / 360);
+        uint32_t rotationCount = abs((int32_t)(yaw / 360));
+        if (rotationCount)
+            if(yaw > 0)
+                yaw -= (DECIMAL_TYPE)(rotationCount * 360);
+            else
+                yaw += (DECIMAL_TYPE)(rotationCount * 360);
+        //rotationCount = (uint32_t)(pitch / 360);
         //if (rotationCount)
         //    pitch -= (DECIMAL_TYPE)(rotationCount * 360);
 

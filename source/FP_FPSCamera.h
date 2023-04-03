@@ -15,7 +15,7 @@ struct FPSCamera {
     typedef FixedPoint<256 * 256> DECIMAL_TYPE;
     //typedef float DECIMAL_TYPE;
 
-    static constexpr int DEFAULT_YAW = -90;  //TODO: needs changing...
+    static constexpr int DEFAULT_YAW = 0;  //TODO: needs changing...
     static constexpr int DEFAULT_PITCH = 0;
     static constexpr int DEFAULT_ZOOM = 40;
 
@@ -35,17 +35,17 @@ struct FPSCamera {
     DECIMAL_TYPE zoom;
 
     // constructor with vectors
-    void init(Vec3D<DECIMAL_TYPE> _position = { 0.0f, 0.0f, 0.0f }, Vec3D<DECIMAL_TYPE> _up = { 0, 1, 0 }) {//, FixedPoint<> _yaw = DEFAULT_YAW, FixedPoint<> _pitch = DEFAULT_PITCH) : front(Vec3D<FixedPoint<>>{0, 0, -1}), zoom(DEFAULT_ZOOM) {
-        position = _position;
+    void init() {//, FixedPoint<> _yaw = DEFAULT_YAW, FixedPoint<> _pitch = DEFAULT_PITCH) : front(Vec3D<FixedPoint<>>{0, 0, -1}), zoom(DEFAULT_ZOOM) {
+        position = { 0, 0, 0 };
         //up = _up;
-        worldUp = _up;
+        worldUp = { 0, -1, 0 };
         yaw = DEFAULT_YAW;
         pitch = DEFAULT_PITCH;
 
-        front = Vec3D<DECIMAL_TYPE>{ 0, 0, -1 };
+        front = Vec3D<DECIMAL_TYPE>{ 0, 0, 0 };
         zoom = DEFAULT_ZOOM;
 
-        mouseSensitivity = 1;
+        mouseSensitivity = 100;
         movementSpeed = 1;
 
         updateCameraVectors();
@@ -68,6 +68,15 @@ struct FPSCamera {
     }
     void setFront(const Vec3D<DECIMAL_TYPE>& direction) {
         front = direction;
+    }
+
+    Vec3D<DECIMAL_TYPE> getWorldLookAtPos() {
+        Vec3D<DECIMAL_TYPE> atPos = front;
+        //atPos += position;
+        atPos.x = position.x + front.x;
+        atPos.y = position.y + front.y;
+        atPos.z = position.z + front.z;
+        return atPos;
     }
 
     // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
@@ -98,11 +107,16 @@ struct FPSCamera {
         //if (rotationCount)
         //    pitch -= (DECIMAL_TYPE)(rotationCount * 360);
 
+        //uint32_t rotationCount = (uint32_t)(yaw.getAsInt() / 360);
+        //yaw -= (DECIMAL_TYPE)(rotationCount * 360);
+        //rotationCount = (uint32_t)(pitch.getAsInt() / 360);
+        //pitch -= (DECIMAL_TYPE)(rotationCount * 360);
+
         // make sure that when pitch is out of bounds, screen doesn't get flipped
         if (constrainPitch) {
-            if (pitch.getAsFloat() > 89)
+            if (pitch.getAsInt() > 89)
                 pitch = 89;
-            if (pitch.getAsFloat() < -89)
+            if (pitch.getAsInt() < -89)
                 pitch = -89;
         }
 
@@ -140,18 +154,19 @@ private:
         //right = glm::normalize(glm::cross(front, worldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
         //up = glm::normalize(glm::cross(right, front));
 
-        Vec3D<DECIMAL_TYPE> _front;
-        _front.x = fixedCos(fixedDegreesToRadians(yaw)) * fixedCos(fixedDegreesToRadians(pitch));
-        _front.y = fixedSin(fixedDegreesToRadians(pitch));
-        _front.z = fixedSin(fixedDegreesToRadians(yaw)) * fixedCos(fixedDegreesToRadians(pitch));
-        front = _front; front.normalize();
-        right = fixedCross(front, worldUp); right.normalize();
-        up = fixedCross(right, front); up.normalize();
+        front.x = cosin16(fixedDegreesToRadians(yaw)) * cosin16(fixedDegreesToRadians(pitch));
+        front.y = sin16(fixedDegreesToRadians(pitch));
+        front.z = sin16(fixedDegreesToRadians(yaw)) * cosin16(fixedDegreesToRadians(pitch));
+        front.normalize();
+        right = fixedCross(front, worldUp);
+        right.normalize();
+        up = fixedCross(right, front);
+        up.normalize();
     }
 
     DECIMAL_TYPE fixedDegreesToRadians(DECIMAL_TYPE in) {
         static DECIMAL_TYPE fixedPI = "3.141592f";
-        DECIMAL_TYPE retValue = (in * fixedPI) / 180;
+        DECIMAL_TYPE retValue = in * (fixedPI / 180);
         return retValue;
     }
     DECIMAL_TYPE fixedRadiansToDegrees(DECIMAL_TYPE in) {
@@ -159,7 +174,7 @@ private:
         DECIMAL_TYPE retValue = in * (DECIMAL_TYPE(180) / fixedPI);
         return retValue;
     }
-    DECIMAL_TYPE fixedCos(DECIMAL_TYPE val, uint32_t terms = 6) {
+    DECIMAL_TYPE fixedCos(DECIMAL_TYPE val, uint32_t terms = 10) {
         //return cos(val.getAsFloat());
         /*
         int div = (int)(x / CONST_PI);
@@ -184,28 +199,44 @@ private:
         return sign * result;
         */  //Ref:  https://austinhenley.com/blog/cosine.html
 
-        static DECIMAL_TYPE fixedPI = "3.141592f";
-        int div = (val / fixedPI).getAsInt();
-        val = val - (fixedPI * div);
-        int8_t sign = 1;
-        if (div % 2 != 0)
-            sign = -1;
+        //static DECIMAL_TYPE fixedPI = "3.141592f";
+        //int div = (val / fixedPI).getAsInt();
+        //val = val - (fixedPI * div);
+        //int8_t sign = 1;
+        //if (div % 2 != 0)
+        //    sign = -1;
+        //
+        //DECIMAL_TYPE result = "1.0f";
+        //DECIMAL_TYPE inter = "1.0f";
+        //DECIMAL_TYPE num = val * val;
+        //for (unsigned int i = 1; i <= terms; i++)
+        //{
+        //    DECIMAL_TYPE comp = "2.0f"; comp = comp * i;
+        //    DECIMAL_TYPE den = comp * (comp - "1.0");
+        //    inter *= num / den;
+        //    if (i % 2 == 0)
+        //        result += inter;
+        //    else
+        //        result -= inter;
+        //}
+        //return result * sign;
 
-        DECIMAL_TYPE result = "1.0f";
-        DECIMAL_TYPE inter = "1.0f";
-        DECIMAL_TYPE num = val * val;
-        for (unsigned int i = 1; i <= terms; i++)
+        static DECIMAL_TYPE fixedPI = "3.141592f";
+        while (val < 0) 
+            val += fixedPI * 2;
+        while (val > fixedPI * 2) 
+            val -= fixedPI * 2;
+        DECIMAL_TYPE t = 1;
+        DECIMAL_TYPE cos = t;
+        for (int a = 1; a < 40; ++a)
         {
-            DECIMAL_TYPE comp = "2.0f"; comp = comp * i;
-            DECIMAL_TYPE den = comp * (comp - "1.0");
-            inter *= num / den;
-            if (i % 2 == 0)
-                result += inter;
-            else
-                result -= inter;
+            DECIMAL_TYPE mult = -val * val / ((2 * a) * (2 * a - 1));
+            t *= mult;
+            cos += t;
         }
-        return result * sign;
+        return cos;
     }
+
     DECIMAL_TYPE fixedSin(DECIMAL_TYPE val, uint32_t terms = 6) {
         //return sin(val.getAsFloat());
         /*
@@ -224,22 +255,53 @@ private:
         return cur;
         */  //Ref: https://stackoverflow.com/questions/2284860/how-does-c-compute-sin-and-other-math-functions
         
-        DECIMAL_TYPE multiplier = 1;
-        if (val > 1 || val < -1)
-            multiplier = val;
-        int i = 1;
-        DECIMAL_TYPE cur = val;
-        DECIMAL_TYPE acc = 1;
-        DECIMAL_TYPE fact = 1;
-        DECIMAL_TYPE pow = val;
-        while (acc.getABS() > ".00000001f" && i < terms) {
-            fact *= (DECIMAL_TYPE)((2 * i) * (2 * i + 1));
-            pow *= val * val * -1;
-            acc = pow / fact;
-            cur += acc;
-            i++;
+        //DECIMAL_TYPE multiplier = 1;
+        //if (val > 1 || val < -1)
+        //    multiplier = val;
+        
+        //int i = 1;
+        //DECIMAL_TYPE cur = val;
+        //DECIMAL_TYPE acc = 1;
+        //DECIMAL_TYPE fact = 1;
+        //DECIMAL_TYPE pow = val;
+        //while (acc.getABS() > ".00000001f" && i < terms) {
+        //    fact *= (DECIMAL_TYPE)((2 * i) * (2 * i + 1));
+        //    pow *= val * val * -1;
+        //    acc = pow / fact;
+        //    cur += acc;
+        //    i++;
+        //}
+        //return cur;
+
+        const DECIMAL_TYPE my_pi = "3.14159265358979323846f";
+        val = fmod(val, my_pi * 2);
+        if (val < 0) {
+            val = my_pi * 2 - val;
         }
-        return cur * multiplier;
+        int8_t sign = 1;
+        if (val > my_pi) {
+            val -= my_pi;
+            sign = -1;
+        }
+
+        DECIMAL_TYPE result = val;
+        DECIMAL_TYPE coefficent = 3;
+        for (int i = 0; i < terms; i++) {
+            DECIMAL_TYPE pow = power(val, coefficent);
+            DECIMAL_TYPE frac = factorial(coefficent);
+
+            if (frac != 0) {
+                if (i % 2 == 0) {
+                    result = result - (pow / frac);
+                }
+                else {
+                    result = result + (pow / frac);
+                }
+            }
+            coefficent = coefficent + 2;
+        }
+
+        return result * sign;
     }
     Vec3D<DECIMAL_TYPE> fixedCross(Vec3D<DECIMAL_TYPE> a, Vec3D<DECIMAL_TYPE> b) {
         //Ref: https://www.tutorialspoint.com/cplusplus-program-to-compute-cross-product-of-two-vectors
@@ -250,7 +312,7 @@ private:
         retValue.x = a.y * b.z - a.z * b.y;
         retValue.y = -(a.x * b.z - a.z * b.x);
         retValue.z = a.x * b.y - a.y * b.x;
-        return {};
+        return retValue;
     }
 
     void test() {

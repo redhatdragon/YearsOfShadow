@@ -58,6 +58,9 @@ void meshDestructor(ComponentID id, uint32_t index) {
 #include <UniginePlayers.h>
 
 void initSystems() {
+	//initFixedPointUtilities();
+	setupFixedPointTableFiles();
+
 	ComponentID meshComponentID = ecs.registerComponent("mesh", sizeof(void*));
 	ecs.registerDestructor(meshComponentID, meshDestructor);
 
