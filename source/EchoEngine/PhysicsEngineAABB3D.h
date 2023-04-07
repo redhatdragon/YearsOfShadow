@@ -25,12 +25,65 @@ struct BodyAABB {
 	__forceinline void reverseSimulate() {
 		pos -= vel;
 	}
-	__forceinline bool collidesWith(BodyAABB& other) {
+	__forceinline bool collidesWith(const BodyAABB& other) {
 		if (pos.x + siz.x < other.pos.x || pos.x > other.pos.x + other.siz.x ||
 			pos.y + siz.y < other.pos.y || pos.y > other.pos.y + other.siz.y ||
 			pos.z + siz.z < other.pos.z || pos.z > other.pos.z + other.siz.z)
 			return false;
 		return true;
+	}
+	//Expects the input body to already be reverse simulated and was colliding with other before hand
+	__forceinline Vec3D<uint32_t> resolveClosestSafePosition(const BodyAABB& other) {
+		//const Vec3D<int32_t>& signedVel = *(Vec3D<int32_t>*)&vel;
+		//Vec3D<uint32_t> futurePos = pos + vel;
+		//Vec3D<uint32_t> closestPos = futurePos;
+		//if (futurePos.x + siz.x > other.pos.x && futurePos.x < other.pos.x + other.siz.x) {
+		//	if (signedVel.x < 0) {
+		//		closestPos.x = other.pos.x + other.siz.x;
+		//	} else if (signedVel.x > 0) {
+		//		closestPos.x = other.pos.x - siz.x;
+		//	}
+		//}
+		//if (futurePos.y + siz.y > other.pos.y && futurePos.y < other.pos.y + other.siz.y) {
+		//	if (signedVel.y < 0) {
+		//		closestPos.y = other.pos.y + other.siz.y;
+		//	}
+		//	else if (signedVel.y > 0) {
+		//		closestPos.y = other.pos.y - siz.y;
+		//	}
+		//}
+		//if (futurePos.z + siz.z > other.pos.z && futurePos.z < other.pos.z + other.siz.z) {
+		//	if (signedVel.z < 0) {
+		//		closestPos.z = other.pos.z + other.siz.z;
+		//	}
+		//	else if (signedVel.z > 0) {
+		//		closestPos.z = other.pos.z - siz.z;
+		//	}
+		//}
+		//return closestPos;
+
+		Vec3D<uint32_t> savedPos = pos;
+		constexpr uint32_t intervil = 100;
+		Vec3D<int32_t> miniVel = *(Vec3D<int32_t>*)&vel / intervil;
+		Vec3D<uint32_t> lastPos = pos;
+		for (uint32_t i = 0; i < intervil; i++) {
+			pos += *(Vec3D<uint32_t>*)&miniVel;
+			if (collidesWith(other))
+				break;
+			lastPos = pos;
+		}
+		pos = savedPos;
+		return lastPos;
+	}
+	__forceinline Vec3D<uint32_t> resolveClosestSafePosition(BodyAABB** others, uint32_t count) {
+		Vec3D<uint32_t> closestPos = resolveClosestSafePosition(*others[0]);
+		for (uint32_t i = 1; i < count; i++) {
+			Vec3D<uint32_t> curPos = resolveClosestSafePosition(*others[i]);
+			Vec3D<uint32_t> dist = curPos - pos;
+			if (dist.getDistanceSquared() < (closestPos - pos).getDistanceSquared())
+				closestPos = curPos;
+		}
+		return closestPos;
 	}
 };
 constexpr uint32_t sizeofBodyAABB = sizeof(BodyAABB);
@@ -343,10 +396,12 @@ public:
 		bodies[id.id].isSolid = isTrue;
 	}
 
-	template<typename T>
-	Vec3D<T> getPos(BodyID id) {
+	Vec3D<FixedPoint<physics_unit_size>> getPos(BodyID id) {
 		Vec3D<uint32_t>& bodyPos = bodies[id.id].pos;
-		Vec3D<T> pos = { bodyPos.x / physics_unit_size, bodyPos.y / physics_unit_size, bodyPos.z / physics_unit_size };
+		Vec3D<FixedPoint<physics_unit_size>> pos;
+		pos.x.setRaw(bodyPos.x);
+		pos.y.setRaw(bodyPos.y);
+		pos.z.setRaw(bodyPos.z);
 		return pos;
 	}
 	Vec3D<float> getPosF(BodyID id) {
@@ -354,10 +409,12 @@ public:
 		Vec3D<float> pos = { (float)bodyPos.x / physics_unit_size, (float)bodyPos.y / physics_unit_size, (float)bodyPos.z / physics_unit_size };
 		return pos;
 	}
-	template<typename T>
-	Vec3D<T> getSize(BodyID id) {
+	Vec3D<FixedPoint<physics_unit_size>> getSize(BodyID id) {
 		Vec3D<uint32_t> bodySiz = bodies[id.id].siz;
-		Vec3D<T> siz = { bodySiz.x / physics_unit_size, bodySiz.y / physics_unit_size, bodySiz.z / physics_unit_size };
+		Vec3D<FixedPoint<physics_unit_size>> siz;
+		siz.x.setRaw(bodySiz.x);
+		siz.y.setRaw(bodySiz.y);
+		siz.z.setRaw(bodySiz.z);
 		return siz;
 	}
 
@@ -383,14 +440,15 @@ public:
 			if (isValid.getIsValid(i) == false)
 				continue;
 			validBodyCount++;
-			if (bodies[i].vel.isZero()) {
-				if (validBodyCount >= bodyCount) {
-					lastBodyIndex = i;
-					break;
-				}
-				continue;
-			}
+			//if (bodies[i].vel.isZero()) {
+			//	if (validBodyCount >= bodyCount) {
+			//		lastBodyIndex = i;
+			//		break;
+			//	}
+			//	continue;
+			//}
 			spatialHashTable.removeBody({ i }, bodies[i].pos, bodies[i].siz);
+			gravity({ i });
 			bodies[i].simulate();
 			spatialHashTable.addBody({ i }, bodies[i].pos, bodies[i].siz);
 			if (validBodyCount >= bodyCount) {
@@ -430,8 +488,8 @@ public:
 				if (i == IDs[j].id)
 					continue;
 				if (bodies[i].collidesWith(bodies[IDs[j].id])) {
-					overlappingBodyIDs[i].push(IDs[j]);
-					//overlappingBodyPushIfUnique(i, IDs[j]);
+					//overlappingBodyIDs[i].push(IDs[j]);  //Why was this used?
+					overlappingBodyPushIfUnique(i, IDs[j]);
 					//overlappingBodyPushIfUnique(IDs[j].id, { i });
 				}
 			}
@@ -440,19 +498,34 @@ public:
 		//std::cout << "second" << time << std::endl << std::endl;
 	}
 	inline void resolve() {
-		//uint32_t bodyCount = bodies.getCount();
 		uint32_t bodyCount = dynamicBodyCount;
 		if (bodyCount == 0) return;
 		for (uint32_t i = 0; i <= lastBodyIndex; i++) {
-			//if (bodies.getIsValid(i) == false)
 			if (isValid.getIsValid(i) == false)
 				continue;
 			bool isSolid = getSolid({ i });
 			if (overlappingBodyIDs[i].count && bodies[i].vel.isZero() == false && getSolid({ i })
-				&& areAnyOverlappingBodiesSolid(i) == true) {
-				spatialHashTable.removeBody({ i }, bodies[i].pos, bodies[i].siz);
-				bodies[i].reverseSimulate();
-				spatialHashTable.addBody({ i }, bodies[i].pos, bodies[i].siz);
+				//&& areAnyOverlappingBodiesSolid(i) == true) {
+				) {
+
+				//spatialHashTable.removeBody({ i }, bodies[i].pos, bodies[i].siz);
+				//bodies[i].reverseSimulate();
+				//spatialHashTable.addBody({ i }, bodies[i].pos, bodies[i].siz);
+
+				static FlatBuffer<BodyAABB*, 100> overlappingSolidBodies = {};
+				overlappingSolidBodies.clear();
+				getOverlappingSolidBodies(i, overlappingSolidBodies);
+				if (overlappingSolidBodies.count) {
+				
+					spatialHashTable.removeBody({ i }, bodies[i].pos, bodies[i].siz);
+					bodies[i].reverseSimulate();
+					auto newPos = bodies[i].resolveClosestSafePosition(&overlappingSolidBodies[0],
+						overlappingSolidBodies.count);
+					bodies[i].pos = newPos;
+					//bodies[i].vel = { 0 };
+					*(Vec3D<int32_t>*)&bodies[i].vel /= 2;
+					spatialHashTable.addBody({ i }, bodies[i].pos, bodies[i].siz);
+				}
 			}
 		}
 	}
@@ -510,11 +583,18 @@ private:
 		uint32_t overlappingCount = overlappingBodyIDs[bodyIndex].count;
 		for (uint32_t j = 0; j < overlappingCount; j++) {
 			BodyID otherBody = overlappingBodyIDs[bodyIndex][j];
-			//if (bodies[otherBody.id].solid)
 			if (getSolid(otherBody) == true)
 				return true;
 		}
 		return false;
+	}
+	void getOverlappingSolidBodies(uint32_t bodyIndex, FlatBuffer<BodyAABB*, 100>& out) {
+		uint32_t overlappingCount = overlappingBodyIDs[bodyIndex].count;
+		for (uint32_t j = 0; j < overlappingCount; j++) {
+			BodyID otherBody = overlappingBodyIDs[bodyIndex][j];
+			if (getSolid(otherBody) == true)
+				out.push(&bodies[otherBody.id]);
+		}
 	}
 	bool isBodyDynamic(BodyID bodyID) {
 		if (bodyID.id >= max_dynamic_bodies)
@@ -525,5 +605,23 @@ private:
 		if (bodyID.id >= max_dynamic_bodies)
 			return true;
 		return false;
+	}
+	__forceinline void gravity(BodyID bodyID) {
+		//FixedPoint<physics_unit_size> acceleration = "0.0163f";
+		int32_t acceleration = getGravityAcceleration();
+		acceleration /= 2;
+		BodyAABB& body = bodies[bodyID.id];
+		//if ((int32_t)body.vel.y < 1 * (256 * 256) / 50)
+		if ((int32_t)body.vel.y < acceleration * 2)
+			body.vel.y += acceleration;
+		//if (body.vel.y < acceleration.getRaw())
+		//	body.vel.y = acceleration.getRaw();
+	}
+	constexpr int32_t getGravityAcceleration() {
+		//uint32_t retValue = 0163;
+		//retValue *= physics_unit_size;
+		//retValue /= 10000;
+		//return retValue;
+		return (0163 * physics_unit_size) / 10000;
 	}
 };

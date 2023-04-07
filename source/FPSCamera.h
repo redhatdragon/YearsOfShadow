@@ -57,8 +57,10 @@ public:
         return glm::lookAt(Position, Position + Front, Up);
     }*/
     Vec3D<DECIMAL_TYPE> getWorldLookAtPos() {
-        Vec3D<DECIMAL_TYPE> atPos = front;
         return front + position;
+    }
+    Vec3D<DECIMAL_TYPE> getLocalLookAtPos() {
+        return front;
     }
     void setPosition(Vec3D<DECIMAL_TYPE> pos) {
         position = pos;

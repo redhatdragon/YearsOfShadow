@@ -100,12 +100,12 @@ struct Vec2D {
 template<typename T>
 struct Vec3D {
 	T x, y, z;
-	__forceinline void operator+=(Vec3D& other) {
+	__forceinline void operator+=(const Vec3D& other) {
 		x += other.x;
 		y += other.y;
 		z += other.z;
 	}
-	__forceinline void operator-=(Vec3D& other) {
+	__forceinline void operator-=(const Vec3D& other) {
 		x -= other.x;
 		y -= other.y;
 		z -= other.z;
@@ -120,7 +120,7 @@ struct Vec3D {
 		y = (y * num);
 		z = (z * num);
 	}
-	__forceinline void operator*=(Vec3D& other) {
+	__forceinline void operator*=(const Vec3D& other) {
 		x = (x * other.x);
 		y = (y * other.y);
 		z = (z * other.z);

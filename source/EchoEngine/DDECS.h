@@ -9,6 +9,7 @@ typedef uint32_t EntityID;
 typedef uint32_t ComponentID;
 class System;
 typedef uint64_t EntityHandle;
+typedef uint64_t GameTick;
 
 template<uint32_t max_components, uint32_t max_entities>
 class DDECS {
@@ -72,7 +73,7 @@ class DDECS {
 	//std::unordered_map<std::vector<ComponentID>,std::vector<EntityID>> entityLists;
 	std::vector<System*> systems;
 	ComponentID handleComponentID = -1;
-	uint64_t ticksPassed;
+	GameTick ticksPassed;
 public:
 	DDECS() {
 		for (unsigned int i = 0; i < max_entities; i++) {
@@ -218,7 +219,7 @@ public:
 		return nullptr;
 	}
 
-	uint64_t getTicksPassed() {
+	GameTick getTicksPassed() {
 		return ticksPassed;
 	}
 

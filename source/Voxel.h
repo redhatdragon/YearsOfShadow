@@ -62,7 +62,7 @@ public:
 		//path += "Meshes/Cube.obj";
 		path += "Meshes/Cube2.fbx/cube.001.mesh";
 		blockMesh = EE_getNewInstancedMesh(path.c_str());
-		EE_setInstancedMeshScale(blockMesh, { 100, 100, 100 });
+		EE_setInstancedMeshScale(blockMesh, { 50, 50, 50 });
 		EE_setInstancedSubmeshTexture(blockMesh, 0, "albedo", "Textures/Grass1.png");
 		EE_setInstancedSubmeshTexture(blockMesh, 0, "normal", "Textures/Grass1_n.png");
 		//EE_setTextureSubmesh(blockMesh, 0, 0, "../data/Textures/Grass2.png");
@@ -230,6 +230,7 @@ public:
 			EE_Point3Df pos = {
 				blockPos.x + worldOffsetX, blockPos.y + worldOffsetY, blockPos.z + worldOffsetZ
 			};
+			pos.x += 0.5f; pos.y += 0.5f; pos.z += 0.5f;
 			positions.push_back(pos);
 		}
 		EE_setInstancedMeshPositions(blockMesh, &positions[0], positions.size());

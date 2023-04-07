@@ -16,6 +16,15 @@
 
 
 //HAL
+void EE_getMouseState(uint8_t* leftButton, uint8_t* middleButton, uint8_t* rightButton) {
+	using namespace Unigine;
+	if(leftButton)
+		*leftButton = Input::isMouseButtonDown(Input::MOUSE_BUTTON_LEFT);
+	if(middleButton)
+		*middleButton = Input::isMouseButtonDown(Input::MOUSE_BUTTON_MIDDLE);
+	if(rightButton)
+		*rightButton = Input::isMouseButtonDown(Input::MOUSE_BUTTON_RIGHT);
+}
 void EE_getMouseCanvasPos(int* x, int* y) {
 	auto pos = Unigine::Input::getMousePosition();
 	*x = pos.x; *y = pos.y;
@@ -144,7 +153,8 @@ void EE_setScaleMesh(void* meshID, float sx, float sy, float sz) {
 	//meshPtrPool[(size_t)meshID]->setScale({ sx*visualScale*100, sy*visualScale*100, sz*visualScale*100 });
 	Unigine::ObjectMeshDynamicPtr meshPtr;
 	memcpy(&meshPtr, &meshID, sizeof(void*));
-	meshPtr->setScale({ sx, sy, sz });
+	//meshPtr->setScale({ sx, sy, sz });
+	meshPtr->setWorldScale({ sx, sy, sz });
 }
 
 std::vector<Unigine::ObjectMeshClusterPtr> meshClusterPtrPool;  //buffer of ref counted smart pointers
@@ -175,7 +185,8 @@ void EE_setInstancedMeshPositions(void* meshID, const EE_Point3Df* posBuffer, ui
 		Mat4 transform = Mat4(1);
 		dvec3 rot = dvec3(1, 1, 1);
 		dvec3 siz = dvec3(clusterWorldScale);
-		transform = translate(pos) * scale(siz / 2);
+		//transform = translate(pos) * scale(siz / 2);
+		transform = translate(pos) * scale(siz);
 		transforms.push_back(transform);
 	}
 	//cluster->appendMeshes(transforms);

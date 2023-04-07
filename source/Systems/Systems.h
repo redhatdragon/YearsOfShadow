@@ -14,7 +14,7 @@ constexpr uint32_t world_size = 300 - (300 % chunk_width);  //block across
 //constexpr uint32_t hash_width = 2;
 //constexpr uint32_t max_bodies_per_hash = 16;
 constexpr uint32_t hash_width = 1;
-constexpr uint32_t max_bodies_per_hash = 10;
+constexpr uint32_t max_bodies_per_hash = 20;
 
 typedef PhysicsEngineAABB3D <
 	((world_size) / hash_width) + 2,
@@ -42,8 +42,9 @@ constexpr uint64_t sizeOfECS = sizeof(ecs);
 #include "SystemDeath.h"
 #include "SystemPhysics.h"
 #include "SystemVoxel.h"
-#include "SystemExplosionTest.h"
+//#include "SystemExplosionTest.h"
 #include "SystemController.h"
+#include "SystemExplode.h"
 
 #include "SystemDisplay.h"
 
@@ -69,6 +70,7 @@ void initSystems() {
 	ecs.registerSystem<SystemVoxel>();
 	//ecs.registerSystem<SystemExplosionTest>();
 	ecs.registerSystem<SystemController>();
+	ecs.registerSystem<SystemExplode>();
 
 	ecs.registerSystem<SystemDisplay>();
 }
