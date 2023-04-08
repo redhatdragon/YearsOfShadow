@@ -14,22 +14,8 @@
 
 //#define TESTING
 #include "AppWorldLogic.h"
-#include "Systems/Systems.h"
-
+#include "../../HAL_3D.h"
 #include <vector>
-
-
-
-void EE_appStart() {
-	testFlatFlaggedBuffer();
-	initSystems();
-}
-void EE_appLoop() {
-	ecs.runSystems();
-}
-void EE_appEnd() {
-
-}
 
 
 

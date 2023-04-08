@@ -14,9 +14,9 @@
 
 #include <UnigineEngine.h>
 
-#include "AppEditorLogic.h"
-#include "AppSystemLogic.h"
-#include "AppWorldLogic.h"
+#include "AppEditorLogic_impl.h"
+#include "AppSystemLogic_impl.h"
+#include "AppWorldLogic_impl.h"
 
 #ifdef _WIN32
 int wmain(int argc, wchar_t *argv[])
@@ -31,6 +31,8 @@ int main(int argc, char *argv[])
 
 	// init engine
 	Unigine::EnginePtr engine(argc, argv);
+
+	EE_init();
 
 	// enter main loop
 	engine->main(&system_logic, &world_logic, &editor_logic);

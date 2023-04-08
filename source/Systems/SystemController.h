@@ -85,7 +85,8 @@ public:
 		pos += siz / 2;
 
 		turnPhase(controller, pos);
-
+		strafePhase(controller, pos, bodyID);
+		jumpPhase(controller, pos);
 		firePhase(controller, pos);
 	}
 	virtual const char* getName() {
@@ -116,6 +117,29 @@ private:
 
 		EE_setMouseCanvasPos(winDimensions.x / 2, winDimensions.y / 2);
 	}
+	void strafePhase(Controller* controller, const Vec3D<FixedPoint<256 * 256>>& pos, BodyID bodyID) {
+		auto lookAtFloat = controller->cam.getLocalLookAtPos();
+		Vec3D<FixedPoint<256 * 256>> dir = { lookAtFloat.x, lookAtFloat.y, lookAtFloat.z };
+		Vec3D<FixedPoint<256 * 256>> vel = {};
+		if (EE_getKeyState('W'))
+			vel += dir;
+		if (EE_getKeyState('S'))
+			vel -= dir;
+		vel *= "0.1f";
+		//if (isFloored())
+		//	vel.y = 0;
+		if (vel.isZero() == false) {
+			vel.y = 0;
+		}
+		else {
+			Vec3D<FixedPoint<256 * 256>> originalVel = physics.getVelocity(bodyID);
+			vel.y = originalVel.y;
+		}
+		physics.setVelocity(bodyID, vel.x, vel.y, vel.z);
+	}
+	void jumpPhase(Controller* controller, const Vec3D<FixedPoint<256 * 256>>& pos) {
+
+	}
 	void firePhase(Controller* controller, const Vec3D<FixedPoint<256 * 256>>& pos) {
 		uint8_t leftMouse;
 		EE_getMouseState(&leftMouse, nullptr, nullptr);
@@ -132,6 +156,7 @@ private:
 		spawnAt += pos;
 		spawnBomb(spawnAt, direction);
 	}
+
 	void spawnBomb(const Vec3D<FixedPoint<256 * 256>>& spawnAt, const Vec3D<FixedPoint<256 * 256>>& direction) {
 		EntityID bomb = ecs.getNewEntity();
 		Vec3D<FixedPoint<256 * 256>> velocity = direction;
@@ -152,5 +177,9 @@ private:
 		ecs.emplace(bomb, bodyComponentID, &bodyID);
 		ecs.emplace(bomb, explodeComponentID, &explode);
 		ecs.emplace(bomb, meshComponentID, &meshID);
+	}
+
+	bool isFloored() {
+		return true;
 	}
 };

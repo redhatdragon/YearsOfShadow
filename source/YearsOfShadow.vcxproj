@@ -71,10 +71,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AppEditorLogic.cpp" />
-    <ClCompile Include="AppSystemLogic.cpp" />
-    <ClCompile Include="AppWorldLogic.cpp" />
     <ClCompile Include="EchoEngine\BitBool\BitBool.cpp" />
+    <ClCompile Include="EchoEngine\HAL\ExampleImplimentations\Unigine\main.cpp" />
     <ClCompile Include="EchoEngine\HAL\HAL.cpp" />
     <ClCompile Include="EchoEngine\Sources.cpp" />
     <ClCompile Include="Framework\Components\Objects\ObjHandle.cpp" />
@@ -95,12 +93,9 @@
     <ClCompile Include="Framework\SoundManager.cpp" />
     <ClCompile Include="Framework\Triggers.cpp" />
     <ClCompile Include="Framework\Utils.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="app.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AppEditorLogic.h" />
-    <ClInclude Include="AppSystemLogic.h" />
-    <ClInclude Include="AppWorldLogic.h" />
     <ClInclude Include="FPSCamera.h" />
     <ClInclude Include="FP_FPSCamera.h" />
     <ClInclude Include="Framework\Components\Objects\ObjHandle.h" />

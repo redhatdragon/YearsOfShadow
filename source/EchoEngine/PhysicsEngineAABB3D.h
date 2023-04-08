@@ -388,6 +388,10 @@ public:
 		body->vel.y = vy.getRaw();
 		body->vel.z = vz.getRaw();
 	}
+	Vec3D<physics_fp> getVelocity(BodyID id) {
+		BodyAABB* body = &bodies[id.id];
+		return *(Vec3D<physics_fp>*)&body->vel;
+	}
 
 	bool getSolid(BodyID id) {
 		return bodies[id.id].isSolid;

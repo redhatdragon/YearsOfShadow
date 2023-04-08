@@ -95,6 +95,11 @@ extern "C" {
 	#define EE_KEY_SPACE 32
 	#define EE_KEY_TAB 9
 
+
+
+	//Automatically defined and called in the HAL_ implimmentation if needed.
+	void EE_init();
+
 #ifdef __cplusplus
 }
 #endif

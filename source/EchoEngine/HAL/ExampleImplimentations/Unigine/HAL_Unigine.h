@@ -3,7 +3,8 @@
 #include "../../HAL_3D.h"
 
 #include <UnigineObjects.h>
-#include "../../Framework/Components/Players/VRPlayerVR.h"
+//#include "../../Framework/Components/Players/VRPlayerVR.h"
+#include "../../../../Framework/Components/Players/VRPlayerVR.h"
 #include <vector>
 #include <iostream>
 
@@ -16,6 +17,21 @@
 
 
 //HAL
+uint8_t keyMap[256];
+void setupKeyMap() {
+	using namespace Unigine;
+	keyMap['W'] = Input::KEY::KEY_W;
+	keyMap['A'] = Input::KEY::KEY_A;
+	keyMap['S'] = Input::KEY::KEY_S;
+	keyMap['D'] = Input::KEY::KEY_D;
+}
+uint8_t getKeyMapToUnigineInputKey(uint8_t k) {
+	return keyMap[k];
+}
+bool EE_getKeyState(char k) {
+	using namespace Unigine;
+	return Input::isKeyPressed((Input::KEY)getKeyMapToUnigineInputKey(k));
+}
 void EE_getMouseState(uint8_t* leftButton, uint8_t* middleButton, uint8_t* rightButton) {
 	using namespace Unigine;
 	if(leftButton)
@@ -55,6 +71,12 @@ void EE_getCanvasSize(unsigned int* width, unsigned int* height) {
 
 const char* EE_getDirData() {
 	return "./";
+}
+
+
+
+void EE_init() {
+	setupKeyMap();
 }
 
 
