@@ -448,7 +448,6 @@ public:
 			//	continue;
 			//}
 			spatialHashTable.removeBody({ i }, bodies[i].pos, bodies[i].siz);
-			gravity({ i });
 			bodies[i].simulate();
 			spatialHashTable.addBody({ i }, bodies[i].pos, bodies[i].siz);
 			if (validBodyCount >= bodyCount) {
@@ -527,6 +526,7 @@ public:
 					spatialHashTable.addBody({ i }, bodies[i].pos, bodies[i].siz);
 				}
 			}
+			gravity({ i });
 		}
 	}
 
@@ -572,6 +572,13 @@ public:
 		return dynamicBodyCount + staticBodyCount;
 	}
 
+	constexpr int32_t getGravityAcceleration() {
+		return ((0163 * physics_unit_size) / 10000) / 2;
+	}
+	constexpr int32_t getGravityMax() {
+		return getGravityAcceleration() * 2;
+	}
+
 private:
 	void overlappingBodyPushIfUnique(uint32_t index, BodyID id) {
 		for (uint32_t i = 0; i < overlappingBodyIDs[index].count; i++)
@@ -609,19 +616,8 @@ private:
 	__forceinline void gravity(BodyID bodyID) {
 		//FixedPoint<physics_unit_size> acceleration = "0.0163f";
 		int32_t acceleration = getGravityAcceleration();
-		acceleration /= 2;
 		BodyAABB& body = bodies[bodyID.id];
-		//if ((int32_t)body.vel.y < 1 * (256 * 256) / 50)
-		if ((int32_t)body.vel.y < acceleration * 2)
+		if ((int32_t)body.vel.y < getGravityMax())
 			body.vel.y += acceleration;
-		//if (body.vel.y < acceleration.getRaw())
-		//	body.vel.y = acceleration.getRaw();
-	}
-	constexpr int32_t getGravityAcceleration() {
-		//uint32_t retValue = 0163;
-		//retValue *= physics_unit_size;
-		//retValue /= 10000;
-		//return retValue;
-		return (0163 * physics_unit_size) / 10000;
 	}
 };
