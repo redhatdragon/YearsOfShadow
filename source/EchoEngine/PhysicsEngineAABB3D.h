@@ -241,7 +241,7 @@ public:
 template<uint32_t width, uint32_t height, uint32_t depth, uint32_t hash_width, uint32_t max_bodies_per_hash = 64>
 class PhysicsEngineAABB3D {
 	static constexpr uint32_t max_dynamic_bodies = 1000000;  //1mill
-	static constexpr uint32_t max_static_bodies = 100000000;  //100mill
+	static constexpr uint32_t max_static_bodies = 10000000;  //10mill
 	static constexpr uint32_t max_bodies = max_dynamic_bodies + max_static_bodies;
 	//FlatFlaggedBuffer<BodyAABB, max_bodies> bodies = FlatFlaggedBuffer<BodyAABB, max_bodies>();
 	DArray<BodyAABB> bodies;
