@@ -62,6 +62,9 @@ public:
     Vec3D<DECIMAL_TYPE> getLocalLookAtPos() {
         return front;
     }
+    Vec3D<DECIMAL_TYPE> getPosition() {
+        return position;
+    }
     void setPosition(Vec3D<DECIMAL_TYPE> pos) {
         position = pos;
     }

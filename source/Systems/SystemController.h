@@ -120,11 +120,19 @@ private:
 	void strafePhase(Controller* controller, const Vec3D<FixedPoint<256 * 256>>& pos, BodyID bodyID) {
 		auto lookAtFloat = controller->cam.getLocalLookAtPos();
 		Vec3D<FixedPoint<256 * 256>> dir = { lookAtFloat.x, lookAtFloat.y, lookAtFloat.z };
+		dir.y = 0;
+		dir *= 10;
+		dir.normalize();
+		Vec3D<FixedPoint<256 * 256>> right; right.cross(dir, {0, 1, 0});
 		Vec3D<FixedPoint<256 * 256>> vel = {};
 		if (EE_getKeyState('W'))
 			vel += dir;
 		if (EE_getKeyState('S'))
 			vel -= dir;
+		if (EE_getKeyState('A'))
+			vel -= right;
+		if (EE_getKeyState('D'))
+			vel += right;
 		vel *= "0.1f";
 		//if (isFloored())
 		//	vel.y = 0;

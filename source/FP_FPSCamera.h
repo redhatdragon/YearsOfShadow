@@ -158,9 +158,9 @@ private:
         front.y = sin16(fixedDegreesToRadians(pitch));
         front.z = sin16(fixedDegreesToRadians(yaw)) * cosin16(fixedDegreesToRadians(pitch));
         front.normalize();
-        right = fixedCross(front, worldUp);
+        right.cross(front, worldUp);
         right.normalize();
-        up = fixedCross(right, front);
+        up.cross(right, front);
         up.normalize();
     }
 
@@ -302,17 +302,6 @@ private:
         }
 
         return result * sign;
-    }
-    Vec3D<DECIMAL_TYPE> fixedCross(Vec3D<DECIMAL_TYPE> a, Vec3D<DECIMAL_TYPE> b) {
-        //Ref: https://www.tutorialspoint.com/cplusplus-program-to-compute-cross-product-of-two-vectors
-        //c_P[0] = v_A[1] * v_B[2] - v_A[2] * v_B[1];
-        //c_P[1] = -(v_A[0] * v_B[2] - v_A[2] * v_B[0]);
-        //c_P[2] = v_A[0] * v_B[1] - v_A[1] * v_B[0];
-        Vec3D<DECIMAL_TYPE> retValue;
-        retValue.x = a.y * b.z - a.z * b.y;
-        retValue.y = -(a.x * b.z - a.z * b.x);
-        retValue.z = a.x * b.y - a.y * b.x;
-        return retValue;
     }
 
     void test() {

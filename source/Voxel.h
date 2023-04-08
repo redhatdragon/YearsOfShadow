@@ -5,10 +5,6 @@
 
 
 
-constexpr float VOXEL_BLOCK_SIZE = 50.0f;
-
-
-
 struct VoxelBlockMetaData {
 	uint16_t maxHealth;
 };
@@ -235,6 +231,22 @@ public:
 		}
 		EE_setInstancedMeshPositions(blockMesh, &positions[0], positions.size());
 	}
+	void unload() {
+		if (drawableBlocks.count == 0)
+			return;
+		drawableBlocks.count = 0;
+		modified = true;
+
+		memset(hasBody, 0, sizeof(hasBody));
+		memset(requiresBody, 0, sizeof(requiresBody));
+		{
+			uint32_t bodyCount = activeBodies.count;
+			for (uint32_t i = 0; i < bodyCount; i++)
+				physics.removeBody(activeBodies[i]);
+			activeBodies.clear();
+		}
+		EE_setInstancedMeshPositions(blockMesh, NULL, NULL);
+	}
 private:
 	inline bool isVisible(uint32_t x, uint32_t y, uint32_t z) {
 		if (isAir(x, y, z) == false && hasNeighboringAir(x, y, z) == true)
@@ -312,10 +324,20 @@ public:
 		//rebuild();
 	}
 
-	void display() {
+	void display(uint32_t x, uint32_t z) {
+		uint32_t chunksWide = 9;
+		Vec2D<int32_t> start, end;
+		start = { (int32_t)x, (int32_t)z };
+		end = start;
+		start -= (chunksWide / 2) * width;
+		end += (chunksWide / 2) * width;
 		for (uint32_t i = 0; i < worldSize; i++) {
 			for (uint32_t j = 0; j < worldSize; j++) {
-				chunks[j][i].display();
+				Vec2D<int32_t> curPos = {j * width, i * width};
+				if (curPos.isBetween(start, end))
+					chunks[j][i].display();
+				else
+					chunks[j][i].unload();
 			}
 		}
 	}

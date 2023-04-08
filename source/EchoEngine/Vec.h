@@ -9,9 +9,17 @@ struct Vec2D {
 		x += other.x;
 		y += other.y;
 	}
+	__forceinline void operator+=(T num) {
+		x += num;
+		y += num;
+	}
 	__forceinline void operator-=(const Vec2D& other) {
 		x -= other.x;
 		y -= other.y;
+	}
+	__forceinline void operator-=(T num) {
+		x -= num;
+		y -= num;
 	}
 	__forceinline void operator/=(T num) {
 		x /= num;
@@ -24,8 +32,14 @@ struct Vec2D {
 	__forceinline Vec2D<T> operator+(const Vec2D& other) const {
 		return { x + other.x, y + other.y };
 	}
+	__forceinline Vec2D<T> operator+(T num) const {
+		return { x + num, y + num };
+	}
 	__forceinline Vec2D<T> operator-(const Vec2D& other) const {
 		return { x - other.x, y - other.y };
+	}
+	__forceinline Vec2D<T> operator-(T num) const {
+		return { x - num, y - num };
 	}
 	__forceinline Vec2D<T> operator/(const T num) const {
 		return { x / num, y / num };
@@ -73,6 +87,11 @@ struct Vec2D {
 	}
 	__forceinline uint64_t getDistanceFromSquared(Vec2D& other) {
 		return (*this - other).getDistanceSquared();
+	}
+	__forceinline bool isBetween(Vec2D& start, Vec2D& end) {
+		if (x < start.x || x > end.x || y < start.y || y > end.y)
+			return false;
+		return true;
 	}
 	template<typename T>
 	std::string getDebugStr() {
@@ -184,6 +203,11 @@ struct Vec3D {
 	}
 	__forceinline uint64_t getDistanceFromSquared(Vec3D& other) {
 		return (*this - other).getDistanceSquared();
+	}
+	void cross(Vec3D<T> a, Vec3D<T> b) {
+		x = a.y * b.z - a.z * b.y;
+		y = -(a.x * b.z - a.z * b.x);
+		z = a.x * b.y - a.y * b.x;
 	}
 	template<typename T>
 	std::string getDebugStr() {

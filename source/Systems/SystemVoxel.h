@@ -2,6 +2,7 @@
 #include INC_UTILS_PATH(ENGINE_PATH, DDECS.h)
 #include INC_UTILS_PATH(ENGINE_PATH, PhysicsEngineAABB3D.h)
 #include "../Voxel.h"
+#include "SystemController.h"
 #include <iostream>
 #include <memory>
 
@@ -10,7 +11,7 @@
 //std::unique_ptr<int[]> testBuffer = std::make_unique<int[]>(100000000);
 
 class SystemVoxel : public System {
-	
+	ComponentID controllerComponentID;
 public:
 	virtual void init() {
 		voxelWorld.init(100, 0, 0, 0);
@@ -21,9 +22,12 @@ public:
 		//	testBuffer[i+2] = i+2;
 		//	testBuffer[i+3] = i+3;
 		//}
+		controllerComponentID = ecs.registerComponent("controller", sizeof(Controller));
 	}
 	virtual void run() {
-		voxelWorld.display();
+		Controller* controller = (Controller*)ecs.getComponentBuffer(controllerComponentID);
+		auto pos = controller->cam.getPosition();
+		voxelWorld.display(pos.x, pos.z);
 	}
 	virtual const char* getName() {
 		return "SystemVoxel";
