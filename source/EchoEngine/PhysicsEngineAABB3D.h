@@ -95,6 +95,11 @@ struct BodyID {
 			return true;
 		return false;
 	}
+	bool operator!=(BodyID other) {
+		if (id != other.id)
+			return true;
+		return false;
+	}
 };
 
 template<uint32_t width, uint32_t height, uint32_t depth, uint32_t hash_width, uint32_t max_bodies_per_hash = 64>
@@ -240,8 +245,8 @@ public:
 
 template<uint32_t width, uint32_t height, uint32_t depth, uint32_t hash_width, uint32_t max_bodies_per_hash = 64>
 class PhysicsEngineAABB3D {
-	static constexpr uint32_t max_dynamic_bodies = 1000000;  //1mill
-	static constexpr uint32_t max_static_bodies = 10000000;  //10mill
+	static constexpr uint32_t max_dynamic_bodies = 100000;  //100k
+	static constexpr uint32_t max_static_bodies = 1000000;  //1mill
 	static constexpr uint32_t max_bodies = max_dynamic_bodies + max_static_bodies;
 	//FlatFlaggedBuffer<BodyAABB, max_bodies> bodies = FlatFlaggedBuffer<BodyAABB, max_bodies>();
 	DArray<BodyAABB> bodies;
@@ -361,6 +366,18 @@ public:
 		//	}
 		//}
 
+		return retValue;
+	}
+	inline FlatBuffer<BodyID, 10> getBodiesInPoint(Vec3D<FixedPoint<256*256>> pos, BodyID ignoredBody) {
+		FlatBuffer<BodyID, 10> retValue = {};
+		std::vector<BodyID> out = {};
+		//pos *= physics_unit_size;
+		Vec3D<uint32_t> siz = { 1, 1, 1 };
+		//siz *= physics_unit_size;
+		spatialHashTable.getIDs(*(Vec3D<uint32_t>*)&pos, siz, out);
+		for (uint32_t i = 0; i < out.size(); i++)
+			if(out[i] != ignoredBody)
+				retValue.push(out[i]);
 		return retValue;
 	}
 

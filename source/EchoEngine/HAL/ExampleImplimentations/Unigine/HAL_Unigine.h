@@ -24,6 +24,7 @@ void setupKeyMap() {
 	keyMap['A'] = Input::KEY::KEY_A;
 	keyMap['S'] = Input::KEY::KEY_S;
 	keyMap['D'] = Input::KEY::KEY_D;
+	keyMap[32] = Input::KEY::KEY_SPACE;
 }
 uint8_t getKeyMapToUnigineInputKey(uint8_t k) {
 	return keyMap[k];

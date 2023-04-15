@@ -9,11 +9,25 @@ struct Controller {
 	FPSCamera cam;
 	GameTick lastFired;
 	GameTick fireRate;
+	GameTick lastJumped;
+	GameTick jumpDuration;
+	GameTick jumpDistance;
+	FixedPoint<256 * 256> lastY;
+
+	enum {
+		IS_JUMPING,
+		IS_FALLING,
+		IS_FLOORED
+	} state;
 
 	inline void init() {
 		cam.init();
 		lastFired = 0;
 		fireRate = 20;
+		lastJumped = 0;
+		jumpDuration = 60;
+		jumpDistance = 2;
+		state = IS_FALLING;
 	}
 	inline bool canFire() {
 		if (lastFired + fireRate <= ecs.getTicksPassed())
@@ -22,6 +36,40 @@ struct Controller {
 	}
 	inline void setHasFired() {
 		lastFired = ecs.getTicksPassed();
+	}
+	inline void setHasFloored() {
+		state = IS_FLOORED;
+	}
+	inline bool canJump() {
+		if (isFloored())
+			//if(ecs.getTicksPassed() >= lastJumped + jumpDuration)
+				return true;
+		return false;
+	}
+	inline void setHasJumped() {
+		state = IS_JUMPING;
+		lastJumped = ecs.getTicksPassed();
+	}
+	inline bool isJumping() {
+		if (state == IS_JUMPING)
+			if (ecs.getTicksPassed() <= lastJumped + jumpDuration)
+				return true;
+			else {
+				lastJumped = ecs.getTicksPassed();
+				state = IS_FALLING;
+				return false;
+			}
+		return false;
+	}
+	inline bool isFalling() {
+		if (state == IS_FALLING)
+			return true;
+		return false;
+	}
+	inline bool isFloored() {
+		if (state == IS_FLOORED)
+			return true;
+		return false;
 	}
 };
 struct Explode {
@@ -86,7 +134,7 @@ public:
 
 		turnPhase(controller, pos);
 		strafePhase(controller, pos, bodyID);
-		jumpPhase(controller, pos);
+		jumpPhase(controller, pos, bodyID);
 		firePhase(controller, pos);
 	}
 	virtual const char* getName() {
@@ -134,19 +182,34 @@ private:
 		if (EE_getKeyState('D'))
 			vel += right;
 		vel *= "0.1f";
-		//if (isFloored())
-		//	vel.y = 0;
-		if (vel.isZero() == false) {
-			vel.y = 0;
+		Vec3D<FixedPoint<256 * 256>> originalVel = physics.getVelocity(bodyID);
+		vel.y = originalVel.y;
+		Vec3D<FixedPoint<256 * 256>> siz = physics.getSize(bodyID);
+		Vec3D<FixedPoint<256 * 256>> pointPos = pos;
+		pointPos.y += siz.y;
+		pointPos.y += "0.01f";
+		if (physics.getBodiesInPoint(pointPos, bodyID).count && controller->isFalling()) {
+			controller->setHasFloored();
+		} else {
+			if (controller->isFloored())
+				controller->state = controller->IS_FALLING;
 		}
-		else {
-			Vec3D<FixedPoint<256 * 256>> originalVel = physics.getVelocity(bodyID);
-			vel.y = originalVel.y;
+		if(controller->isFloored())
+			vel.y = 0;
+		//controller->lastY = pos.y;
+		if (EE_getKeyState(32) && controller->canJump()) {
+			controller->setHasJumped();
+		}
+		if (controller->isJumping()) {
+			vel.y = "0.06f";  //TODO: fix to allow negative values
+			vel.y = -vel.y;
 		}
 		physics.setVelocity(bodyID, vel.x, vel.y, vel.z);
 	}
-	void jumpPhase(Controller* controller, const Vec3D<FixedPoint<256 * 256>>& pos) {
+	void jumpPhase(Controller* controller, const Vec3D<FixedPoint<256 * 256>>& pos, BodyID bodyID) {
+		if (EE_getKeyState(32)) {
 
+		}
 	}
 	void firePhase(Controller* controller, const Vec3D<FixedPoint<256 * 256>>& pos) {
 		uint8_t leftMouse;
