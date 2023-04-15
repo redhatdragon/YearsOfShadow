@@ -638,7 +638,7 @@ private:
 		//FixedPoint<physics_unit_size> acceleration = "0.0163f";
 		int32_t acceleration = getGravityAcceleration();
 		BodyAABB& body = bodies[bodyID.id];
-		if ((int32_t)body.vel.y < getGravityMax())
-			body.vel.y += acceleration;
+		if ((int32_t)body.vel.y < getGravityMax()*2)
+			body.vel.y += acceleration*2;
 	}
 };

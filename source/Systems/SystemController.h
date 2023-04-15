@@ -10,9 +10,8 @@ struct Controller {
 	GameTick lastFired;
 	GameTick fireRate;
 	GameTick lastJumped;
-	GameTick jumpDuration;
-	GameTick jumpDistance;
-	FixedPoint<256 * 256> lastY;
+	uint16_t jumpDuration;
+	uint16_t jumpDistance;
 
 	enum {
 		IS_JUMPING,
@@ -60,6 +59,11 @@ struct Controller {
 				return false;
 			}
 		return false;
+	}
+	inline FixedPoint<256 * 256> getJumpDistPerTick() {
+		FixedPoint<256 * 256> retValue = jumpDistance;
+		retValue /= jumpDuration;
+		return retValue;
 	}
 	inline bool isFalling() {
 		if (state == IS_FALLING)
@@ -186,7 +190,8 @@ private:
 		vel.y = originalVel.y;
 		Vec3D<FixedPoint<256 * 256>> siz = physics.getSize(bodyID);
 		Vec3D<FixedPoint<256 * 256>> pointPos = pos;
-		pointPos.y += siz.y;
+		pointPos += siz / 2;
+		pointPos.y += siz.y / 2;
 		pointPos.y += "0.01f";
 		if (physics.getBodiesInPoint(pointPos, bodyID).count && controller->isFalling()) {
 			controller->setHasFloored();
@@ -201,8 +206,7 @@ private:
 			controller->setHasJumped();
 		}
 		if (controller->isJumping()) {
-			vel.y = "0.06f";  //TODO: fix to allow negative values
-			vel.y = -vel.y;
+			vel.y = -controller->getJumpDistPerTick();
 		}
 		physics.setVelocity(bodyID, vel.x, vel.y, vel.z);
 	}
