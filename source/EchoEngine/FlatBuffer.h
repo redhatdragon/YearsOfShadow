@@ -399,14 +399,14 @@ public:
 		return -1;
 	}
 	uint32_t toggleFirstInvalid(uint32_t startingIndex) {
-		uint32_t remainder = startingIndex % (8 * 8);
+		constexpr uint32_t unrollCount = 4, bytesPerChunk = 8, bitsPerChunk = bytesPerChunk * 8;
+		uint32_t remainder = startingIndex % bitsPerChunk;
 		for (uint32_t i = 0; i < remainder; i++)
 			if (getIsValid(startingIndex + i) == false) {
 				setValid(startingIndex + i);
 				return startingIndex + i;
 			}
 		startingIndex = startingIndex + remainder;
-		constexpr uint32_t unrollCount = 4, bytesPerChunk = 8, bitsPerChunk = bytesPerChunk * 8;
 		uint32_t max = maxLength / (bitsPerChunk * unrollCount);
 		uint64_t* bufferAs64 = (uint64_t*)&isValid[0];
 		for (uint32_t i = startingIndex  / (bitsPerChunk * unrollCount); i < max; i+=unrollCount) {

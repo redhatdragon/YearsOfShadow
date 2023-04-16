@@ -17,7 +17,7 @@ public:
 				<< size << " bytes via malloc." << std::endl;
 			throw;
 		}
-		memset(dataHeader, 0, sizeof(DataHeader) + sizeof(T) * size);
+		memset(dataHeader, 0, (uint64_t)sizeof(DataHeader) + sizeof(T) * size);
 		dataHeader->count = size;
 	}
 	void initCopy(const void* data, size_t size) {

@@ -39,9 +39,7 @@ class VoxelChunk {
 	//This just ensures across all compilers that struct padding not intefere.
 	uint32_t blocks[width][height][depth];
 	FlatBuffer<BlockPos, width * height * depth> drawableBlocks;
-	FlatBuffer<BlockBody, width * height * depth> bodies;
 	bool hasBody[width][height][depth];
-	bool requiresBody[width][height][depth];
 	FlatBuffer<BodyID, width* height* depth> activeBodies;
 
 	void* blockMesh;
@@ -63,13 +61,13 @@ public:
 		EE_setInstancedSubmeshTexture(blockMesh, 0, "normal", "Textures/Grass1_n.png");
 		//EE_setTextureSubmesh(blockMesh, 0, 0, "../data/Textures/Grass2.png");
 
-		for (uint32_t z = 0; z < depth; z++)
-			for (uint32_t y = 0; y < height; y++)
-				for (uint32_t x = 0; x < width; x++) {
-					VoxelBlock block; block.typeID = 0; block.damage = 0;
-					setBlock(block, x, y, z);
-				}
-		activeBodies.clear();
+		//for (uint32_t z = 0; z < depth; z++)
+		//	for (uint32_t y = 0; y < height; y++)
+		//		for (uint32_t x = 0; x < width; x++) {
+		//			VoxelBlock block; block.typeID = 0; block.damage = 0;
+		//			setBlock(block, x, y, z);
+		//		}
+		//activeBodies.clear();
 	}
 
 	void gen(uint32_t genHeight) {
@@ -111,68 +109,66 @@ public:
 				continue;
 			uint32_t xplus = 0;
 			for (uint32_t i = rootBlockPos.x; i < width; i++) {
-				if (isVisible(i, rootBlockPos.y, rootBlockPos.z)) {
-					if (hasBody[i][rootBlockPos.y][rootBlockPos.z])
-						break;
-					xplus++;
-					continue;
-				}
-				break;
+				//if (isInBounds(i, rootBlockPos.y, rootBlockPos.z) == false)
+				if(isVisible(i, rootBlockPos.y, rootBlockPos.z) == false)
+					break;
+				if (hasBody[i][rootBlockPos.y][rootBlockPos.z])
+					break;
+				xplus++;
 			}
 			uint32_t xminus = 0;
 			for (uint32_t i = rootBlockPos.x; i >= 0; i--) {
-				if (i == -1) break;
-				if (isVisible(i, rootBlockPos.y, rootBlockPos.z)) {
-					if (hasBody[i][rootBlockPos.y][rootBlockPos.z])
-						break;
-					xminus++;
-					continue;
-				}
-				break;
+				//if (i == -1) break;
+				if (i > 15) break;
+				//if (isInBounds(i, rootBlockPos.y, rootBlockPos.z) == false)
+				if (isVisible(i, rootBlockPos.y, rootBlockPos.z) == false)
+					break;
+				if (hasBody[i][rootBlockPos.y][rootBlockPos.z])
+					break;
+				xminus++;
 			}
 			uint32_t yplus = 0;
 			for (uint32_t i = rootBlockPos.y; i < height; i++) {
-				if (isVisible(rootBlockPos.x, i, rootBlockPos.z)) {
-					if (hasBody[rootBlockPos.x][i][rootBlockPos.z])
-						break;
-					yplus++;
-					continue;
-				}
-				break;
+				//if (isInBounds(rootBlockPos.x, i, rootBlockPos.z) == false)
+				if (isVisible(rootBlockPos.x, i, rootBlockPos.z) == false)
+					break;
+				if (hasBody[rootBlockPos.x][i][rootBlockPos.z])
+					break;
+				yplus++;
 			}
 			uint32_t yminus = 0;
 			for (uint32_t i = rootBlockPos.y; i >= 0; i--) {
-				if (i == -1) break;
-				if (isVisible(rootBlockPos.x, i, rootBlockPos.z)) {
-					if (hasBody[rootBlockPos.x][i][rootBlockPos.z])
-						break;
-					yminus++;
-					continue;
-				}
-				break;
+				//if (i == -1) break;
+				if (i > 255) break;
+				//if (isInBounds(rootBlockPos.x, i, rootBlockPos.z) == false)
+				if (isVisible(rootBlockPos.x, i, rootBlockPos.z) == false)
+					break;
+				if (hasBody[rootBlockPos.x][i][rootBlockPos.z])
+					break;
+				yminus++;
 			}
 
 			if (xplus >= xminus && xplus >= yplus && xplus >= yminus) {
 				BlockBody body = { rootBlockPos.x, rootBlockPos.y, rootBlockPos.z,
-				1 + xplus, 1, 1};
+				xplus, 1, 1};
 				spawnBody(body);
 				continue;
 			}
 			if (xminus >= xplus && xminus >= yplus && xminus >= yminus) {
 				BlockBody body = { rootBlockPos.x - xminus, rootBlockPos.y, rootBlockPos.z,
-				1 + xminus, 1, 1 };
+				xminus, 1, 1 };
 				spawnBody(body);
 				continue;
 			}
 			if (yplus >= xplus && yplus >= xminus && yplus >= yminus) {
 				BlockBody body = { rootBlockPos.x, rootBlockPos.y, rootBlockPos.z,
-				1, 1 + yplus, 1 };
+				1, yplus, 1 };
 				spawnBody(body);
 				continue;
 			}
 			if (yminus >= xplus && yminus >= xminus && yminus >= yplus) {
 				BlockBody body = { rootBlockPos.x, rootBlockPos.y - yminus, rootBlockPos.z,
-				1, 1 + yminus, 1 };
+				1, yminus, 1 };
 				spawnBody(body);
 				continue;
 			}
@@ -200,7 +196,11 @@ public:
 		modified = true;
 
 		memset(hasBody, 0, sizeof(hasBody));
-		memset(requiresBody, 0, sizeof(requiresBody));
+		//for (uint32_t z = 0; z < depth; z++)
+		//	for (uint32_t y = 0; y < height; y++)
+		//		for (uint32_t x = 0; x < width; x++)
+		//			hasBody[x][y][z] = false;
+		//memset(requiresBody, 0, sizeof(requiresBody));
 		{
 			uint32_t bodyCount = activeBodies.count;
 			for (uint32_t i = 0; i < bodyCount; i++)
@@ -213,7 +213,7 @@ public:
 				for (uint32_t x = 0; x < width; x++) {
 					if (isVisible(x, y, z)) {
 						drawableBlocks.push({ (uint8_t)x, (uint8_t)y, (uint8_t)z });
-						requiresBody[x][y][z] = true;
+						//requiresBody[x][y][z] = true;
 					}
 				}
 		spawnPhysics();
@@ -224,7 +224,9 @@ public:
 		for (uint32_t i = 0; i < count; i++) {
 			BlockPos& blockPos = drawableBlocks[i];
 			EE_Point3Df pos = {
-				blockPos.x + worldOffsetX, blockPos.y + worldOffsetY, blockPos.z + worldOffsetZ
+				(float)blockPos.x + worldOffsetX,
+				(float)blockPos.y + worldOffsetY,
+				(float)blockPos.z + worldOffsetZ
 			};
 			pos.x += 0.5f; pos.y += 0.5f; pos.z += 0.5f;
 			positions.push_back(pos);
@@ -238,7 +240,7 @@ public:
 		modified = true;
 
 		memset(hasBody, 0, sizeof(hasBody));
-		memset(requiresBody, 0, sizeof(requiresBody));
+		//memset(requiresBody, 0, sizeof(requiresBody));
 		{
 			uint32_t bodyCount = activeBodies.count;
 			for (uint32_t i = 0; i < bodyCount; i++)
@@ -248,27 +250,32 @@ public:
 		EE_setInstancedMeshPositions(blockMesh, NULL, NULL);
 	}
 private:
-	inline bool isVisible(uint32_t x, uint32_t y, uint32_t z) {
+	inline bool isVisible(uint8_t x, uint8_t y, uint8_t z) {
 		if (isAir(x, y, z) == false && hasNeighboringAir(x, y, z) == true)
 			return true;
 		return false;
 	}
 	inline void spawnBody(const BlockBody& blockBody) {
 		//hasBody[blockBody.x][blockBody.y][blockBody.z] = true;
+
 		for(uint32_t i = blockBody.z; i < blockBody.z + blockBody.d; i++)
 			for (uint32_t j = blockBody.y; j < blockBody.y + blockBody.h; j++)
 				for (uint32_t k = blockBody.x; k < blockBody.x + blockBody.w; k++) {
 					hasBody[k][j][i] = true;
 				}
 		auto bodyID = physics.addStaticBodyBox(
-			blockBody.x * 1 + worldOffsetX,
-			//worldOffsetY + (height * 1 - (pos.y * 1)),
-			blockBody.y * 1 + worldOffsetY,
-			blockBody.z * 1 + worldOffsetZ,
+			(uint32_t)blockBody.x + worldOffsetX,
+			//(uint32_t)worldOffsetY + (height * 1 - (blockBody.y * 1)),
+			(uint32_t)blockBody.y + worldOffsetY,
+			//(uint32_t)blockBody.y + 1 + worldOffsetY,
+			(uint32_t)blockBody.z + worldOffsetZ,
+			//(uint32_t)blockBody.z + worldOffsetZ - 1,
 			blockBody.w, blockBody.h, blockBody.d
 		);
 		physics.setSolid(bodyID, true);
 		physics.setUserData(bodyID, (void*)-1);
+		if (bodyID.id > 10000000)
+			throw;
 		activeBodies.push(bodyID);
 	}
 	inline bool hasNeighboringAir(uint32_t x, uint32_t y, uint32_t z) const {
@@ -304,6 +311,11 @@ private:
 	inline bool isAir(uint8_t x, uint8_t y, uint8_t z) const {
 		return getBlock(x, y, z).isAir();
 	}
+	inline bool isInBounds(uint32_t x, uint32_t y, uint32_t z) {
+		if (x > 15 || y > 255 || z > 15)
+			return false;
+		return true;
+	}
 };
 
 //worldSize is the number or chunks wide for the x as well as z axis.
@@ -333,6 +345,8 @@ public:
 		end += (chunksWide / 2) * width;
 		for (uint32_t i = 0; i < worldSize; i++) {
 			for (uint32_t j = 0; j < worldSize; j++) {
+				chunks[j][i].display();
+				continue;
 				Vec2D<int32_t> curPos = {j * width, i * width};
 				if (curPos.isBetween(start, end))
 					chunks[j][i].display();
@@ -405,12 +419,12 @@ public:
 		//needsRebuilding[x % width][z % depth] = true;
 	}
 
-	void rebuild() {
-		for (uint32_t i = 0; i < worldSize; i++)
-			for (uint32_t j = 0; j < worldSize; j++)
-				//if (needsRebuilding[i][j])
-					chunks[j][i].rebuild();
-	}
+	//void rebuild() {
+	//	for (uint32_t i = 0; i < worldSize; i++)
+	//		for (uint32_t j = 0; j < worldSize; j++)
+	//			//if (needsRebuilding[i][j])
+	//				chunks[j][i].rebuild();
+	//}
 
 	inline uint32_t getHeight() {
 		return height;
