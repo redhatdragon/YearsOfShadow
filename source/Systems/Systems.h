@@ -45,6 +45,7 @@ constexpr uint64_t sizeOfECS = sizeof(ecs);
 //#include "SystemExplosionTest.h"
 #include "SystemController.h"
 #include "SystemExplode.h"
+#include "SystemEnemy.h"
 
 #include "SystemDisplay.h"
 
@@ -70,6 +71,7 @@ void initSystems() {
 	ecs.registerSystem<SystemVoxel>();
 	//ecs.registerSystem<SystemExplosionTest>();
 	ecs.registerSystem<SystemController>();
+	ecs.registerSystem<SystemEnemy>();
 	ecs.registerSystem<SystemExplode>();
 
 	ecs.registerSystem<SystemDisplay>();
