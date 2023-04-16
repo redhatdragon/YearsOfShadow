@@ -345,8 +345,6 @@ public:
 		end += (chunksWide / 2) * width;
 		for (uint32_t i = 0; i < worldSize; i++) {
 			for (uint32_t j = 0; j < worldSize; j++) {
-				chunks[j][i].display();
-				continue;
 				Vec2D<int32_t> curPos = {j * width, i * width};
 				if (curPos.isBetween(start, end))
 					chunks[j][i].display();
