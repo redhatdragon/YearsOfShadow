@@ -124,10 +124,20 @@ struct Vec3D {
 		y += other.y;
 		z += other.z;
 	}
+	__forceinline void operator+=(T num) {
+		x += num;
+		y += num;
+		z += num;
+	}
 	__forceinline void operator-=(const Vec3D& other) {
 		x -= other.x;
 		y -= other.y;
 		z -= other.z;
+	}
+	__forceinline void operator-=(T num) {
+		x -= num;
+		y -= num;
+		z -= num;
 	}
 	__forceinline void operator/=(T num) {
 		x /= num;
@@ -147,8 +157,14 @@ struct Vec3D {
 	__forceinline Vec3D<T> operator+(const Vec3D& other) const {
 		return { x + other.x, y + other.y, z + other.z };
 	}
+	__forceinline Vec3D<T> operator+(T num) const {
+		return { x + num, y + num, z + num };
+	}
 	__forceinline Vec3D<T> operator-(const Vec3D& other) const {
 		return { x - other.x, y - other.y, z - other.z };
+	}
+	__forceinline Vec3D<T> operator-(T num) const {
+		return { x + num, y + num, z + num };
 	}
 	__forceinline Vec3D<T> operator/(const T num) const {
 		return { x / num, y / num, z / num };
@@ -158,6 +174,31 @@ struct Vec3D {
 	}
 	__forceinline Vec3D<T> operator*(const Vec3D& other) const {
 		return { x * other.x, y * other.y, z * other.z };
+	}
+	__forceinline bool operator>(const Vec3D& other) const {
+		T a = x + y + z;
+		T b = other.x + other.y + other.z;
+		return a > b;
+	}
+	__forceinline bool operator>=(const Vec3D& other) const {
+		T a = x + y + z;
+		T b = other.x + other.y + other.z;
+		return a >= b;
+	}
+	__forceinline bool operator<(const Vec3D& other) const {
+		T a = x + y + z;
+		T b = other.x + other.y + other.z;
+		return a < b;
+	}
+	__forceinline bool operator<=(const Vec3D& other) const {
+		T a = x + y + z;
+		T b = other.x + other.y + other.z;
+		return a <= b;
+	}
+	__forceinline bool operator==(const Vec3D& other) const {
+		T a = x + y + z;
+		T b = other.x + other.y + other.z;
+		return a == b;
 	}
 	__forceinline bool isZero() {
 		if (x == 0 && y == 0 && z == 0)
