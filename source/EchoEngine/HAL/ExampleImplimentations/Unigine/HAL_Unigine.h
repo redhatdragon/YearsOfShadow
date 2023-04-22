@@ -188,7 +188,7 @@ void* EE_getNewInstancedMesh(const char* filePath) {
 	//instancedMeshPtr->setMaterialTexture("albedo", "Textures/photos_2017_10_6_fst_grass-texture-lawn.jpg", 0);
 	void* meshID = (void*)meshClusterPtrPool.size();
 	meshClusterPtrPool.push_back(instancedMeshPtr);
-	instancedMeshPtr->setMaxVisibleDistance((16*12) / 2, 0);
+	instancedMeshPtr->setMaxVisibleDistance((16*6) / 2, 0);  //TODO: May need tuning.
 	return meshID;
 }
 void EE_releaseInstancedMesh(void* meshID) {
@@ -219,6 +219,7 @@ void EE_setInstancedMeshPositions(void* meshID, const EE_Point3Df* posBuffer, ui
 }
 void EE_setInstancedMeshScale(void* meshID, EE_Point3Df scale) {
 	auto& cluster = meshClusterPtrPool[(size_t)meshID];
+	fixYZ(scale.y, scale.z);
 	cluster->setWorldScale({ scale.x, scale.y, scale.z });
 }
 void EE_setInstancedSubmeshTexture(void* meshID, uint8_t submeshIndex, const char* textureType, const char* path) {

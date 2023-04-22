@@ -1,7 +1,7 @@
 #pragma once
 #include INC_UTILS_PATH(ENGINE_PATH, DDECS.h)
 #include INC_UTILS_PATH(ENGINE_PATH, PhysicsEngineAABB3D.h)
-#include "../Voxel.h"
+#include "SystemUtilities/Voxel.h"
 #include "SystemController.h"
 #include <iostream>
 #include <memory>

@@ -24,7 +24,7 @@ struct EnemyAI {
 	u8 auditorySensitivity;
 	EntityHandle targetHandle;
 	EntityID targetEntity;
-	Vec3D<FixedPoint<256*256>> expectedTargetPosition;
+	Vec3D<FixedPoint<256*256>> gotoPos;
 	GameTick lastJumped;
 	u8 jumpDuration;
 	u8 jumpDistance;
@@ -38,33 +38,42 @@ struct EnemyAI {
 class SystemEnemy : public System {
 	ComponentID bodyComponentID;
 	ComponentID meshComponentID;
+	ComponentID instancedMeshComponentID;
 	ComponentID enemyAIComponentID;
 	ComponentID controllerComponentID;
 public:
 	virtual void init() {
 		bodyComponentID = ecs.registerComponent("body", sizeof(BodyID));
 		meshComponentID = ecs.registerComponent("mesh", sizeof(void*));
+		instancedMeshComponentID = ecs.registerComponent("instancedMesh", sizeof(u32));
 		enemyAIComponentID = ecs.registerComponent("enemyAI", sizeof(EnemyAI));
 		controllerComponentID = ecs.registerComponent("controller", sizeof(Controller));
 
 		createTest();
 	}
 	virtual void run() {
+		return;
 		u32 enemyCount = ecs.getComponentCount(enemyAIComponentID);
 		EnemyAI* enemyAIs = (EnemyAI*)ecs.getComponentBuffer(enemyAIComponentID);
 		for (u32 i = 0; i < enemyCount; i++) {
 			EnemyAI* enemyAI = &enemyAIs[i];
 			EntityID owner = ecs.getOwner(enemyAIComponentID, i);
 			BodyID bodyID = *(BodyID*)ecs.getEntityComponent(owner, bodyComponentID);
-			perception(enemyAI, bodyID);
+			findTarget(enemyAI, bodyID);
+			if (enemyAI->targetEntity == -1) {
+				auto pos = physics.getPos(bodyID);
+				if (enemyAI->gotoPos.isZero()
+					|| (enemyAI->gotoPos-pos).getDistance() <= 2)
+					findRandomTargetPos(enemyAI, bodyID);
+			}
 			movement(enemyAI, bodyID);
 		}
 	}
 	virtual const char* getName() {
-		return "SystemController";
+		return "SystemEnemy";
 	}
 private:
-	void perception(EnemyAI* enemyAI, BodyID bodyID) {
+	void findTarget(EnemyAI* enemyAI, BodyID bodyID) {
 		int stopEarly = rand() % 10;
 		if (stopEarly)
 			return;
@@ -112,23 +121,46 @@ private:
 			}
 			enemyAI->targetHandle = ecs.entityGetHandle(closestEntity);
 			enemyAI->targetEntity = closestEntity;
-			enemyAI->expectedTargetPosition = closestPos;
+			enemyAI->gotoPos = closestPos;
 		}
-	}
-	void movement(EnemyAI* enemyAI, BodyID bodyID) {
 		if (enemyAI->targetHandle == -1)
 			return;
 		if (ecs.entityHandleValid(enemyAI->targetEntity, enemyAI->targetHandle) == false) {
 			enemyAI->targetEntity = enemyAI->targetHandle = -1;
-			return;
 		}
-		auto targetPos = enemyAI->expectedTargetPosition;
+	}
+	void findRandomTargetPos(EnemyAI* enemyAI, BodyID bodyID) {
+		u32 padding = 40, border = 500;
+		Vec3D<FixedPoint<256 * 256>> gotoPos = { 
+			rand() % (border - (padding + padding)),
+			0,
+			rand() % (border - (padding + padding))
+		};
+		gotoPos += 5;
+		gotoPos.y = 0;
+		auto pos = physics.getPos(bodyID);
+		gotoPos.y = pos.y;
+		enemyAI->gotoPos = gotoPos;
+	}
+	void movement(EnemyAI* enemyAI, BodyID bodyID) {
+		if (enemyAI->gotoPos.isZero())
+			return;
+		auto targetPos = enemyAI->gotoPos;
 		auto vel = targetPos;
-		vel -= physics.getPos(bodyID);
+		auto pos = physics.getPos(bodyID);
+		vel -= pos;
 		vel *= 10;
 		vel.normalize();
 		vel /= 30;
 		vel.y = 0;
+		auto pointPos = pos;
+		auto siz = physics.getSize(bodyID);
+		pointPos += siz / 2;
+		pointPos.y += siz.y / 2;
+		pointPos.y += "0.01f";
+		if (physics.getBodiesInPoint(pointPos, bodyID).count == 0) {
+			vel.y = physics.getVelocity(bodyID).y;
+		}
 		physics.setVelocity(bodyID, vel.x, vel.y, vel.z);
 	}
 
@@ -138,26 +170,33 @@ private:
 		EntityID entityID = ecs.getNewEntity();
 		physics.setUserData(bodyID, (void*)entityID);
 		ecs.emplace(entityID, bodyComponentID, &bodyID);
-		void* mesh = EE_getNewMesh("Meshes/Cube2.fbx/cube.001.mesh");
-		EE_setScaleMesh(mesh, 50*0.2f, 50*0.8f, 50*0.2f);
-		ecs.emplace(entityID, meshComponentID, &mesh);
+		//std::string path = "Meshes/Cube2.fbx/cube.001.mesh";
+		//void* mesh = EE_getNewMesh(path.c_str());
+		//EE_setScaleMesh(mesh, 50*0.2f, 50*0.8f, 50*0.2f);
+		//ecs.emplace(entityID, meshComponentID, &mesh);
+		u32 instanceMeshTypeID = instancedMeshCodex.add("Meshes/Cube2.fbx/cube.001.mesh");
+		instancedMeshCodex.setSize(instanceMeshTypeID, {50*0.2f, 50*0.8f, 50*0.2f});
+		ecs.emplace(entityID, instancedMeshComponentID, &instanceMeshTypeID);
+
+
 		EnemyAI enemyAI;
 		enemyAI.init();
 		ecs.emplace(entityID, enemyAIComponentID, &enemyAI);
 	}
 	void createTest() {
-		uint32_t count = 0;
+		u32 count = 0;
+		u32 padding = 40, border = 500;
 		while (true) {
-			Vec3D<uint32_t> pos;
-			pos.x = rand() % 120;
-			pos.z = rand() % 120;
-			pos += 40;
-			pos.y = 155;
+			Vec3D<u32> pos = {};
+			pos.x = rand() % (border-(padding+padding));
+			pos.z = rand() % (border-(padding+padding));
+			pos += padding;
+			pos.y = 153;
 			if (physics.getBodiesInRectRough(pos, { 1, 1, 1 }).size())
 				continue;
 			createEnemy(pos);
 			count++;
-			if (count == 100)
+			if (count == 10000)
 				break;
 		}
 	}

@@ -3,8 +3,8 @@
 
 #define ENGINE_PATH ../EchoEngine/
 
-#include "EchoEngine/HAL/HAL_3D.h"
-#include "EchoEngine/PhysicsEngineAABB3D.h"
+#include "../EchoEngine/HAL/HAL_3D.h"
+#include "../EchoEngine/PhysicsEngineAABB3D.h"
 #include "../EchoEngine/DDECS.h"
 //#include <memory>
 //#include <stddef>
@@ -28,7 +28,7 @@ PHYSICS_DEF physics;
 
 constexpr uint64_t sizeofPhysics = sizeof(PHYSICS_DEF);
 
-#include "Voxel.h"
+#include "SystemUtilities/Voxel.h"
 
 typedef VoxelWorld<world_size / chunk_width> VOXEL_WORLD_DEF;
 
@@ -38,6 +38,8 @@ constexpr uint64_t sizeofVoxelWorld = sizeof(VOXEL_WORLD_DEF);
 
 DDECS<64, 500000> ecs = DDECS<64, 500000>();
 constexpr uint64_t sizeOfECS = sizeof(ecs);
+
+#include "SystemUtilities.h"
 
 #include "SystemDeath.h"
 #include "SystemPhysics.h"
@@ -51,20 +53,31 @@ constexpr uint64_t sizeOfECS = sizeof(ecs);
 
 #include "SystemUtilities/Serialize.h"
 
+#include <UniginePlayers.h>
+
 void meshDestructor(ComponentID id, uint32_t index) {
 	void** meshBuffer = (void**)ecs.getComponentBuffer(id);
 	void* mesh = meshBuffer[index];
 	EE_releaseMesh(mesh);
 }
-
-#include <UniginePlayers.h>
-
-void initSystems() {
-	//initFixedPointUtilities();
-	setupFixedPointTableFiles();
-
+void instancedMeshDestrutor(ComponentID id, u32 index) {
+	u32* instancedMeshBuffer = (u32*)ecs.getComponentBuffer(id);
+	u32 instancedMesh = instancedMeshBuffer[index];
+	instancedMeshCodex.release(instancedMesh);
+}
+void registerDestructors() {
 	ComponentID meshComponentID = ecs.registerComponent("mesh", sizeof(void*));
 	ecs.registerDestructor(meshComponentID, meshDestructor);
+	ComponentID instancedMeshComponentID = ecs.registerComponent("instancedMesh", sizeof(u32));
+	ecs.registerDestructor(instancedMeshComponentID, instancedMeshDestrutor);
+}
+
+inline void initSystems() {
+	instancedMeshCodex.init();
+
+	setupFixedPointTableFiles();
+
+	registerDestructors();
 
 	ecs.registerSystem<SystemDeath>();
 	ecs.registerSystem<SystemPhysics>();
@@ -76,3 +89,5 @@ void initSystems() {
 
 	ecs.registerSystem<SystemDisplay>();
 }
+
+#include "Systems_impl.h"

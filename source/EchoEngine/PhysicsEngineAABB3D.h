@@ -438,6 +438,11 @@ public:
 		siz.z.setRaw(bodySiz.z);
 		return siz;
 	}
+	Vec3D<float> getSizeF(BodyID id) {
+		Vec3D<uint32_t>& bodySiz = bodies[id.id].siz;
+		Vec3D<float> siz = { (float)bodySiz.x / physics_unit_size, (float)bodySiz.y / physics_unit_size, (float)bodySiz.z / physics_unit_size };
+		return siz;
+	}
 
 	float getTime() {
 		return timeFromStepping;

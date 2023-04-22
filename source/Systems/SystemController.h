@@ -245,8 +245,7 @@ private:
 		Explode explode;
 		explode.init(Explode::ON_CONTACT | Explode::ON_TIMER, 60);
 		//std::string meshPath = EE_getDirData();
-		std::string meshPath = "";
-		meshPath += "Meshes/Cube2.fbx/cube.001.mesh";
+		std::string meshPath = "Meshes/Cube2.fbx/cube.001.mesh";
 		void* meshID = EE_getNewMesh(meshPath.c_str());
 		EE_setScaleMesh(meshID, 50 / 10, 50 / 10, 50 / 10);
 		ecs.emplace(bomb, bodyComponentID, &bodyID);

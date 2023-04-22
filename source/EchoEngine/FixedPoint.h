@@ -3,7 +3,7 @@
 #include <string>
 //#include "RockBox/fixedpoint.h"
 
-#define FIXED_POINT_DEFAULT_SCALE 256
+#define FIXED_POINT_DEFAULT_SCALE (256*256)
 
 template <uint32_t decScale = FIXED_POINT_DEFAULT_SCALE>
 class FixedPoint {

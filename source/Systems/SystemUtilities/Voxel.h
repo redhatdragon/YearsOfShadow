@@ -1,6 +1,4 @@
 #pragma once
-#include "EchoEngine/HAL/HAL_3D.h"
-#include "EchoEngine/FlatBuffer.h"
 #include <memory.h>
 
 
@@ -78,6 +76,8 @@ public:
 					VoxelBlock block; block.typeID = 1; block.damage = 0;
 					setBlock(block, x, (height-1)-y, z);
 				}
+
+		rebuild();
 	}
 
 	inline const VoxelBlock& getBlock(uint8_t x, uint8_t y, uint8_t z) const {
@@ -242,10 +242,10 @@ public:
 		memset(hasBody, 0, sizeof(hasBody));
 		//memset(requiresBody, 0, sizeof(requiresBody));
 		{
-			uint32_t bodyCount = activeBodies.count;
-			for (uint32_t i = 0; i < bodyCount; i++)
-				physics.removeBody(activeBodies[i]);
-			activeBodies.clear();
+			//uint32_t bodyCount = activeBodies.count;
+			//for (uint32_t i = 0; i < bodyCount; i++)
+			//	physics.removeBody(activeBodies[i]);
+			//activeBodies.clear();
 		}
 		EE_setInstancedMeshPositions(blockMesh, NULL, NULL);
 	}
