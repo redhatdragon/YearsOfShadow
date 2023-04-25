@@ -4,17 +4,19 @@
 #define ENGINE_PATH ../EchoEngine/
 
 #include "../EchoEngine/HAL/HAL_3D.h"
-#include "../EchoEngine/PhysicsEngineAABB3D.h"
+#include "../EchoEngine/PhysicsEngineAABB3D_MT.h"
 #include "../EchoEngine/DDECS.h"
 //#include <memory>
 //#include <stddef>
 
 constexpr uint32_t chunk_width = 16, chunk_depth = 16, chunk_height = 256;
-constexpr uint32_t world_size = 500 - (500 % chunk_width);  //block across
+constexpr uint32_t world_size = 300 - (300 % chunk_width);  //block across
 //constexpr uint32_t hash_width = 2;
 //constexpr uint32_t max_bodies_per_hash = 16;
 constexpr uint32_t hash_width = 1;
-constexpr uint32_t max_bodies_per_hash = 10;
+constexpr uint32_t max_bodies_per_hash = 50;
+
+void* threadPool;
 
 typedef PhysicsEngineAABB3D <
 	((world_size) / hash_width) + 2,
@@ -73,6 +75,8 @@ void registerDestructors() {
 }
 
 inline void initSystems() {
+	threadPool = EE_getNewThreadPool(12);
+
 	instancedMeshCodex.init();
 
 	setupFixedPointTableFiles();

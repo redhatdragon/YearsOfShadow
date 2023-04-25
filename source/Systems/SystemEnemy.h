@@ -1,8 +1,4 @@
 #pragma once
-#include INC_UTILS_PATH(ENGINE_PATH, DDECS.h)
-#include INC_UTILS_PATH(ENGINE_PATH, PhysicsEngineAABB3D.h)
-#include INC_UTILS_PATH(ENGINE_PATH, EE_Types.h)
-//#include "../FP_FPSCamera.h"  //Postoned till fixed
 #include "../FPSCamera.h"
 #include <iostream>
 
@@ -52,7 +48,6 @@ public:
 		createTest();
 	}
 	virtual void run() {
-		return;
 		u32 enemyCount = ecs.getComponentCount(enemyAIComponentID);
 		EnemyAI* enemyAIs = (EnemyAI*)ecs.getComponentBuffer(enemyAIComponentID);
 		for (u32 i = 0; i < enemyCount; i++) {
@@ -130,7 +125,7 @@ private:
 		}
 	}
 	void findRandomTargetPos(EnemyAI* enemyAI, BodyID bodyID) {
-		u32 padding = 40, border = 500;
+		u32 padding = 40, border = world_size;
 		Vec3D<FixedPoint<256 * 256>> gotoPos = { 
 			rand() % (border - (padding + padding)),
 			0,
@@ -158,7 +153,8 @@ private:
 		pointPos += siz / 2;
 		pointPos.y += siz.y / 2;
 		pointPos.y += "0.01f";
-		if (physics.getBodiesInPoint(pointPos, bodyID).count == 0) {
+		//if (physics.getBodiesInPoint(pointPos, bodyID).count == 0) {
+		if (physics.pointTrace(pointPos, bodyID) == false) {
 			vel.y = physics.getVelocity(bodyID).y;
 		}
 		physics.setVelocity(bodyID, vel.x, vel.y, vel.z);
@@ -174,6 +170,7 @@ private:
 		//void* mesh = EE_getNewMesh(path.c_str());
 		//EE_setScaleMesh(mesh, 50*0.2f, 50*0.8f, 50*0.2f);
 		//ecs.emplace(entityID, meshComponentID, &mesh);
+
 		u32 instanceMeshTypeID = instancedMeshCodex.add("Meshes/Cube2.fbx/cube.001.mesh");
 		instancedMeshCodex.setSize(instanceMeshTypeID, {50*0.2f, 50*0.8f, 50*0.2f});
 		ecs.emplace(entityID, instancedMeshComponentID, &instanceMeshTypeID);
@@ -185,7 +182,7 @@ private:
 	}
 	void createTest() {
 		u32 count = 0;
-		u32 padding = 40, border = 500;
+		u32 padding = 40, border = world_size;
 		while (true) {
 			Vec3D<u32> pos = {};
 			pos.x = rand() % (border-(padding+padding));

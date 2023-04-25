@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../../HAL_3D.h"
+//#include "CustomUnigineThreadPool.h"
+#include "CustomWindowsThreadPool.h"
 
 #include <UnigineObjects.h>
 //#include "../../Framework/Components/Players/VRPlayerVR.h"
@@ -13,6 +15,8 @@
 #else
 #include <X11/Xlib.h>
 #endif
+
+#include "../../../cxxpool/src/cxxpool.h"
 
 
 
@@ -72,6 +76,85 @@ void EE_getCanvasSize(unsigned int* width, unsigned int* height) {
 
 const char* EE_getDirData() {
 	return "./";
+}
+
+//void* EE_getNewThreadPool(uint16_t maxThreadCount) {
+//	cxxpool::thread_pool* tp = new cxxpool::thread_pool(maxThreadCount);
+//	//maxThreads = maxThreadCount;
+//	return tp;
+//}
+//void EE_releaseThreadPool(void* self) {
+//	delete (cxxpool::thread_pool*)self;
+//}
+//uint16_t EE_getThreadPoolFreeThreadCount(void* self) {
+//	uint32_t threadCount = ((cxxpool::thread_pool*)self)->n_threads();
+//	uint32_t activeThreadCount = threadCount - ((cxxpool::thread_pool*)self)->n_tasks();
+//	if (activeThreadCount <= 0) return 0;
+//	return (uint16_t)activeThreadCount;
+//}
+//bool EE_sendThreadPoolTask(void* self, void(*func)(void*), void* param) {
+//	using namespace cxxpool;
+//	thread_pool* tp = (thread_pool*)self;
+//	auto future = tp->push(func, param);
+//	//future._Abandon();
+//	return true;
+//}
+//bool EE_isThreadPoolFinished(void* self) {
+//	using namespace cxxpool;
+//	thread_pool* tp = (thread_pool*)self;
+//	if (tp->n_tasks())
+//		return false;
+//	return true;
+//}
+
+//void* EE_getNewThreadPool(uint16_t maxThreadCount) {
+//	CustomThreadPool* tp = (CustomThreadPool*)malloc(sizeof(CustomThreadPool));
+//	tp->init(maxThreadCount);
+//	return tp;
+//}
+//void EE_releaseThreadPool(void* self) {
+//	CustomThreadPool* tp = (CustomThreadPool*)self;
+//	while (tp->allTasksFinished() == false)
+//		continue;
+//	free(tp);
+//}
+//uint16_t EE_getThreadPoolFreeThreadCount(void* self) {  //TODO: fix the logic
+//	CustomThreadPool* tp = (CustomThreadPool*)self;
+//	return tp->getFreeThreadCount();
+//}
+//bool EE_sendThreadPoolTask(void* self, void(*func)(void*), void* param) {
+//	CustomThreadPool* tp = (CustomThreadPool*)self;
+//	tp->addTask(func, param);
+//	return true;
+//}
+//bool EE_isThreadPoolFinished(void* self) {
+//	CustomThreadPool* tp = (CustomThreadPool*)self;
+//	return tp->allTasksFinished();
+//}
+
+void* EE_getNewThreadPool(uint16_t maxThreadCount) {
+	CustomWindowsThreadPool* tp = (CustomWindowsThreadPool*)malloc(sizeof(CustomWindowsThreadPool));
+	tp->init(maxThreadCount);
+	return tp;
+}
+void EE_releaseThreadPool(void* self) {
+	CustomWindowsThreadPool* tp = (CustomWindowsThreadPool*)self;
+	while (tp->allTasksFinished() == false)
+		continue;
+	free(tp);
+}
+uint16_t EE_getThreadPoolFreeThreadCount(void* self) {  //TODO: fix the logic
+	CustomWindowsThreadPool* tp = (CustomWindowsThreadPool*)self;
+	return tp->getFreeThreadCount();
+}
+bool EE_sendThreadPoolTask(void* self, void(*func)(void*), void* param) {
+	CustomWindowsThreadPool* tp = (CustomWindowsThreadPool*)self;
+	tp->addTask(func, param);
+	return true;
+}
+bool EE_isThreadPoolFinished(void* self) {
+	CustomWindowsThreadPool* tp = (CustomWindowsThreadPool*)self;
+	return tp->allTasksFinished();
 }
 
 
