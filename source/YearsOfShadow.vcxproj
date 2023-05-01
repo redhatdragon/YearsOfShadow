@@ -74,6 +74,7 @@
   <ItemGroup>
     <ClCompile Include="EchoEngine\BitBool\BitBool.cpp" />
     <ClCompile Include="EchoEngine\HAL\ExampleImplimentations\Unigine\main.cpp" />
+    <ClCompile Include="EchoEngine\HAL\ExampleImplimentations\Unigine\miniSleep.cpp" />
     <ClCompile Include="EchoEngine\HAL\HAL.cpp" />
     <ClCompile Include="EchoEngine\Sources.cpp" />
     <ClCompile Include="Framework\Components\Objects\ObjHandle.cpp" />

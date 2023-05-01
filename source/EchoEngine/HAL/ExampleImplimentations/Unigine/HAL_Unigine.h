@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../../HAL_3D.h"
-//#include "CustomUnigineThreadPool.h"
-#include "CustomWindowsThreadPool.h"
+#include "CustomUnigineThreadPool.h"
+//#include "CustomWindowsThreadPool.h"
 
 #include <UnigineObjects.h>
 //#include "../../Framework/Components/Players/VRPlayerVR.h"
@@ -107,55 +107,55 @@ const char* EE_getDirData() {
 //	return true;
 //}
 
-//void* EE_getNewThreadPool(uint16_t maxThreadCount) {
-//	CustomThreadPool* tp = (CustomThreadPool*)malloc(sizeof(CustomThreadPool));
-//	tp->init(maxThreadCount);
-//	return tp;
-//}
-//void EE_releaseThreadPool(void* self) {
-//	CustomThreadPool* tp = (CustomThreadPool*)self;
-//	while (tp->allTasksFinished() == false)
-//		continue;
-//	free(tp);
-//}
-//uint16_t EE_getThreadPoolFreeThreadCount(void* self) {  //TODO: fix the logic
-//	CustomThreadPool* tp = (CustomThreadPool*)self;
-//	return tp->getFreeThreadCount();
-//}
-//bool EE_sendThreadPoolTask(void* self, void(*func)(void*), void* param) {
-//	CustomThreadPool* tp = (CustomThreadPool*)self;
-//	tp->addTask(func, param);
-//	return true;
-//}
-//bool EE_isThreadPoolFinished(void* self) {
-//	CustomThreadPool* tp = (CustomThreadPool*)self;
-//	return tp->allTasksFinished();
-//}
-
 void* EE_getNewThreadPool(uint16_t maxThreadCount) {
-	CustomWindowsThreadPool* tp = (CustomWindowsThreadPool*)malloc(sizeof(CustomWindowsThreadPool));
+	CustomUnigineThreadPool* tp = (CustomUnigineThreadPool*)malloc(sizeof(CustomUnigineThreadPool));
 	tp->init(maxThreadCount);
 	return tp;
 }
 void EE_releaseThreadPool(void* self) {
-	CustomWindowsThreadPool* tp = (CustomWindowsThreadPool*)self;
+	CustomUnigineThreadPool* tp = (CustomUnigineThreadPool*)self;
 	while (tp->allTasksFinished() == false)
 		continue;
 	free(tp);
 }
 uint16_t EE_getThreadPoolFreeThreadCount(void* self) {  //TODO: fix the logic
-	CustomWindowsThreadPool* tp = (CustomWindowsThreadPool*)self;
+	CustomUnigineThreadPool* tp = (CustomUnigineThreadPool*)self;
 	return tp->getFreeThreadCount();
 }
 bool EE_sendThreadPoolTask(void* self, void(*func)(void*), void* param) {
-	CustomWindowsThreadPool* tp = (CustomWindowsThreadPool*)self;
+	CustomUnigineThreadPool* tp = (CustomUnigineThreadPool*)self;
 	tp->addTask(func, param);
 	return true;
 }
 bool EE_isThreadPoolFinished(void* self) {
-	CustomWindowsThreadPool* tp = (CustomWindowsThreadPool*)self;
+	CustomUnigineThreadPool* tp = (CustomUnigineThreadPool*)self;
 	return tp->allTasksFinished();
 }
+
+//void* EE_getNewThreadPool(uint16_t maxThreadCount) {
+//	CustomWindowsThreadPool* tp = (CustomWindowsThreadPool*)malloc(sizeof(CustomWindowsThreadPool));
+//	tp->init(maxThreadCount);
+//	return tp;
+//}
+//void EE_releaseThreadPool(void* self) {
+//	CustomWindowsThreadPool* tp = (CustomWindowsThreadPool*)self;
+//	while (tp->allTasksFinished() == false)
+//		continue;
+//	free(tp);
+//}
+//uint16_t EE_getThreadPoolFreeThreadCount(void* self) {  //TODO: fix the logic
+//	CustomWindowsThreadPool* tp = (CustomWindowsThreadPool*)self;
+//	return tp->getFreeThreadCount();
+//}
+//bool EE_sendThreadPoolTask(void* self, void(*func)(void*), void* param) {
+//	CustomWindowsThreadPool* tp = (CustomWindowsThreadPool*)self;
+//	tp->addTask(func, param);
+//	return true;
+//}
+//bool EE_isThreadPoolFinished(void* self) {
+//	CustomWindowsThreadPool* tp = (CustomWindowsThreadPool*)self;
+//	return tp->allTasksFinished();
+//}
 
 
 
@@ -271,7 +271,7 @@ void* EE_getNewInstancedMesh(const char* filePath) {
 	//instancedMeshPtr->setMaterialTexture("albedo", "Textures/photos_2017_10_6_fst_grass-texture-lawn.jpg", 0);
 	void* meshID = (void*)meshClusterPtrPool.size();
 	meshClusterPtrPool.push_back(instancedMeshPtr);
-	instancedMeshPtr->setMaxVisibleDistance((16*6) / 2, 0);  //TODO: May need tuning.
+	instancedMeshPtr->setMaxVisibleDistance((16*3) / 2, 0);  //TODO: May need tuning.
 	return meshID;
 }
 void EE_releaseInstancedMesh(void* meshID) {

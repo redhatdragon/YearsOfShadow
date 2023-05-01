@@ -1,60 +1,77 @@
 #pragma once
-#include <UnigineObjects.h>
+//#include <UnigineObjects.h>
+#include <UnigineEngine.h>
+#include <UnigineLogic.h>
+#include <UnigineThread.h>
 #include <vector>
+
+#include "miniSleep.h"
 
 class CustomUnigineThread : public Unigine::Thread {
 	void (*foo)(void*);
 	void* data;
-	bool finished;
+	//mutable Unigine::Mutex lock;
+protected:
 	void process() override {
-		foo(data);
-		finished = true;
-		signal();
+		while (isRunning()) {
+			if (isActive() == false) {
+				miniSleep(1.0f);
+				continue;
+			}
+			foo(data);
+			foo = nullptr; data = nullptr;
+		}
 	}
 public:
+	void init() {
+		foo = nullptr; data = nullptr;
+	}
 	void giveTask(void (*_foo)(void*), void* _data) {
 		foo = _foo;
 		data = _data;
-		finished = false;
 	}
-	bool isFinished() {
-		return finished;
+	bool isActive() {
+		if (foo && data)
+			return true;
+		return false;
 	}
 };
 
 class CustomUnigineThreadPool {
-	std::vector<CustomUnigineThread*> threads;
+	CustomUnigineThread* threads[256];
 	uint16_t maxThreadCount;
 public:
-	void init(uint32_t _maxThreadCount) {
-		threads = {};
-		threads.reserve(_maxThreadCount);
+	void init(uint16_t _maxThreadCount) {
 		maxThreadCount = _maxThreadCount;
+		for (uint32_t i = 0; i < _maxThreadCount; i++) {
+			threads[i] = new CustomUnigineThread();
+			threads[i]->init();
+			threads[i]->setPriority(3);
+			threads[i]->run();
+		}
 	}
 	void addTask(void (*_foo)(void*), void* _data) {
-		CustomUnigineThread* thread = new CustomUnigineThread();
-		thread->giveTask(_foo, _data);
-		threads.push_back(thread);
-		thread->run();
+		for (uint32_t i = 0; i < maxThreadCount; i++) {
+			if (threads[i]->isActive() == false) {
+				threads[i]->giveTask(_foo, _data);
+				return;
+			}
+		}
+		throw;
 	}
 
 	bool allTasksFinished() {
-		for (uint32_t i = 0; i < threads.size(); i++)
-			if (threads[i]->isFinished() == false)
+		for (uint32_t i = 0; i < maxThreadCount; i++)
+			if (threads[i]->isActive())
 				return false;
-		_clear();
 		return true;
 	}
 	uint16_t getFreeThreadCount() {
-		return maxThreadCount - threads.size();
+		uint32_t count = 0;
+		for (uint32_t i = 0; i < maxThreadCount; i++)
+			if (threads[i]->isActive() == false)
+				count++;
+		return count;
 	}
 private:
-	void _clear() {
-		for (uint32_t i = 0; i < threads.size(); i++) {
-			delete threads[i];
-			//threads[i] = nullptr;
-		}
-		threads.resize(0);
-		//threads.clear();
-	}
 };

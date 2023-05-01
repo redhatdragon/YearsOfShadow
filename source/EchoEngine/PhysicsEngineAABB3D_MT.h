@@ -149,7 +149,7 @@ class SpatialHashTable {
 		printf("SpatialHashTable::removeBodyFromHash - Error: body not found in hash!\n");
 	}
 
-	_declspec(noinline) void getIterationBounds(const Vec3D<uint32_t>& pos, const Vec3D<uint32_t>& siz, Bounds& bounds) {
+	inline void getIterationBounds(const Vec3D<uint32_t>& pos, const Vec3D<uint32_t>& siz, Bounds& bounds) {
 		//uint32_t startRight = pos.x / hash_width, startDown = pos.y / hash_width;
 		//uint32_t endRight = pos.x / hash_width + siz.x / hash_width, endDown = pos.y / hash_width + siz.y / hash_width;
 		//uint32_t startForward = pos.z / hash_width, endForward = pos.z / hash_width + siz.z / hash_width;
@@ -220,17 +220,17 @@ public:
 		return returnValue;
 	}
 	// This was complicated and may need another look over
-	_declspec(noinline) void getIDs(const Vec3D<uint32_t>& pos, const Vec3D<uint32_t>& siz, std::vector<BodyID>& returnValue) {
+	inline void getIDs(const Vec3D<uint32_t>& pos, const Vec3D<uint32_t>& siz, std::vector<BodyID>& returnValue) {
 		Bounds bounds;
 		getIterationBounds(pos, siz, bounds);
 		for (uint32_t z = bounds.pos.z; z <= bounds.siz.z; z++)
 			for (uint32_t y = bounds.pos.y; y <= bounds.siz.y; y++)
 				for (uint32_t x = bounds.pos.x; x <= bounds.siz.x; x++) {
 					auto len = getHash(x, y, z).count;
-					if (len > 100) {
-						std::cout << hash_width << std::endl;
-						throw;
-					}
+					//if (len > 100) {
+					//	std::cout << hash_width << std::endl;
+					//	throw;
+					//}
 					for (uint32_t i = 0; i < len; i++) {
 						auto retValueLen = returnValue.size();
 						bool hasID = false;
@@ -513,6 +513,7 @@ public:
 	struct DetectThreadData {
 		void* self;
 		uint32_t start, end;
+		std::vector<BodyID>* IDs;
 	};
 	inline void detect() {
 		uint32_t bodyCount = dynamicBodyCount;
@@ -523,8 +524,11 @@ public:
 			overlappingBodyIDs[i].clear();
 		}
 
-		uint16_t threadCount = EE_getThreadPoolFreeThreadCount(threadPool) - 1;
-		//std::cout << threadCount << std::endl;
+		static std::vector<BodyID> IDses[256];
+
+		uint16_t threadCount = EE_getThreadPoolFreeThreadCount(threadPool);
+		threadCount--;
+		threadCount = 1;
 		static std::vector<DetectThreadData> dtd;
 		dtd.clear();
 		dtd.reserve(threadCount);
@@ -533,8 +537,9 @@ public:
 		uint32_t workPerThread = totalWork / threadCount;
 		uint32_t leftover = totalWork % threadCount;
 		for (uint32_t i = 0; i < threadCount; i++) {
-			u32 start = workPerThread * i; u32 end = start + workPerThread - 1;
-			DetectThreadData currentDTD = { this, start, end};
+			//u32 start = workPerThread * i; u32 end = start + workPerThread - 1;
+			u32 start = workPerThread * i; u32 end = start + workPerThread;
+			DetectThreadData currentDTD = { this, start, end, &IDses[i]};
 			dtd.push_back(currentDTD);
 			//std::cout << start << ' ' << end << std::endl;
 		}
@@ -544,10 +549,10 @@ public:
 		}
 		static DetectThreadData lastDTD;
 		u32 start = workPerThread * threadCount; u32 end = start + leftover;
-		lastDTD = { this, start, end};
+		lastDTD = { this, start, end, &IDses[threadCount]};
 		//std::cout << start << ' ' << end << std::endl;
-		if(leftover)
-			detectThreadBody(&lastDTD);
+		//if (leftover)
+		//	detectThreadBody(&lastDTD);
 		//while (EE_isThreadPoolFinished(threadPool) == false)
 		//	continue;
 	}
@@ -556,8 +561,8 @@ public:
 		PhysicsEngineAABB3D<width, height, depth, hash_width, max_bodies_per_hash>* self =
 			(PhysicsEngineAABB3D<width, height, depth, hash_width, max_bodies_per_hash>*)data->self;
 
-		std::vector<BodyID> IDs = {};
-		IDs.reserve(100);
+		std::vector<BodyID>& IDs = *data->IDs;
+		//IDs.reserve(2000);
 		//for (u32 i = data->start; i <= data->end; i++) {
 		//std::cout << data->start << "  " << data->end << std::endl;
 		for (uint32_t i = data->start; i <= data->end; i++) {
@@ -618,6 +623,7 @@ public:
 		detect();
 		resolve();
 		timeFromStepping = (float)(clock() - c);
+		//std::cout << "Time: " << timeFromStepping << std::endl;
 	}
 
 	std::vector<std::string> getDbgInfo() {

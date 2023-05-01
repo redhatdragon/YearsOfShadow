@@ -75,7 +75,7 @@ void registerDestructors() {
 }
 
 inline void initSystems() {
-	threadPool = EE_getNewThreadPool(12);
+	threadPool = EE_getNewThreadPool(0);
 
 	instancedMeshCodex.init();
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<controls version="2.16.1.0" autosave="1">
+<controls version="2.16.1.0" autosave="0">
 	<remove_grab_key>ESC</remove_grab_key>
 	<controls_always_run>0</controls_always_run>
 	<controls_mouse_handle>0</controls_mouse_handle>
 	<controls_mouse_inverse>0</controls_mouse_inverse>
 	<controls_mouse_raw_input>1</controls_mouse_raw_input>
-	<controls_mouse_sensitivity>0.5</controls_mouse_sensitivity>
+	<controls_mouse_sensitivity>1</controls_mouse_sensitivity>
 	<keys>
 		<FORWARD>W</FORWARD>
 		<BACKWARD>S</BACKWARD>
