@@ -120,6 +120,7 @@
     <ClInclude Include="Framework\SoundManager.h" />
     <ClInclude Include="Framework\Triggers.h" />
     <ClInclude Include="Framework\Utils.h" />
+    <ClInclude Include="Systems\SystemUtilities\SystemKillzone.h" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="../utils/natvis/unigine_stl.natvis" />

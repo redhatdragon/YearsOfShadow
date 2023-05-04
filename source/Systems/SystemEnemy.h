@@ -140,9 +140,19 @@ private:
 	void movement(EnemyAI* enemyAI, BodyID bodyID) {
 		if (enemyAI->gotoPos.isZero())
 			return;
+
 		auto targetPos = enemyAI->gotoPos;
 		auto vel = targetPos;
 		auto pos = physics.getPos(bodyID);
+
+		int rng = rand() % 10;
+		if (rng == 0) {
+			Vec3D<FixedPoint<256 * 256>> avoidanceDir = getAvoidanceDir(enemyAI, bodyID);
+			if (avoidanceDir.isZero() == false) {
+				enemyAI->gotoPos = pos + (avoidanceDir * 3);
+			}
+		}
+
 		vel -= pos;
 		vel *= 10;
 		vel.normalize();
@@ -159,6 +169,39 @@ private:
 		}
 		physics.setVelocity(bodyID, vel.x, vel.y, vel.z);
 	}
+
+
+
+	inline Vec3D<FixedPoint<256 * 256>> getAvoidanceDir(EnemyAI* enemyAI, BodyID bodyID) {
+		Vec3D<FixedPoint<256 * 256>> retValue = {};
+		Vec3D<FixedPoint<256 * 256>> pos = physics.getPos(bodyID);
+		Vec3D<FixedPoint<256 * 256>> offset = {1, 0, 1};
+		Vec3D<FixedPoint<256 * 256>> siz = { 2, 1, 2 };
+		std::vector<BodyID> bodies = physics.getBodiesInRectRough(pos-offset, siz);
+		std::vector<BodyID> bodiesWithEntities;
+		bodiesWithEntities.reserve(bodies.size());
+		u32 count = bodies.size();
+		for (u32 i = 0; i < count; i++) {
+			if (physics.getUserData(bodies[i]) == (void*)-1)
+				continue;
+			bodiesWithEntities.push_back(bodies[i]);
+		}
+		count = bodiesWithEntities.size();
+		if (count == 0) {
+			return {};
+		}
+		Vec3D<FixedPoint<256 * 256>> pressureDirection = {};
+		for (u32 i = 0; i < count; i++) {
+			Vec3D<FixedPoint<256 * 256>> otherPos = physics.getPos(bodiesWithEntities[i]);
+			otherPos = otherPos-pos;
+			otherPos.normalize();
+			pressureDirection += otherPos;
+		}
+		pressureDirection.normalize();
+		return {-pressureDirection.x, 0, -pressureDirection.y};
+	}
+
+
 
 	void createEnemy(Vec3D<uint32_t> pos) {
 		BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, "0.2f", "0.8f", "0.2f");

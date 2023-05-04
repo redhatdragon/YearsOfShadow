@@ -347,10 +347,9 @@ public:
 		return overlappingBodyIDs[id.id];
 	}
 
-	inline std::vector<BodyID> getBodiesInRectRough(Vec3D<uint32_t> pos, Vec3D<uint32_t> siz) {
-		pos *= physics_unit_size; siz *= physics_unit_size;
+	inline std::vector<BodyID> getBodiesInRectRough(Vec3D<physics_fp> pos, Vec3D<physics_fp> siz) {
 		std::vector<BodyID> retValue;
-		auto hashes = spatialHashTable.getHashes(pos, siz);
+		auto hashes = spatialHashTable.getHashes(*(Vec3D<uint32_t>*)&pos, *(Vec3D<uint32_t>*)&siz);
 		retValue.reserve(hashes.size());
 		uint32_t hashCount = hashes.size();
 		for (uint32_t i = 0; i < hashCount; i++) {
@@ -383,6 +382,10 @@ public:
 		//}
 
 		return retValue;
+	}
+	inline std::vector<BodyID> getBodiesInRectRough(Vec3D<uint32_t> pos, Vec3D<uint32_t> siz) {
+		pos *= physics_unit_size; siz *= physics_unit_size;
+		return getBodiesInRectRough(*(Vec3D<physics_fp>*)&pos, *(Vec3D<physics_fp>*)&siz);
 	}
 	inline FlatBuffer<BodyID, 10> getBodiesInPoint(Vec3D<FixedPoint<256 * 256>> pos, BodyID ignoredBody) {
 		FlatBuffer<BodyID, 10> retValue = {};
