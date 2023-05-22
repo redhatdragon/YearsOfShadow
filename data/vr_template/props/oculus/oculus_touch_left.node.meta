@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<asset version="2.16.1.0">
-	<guid>c8f383022b3bfd13b3017498e2d7819d8830167d</guid>
-	<type>node</type>
-	<hash>ec6503ee</hash>
-	<runtimes>
-		<runtime id="c8f383022b3bfd13b3017498e2d7819d8830167d" name="oculus_touch_left.node" link="0" type="3"/>
-	</runtimes>
-</asset>

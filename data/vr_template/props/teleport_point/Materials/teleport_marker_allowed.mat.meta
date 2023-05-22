@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<asset version="2.16.1.0">
-	<guid>d9834c640e4dac73c0518736b0b8551df789d3d8</guid>
-	<type>material</type>
-	<hash>f4e9ca27</hash>
-	<runtimes>
-		<runtime id="d9834c640e4dac73c0518736b0b8551df789d3d8" name="teleport_marker_allowed" link="0" type="5"/>
-	</runtimes>
-</asset>

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<asset version="2.16.1.0">
-	<guid>742c9568384905911c0456eb582feec2edfe7876</guid>
-	<type>node</type>
-	<hash>53d7855f</hash>
-	<runtimes>
-		<runtime id="742c9568384905911c0456eb582feec2edfe7876" name="teleport_allowed_point.node" link="0" type="3"/>
-	</runtimes>
-</asset>

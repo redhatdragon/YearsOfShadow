@@ -1,6 +1,7 @@
 #custom
 Builds #packaged projects should go here...
 source/DevLogs
+x64
 
 #common
 .thumbnails

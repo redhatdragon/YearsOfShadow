@@ -1,9 +1,0 @@
-{
-	"asset": "157b0309e11dbcdf7bae47b13345e49ccb5397c5",
-	"alias": "vive_basestation.node",
-	"primary": 1,
-	"version": "2.16.1.0",
-	"parameters": {
-		"UnigineEditor.AssetHash": "baa52fea"
-	}
-}

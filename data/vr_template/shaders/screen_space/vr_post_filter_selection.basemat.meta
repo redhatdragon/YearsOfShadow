@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<asset version="2.16.1.0">
-	<guid>08a76858c76409d4d980482cb0df78fc0acc827a</guid>
-	<type>material</type>
-	<hash>c720e214</hash>
-	<runtimes>
-		<runtime id="08a76858c76409d4d980482cb0df78fc0acc827a" name="vr_post_filter_selection.basemat" link="0" type="5"/>
-	</runtimes>
-</asset>

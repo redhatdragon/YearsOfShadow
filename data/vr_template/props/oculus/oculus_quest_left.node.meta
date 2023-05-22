@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<asset version="2.16.1.0">
-	<guid>2def8b439ca0b7c62c272c6d6cc4a2e803fba927</guid>
-	<type>node</type>
-	<hash>95f56f27</hash>
-	<runtimes>
-		<runtime id="2def8b439ca0b7c62c272c6d6cc4a2e803fba927" name="oculus_quest_left.node" link="0" type="3"/>
-	</runtimes>
-</asset>

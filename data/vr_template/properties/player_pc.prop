@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<property version="2.16.1.0" name="player_pc" parent_name="vr_player" manual="1">
-	<parameter name="move_speed" title="Move Speed" type="float">2.5</parameter>
-	<parameter name="acceleration" title="Acceleration" type="float">8</parameter>
-	<parameter name="damping" title="Damping" type="float">8</parameter>
-	<parameter name="hand_length" title="Hand Length" type="float">1.3</parameter>
-	<parameter name="throw_force" title="Throw Force" type="float">7</parameter>
-</property>

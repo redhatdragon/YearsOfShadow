@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<nodes version="2.16.1.0">
-	<node type="ObjectMeshStatic" id="1811610549" name="teleport_forbidden_point">
-		<mesh_name>guid://6f96a15ca5c4508beac6fd73d8efd5d757dbeead</mesh_name>
-		<surface name="vive_teleport_white_mat" lighting_mode="0" intersection="0" physics_friction="1" physics_restitution="1" material="462aefaf5033d9422f1347b9500e4dc49848fe53"/>
-		<surface name="vive_teleport_black_mat" lighting_mode="0" intersection="0" physics_friction="1" physics_restitution="1" material="462aefaf5033d9422f1347b9500e4dc49848fe53"/>
-		<transform>0.99999976 0 0 0.0 5.6843419e-14 0.99999976 0 0.0 0 0 0.99999994 0.0 0 0 0 1.0</transform>
-	</node>
-</nodes>

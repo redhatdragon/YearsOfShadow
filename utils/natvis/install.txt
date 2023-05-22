@@ -1,3 +1,0 @@
-Put *.natvis files to %USERPROFILE%\Documents\Visual Studio 2017\Visualizers or %VSINSTALLDIR%\Common7\Packages\Debugger\Visualizers
-
-https://marketplace.visualstudio.com/items?itemName=VisualCPPTeam.ImageWatch2019

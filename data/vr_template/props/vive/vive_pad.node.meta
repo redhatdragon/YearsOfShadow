@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<asset version="2.16.1.0">
-	<guid>a9f22a948b7fbb481cdb370c9d2909067db3c076</guid>
-	<type>node</type>
-	<hash>2da33fda</hash>
-	<runtimes>
-		<runtime id="a9f22a948b7fbb481cdb370c9d2909067db3c076" name="vive_pad.node" link="0" type="3"/>
-	</runtimes>
-</asset>

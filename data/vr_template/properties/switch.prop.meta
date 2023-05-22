@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<asset version="2.16.1.0">
-	<guid>01ba7992f85de477e8e630428eb5ed14769f9155</guid>
-	<type>property</type>
-	<hash>edecc733</hash>
-	<runtimes>
-		<runtime id="01ba7992f85de477e8e630428eb5ed14769f9155" name="switch.prop" link="0" type="4"/>
-	</runtimes>
-</asset>

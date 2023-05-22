@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<asset version="2.16.1.0">
-	<guid>b50c828601389ea295397603646ce3a32b59e36f</guid>
-	<type>sound</type>
-	<hash>eefafd31</hash>
-	<runtimes>
-		<runtime id="b50c828601389ea295397603646ce3a32b59e36f" name="clunk.oga" link="0" type="7"/>
-	</runtimes>
-</asset>

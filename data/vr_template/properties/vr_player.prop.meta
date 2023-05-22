@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<asset version="2.16.1.0">
-	<guid>8912b2726143ac055e22ea416c1c789342ca4232</guid>
-	<type>property</type>
-	<hash>6b15bc0f</hash>
-	<runtimes>
-		<runtime id="8912b2726143ac055e22ea416c1c789342ca4232" name="vr_player.prop" link="0" type="4"/>
-	</runtimes>
-</asset>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<nodes version="2.16.1.0">
-	<node type="ObjectMeshStatic" id="2052120292" name="vive_basestation">
-		<mesh_name>guid://88c91db29393455f00fbf8f6b3b78dc3995fd0b6</mesh_name>
-		<surface name="vive_basestation_mat" intersection="0" physics_friction="1" physics_restitution="1" material="34431685d07034d8fcc48c46ee5b311f2210a9ac"/>
-		<transform>0.99999833 0 0 0.0 2.8421709e-14 0.99999821 0 0.0 0 0 0.99999875 0.0 2.9802322e-08 0 -3.7252903e-09 1.0</transform>
-	</node>
-</nodes>

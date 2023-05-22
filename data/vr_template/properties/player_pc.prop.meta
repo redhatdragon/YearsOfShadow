@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<asset version="2.16.1.0">
-	<guid>1afea57fb5526ac1d5a162766381339a68c439e8</guid>
-	<type>property</type>
-	<hash>f612becc</hash>
-	<runtimes>
-		<runtime id="1afea57fb5526ac1d5a162766381339a68c439e8" name="player_pc.prop" link="0" type="4"/>
-	</runtimes>
-</asset>

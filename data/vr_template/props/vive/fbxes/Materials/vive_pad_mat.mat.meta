@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<asset version="2.16.1.0">
-	<guid>c55214d67ea918e8f00afdf37a659622f48edec2</guid>
-	<type>material</type>
-	<hash>833466bd</hash>
-	<runtimes>
-		<runtime id="c55214d67ea918e8f00afdf37a659622f48edec2" name="vive_pad_mat" link="0" type="5"/>
-	</runtimes>
-</asset>

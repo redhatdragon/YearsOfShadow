@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<asset version="2.16.1.0">
-	<guid>3cd9deba5d3c5381ff109507c66bde670019b919</guid>
-	<type>property</type>
-	<hash>fdf3e2f2</hash>
-	<runtimes>
-		<runtime id="3cd9deba5d3c5381ff109507c66bde670019b919" name="vr_player_spawner.prop" link="0" type="4"/>
-	</runtimes>
-</asset>
