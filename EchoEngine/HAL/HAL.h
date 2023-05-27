@@ -76,6 +76,8 @@ extern "C" {
 	bool EE_sendPacketUDP(void* packet);
 	struct EE_PacketUDP* EE_recvPacketUDP();
 
+	uint16_t EE_getHardwareThreadCount();
+
 	void* EE_getNewThreadPool(uint16_t maxThreadCount);
 	void EE_releaseThreadPool(void* self);
 	uint16_t EE_getThreadPoolFreeThreadCount(void* self);

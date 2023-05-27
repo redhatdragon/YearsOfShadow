@@ -14,54 +14,62 @@
 #include "../../../../Vec.h"
 
 struct InstancedSubMesh {
-    VertexBuffer vertexBuffer;
-    IndexBuffer indexBuffer;
-    VertexArray vertexArray;
     Shader shader;
     std::vector<Texture> textures;
 
-    VertexBuffer positionsBuffer;
+    GLuint VBO, IBO, PBO, VAO;
 
-    void init(const Vertex3D* verticies, const void* indices, uint32_t vertCount, uint32_t indexCount,
+    uint32_t indexCount;
+
+    void init(const Vertex3D* verticies, const void* indices, uint32_t vertCount, uint32_t _indexCount,
         const std::vector<Texture>& _textures) {
-        vertexBuffer.init(verticies, vertCount * sizeof(Vertex3D));
-        if (vertCount <= 256 * 256)
-            indexBuffer.init(indices, indexCount, 2);
-        else
-            indexBuffer.init(indices, indexCount, 4);
-        vertexArray.init();
-        VertexBufferLayout vertexLayout;
-        vertexLayout.push<float>(3);
-        vertexLayout.push<float>(2);
-        vertexArray.addBuffer(vertexBuffer, vertexLayout);
-        //std::string shaderPath = EE_getDirData(); shaderPath += "ShadersGL/BasicInstancedMesh.shader";
-        //shader.init(shaderPath);
+
+        indexCount = _indexCount;
+
         textures.push_back(Texture());
         std::string texturePath = EE_getDirData(); texturePath += "Textures/RightArrow.png";
         textures[0].init(texturePath);
 
-        positionsBuffer.init();
-        std::vector<Vec3D<float>> positions = { {50, 50, 50} };
-        setOffsets(positions);
-        VertexBufferLayout positionsLayout;
-        positionsLayout.push<float>(3, true);
-        vertexArray.addBuffer(positionsBuffer, positionsLayout);
+        
 
         std::string shaderPath = EE_getDirData(); shaderPath += "ShadersGL/BasicInstancedMesh.shader";
         shader.init(shaderPath);
+
+        glGenBuffers(1, &VBO);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex3D)*vertCount, verticies, GL_DYNAMIC_DRAW);
+        VertexBuffer;
+
+        glGenBuffers(1, &IBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * 2, indices, GL_DYNAMIC_DRAW);
+        IndexBuffer;
+
+        glGenBuffers(1, &PBO);
+        glBindBuffer(GL_ARRAY_BUFFER, PBO);
+        VertexBuffer;
+
+        glGenVertexArrays(1, &VAO);
+        glBindVertexArray(VAO);
+
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (const void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (const void*)(3*sizeof(float)));
+
+        glBindBuffer(GL_ARRAY_BUFFER, PBO);
+        glEnableVertexAttribArray(2);
+        //glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (const void*)(5*sizeof(float)));
+        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (const void*)(0));
+        glVertexAttribDivisor(2, 1);
+        VertexArray;
     }
     void destruct() {
-        vertexBuffer.destruct();
-        indexBuffer.destruct();
-        vertexArray.destruct();
-        shader.destruct();
-        for (auto i = 0; i < textures.size(); i++)
-            textures[i].destruct();
+
     }
     void draw(Pos3D pos, Pos3D rot, Pos3D siz, const glm::mat4& view, const glm::mat4& perspective, uint32_t instanceCount) {
-        vertexBuffer.bind();
-        indexBuffer.bind();
-        //positionsBuffer.bind();
         textures[0].bind();
         shader.bind();
         glm::mat4 model = glm::mat4(1.0f);
@@ -72,13 +80,21 @@ struct InstancedSubMesh {
         model = glm::scale(model, { siz.x, siz.y, siz.z });
         glm::mat4 mvp = perspective * view * model;
         shader.setUniformMat4f("u_MVP", mvp);
-        vertexArray.bind();
+        shader.setUniform4f("u_color", 1, 1, 1, 1);
 
-        glDrawElementsInstanced(GL_TRIANGLES, indexBuffer.getCount(), GL_UNSIGNED_SHORT, nullptr, instanceCount);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+        glBindVertexArray(VAO);
+
+        glDrawElementsInstanced(GL_TRIANGLES, indexCount, GL_UNSIGNED_SHORT, nullptr, instanceCount);
     }
     void setOffsets(const std::vector<Vec3D<float>>& offsets) {
+        glBindBuffer(GL_ARRAY_BUFFER, PBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(Vec3D<float>) * offsets.size(), &offsets[0], GL_DYNAMIC_DRAW);
+
         //positionsBuffer.destruct();
-        positionsBuffer.buffer(&offsets[0], offsets.size() * sizeof(Vec3D<float>));
+
+        //positionsBuffer.buffer(&offsets[0], offsets.size() * sizeof(Vec3D<float>));
 
         //shader.bind();
         ////shader.setUniform4f("u_color", 1, 1, 1, 1);

@@ -530,8 +530,8 @@ public:
 		static std::vector<BodyID> IDses[256];
 
 		uint16_t threadCount = EE_getThreadPoolFreeThreadCount(threadPool);
-		threadCount--;
-		threadCount = 1;
+		//threadCount--;
+		//threadCount = 1;
 		static std::vector<DetectThreadData> dtd;
 		dtd.clear();
 		dtd.reserve(threadCount);
@@ -547,17 +547,17 @@ public:
 			//std::cout << start << ' ' << end << std::endl;
 		}
 		for (uint32_t i = 0; i < threadCount; i++) {
-			//EE_sendThreadPoolTask(threadPool, detectThreadBody, &dtd[i]);
-			detectThreadBody(&dtd[i]);
+			EE_sendThreadPoolTask(threadPool, detectThreadBody, &dtd[i]);
+			//detectThreadBody(&dtd[i]);
 		}
 		static DetectThreadData lastDTD;
 		u32 start = workPerThread * threadCount; u32 end = start + leftover;
 		lastDTD = { this, start, end, &IDses[threadCount]};
 		//std::cout << start << ' ' << end << std::endl;
-		//if (leftover)
-		//	detectThreadBody(&lastDTD);
-		//while (EE_isThreadPoolFinished(threadPool) == false)
-		//	continue;
+		if (leftover)
+			detectThreadBody(&lastDTD);
+		while (EE_isThreadPoolFinished(threadPool) == false)
+			continue;
 	}
 	static void detectThreadBody(void* _data) {
 		DetectThreadData* data = (DetectThreadData*)_data;
@@ -626,7 +626,7 @@ public:
 		detect();
 		resolve();
 		timeFromStepping = (float)(clock() - c);
-		//std::cout << "Time: " << timeFromStepping << std::endl;
+		std::cout << "Time: " << timeFromStepping << std::endl;
 	}
 
 	std::vector<std::string> getDbgInfo() {

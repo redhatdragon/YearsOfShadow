@@ -221,6 +221,7 @@ private:
 		//ecs.emplace(entityID, instancedMeshComponentID, &instanceMeshTypeID);
 
 		u32 instanceMeshTypeID = instancedMeshCodex.add("./Data/Meshes/Props/Dynamite.obj");
+		instancedMeshCodex.setTexture(instanceMeshTypeID, "./Data/Meshes/Props/D_Dynamite.png");
 		ecs.emplace(entityID, instancedMeshComponentID, &instanceMeshTypeID);
 
 
@@ -241,7 +242,7 @@ private:
 				continue;
 			createEnemy(pos);
 			count++;
-			if (count == 1000)
+			if (count == 10000)
 				break;
 		}
 	}

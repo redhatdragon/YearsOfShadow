@@ -5,6 +5,7 @@
 class VertexArray {
 	uint32_t id;
 	uint32_t layoutCount;
+	uint32_t lastOffset;
 public:
 	void init();
 	void destruct();
@@ -18,6 +19,7 @@ public:
 void VertexArray::init() {
 	glGenVertexArrays(1, &id);
 	layoutCount = 0;
+	lastOffset = 0;
 }
 void VertexArray::destruct() {
 	glDeleteVertexArrays(1, &id);

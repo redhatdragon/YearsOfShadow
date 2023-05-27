@@ -38,7 +38,7 @@ void translateScreen2DToGL(float& x, float& y);
 #include "GL_Utils/Texture.h"
 #include "GL_Utils/TexturedQuad.h"
 #include "GL_Utils/Mesh.h"
-#include "GL_Utils/InstancedMesh.h"
+#include "GL_Utils/InstancedMesh2.h"
 #include "GL_Utils/SceneCamera.h"
 
 //Camera camera;
@@ -175,6 +175,12 @@ const char* EE_getDirData() {
     return "./data/";
 }
 
+uint16_t EE_getHardwareThreadCount() {
+    SYSTEM_INFO sysinfo;
+    GetSystemInfo(&sysinfo);
+    return (uint16_t)sysinfo.dwNumberOfProcessors;
+}
+
 void* EE_getNewThreadPool(uint16_t maxThreadCount) {
     CustomWindowsThreadPool* tp = (CustomWindowsThreadPool*)malloc(sizeof(CustomWindowsThreadPool));
     tp->init(maxThreadCount);
@@ -296,7 +302,7 @@ void EE_releaseInstancedMesh(void* meshID) {
     if (meshID == (void*)-1) return;
     delete imesh;
 }
-void EE_setInstancedMeshPositions(void* meshID, const EE_Point3Df* posBuffer, uint32_t count) {
+void EE_setInstancedMeshPositions(void* meshID, const EE_Point3Df* _posBuffer, uint32_t count) {
     InstancedMesh* imesh = (InstancedMesh*)meshID;
     if (meshID == (void*)-1) return;
     if (count >= 256 * 256) {
@@ -304,7 +310,16 @@ void EE_setInstancedMeshPositions(void* meshID, const EE_Point3Df* posBuffer, ui
             << count << std::endl;
         throw;
     }
+    EE_Point3Df* posBuffer = (EE_Point3Df*)malloc(sizeof(EE_Point3Df) * count);
+    if (posBuffer == nullptr)
+        throw;
+    memcpy(posBuffer, _posBuffer, sizeof(EE_Point3Df) * count);
+    for (uint32_t i = 0; i < count; i++) {
+        posBuffer[i].y = -posBuffer[i].y;
+        posBuffer[i].z = -posBuffer[i].z;
+    }
     imesh->setOffsets((Vec3D<float>*)posBuffer, count);
+    free(posBuffer);
 }
 void EE_setInstancedMeshScale(void* meshID, EE_Point3Df scale) {
     InstancedMesh* imesh = (InstancedMesh*)meshID;
@@ -313,6 +328,7 @@ void EE_setInstancedMeshScale(void* meshID, EE_Point3Df scale) {
 void EE_setInstancedSubmeshTexture(void* meshID, uint8_t submeshIndex, const char* textureType, const char* path) {
     InstancedMesh* imesh = (InstancedMesh*)meshID;
     if (meshID == (void*)-1) return;
+    imesh->subMeshes[submeshIndex].textures[0].init(path);
 }
 
 void EE_translate(float x, float y, float z) {
@@ -395,6 +411,12 @@ void EE_releaseCamera(void* self) {
 
 
 int main() {
+
+    if (::SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS) == FALSE) {
+        DWORD dwPriorityErr = ::GetLastError();
+        std::cout << "Setting main thread priority to high failed, error: " << dwPriorityErr 
+            << std::endl;
+    }
 
     /* Initialize the library */
     if (!glfwInit())

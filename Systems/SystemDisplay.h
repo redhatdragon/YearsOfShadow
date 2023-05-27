@@ -51,8 +51,11 @@ private:
 		for (auto& mapElem : instancePositionsMap) {
 			u32 count = mapElem.second.size();
 			void* instanceTypeID = instancedMeshCodex.get(mapElem.first);
-			EE_Point3Df scale = *(EE_Point3Df*)&instancedMeshCodex.getSize(mapElem.first);
-			EE_setInstancedMeshScale(instanceTypeID, scale);
+			//EE_Point3Df scale = *(EE_Point3Df*)&instancedMeshCodex.getSize(mapElem.first);
+			//EE_Point3Df scale = {100, 100, 100};
+			//EE_setInstancedMeshScale(instanceTypeID, scale);
+			const char* texturePath = instancedMeshCodex.getTexture(mapElem.first);
+			EE_setInstancedSubmeshTexture(instanceTypeID, 0, "diffuse", texturePath);
 			EE_setInstancedMeshPositions(instanceTypeID, (EE_Point3Df*)&mapElem.second[0], count);
 			EE_drawInstancedMesh(instanceTypeID);
 		}

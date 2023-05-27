@@ -10,7 +10,7 @@
 //#include <stddef>
 
 constexpr uint32_t chunk_width = 16, chunk_depth = 16, chunk_height = 256;
-constexpr uint32_t world_size = 300 - (300 % chunk_width);  //block across
+constexpr uint32_t world_size = 400 - (400 % chunk_width);  //block across
 //constexpr uint32_t hash_width = 2;
 //constexpr uint32_t max_bodies_per_hash = 16;
 constexpr uint32_t hash_width = 1;
@@ -73,7 +73,11 @@ void registerDestructors() {
 }
 
 inline void initSystems() {
-	threadPool = EE_getNewThreadPool(0);
+	u16 threadCount = EE_getHardwareThreadCount();
+	threadCount = threadCount * 0.5f;
+	std::cout << "ThreadPool thread count: " << threadCount << std::endl;
+
+	threadPool = EE_getNewThreadPool(threadCount);
 
 	instancedMeshCodex.init();
 

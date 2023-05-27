@@ -2,6 +2,7 @@
 #include <unordered_map>
 
 class Codex {
+protected:
 	std::vector<void*> assets;
 	std::unordered_map<std::string, u32> hashes;
 	std::vector<u32> refCounts;
@@ -28,9 +29,9 @@ protected:
 	virtual void releaseAsset(void* asset) = 0;
 
 	void baseInit() {
-		assets.reserve(INITIAL_CAPACITY);
+		assets.resize(INITIAL_CAPACITY);
 		hashes.reserve(INITIAL_CAPACITY);
-		refCounts.reserve(INITIAL_CAPACITY);
+		refCounts.resize(INITIAL_CAPACITY);
 	}
 	u32 baseAdd(const std::string& path) {
 		const auto& element = hashes.find(path);
@@ -49,11 +50,13 @@ protected:
 
 class InstancedMeshCodex : public Codex {
 	std::vector<Vec3D<float>> sizes;
+	std::vector<std::string> texturePaths;
 public:
 
 	void init() {
 		baseInit();
-		sizes.reserve(INITIAL_CAPACITY);
+		sizes.resize(INITIAL_CAPACITY);
+		texturePaths.resize(INITIAL_CAPACITY);
 	}
 	u32 add(const std::string& path) {
 		if (has(path) == false) {
@@ -68,6 +71,12 @@ public:
 	}
 	Vec3D<float> getSize(u32 id) {  //May be removed...
 		return sizes[id];
+	}
+	void setTexture(u32 id, const char* path) {
+		texturePaths[id] = path;
+	}
+	const char* getTexture(u32 id) {
+		return texturePaths[id].c_str();
 	}
 private:
 	void* getAsset(const std::string& path) override {
