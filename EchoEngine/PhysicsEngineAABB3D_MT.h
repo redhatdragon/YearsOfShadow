@@ -627,7 +627,7 @@ public:
 		detect();
 		resolve();
 		timeFromStepping = (float)(clock() - c);
-		std::cout << "Time: " << timeFromStepping << std::endl;
+		//std::cout << "Time: " << timeFromStepping << std::endl;
 	}
 
 	std::vector<std::string> getDbgInfo() {

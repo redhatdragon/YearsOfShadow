@@ -21,8 +21,12 @@ struct InstancedSubMesh {
 
     uint32_t indexCount;
 
+    //void* indicesCpy;
+
     void init(const Vertex3D* verticies, const void* indices, uint32_t vertCount, uint32_t _indexCount,
         const std::vector<Texture>& _textures) {
+        //indicesCpy = malloc(_indexCount * 2);
+        //memcpy(indicesCpy, indices, _indexCount * 2);
 
         indexCount = _indexCount;
 
@@ -65,15 +69,23 @@ struct InstancedSubMesh {
         glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (const void*)(0));
         glVertexAttribDivisor(2, 1);
         VertexArray;
+
+        //glBindBuffer(GL_ARRAY_BUFFER, 0);
+        //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        //glBindVertexArray(0);
     }
     void destruct() {
 
     }
     void draw(Pos3D pos, Pos3D rot, Pos3D siz, const glm::mat4& view, const glm::mat4& perspective, uint32_t instanceCount) {
+        glBindVertexArray(VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+
         textures[0].bind();
         shader.bind();
         glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, { pos.x, pos.y, pos.z });
+        //model = glm::translate(model, { pos.x, pos.y, pos.z });
         //model = glm::rotate(model, glm::radians(rot.x), { 1.0f, 0.0f, 0.0f });
         //model = glm::rotate(model, glm::radians(rot.y), { 0.0f, 1.0f, 0.0f });
         //model = glm::rotate(model, glm::radians(rot.z), { 0.0f, 0.0f, 1.0f });
@@ -84,11 +96,10 @@ struct InstancedSubMesh {
         shader.setUniform3f("u_scale", siz.x, siz.y, siz.z);
         shader.setUniform4f("u_color", 1, 1, 1, 1);
 
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-        glBindVertexArray(VAO);
-
         glDrawElementsInstanced(GL_TRIANGLES, indexCount, GL_UNSIGNED_SHORT, nullptr, instanceCount);
+
+        //glBindBuffer(GL_ARRAY_BUFFER, 0);
+        //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
     void setOffsets(const std::vector<Vec3D<float>>& offsets) {
         glBindBuffer(GL_ARRAY_BUFFER, PBO);

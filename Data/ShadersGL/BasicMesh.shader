@@ -4,8 +4,8 @@
 layout(location = 0) in vec3 position;
 layout(location = 1) in vec2 texCoord;
 out vec2 v_texCoord;
-uniform mat4 u_MVP;  //model-view-projection matrix
 out float distToCamera;
+uniform mat4 u_MVP;  //model-view-projection matrix
 
 void main() {
     gl_Position = u_MVP * vec4(position, 1.0);
@@ -28,7 +28,7 @@ uniform sampler2D u_texture;
 void main() {
     vec4 texColor = texture(u_texture, v_texCoord);
     float distMod = distToCamera;
-    float maxDist = 250;
+    float maxDist = 64;
     if (distMod > maxDist)
         distMod = maxDist;
     distMod = maxDist / distMod;

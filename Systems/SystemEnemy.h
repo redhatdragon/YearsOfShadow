@@ -204,8 +204,8 @@ private:
 
 
 	void createEnemy(Vec3D<uint32_t> pos) {
-		//BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, "0.2f", "0.8f", "0.2f");
-		BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, "1.0f", "1.8f", "1.0f");
+		BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, "0.2f", "0.8f", "0.2f");
+		//BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, "1.0f", "1.8f", "1.0f");
 		physics.setSolid(bodyID, true);
 		EntityID entityID = ecs.getNewEntity();
 		physics.setUserData(bodyID, (void*)entityID);
@@ -242,7 +242,7 @@ private:
 				continue;
 			createEnemy(pos);
 			count++;
-			if (count == 10000)
+			if (count == 5000)
 				break;
 		}
 	}

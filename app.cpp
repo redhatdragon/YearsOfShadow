@@ -15,10 +15,10 @@ void EE_appStart() {
 	//BodyID body = physics.addStaticBodyBox(30, 155 - 15, 32, "1.0f", "1.0f", "1.0f");
 	//ecs.emplace(entity, bodyComponentID, &body);
 
-	EE_Point3Df positions[3] = { {30+0,140+0,30+0}, {30+1,140+1,30+1}, {30+3,140+3,30+3} };
-	exampleInstancedMeshTest = EE_getNewInstancedMesh("./Data/Meshes/Props/Dynamite.obj");
-	EE_setInstancedSubmeshTexture(exampleInstancedMeshTest, 0, "diffuse", "./Data/Meshes/Props/D_Dynamite.png");
-	EE_setInstancedMeshPositions(exampleInstancedMeshTest, positions, 3);
+	//EE_Point3Df positions[3] = { {30+0,140+0,30+0}, {30+1,140+1,30+1}, {30+3,140+3,30+3} };
+	//exampleInstancedMeshTest = EE_getNewInstancedMesh("./Data/Meshes/Props/Dynamite.obj");
+	//EE_setInstancedSubmeshTexture(exampleInstancedMeshTest, 0, "diffuse", "./Data/Meshes/Props/D_Dynamite.png");
+	//EE_setInstancedMeshPositions(exampleInstancedMeshTest, positions, 3);
 
 }
 void EE_appLoop() {
@@ -30,7 +30,7 @@ void EE_appLoop() {
 	//	std::cout << i << std::endl;
 	//EE_drawMesh(mesh);
 	//EE_drawText("Test", 20, 20, 12);
-	EE_drawInstancedMesh(exampleInstancedMeshTest);
+	//EE_drawInstancedMesh(exampleInstancedMeshTest);
 	c = clock() - c;
 	//std::cout << "Total frame: " << c << std::endl;
 }
