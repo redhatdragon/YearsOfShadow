@@ -536,12 +536,12 @@ public:
 		dtd.clear();
 		dtd.reserve(threadCount);
 		//uint32_t totalWork = lastBodyIndex - 1;
-		uint32_t totalWork = lastBodyIndex;
+		uint32_t totalWork = lastBodyIndex + 1;
 		uint32_t workPerThread = totalWork / threadCount;
 		uint32_t leftover = totalWork % threadCount;
 		for (uint32_t i = 0; i < threadCount; i++) {
-			//u32 start = workPerThread * i; u32 end = start + workPerThread - 1;
-			u32 start = workPerThread * i; u32 end = start + workPerThread;
+			u32 start = workPerThread * i; u32 end = start + workPerThread - 1;
+			//u32 start = workPerThread * i; u32 end = start + workPerThread;
 			DetectThreadData currentDTD = { this, start, end, &IDses[i]};
 			dtd.push_back(currentDTD);
 			//std::cout << start << ' ' << end << std::endl;
@@ -558,6 +558,7 @@ public:
 			detectThreadBody(&lastDTD);
 		while (EE_isThreadPoolFinished(threadPool) == false)
 			continue;
+		//_sleep(1);
 	}
 	static void detectThreadBody(void* _data) {
 		DetectThreadData* data = (DetectThreadData*)_data;

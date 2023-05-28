@@ -41,6 +41,11 @@ public:
 			return true;
 		return false;
 	}
+	bool isFinished() {
+		if (header.foo == nullptr && header.data == nullptr)
+			return true;
+		return false;
+	}
 
 private:
 	static DWORD WINAPI threadLoop(void* _customWindowsThread) {
@@ -77,7 +82,7 @@ public:
 	void addTask(void (*_foo)(void*), void* _data) {
 		uint16_t activeThreadCount = 0;
 		for (uint32_t i = 0; i < maxThreadCount; i++)
-			if (threads[i].isActive() == true)
+			if (threads[i].isFinished() == false)
 				activeThreadCount++;
 		if (activeThreadCount >= maxThreadCount)
 			throw;
@@ -86,14 +91,14 @@ public:
 
 	bool allTasksFinished() {
 		for (uint32_t i = 0; i < maxThreadCount; i++)
-			if (threads[i].isActive())
+			if (threads[i].isFinished() == false)
 				return false;
 		return true;
 	}
 	uint16_t getFreeThreadCount() {
 		uint16_t count = 0;
 		for (uint32_t i = 0; i < maxThreadCount; i++)
-			if (threads[i].isActive() == false)
+			if (threads[i].isFinished() == true)
 				count++;
 		return count;
 	}

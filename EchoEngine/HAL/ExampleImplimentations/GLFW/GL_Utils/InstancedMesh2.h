@@ -74,12 +74,14 @@ struct InstancedSubMesh {
         shader.bind();
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, { pos.x, pos.y, pos.z });
-        model = glm::rotate(model, glm::radians(rot.x), { 1.0f, 0.0f, 0.0f });
-        model = glm::rotate(model, glm::radians(rot.y), { 0.0f, 1.0f, 0.0f });
-        model = glm::rotate(model, glm::radians(rot.z), { 0.0f, 0.0f, 1.0f });
-        model = glm::scale(model, { siz.x, siz.y, siz.z });
+        //model = glm::rotate(model, glm::radians(rot.x), { 1.0f, 0.0f, 0.0f });
+        //model = glm::rotate(model, glm::radians(rot.y), { 0.0f, 1.0f, 0.0f });
+        //model = glm::rotate(model, glm::radians(rot.z), { 0.0f, 0.0f, 1.0f });
+        ////model = glm::scale(model, { siz.x, siz.y, siz.z });
+        //model = glm::scale(model, { 1, 1, 1 });
         glm::mat4 mvp = perspective * view * model;
         shader.setUniformMat4f("u_MVP", mvp);
+        shader.setUniform3f("u_scale", siz.x, siz.y, siz.z);
         shader.setUniform4f("u_color", 1, 1, 1, 1);
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -107,7 +109,7 @@ struct InstancedSubMesh {
 
 struct InstancedMesh {
     std::vector<InstancedSubMesh> subMeshes;
-    Pos3D pos = { .5, .5, 0 };
+    Pos3D pos = { .5, -.5, -.5 };
     Pos3D rot = { 1, 1, 1 };
     Pos3D siz = { 1, 1, 1 };
     //std::vector<Vec3D<float>> offsets;
@@ -138,6 +140,9 @@ struct InstancedMesh {
         for (InstancedSubMesh& subMesh : subMeshes) {
             subMesh.setOffsets(offsets);
         }
+    }
+    void setScale(float sx, float sy, float sz) {
+        siz = { sx, sy, sz };
     }
 private:
     InstancedSubMesh loadSubMeshData(const objl::Mesh& mesh) {

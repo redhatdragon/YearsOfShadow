@@ -6,9 +6,10 @@ layout(location = 1) in vec2 texCoord;
 layout(location = 2) in vec3 offset;
 out vec2 v_texCoord;
 uniform mat4 u_MVP;  //model-view-projection matrix
+uniform vec3 u_scale;
 
 void main() {
-    gl_Position = u_MVP * vec4(position+offset, 1.0);
+    gl_Position = u_MVP * vec4((position*u_scale)+offset, 1.0);
     v_texCoord = texCoord;
 }
 

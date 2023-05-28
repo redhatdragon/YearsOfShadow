@@ -324,6 +324,7 @@ void EE_setInstancedMeshPositions(void* meshID, const EE_Point3Df* _posBuffer, u
 void EE_setInstancedMeshScale(void* meshID, EE_Point3Df scale) {
     InstancedMesh* imesh = (InstancedMesh*)meshID;
     if (meshID == (void*)-1) return;
+    imesh->setScale(scale.x, scale.y, scale.z);
 }
 void EE_setInstancedSubmeshTexture(void* meshID, uint8_t submeshIndex, const char* textureType, const char* path) {
     InstancedMesh* imesh = (InstancedMesh*)meshID;
@@ -460,7 +461,7 @@ int main() {
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
 
-        static double startTime = glfwGetTime();
+        double startTime = glfwGetTime();
 
         EE_pushMatrix();
 
@@ -495,8 +496,8 @@ int main() {
 
         viewMatrices.clear();
 
-        while (glfwGetTime() < startTime + (1.0f / 60.0f)) {
-
+        while (startTime + (1.0f / 60.0f) > glfwGetTime()) {
+            continue;
         }
     }
 

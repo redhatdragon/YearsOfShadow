@@ -192,21 +192,39 @@ private:
 		pointPos += siz / 2;
 		pointPos.y += siz.y / 2;
 		pointPos.y += "0.01f";
-		if (physics.getBodiesInPoint(pointPos, bodyID).count && controller->isFalling()) {
-			controller->setHasFloored();
-		} else {
-			if (controller->isFloored())
-				controller->state = controller->IS_FALLING;
-		}
-		if(controller->isFloored())
-			vel.y = 0;
-		//controller->lastY = pos.y;
-		if (EE_getKeyState(32) && controller->canJump()) {
-			controller->setHasJumped();
-		}
-		if (controller->isJumping()) {
+		if (controller->isFalling()) {
+			if (physics.getBodiesInPoint(pointPos, bodyID).count) {
+				controller->setHasFloored();
+				vel.y = 0;
+			}
+			else
+				vel.y = originalVel.y;
+		} else if (controller->isFloored()) {
+			if (EE_getKeyState(32)) {
+				controller->setHasJumped();
+				vel.y = -controller->getJumpDistPerTick();
+			}
+			else
+				vel.y = 0;
+		} else if (controller->isJumping()) {
 			vel.y = -controller->getJumpDistPerTick();
 		}
+		//if (physics.getBodiesInPoint(pointPos, bodyID).count && controller->isFalling()) {
+		//	controller->setHasFloored();
+		//} else {
+		//	if (controller->isFloored())
+		//		controller->state = controller->IS_FALLING;
+		//}
+		//if(controller->isFloored())
+		//	vel.y = 0;
+		//controller->lastY = pos.y;
+		
+		//if (EE_getKeyState(32) && controller->canJump()) {
+		//	controller->setHasJumped();
+		//}
+		//if (controller->isJumping()) {
+		//	vel.y = -controller->getJumpDistPerTick();
+		//}
 		physics.setVelocity(bodyID, vel.x, vel.y, vel.z);
 	}
 	void jumpPhase(Controller* controller, const Vec3D<FixedPoint<256 * 256>>& pos, BodyID bodyID) {

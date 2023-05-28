@@ -59,6 +59,10 @@ public:
 		//EE_setInstancedSubmeshTexture(blockMesh, 0, "albedo", "Textures/Grass1.png");
 		//EE_setInstancedSubmeshTexture(blockMesh, 0, "normal", "Textures/Grass1_n.png");
 
+		path += "./Data/Meshes/Cube.obj";
+		blockMesh = EE_getNewInstancedMesh(path.c_str());
+		EE_setInstancedSubmeshTexture(blockMesh, 0, "diffuse", "./Data/Textures/grass1.png");
+
 		//for (uint32_t z = 0; z < depth; z++)
 		//	for (uint32_t y = 0; y < height; y++)
 		//		for (uint32_t x = 0; x < width; x++) {
@@ -95,6 +99,7 @@ public:
 	}
 
 	void display() {
+		EE_drawInstancedMesh(blockMesh);
 		if (modified == false)
 			return;
 		rebuild();
@@ -231,7 +236,8 @@ public:
 			pos.x += 0.5f; pos.y += 0.5f; pos.z += 0.5f;
 			positions.push_back(pos);
 		}
-		//EE_setInstancedMeshPositions(blockMesh, &positions[0], positions.size());
+		EE_setInstancedMeshPositions(blockMesh, &positions[0], positions.size());
+		EE_setInstancedMeshScale(blockMesh, {0.5f, 0.5f, 0.5f});
 	}
 	void unload() {
 		if (drawableBlocks.count == 0)
@@ -247,7 +253,7 @@ public:
 			//	physics.removeBody(activeBodies[i]);
 			//activeBodies.clear();
 		}
-		//EE_setInstancedMeshPositions(blockMesh, NULL, NULL);
+		EE_setInstancedMeshPositions(blockMesh, NULL, NULL);
 	}
 private:
 	inline bool isVisible(uint8_t x, uint8_t y, uint8_t z) {
