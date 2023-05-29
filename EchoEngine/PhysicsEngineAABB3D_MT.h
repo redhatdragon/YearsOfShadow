@@ -529,6 +529,8 @@ public:
 
 		static std::vector<BodyID> IDses[256];
 
+		while (EE_isThreadPoolFinished(threadPool) == false)
+			continue;
 		uint16_t threadCount = EE_getThreadPoolFreeThreadCount(threadPool);
 		//threadCount--;
 		//threadCount = 1;

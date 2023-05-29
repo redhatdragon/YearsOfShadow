@@ -71,9 +71,9 @@ private:
 class CustomWindowsThreadPool {
 	static constexpr uint32_t MAX_POSSIBLE_THREADS = 256;
 	CustomWindowsThread threads[MAX_POSSIBLE_THREADS];
-	uint32_t maxThreadCount;
+	uint16_t maxThreadCount;
 public:
-	void init(uint32_t _maxThreadCount) {
+	void init(uint16_t _maxThreadCount) {
 		maxThreadCount = _maxThreadCount;
 		for (uint32_t i = 0; i < _maxThreadCount; i++) {
 			threads[i].init();
@@ -90,10 +90,14 @@ public:
 	}
 
 	bool allTasksFinished() {
-		for (uint32_t i = 0; i < maxThreadCount; i++)
-			if (threads[i].isFinished() == false)
-				return false;
-		return true;
+		//for (uint32_t i = 0; i < maxThreadCount; i++)
+		//	if (threads[i].isFinished() == false)
+		//		return false;
+		//return true;
+		//NOTE: ^ above code doesn't work for reasons beyond me, however this does seem to
+		if (getFreeThreadCount() == maxThreadCount)
+			return true;
+		return false;
 	}
 	uint16_t getFreeThreadCount() {
 		uint16_t count = 0;

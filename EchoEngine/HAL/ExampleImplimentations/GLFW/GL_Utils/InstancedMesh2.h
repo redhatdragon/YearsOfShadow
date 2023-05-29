@@ -144,6 +144,8 @@ struct InstancedMesh {
             subMeshes[i].draw(pos, rot, siz, viewMatrix, perspectiveMatrix, instanceCount);
     }
     void setOffsets(Vec3D<float>* _positions, uint32_t count) {
+        if (count == 0)
+            return;
         std::vector<Vec3D<float>> offsets;
         offsets.resize(count);
         instanceCount = count;

@@ -20,7 +20,7 @@ struct EnemyAI {
 	u8 auditorySensitivity;
 	EntityHandle targetHandle;
 	EntityID targetEntity;
-	Vec3D<FixedPoint<256*256>> gotoPos;
+	Vec3D<FixedPoint<256 * 256>> gotoPos;
 	GameTick lastJumped;
 	u8 jumpDuration;
 	u8 jumpDistance;
@@ -49,6 +49,21 @@ public:
 	}
 	virtual void run() {
 		u32 enemyCount = ecs.getComponentCount(enemyAIComponentID);
+		u32 threadCount = EE_getThreadPoolFreeThreadCount(threadPool);
+		while (EE_isThreadPoolFinished(threadPool) == false)
+			continue;
+		//if (threadCount < enemyCount + 10 && threadCount > 1) {
+		//	runMulti();
+		//	return;
+		//}
+		runSingle();
+	}
+	virtual const char* getName() {
+		return "SystemEnemy";
+	}
+private:
+	void runSingle() {
+		u32 enemyCount = ecs.getComponentCount(enemyAIComponentID);
 		EnemyAI* enemyAIs = (EnemyAI*)ecs.getComponentBuffer(enemyAIComponentID);
 		for (u32 i = 0; i < enemyCount; i++) {
 			EnemyAI* enemyAI = &enemyAIs[i];
@@ -58,16 +73,65 @@ public:
 			if (enemyAI->targetEntity == -1) {
 				auto pos = physics.getPos(bodyID);
 				if (enemyAI->gotoPos.isZero()
-					|| (enemyAI->gotoPos-pos).getDistance() <= 2)
+					|| (enemyAI->gotoPos - pos).getDistance() <= 2)
 					findRandomTargetPos(enemyAI, bodyID);
 			}
 			movement(enemyAI, bodyID);
 		}
 	}
-	virtual const char* getName() {
-		return "SystemEnemy";
+	struct ThreadData {
+		u32 startingIndex, endingIndex;
+		SystemEnemy* self;
+
+	};
+	void runMulti() {
+		u16 threadCount = EE_getThreadPoolFreeThreadCount(threadPool);
+		u32 enemyCount = ecs.getComponentCount(enemyAIComponentID);
+		u32 totalWork = enemyCount;
+		u32 workPerThread = totalWork / threadCount;
+		u32 leftover = totalWork % threadCount;
+		static std::vector<ThreadData> tds;
+		tds.resize(threadCount);
+		for (u32 i = 0; i < threadCount; i++) {
+			u32 start = workPerThread * i; u32 end = start + workPerThread - 1;
+			ThreadData td = { start, end, this };
+			//std::cout << start << ' ' << end << std::endl;
+			tds[i] = td;
+		}
+		for (u32 i = 0; i < threadCount; i++) {
+			EE_sendThreadPoolTask(threadPool, runThreadedBody, (void*)&tds[i]);
+		}
+		while (EE_isThreadPoolFinished(threadPool) == false)
+			continue;
+		//NOTE: Needs to happen after all other threads finished, reasons beyond me
+		if (leftover) {
+			u32 start = workPerThread * threadCount; u32 end = start + leftover - 1;
+			ThreadData td = { start, end, this };
+			//std::cout << start << ' ' << end << std::endl;
+			runThreadedBody(&td);
+		}
 	}
-private:
+	static void runThreadedBody(void* data) {
+		ThreadData* td = (ThreadData*)data;
+		SystemEnemy* self = td->self;
+
+		u32 enemyCount = ecs.getComponentCount(self->enemyAIComponentID);
+		EnemyAI* enemyAIs = (EnemyAI*)ecs.getComponentBuffer(self->enemyAIComponentID);
+		for (u32 i = td->startingIndex; i <= td->endingIndex; i++) {
+			EnemyAI* enemyAI = &enemyAIs[i];
+			EntityID owner = ecs.getOwner(self->enemyAIComponentID, i);
+			BodyID bodyID = *(BodyID*)ecs.getEntityComponent(owner, self->bodyComponentID);
+			self->findTarget(enemyAI, bodyID);
+			if (enemyAI->targetEntity == -1) {
+				auto pos = physics.getPos(bodyID);
+				if (enemyAI->gotoPos.isZero()
+					|| (enemyAI->gotoPos - pos).getDistance() <= 2)
+					self->findRandomTargetPos(enemyAI, bodyID);
+			}
+			self->movement(enemyAI, bodyID);
+		}
+	}
+
 	void findTarget(EnemyAI* enemyAI, BodyID bodyID) {
 		int stopEarly = rand() % 10;
 		if (stopEarly)
@@ -242,7 +306,7 @@ private:
 				continue;
 			createEnemy(pos);
 			count++;
-			if (count == 5000)
+			if (count == 10000)
 				break;
 		}
 	}
