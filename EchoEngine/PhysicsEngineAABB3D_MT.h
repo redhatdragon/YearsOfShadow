@@ -3,7 +3,23 @@
 #include "Vec.h"
 #include "FlatBuffer.h"
 #include "DArray.h"
+#include "HAL/HAL.h"
 #include <time.h>
+
+/*
+ABOUT
+This is a simple multithreaded fixed point deterministic AABB physics engine using a spatial hash table with
+optional rewind capability.  It doesn't have friction/weight/bouncing and is intended to be fairly effecient
+at the expense of functionality and perhaps ideal memory usage.
+
+This is a somewhat specialized and yet modular physics engine.  Yet hopefully lean enough to rework as need be.
+This does depend on HAL.h's API specifically to use a thread pool that's meant to be directly used with the
+application as well.  Essentially this engine's designed to be synced/batch threaded and will intentionally
+wait till the thread pool isn't at all working on anything before proceeding with it's own tasks.  Ideal
+when most of your game logic uses a similar threading model which to be frank is more ideal for batched work.
+*/
+
+//#define PHYSICS_ENABLE_REWIND  use this to enable rewind functionality, useful when you want this functionality on different executables
 
 #ifndef physics_unit_size
 #define physics_unit_size (256*256)  //used as a pretend "1" normalized value to emulate decimal
@@ -258,9 +274,10 @@ public:
 	}
 };
 
+
+
 template<uint32_t width, uint32_t height, uint32_t depth, uint32_t hash_width, uint32_t max_bodies_per_hash = 64>
 class PhysicsEngineAABB3D {
-public:
 	static constexpr uint32_t max_dynamic_bodies = 100000;  //100k
 	static constexpr uint32_t max_static_bodies = 1000000;  //1mill
 	static constexpr uint32_t max_bodies = max_dynamic_bodies + max_static_bodies;
@@ -277,6 +294,11 @@ public:
 	SpatialHashTable<width, height, depth, hash_width* physics_unit_size, max_bodies_per_hash> spatialHashTable;
 	float timeFromStepping = 0;
 
+	//NOTE: used for rewinding
+	#include "PhysicsFrame.h"
+	DArray<PhysicsFrame> frames;
+
+public:
 	void init() {
 		timeFromStepping = dynamicBodyCount = staticBodyCount = 0;
 		bodies.init(max_bodies);
@@ -291,6 +313,7 @@ public:
 		}
 		userData.init(max_bodies);
 		spatialHashTable.init();
+		frames.init(60 * 10);
 	}
 	BodyID addBodyBox(physics_fp x, physics_fp y, physics_fp z,
 		physics_fp w, physics_fp h, physics_fp d) {
@@ -532,35 +555,27 @@ public:
 		while (EE_isThreadPoolFinished(threadPool) == false)
 			continue;
 		uint16_t threadCount = EE_getThreadPoolFreeThreadCount(threadPool);
-		//threadCount--;
-		//threadCount = 1;
 		static std::vector<DetectThreadData> dtd;
 		dtd.clear();
 		dtd.reserve(threadCount);
-		//uint32_t totalWork = lastBodyIndex - 1;
 		uint32_t totalWork = lastBodyIndex + 1;
 		uint32_t workPerThread = totalWork / threadCount;
 		uint32_t leftover = totalWork % threadCount;
 		for (uint32_t i = 0; i < threadCount; i++) {
 			u32 start = workPerThread * i; u32 end = start + workPerThread - 1;
-			//u32 start = workPerThread * i; u32 end = start + workPerThread;
 			DetectThreadData currentDTD = { this, start, end, &IDses[i]};
 			dtd.push_back(currentDTD);
-			//std::cout << start << ' ' << end << std::endl;
 		}
 		for (uint32_t i = 0; i < threadCount; i++) {
 			EE_sendThreadPoolTask(threadPool, detectThreadBody, &dtd[i]);
-			//detectThreadBody(&dtd[i]);
 		}
 		static DetectThreadData lastDTD;
 		u32 start = workPerThread * threadCount; u32 end = start + leftover;
 		lastDTD = { this, start, end, &IDses[threadCount]};
-		//std::cout << start << ' ' << end << std::endl;
 		if (leftover)
 			detectThreadBody(&lastDTD);
 		while (EE_isThreadPoolFinished(threadPool) == false)
 			continue;
-		//_sleep(1);
 	}
 	static void detectThreadBody(void* _data) {
 		DetectThreadData* data = (DetectThreadData*)_data;
@@ -568,9 +583,6 @@ public:
 			(PhysicsEngineAABB3D<width, height, depth, hash_width, max_bodies_per_hash>*)data->self;
 
 		std::vector<BodyID>& IDs = *data->IDs;
-		//IDs.reserve(2000);
-		//for (u32 i = data->start; i <= data->end; i++) {
-		//std::cout << data->start << "  " << data->end << std::endl;
 		for (uint32_t i = data->start; i <= data->end; i++) {
 			if (self->isValid.getIsValid(i) == false)
 				continue;
@@ -673,7 +685,17 @@ public:
 		return getGravityAcceleration() * 2;
 	}
 
-	//private:
+	void rewind(uint32_t ticksPassed) {
+		if (ticksPassed > 10 * 60) {
+			std::cout << "Error: PhysicsEngineAABB_MT.rewind()'s ticksPassed arg is higher than 600"
+				<< std::endl << "ticksPassed == " << ticksPassed << std::endl;
+			std::cout << "Aborting..." << std::endl;
+			throw;
+		}
+
+	}
+
+private:
 	void overlappingBodyPushIfUnique(uint32_t index, BodyID id) {
 		for (uint32_t i = 0; i < overlappingBodyIDs[index].count; i++)
 			if (overlappingBodyIDs[index][i].id == id.id)

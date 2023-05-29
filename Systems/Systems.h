@@ -4,6 +4,7 @@
 #define ENGINE_PATH ../EchoEngine/
 
 #include "../EchoEngine/HAL/HAL_3D.h"
+#define PHYSICS_ENABLE_REWIND
 #include "../EchoEngine/PhysicsEngineAABB3D_MT.h"
 #include "../EchoEngine/DDECS.h"
 //#include <memory>
