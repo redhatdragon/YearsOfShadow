@@ -1,5 +1,9 @@
 #Testers
 *zbrigadier
-  -Found license bug
+  -Found license bug,helped make sure the demo works
 *BeyondBelief
   -Helped figured out build process with unigine
+
+  #Advisers
+  *neon-sunset
+    -Offering runtime advice & perspective
