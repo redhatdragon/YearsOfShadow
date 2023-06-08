@@ -1,6 +1,7 @@
 struct PhysicsFrame {
 	Vec3D<uint32_t> dynamicBodyPositions[max_dynamic_bodies];
 	Vec3D<uint32_t> dynamicBodyVelocities[max_dynamic_bodies];
+	uint32_t dynamicBodyIDs[max_dynamic_bodies];
 	uint32_t dynamicBodyCount;
 
 	struct _CommandFrame {
@@ -24,7 +25,7 @@ struct PhysicsFrame {
 	FlatBuffer<_CommandFrame, 10000> commandFrames;
 
 	inline void clear() {
-		bodyCount = 0;
+		dynamicBodyCount = 0;
 		commandFrames.count = 0;
 	}
 

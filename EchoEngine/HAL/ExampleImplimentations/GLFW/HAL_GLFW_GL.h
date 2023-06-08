@@ -17,6 +17,7 @@
 #include "../../../DArray.h"
 #include "../../../FlatBuffer.h"
 #include "CustomWindowsThreadPool.h"
+//#include "CustomCPP11ThreadPool.h"
 
 #include "../../HAL_3D.h"
 
@@ -182,7 +183,7 @@ uint16_t EE_getHardwareThreadCount() {
 }
 
 void* EE_getNewThreadPool(uint16_t maxThreadCount) {
-    CustomWindowsThreadPool* tp = (CustomWindowsThreadPool*)malloc(sizeof(CustomWindowsThreadPool));
+    CustomThreadPool* tp = (CustomThreadPool*)malloc(sizeof(CustomThreadPool));
     tp->init(maxThreadCount);
     return tp;
 }
@@ -190,16 +191,16 @@ void EE_releaseThreadPool(void* self) {
     free(self);
 }
 uint16_t EE_getThreadPoolFreeThreadCount(void* self) {
-    CustomWindowsThreadPool* tp = (CustomWindowsThreadPool*)self;
+    CustomThreadPool* tp = (CustomThreadPool*)self;
     return tp->getFreeThreadCount();
 }
 bool EE_sendThreadPoolTask(void* self, void(*func)(void*), void* param) {
-    CustomWindowsThreadPool* tp = (CustomWindowsThreadPool*)self;
+    CustomThreadPool* tp = (CustomThreadPool*)self;
     tp->addTask(func, param);
     return true;
 }
 bool EE_isThreadPoolFinished(void* self) {
-    CustomWindowsThreadPool* tp = (CustomWindowsThreadPool*)self;
+    CustomThreadPool* tp = (CustomThreadPool*)self;
     return tp->allTasksFinished();
 }
 

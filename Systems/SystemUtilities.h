@@ -59,20 +59,20 @@ namespace SystemUtilities {
 		return false;
 	}
 	//Related to physics.getUserData()
-	inline void setUserDataVoxel(BodyID bodyID) {
-		physics.setUserData(bodyID, (void*)-1);
-	}
+	//inline void setUserDataVoxel(BodyID bodyID) {
+	//	physics.setUserData(bodyID, (void*)-1);
+	//}
 
-	inline EntityID spawnEntityAt(const std::string& entityPath, Vec3D<uint32_t> pos) {
+	inline EntityID spawnEntityAt(const std::string& entityPath, Vec3D<uint32_t> pos, bool isSolid) {
 		std::string dataDir = EE_getDirData();
 		EntityObject entityObject = EntityObjectLoader::createEntityObjectFromFile(dataDir + entityPath);
 		EntityID entity = ecs.getNewEntity();
 
 		auto* size = entityObject.getComponent("size");
 		if (size) {
-			BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, size->getArray()[0], size->getArray()[1], size->getArray()[2]);
+			BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, size->getArray()[0], size->getArray()[1], size->getArray()[2],
+				(void*)entity, isSolid);
 			ComponentID bodyComponentID = ecs.registerComponent("body", sizeof(BodyID));
-			physics.setUserData(bodyID, (void*)entity);
 			ecs.emplace(entity, bodyComponentID, &bodyID);
 		}
 
@@ -96,16 +96,15 @@ namespace SystemUtilities {
 		}
 		return entity;
 	}
-	inline EntityID spawnEntityAtWithSize(const std::string& entityPath, Vec3D<uint32_t> pos, Vec3D<uint32_t> siz) {
-		EntityID retValue = spawnEntityAt(entityPath, pos);
+	inline EntityID spawnEntityAtWithSize(const std::string& entityPath, Vec3D<uint32_t> pos, Vec3D<uint32_t> siz, bool isSolid) {
+		EntityID retValue = spawnEntityAt(entityPath, pos, isSolid);
 		ComponentID bodyComponentID = ecs.registerComponent("body", sizeof(BodyID));
 		if (ecs.entityHasComponent(retValue, bodyComponentID)) {
 			std::cout << "Error: spawnEntityAtWithSize()'s entity from entityPath had a size declared in file " <<
 				entityPath << std::endl;
 			return -1;
 		}
-		BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, siz.x, siz.y, siz.z);
-		physics.setUserData(bodyID, (void*)retValue);
+		BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, siz.x, siz.y, siz.z, (void*)retValue, isSolid);
 		ecs.emplace(retValue, bodyComponentID, &bodyID);
 		return retValue;
 	}

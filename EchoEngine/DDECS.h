@@ -244,6 +244,8 @@ public:
 	void runSystems(std::vector<std::string>& blackList) {
 		for (auto sys : systems) {
 			clock_t start = clock();
+			while (EE_isThreadPoolFinished(threadPool) == false)
+				continue;
 			for (auto& str : blackList)
 				if (str == sys->getName())
 					goto skip;

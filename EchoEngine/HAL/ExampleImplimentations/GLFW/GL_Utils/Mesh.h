@@ -127,6 +127,9 @@ struct SubMesh {
         shader.setUniformMat4f("u_MVP", mvp);
         vertexArray.bind();
 
+        vertexBuffer.bind();
+        indexBuffer.bind();
+
         glDrawElements(GL_TRIANGLES, indexBuffer.getCount(), GL_UNSIGNED_SHORT, nullptr);
 
         //vertexBuffer.unbind();

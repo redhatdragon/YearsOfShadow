@@ -1,6 +1,16 @@
 #pragma once
 #include "../FPSCamera.h"
 #include <iostream>
+#include <random>
+
+inline std::mt19937& getRandGenerator() {
+	static thread_local std::mt19937 generator;
+	return generator;
+}
+int getRandInt(std::mt19937& generator, int min, int max) {
+	std::uniform_int_distribution<int> distribution(min, max);
+	return distribution(generator);
+}
 
 struct EnemyAI {
 	//Controller controller;  //Might not be needed
@@ -37,6 +47,8 @@ class SystemEnemy : public System {
 	ComponentID instancedMeshComponentID;
 	ComponentID enemyAIComponentID;
 	ComponentID controllerComponentID;
+
+	int activeThreadCount;
 public:
 	virtual void init() {
 		bodyComponentID = ecs.registerComponent("body", sizeof(BodyID));
@@ -45,17 +57,19 @@ public:
 		enemyAIComponentID = ecs.registerComponent("enemyAI", sizeof(EnemyAI));
 		controllerComponentID = ecs.registerComponent("controller", sizeof(Controller));
 
-		createTest();
+		std::mt19937& generator = getRandGenerator();
+		createTest(generator);
+		activeThreadCount = 0;
 	}
 	virtual void run() {
 		u32 enemyCount = ecs.getComponentCount(enemyAIComponentID);
+		#ifdef THREADING_ENABLED
 		u32 threadCount = EE_getThreadPoolFreeThreadCount(threadPool);
-		while (EE_isThreadPoolFinished(threadPool) == false)
-			continue;
-		//if (threadCount < enemyCount + 10 && threadCount > 1) {
-		//	runMulti();
-		//	return;
-		//}
+		if (threadCount < enemyCount + 10 && threadCount > 1) {
+			runMulti();
+			return;
+		}
+		#endif
 		runSingle();
 	}
 	virtual const char* getName() {
@@ -63,20 +77,21 @@ public:
 	}
 private:
 	void runSingle() {
+		std::mt19937& generator = getRandGenerator();
 		u32 enemyCount = ecs.getComponentCount(enemyAIComponentID);
 		EnemyAI* enemyAIs = (EnemyAI*)ecs.getComponentBuffer(enemyAIComponentID);
 		for (u32 i = 0; i < enemyCount; i++) {
 			EnemyAI* enemyAI = &enemyAIs[i];
 			EntityID owner = ecs.getOwner(enemyAIComponentID, i);
 			BodyID bodyID = *(BodyID*)ecs.getEntityComponent(owner, bodyComponentID);
-			findTarget(enemyAI, bodyID);
+			findTarget(enemyAI, bodyID, generator);
 			if (enemyAI->targetEntity == -1) {
 				auto pos = physics.getPos(bodyID);
 				if (enemyAI->gotoPos.isZero()
 					|| (enemyAI->gotoPos - pos).getDistance() <= 2)
-					findRandomTargetPos(enemyAI, bodyID);
+					findRandomTargetPos(enemyAI, bodyID, generator);
 			}
-			movement(enemyAI, bodyID);
+			movement(enemyAI, bodyID, generator);
 		}
 	}
 	struct ThreadData {
@@ -101,8 +116,6 @@ private:
 		for (u32 i = 0; i < threadCount; i++) {
 			EE_sendThreadPoolTask(threadPool, runThreadedBody, (void*)&tds[i]);
 		}
-		while (EE_isThreadPoolFinished(threadPool) == false)
-			continue;
 		//NOTE: Needs to happen after all other threads finished, reasons beyond me
 		if (leftover) {
 			u32 start = workPerThread * threadCount; u32 end = start + leftover - 1;
@@ -110,10 +123,14 @@ private:
 			//std::cout << start << ' ' << end << std::endl;
 			runThreadedBody(&td);
 		}
+		while (EE_isThreadPoolFinished(threadPool) == false)
+			continue;
 	}
 	static void runThreadedBody(void* data) {
 		ThreadData* td = (ThreadData*)data;
 		SystemEnemy* self = td->self;
+
+		auto generator = getRandGenerator();
 
 		u32 enemyCount = ecs.getComponentCount(self->enemyAIComponentID);
 		EnemyAI* enemyAIs = (EnemyAI*)ecs.getComponentBuffer(self->enemyAIComponentID);
@@ -121,21 +138,22 @@ private:
 			EnemyAI* enemyAI = &enemyAIs[i];
 			EntityID owner = ecs.getOwner(self->enemyAIComponentID, i);
 			BodyID bodyID = *(BodyID*)ecs.getEntityComponent(owner, self->bodyComponentID);
-			self->findTarget(enemyAI, bodyID);
+			self->findTarget(enemyAI, bodyID, generator);
 			if (enemyAI->targetEntity == -1) {
 				auto pos = physics.getPos(bodyID);
 				if (enemyAI->gotoPos.isZero()
 					|| (enemyAI->gotoPos - pos).getDistance() <= 2)
-					self->findRandomTargetPos(enemyAI, bodyID);
+					self->findRandomTargetPos(enemyAI, bodyID, generator);
 			}
-			self->movement(enemyAI, bodyID);
+			self->movement(enemyAI, bodyID, generator);
 		}
 	}
 
-	void findTarget(EnemyAI* enemyAI, BodyID bodyID) {
-		int stopEarly = rand() % 10;
-		if (stopEarly)
-			return;
+	void findTarget(EnemyAI* enemyAI, BodyID bodyID, std::mt19937& generator) {
+		//int stopEarly = rand() % 10;
+		//int stopEarly = getRandInt(generator, 0, 10);
+		//if (stopEarly)
+		//	return;
 		u32 controllerCount = ecs.getComponentCount(controllerComponentID);
 		EntityID closestEntity = -1;
 		Vec3D<FixedPoint<256 * 256>> closestPos;
@@ -188,20 +206,23 @@ private:
 			enemyAI->targetEntity = enemyAI->targetHandle = -1;
 		}
 	}
-	void findRandomTargetPos(EnemyAI* enemyAI, BodyID bodyID) {
+	void findRandomTargetPos(EnemyAI* enemyAI, BodyID bodyID, std::mt19937& generator) {
 		u32 padding = 40, border = world_size;
 		Vec3D<FixedPoint<256 * 256>> gotoPos = { 
-			rand() % (border - (padding + padding)),
+			//rand() % (border - (padding + padding)),
+			getRandInt(generator, 0, border - (padding + padding)),
 			0,
-			rand() % (border - (padding + padding))
+			//rand() % (border - (padding + padding))
+			getRandInt(generator, 0, border - (padding + padding))
 		};
-		gotoPos += 5;
-		gotoPos.y = 0;
+		//gotoPos += 5;
+		gotoPos += padding;
+		//gotoPos.y = 0;
 		auto pos = physics.getPos(bodyID);
 		gotoPos.y = pos.y;
 		enemyAI->gotoPos = gotoPos;
 	}
-	void movement(EnemyAI* enemyAI, BodyID bodyID) {
+	void movement(EnemyAI* enemyAI, BodyID bodyID, std::mt19937& generator) {
 		if (enemyAI->gotoPos.isZero())
 			return;
 
@@ -209,11 +230,15 @@ private:
 		auto vel = targetPos;
 		auto pos = physics.getPos(bodyID);
 
-		int rng = rand() % 10;
+		//int rng = rand() % 10;
+		int rng = getRandInt(generator, 0, 10);
 		if (rng == 0) {
 			Vec3D<FixedPoint<256 * 256>> avoidanceDir = getAvoidanceDir(enemyAI, bodyID);
 			if (avoidanceDir.isZero() == false) {
-				enemyAI->gotoPos = pos + (avoidanceDir * 3);
+				auto gotoPos = pos + avoidanceDir * 3;
+				Vec3D<FixedPoint<256 * 256>> min = { 0 + 20, 0 + 20 }, max = {world_size - 20, world_size - 20};
+				if (gotoPos.isBetween(min, max))
+					enemyAI->gotoPos = gotoPos;
 			}
 		}
 
@@ -226,7 +251,8 @@ private:
 		auto siz = physics.getSize(bodyID);
 		pointPos += siz / 2;
 		pointPos.y += siz.y / 2;
-		pointPos.y += "0.01f";
+		//pointPos.y += "0.01f";
+		pointPos.y += "0.1f";
 		//if (physics.getBodiesInPoint(pointPos, bodyID).count == 0) {
 		if (physics.pointTrace(pointPos, bodyID) == false) {
 			vel.y = physics.getVelocity(bodyID).y;
@@ -268,11 +294,11 @@ private:
 
 
 	void createEnemy(Vec3D<uint32_t> pos) {
-		BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, "0.2f", "0.8f", "0.2f");
-		//BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, "1.0f", "1.8f", "1.0f");
-		physics.setSolid(bodyID, true);
 		EntityID entityID = ecs.getNewEntity();
-		physics.setUserData(bodyID, (void*)entityID);
+		//BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, "0.2f", "0.8f", "0.2f",
+		//BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, "0.5f", "1.0f", "0.5f",
+		BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, "0.1f", "1.0f", "0.1f",
+			(void*)entityID, true);
 		ecs.emplace(entityID, bodyComponentID, &bodyID);
 		//std::string path = "Meshes/Cube2.fbx/cube.001.mesh";
 		//std::string path = "./Data/Meshes/Props/Dynamite.obj";
@@ -293,20 +319,22 @@ private:
 		enemyAI.init();
 		ecs.emplace(entityID, enemyAIComponentID, &enemyAI);
 	}
-	void createTest() {
+	void createTest(std::mt19937& generator) {
 		u32 count = 0;
 		u32 padding = 40, border = world_size;
 		while (true) {
 			Vec3D<u32> pos = {};
-			pos.x = rand() % (border-(padding+padding));
-			pos.z = rand() % (border-(padding+padding));
+			//pos.x = rand() % (border-(padding+padding));
+			pos.x = getRandInt(generator, 0, border-(padding+padding));
+			//pos.z = rand() % (border-(padding+padding));
+			pos.z = getRandInt(generator, 0, border-(padding+padding));
 			pos += padding;
 			pos.y = 153;
-			if (physics.getBodiesInRectRough(pos, { 1, 1, 1 }).size())
+			if (physics.getBodiesInRectRough(pos, { 4, 1, 4 }).size())
 				continue;
 			createEnemy(pos);
 			count++;
-			if (count == 10000)
+			if (count == 5000)
 				break;
 		}
 	}

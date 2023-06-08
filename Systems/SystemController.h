@@ -113,8 +113,7 @@ public:
 
 		EntityID entity = ecs.getNewEntity();
 		//BodyID bodyID = physics.addBodyBox(30, 155-15, 30, 1, 1, 1);
-		BodyID bodyID = physics.addBodyBox(30, 155-15, 30, "0.5f", 1, "0.5f");
-		physics.setSolid(bodyID, true);
+		BodyID bodyID = physics.addBodyBox(30, 155-15, 30, "0.5f", 1, "0.5f", (void*)entity, true);
 		ecs.emplace(entity, bodyComponentID, &bodyID);
 		Controller controller = {};
 		controller.init();
@@ -193,7 +192,8 @@ private:
 		pointPos.y += siz.y / 2;
 		pointPos.y += "0.01f";
 		if (controller->isFalling()) {
-			if (physics.getBodiesInPoint(pointPos, bodyID).count) {
+			//if (physics.getBodiesInPoint(pointPos, bodyID).count) {
+			if (physics.pointTrace(pointPos, bodyID)) {
 				controller->setHasFloored();
 				vel.y = 0;
 			}
@@ -233,6 +233,7 @@ private:
 		}
 	}
 	void firePhase(Controller* controller, const Vec3D<FixedPoint<256 * 256>>& pos) {
+		return;
 		uint8_t leftMouse;
 		EE_getMouseState(&leftMouse, nullptr, nullptr);
 		if (leftMouse == false)
@@ -253,10 +254,9 @@ private:
 		EntityID bomb = ecs.getNewEntity();
 		Vec3D<FixedPoint<256 * 256>> velocity = direction;
 		velocity *= "0.25f";
-		BodyID bodyID = physics.addBodyBox(spawnAt.x, spawnAt.y, spawnAt.z, "0.1f", "0.1f", "0.1f");
+		BodyID bodyID = physics.addBodyBox(spawnAt.x, spawnAt.y, spawnAt.z, "0.1f", "0.1f", "0.1f",
+			(void*)bomb, true);
 		//BodyID bodyID = physics.addBodyBox(spawnAt.x, spawnAt.y, spawnAt.z, 1, 1, 1);
-		physics.setSolid(bodyID, true);
-		physics.setUserData(bodyID, (void*)bomb);
 		physics.setVelocity(bodyID, velocity.x, velocity.y, velocity.z);
 
 		Explode explode;

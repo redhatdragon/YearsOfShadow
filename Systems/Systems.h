@@ -5,13 +5,14 @@
 
 #include "../EchoEngine/HAL/HAL_3D.h"
 #define PHYSICS_ENABLE_REWIND
+#define THREADING_ENABLED
 #include "../EchoEngine/PhysicsEngineAABB3D_MT.h"
 #include "../EchoEngine/DDECS.h"
 //#include <memory>
 //#include <stddef>
 
 constexpr uint32_t chunk_width = 16, chunk_depth = 16, chunk_height = 256;
-constexpr uint32_t world_size = 400 - (400 % chunk_width);  //block across
+constexpr uint32_t world_size = 360 - (360 % chunk_width);  //block across
 //constexpr uint32_t hash_width = 2;
 //constexpr uint32_t max_bodies_per_hash = 16;
 constexpr uint32_t hash_width = 1;
@@ -88,9 +89,9 @@ inline void initSystems() {
 
 	ecs.registerSystem<SystemDeath>();
 	ecs.registerSystem<SystemPhysics>();
+	ecs.registerSystem<SystemController>();
 	ecs.registerSystem<SystemVoxel>();
 	//ecs.registerSystem<SystemExplosionTest>();
-	ecs.registerSystem<SystemController>();
 	ecs.registerSystem<SystemEnemy>();
 	ecs.registerSystem<SystemExplode>();
 

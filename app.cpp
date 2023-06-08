@@ -21,18 +21,30 @@ void EE_appStart() {
 	//EE_setInstancedMeshPositions(exampleInstancedMeshTest, positions, 3);
 
 }
+bool FPressedLastTick = true;;
 void EE_appLoop() {
 	clock_t c = clock();
 	EE_drawBackground(0, 0, 0, 255);
 	ecs.runSystems();
-	//auto dbgInfo = ecs.getDebugInfoStr();
-	//for (auto& i : dbgInfo)
-	//	std::cout << i << std::endl;
+	auto dbgInfo = ecs.getDebugInfoStr();
+	for (auto& i : dbgInfo)
+		std::cout << i << std::endl;
 	//EE_drawMesh(mesh);
 	//EE_drawText("Test", 20, 20, 12);
 	//EE_drawInstancedMesh(exampleInstancedMeshTest);
 	c = clock() - c;
 	//std::cout << "Total frame: " << c << std::endl;
+
+	static int ticksSinceRewind = 0;
+	if (EE_getKeyState('F')) {
+		if (FPressedLastTick == false && ticksSinceRewind >= 90) {
+			physics.rewind(60);
+			ticksSinceRewind = 0;
+		}
+		FPressedLastTick = true;
+	} else
+		FPressedLastTick = false;
+	ticksSinceRewind++;
 }
 void EE_appEnd() {
 

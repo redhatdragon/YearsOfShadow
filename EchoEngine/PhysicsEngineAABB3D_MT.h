@@ -3,7 +3,9 @@
 #include "Vec.h"
 #include "FlatBuffer.h"
 #include "DArray.h"
+#ifdef THREADING_ENABLED
 #include "HAL/HAL.h"
+#endif
 #include <time.h>
 
 /*
@@ -149,6 +151,7 @@ class SpatialHashTable {
 		//	throw;
 		if (getHash(x, y, z).count == max_bodies_per_hash) {
 			printf("SpatialHashTable::addBodyToHash - Error: too many bodies in hash!\n");
+			std::cout << "BodyID: " << id.id << " hash: " << x << ' ' << y << ' ' << z << '!' << std::endl;
 			throw;
 		}
 		getHash(x, y, z).push(id);
@@ -162,7 +165,9 @@ class SpatialHashTable {
 				return;
 			}
 		}
-		printf("SpatialHashTable::removeBodyFromHash - Error: body not found in hash!\n");
+		std::cout << "SpatialHashTable::removeBodyFromHash - Error: body " << id.id << " not found in hash " 
+			<< x << ' ' << y << ' ' << z << '!' << std::endl;
+		throw;
 	}
 
 	inline void getIterationBounds(const Vec3D<uint32_t>& pos, const Vec3D<uint32_t>& siz, Bounds& bounds) {
@@ -209,7 +214,7 @@ public:
 	}
 	void addBody(BodyID id, const Vec3D<uint32_t>& pos, const Vec3D<uint32_t>& siz) {
 		Bounds bounds;
-		getIterationBounds(pos, siz, bounds);
+		getIterationBounds(pos, siz, bounds);	
 		for (uint32_t z = bounds.pos.z; z <= bounds.siz.z; z++)
 			for (uint32_t y = bounds.pos.y; y <= bounds.siz.y; y++)
 				for (uint32_t x = bounds.pos.x; x <= bounds.siz.x; x++)
@@ -276,7 +281,7 @@ public:
 
 
 
-template<uint32_t width, uint32_t height, uint32_t depth, uint32_t hash_width, uint32_t max_bodies_per_hash = 64>
+template<uint32_t width, uint32_t height, uint32_t depth, uint32_t hash_width, uint32_t max_bodies_per_hash = 64, uint32_t max_bodies_per_collision = 64>
 class PhysicsEngineAABB3D {
 	static constexpr uint32_t max_dynamic_bodies = 100000;  //100k
 	static constexpr uint32_t max_static_bodies = 1000000;  //1mill
@@ -290,13 +295,17 @@ class PhysicsEngineAABB3D {
 	//FlatBuffer<void*, max_bodies> userData;
 	DArray<void*> userData;
 	//FlatBuffer<FlatBuffer<BodyID, 100>, max_bodies> overlappingBodyIDs;
-	DArray<FlatBuffer<BodyID, 10>> overlappingBodyIDs;
+	DArray<FlatBuffer<BodyID, max_bodies_per_collision>> overlappingBodyIDs;
 	SpatialHashTable<width, height, depth, hash_width* physics_unit_size, max_bodies_per_hash> spatialHashTable;
-	float timeFromStepping = 0;
+	float timeFromStepping;
+
+	uint32_t threadsFinished;
 
 	//NOTE: used for rewinding
 	#include "PhysicsFrame.h"
 	DArray<PhysicsFrame> frames;
+	uint32_t currentFrameIndex;
+	static constexpr uint32_t max_frames = 60*10;  //10 seconds at 60 TPS
 
 public:
 	void init() {
@@ -313,10 +322,15 @@ public:
 		}
 		userData.init(max_bodies);
 		spatialHashTable.init();
-		frames.init(60 * 10);
+		timeFromStepping = threadsFinished = 0;
+		#ifdef PHYSICS_ENABLE_REWIND
+		currentFrameIndex = 0;
+		frames.init(max_frames);
+		frames[0].clear();
+		#endif
 	}
 	BodyID addBodyBox(physics_fp x, physics_fp y, physics_fp z,
-		physics_fp w, physics_fp h, physics_fp d) {
+		physics_fp w, physics_fp h, physics_fp d, void* data, bool isSolid) {
 		//x *= physics_unit_size; y *= physics_unit_size; z *= physics_unit_size;
 		//w *= physics_unit_size; h *= physics_unit_size; d *= physics_unit_size;
 		BodyID retValue;
@@ -325,17 +339,27 @@ public:
 		//retValue.id = bodies.insert(body);
 		retValue.id = isValid.toggleFirstInvalid();
 		bodies[retValue.id] = body;
+		setUserData(retValue, data);
+		setIsSolid(retValue, isSolid);
+		#ifdef PHYSICS_ENABLE_REWIND
+		frames[currentFrameIndex].addBody(bodies[retValue.id], retValue.id);
+		#endif
 		spatialHashTable.addBody(retValue, body.pos, body.siz);
 		overlappingBodyIDs[retValue.id].clear();
 		dynamicBodyCount++;
 		return retValue;
 	}
 	BodyID addStaticBodyBox(physics_fp x, physics_fp y, physics_fp z,
-		physics_fp w, physics_fp h, physics_fp d) {
+		physics_fp w, physics_fp h, physics_fp d, void* data, bool isSolid) {
 		BodyID retValue;
 		BodyAABB body = { { x.getRaw(),y.getRaw(),z.getRaw() }, { w.getRaw(),h.getRaw(),d.getRaw() }, { 0,0,0 } };
 		retValue.id = isValid.toggleFirstInvalid(max_dynamic_bodies);
 		bodies[retValue.id] = body;
+		setUserData(retValue, data);
+		setIsSolid(retValue, isSolid);
+		#ifdef PHYSICS_ENABLE_REWIND
+		frames[currentFrameIndex].addBody(bodies[retValue.id], retValue.id);
+		#endif
 		spatialHashTable.addBody(retValue, body.pos, body.siz);
 		overlappingBodyIDs[retValue.id].clear();
 		staticBodyCount++;
@@ -361,9 +385,6 @@ public:
 
 	void* getUserData(BodyID id) {
 		return userData[id.id];
-	}
-	void setUserData(BodyID id, void* data) {
-		userData[id.id] = data;
 	}
 
 	FlatBuffer<BodyID, 100>& getOverlappingBodies(BodyID id) {
@@ -410,18 +431,18 @@ public:
 		pos *= physics_unit_size; siz *= physics_unit_size;
 		return getBodiesInRectRough(*(Vec3D<physics_fp>*)&pos, *(Vec3D<physics_fp>*)&siz);
 	}
-	inline FlatBuffer<BodyID, 10> getBodiesInPoint(Vec3D<FixedPoint<256 * 256>> pos, BodyID ignoredBody) {
-		FlatBuffer<BodyID, 10> retValue = {};
-		std::vector<BodyID> out = {};
-		//pos *= physics_unit_size;
-		Vec3D<uint32_t> siz = { 1, 1, 1 };
-		//siz *= physics_unit_size;
-		spatialHashTable.getIDs(*(Vec3D<uint32_t>*) & pos, siz, out);
-		for (uint32_t i = 0; i < out.size(); i++)
-			if (out[i] != ignoredBody)
-				retValue.push(out[i]);
-		return retValue;
-	}
+	//inline FlatBuffer<BodyID, 10> getBodiesInPoint(Vec3D<FixedPoint<256 * 256>> pos, BodyID ignoredBody) {
+	//	FlatBuffer<BodyID, 10> retValue = {};
+	//	std::vector<BodyID> out = {};
+	//	//pos *= physics_unit_size;
+	//	Vec3D<uint32_t> siz = { 1, 1, 1 };
+	//	//siz *= physics_unit_size;
+	//	spatialHashTable.getIDs(*(Vec3D<uint32_t>*) & pos, siz, out);
+	//	for (uint32_t i = 0; i < out.size(); i++)
+	//		if (out[i] != ignoredBody)
+	//			retValue.push(out[i]);
+	//	return retValue;
+	//}
 	inline bool pointTrace(const Vec3D<FixedPoint<256 * 256>>& pos, BodyID ignoredBody) {
 		std::vector<BodyID> out = {};
 		//pos *= physics_unit_size;
@@ -464,11 +485,8 @@ public:
 		return *(Vec3D<physics_fp>*) & body->vel;
 	}
 
-	bool getSolid(BodyID id) {
+	bool getIsSolid(BodyID id) {
 		return bodies[id.id].isSolid;
-	}
-	void setSolid(BodyID id, bool isTrue) {
-		bodies[id.id].isSolid = isTrue;
 	}
 
 	Vec3D<FixedPoint<physics_unit_size>> getPos(BodyID id) {
@@ -529,6 +547,7 @@ public:
 			//}
 			spatialHashTable.removeBody({ i }, bodies[i].pos, bodies[i].siz);
 			bodies[i].simulate();
+			//BodyAABB& body = bodies[i];
 			spatialHashTable.addBody({ i }, bodies[i].pos, bodies[i].siz);
 			if (validBodyCount >= bodyCount) {
 				lastBodyIndex = i;
@@ -536,10 +555,24 @@ public:
 			}
 		}
 	}
+	inline void detectSingle() {
+		uint32_t bodyCount = dynamicBodyCount;
+		if (bodyCount == 0) return;
+		for (uint32_t i = 0; i <= lastBodyIndex; i++) {
+			if (isValid.getIsValid(i) == false)
+				continue;
+			overlappingBodyIDs[i].clear();
+		}
+
+		static std::vector<BodyID> IDs;
+		static DetectThreadData lastDTD;
+		u32 start = 0; u32 end = start + lastBodyIndex;
+		lastDTD = { this, start, end };
+		detectThreadBody(&lastDTD);
+	}
 	struct DetectThreadData {
 		void* self;
 		uint32_t start, end;
-		std::vector<BodyID>* IDs;
 	};
 	inline void detect() {
 		uint32_t bodyCount = dynamicBodyCount;
@@ -550,10 +583,6 @@ public:
 			overlappingBodyIDs[i].clear();
 		}
 
-		static std::vector<BodyID> IDses[256];
-
-		while (EE_isThreadPoolFinished(threadPool) == false)
-			continue;
 		uint16_t threadCount = EE_getThreadPoolFreeThreadCount(threadPool);
 		static std::vector<DetectThreadData> dtd;
 		dtd.clear();
@@ -563,7 +592,7 @@ public:
 		uint32_t leftover = totalWork % threadCount;
 		for (uint32_t i = 0; i < threadCount; i++) {
 			u32 start = workPerThread * i; u32 end = start + workPerThread - 1;
-			DetectThreadData currentDTD = { this, start, end, &IDses[i]};
+			DetectThreadData currentDTD = { this, start, end };
 			dtd.push_back(currentDTD);
 		}
 		for (uint32_t i = 0; i < threadCount; i++) {
@@ -571,18 +600,23 @@ public:
 		}
 		static DetectThreadData lastDTD;
 		u32 start = workPerThread * threadCount; u32 end = start + leftover;
-		lastDTD = { this, start, end, &IDses[threadCount]};
+		lastDTD = { this, start, end };
 		if (leftover)
 			detectThreadBody(&lastDTD);
 		while (EE_isThreadPoolFinished(threadPool) == false)
 			continue;
+		//while (threadsFinished != threadCount)
+		//	std::cout << "UTOH" << std::endl;
+		//threadsFinished = 0;
 	}
 	static void detectThreadBody(void* _data) {
 		DetectThreadData* data = (DetectThreadData*)_data;
 		PhysicsEngineAABB3D<width, height, depth, hash_width, max_bodies_per_hash>* self =
 			(PhysicsEngineAABB3D<width, height, depth, hash_width, max_bodies_per_hash>*)data->self;
 
-		std::vector<BodyID>& IDs = *data->IDs;
+		//std::vector<BodyID>& IDs = *data->IDs;
+		std::vector<BodyID> IDs;
+		IDs.reserve(100);
 		for (uint32_t i = data->start; i <= data->end; i++) {
 			if (self->isValid.getIsValid(i) == false)
 				continue;
@@ -599,6 +633,8 @@ public:
 					self->overlappingBodyIDs[i].push(IDs[j]);
 				}
 			}
+			//if(i == data->end)
+			//	self->threadsFinished++;
 		}
 	}
 	inline void resolve() {
@@ -607,14 +643,14 @@ public:
 		for (uint32_t i = 0; i <= lastBodyIndex; i++) {
 			if (isValid.getIsValid(i) == false)
 				continue;
-			bool isSolid = getSolid({ i });
-			if (overlappingBodyIDs[i].count && bodies[i].vel.isZero() == false && getSolid({ i })
+			bool isSolid = getIsSolid({ i });
+			if (overlappingBodyIDs[i].count && bodies[i].vel.isZero() == false && getIsSolid({ i })
 				//&& areAnyOverlappingBodiesSolid(i) == true) {
 				) {
 
 				//spatialHashTable.removeBody({ i }, bodies[i].pos, bodies[i].siz);
 				//bodies[i].reverseSimulate();
-				//spatialHashTable.addBody({ i }, bodies[i].pos, bodies[i].siz);
+				//spatialHashTable.addBody({ i }, bodiaes[i].pos, bodies[i].siz);
 
 				static FlatBuffer<BodyAABB*, 100> overlappingSolidBodies = {};
 				overlappingSolidBodies.clear();
@@ -638,8 +674,19 @@ public:
 	void tick() {
 		clock_t c = clock();
 		simulate();
+		#ifdef THREADING_ENABLED
 		detect();
+		#else
+		detectSingle();
+		#endif
 		resolve();
+		setupFrame();
+		currentFrameIndex++;
+		if (currentFrameIndex == max_frames)
+			currentFrameIndex = 0;
+		#ifdef PHYSICS_ENABLE_REWIND
+		frames[currentFrameIndex].clear();
+		#endif
 		timeFromStepping = (float)(clock() - c);
 		//std::cout << "Time: " << timeFromStepping << std::endl;
 	}
@@ -685,17 +732,94 @@ public:
 		return getGravityAcceleration() * 2;
 	}
 
+	void setupFrame() {
+		PhysicsFrame* frame = &frames[currentFrameIndex];
+		uint32_t count = dynamicBodyCount;
+		uint32_t totalValid = 0;
+		for (uint32_t i = 0; totalValid < count; i++) {
+			if (isValid.getIsValid(i) == false)
+				continue;
+			frame->dynamicBodyPositions[totalValid] = bodies[i].pos;
+			frame->dynamicBodyVelocities[totalValid] = bodies[i].vel;
+			frame->dynamicBodyIDs[totalValid] = i;
+			totalValid++;
+		}
+		frame->dynamicBodyCount = count;
+	}
 	void rewind(uint32_t ticksPassed) {
-		if (ticksPassed > 10 * 60) {
-			std::cout << "Error: PhysicsEngineAABB_MT.rewind()'s ticksPassed arg is higher than 600"
+		if (ticksPassed > max_frames) {
+			std::cout << "Error: PhysicsEngineAABB_MT.rewind()'s ticksPassed arg is higher than " << max_frames
 				<< std::endl << "ticksPassed == " << ticksPassed << std::endl;
 			std::cout << "Aborting..." << std::endl;
 			throw;
 		}
-
+		int32_t rewindToIndex = currentFrameIndex - ticksPassed;
+		if (rewindToIndex < 0)
+			rewindToIndex = (max_frames - 1) - rewindToIndex;
+		for (int32_t i = currentFrameIndex; i != rewindToIndex; ) {
+			PhysicsFrame* frame = &frames[i];
+			uint32_t commandFrameCount = frame->commandFrames.count;
+			for (uint32_t j = 0; j < commandFrameCount; j++) {
+				PhysicsFrame::_CommandFrame* commandFrame = &frame->commandFrames[j];
+				//if (commandFrame->type == PhysicsFrame::_CommandFrame::ADD_BODY) {
+				//	BodyAABB& bodyData = commandFrame->bodyData;
+				//	uint32_t& id = commandFrame->id;
+				//	removeBody({ id });
+				//}
+				//else if (commandFrame->type == PhysicsFrame::_CommandFrame::REMOVE_BODY) {
+				//	BodyAABB& bodyData = commandFrame->bodyData;
+				//	uint32_t& id = commandFrame->id;
+				//	auto& pos = bodyData.pos;
+				//	auto& siz = bodyData.siz;
+				//	void* data;// = bodyData.data;  //TODO: figure this bit out, and get ECS to cope
+				//	bool isSolid = bodyData.isSolid;
+				//	addBodyBox(pos.x, pos.y, pos.z, siz.x, siz.y, siz.z, data, isSolid);
+				//}
+				//else {
+				//	std::cout << "Error: PhysicsEngineAABB_MT.rewind() tried rewinding a command frame "
+				//		<< "without a proper type!" << std::endl;
+				//	throw;
+				//}
+			}
+			uint32_t frameDynamicBodyCount = frame->dynamicBodyCount;
+			//for (uint32_t j = 0; j < frameDynamicBodyCount; j++) {
+			//	//bodies[j].pos = frame->dynamicBodyPositions[j];
+			//	//bodies[j].vel = frame->dynamicBodyVelocities[j];
+			//	spatialHashTable.removeBody({ j }, bodies[j].pos, bodies[j].siz);
+			//	bodies[j].pos = frame->dynamicBodyPositions[j];
+			//	spatialHashTable.addBody({ j }, bodies[j].pos, bodies[j].siz);
+			//	auto& vel = frame->dynamicBodyVelocities[j];
+			//	setVelocity({ j }, vel.x, vel.y, vel.z);
+			//}
+			if (i == 0)
+				i = (max_frames - 1);
+			else
+				i--;
+		}
+		PhysicsFrame* frame = &frames[rewindToIndex];
+		for (uint32_t i = 0; i < frame->dynamicBodyCount; i++) {
+			uint32_t bodyIndex = frame->dynamicBodyIDs[i];
+			spatialHashTable.removeBody({ bodyIndex }, bodies[bodyIndex].pos, bodies[bodyIndex].siz);
+			bodies[bodyIndex].pos = frame->dynamicBodyPositions[i];
+			spatialHashTable.addBody({ bodyIndex }, bodies[bodyIndex].pos, bodies[bodyIndex].siz);
+			overlappingBodyIDs[bodyIndex].clear();
+			auto& vel = frame->dynamicBodyVelocities[i];
+			auto& pos = frame->dynamicBodyPositions[i];
+			//setVelocity({ bodyIndex }, vel.x, vel.y, vel.z);
+			bodies[bodyIndex].vel = vel;
+		}
+		dynamicBodyCount = frame->dynamicBodyCount;
+		currentFrameIndex = rewindToIndex;
 	}
 
 private:
+	void setUserData(BodyID id, void* data) {
+		userData[id.id] = data;
+	}
+	void setIsSolid(BodyID id, bool isTrue) {
+		bodies[id.id].isSolid = isTrue;
+	}
+
 	void overlappingBodyPushIfUnique(uint32_t index, BodyID id) {
 		for (uint32_t i = 0; i < overlappingBodyIDs[index].count; i++)
 			if (overlappingBodyIDs[index][i].id == id.id)
@@ -715,7 +839,7 @@ private:
 		uint32_t overlappingCount = overlappingBodyIDs[bodyIndex].count;
 		for (uint32_t j = 0; j < overlappingCount; j++) {
 			BodyID otherBody = overlappingBodyIDs[bodyIndex][j];
-			if (getSolid(otherBody) == true)
+			if (getIsSolid(otherBody) == true)
 				out.push(&bodies[otherBody.id]);
 		}
 	}

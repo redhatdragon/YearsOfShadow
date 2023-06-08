@@ -276,10 +276,9 @@ private:
 			//(uint32_t)blockBody.y + 1 + worldOffsetY,
 			(uint32_t)blockBody.z + worldOffsetZ,
 			//(uint32_t)blockBody.z + worldOffsetZ - 1,
-			blockBody.w, blockBody.h, blockBody.d
+			blockBody.w, blockBody.h, blockBody.d,
+			(void*)-1, true
 		);
-		physics.setSolid(bodyID, true);
-		physics.setUserData(bodyID, (void*)-1);
 		if (bodyID.id > 10000000)
 			throw;
 		activeBodies.push(bodyID);

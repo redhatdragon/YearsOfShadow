@@ -231,6 +231,13 @@ struct Vec3D {
 		if (z < floor) z = floor;
 		if (z > ceil) z = ceil;
 	}
+	__forceinline bool isBetween(const Vec3D<T>& min, const Vec3D<T>& max) {
+		if (x < min.x || x > max.x ||
+			y < min.y || y > max.y ||
+			z < min.z || z > max.z)
+			return false;
+		return true;
+	}
 	__forceinline T getDistance() {
 		return sqrt((x * x) + (y * y) + (z * z));
 	}

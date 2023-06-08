@@ -2,16 +2,21 @@
 #include <vector>
 #include <Windows.h>
 #include <iostream>
+#include <atomic>
 
 struct ThreadHeader {
 	void (*foo)(void*);
 	void* data;
 };
 
-class CustomWindowsThread {
+class CustomThread {
 	ThreadHeader header;
 	HANDLE threadHandle;
 	DWORD threadID;
+
+	//bool active;
+	//std::atomic_flag active;
+	std::atomic<bool> active;
 
 public:
 	void init() {
@@ -35,21 +40,21 @@ public:
 	void setTask(void (*_foo)(void*), void* _data) {
 		header.foo = _foo;
 		header.data = _data;
+		//active = true;
+		//active.test_and_set();
+		active = true;
 	}
 	bool isActive() {
-		if (header.foo && header.data)
-			return true;
-		return false;
-	}
-	bool isFinished() {
-		if (header.foo == nullptr && header.data == nullptr)
-			return true;
-		return false;
+		//if (header.foo && header.data)
+		//	return true;
+		//return false;
+		return active;
+		//return active.load();
 	}
 
 private:
-	static DWORD WINAPI threadLoop(void* _customWindowsThread) {
-		CustomWindowsThread* thread = (CustomWindowsThread*)_customWindowsThread;
+	static DWORD WINAPI threadLoop(void* _customThread) {
+		CustomThread* thread = (CustomThread*)_customThread;
 
 		loopStart:
 		if (thread->isActive()) {
@@ -63,14 +68,15 @@ private:
 	void clear() {
 		header.foo = nullptr;
 		header.data = nullptr;
+		active = false;
 	}
 };
 
 
 
-class CustomWindowsThreadPool {
+class CustomThreadPool {
 	static constexpr uint32_t MAX_POSSIBLE_THREADS = 256;
-	CustomWindowsThread threads[MAX_POSSIBLE_THREADS];
+	CustomThread threads[MAX_POSSIBLE_THREADS];
 	uint16_t maxThreadCount;
 public:
 	void init(uint16_t _maxThreadCount) {
@@ -80,13 +86,19 @@ public:
 		}
 	}
 	void addTask(void (*_foo)(void*), void* _data) {
-		uint16_t activeThreadCount = 0;
-		for (uint32_t i = 0; i < maxThreadCount; i++)
-			if (threads[i].isFinished() == false)
-				activeThreadCount++;
-		if (activeThreadCount >= maxThreadCount)
-			throw;
-		threads[activeThreadCount].setTask(_foo, _data);
+		//uint16_t activeThreadCount = 0;
+		//for (uint32_t i = 0; i < maxThreadCount; i++)
+		//	if (threads[i].isActive())
+		//		activeThreadCount++;
+		//if (activeThreadCount >= maxThreadCount)
+		//	throw;
+		//threads[activeThreadCount].setTask(_foo, _data);
+		for(uint32_t i = 0; i < maxThreadCount; i++)
+			if (threads[i].isActive() == false) {
+				threads[i].setTask(_foo, _data);
+				return;
+			}
+		throw;
 	}
 
 	bool allTasksFinished() {
@@ -102,7 +114,7 @@ public:
 	uint16_t getFreeThreadCount() {
 		uint16_t count = 0;
 		for (uint32_t i = 0; i < maxThreadCount; i++)
-			if (threads[i].isFinished() == true)
+			if (threads[i].isActive() == false)
 				count++;
 		return count;
 	}
