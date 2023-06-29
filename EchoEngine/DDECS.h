@@ -3,6 +3,12 @@
 #include <vector>
 #include <string>
 #include "FlatBuffer.h"
+#ifdef THREADING_ENABLED
+#include "HAL/HAL.h"
+#endif
+#ifdef REWIND_ENABLED
+#include "RingBuffer.h"
+#endif
 #include <time.h>
 
 typedef uint32_t EntityID;
@@ -54,6 +60,105 @@ class DDECS {
 		}
 	};
 	FlatBuffer<ComponentBuffer, max_components> components;
+	class BufferSerializer {
+		void(*serializerFunction)(ComponentID id, void* outBuff);
+		uint32_t sizePerDArrayElem;
+	public:
+		inline void defineAsDArray(uint32_t sizePerElem) {
+			serializerFunction = -1;
+			sizePerDArrayElem = sizePerElem;
+		}
+		inline void defineAsCustom(void(*_serializerFunction)(ComponentID id, void* outBuff)) {
+			serializerFunction = _serializerFunction;
+		}
+		inline void defineAsDefault() {
+			serializerFunction = nullptr;
+		}
+		inline void serializeBuffer(ComponentID id, DDECS& ecs, void* outBuff) {
+			if (isCustom())
+				serializerFunction(id, outBuff);
+			else if (isDArray()) {  //Hacks!
+				u32 count = ecs.getComponentCount(id);
+				DArray<uint8_t>* componentBuffer = (DArray<uint8_t>*)ecs.getComponentBuffer(id);
+				DArray<uint8_t>* outBuffAsDArrays = (DArray<uint8_t>*)outBuff;
+				for (u32 i = 0; i < count; i++) {
+					DArray<uint8_t>* elem = &componentBuffer[i];
+					DArray<uint8_t>* outElem = &outBuffAsDArrays[i];
+					if (elem->size() != outElem->size()) {
+						outElem->free();
+						outElem->initCopy(elem->data(), elem->size() * sizePerDArrayElem);
+						outElem->dataHeader->count = elem->size();
+					} else {
+						memcpy(outElem->data(), elem->data(), elem->size() * sizePerDArrayElem);
+					}
+				}
+			} else {
+				uint32_t count = ecs.getComponentCount(id);
+				uint32_t size = ecs._getComponentSize(id);
+				void* componentBuffer = ecs.getComponentBuffer(id);
+				memcpy(outBuff, componentBuffer, count * size);
+			}
+		}
+	private:
+		inline bool isDArray() {
+			if (serializerFunction == (void*)-1)
+				return true;
+			return false;
+		}
+		inline uint32_t getDArrayElemSize() {
+			return sizePerDArrayElem;
+		}
+		inline bool isCustom() {
+			if (serializerFunction != 0 && serializerFunction != (void*)-1)
+				return true;
+			return false;
+		}
+	};
+	FlatBuffer<BufferSerializer, max_components> serializers;
+	struct ECSFrame {
+		FlatFlaggedBuffer<Entity, max_entities> entities;
+		FlatBuffer<ComponentBuffer, max_components> components;
+	public:
+		void init() {
+			memset(this, 0, sizeof(*this));
+		}
+		void update(DDECS& ecs) {
+			memcpy(&entities, &ecs.entities, sizeof(entities));
+			memcpy(&components, &ecs.components, sizeof(components));
+			for (uint32_t i = 0; i < max_components; i++) {
+				auto& comp = components[i];
+				auto& ecsComp = ecs.components[i];
+				comp.count = ecsComp.count;
+				memcpy(&comp.owner[0], &ecsComp.owner[0], sizeof(comp.owner));
+				comp.componentSize = ecsComp.componentSize;
+				comp.name = ecsComp.name;
+				if (comp.data == nullptr) {
+					comp.data = (uint8_t*)malloc((uint64_t)ecsComp.componentSize * max_entities);
+				}
+				ecs.serializers[i].serializeBuffer(i, ecs, comp.data);
+			}
+		}
+		void copyToECS(DDECS& ecs) {
+			memcpy(&ecs.entities, &entities, sizeof(entities));
+			memcpy(&ecs.components, &components, sizeof(components));
+			for (uint32_t i = 0; i < max_components; i++) {
+				auto& comp = components[i];
+				auto& ecsComp = ecs.components[i];
+				ecsComp.count = comp.count;
+				memcpy(&ecsComp.owner[0], &comp.owner[0], sizeof(ecsComp.owner));
+				ecsComp.componentSize = comp.componentSize;
+				ecsComp.name = comp.name;
+				if (ecsComp.data == nullptr) {
+					ecsComp.data = (uint8_t*)malloc((uint64_t)comp.componentSize * max_entities);
+				}
+				ecs.serializers[i].serializeBuffer(i, ecs, ecsComp.data);
+			}
+		}
+	};
+	static constexpr uint32_t max_frames = 60 * 5;
+	#ifdef REWIND_ENABLED
+	RingBuffer<ECSFrame*, max_frames> frames;
+	#endif
 
 	/*struct Bucket {
 		std::vector<ComponentID> componentTypes;
@@ -70,12 +175,15 @@ class DDECS {
 	};*/
 
 	void(*destructors[max_components])(ComponentID id, uint32_t index);
+	//void(*serializers[max_components])(ComponentID id);
+	//uint32_t DArrayElemSize[max_components];
 	//std::unordered_map<std::vector<ComponentID>,std::vector<EntityID>> entityLists;
 	std::vector<System*> systems;
 	ComponentID handleComponentID = -1;
 	GameTick ticksPassed;
+	clock_t ms;
 public:
-	DDECS() {
+	void init() {
 		for (unsigned int i = 0; i < max_entities; i++) {
 			entities[i].clear();
 		}
@@ -83,8 +191,21 @@ public:
 		for (unsigned int i = 0; i < max_components; i++) {
 			destructors[i] = nullptr;
 		}
+		for (unsigned int i = 0; i < max_components; i++) {
+			serializers[i].defineAsDefault();
+		}
+		#ifdef REWIND_ENABLED
+		frames.init();
+		for (unsigned int i = 0; i < max_frames; i++) {
+			ECSFrame* frame = frames.get();
+			frame = new ECSFrame();
+			frame->init();
+			frames.set(frame);
+			frames.advance();
+		}
+		#endif
 	}
-	~DDECS() {
+	void destruct() {
 		size_t count = systems.size();
 		for (size_t i = 0; i < count; i++) {
 			delete systems[i];
@@ -125,6 +246,7 @@ public:
 		if (retValue == -1)
 			return registerComponentUnsafe(componentName, size);
 		//TODO: need to check for valid size, if false return -1
+		serializers[retValue].defineAsDefault();
 		return retValue;
 	}
 	ComponentID getComponentID(const std::string& componentName) {
@@ -134,6 +256,12 @@ public:
 				return { i };
 		}
 		return { (uint32_t)-1 };
+	}
+	void setComponentSerializerAsCustom(ComponentID componentID, void(*serializerFunction)(ComponentID id, void* outBuff)) {
+		serializers[componentID].defineAsCustom(componentID, serializerFunction);
+	}
+	void setComponentSerializerAsDArray(ComponentID componentID, uint32_t dArrayElemSize) {
+		serializers[componentID].defineAsDArray(componentID, dArrayElemSize);
 	}
 	void emplace(EntityID entity, ComponentID componentID, void* data) {
 		if (entityHasComponent(entity, componentID)) {
@@ -222,6 +350,22 @@ public:
 	GameTick getTicksPassed() {
 		return ticksPassed;
 	}
+	#ifdef REWIND_ENABLED
+	void rewind(uint32_t amount) {
+		if (amount >= max_frames) {
+			std::cout << "Error: DDECS:rewind()'s amount param is bigger than max frames, exiting!" << std::endl;
+			std::cout << << "Amount: " << amount << " max_frames: " << max_frames << std::endl;
+			throw;
+		}
+		frames.rewindFor(amount);
+		ECSFrame* frame = frames.get();
+		frame->copyData(this);
+	}
+	void rewindTo(GameTick _gameTick) {
+		GameTick rewindAmount = getTicksPassed() - _gameTick;
+		rewind(rewindAmount);
+	}
+	#endif
 
 	template<typename T>
 	void registerSystem() {
@@ -234,14 +378,22 @@ public:
 		systems.push_back(newSys);
 	}
 	void runSystems() {
+		ms = clock();
 		for (auto sys : systems) {
 			clock_t start = clock();
 			sys->run();
 			sys->ms = clock() - start;
 		}
+#ifdef REWIND_ENABLED
+		auto* frame = frames.get();
+		frame->update(*this);
+		frames.advance();
+#endif
 		ticksPassed++;
+		ms = clock() - ms;
 	}
 	void runSystems(std::vector<std::string>& blackList) {
+		ms = clock();
 		for (auto sys : systems) {
 			clock_t start = clock();
 			while (EE_isThreadPoolFinished(threadPool) == false)
@@ -253,7 +405,13 @@ public:
 			skip:
 			sys->ms = clock() - start;
 		}
+		#ifdef REWIND_ENABLED
+		auto* frame = frames.get();
+		frame->update(*this);
+		frames.advance();
+		#endif
 		ticksPassed++;
+		ms = clock() - msTaken;
 	}
 	// entity must be valid
 	bool entityHandleValid(EntityID entity, EntityHandle handle) {
@@ -294,6 +452,9 @@ public:
 			str += sys->getTimeMSStr();
 			retValue.push_back(str);
 		}
+		std::string str = "Total: ";
+		str += std::to_string(ms);
+		retValue.push_back(str);
 		return retValue;
 	}
 	std::vector<float> getDebugInfoMS() {
@@ -311,6 +472,10 @@ public:
 			retValue.push_back(str);
 		}
 		return retValue;
+	}
+private:
+	inline uint32_t _getComponentSize(ComponentID componentID) {
+		return components[componentID].getComponentSize();
 	}
 };
 

@@ -43,7 +43,7 @@ struct ComponentObject {
 		TYPE_DARRAY//,
 		//TYPE_OBJECT
 	} type = TYPE::TYPE_NULL;
-	size_t size = 0;
+	uint32_t size = 0;
 	const char* typeAsString() {
 		switch (type) {
 		case TYPE::TYPE_NULL:
@@ -89,7 +89,7 @@ struct ComponentObject {
 	void setArray(const std::vector<uint32_t> value) {
 		destruct();
 		type = TYPE::TYPE_ARRAY;
-		size = value.size() * sizeof(uint32_t);
+		size = (uint32_t)value.size() * sizeof(uint32_t);
 		data = malloc(size);
 		if (data == NULL) throw;
 		memcpy(data, value.data(), size);
@@ -97,7 +97,7 @@ struct ComponentObject {
 	void setDArray(DArray<uint32_t> value) {
 		destruct();
 		type = TYPE::TYPE_DARRAY;
-		size = value.size() * sizeof(uint32_t);
+		size = (uint32_t)value.size() * sizeof(uint32_t);
 		data = malloc(size);
 		if (data == NULL) throw;
 		memcpy(data, value.data(), size);

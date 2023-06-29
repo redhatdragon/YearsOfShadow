@@ -49,7 +49,7 @@ private:
 			instancePositionsMap[instancedMeshBuffer[i]].push_back(pos);
 		}
 		for (auto& mapElem : instancePositionsMap) {
-			u32 count = mapElem.second.size();
+			u32 count = (u32)mapElem.second.size();
 			void* instanceTypeID = instancedMeshCodex.get(mapElem.first);
 			//EE_Point3Df scale = *(EE_Point3Df*)&instancedMeshCodex.getSize(mapElem.first);
 			//EE_Point3Df scale = {100, 100, 100};

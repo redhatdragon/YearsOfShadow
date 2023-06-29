@@ -44,11 +44,11 @@ namespace SystemUtilities {
 			return retValue;
 		}
 		static void deserializeECS(const SerialECS& input) {
-			uint32_t entityCount = input.entities.size();
+			uint32_t entityCount = (uint32_t)input.entities.size();
 			for (uint32_t i = 0; i < entityCount; i++) {
 				const SerialEntity& serialEntity = input.entities[i];
 				EntityID entityID = ecs.getNewEntity();
-				uint32_t componentCount = serialEntity.componentIDs.size();
+				uint32_t componentCount = (uint32_t)serialEntity.componentIDs.size();
 				for (uint32_t j = 0; j < componentCount; j++) {
 					//ecs.emplace(entityID, serialEntity.componentIDs[j], serialEntity.components[j]);
 

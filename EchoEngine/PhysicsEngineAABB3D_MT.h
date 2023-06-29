@@ -6,6 +6,11 @@
 #ifdef THREADING_ENABLED
 #include "HAL/HAL.h"
 #endif
+#ifdef REWIND_ENABLED
+#include "../customDBG.h"
+//#include <Windows.h>
+#include "RingBuffer.h"
+#endif
 #include <time.h>
 
 /*
@@ -21,7 +26,7 @@ wait till the thread pool isn't at all working on anything before proceeding wit
 when most of your game logic uses a similar threading model which to be frank is more ideal for batched work.
 */
 
-//#define PHYSICS_ENABLE_REWIND  use this to enable rewind functionality, useful when you want this functionality on different executables
+//#define ENABLE_REWIND  use this to enable rewind functionality, useful when you want this functionality on different executables
 
 #ifndef physics_unit_size
 #define physics_unit_size (256*256)  //used as a pretend "1" normalized value to emulate decimal
@@ -302,10 +307,12 @@ class PhysicsEngineAABB3D {
 	uint32_t threadsFinished;
 
 	//NOTE: used for rewinding
+	#ifdef REWIND_ENABLED
 	#include "PhysicsFrame.h"
-	DArray<PhysicsFrame> frames;
-	uint32_t currentFrameIndex;
-	static constexpr uint32_t max_frames = 60*10;  //10 seconds at 60 TPS
+	static constexpr uint32_t max_frames = 60 * 5;  //5 seconds at 60 TPS
+	RingBuffer<PhysicsFrame, max_frames> frames;
+	#endif
+	//uint32_t currentFrameIndex;
 
 public:
 	void init() {
@@ -323,10 +330,9 @@ public:
 		userData.init(max_bodies);
 		spatialHashTable.init();
 		timeFromStepping = threadsFinished = 0;
-		#ifdef PHYSICS_ENABLE_REWIND
-		currentFrameIndex = 0;
-		frames.init(max_frames);
-		frames[0].clear();
+		#ifdef REWIND_ENABLED
+		frames.init();
+		frames.get().clear();
 		#endif
 	}
 	BodyID addBodyBox(physics_fp x, physics_fp y, physics_fp z,
@@ -341,8 +347,8 @@ public:
 		bodies[retValue.id] = body;
 		setUserData(retValue, data);
 		setIsSolid(retValue, isSolid);
-		#ifdef PHYSICS_ENABLE_REWIND
-		frames[currentFrameIndex].addBody(bodies[retValue.id], retValue.id);
+		#ifdef REWIND_ENABLED
+		frames.get().addBody(bodies[retValue.id], isSolid, data, retValue);
 		#endif
 		spatialHashTable.addBody(retValue, body.pos, body.siz);
 		overlappingBodyIDs[retValue.id].clear();
@@ -352,13 +358,14 @@ public:
 	BodyID addStaticBodyBox(physics_fp x, physics_fp y, physics_fp z,
 		physics_fp w, physics_fp h, physics_fp d, void* data, bool isSolid) {
 		BodyID retValue;
-		BodyAABB body = { { x.getRaw(),y.getRaw(),z.getRaw() }, { w.getRaw(),h.getRaw(),d.getRaw() }, { 0,0,0 } };
+		BodyAABB body = { { (uint32_t)x.getRaw(), (uint32_t)y.getRaw(), (uint32_t)z.getRaw() },
+			{ (uint32_t)w.getRaw(), (uint32_t)h.getRaw(), (uint32_t)d.getRaw() }, { 0,0,0 } };
 		retValue.id = isValid.toggleFirstInvalid(max_dynamic_bodies);
 		bodies[retValue.id] = body;
 		setUserData(retValue, data);
 		setIsSolid(retValue, isSolid);
-		#ifdef PHYSICS_ENABLE_REWIND
-		frames[currentFrameIndex].addBody(bodies[retValue.id], retValue.id);
+		#ifdef REWIND_ENABLED
+		frames.get().addBody(bodies[retValue.id], isSolid, data, retValue);
 		#endif
 		spatialHashTable.addBody(retValue, body.pos, body.siz);
 		overlappingBodyIDs[retValue.id].clear();
@@ -381,6 +388,12 @@ public:
 		//bodies.decrementCount();
 		//bodies.setInvalid(bodyID.id);
 		isValid.setInvalid(bodyID.id);
+
+		#ifdef REWIND_ENABLED
+		bool _isSolid = getIsSolid(bodyID);
+		void* _userData = getUserData(bodyID);
+		frames.get().removeBody(body, _isSolid, _userData, bodyID);
+		#endif
 	}
 
 	void* getUserData(BodyID id) {
@@ -395,13 +408,13 @@ public:
 		std::vector<BodyID> retValue;
 		auto hashes = spatialHashTable.getHashes(*(Vec3D<uint32_t>*)&pos, *(Vec3D<uint32_t>*)&siz);
 		retValue.reserve(hashes.size());
-		uint32_t hashCount = hashes.size();
+		uint32_t hashCount = (uint32_t)hashes.size();
 		for (uint32_t i = 0; i < hashCount; i++) {
 			auto* hashPtr = hashes[i];
 			uint32_t hashSize = hashPtr->count;
 			for (uint32_t j = 0; j < hashSize; j++) {
 				BodyID bodyID = (*hashPtr)[j];
-				uint32_t totalBodyCount = retValue.size();
+				uint32_t totalBodyCount = (uint32_t)retValue.size();
 				for (uint32_t k = 0; k < totalBodyCount; k++) {
 					if (retValue[k] == bodyID)
 						goto skip;
@@ -449,7 +462,7 @@ public:
 		Vec3D<uint32_t> siz = { 1, 1, 1 };
 		//siz *= physics_unit_size;
 		spatialHashTable.getIDs(*(Vec3D<uint32_t>*) & pos, siz, out);
-		uint32_t size = out.size();
+		uint32_t size = (uint32_t)out.size();
 		for (uint32_t i = 0; i < size; i++)
 			if (out[i] != ignoredBody)
 				return true;
@@ -468,17 +481,26 @@ public:
 		body->vel.y = vy * physics_unit_size;
 		body->vel.z = vz * physics_unit_size;
 	}*/
-	void addVelocity(BodyID id, physics_fp vx, physics_fp vy, physics_fp vz) {
-		BodyAABB* body = &bodies[id.id];
-		body->vel.x += vx;
-		body->vel.y += vy;
-		body->vel.z += vz;
-	}
+	//void addVelocity(BodyID id, physics_fp vx, physics_fp vy, physics_fp vz) {
+	//	BodyAABB* body = &bodies[id.id];
+	//	body->vel.x += vx;
+	//	body->vel.y += vy;
+	//	body->vel.z += vz;
+	//	#ifdef REWIND_ENABLED
+	//	frames.get().addVelocity({ vx.getRaw(), vy.getRaw(), vz.getRaw()}, id);
+	//	#endif
+	//	throw;
+	//}
 	void setVelocity(BodyID id, physics_fp vx, physics_fp vy, physics_fp vz) {
 		BodyAABB* body = &bodies[id.id];
-		body->vel.x = vx.getRaw();
-		body->vel.y = vy.getRaw();
-		body->vel.z = vz.getRaw();
+		#ifdef REWIND_ENABLED
+		Vec3D<uint32_t> offset = { (uint32_t)vx.getRaw(), (uint32_t)vy.getRaw(), (uint32_t)vz.getRaw() };
+		offset -= body->vel;
+		frames.get().addVelocity(offset, id);
+		#endif
+		body->vel.x = (uint32_t)vx.getRaw();
+		body->vel.y = (uint32_t)vy.getRaw();
+		body->vel.z = (uint32_t)vz.getRaw();
 	}
 	Vec3D<physics_fp> getVelocity(BodyID id) {
 		BodyAABB* body = &bodies[id.id];
@@ -668,11 +690,18 @@ public:
 				}
 			}
 			gravity({ i });
+#ifdef REWIND_ENABLED
+			frames.get().cpyDynamicBodyPosAndVel({i}, bodies[i].pos, bodies[i].vel);
+#endif
 		}
 	}
 
 	void tick() {
 		clock_t c = clock();
+		#ifdef REWIND_ENABLED
+		frames.advance();
+		frames.get().clear();  //TODO: 0th frame isn't used initially, figure out later
+		#endif
 		simulate();
 		#ifdef THREADING_ENABLED
 		detect();
@@ -680,13 +709,6 @@ public:
 		detectSingle();
 		#endif
 		resolve();
-		setupFrame();
-		currentFrameIndex++;
-		if (currentFrameIndex == max_frames)
-			currentFrameIndex = 0;
-		#ifdef PHYSICS_ENABLE_REWIND
-		frames[currentFrameIndex].clear();
-		#endif
 		timeFromStepping = (float)(clock() - c);
 		//std::cout << "Time: " << timeFromStepping << std::endl;
 	}
@@ -732,20 +754,7 @@ public:
 		return getGravityAcceleration() * 2;
 	}
 
-	void setupFrame() {
-		PhysicsFrame* frame = &frames[currentFrameIndex];
-		uint32_t count = dynamicBodyCount;
-		uint32_t totalValid = 0;
-		for (uint32_t i = 0; totalValid < count; i++) {
-			if (isValid.getIsValid(i) == false)
-				continue;
-			frame->dynamicBodyPositions[totalValid] = bodies[i].pos;
-			frame->dynamicBodyVelocities[totalValid] = bodies[i].vel;
-			frame->dynamicBodyIDs[totalValid] = i;
-			totalValid++;
-		}
-		frame->dynamicBodyCount = count;
-	}
+#ifdef REWIND_ENABLED
 	void rewind(uint32_t ticksPassed) {
 		if (ticksPassed > max_frames) {
 			std::cout << "Error: PhysicsEngineAABB_MT.rewind()'s ticksPassed arg is higher than " << max_frames
@@ -753,64 +762,13 @@ public:
 			std::cout << "Aborting..." << std::endl;
 			throw;
 		}
-		int32_t rewindToIndex = currentFrameIndex - ticksPassed;
-		if (rewindToIndex < 0)
-			rewindToIndex = (max_frames - 1) - rewindToIndex;
-		for (int32_t i = currentFrameIndex; i != rewindToIndex; ) {
-			PhysicsFrame* frame = &frames[i];
-			uint32_t commandFrameCount = frame->commandFrames.count;
-			for (uint32_t j = 0; j < commandFrameCount; j++) {
-				PhysicsFrame::_CommandFrame* commandFrame = &frame->commandFrames[j];
-				//if (commandFrame->type == PhysicsFrame::_CommandFrame::ADD_BODY) {
-				//	BodyAABB& bodyData = commandFrame->bodyData;
-				//	uint32_t& id = commandFrame->id;
-				//	removeBody({ id });
-				//}
-				//else if (commandFrame->type == PhysicsFrame::_CommandFrame::REMOVE_BODY) {
-				//	BodyAABB& bodyData = commandFrame->bodyData;
-				//	uint32_t& id = commandFrame->id;
-				//	auto& pos = bodyData.pos;
-				//	auto& siz = bodyData.siz;
-				//	void* data;// = bodyData.data;  //TODO: figure this bit out, and get ECS to cope
-				//	bool isSolid = bodyData.isSolid;
-				//	addBodyBox(pos.x, pos.y, pos.z, siz.x, siz.y, siz.z, data, isSolid);
-				//}
-				//else {
-				//	std::cout << "Error: PhysicsEngineAABB_MT.rewind() tried rewinding a command frame "
-				//		<< "without a proper type!" << std::endl;
-				//	throw;
-				//}
-			}
-			uint32_t frameDynamicBodyCount = frame->dynamicBodyCount;
-			//for (uint32_t j = 0; j < frameDynamicBodyCount; j++) {
-			//	//bodies[j].pos = frame->dynamicBodyPositions[j];
-			//	//bodies[j].vel = frame->dynamicBodyVelocities[j];
-			//	spatialHashTable.removeBody({ j }, bodies[j].pos, bodies[j].siz);
-			//	bodies[j].pos = frame->dynamicBodyPositions[j];
-			//	spatialHashTable.addBody({ j }, bodies[j].pos, bodies[j].siz);
-			//	auto& vel = frame->dynamicBodyVelocities[j];
-			//	setVelocity({ j }, vel.x, vel.y, vel.z);
-			//}
-			if (i == 0)
-				i = (max_frames - 1);
-			else
-				i--;
+		for (uint32_t i = 0; i < ticksPassed; i++) {
+			frames.get().rewind(*this);
+			//bodies[0].printDebug();
+			frames.rewind();
 		}
-		PhysicsFrame* frame = &frames[rewindToIndex];
-		for (uint32_t i = 0; i < frame->dynamicBodyCount; i++) {
-			uint32_t bodyIndex = frame->dynamicBodyIDs[i];
-			spatialHashTable.removeBody({ bodyIndex }, bodies[bodyIndex].pos, bodies[bodyIndex].siz);
-			bodies[bodyIndex].pos = frame->dynamicBodyPositions[i];
-			spatialHashTable.addBody({ bodyIndex }, bodies[bodyIndex].pos, bodies[bodyIndex].siz);
-			overlappingBodyIDs[bodyIndex].clear();
-			auto& vel = frame->dynamicBodyVelocities[i];
-			auto& pos = frame->dynamicBodyPositions[i];
-			//setVelocity({ bodyIndex }, vel.x, vel.y, vel.z);
-			bodies[bodyIndex].vel = vel;
-		}
-		dynamicBodyCount = frame->dynamicBodyCount;
-		currentFrameIndex = rewindToIndex;
 	}
+#endif
 
 private:
 	void setUserData(BodyID id, void* data) {

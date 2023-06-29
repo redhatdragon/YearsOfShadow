@@ -1,6 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include <string>
+#include <iostream>
 //#include "RockBox/fixedpoint.h"
 
 #define FIXED_POINT_DEFAULT_SCALE (256*256)
@@ -179,9 +180,9 @@ public:
 		}
 		if (dotPos == -1) return false;
 		int32_t wholeValue = 0;
-		for (uint32_t i = 0; i < dotPos; i++) {
+		for (uint32_t i = 0; i < (uint32_t)dotPos; i++) {
 			if (str[i] < '0' || str[i] > '9') return false;
-			uint32_t digitCount = dotPos - i;
+			uint32_t digitCount = (uint32_t)dotPos - i;
 			int32_t digitValue = 1;
 			for (uint32_t j = 1; j < digitCount; j++)
 				digitValue *= 10;
@@ -196,9 +197,9 @@ public:
 				digitValue *= 10;
 			decimalNumbers += digitValue * (uint32_t)(str[i] - '0');
 		}*/
-		for (uint32_t i = dotPos + 1; i < str.size(); i++) {
+		for (uint32_t i = (uint32_t)dotPos + 1; i < (uint32_t)str.size(); i++) {
 			if (str[i] < '0' || str[i] > '9') return false;
-			uint32_t digitCount = (str.size()) - i;
+			uint32_t digitCount = ((uint32_t)str.size()) - i;
 			int32_t digitValue = 1;
 			for (uint32_t j = 1; j < digitCount; j++)
 				digitValue *= 10;

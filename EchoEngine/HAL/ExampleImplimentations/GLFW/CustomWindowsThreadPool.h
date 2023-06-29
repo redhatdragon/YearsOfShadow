@@ -1,5 +1,9 @@
 #pragma once
 #include <vector>
+//#define WIN32_LEAN_AND_MEAN
+//#define NOMINMAX
+////#include <debugapi.h>
+//#define _AMD64_
 #include <Windows.h>
 #include <iostream>
 #include <atomic>

@@ -3,12 +3,13 @@
 
 template<typename T>
 class DArray {
+public:
 	struct DataHeader {
 		size_t count;
 		T data[];
 	};
 	DataHeader* dataHeader = nullptr;
-public:
+
 	DArray() = default;
 	void init(size_t size) {
 		dataHeader = (DataHeader*)malloc(sizeof(DataHeader) + sizeof(T) * size);

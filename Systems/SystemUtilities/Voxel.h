@@ -264,9 +264,9 @@ private:
 	inline void spawnBody(const BlockBody& blockBody) {
 		//hasBody[blockBody.x][blockBody.y][blockBody.z] = true;
 
-		for(uint32_t i = blockBody.z; i < blockBody.z + blockBody.d; i++)
-			for (uint32_t j = blockBody.y; j < blockBody.y + blockBody.h; j++)
-				for (uint32_t k = blockBody.x; k < blockBody.x + blockBody.w; k++) {
+		for(uint32_t i = blockBody.z; i < (uint32_t)blockBody.z + blockBody.d; i++)
+			for (uint32_t j = blockBody.y; j < (uint32_t)blockBody.y + blockBody.h; j++)
+				for (uint32_t k = blockBody.x; k < (uint32_t)blockBody.x + blockBody.w; k++) {
 					hasBody[k][j][i] = true;
 				}
 		auto bodyID = physics.addStaticBodyBox(
@@ -334,7 +334,7 @@ public:
 		for (uint32_t i = 0; i < worldSize; i++)
 			for (uint32_t j = 0; j < worldSize; j++) {
 				//float dx = x + i * width, dy = y, dz = z + j * depth;
-				float dx = x + i * width, dy = 0, dz = z + j * depth;
+				uint32_t dx = x + i * width, dy = 0, dz = z + j * depth;
 				chunks[i][j].init(dx, dy, dz);
 				chunks[i][j].gen(genHeight);
 			}

@@ -203,7 +203,7 @@ private:
 		if (enemyAI->targetHandle == -1)
 			return;
 		if (ecs.entityHandleValid(enemyAI->targetEntity, enemyAI->targetHandle) == false) {
-			enemyAI->targetEntity = enemyAI->targetHandle = -1;
+			enemyAI->targetEntity = -1; enemyAI->targetHandle = -1;
 		}
 	}
 	void findRandomTargetPos(EnemyAI* enemyAI, BodyID bodyID, std::mt19937& generator) {
@@ -270,13 +270,13 @@ private:
 		std::vector<BodyID> bodies = physics.getBodiesInRectRough(pos-offset, siz);
 		std::vector<BodyID> bodiesWithEntities;
 		bodiesWithEntities.reserve(bodies.size());
-		u32 count = bodies.size();
+		u32 count = (u32)bodies.size();
 		for (u32 i = 0; i < count; i++) {
 			if (physics.getUserData(bodies[i]) == (void*)-1)
 				continue;
 			bodiesWithEntities.push_back(bodies[i]);
 		}
-		count = bodiesWithEntities.size();
+		count = (u32)bodiesWithEntities.size();
 		if (count == 0) {
 			return {};
 		}
@@ -334,7 +334,7 @@ private:
 				continue;
 			createEnemy(pos);
 			count++;
-			if (count == 5000)
+			if (count == max_npc)
 				break;
 		}
 	}

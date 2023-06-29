@@ -204,6 +204,24 @@ bool EE_isThreadPoolFinished(void* self) {
     return tp->allTasksFinished();
 }
 
+float FPS, FPSLimit, lastFPS;
+float EE_getFPS() {
+    return lastFPS;
+}
+void EE_limitFPS(uint32_t fps) {
+    FPSLimit = fps;
+}
+float appLoopTimeMS, drawTimeMS;
+float EE_getAppLoopTimeMS() {
+    return appLoopTimeMS;
+}
+float EE_getDrawTimeMS() {
+    return drawTimeMS;
+}
+//float EE_getTotalTimeMS() {
+//    return appLoopTimeMS + drawTimeMS;
+//}
+
 cs_context_t* cs_ctx;
 cs_playing_sound_t* activeSound[256];
 uint32_t activeSoundCount = 0;
@@ -330,7 +348,7 @@ void EE_setInstancedMeshScale(void* meshID, EE_Point3Df scale) {
 void EE_setInstancedSubmeshTexture(void* meshID, uint8_t submeshIndex, const char* textureType, const char* path) {
     InstancedMesh* imesh = (InstancedMesh*)meshID;
     if (meshID == (void*)-1) return;
-    imesh->subMeshes[submeshIndex].textures[0].init(path);
+    imesh->subMeshes[submeshIndex].textures[0].setIfUnique(path);
 }
 
 void EE_translate(float x, float y, float z) {
@@ -464,6 +482,11 @@ int main() {
 
         double startTime = glfwGetTime();
 
+        FPSLimit = 60;
+        lastFPS = FPS;
+        FPS = clock();
+        appLoopTimeMS = clock();
+
         EE_pushMatrix();
 
         /* Render here */
@@ -485,21 +508,25 @@ int main() {
             }
         }
         EE_appLoop();
+        appLoopTimeMS = clock() - appLoopTimeMS;
         if (activeSoundCount);
             //cs_mix(ctx);
-        getErrors();
 
+        drawTimeMS = clock();
+        getErrors();
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
-
         /* Poll for and process events */
         glfwPollEvents();
-
         viewMatrices.clear();
+        drawTimeMS = clock() - drawTimeMS;
 
-        while (startTime + (1.0f / 60.0f) > glfwGetTime()) {
+        EE_appPostFrame();
+
+        while (startTime + (1.0f / FPSLimit) > glfwGetTime()) {
             continue;
         }
+        FPS = clock() - FPS;
     }
 
     EE_appEnd();

@@ -3,7 +3,11 @@
   -Found license bug,helped make sure the demo works
 *BeyondBelief
   -Helped figured out build process with unigine
+ *ocnod
+  -Helped test scalability on threadripper
 
   #Advisers
   *neon-sunset
     -Offering runtime advice & perspective
+  *it's_fun_to_look_at_blue_balls
+    -Helped debug some windows hell and memory leak

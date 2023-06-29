@@ -4,7 +4,7 @@
 #define ENGINE_PATH ../EchoEngine/
 
 #include "../EchoEngine/HAL/HAL_3D.h"
-#define PHYSICS_ENABLE_REWIND
+//#define REWIND_ENABLED
 #define THREADING_ENABLED
 #include "../EchoEngine/PhysicsEngineAABB3D_MT.h"
 #include "../EchoEngine/DDECS.h"
@@ -12,7 +12,8 @@
 //#include <stddef>
 
 constexpr uint32_t chunk_width = 16, chunk_depth = 16, chunk_height = 256;
-constexpr uint32_t world_size = 360 - (360 % chunk_width);  //block across
+constexpr uint32_t world_size = 400 - (400 % chunk_width);  //block across
+constexpr uint32_t max_npc = 10000;
 //constexpr uint32_t hash_width = 2;
 //constexpr uint32_t max_bodies_per_hash = 16;
 constexpr uint32_t hash_width = 1;
@@ -40,7 +41,7 @@ VOXEL_WORLD_DEF voxelWorld;
 
 constexpr uint64_t sizeofVoxelWorld = sizeof(VOXEL_WORLD_DEF);
 
-DDECS<64, 500000> ecs = DDECS<64, 500000>();
+DDECS<32, 20000> ecs = DDECS<32, 20000>();
 constexpr uint64_t sizeOfECS = sizeof(ecs);
 
 #include "SystemUtilities.h"
@@ -75,8 +76,10 @@ void registerDestructors() {
 }
 
 inline void initSystems() {
+	ecs.init();
+
 	u16 threadCount = EE_getHardwareThreadCount();
-	threadCount = threadCount * 0.5f;
+	threadCount = threadCount / 2;
 	std::cout << "ThreadPool thread count: " << threadCount << std::endl;
 
 	threadPool = EE_getNewThreadPool(threadCount);

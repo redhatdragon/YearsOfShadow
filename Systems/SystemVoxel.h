@@ -25,7 +25,7 @@ public:
 	virtual void run() {
 		Controller* controller = (Controller*)ecs.getComponentBuffer(controllerComponentID);
 		auto pos = controller->cam.getPosition();
-		voxelWorld.display(pos.x, pos.z);
+		voxelWorld.display((uint32_t)pos.x, (uint32_t)pos.z);
 	}
 	virtual const char* getName() {
 		return "SystemVoxel";

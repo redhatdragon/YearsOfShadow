@@ -67,6 +67,9 @@ extern "C" {
 
 	float EE_getFPS();
 	void EE_limitFPS(uint32_t fps);
+	float EE_getAppLoopTimeMS();
+	float EE_getDrawTimeMS();
+	float EE_getTotalTimeMS();
 
 	bool EE_playAudioFile(const char* fileName, uint8_t loop);
 	bool EE_getNewAudio(const char* fileName, void* audioBuffer);
@@ -89,6 +92,7 @@ extern "C" {
 	//Define these in your application to be called by the HAL_ implimentations.
 	void EE_appStart();
 	void EE_appLoop();
+	void EE_appPostFrame();
 	void EE_appEnd();
 
 

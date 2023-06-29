@@ -4,7 +4,7 @@
 class Texture {
 	uint32_t id;
 	std::string path;
-	uint8_t* data;
+	uint8_t* data = nullptr;
 	int32_t w, h, bpp;
 public:
 	void init(const std::string& _path);
@@ -14,11 +14,18 @@ public:
 	inline uint16_t getWidth() const { return w; }
 	inline uint16_t getHeight() const { return h; }
 	inline uint8_t getBPP() const { return bpp; }
+
+	void setIfUnique(const std::string& _path) {
+		if (path == _path)
+			return;
+		init(_path);
+	}
 };
 
 
 
 void Texture::init(const std::string& _path) {
+	data = nullptr;
 	path = _path;
 	stbi_set_flip_vertically_on_load(1);
 	data = stbi_load(_path.c_str(), &w, &h, &bpp, 4);

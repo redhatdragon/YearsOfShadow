@@ -26,9 +26,9 @@ public:
 				BodyID bodyID = *(BodyID*)ecs.getEntityComponent(owner, bodyComponentID);
 				Vec3D<FixedPoint<256*256>> rootPosFixed = physics.getPos(bodyID);
 				Vec3D<uint32_t> rootPos = {
-					rootPosFixed.x.getAsInt(),
-					rootPosFixed.y.getAsInt(),
-					rootPosFixed.z.getAsInt()
+					(uint32_t)rootPosFixed.x.getAsInt(),
+					(uint32_t)rootPosFixed.y.getAsInt(),
+					(uint32_t)rootPosFixed.z.getAsInt()
 				};
 				Vec3D<uint32_t> totalSiz = {1, 1, 1};
 				totalSiz *= 3;
@@ -40,7 +40,7 @@ public:
 				}
 				continue;
 				std::vector<BodyID> bodies = physics.getBodiesInRectRough(rootPos, totalSiz);
-				uint32_t bodyCount = bodies.size();
+				uint32_t bodyCount = (uint32_t)bodies.size();
 				for (uint32_t j = 0; j < bodyCount; j++) {
 					BodyID nextBody = bodies[j];
 					void* userData = physics.getUserData(nextBody);
