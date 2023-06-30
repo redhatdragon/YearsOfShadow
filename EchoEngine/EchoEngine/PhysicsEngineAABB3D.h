@@ -3,7 +3,31 @@
 #include "Vec.h"
 #include "FlatBuffer.h"
 #include "DArray.h"
+#ifdef THREADING_ENABLED
+#include "HAL/HAL.h"
+#endif
+#ifdef REWIND_ENABLED
+#include "../customDBG.h"
+//#include <Windows.h>
+#include "RingBuffer.h"
+#endif
 #include <time.h>
+
+
+/*
+ABOUT
+This is a simple multithreaded fixed point deterministic AABB physics engine using a spatial hash table with
+optional rewind capability.  It doesn't have friction/weight/bouncing and is intended to be fairly effecient
+at the expense of functionality and perhaps ideal memory usage.
+
+This is a somewhat specialized and yet modular physics engine.  Yet hopefully lean enough to rework as need be.
+This does depend on HAL.h's API specifically to use a thread pool that's meant to be directly used with the
+application as well.  Essentially this engine's designed to be synced/batch threaded and will intentionally
+wait till the thread pool isn't at all working on anything before proceeding with it's own tasks.  Ideal
+when most of your game logic uses a similar threading model which to be frank is more ideal for batched work.
+*/
+
+//#define ENABLE_REWIND  use this to enable rewind functionality, useful when you want this functionality on different executables
 
 #ifndef physics_unit_size
 #define physics_unit_size (256*256)  //used as a pretend "1" normalized value to emulate decimal
@@ -15,288 +39,88 @@
 
 //TODO: Consider expanding for future utility.
 
-struct BodyAABB {
-	Vec3D<uint32_t> pos, siz, vel;
-	uint8_t isSolid;
+#include "PhysicsEngineAABB3D_BodyAABB.h"
 
-	__forceinline void simulate() {
-		pos += vel;
-	}
-	__forceinline void reverseSimulate() {
-		pos -= vel;
-	}
-	__forceinline bool collidesWith(const BodyAABB& other) {
-		if (pos.x + siz.x < other.pos.x || pos.x > other.pos.x + other.siz.x ||
-			pos.y + siz.y < other.pos.y || pos.y > other.pos.y + other.siz.y ||
-			pos.z + siz.z < other.pos.z || pos.z > other.pos.z + other.siz.z)
-			return false;
-		return true;
-	}
-	//Expects the input body to already be reverse simulated and was colliding with other before hand
-	__forceinline Vec3D<uint32_t> resolveClosestSafePosition(const BodyAABB& other) {
-		//const Vec3D<int32_t>& signedVel = *(Vec3D<int32_t>*)&vel;
-		//Vec3D<uint32_t> futurePos = pos + vel;
-		//Vec3D<uint32_t> closestPos = futurePos;
-		//if (futurePos.x + siz.x > other.pos.x && futurePos.x < other.pos.x + other.siz.x) {
-		//	if (signedVel.x < 0) {
-		//		closestPos.x = other.pos.x + other.siz.x;
-		//	} else if (signedVel.x > 0) {
-		//		closestPos.x = other.pos.x - siz.x;
-		//	}
-		//}
-		//if (futurePos.y + siz.y > other.pos.y && futurePos.y < other.pos.y + other.siz.y) {
-		//	if (signedVel.y < 0) {
-		//		closestPos.y = other.pos.y + other.siz.y;
-		//	}
-		//	else if (signedVel.y > 0) {
-		//		closestPos.y = other.pos.y - siz.y;
-		//	}
-		//}
-		//if (futurePos.z + siz.z > other.pos.z && futurePos.z < other.pos.z + other.siz.z) {
-		//	if (signedVel.z < 0) {
-		//		closestPos.z = other.pos.z + other.siz.z;
-		//	}
-		//	else if (signedVel.z > 0) {
-		//		closestPos.z = other.pos.z - siz.z;
-		//	}
-		//}
-		//return closestPos;
+#include "PhysicsEngineAABB3D_SHT.h"
 
-		Vec3D<uint32_t> savedPos = pos;
-		constexpr uint32_t intervil = 100;
-		Vec3D<int32_t> miniVel = *(Vec3D<int32_t>*)&vel / intervil;
-		Vec3D<uint32_t> lastPos = pos;
-		for (uint32_t i = 0; i < intervil; i++) {
-			pos += *(Vec3D<uint32_t>*)&miniVel;
-			if (collidesWith(other))
-				break;
-			lastPos = pos;
-		}
-		pos = savedPos;
-		return lastPos;
-	}
-	__forceinline Vec3D<uint32_t> resolveClosestSafePosition(BodyAABB** others, uint32_t count) {
-		Vec3D<uint32_t> closestPos = resolveClosestSafePosition(*others[0]);
-		for (uint32_t i = 1; i < count; i++) {
-			Vec3D<uint32_t> curPos = resolveClosestSafePosition(*others[i]);
-			Vec3D<uint32_t> dist = curPos - pos;
-			if (dist.getDistanceSquared() < (closestPos - pos).getDistanceSquared())
-				closestPos = curPos;
-		}
-		return closestPos;
-	}
-};
-constexpr uint32_t sizeofBodyAABB = sizeof(BodyAABB);
 
-struct BodyID {
-	uint32_t id;
-	bool operator==(BodyID other) {
-		if (id == other.id)
-			return true;
-		return false;
-	}
-	bool operator!=(BodyID other) {
-		if (id != other.id)
-			return true;
-		return false;
-	}
-};
 
-template<uint32_t width, uint32_t height, uint32_t depth, uint32_t hash_width, uint32_t max_bodies_per_hash = 64>
-class SpatialHashTable {
-	//FlatBuffer<BodyID, max_bodies_per_hash> hash[width * height * depth];
-	// i'll miss you FlatBuffer ;-;
-	//FlatBuffer<BodyID, max_bodies_per_hash> hash[width][height][depth];  //TODO: perf test this compared to manual flat variant..
-	//std::vector<BodyID> hashf[width][height][depth];
-
-	FlatBuffer<BodyID, max_bodies_per_hash> (*hash)[width][height][depth];
-
-	inline FlatBuffer<BodyID, max_bodies_per_hash>& getHash(uint32_t x, uint32_t y, uint32_t z) {
-		return (*hash)[x][y][z];
-	}
-
-	inline void addBodyToHash(BodyID id, uint32_t x, uint32_t y, uint32_t z) {
-		//if (x == 1 && y == 157 && z == 1)
-		//	throw;
-		if (getHash(x, y, z).count == max_bodies_per_hash) {
-			printf("SpatialHashTable::addBodyToHash - Error: too many bodies in hash!\n");
-			throw;
-		}
-		getHash(x, y, z).push(id);
-	}
-	void removeBodyFromHash(BodyID id, uint32_t x, uint32_t y, uint32_t z) {
-		uint32_t len = getHash(x, y, z).count;
-		for (uint32_t i = 0; i < len; i++) {
-			if (getHash(x, y, z)[i].id == id.id) {
-				getHash(x, y, z)[i] = getHash(x, y, z)[len - 1];
-				getHash(x, y, z).pop();
-				return;
-			}
-		}
-		printf("SpatialHashTable::removeBodyFromHash - Error: body not found in hash!\n");
-	}
-
-	inline BodyAABB getIterationBounds(const Vec3D<uint32_t>& pos, const Vec3D<uint32_t>& siz) {
-		//uint32_t startRight = pos.x / hash_width, startDown = pos.y / hash_width;
-		//uint32_t endRight = pos.x / hash_width + siz.x / hash_width, endDown = pos.y / hash_width + siz.y / hash_width;
-		//uint32_t startForward = pos.z / hash_width, endForward = pos.z / hash_width + siz.z / hash_width;
-		BodyAABB retValue = {
-			{
-				pos.x / hash_width, pos.y / hash_width, pos.z / hash_width
-			},
-			{
-				(pos.x + siz.x) / hash_width,
-				(pos.y + siz.y) / hash_width,
-				(pos.z + siz.z) / hash_width
-			}
-		};
-		if (retValue.siz.x % hash_width == 0)
-			retValue.siz.x--;
-		if (retValue.siz.y % hash_width == 0)
-			retValue.siz.y--;
-		if (retValue.siz.z % hash_width == 0)
-			retValue.siz.z--;
-
-		//return { {startRight, startDown, startForward}, {endRight, endDown, endForward} };
-		return retValue;
-	}
-
-public:
-	void init() {
-		//memset(this, 0, sizeof(*this));
-		uint64_t sizeOfHash = sizeof(FlatBuffer<BodyID, max_bodies_per_hash>);
-		sizeOfHash *= width;
-		sizeOfHash *= height;
-		sizeOfHash *= depth;
-		hash = (FlatBuffer<BodyID, max_bodies_per_hash>(*)[width][height][depth])malloc(sizeOfHash);
-		//hash = new FlatBuffer<BodyID, max_bodies_per_hash>[width][height][depth];
-		//for(uint32_t z = 0; z < depth; z++)
-		//	for(uint32_t y = 0; y < height; y++)
-		//		for (uint32_t x = 0; x < width; x++) {
-		//			//hash[x][y][z].reserve(max_bodies_per_hash);
-		//			//hash[x][y][z].clear();
-		//			getHash(x, y, z).clear();
-		//		}
-		memset(hash, 0, sizeOfHash);
-	}
-	void addBody(BodyID id, const Vec3D<uint32_t>& pos, const Vec3D<uint32_t>& siz) {
-		BodyAABB bounds = getIterationBounds(pos, siz);
-		for (uint32_t z = bounds.pos.z; z <= bounds.siz.z; z++)
-			for (uint32_t y = bounds.pos.y; y <= bounds.siz.y; y++)
-				for (uint32_t x = bounds.pos.x; x <= bounds.siz.x; x++)
-					addBodyToHash(id, x, y, z);
-	}
-	void removeBody(BodyID id, const Vec3D<uint32_t>& pos, const Vec3D<uint32_t>& siz) {
-		BodyAABB bounds = getIterationBounds(pos, siz);
-		for (uint32_t z = bounds.pos.z; z <= bounds.siz.z; z++)
-			for (uint32_t y = bounds.pos.y; y <= bounds.siz.y; y++)
-				for (uint32_t x = bounds.pos.x; x <= bounds.siz.x; x++)
-					removeBodyFromHash(id, x, y, z);
-	}
-	//TODO: consider making this return through param as to potentially allow .reserve() before calling.
-	__forceinline std::vector<FlatBuffer<BodyID, max_bodies_per_hash>*> getHashes(const Vec3D<uint32_t>& pos, const Vec3D<uint32_t>& siz) {
-		std::vector<FlatBuffer<BodyID, max_bodies_per_hash>*> returnValue = {};
-		//std::vector<std::vector<BodyID>*> returnValue = {};
-		BodyAABB bounds = getIterationBounds(pos, siz);
-		for (uint32_t z = bounds.pos.z; z <= bounds.siz.z; z++)
-			for (uint32_t y = bounds.pos.y; y <= bounds.siz.y; y++)
-				for (uint32_t x = bounds.pos.x; x <= bounds.siz.x; x++)
-					returnValue.push_back(&getHash(x, y, z));
-		return returnValue;
-	}
-	// This was complicated and may need another look over
-	void getIDs(const Vec3D<uint32_t>& pos, const Vec3D<uint32_t>& siz, std::vector<BodyID>& returnValue) {
-		clock_t c = clock();
-		BodyAABB bounds = getIterationBounds(pos, siz);
-		for (uint32_t z = bounds.pos.z; z <= bounds.siz.z; z++)
-			for (uint32_t y = bounds.pos.y; y <= bounds.siz.y; y++)
-				for (uint32_t x = bounds.pos.x; x <= bounds.siz.x; x++) {
-					auto len = getHash(x, y, z).count;
-					if (len > 100) {
-						std::cout << hash_width << std::endl;
-						throw;
-					}
-					for (uint32_t i = 0; i < len; i++) {
-						auto retValueLen = returnValue.size();
-						bool hasID = false;
-						for (size_t j = 0; j < retValueLen; j++) {
-							if (returnValue[j].id == getHash(x, y, z)[i].id) {
-								hasID = true;
-								break;
-							}
-						}
-						if (hasID == false) {
-							returnValue.push_back(getHash(x, y, z)[i]);
-						}
-
-					}
-				}
-		if (clock() - c > 2)
-			throw;
-	}
-	std::string getDbgStr() {
-		uint64_t sizeOfHash = sizeof(FlatBuffer<BodyID, max_bodies_per_hash>);
-		sizeOfHash *= width;
-		sizeOfHash *= height;
-		sizeOfHash *= depth;
-		return std::to_string(sizeOfHash);
-	}
-};
-
-template<uint32_t width, uint32_t height, uint32_t depth, uint32_t hash_width, uint32_t max_bodies_per_hash = 64>
+template<uint32_t width, uint32_t height, uint32_t depth, uint32_t hash_width, uint32_t max_bodies_per_hash = 64, uint32_t max_bodies_per_collision = 64>
 class PhysicsEngineAABB3D {
 	static constexpr uint32_t max_dynamic_bodies = 100000;  //100k
 	static constexpr uint32_t max_static_bodies = 1000000;  //1mill
 	static constexpr uint32_t max_bodies = max_dynamic_bodies + max_static_bodies;
-	//FlatFlaggedBuffer<BodyAABB, max_bodies> bodies = FlatFlaggedBuffer<BodyAABB, max_bodies>();
 	DArray<BodyAABB> bodies;
 	uint32_t dynamicBodyCount;
 	uint32_t staticBodyCount;  //mostly for debug purposes
-	//uint32_t earliestEmptyStaticIndex = max_dynamic_bodies;
 	FlatFlagBuffer<max_bodies> isValid;
-	//FlatBuffer<void*, max_bodies> userData;
 	DArray<void*> userData;
-	//FlatBuffer<FlatBuffer<BodyID, 100>, max_bodies> overlappingBodyIDs;
-	DArray<FlatBuffer<BodyID, 10>> overlappingBodyIDs;
-	SpatialHashTable<width, height, depth, hash_width * physics_unit_size, max_bodies_per_hash> spatialHashTable;
-	float timeFromStepping = 0;
+	DArray<FlatBuffer<BodyID, max_bodies_per_collision>> overlappingBodyIDs;
+	SpatialHashTable<width, height, depth, hash_width* physics_unit_size, max_bodies_per_hash> spatialHashTable;
+	float timeFromStepping;
+
+	uint32_t threadsFinished;
+
+	//NOTE: used for rewinding
+	#ifdef REWIND_ENABLED
+	#include "PhysicsFrame.h"
+	static constexpr uint32_t max_frames = 60 * 5;  //5 seconds at 60 TPS
+	RingBuffer<PhysicsFrame, max_frames> frames;
+	#endif
+
 public:
 	void init() {
-		timeFromStepping = dynamicBodyCount = staticBodyCount = 0;
+		dynamicBodyCount = staticBodyCount = 0;
+		timeFromStepping = 0.f;
+
 		bodies.init(max_bodies);
-		//overlappingBodyIDs.reserve(max_bodies);
-		//for (uint64_t i = 0; i < max_bodies; i++) {
-		//	//overlappingBodyIDs[i].init(100);
-		//	overlappingBodyIDs.push_back({});
-		//}
 		overlappingBodyIDs.init(max_bodies);
 		for (uint32_t i = 0; i < max_bodies; i++) {
 			overlappingBodyIDs[i].clear();
 		}
 		userData.init(max_bodies);
 		spatialHashTable.init();
+		timeFromStepping = 0.f;
+		threadsFinished = 0;
+		#ifdef REWIND_ENABLED
+		frames.init();
+		frames.get().clear();
+		#endif
 	}
 	BodyID addBodyBox(physics_fp x, physics_fp y, physics_fp z,
-		physics_fp w, physics_fp h, physics_fp d) {
-		//x *= physics_unit_size; y *= physics_unit_size; z *= physics_unit_size;
-		//w *= physics_unit_size; h *= physics_unit_size; d *= physics_unit_size;
+		physics_fp w, physics_fp h, physics_fp d, void* data, bool isSolid) {
 		BodyID retValue;
-		//BodyAABB body = { { x,y,z }, { w,h,d }, { 0,0,0 } };
-		BodyAABB body = { { x.getRaw(),y.getRaw(),z.getRaw() }, { w.getRaw(),h.getRaw(),d.getRaw() }, { 0,0,0 } };
+		BodyAABB body = {
+			{
+				static_cast<uint32_t>(x.getRaw()), static_cast<uint32_t>(y.getRaw()), static_cast<uint32_t>(z.getRaw())
+			}, { static_cast<uint32_t>(w.getRaw()), static_cast<uint32_t>(h.getRaw()), static_cast<uint32_t>(d.getRaw())},
+			{ 0u,0u,0u }
+		};
 		//retValue.id = bodies.insert(body);
 		retValue.id = isValid.toggleFirstInvalid();
 		bodies[retValue.id] = body;
+		setUserData(retValue, data);
+		setIsSolid(retValue, isSolid);
+		#ifdef REWIND_ENABLED
+		frames.get().addBody(bodies[retValue.id], isSolid, data, retValue);
+		#endif
 		spatialHashTable.addBody(retValue, body.pos, body.siz);
 		overlappingBodyIDs[retValue.id].clear();
 		dynamicBodyCount++;
 		return retValue;
 	}
 	BodyID addStaticBodyBox(physics_fp x, physics_fp y, physics_fp z,
-		physics_fp w, physics_fp h, physics_fp d) {
+		physics_fp w, physics_fp h, physics_fp d, void* data, bool isSolid) {
 		BodyID retValue;
-		BodyAABB body = { { x.getRaw(),y.getRaw(),z.getRaw() }, { w.getRaw(),h.getRaw(),d.getRaw() }, { 0,0,0 } };
+		BodyAABB body = { { (uint32_t)x.getRaw(), (uint32_t)y.getRaw(), (uint32_t)z.getRaw() },
+			{ (uint32_t)w.getRaw(), (uint32_t)h.getRaw(), (uint32_t)d.getRaw() }, { 0,0,0 } };
 		retValue.id = isValid.toggleFirstInvalid(max_dynamic_bodies);
 		bodies[retValue.id] = body;
+		setUserData(retValue, data);
+		setIsSolid(retValue, isSolid);
+		#ifdef REWIND_ENABLED
+		frames.get().addBody(bodies[retValue.id], isSolid, data, retValue);
+		#endif
 		spatialHashTable.addBody(retValue, body.pos, body.siz);
 		overlappingBodyIDs[retValue.id].clear();
 		staticBodyCount++;
@@ -315,106 +139,77 @@ public:
 				staticBodyCount--;
 			else
 				throw;
-		//bodies.decrementCount();
-		//bodies.setInvalid(bodyID.id);
 		isValid.setInvalid(bodyID.id);
+
+		#ifdef REWIND_ENABLED
+		bool _isSolid = getIsSolid(bodyID);
+		void* _userData = getUserData(bodyID);
+		frames.get().removeBody(body, _isSolid, _userData, bodyID);
+		#endif
 	}
 
 	void* getUserData(BodyID id) {
 		return userData[id.id];
-	}
-	void setUserData(BodyID id, void* data) {
-		userData[id.id] = data;
 	}
 
 	FlatBuffer<BodyID, 100>& getOverlappingBodies(BodyID id) {
 		return overlappingBodyIDs[id.id];
 	}
 
-	inline std::vector<BodyID> getBodiesInRectRough(Vec3D<uint32_t> pos, Vec3D<uint32_t> siz) {
-		pos *= physics_unit_size; siz *= physics_unit_size;
+	inline std::vector<BodyID> getBodiesInRectRough(Vec3D<physics_fp> pos, Vec3D<physics_fp> siz) {
 		std::vector<BodyID> retValue;
-		auto hashes = spatialHashTable.getHashes(pos, siz);
+		auto hashes = spatialHashTable.getHashes(*(Vec3D<uint32_t>*)&pos, *(Vec3D<uint32_t>*)&siz);
 		retValue.reserve(hashes.size());
-		uint32_t hashCount = hashes.size();
+		uint32_t hashCount = (uint32_t)hashes.size();
 		for (uint32_t i = 0; i < hashCount; i++) {
 			auto* hashPtr = hashes[i];
 			uint32_t hashSize = hashPtr->count;
 			for (uint32_t j = 0; j < hashSize; j++) {
 				BodyID bodyID = (*hashPtr)[j];
-				uint32_t totalBodyCount = retValue.size();
+				uint32_t totalBodyCount = (uint32_t)retValue.size();
 				for (uint32_t k = 0; k < totalBodyCount; k++) {
 					if (retValue[k] == bodyID)
 						goto skip;
 				}
 				retValue.push_back(bodyID);
-				skip:
+			skip:
 				continue;
 			}
 		}
-
-		//for (auto* hash : hashes) {
-		//	uint32_t hashSize = hash->count;
-		//	for (uint32_t i = 0; i < hashSize; i++) {
-		//		BodyID bodyID = (*hash)[i];
-		//		register uint32_t count = retValue.size();
-		//		for (uint32_t j = 0; j < count; j++)
-		//			if (retValue[j] == bodyID) goto skip;
-		//		retValue.push_back(bodyID);
-		//	skip:
-		//		continue;
-		//	}
-		//}
-
 		return retValue;
 	}
-	inline FlatBuffer<BodyID, 10> getBodiesInPoint(Vec3D<FixedPoint<256*256>> pos, BodyID ignoredBody) {
-		FlatBuffer<BodyID, 10> retValue = {};
+	inline std::vector<BodyID> getBodiesInRectRough(Vec3D<uint32_t> pos, Vec3D<uint32_t> siz) {
+		pos *= physics_unit_size; siz *= physics_unit_size;
+		return getBodiesInRectRough(*(Vec3D<physics_fp>*)&pos, *(Vec3D<physics_fp>*)&siz);
+	}
+	inline bool pointTrace(const Vec3D<FixedPoint<256 * 256>>& pos, BodyID ignoredBody) {
 		std::vector<BodyID> out = {};
-		//pos *= physics_unit_size;
 		Vec3D<uint32_t> siz = { 1, 1, 1 };
-		//siz *= physics_unit_size;
-		spatialHashTable.getIDs(*(Vec3D<uint32_t>*)&pos, siz, out);
-		for (uint32_t i = 0; i < out.size(); i++)
-			if(out[i] != ignoredBody)
-				retValue.push(out[i]);
-		return retValue;
-	}
-
-	/*void addVelocity(BodyID id, float vx, float vy, float vz) {
-		BodyAABB* body = &bodies[id.id];
-		body->vel.x += vx * physics_unit_size;
-		body->vel.y += vy * physics_unit_size;
-		body->vel.z += vz * physics_unit_size;
-	}
-	void setVelocity(BodyID id, float vx, float vy, float vz) {
-		BodyAABB* body = &bodies[id.id];
-		body->vel.x = vx * physics_unit_size;
-		body->vel.y = vy * physics_unit_size;
-		body->vel.z = vz * physics_unit_size;
-	}*/
-	void addVelocity(BodyID id, physics_fp vx, physics_fp vy, physics_fp vz) {
-		BodyAABB* body = &bodies[id.id];
-		body->vel.x += vx;
-		body->vel.y += vy;
-		body->vel.z += vz;
+		spatialHashTable.getIDs(*(Vec3D<uint32_t>*) & pos, siz, out);
+		uint32_t size = (uint32_t)out.size();
+		for (uint32_t i = 0; i < size; i++)
+			if (out[i] != ignoredBody)
+				return true;
+		return false;
 	}
 	void setVelocity(BodyID id, physics_fp vx, physics_fp vy, physics_fp vz) {
 		BodyAABB* body = &bodies[id.id];
-		body->vel.x = vx.getRaw();
-		body->vel.y = vy.getRaw();
-		body->vel.z = vz.getRaw();
+		#ifdef REWIND_ENABLED
+		Vec3D<uint32_t> offset = { (uint32_t)vx.getRaw(), (uint32_t)vy.getRaw(), (uint32_t)vz.getRaw() };
+		offset -= body->vel;
+		frames.get().addVelocity(offset, id);
+		#endif
+		body->vel.x = (uint32_t)vx.getRaw();
+		body->vel.y = (uint32_t)vy.getRaw();
+		body->vel.z = (uint32_t)vz.getRaw();
 	}
 	Vec3D<physics_fp> getVelocity(BodyID id) {
 		BodyAABB* body = &bodies[id.id];
-		return *(Vec3D<physics_fp>*)&body->vel;
+		return *(Vec3D<physics_fp>*) & body->vel;
 	}
 
-	bool getSolid(BodyID id) {
+	bool getIsSolid(BodyID id) {
 		return bodies[id.id].isSolid;
-	}
-	void setSolid(BodyID id, bool isTrue) {
-		bodies[id.id].isSolid = isTrue;
 	}
 
 	Vec3D<FixedPoint<physics_unit_size>> getPos(BodyID id) {
@@ -457,22 +252,13 @@ public:
 
 	uint32_t lastBodyIndex;
 	inline void simulate() {
-		//uint32_t bodyCount = bodies.getCount();
 		uint32_t bodyCount = dynamicBodyCount;
 		if (bodyCount == 0) return;
 		uint32_t validBodyCount = 0;
 		for (uint32_t i = 0; true; i++) {
-			//if (bodies.getIsValid(i) == false)
 			if (isValid.getIsValid(i) == false)
 				continue;
 			validBodyCount++;
-			//if (bodies[i].vel.isZero()) {
-			//	if (validBodyCount >= bodyCount) {
-			//		lastBodyIndex = i;
-			//		break;
-			//	}
-			//	continue;
-			//}
 			spatialHashTable.removeBody({ i }, bodies[i].pos, bodies[i].siz);
 			bodies[i].simulate();
 			spatialHashTable.addBody({ i }, bodies[i].pos, bodies[i].siz);
@@ -482,45 +268,80 @@ public:
 			}
 		}
 	}
-	inline void detect() {
-		clock_t c = clock();
-		//uint32_t bodyCount = bodies.getCount();
+	inline void detectSingle() {
 		uint32_t bodyCount = dynamicBodyCount;
 		if (bodyCount == 0) return;
 		for (uint32_t i = 0; i <= lastBodyIndex; i++) {
-			//if (bodies.getIsValid(i) == false)
 			if (isValid.getIsValid(i) == false)
 				continue;
 			overlappingBodyIDs[i].clear();
 		}
-		float time = (float)(clock() - c);
-		//std::cout << "first" << time << std::endl;
 
-		c = clock();
-		//std::cout << "index: " << lastBodyIndex << std::endl;
-		static std::vector<BodyID> IDs = {};
+		static std::vector<BodyID> IDs;
+		static DetectThreadData lastDTD;
+		u32 start = 0; u32 end = start + lastBodyIndex;
+		lastDTD = { this, start, end };
+		detectThreadBody(&lastDTD);
+	}
+	struct DetectThreadData {
+		void* self;
+		uint32_t start, end;
+	};
+	inline void detect() {
+		uint32_t bodyCount = dynamicBodyCount;
+		if (bodyCount == 0) return;
 		for (uint32_t i = 0; i <= lastBodyIndex; i++) {
-			//if (bodies.getIsValid(i) == false)
 			if (isValid.getIsValid(i) == false)
 				continue;
-			//IDs.resize(0);
+			overlappingBodyIDs[i].clear();
+		}
+
+		uint16_t threadCount = EE_getThreadPoolFreeThreadCount(threadPool);
+		static std::vector<DetectThreadData> dtd;
+		dtd.clear();
+		dtd.reserve(threadCount);
+		uint32_t totalWork = lastBodyIndex + 1;
+		uint32_t workPerThread = totalWork / threadCount;
+		uint32_t leftover = totalWork % threadCount;
+		for (uint32_t i = 0; i < threadCount; i++) {
+			u32 start = workPerThread * i; u32 end = start + workPerThread - 1;
+			DetectThreadData currentDTD = { this, start, end };
+			dtd.push_back(currentDTD);
+		}
+		for (uint32_t i = 0; i < threadCount; i++) {
+			EE_sendThreadPoolTask(threadPool, detectThreadBody, &dtd[i]);
+		}
+		static DetectThreadData lastDTD;
+		u32 start = workPerThread * threadCount; u32 end = start + leftover;
+		lastDTD = { this, start, end };
+		if (leftover)
+			detectThreadBody(&lastDTD);
+		while (EE_isThreadPoolFinished(threadPool) == false)
+			continue;
+	}
+	static void detectThreadBody(void* _data) {
+		DetectThreadData* data = (DetectThreadData*)_data;
+		PhysicsEngineAABB3D<width, height, depth, hash_width, max_bodies_per_hash>* self =
+			(PhysicsEngineAABB3D<width, height, depth, hash_width, max_bodies_per_hash>*)data->self;
+
+		std::vector<BodyID> IDs;
+		IDs.reserve(100);
+		for (uint32_t i = data->start; i <= data->end; i++) {
+			if (self->isValid.getIsValid(i) == false)
+				continue;
 			IDs.clear();
-			BodyAABB& b = bodies[i];
-			spatialHashTable.getIDs(bodies[i].pos, bodies[i].siz, IDs);
+			const BodyAABB& b = self->bodies[i];
+			self->spatialHashTable.getIDs(b.pos, b.siz, IDs);
 			size_t IDCount = IDs.size();
-			//std::cout << "Count" << IDCount << std::endl;
 			for (size_t j = 0; j < IDCount; j++) {
 				if (i == IDs[j].id)
 					continue;
-				if (bodies[i].collidesWith(bodies[IDs[j].id])) {
-					//overlappingBodyIDs[i].push(IDs[j]);  //Why was this used?
-					overlappingBodyPushIfUnique(i, IDs[j]);
-					//overlappingBodyPushIfUnique(IDs[j].id, { i });
+				if (b.collidesWith(self->bodies[IDs[j].id])) {
+					//self->overlappingBodyPushIfUnique(i, IDs[j]);  //Needed?
+					self->overlappingBodyIDs[i].push(IDs[j]);
 				}
 			}
 		}
-		time = (float)(clock() - c);
-		//std::cout << "second" << time << std::endl << std::endl;
 	}
 	inline void resolve() {
 		uint32_t bodyCount = dynamicBodyCount;
@@ -528,40 +349,44 @@ public:
 		for (uint32_t i = 0; i <= lastBodyIndex; i++) {
 			if (isValid.getIsValid(i) == false)
 				continue;
-			bool isSolid = getSolid({ i });
-			if (overlappingBodyIDs[i].count && bodies[i].vel.isZero() == false && getSolid({ i })
-				//&& areAnyOverlappingBodiesSolid(i) == true) {
-				) {
-
-				//spatialHashTable.removeBody({ i }, bodies[i].pos, bodies[i].siz);
-				//bodies[i].reverseSimulate();
-				//spatialHashTable.addBody({ i }, bodies[i].pos, bodies[i].siz);
-
+			bool isSolid = getIsSolid({ i });
+			if (overlappingBodyIDs[i].count && bodies[i].vel.isZero() == false && getIsSolid({ i })) {
 				static FlatBuffer<BodyAABB*, 100> overlappingSolidBodies = {};
 				overlappingSolidBodies.clear();
 				getOverlappingSolidBodies(i, overlappingSolidBodies);
 				if (overlappingSolidBodies.count) {
-				
+
 					spatialHashTable.removeBody({ i }, bodies[i].pos, bodies[i].siz);
 					bodies[i].reverseSimulate();
 					auto newPos = bodies[i].resolveClosestSafePosition(&overlappingSolidBodies[0],
 						overlappingSolidBodies.count);
 					bodies[i].pos = newPos;
-					//bodies[i].vel = { 0 };
-					*(Vec3D<int32_t>*)&bodies[i].vel /= 2;
+					*(Vec3D<int32_t>*)& bodies[i].vel /= 2;
 					spatialHashTable.addBody({ i }, bodies[i].pos, bodies[i].siz);
 				}
 			}
 			gravity({ i });
+#ifdef REWIND_ENABLED
+			frames.get().cpyDynamicBodyPosAndVel({i}, bodies[i].pos, bodies[i].vel);
+#endif
 		}
 	}
 
 	void tick() {
 		clock_t c = clock();
+		#ifdef REWIND_ENABLED
+		frames.advance();
+		frames.get().clear();  //TODO: 0th frame isn't used initially, figure out later
+		#endif
 		simulate();
+		#ifdef THREADING_ENABLED
 		detect();
+		#else
+		detectSingle();
+		#endif
 		resolve();
 		timeFromStepping = (float)(clock() - c);
+		//std::cout << "Time: " << timeFromStepping << std::endl;
 	}
 
 	std::vector<std::string> getDbgInfo() {
@@ -605,7 +430,30 @@ public:
 		return getGravityAcceleration() * 2;
 	}
 
+#ifdef REWIND_ENABLED
+	void rewind(uint32_t ticksPassed) {
+		if (ticksPassed > max_frames) {
+			std::cout << "Error: PhysicsEngineAABB_MT.rewind()'s ticksPassed arg is higher than " << max_frames
+				<< std::endl << "ticksPassed == " << ticksPassed << std::endl;
+			std::cout << "Aborting..." << std::endl;
+			throw;
+		}
+		for (uint32_t i = 0; i < ticksPassed; i++) {
+			frames.get().rewind(*this);
+			//bodies[0].printDebug();
+			frames.rewind();
+		}
+	}
+#endif
+
 private:
+	void setUserData(BodyID id, void* data) {
+		userData[id.id] = data;
+	}
+	void setIsSolid(BodyID id, bool isTrue) {
+		bodies[id.id].isSolid = isTrue;
+	}
+
 	void overlappingBodyPushIfUnique(uint32_t index, BodyID id) {
 		for (uint32_t i = 0; i < overlappingBodyIDs[index].count; i++)
 			if (overlappingBodyIDs[index][i].id == id.id)
@@ -616,7 +464,7 @@ private:
 		uint32_t overlappingCount = overlappingBodyIDs[bodyIndex].count;
 		for (uint32_t j = 0; j < overlappingCount; j++) {
 			BodyID otherBody = overlappingBodyIDs[bodyIndex][j];
-			if (getSolid(otherBody) == true)
+			if (getIsSolid(otherBody) == true)
 				return true;
 		}
 		return false;
@@ -625,7 +473,7 @@ private:
 		uint32_t overlappingCount = overlappingBodyIDs[bodyIndex].count;
 		for (uint32_t j = 0; j < overlappingCount; j++) {
 			BodyID otherBody = overlappingBodyIDs[bodyIndex][j];
-			if (getSolid(otherBody) == true)
+			if (getIsSolid(otherBody) == true)
 				out.push(&bodies[otherBody.id]);
 		}
 	}
@@ -643,7 +491,7 @@ private:
 		//FixedPoint<physics_unit_size> acceleration = "0.0163f";
 		int32_t acceleration = getGravityAcceleration();
 		BodyAABB& body = bodies[bodyID.id];
-		if ((int32_t)body.vel.y < getGravityMax()*2)
-			body.vel.y += acceleration*2;
+		if ((int32_t)body.vel.y < getGravityMax() * 2)
+			body.vel.y += acceleration * 2;
 	}
 };

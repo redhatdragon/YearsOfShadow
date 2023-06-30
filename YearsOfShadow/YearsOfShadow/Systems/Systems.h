@@ -8,7 +8,7 @@
 void* threadPool;
 //#define REWIND_ENABLED
 #define THREADING_ENABLED
-#include <EchoEngine/PhysicsEngineAABB3D_MT.h>
+#include <EchoEngine/PhysicsEngineAABB3D.h>
 #include <EchoEngine/DDECS.h>
 
 //#include <memory>
