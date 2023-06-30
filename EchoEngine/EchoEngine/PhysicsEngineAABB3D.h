@@ -279,7 +279,7 @@ public:
 
 		static std::vector<BodyID> IDs;
 		static DetectThreadData lastDTD;
-		u32 start = 0; u32 end = start + lastBodyIndex;
+		uint32_t start = 0; uint32_t end = start + lastBodyIndex;
 		lastDTD = { this, start, end };
 		detectThreadBody(&lastDTD);
 	}
@@ -304,7 +304,7 @@ public:
 		uint32_t workPerThread = totalWork / threadCount;
 		uint32_t leftover = totalWork % threadCount;
 		for (uint32_t i = 0; i < threadCount; i++) {
-			u32 start = workPerThread * i; u32 end = start + workPerThread - 1;
+			uint32_t start = workPerThread * i; uint32_t end = start + workPerThread - 1;
 			DetectThreadData currentDTD = { this, start, end };
 			dtd.push_back(currentDTD);
 		}
@@ -312,7 +312,7 @@ public:
 			EE_sendThreadPoolTask(threadPool, detectThreadBody, &dtd[i]);
 		}
 		static DetectThreadData lastDTD;
-		u32 start = workPerThread * threadCount; u32 end = start + leftover;
+		uint32_t start = workPerThread * threadCount; uint32_t end = start + leftover;
 		lastDTD = { this, start, end };
 		if (leftover)
 			detectThreadBody(&lastDTD);
