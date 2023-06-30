@@ -296,7 +296,7 @@ public:
 			overlappingBodyIDs[i].clear();
 		}
 
-		uint16_t threadCount = EE_getThreadPoolFreeThreadCount(threadPool);
+		auto threadCount = static_cast<uint32_t>(HAL::get_thread_pool_free_thread_count(threadPool));
 		static std::vector<DetectThreadData> dtd;
 		dtd.clear();
 		dtd.reserve(threadCount);
@@ -309,14 +309,14 @@ public:
 			dtd.push_back(currentDTD);
 		}
 		for (uint32_t i = 0; i < threadCount; i++) {
-			EE_sendThreadPoolTask(threadPool, detectThreadBody, &dtd[i]);
+            HAL::submit_thread_pool_task(threadPool, detectThreadBody, &dtd[i]);
 		}
 		static DetectThreadData lastDTD;
 		uint32_t start = workPerThread * threadCount; uint32_t end = start + leftover;
 		lastDTD = { this, start, end };
 		if (leftover)
 			detectThreadBody(&lastDTD);
-		while (EE_isThreadPoolFinished(threadPool) == false)
+        while (HAL::is_thread_pool_finished(threadPool) == false)
 			continue;
 	}
 	static void detectThreadBody(void* _data) {
