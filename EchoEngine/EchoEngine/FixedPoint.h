@@ -34,7 +34,7 @@ public:
 		data = other * decScale;
 	}
 	FixedPoint(float other) {
-		data = static_cast<uint32_t>(other) * decScale;
+		data = static_cast<uint32_t>(other * decScale);
 	}
 	inline void operator+=(const FixedPoint<decScale>& other) {
 		data = data + other.data;
