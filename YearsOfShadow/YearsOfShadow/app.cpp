@@ -1,10 +1,9 @@
 #include <EchoEngine/EE_Types.h>
-#include <HAL/HAL_3D.h>
 #include "Systems/Systems.h"
-
+#include <thread>
 
 void sleepForThreaded(void* data) {
-   _sleep((int64_t)data);
+    std::this_thread::sleep_for(std::chrono::milliseconds(reinterpret_cast<int64_t>(data)));
 }
 
 
@@ -17,7 +16,7 @@ void EE_appStart() {
 bool FPressedLastTick = true;
 ;
 void EE_appLoop() {
-    EE_drawBackground(0, 0, 0, 255);
+    HAL::draw_background(0, 0, 0, 255);
     ecs.runSystems();
     // auto dbgInfo = ecs.getDebugInfoStr();
     // for (auto& i : dbgInfo)
@@ -48,24 +47,24 @@ void EE_appLoop() {
 #endif
 }
 void EE_appPostFrame() {
-    while (EE_isThreadPoolFinished(threadPool) == false)
+    while (HAL::is_thread_pool_finished(threadPool) == false)
         continue;
-    u16 threadCount = EE_getThreadPoolFreeThreadCount(threadPool);
-    clock_t remainingTime = static_cast<clock_t>(EE_getAppLoopTimeMS() + EE_getDrawTimeMS());
+    u16 threadCount = static_cast<u16>(HAL::get_thread_pool_free_thread_count(threadPool));
+    clock_t remainingTime = static_cast<clock_t>(HAL::get_app_loop_time_MS() + HAL::get_draw_time_MS());
     i32 waitFor = 16 - remainingTime;
     std::string printStr = "waitFor: ";
     printStr += std::to_string(waitFor);
     printStr += " LoopTime: ";
-    printStr += std::to_string(EE_getAppLoopTimeMS());
+    printStr += std::to_string(HAL::get_app_loop_time_MS());
     printStr += " DrawTime: ";
-    printStr += std::to_string(EE_getDrawTimeMS());
+    printStr += std::to_string(HAL::get_draw_time_MS());
     printStr += '\n';
     fwrite(printStr.c_str(), printStr.size(), 1, stderr);
     if (waitFor <= 2)
         return;
     for (u32 i = 0; i < threadCount; i++)
-        EE_sendThreadPoolTask(threadPool, sleepForThreaded, to_void_ptr(waitFor));
-    while (EE_isThreadPoolFinished(threadPool) == false)
+        HAL::submit_thread_pool_task(threadPool, sleepForThreaded, to_void_ptr(waitFor));
+    while (HAL::is_thread_pool_finished(threadPool) == false)
         continue;
 }
 void EE_appEnd() {

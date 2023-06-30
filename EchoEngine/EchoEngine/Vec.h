@@ -5,6 +5,17 @@
 template<typename T>
 struct Vec2D {
 	T x, y;
+
+	template<class U>
+    __forceinline Vec2D& assign(glm::vec<2, U> vec)
+    {
+    	// I did not want to disable implicit aggregate initialization
+		// so I used assign instead of ctor
+        x = static_cast<T>(vec.x);
+        y = static_cast<T>(vec.y);
+        return *this;
+    }
+
 	__forceinline void operator+=(const Vec2D& other) {
 		x += other.x;
 		y += other.y;

@@ -409,7 +409,7 @@ public:
 		ms = clock();
 		for (auto sys : systems) {
 			clock_t start = clock();
-			while (EE_isThreadPoolFinished(threadPool) == false)
+			while (HAL::is_thread_pool_finished(threadPool) == false)
 				continue;
 			for (auto& str : blackList)
 				if (str == sys->getName())

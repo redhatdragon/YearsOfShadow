@@ -1,11 +1,9 @@
 #pragma once
 #include <thread>
+#include <HAL/HAL.h>
 
-#define ENGINE_PATH ../EchoEngine/
+HAL::thread_pool_handle_t threadPool;
 
-#include <HAL/HAL_3D.h>
-
-void* threadPool;
 //#define REWIND_ENABLED
 #define THREADING_ENABLED
 #include <EchoEngine/PhysicsEngineAABB3D_MT.h>
@@ -61,9 +59,9 @@ constexpr uint64_t sizeOfECS = sizeof(ecs);
 #include "SystemUtilities/Serialize.h"
 
 void meshDestructor(ComponentID id, uint32_t index) {
-	void** meshBuffer = (void**)ecs.getComponentBuffer(id);
-	void* mesh = meshBuffer[index];
-	EE_releaseMesh(mesh);
+	const auto meshBuffer = reinterpret_cast<HAL::mesh_handle_t*>(ecs.getComponentBuffer(id));
+	auto mesh = meshBuffer[index];
+	HAL::release_mesh(mesh);
 }
 void instancedMeshDestrutor(ComponentID id, u32 index) {
 	u32* instancedMeshBuffer = (u32*)ecs.getComponentBuffer(id);
@@ -80,11 +78,11 @@ void registerDestructors() {
 inline void initSystems() {
 	ecs.init();
 
-	u16 threadCount = EE_getHardwareThreadCount();
-	threadCount = std::thread::hardware_concurrency() / 4;
+	auto threadCount = HAL::get_hardware_thread_count();
+    threadCount = threadCount / 4;
 	std::cout << "ThreadPool thread count: " << threadCount << std::endl;
 
-	threadPool = EE_getNewThreadPool(threadCount);
+	threadPool = HAL::get_new_thread_pool(threadCount);
 
 	instancedMeshCodex.init();
 

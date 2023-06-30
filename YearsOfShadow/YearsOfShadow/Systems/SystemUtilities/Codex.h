@@ -3,7 +3,7 @@
 
 class Codex {
 protected:
-	std::vector<void*> assets;
+    std::vector<HAL::resource_handle_t> assets;
 	std::unordered_map<std::string, u32> hashes;
 	std::vector<u32> refCounts;
 	u32 assetCount;
@@ -13,7 +13,7 @@ public:
 			return false;
 		return true;
 	}
-	void* get(u32 id) {
+    HAL::resource_handle_t get(u32 id) {
 		return assets[id];
 	}
 	void release(u32 id) {
@@ -22,11 +22,12 @@ public:
 			releaseAsset(assets[id]);
 		}
 	}
+
 protected:
 	static constexpr u32 INITIAL_CAPACITY = 256;
 
-	virtual void* getAsset(const std::string& path) = 0;
-	virtual void releaseAsset(void* asset) = 0;
+	virtual HAL::resource_handle_t getAsset(const std::string &path) = 0;
+    virtual void releaseAsset(HAL::resource_handle_t asset) = 0;
 
 	void baseInit() {
 		assets.resize(INITIAL_CAPACITY);
@@ -41,7 +42,7 @@ protected:
 		}
 		assetCount++;
 		hashes[path] = assetCount;
-		void* asset = getAsset(path);
+        HAL::resource_handle_t asset = getAsset(path);
 		assets[assetCount] = asset;
 		std::cout << "Caching new asset: " << assetCount << " " << path.c_str() << std::endl;
 		return assetCount;
@@ -79,11 +80,11 @@ public:
 		return texturePaths[id].c_str();
 	}
 private:
-	void* getAsset(const std::string& path) override {
-		return EE_getNewInstancedMesh(path.c_str());
+	HAL::mesh_handle_t getAsset(const std::string& path) override {
+		return HAL::get_new_instanced_mesh(path.c_str());
 	}
-	void releaseAsset(void* asset) override {
-		EE_releaseInstancedMesh(asset);
+	void releaseAsset(HAL::mesh_handle_t asset) override {
+		HAL::release_instanced_mesh(asset);
 	}
 };
 InstancedMeshCodex instancedMeshCodex;

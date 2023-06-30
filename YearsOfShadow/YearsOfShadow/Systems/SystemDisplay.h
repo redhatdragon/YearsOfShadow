@@ -21,7 +21,7 @@ public:
 private:
 	void drawMeshes() {
 		uint32_t meshCount = ecs.getComponentCount(meshComponentID);
-		void** meshBuffer = (void**)ecs.getComponentBuffer(meshComponentID);
+		HAL::mesh_handle_t* meshBuffer = reinterpret_cast<HAL::mesh_handle_t*>(ecs.getComponentBuffer(meshComponentID));
 		for (uint32_t i = 0; i < meshCount; i++) {
 			EntityID owner = ecs.getOwner(meshComponentID, i);
 			BodyID* bodyIDPtr = (BodyID*)ecs.getEntityComponent(owner, bodyComponentID);
@@ -29,8 +29,8 @@ private:
 			Vec3D<float> pos = physics.getPosF(*bodyIDPtr);
 			Vec3D<float> siz = physics.getSizeF(*bodyIDPtr);
 			pos += siz / 2;
-			EE_setPositionMesh(meshBuffer[i], pos.x, pos.y, pos.z);
-			EE_drawMesh(meshBuffer[i]);
+			HAL::set_mesh_position(meshBuffer[i], {pos.x, pos.y, pos.z});
+			HAL::draw_mesh(meshBuffer[i]);
 		}
 	}
 	void drawInstancedMeshes() {
@@ -50,14 +50,14 @@ private:
 		}
 		for (auto& mapElem : instancePositionsMap) {
 			u32 count = (u32)mapElem.second.size();
-			void* instanceTypeID = instancedMeshCodex.get(mapElem.first);
+			auto instanceTypeID = instancedMeshCodex.get(mapElem.first);
 			//EE_Point3Df scale = *(EE_Point3Df*)&instancedMeshCodex.getSize(mapElem.first);
 			//EE_Point3Df scale = {100, 100, 100};
 			//EE_setInstancedMeshScale(instanceTypeID, scale);
 			const char* texturePath = instancedMeshCodex.getTexture(mapElem.first);
-			EE_setInstancedSubmeshTexture(instanceTypeID, 0, "diffuse", texturePath);
-			EE_setInstancedMeshPositions(instanceTypeID, (EE_Point3Df*)&mapElem.second[0], count);
-			EE_drawInstancedMesh(instanceTypeID);
+			HAL::set_instanced_mesh_submesh_texture(instanceTypeID, 0, "diffuse", texturePath);
+			HAL::set_instanced_mesh_positions(instanceTypeID, std::span(reinterpret_cast<glm::vec3*>(std::data(mapElem.second)), count));
+			HAL::draw_instanced_mesh(instanceTypeID);
 		}
 	}
 };
