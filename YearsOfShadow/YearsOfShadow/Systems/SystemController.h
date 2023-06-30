@@ -234,7 +234,6 @@ private:
 		}
 	}
 	void firePhase(Controller* controller, const Vec3D<FixedPoint<256 * 256>>& pos) {
-		return;
 		uint8_t leftMouse;
 		EE_getMouseState(&leftMouse, nullptr, nullptr);
 		if (leftMouse == false)
