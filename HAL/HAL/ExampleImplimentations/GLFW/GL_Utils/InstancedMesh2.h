@@ -1,5 +1,4 @@
 #pragma once
-#include "../../../../DArray.h"
 #include "VertexArray.h"
 #include "IndexBuffer.h"
 #include "VertexBufferLayout.h"
@@ -10,8 +9,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <OBJ_Loader/OBJ_Loader.h>
-
-#include "../../../../Vec.h"
 
 struct InstancedSubMesh {
     Shader shader;
@@ -101,9 +98,9 @@ struct InstancedSubMesh {
         //glBindBuffer(GL_ARRAY_BUFFER, 0);
         //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
-    void setOffsets(const std::vector<Vec3D<float>>& offsets) {
+    void setOffsets(const std::vector<glm::vec3>& offsets) {
         glBindBuffer(GL_ARRAY_BUFFER, PBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(Vec3D<float>) * offsets.size(), &offsets[0], GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * offsets.size(), &offsets[0], GL_DYNAMIC_DRAW);
 
         //positionsBuffer.destruct();
 
@@ -143,13 +140,14 @@ struct InstancedMesh {
         for (uint32_t i = 0; i < subMeshes.size(); i++)
             subMeshes[i].draw(pos, rot, siz, viewMatrix, perspectiveMatrix, instanceCount);
     }
-    void setOffsets(Vec3D<float>* _positions, uint32_t count) {
+    void setOffsets(glm::vec3* _positions, uint32_t count)
+    {
         if (count == 0)
             return;
-        std::vector<Vec3D<float>> offsets;
+        std::vector<glm::vec3> offsets;
         offsets.resize(count);
         instanceCount = count;
-        memcpy(&offsets[0], _positions, sizeof(Vec3D<float>) * count);
+        memcpy(&offsets[0], _positions, sizeof(glm::vec3) * count);
         for (InstancedSubMesh& subMesh : subMeshes) {
             subMesh.setOffsets(offsets);
         }

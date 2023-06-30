@@ -14,8 +14,6 @@
 #include <fstream>
 #include <sstream>
 #include <unordered_map>
-#include "../../../DArray.h"
-#include "../../../FlatBuffer.h"
 #include "CustomWindowsThreadPool.h"
 //#include "CustomCPP11ThreadPool.h"
 
@@ -340,7 +338,7 @@ void EE_setInstancedMeshPositions(void* meshID, const EE_Point3Df* _posBuffer, u
         posBuffer[i].y = -posBuffer[i].y;
         posBuffer[i].z = -posBuffer[i].z;
     }
-    imesh->setOffsets((Vec3D<float>*)posBuffer, count);
+    imesh->setOffsets((glm::vec3*)posBuffer, count);
     free(posBuffer);
 }
 void EE_setInstancedMeshScale(void* meshID, EE_Point3Df scale) {
@@ -390,7 +388,7 @@ void* EE_getNewCamera() {
 }
 void EE_cameraLookAt(void* self, float x, float y, float z) {
     SceneCamera* cam = (SceneCamera*)self;
-    Vec3D<float> newFront = { x, -y, -z };
+    glm::vec3 newFront = {x, -y, -z};
     auto camPos = cam->getPosition();
     newFront -= camPos;
     cam->setFront(newFront.x, newFront.y, newFront.z);

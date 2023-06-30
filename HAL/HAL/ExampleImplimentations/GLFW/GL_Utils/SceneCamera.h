@@ -1,6 +1,4 @@
 #pragma once
-#include "../../../../Vec.h"
-#include "../../../../FixedPoint.h"
 
 class SceneCamera {
 
@@ -45,7 +43,7 @@ public:
     void setFront(float x, float y, float z) {
         front.x = x; front.y = y; front.z = z;
     }
-    Vec3D<float> getPosition() {
+    glm::vec3 getPosition() {
         return {position.x, position.y, position.z};
     }
     void setPosition(float x, float y, float z) {

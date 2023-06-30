@@ -30,7 +30,6 @@ extern "C" {
 #endif
 
 
-
 	//void drawTextureFromFile(const char* fileName, int x, int y);
 	void* EE_getNewTexture(const char* fileName);
 	//void resizeTexture(void* texture, uint32_t width, uint32_t height);

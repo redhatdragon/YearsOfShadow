@@ -28,5 +28,6 @@ else()
 endif()
 
 add_subdirectory(external)
+add_subdirectory(HAL)
 add_subdirectory(EchoEngine)
 add_subdirectory(YearsOfShadow)

@@ -10,38 +10,40 @@ file(GLOB_RECURSE SOURCES
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 add_library(
-	EchoEngine
+	HAL
 	STATIC
 	${SOURCES}
 	"${CMAKE_CURRENT_SOURCE_DIR}/../.clang-format"
 )
 
 target_include_directories(
-	EchoEngine
+	HAL
 	PUBLIC
 	${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 if(${IPO_SUPPORTED})
-	set_target_properties(EchoEngine PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
+	set_target_properties(HAL PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
 endif()
 
 if(MSVC)
 	target_compile_options(
-		EchoEngine
+		HAL
 		PRIVATE /W3 # warning lvl-1
 		PRIVATE /MP # multi-processor compilation
 		PRIVATE /arch:AVX2
 		PRIVATE /WX
 	)
 
-	set_property(TARGET EchoEngine APPEND PROPERTY LINK_FLAGS /IGNORE:4098 )
+	set_property(TARGET HAL APPEND PROPERTY LINK_FLAGS /IGNORE:4098 )
 endif()
 
-set_target_properties(EchoEngine PROPERTIES FOLDER "YearsOfShadow")
+set_target_properties(HAL PROPERTIES FOLDER "YearsOfShadow")
 
 target_link_libraries(
-	EchoEngine
-	PUBLIC
 	HAL
+	GLEW
+	GLFW
+	GLM
+	OBJ_LOADER
 )
