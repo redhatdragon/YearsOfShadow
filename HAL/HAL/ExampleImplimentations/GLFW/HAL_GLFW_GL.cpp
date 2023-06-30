@@ -6,6 +6,8 @@
 #include <sstream>
 #include <thread>
 #include <ranges>
+#include <memory>
+#include <format>
 
 #define GLEW_STATIC
 #pragma comment(lib, "opengl32.lib")
@@ -50,11 +52,16 @@ void translateScreen2DToGL(float& x, float& y);
 #include "GL_Utils/InstancedMesh2.h"
 #include "GL_Utils/SceneCamera.h"
 
-//Camera camera;
-glm::mat4 perspective;
-std::vector<glm::mat4> viewMatrices;
-std::vector<SceneCamera*> sceneCameras;
-SceneCamera* activeSceneCamera = nullptr;
+//GLOBAL STATES
+// Temporarily used unique_ptr to patch a memory leak
+static glm::mat4 perspective;
+static std::vector<glm::mat4> viewMatrices;
+static std::vector<std::unique_ptr<SceneCamera>> sceneCameras;
+static SceneCamera* activeSceneCamera = nullptr;
+static GLFWwindow *window;
+static std::vector<TexturedQuad> textures;
+static std::vector<std::unique_ptr<Mesh>> meshes = {};
+static std::vector<std::unique_ptr<InstancedMesh>> instancedMeshes = {};
 
 void HAL_assert_impl(bool value, const std::string &msg)
 {
@@ -75,6 +82,15 @@ void HAL_assert_impl(bool value, const std::string &msg)
 #define HAL_ASSERT(STATEMENT, MSG) \
    HAL_assert_impl(STATEMENT, MSG)
 
+template<class... Args>
+void HAL_log_impl(std::string_view format, Args&&... args)
+{
+    using namespace std::string_literals;
+    std::string msg = std::vformat(format, std::make_format_args(args...));
+    OutputDebugStringA(("HAL: "s + msg + "\n").c_str());
+}
+
+#define HAL_LOG(FORMAT, ...) HAL_log_impl( FORMAT , __VA_ARGS__ )
 
 static void clearErrors() {
     while (glGetError() != GL_NO_ERROR);
@@ -99,16 +115,6 @@ inline void getAspectRatio(float& w, float& h) {
     unsigned int avg = (dim.x + dim.y) / 2;
     w = dim.x / avg; h = dim.y / avg;
 }
-
-
-
-GLFWwindow* window;
-//TexturedQuad rectTexturedQuad;
-//std::vector<Quad> rectangles;
-std::vector<TexturedQuad> textures;
-//FlatBuffer<Mesh, 1000000> meshes = {};
-std::vector<Mesh*> meshes = {};
-std::vector<InstancedMesh*> instancedMeshes = {};
 
 HAL::texture_handle_t HAL::get_new_texture(const std::string_view fileName)
 {
@@ -257,10 +263,10 @@ bool HAL::is_thread_pool_finished(HAL::thread_pool_handle_t self)
 HAL::mesh_handle_t HAL::get_new_mesh(const std::string_view filepath)
 {
     // TODO: Use vector
-    Mesh* retValue = new Mesh();
+    auto retValue = std::make_unique<Mesh>();
     retValue->init(static_cast<std::string>(filepath).c_str());
-    meshes.push_back(retValue);
-    return static_cast<HAL::mesh_handle_t>(reinterpret_cast<std::uintptr_t>(static_cast<void *>(retValue)));
+    meshes.push_back(std::move(retValue));
+    return static_cast<HAL::mesh_handle_t>(reinterpret_cast<std::uintptr_t>(static_cast<void *>(meshes.back().get())));
 }
 
 void HAL::draw_mesh(mesh_handle_t mesh)
@@ -306,23 +312,26 @@ void HAL::set_mesh_scale(mesh_handle_t mesh, glm::vec3 scale)
 void HAL::release_mesh(mesh_handle_t mesh)
 {
     const auto meshPtr = reinterpret_cast<Mesh *>(mesh);
-    meshPtr->destruct();
-    delete meshPtr;
+    auto r = std::ranges::find_if(meshes, [meshPtr](const auto &mesh) { return mesh.get() == meshPtr; });
+    HAL_ASSERT(r != std::end(meshes), "Invalid mesh handle.");
+    r->release();
 }
 
 HAL::instanced_mesh_handle_t HAL::get_new_instanced_mesh(const std::string_view filePath)
 {
-    InstancedMesh* imesh = new InstancedMesh();
+    auto imesh = std::make_unique<InstancedMesh>();
     imesh->init(static_cast<std::string>(filePath).c_str()); // TODO: Return false if failed to load
-    if (imesh->subMeshes.size() == 0) 
+
+    if (std::empty(imesh->subMeshes)) 
     {
-        std::cout << "Warning: EE_getNewInstancedMesh()'s filepath arg didn't turn up a usable mesh file, path: "
-            << filePath << std::endl;
-        imesh->destruct();
-        delete imesh;
+        HAL_LOG("EE_getNewInstancedMesh()'s filepath arg didn't turn up a usable mesh file, path: {}", filePath);
+        imesh.reset();
         return HAL::invalid_instanced_mesh_handle;
     }
-    return static_cast<HAL::instanced_mesh_handle_t>(reinterpret_cast<std::uintptr_t>(imesh));
+
+    instancedMeshes.push_back(std::move(imesh));
+
+    return static_cast<HAL::instanced_mesh_handle_t>(reinterpret_cast<std::uintptr_t>(instancedMeshes.back().get()));
 }
 
 void HAL::set_instanced_mesh_submesh_texture(HAL::instanced_mesh_handle_t meshID, uint8_t submeshIndex,
@@ -357,10 +366,9 @@ void HAL::release_instanced_mesh(HAL::instanced_mesh_handle_t meshID)
 {
     const auto imesh = reinterpret_cast<InstancedMesh *>(meshID);
 
-    if (meshID == HAL::invalid_instanced_mesh_handle)
-        return;
-
-    delete imesh;
+    auto r = std::ranges::find_if(instancedMeshes, [imesh](const auto &mesh) { return mesh.get() == imesh; });
+    HAL_ASSERT(r != std::end(instancedMeshes), "Invalid mesh handle.");
+    r->release();
 }
 
 void HAL::set_instanced_mesh_positions(HAL::instanced_mesh_handle_t meshID, std::span<const glm::vec3> _posBuffer)
@@ -396,8 +404,8 @@ void HAL::set_instanced_mesh_scale(HAL::instanced_mesh_handle_t meshID, glm::vec
 
 HAL::camera_handle_t HAL::get_new_camera()
 {
-    sceneCameras.push_back(new SceneCamera());
-    return static_cast<HAL::camera_handle_t>(reinterpret_cast<std::uintptr_t>(sceneCameras[sceneCameras.size() - 1]));
+    sceneCameras.push_back(std::make_unique<SceneCamera>());
+    return static_cast<HAL::camera_handle_t>(reinterpret_cast<std::uintptr_t>(sceneCameras.back().get()));
 }
 
 void HAL::camera_look_at(HAL::camera_handle_t self, glm::vec3 at)
@@ -423,21 +431,22 @@ void HAL::use_camera(HAL::camera_handle_t self) {
 void HAL::release_camera(HAL::camera_handle_t self)
 {
     const auto cam = reinterpret_cast<SceneCamera *>(self);
-    uint32_t index = -1;
-    uint32_t cameraCount = sceneCameras.size();
-    for (uint32_t i = 0; i < cameraCount; i++) {
-        if (sceneCameras[i] == cam) {
-            index = i;
+
+    // TODO: Use free-list buffer
+
+    for (uint32_t i = 0; i <= std::size(sceneCameras); i++) {
+        HAL_ASSERT(i != std::size(sceneCameras), "Invalid camera handle. Failed to release");
+
+        if (sceneCameras[i].get()  == cam)
+        {
+            if (sceneCameras[i].get() == activeSceneCamera)
+                activeSceneCamera = nullptr;
+
+            sceneCameras[i].reset();
+
             break;
         }
     }
-    if (index == -1) {
-
-    }
-    if (sceneCameras[index] == activeSceneCamera)
-        activeSceneCamera = nullptr;
-    sceneCameras[index] = sceneCameras[sceneCameras.size() - 1];
-    sceneCameras.pop_back();
 }
 
 int main()

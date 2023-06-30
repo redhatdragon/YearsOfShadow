@@ -1,10 +1,11 @@
 #include "FixedPoint.h"
 #include <fstream>
+#include <array>
 
-FixedPoint<256 * 256> _sinLookupTable16[256 * 256 * 2 * _FP_MAX_SIN_INPUT];
-FixedPoint<256 * 256> _cosinLookupTable16[256 * 256 * 2 * _FP_MAX_SIN_INPUT];
-FixedPoint<256> _sinLookupTable8[256 * 2 * _FP_MAX_SIN_INPUT];
-FixedPoint<256> _cosinLookupTable8[256 * 2 * _FP_MAX_SIN_INPUT];
+std::array<FixedPoint<256 * 256>, 256 * 256 * 2 * _FP_MAX_SIN_INPUT> _sinLookupTable16;
+std::array<FixedPoint<256 * 256>, 256 * 256 * 2 * _FP_MAX_SIN_INPUT> _cosinLookupTable16;
+std::array<FixedPoint<256>, 256 * 2 * _FP_MAX_SIN_INPUT> _sinLookupTable8;
+std::array<FixedPoint<256>, 256 * 2 * _FP_MAX_SIN_INPUT> _cosinLookupTable8;
 
 void initFixedPointUtilities() {
 	std::string path = "./data/lookupTables/sin16_7.txt";
@@ -47,7 +48,10 @@ void initFixedPointUtilities() {
 }
 
 void setupFixedPointTableFiles() {
-	FixedPoint<256 * 256> min = -static_cast<int32_t>(_FP_MAX_SIN_INPUT), max = static_cast<int32_t>(_FP_MAX_SIN_INPUT);
+    
+	FixedPoint<256 * 256>
+        min = -static_cast<int32_t>(_FP_MAX_SIN_INPUT),
+        max = static_cast<int32_t>(_FP_MAX_SIN_INPUT);
 	uint32_t lastValue = max.getRaw();
 	for (uint32_t i = 0; i <= lastValue; i++) {
 		FixedPoint<256 * 256> fp;
@@ -66,8 +70,8 @@ void setupFixedPointTableFiles() {
 		float asFloat = fp.getAsFloat();
 		asFloat = -asFloat;
 		float result = sin(asFloat);
-		_sinLookupTable16[i] = result;
+		_sinLookupTable16[i - 1] = result;
 		result = cos(asFloat);
-		_cosinLookupTable16[i] = result;
+		_cosinLookupTable16[i - 1] = result;
 	}
 }

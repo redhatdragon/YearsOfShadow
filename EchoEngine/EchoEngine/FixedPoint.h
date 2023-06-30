@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <string>
 #include <iostream>
+#include <array>
 
 #define FIXED_POINT_DEFAULT_SCALE (256*256)
 
@@ -221,10 +222,10 @@ public:
 
 
 constexpr uint32_t _FP_MAX_SIN_INPUT = 7;
-extern FixedPoint<256 * 256> _sinLookupTable16[256 * 256 * 2 * _FP_MAX_SIN_INPUT];
-extern FixedPoint<256 * 256> _cosinLookupTable16[256 * 256 * 2 * _FP_MAX_SIN_INPUT];
-extern FixedPoint<256> _sinLookupTable8[256 * 2 * _FP_MAX_SIN_INPUT];
-extern FixedPoint<256> _cosinLookupTable8[256 * 2 * _FP_MAX_SIN_INPUT];
+extern std::array<FixedPoint<256 * 256>, 256 * 256 * 2 * _FP_MAX_SIN_INPUT> _sinLookupTable16;
+extern std::array<FixedPoint<256 * 256>, 256 * 256 * 2 * _FP_MAX_SIN_INPUT> _cosinLookupTable16;
+extern std::array<FixedPoint<256>, 256 * 2 * _FP_MAX_SIN_INPUT> _sinLookupTable8;
+extern std::array<FixedPoint<256>, 256 * 2 * _FP_MAX_SIN_INPUT> _cosinLookupTable8;
 extern void initFixedPointUtilities();
 extern void setupFixedPointTableFiles();
 
