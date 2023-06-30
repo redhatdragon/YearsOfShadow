@@ -1,11 +1,7 @@
-#custom
-Builds #packaged projects should go here...
-source/DevLogs
-x64
-
-#common
 .thumbnails
 bin
+bin-etc
+output
 data/.thumbnails
 data/microprofile_dump_html
 junk
