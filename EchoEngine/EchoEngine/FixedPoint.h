@@ -16,14 +16,6 @@ public:
 	FixedPoint(const char* str) {
 		fromString(str);
 	}
-	/*FixedPoint(const FixedPoint& other) {
-		uint32_t otherScale = other.getDecScale();
-		fromString(other.getAsString());
-		std::cout << "In FixedPoint(other)" << std::endl;
-		std::cout << "this:" << getRaw() << ", other:" << other.getRaw() << std::endl;
-		std::cout << "this:" << getAsInt() << ", other:" << other.getAsInt() << std::endl;
-		std::cout << "this:" << getAsString() << ", other:" << other.getAsString() << std::endl;
-	}*/
 	FixedPoint(const FixedPoint<decScale>& other) {
 		data_ = other.data_;
 	}
@@ -51,18 +43,6 @@ public:
 	inline void operator/=(const FixedPoint<decScale>& other) {
 		data_ = (int64_t)((int64_t)data_ * decScale) / other.data_;
 	}
-	/*FixedPoint<decScale> operator+(int32_t other) const {
-		//return data + (other.data / decScale);
-	}
-	FixedPoint<decScale> operator-(int32_t other) const {
-		//return data - (other.data / decScale);
-	}
-	FixedPoint<decScale> operator*(int32_t other) const {
-		return (data * other.data) / decScale;
-	}
-	FixedPoint<decScale> operator/(int32_t other) const {
-		return (data / other.data) * decScale;
-	}*/
 	FixedPoint<decScale> operator+(const FixedPoint<decScale>& other) const {
 		FixedPoint<decScale> retValue; retValue.setRaw((data_ + other.data_));
 		return retValue;
@@ -146,23 +126,6 @@ public:
 		std::cout << dec << std::endl;
 		std::cout << data_ << std::endl;
 		return retValue;
-
-		//data = 1300
-		//decScale = 512
-		//remainder = 276
-		//realResult = 2.5390625
-		//result = "253"
-
-		//data = 33
-		//decScale = 512
-		//remainder = 33
-		//realResult = 0.064453125
-		//result = "6"
-		
-		//data = 30
-		//decScale = 100
-		//remainder = 30
-		//result = "3"
 	}
 	inline bool fromString(const std::string& _str) {
 		std::string str = _str;
@@ -189,14 +152,6 @@ public:
 			wholeValue += (digitValue)*(uint32_t)(str[i] - '0');
 		}
 		int32_t decimalNumbers = 0;
-		/*for (uint32_t i = dotPos + 1; i < str.size(); i++) {
-			if (str[i] < '0' || str[i] > '9') return false;
-			uint32_t digitCount = (str.size() - 1) - i;
-			int32_t digitValue = 1;
-			for (uint32_t j = 0; j < digitCount; j++)
-				digitValue *= 10;
-			decimalNumbers += digitValue * (uint32_t)(str[i] - '0');
-		}*/
 		for (uint32_t i = (uint32_t)dotPos + 1; i < (uint32_t)str.size(); i++) {
 			if (str[i] < '0' || str[i] > '9') return false;
 			uint32_t digitCount = ((uint32_t)str.size()) - i;
@@ -326,18 +281,6 @@ template<class T>
 inline T sqrt(const T& var) {
 	int32_t value = var.getAsInt();  //or value = input.getAsRaw()/256;
 	return sqrtI32(value);  //or retValue.setRaw(sqrt(value)*256);
-	
-	//int32_t value = var.getRaw();
-	//return sqrtI32(value)/var.getDecScale();
-
-	//int32_t value = var.getRaw();
-	//return sqrtI32(value);
-	
-	//FixedPoint<> value;
-	//value.fromString(std::to_string(sqrt(var.getAsFloat())));
-	//return value;
-
-	//return sqrt(var.getAsFloat());
 };
 
 
