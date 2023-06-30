@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 // #include "INC_UTILS.h"
-#include <EchoEngine/HAL/HAL_3D.h>
+#include <HAL/HAL_3D.h>
 #include <EchoEngine/EntityObjectLoader.h>
 #include <EchoEngine/FixedPoint.h>
 #include <EchoEngine/Vec.h>

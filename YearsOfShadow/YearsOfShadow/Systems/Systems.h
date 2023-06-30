@@ -3,7 +3,7 @@
 
 #define ENGINE_PATH ../EchoEngine/
 
-#include <EchoEngine/HAL/HAL_3D.h>
+#include <HAL/HAL_3D.h>
 
 void* threadPool;
 //#define REWIND_ENABLED
