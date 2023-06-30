@@ -7,7 +7,6 @@
 #include <EchoEngine/FixedPoint.h>
 #include <EchoEngine/Vec.h>
 #include <EchoEngine/FlatBuffer.h>
-#include <EchoEngine/Asset.h>
 #include <EchoEngine/Name.h>
 #include <EchoEngine/EE_Types.h>
 
