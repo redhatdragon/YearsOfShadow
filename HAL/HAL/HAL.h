@@ -17,14 +17,14 @@ For now keyboard values are 1:1 with the ascii table.  Ref: https://www.asciitab
 
 const char *EE_getDirData();
 
-// Define these in your application to be called by the HAL_ implimentations.
-void EE_appStart();
-void EE_appLoop();
-void EE_appPostFrame();
-void EE_appEnd();
-
 namespace HAL
 {
+    // Define these in your application to be called by the HAL_ implimentations.
+    void appStart();
+    void appLoop();
+    void appPostFrame();
+    void appEnd();
+
     enum class resource_handle_t : std::uintptr_t;
 
     using thread_pool_handle_t = resource_handle_t;

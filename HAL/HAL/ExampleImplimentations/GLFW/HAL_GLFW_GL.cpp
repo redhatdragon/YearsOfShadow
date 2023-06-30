@@ -106,8 +106,6 @@ GLFWwindow* window;
 //TexturedQuad rectTexturedQuad;
 //std::vector<Quad> rectangles;
 std::vector<TexturedQuad> textures;
-//FlatBuffer<Mesh, 1000000> meshes = {};
-std::vector<Mesh*> meshes = {};
 std::vector<InstancedMesh*> instancedMeshes = {};
 
 HAL::texture_handle_t HAL::get_new_texture(const std::string_view fileName)
@@ -259,7 +257,6 @@ HAL::mesh_handle_t HAL::get_new_mesh(const std::string_view filepath)
     // TODO: Use vector
     Mesh* retValue = new Mesh();
     retValue->init(static_cast<std::string>(filepath).c_str());
-    meshes.push_back(retValue);
     return static_cast<HAL::mesh_handle_t>(reinterpret_cast<std::uintptr_t>(static_cast<void *>(retValue)));
 }
 
@@ -478,7 +475,7 @@ int main()
     //Initialize sound context
     HWND hwnd = glfwGetWin32Window(window);
     // cs_ctx = cs_make_context(hwnd, 48000, 8192 * 10, 0, NULL);
-    EE_appStart();
+    HAL::appStart();
     // cs_spawn_mix_thread(cs_ctx);
 
     /* Loop until the user closes the window */
@@ -511,7 +508,7 @@ int main()
         //     }
         // }
 
-        EE_appLoop();
+        HAL::appLoop();
         appLoopTimeMS = clock() - appLoopTimeMS;
 
         drawTimeMS = clock();
@@ -523,7 +520,7 @@ int main()
         viewMatrices.clear();
         drawTimeMS = clock() - drawTimeMS;
 
-        EE_appPostFrame();
+        HAL::appPostFrame();
 
         while (startTime + (1.0f / FPSLimit) > glfwGetTime()) {
             continue;
@@ -531,7 +528,7 @@ int main()
         FPS = clock() - FPS;
     }
 
-    EE_appEnd();
+    HAL::appEnd();
 
     glfwTerminate();
     return 0;
