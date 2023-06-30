@@ -13,6 +13,7 @@ add_library(
 	EchoEngine
 	STATIC
 	${SOURCES}
+	"${CMAKE_CURRENT_SOURCE_DIR}/../.clang-format"
 )
 
 target_include_directories(
