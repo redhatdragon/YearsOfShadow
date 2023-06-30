@@ -1,17 +1,17 @@
 #pragma once
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 #include <iostream>
-//#include "RockBox/fixedpoint.h"
 
 #define FIXED_POINT_DEFAULT_SCALE (256*256)
 
 template <uint32_t decScale = FIXED_POINT_DEFAULT_SCALE>
-class FixedPoint {
-	int32_t data;
+class FixedPoint
+{
+	int32_t data_;
 public:
 	FixedPoint() {
-		data = 0;
+		data_ = 0;
 	}
 	FixedPoint(const char* str) {
 		fromString(str);
@@ -25,31 +25,31 @@ public:
 		std::cout << "this:" << getAsString() << ", other:" << other.getAsString() << std::endl;
 	}*/
 	FixedPoint(const FixedPoint<decScale>& other) {
-		data = other.data;
+		data_ = other.data_;
 	}
 	FixedPoint(uint32_t other) {
-		data = other * decScale;
+		data_ = other * decScale;
 	}
 	FixedPoint(int32_t other) {
-		data = other * decScale;
+		data_ = other * decScale;
 	}
 	FixedPoint(float other) {
-		data = static_cast<uint32_t>(other * decScale);
+		data_ = static_cast<uint32_t>(other * decScale);
 	}
 	inline void operator+=(const FixedPoint<decScale>& other) {
-		data = data + other.data;
+		data_ = data_ + other.data_;
 	}
 	inline void operator-=(const FixedPoint<decScale>& other) {
-		data = data - other.data;
+		data_ = data_ - other.data_;
 	}
 	inline void operator*=(const FixedPoint<decScale>& other) {
 		//TODO: does data need to be (int64_t)?
-		data = (int64_t)((int64_t)data * other.data) / decScale;  //TODO: less accurate than the below?
+		data_ = (int64_t)((int64_t)data_ * other.data_) / decScale;  //TODO: less accurate than the below?
 		//auto value = (int64_t)(data * other.data) / (decScale / 2);
 		//data = (value / 2) + (value % 2);
 	}
 	inline void operator/=(const FixedPoint<decScale>& other) {
-		data = (int64_t)((int64_t)data * decScale) / other.data;
+		data_ = (int64_t)((int64_t)data_ * decScale) / other.data_;
 	}
 	/*FixedPoint<decScale> operator+(int32_t other) const {
 		//return data + (other.data / decScale);
@@ -64,79 +64,79 @@ public:
 		return (data / other.data) * decScale;
 	}*/
 	FixedPoint<decScale> operator+(const FixedPoint<decScale>& other) const {
-		FixedPoint<decScale> retValue; retValue.setRaw((data + other.data));
+		FixedPoint<decScale> retValue; retValue.setRaw((data_ + other.data_));
 		return retValue;
 	}
 	FixedPoint<decScale> operator-(const FixedPoint<decScale>& other) const {
-		FixedPoint<decScale> retValue; retValue.setRaw((data - other.data));
+		FixedPoint<decScale> retValue; retValue.setRaw((data_ - other.data_));
 		return retValue;
 	}
 	FixedPoint<decScale> operator*(const FixedPoint<decScale>& other) const {
-		FixedPoint<decScale> retValue; retValue.setRaw((int64_t)((int64_t)data * other.data) / decScale);
+		FixedPoint<decScale> retValue; retValue.setRaw((int64_t)((int64_t)data_ * other.data_) / decScale);
 		return retValue;
 	}
 	FixedPoint<decScale> operator/(const FixedPoint<decScale>& other) const {
-		FixedPoint<decScale> retValue; retValue.setRaw((int64_t)((int64_t)data * decScale) / other.data);
+		FixedPoint<decScale> retValue; retValue.setRaw((int64_t)((int64_t)data_ * decScale) / other.data_);
 		return retValue;
 	}
 	inline void operator++() {
-		data += decScale;
+		data_ += decScale;
 	}
 	inline void operator--() {
-		data -= decScale;
+		data_ -= decScale;
 	}
 	inline FixedPoint<decScale> operator-() const noexcept {
-		FixedPoint retValue; retValue.setRaw(-data);
+		FixedPoint retValue; retValue.setRaw(-data_);
 		return retValue;
 	}
 	inline bool operator<=(FixedPoint<decScale> other) const {
-		if (this->data <= other.data) return true;
+		if (this->data_ <= other.data_) return true;
 		return false;
 	}
 	inline bool operator>=(FixedPoint<decScale> other) const {
-		if (this->data >= other.data) return true;
+		if (this->data_ >= other.data_) return true;
 		return false;
 	}
 	inline bool operator==(FixedPoint<decScale> other) const {
-		if (this->data == other.data) return true;
+		if (this->data_ == other.data_) return true;
 		return false;
 	}
 	inline bool operator<(FixedPoint<decScale> other) const {
-		if (this->data < other.data) return true;
+		if (this->data_ < other.data_) return true;
 		return false;
 	}
 	inline bool operator>(FixedPoint<decScale> other) const {
-		if (this->data > other.data) return true;
+		if (this->data_ > other.data_) return true;
 		return false;
 	}
 	inline bool operator!=(FixedPoint<decScale> other) const {
-		if (this->data != other.data) return true;
+		if (this->data_ != other.data_) return true;
 		return false;
 	}
 	inline FixedPoint<decScale> getABS() const {
-		if (this->data >= 0) return *this;
-		FixedPoint<decScale> retValue; retValue.data = -retValue.data;
+		if (this->data_ >= 0) return *this;
+		FixedPoint<decScale> retValue; retValue.data_ = -retValue.data_;
 		return retValue;
 	}
 	inline int32_t getAsInt() const {
-		return data / decScale;
+		return data_ / decScale;
 	}
 	inline float getAsFloat() const {
-		if (data == 0) return 0;  //TODO: consider if this is needed and where else it may be needed to avoid runtime crashing.
-		return ((float)(int32_t)data) / decScale;
+		if (data_ == 0) return 0;  //TODO: consider if this is needed and where else it may be needed to avoid runtime crashing.
+		return ((float)(int32_t)data_) / decScale;
 	}
 	inline int32_t getRaw() const {
-		return data;
+		return data_;
 	}
 	inline void setRaw(int32_t other) {
-		data = other;
+		data_ = other;
 	}
 	inline std::string getAsString() const {
 		std::string retValue = "";
-		int32_t whole = data / decScale;
-		int32_t remainder = data % decScale;
+		int32_t whole = data_ / decScale;
+		int32_t remainder = data_ % decScale;
 		//float dec = remainder/decScale;
-		int32_t dec = (data*100) / decScale;
+		int32_t dec = (data_ *100) / decScale;
 
 		retValue += std::to_string(whole);
 		retValue += ".";
@@ -144,7 +144,7 @@ public:
 		std::cout << whole << std::endl;
 		std::cout << remainder << std::endl;
 		std::cout << dec << std::endl;
-		std::cout << data << std::endl;
+		std::cout << data_ << std::endl;
 		return retValue;
 
 		//data = 1300
@@ -211,7 +211,7 @@ public:
 		for (uint32_t i = dotPos+1; i < str.size(); i++)
 			decDigitOffset *= 10;
 		totalValue += ((decimalNumbers * decScale) / decDigitOffset);
-		data = totalValue;
+		data_ = totalValue;
 		return true;
 	}
 	inline const uint32_t getDecScale() const {
