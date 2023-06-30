@@ -1,6 +1,6 @@
 #pragma once
 #include <memory.h>
-
+#include <array>
 
 
 struct VoxelBlockMetaData {
@@ -40,7 +40,7 @@ class VoxelChunk {
 	bool hasBody[width][height][depth];
 	FlatBuffer<BodyID, width* height* depth> activeBodies;
 
-	void* blockMesh;
+	HAL::instanced_mesh_handle_t blockMesh;
 	bool modified;
 public:
 	//static constexpr uint32_t width = 16, height = 256, depth = 16;
@@ -60,8 +60,9 @@ public:
 		//EE_setInstancedSubmeshTexture(blockMesh, 0, "normal", "Textures/Grass1_n.png");
 
 		path += "./Data/Meshes/Cube.obj";
-		blockMesh = EE_getNewInstancedMesh(path.c_str());
-		EE_setInstancedSubmeshTexture(blockMesh, 0, "diffuse", "./Data/Textures/grass1.png");
+		blockMesh = HAL::get_new_instanced_mesh(path);
+		HAL::set_instanced_mesh_submesh_texture(blockMesh, 0, "diffuse", "./Data/Textures/grass1.png");
+
 
 		//for (uint32_t z = 0; z < depth; z++)
 		//	for (uint32_t y = 0; y < height; y++)
@@ -99,7 +100,7 @@ public:
 	}
 
 	void display() {
-		EE_drawInstancedMesh(blockMesh);
+		HAL::draw_instanced_mesh(blockMesh);
 		if (modified == false)
 			return;
 		rebuild();
@@ -224,20 +225,20 @@ public:
 		spawnPhysics();
 
 		uint32_t count = drawableBlocks.count;
-		std::vector<EE_Point3Df> positions;
+		std::vector<glm::vec3> positions;
 		positions.reserve(count);
 		for (uint32_t i = 0; i < count; i++) {
 			BlockPos& blockPos = drawableBlocks[i];
-			EE_Point3Df pos = {
-				(float)blockPos.x + worldOffsetX,
-				(float)blockPos.y + worldOffsetY,
-				(float)blockPos.z + worldOffsetZ
+			glm::vec3 pos = {
+				static_cast<float>(blockPos.x) + worldOffsetX,
+				static_cast<float>(blockPos.y) + worldOffsetY,
+				static_cast<float>(blockPos.z) + worldOffsetZ
 			};
 			pos.x += 0.5f; pos.y += 0.5f; pos.z += 0.5f;
 			positions.push_back(pos);
 		}
-		EE_setInstancedMeshPositions(blockMesh, &positions[0], static_cast<uint32_t>(positions.size()));
-		EE_setInstancedMeshScale(blockMesh, {0.5f, 0.5f, 0.5f});
+        HAL::set_instanced_mesh_positions(blockMesh, positions);
+		HAL::set_instanced_mesh_scale(blockMesh, {0.5f, 0.5f, 0.5f});
 	}
 	void unload() {
 		if (drawableBlocks.count == 0)
@@ -253,7 +254,9 @@ public:
 			//	physics.removeBody(activeBodies[i]);
 			//activeBodies.clear();
 		}
-		EE_setInstancedMeshPositions(blockMesh, NULL, NULL);
+        // assert(false); // TODO: What does OG unload do??
+		std::array<glm::vec3, 0> positions;
+        HAL::set_instanced_mesh_positions(blockMesh, positions);
 	}
 private:
 	inline bool isVisible(uint8_t x, uint8_t y, uint8_t z) {

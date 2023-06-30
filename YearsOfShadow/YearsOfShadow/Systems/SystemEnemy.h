@@ -63,7 +63,7 @@ public:
 	virtual void run() {
 		u32 enemyCount = ecs.getComponentCount(enemyAIComponentID);
 		#ifdef THREADING_ENABLED
-		u32 threadCount = EE_getThreadPoolFreeThreadCount(threadPool);
+		const auto threadCount = HAL::get_thread_pool_free_thread_count(threadPool);
 		if (threadCount < enemyCount + 10 && threadCount > 1) {
 			runMulti();
 			return;
@@ -99,30 +99,30 @@ private:
 
 	};
 	void runMulti() {
-		u16 threadCount = EE_getThreadPoolFreeThreadCount(threadPool);
+		const auto threadCount = HAL::get_thread_pool_free_thread_count(threadPool);
 		u32 enemyCount = ecs.getComponentCount(enemyAIComponentID);
 		u32 totalWork = enemyCount;
-		u32 workPerThread = totalWork / threadCount;
+		const auto workPerThread = totalWork / threadCount;
 		u32 leftover = totalWork % threadCount;
 		static std::vector<ThreadData> tds;
 		tds.resize(threadCount);
 		for (u32 i = 0; i < threadCount; i++) {
-			u32 start = workPerThread * i; u32 end = start + workPerThread - 1;
+			u32 start = static_cast<u32>(workPerThread * i); u32 end = static_cast<u32>(start + workPerThread - 1);
 			ThreadData td = { start, end, this };
 			//std::cout << start << ' ' << end << std::endl;
 			tds[i] = td;
 		}
 		for (u32 i = 0; i < threadCount; i++) {
-			EE_sendThreadPoolTask(threadPool, runThreadedBody, (void*)&tds[i]);
+			HAL::submit_thread_pool_task(threadPool, runThreadedBody, (void*)&tds[i]);
 		}
 		//NOTE: Needs to happen after all other threads finished, reasons beyond me
 		if (leftover) {
-			u32 start = workPerThread * threadCount; u32 end = start + leftover - 1;
+			u32 start = static_cast<u32>(workPerThread * threadCount); u32 end = static_cast<u32>(start + leftover - 1);
 			ThreadData td = { start, end, this };
 			//std::cout << start << ' ' << end << std::endl;
 			runThreadedBody(&td);
 		}
-		while (EE_isThreadPoolFinished(threadPool) == false)
+		while (HAL::is_thread_pool_finished(threadPool) == false)
 			continue;
 	}
 	static void runThreadedBody(void* data) {

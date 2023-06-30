@@ -99,7 +99,7 @@ class SystemController : public System {
 	ComponentID controllerComponentID;
 	ComponentID explodeComponentID;
 	ComponentID meshComponentID;
-	void* EE_camera;
+	HAL::camera_handle_t EE_camera;
 
 public:
 	virtual void init() {
@@ -107,8 +107,8 @@ public:
 		controllerComponentID = ecs.registerComponent("controller", sizeof(Controller));
 		explodeComponentID = ecs.registerComponent("explode", sizeof(Explode));
 		meshComponentID = ecs.registerComponent("mesh", sizeof(void*));
-		EE_camera = EE_getNewCamera();
-		EE_useCamera(EE_camera);
+		EE_camera = HAL::get_new_camera();
+        HAL::use_camera(EE_camera);
 
 		EntityID entity = ecs.getNewEntity();
 		BodyID bodyID = physics.addBodyBox(30, 155-15, 30, "0.5f", 1, "0.5f", 
@@ -142,12 +142,14 @@ public:
 	}
 private:
 	void turnPhase(Controller* controller, const Vec3D<FixedPoint<256 * 256>>& pos) {
-		EE_setMouseEnable(true);
-		EE_setMouseCursorHide(true);
-		Vec2D<int32_t> winDimensions;
-		EE_getCanvasSize((uint32_t*)&winDimensions.x, (uint32_t*)&winDimensions.y);
+		// EE_setMouseEnable(true);
+		// EE_setMouseCursorHide(true); // Those were unimplemented
+        Vec2D<int32_t> winDimensions;
+        winDimensions.assign(HAL::get_canvas_size());
+
 		Vec2D<int32_t> mousePos;
-		EE_getMouseCanvasPos(&mousePos.x, &mousePos.y);
+        mousePos.assign(HAL::get_mouse_canvas_pos());
+
 		Vec2D<int32_t> mouseDelta = mousePos - (winDimensions / 2);
 		Vec2D<float> mouseOffset = {
 			(float)mouseDelta.x / ((float)winDimensions.x / 2),
@@ -158,11 +160,10 @@ private:
 		cam.setPosition({ pos.x.getAsFloat(), pos.y.getAsFloat(), pos.z.getAsFloat() });
 		cam.ProcessMouseMovement(-mouseOffset.x, mouseOffset.y);
 		auto lookAt = cam.getWorldLookAtPos();
-		EE_setCameraPos(EE_camera, pos.x.getAsFloat(), pos.y.getAsFloat(), pos.z.getAsFloat());
-		EE_cameraLookAt(EE_camera, lookAt.x, lookAt.y, lookAt.z);
-		//EE_cameraLookAt(EE_camera, lookAt.x.getAsFloat(), lookAt.y.getAsFloat(), lookAt.z.getAsFloat());
+        HAL::set_camera_position(EE_camera, {pos.x.getAsFloat(), pos.y.getAsFloat(), pos.z.getAsFloat()} );
+        HAL::camera_look_at(EE_camera, {lookAt.x, lookAt.y, lookAt.z});
 
-		EE_setMouseCanvasPos(winDimensions.x / 2, winDimensions.y / 2);
+		HAL::set_mouse_canvas_pos({winDimensions.x / 2, winDimensions.y / 2});
 	}
 	void strafePhase(Controller* controller, const Vec3D<FixedPoint<256 * 256>>& pos, BodyID bodyID) {
 		auto lookAtFloat = controller->cam.getLocalLookAtPos();
@@ -172,13 +173,13 @@ private:
 		dir.normalize();
 		Vec3D<FixedPoint<256 * 256>> right; right.cross(dir, {0, 1, 0});
 		Vec3D<FixedPoint<256 * 256>> vel = {};
-		if (EE_getKeyState('W'))
+		if (HAL::get_key_state('W'))
 			vel += dir;
-		if (EE_getKeyState('S'))
+        if (HAL::get_key_state('S'))
 			vel -= dir;
-		if (EE_getKeyState('A'))
+        if (HAL::get_key_state('A'))
 			vel += right;
-		if (EE_getKeyState('D'))
+        if (HAL::get_key_state('D'))
 			vel -= right;
 		vel *= "0.1f";
 		Vec3D<FixedPoint<256 * 256>> originalVel = physics.getVelocity(bodyID);
@@ -196,7 +197,8 @@ private:
 			else
 				vel.y = originalVel.y;
 		} else if (controller->isFloored()) {
-			if (EE_getKeyState(32)) {
+            if (HAL::get_key_state(HAL::key_code_t::key_space))
+            {
 				controller->setHasJumped();
 				vel.y = -controller->getJumpDistPerTick();
 			}
@@ -208,14 +210,14 @@ private:
 		physics.setVelocity(bodyID, vel.x, vel.y, vel.z);
 	}
 	void jumpPhase(Controller* controller, const Vec3D<FixedPoint<256 * 256>>& pos, BodyID bodyID) {
-		if (EE_getKeyState(32)) {
+        if (HAL::get_key_state(HAL::key_code_t::key_space))
+        {
 
 		}
 	}
 	void firePhase(Controller* controller, const Vec3D<FixedPoint<256 * 256>>& pos) {
-		uint8_t leftMouse;
-		EE_getMouseState(&leftMouse, nullptr, nullptr);
-		if (leftMouse == false)
+		const auto leftMouse = HAL::get_mouse_left_state();
+	    if (leftMouse == false)
 			return;
 		if (controller->canFire() == false)
 			return;
@@ -241,9 +243,9 @@ private:
 		explode.init(Explode::ON_CONTACT | Explode::ON_TIMER, 60);
 
 		std::string path = "./Data/Meshes/Props/Dynamite.obj";
-		void* meshID = EE_getNewMesh(path.c_str());
-		EE_setTextureSubmesh(meshID, 0, "diffuse", "./Data/Meshes/Props/D_Dynamite.png");
-		EE_setScaleMesh(meshID, 0.1f, 0.1f, 0.1f);
+		auto meshID = HAL::get_new_mesh(path.c_str());
+		HAL::set_mesh_submesh_texture(meshID, 0, "diffuse", "./Data/Meshes/Props/D_Dynamite.png");
+        HAL::set_mesh_scale(meshID, {0.1f, 0.1f, 0.1f});
 		ecs.emplace(bomb, bodyComponentID, &bodyID);
 		ecs.emplace(bomb, explodeComponentID, &explode);
 		ecs.emplace(bomb, meshComponentID, &meshID);

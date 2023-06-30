@@ -1,110 +1,275 @@
 #pragma once
 
 /*
-NOTES:
-So something important to understand, this is meant to be C compatible.
-
 Screen space is in cartesian coordinates.  Relative to window dimensions.
 Example: if winWidth and winHeight == 400;  200, 200 is the cnter of the window.
 In the 3D extension of this API, +Z is away from the camera, -Z is towards it.
 
 For now keyboard values are 1:1 with the ascii table.  Ref: https://www.asciitable.com/
-
-TODO: Decide on a better naming convention for this API.
-Yaaaaaaay breaking API changes coming soon!
 */
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include <string_view>
+#include <stacktrace>
+#include <span>
+#include <cstdint>
 
-#include <stdint.h>
+#include <glm/glm.hpp>
 
-#ifndef __cplusplus
-#ifndef _STDBOOL
-#define _STDBOOL
-	typedef uint8_t bool;
-#define true 1
-#define false 0
-#endif
-#endif
+const char *EE_getDirData();
 
+// Define these in your application to be called by the HAL_ implimentations.
+void EE_appStart();
+void EE_appLoop();
+void EE_appPostFrame();
+void EE_appEnd();
 
-	//void drawTextureFromFile(const char* fileName, int x, int y);
-	void* EE_getNewTexture(const char* fileName);
-	//void resizeTexture(void* texture, uint32_t width, uint32_t height);
-	void EE_drawTexture(void* texture, int x, int y, int w, int h);
-	void EE_recolorTexture(void* texture, uint8_t r, uint8_t g, uint8_t b);
-	void EE_releaseTexture(void* texture);
-	void EE_drawBackground(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
-	void EE_drawText(const char* str, int x, int y, unsigned int fontWidth);
-	void EE_drawRect(int x, int y, int w, int h, uint8_t r, uint8_t g, uint8_t b, uint8_t a);
-	void EE_drawBloom(int x, int y, int w, int h, int intensity);
-	void EE_drawPixel(int x, int y, uint8_t r, uint8_t g, uint8_t b, uint8_t a);
-	void EE_drawLine(int x1, int y1, int x2, int y2, uint8_t r, uint8_t g, uint8_t b, uint8_t a);
+namespace HAL
+{
+    enum class resource_handle_t : std::uintptr_t;
 
-	//const uint8_t* getKeyboardState();
-	bool EE_getKeyState(char k);
-	void EE_getMouseState(uint8_t* leftButton, uint8_t* middleButton, uint8_t* rightButton);
-	void EE_getMouseCanvasPos(int* x, int* y);
-	void EE_setMouseCanvasPos(int x, int y);
-	void EE_setMouseCursorHide(uint8_t isTrue);
-	void EE_setMouseEnable(uint8_t isTrue);
+    using thread_pool_handle_t = resource_handle_t;
 
-	//void getWindowSize(unsigned int *width, unsigned int *height);
-	//void setWindowSize(unsigned int width, unsigned int height);
-	void EE_getCanvasSize(unsigned int* width, unsigned int* height);
-	void EE_setCanvasSize(unsigned int width, unsigned int height);
+	static constexpr thread_pool_handle_t invalid_thread_pool_handle =
+        static_cast<thread_pool_handle_t>(std::numeric_limits<std::uintptr_t>::max());
 
-	bool EE_getFileData(const char* fileName, uint8_t* dataBuffer);
-	bool EE_getFileDataPartial(const char* fileName, uint8_t* dataBuffer, uint32_t startPos, uint32_t numBytes);
-	bool EE_getFileText(const char* fileName, char* strBuffer);
-	bool EE_writeFileData(const char* fileName, uint8_t* data);
-	bool EE_writeFileText(const char* fileName, char* str);
-	uint32_t EE_fileGetSize(const char* fileName);
-	const char* EE_getDirData();
+    using texture_handle_t = resource_handle_t;;
 
-	float EE_getFPS();
-	void EE_limitFPS(uint32_t fps);
-	float EE_getAppLoopTimeMS();
-	float EE_getDrawTimeMS();
-	float EE_getTotalTimeMS();
+	static constexpr texture_handle_t invalid_texture_handle =
+        static_cast<texture_handle_t>(std::numeric_limits<std::uintptr_t>::max());
 
-	bool EE_playAudioFile(const char* fileName, uint8_t loop);
-	bool EE_getNewAudio(const char* fileName, void* audioBuffer);
-	bool EE_playAudio(void* audio, uint8_t loop);
-	bool EE_stopAudio(void* audio);
+    using mesh_handle_t = resource_handle_t;;
 
-	bool EE_sendPacketUDP(void* packet);
-	struct EE_PacketUDP* EE_recvPacketUDP();
+	static constexpr mesh_handle_t invalid_mesh_handle =
+        static_cast<mesh_handle_t>(std::numeric_limits<std::uintptr_t>::max());
 
-	uint16_t EE_getHardwareThreadCount();
+    using instanced_mesh_handle_t = resource_handle_t;;
 
-	void* EE_getNewThreadPool(uint16_t maxThreadCount);
-	void EE_releaseThreadPool(void* self);
-	uint16_t EE_getThreadPoolFreeThreadCount(void* self);
-	bool EE_sendThreadPoolTask(void* self, void(*func)(void*), void* param);
-	bool EE_isThreadPoolFinished(void* self);
+	static constexpr instanced_mesh_handle_t invalid_instanced_mesh_handle =
+        static_cast<instanced_mesh_handle_t>(std::numeric_limits<std::uintptr_t>::max());
 
+    using camera_handle_t = resource_handle_t;;
 
+	static constexpr camera_handle_t invalid_camera_handle =
+        static_cast<camera_handle_t>(std::numeric_limits<std::uintptr_t>::max());
 
-	//Define these in your application to be called by the HAL_ implimentations.
-	void EE_appStart();
-	void EE_appLoop();
-	void EE_appPostFrame();
-	void EE_appEnd();
+    /**
+     * \brief Load new texture from the file and return handle to it
+     * \param fileName Texture path relative to mounted paths
+     * \return Returns handle to new texture or returns handle to error texture if texture loading failed
+     */
+    texture_handle_t get_new_texture(const std::string_view fileName);
 
+    /**
+     * \brief 
+     * \param texture 
+     * \param x 
+     * \param y 
+     * \param w 
+     * \param h 
+     */
+    void draw_texture(texture_handle_t texture, int32_t x, int32_t y, uint32_t w, uint32_t h);
 
+	void release_texture(texture_handle_t texture);
 
-	#define EE_KEY_ESC 27
-	#define EE_KEY_SPACE 32
-	#define EE_KEY_TAB 9
+	void draw_background(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 
+	void drawText(const char* str, int x, int y, unsigned int fontWidth);
 
+	enum class key_code_t : int32_t
+    {
+        key_unknown = -1,
+
+		// alphanumeric keys - correspond to ascii
+		key_space = 32,
+		key_apostrophe = 39, /* ' */
+		key_comma = 44, /* , */
+		key_minus = 45, /* - */
+		key_period = 46, /* . */
+		key_slash = 47, /* / */
+		key_0 = 48,
+		key_1 = 49,
+		key_2 = 50,
+		key_3 = 51,
+		key_4 = 52,
+		key_5 = 53,
+		key_6 = 54,
+		key_7 = 55,
+		key_8 = 56,
+		key_9 = 57,
+		key_semicolon = 59, /* ; */
+		key_equal = 61, /* = */
+		key_a = 65,
+		key_b = 66,
+		key_c = 67,
+		key_d = 68,
+		key_e = 69,
+		key_f = 70,
+		key_g = 71,
+		key_h = 72,
+		key_i = 73,
+		key_j = 74,
+		key_k = 75,
+		key_l = 76,
+		key_m = 77,
+		key_n = 78,
+		key_o = 79,
+		key_p = 80,
+		key_q = 81,
+		key_r = 82,
+		key_s = 83,
+		key_t = 84,
+		key_u = 85,
+		key_v = 86,
+		key_w = 87,
+		key_x = 88,
+		key_y = 89,
+		key_z = 90,
+		key_left_bracket = 91, /* [ */
+		key_backslash = 92, /* \ */
+		key_right_bracket = 93, /* ] */
+		key_grave_accent = 96, /* ` */
+		key_world_1 = 161, /* non-us #1 */
+		key_world_2 = 162, /* non-us #2 * ion keys */
+
+		// special keys
+		key_escape = 256,
+		key_enter = 257,
+		key_tab = 258,
+		key_backspace = 259,
+		key_insert = 260,
+		key_delete = 261,
+		key_right = 262,
+		key_left = 263,
+		key_down = 264,
+		key_up = 265,
+		key_page_up = 266,
+		key_page_down = 267,
+		key_home = 268,
+		key_end = 269,
+		key_caps_lock = 280,
+		key_scroll_lock = 281,
+		key_num_lock = 282,
+		key_print_screen = 283,
+		key_pause = 284,
+		key_f1 = 290,
+		key_f2 = 291,
+		key_f3 = 292,
+		key_f4 = 293,
+		key_f5 = 294,
+		key_f6 = 295,
+		key_f7 = 296,
+		key_f8 = 297,
+		key_f9 = 298,
+		key_f10 = 299,
+		key_f11 = 300,
+		key_f12 = 301,
+		key_f13 = 302,
+		key_f14 = 303,
+		key_f15 = 304,
+		key_f16 = 305,
+		key_f17 = 306,
+		key_f18 = 307,
+		key_f19 = 308,
+		key_f20 = 309,
+		key_f21 = 310,
+		key_f22 = 311,
+		key_f23 = 312,
+		key_f24 = 313,
+		key_f25 = 314,
+		key_kp_0 = 320,
+		key_kp_1 = 321,
+		key_kp_2 = 322,
+		key_kp_3 = 323,
+		key_kp_4 = 324,
+		key_kp_5 = 325,
+		key_kp_6 = 326,
+		key_kp_7 = 327,
+		key_kp_8 = 328,
+		key_kp_9 = 329,
+		key_kp_decimal = 330,
+		key_kp_divide = 331,
+		key_kp_multiply = 332,
+		key_kp_subtract = 333,
+		key_kp_add = 334,
+		key_kp_enter = 335,
+		key_kp_equal = 336,
+		key_left_shift = 340,
+		key_left_control = 341,
+		key_left_alt = 342,
+		key_left_super = 343,
+		key_right_shift = 344,
+		key_right_control = 345,
+		key_right_alt = 346,
+		key_right_super = 347,
+		key_menu = 348,
+		num_keys = 349
+    };
+
+	bool get_key_state(char k);
+
+    bool get_key_state(key_code_t key_code);
+
+	bool get_mouse_left_state();
+    bool get_mouse_middle_state();
+    bool get_mouse_right_state();
+
+	glm::ivec2 get_mouse_canvas_pos();
+	void set_mouse_canvas_pos(glm::ivec2 pos);
+
+	glm::uvec2 get_canvas_size();
+	void set_canvas_size(glm::uvec2 size);
+
+	// const char* EE_getDirData();
+
+	float get_FPS();
+	void limit_FPS(uint32_t fps);
+	float get_app_loop_time_MS();
+	float get_draw_time_MS();
+	float get_frame_time_MS();
+
+	// bool EE_playAudioFile(const char* fileName, uint8_t loop);
+	// bool EE_getNewAudio(const char* fileName, void* audioBuffer);
+	// bool EE_playAudio(void* audio, uint8_t loop);
+	// bool EE_stopAudio(void* audio);
+
+	// bool EE_sendPacketUDP(void* packet);
+	// struct EE_PacketUDP* EE_recvPacketUDP();
+
+	size_t get_hardware_thread_count();
+
+	thread_pool_handle_t get_new_thread_pool(size_t maxThreadCount);
+    void release_thread_pool(thread_pool_handle_t self);
+    size_t get_thread_pool_free_thread_count(thread_pool_handle_t self);
+    bool submit_thread_pool_task(thread_pool_handle_t self, void (*func)(void *), void *param);
+    bool is_thread_pool_finished(thread_pool_handle_t self);
 
 	//Automatically defined and called in the HAL_ implimmentation if needed.
 	void EE_init();
 
-#ifdef __cplusplus
+	mesh_handle_t get_new_mesh(const std::string_view filepath);
+    void draw_mesh(mesh_handle_t mesh);
+    void set_mesh_submesh_texture(mesh_handle_t mesh, uint8_t submeshIndex, const char *textureType, const char *path);
+    void set_mesh_position(mesh_handle_t mesh, glm::vec3 pos);
+    void set_mesh_rotation(mesh_handle_t mesh, glm::vec3 angles);
+    void set_mesh_scale(mesh_handle_t mesh, glm::vec3 scale);
+    void release_mesh(mesh_handle_t mesh);
+
+    instanced_mesh_handle_t get_new_instanced_mesh(const std::string_view filePath);
+    void set_instanced_mesh_submesh_texture(instanced_mesh_handle_t meshID, uint8_t submeshIndex,
+                                            const char *textureType, const char *path);
+
+    void draw_instanced_mesh(instanced_mesh_handle_t meshID);
+
+    void set_instanced_mesh_positions(instanced_mesh_handle_t meshID, std::span<const glm::vec3> posBuffer);
+
+    void set_instanced_mesh_scale(instanced_mesh_handle_t meshID, glm::vec3 scale);
+
+    void release_instanced_mesh(instanced_mesh_handle_t meshID);
+
+    camera_handle_t get_new_camera();
+    void camera_look_at(camera_handle_t self, glm::vec3 at);
+    void set_camera_rotation(camera_handle_t, glm::vec3 angles);
+    void set_camera_position(camera_handle_t self, glm::vec3 pos);
+    void use_camera(camera_handle_t self);
+    void release_camera(camera_handle_t self);
 }
-#endif
