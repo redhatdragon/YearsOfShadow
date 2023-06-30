@@ -13,7 +13,6 @@ int getRandInt(std::mt19937& generator, int min, int max) {
 }
 
 struct EnemyAI {
-	//Controller controller;  //Might not be needed
 	enum ACTIVE_STATE : u8 {
 		ASLEEP,
 		IDLE,
@@ -150,10 +149,6 @@ private:
 	}
 
 	void findTarget(EnemyAI* enemyAI, BodyID bodyID, std::mt19937& generator) {
-		//int stopEarly = rand() % 10;
-		//int stopEarly = getRandInt(generator, 0, 10);
-		//if (stopEarly)
-		//	return;
 		u32 controllerCount = ecs.getComponentCount(controllerComponentID);
 		EntityID closestEntity = -1;
 		Vec3D<FixedPoint<256 * 256>> closestPos;
@@ -209,15 +204,11 @@ private:
 	void findRandomTargetPos(EnemyAI* enemyAI, BodyID bodyID, std::mt19937& generator) {
 		u32 padding = 40, border = world_size;
 		Vec3D<FixedPoint<256 * 256>> gotoPos = { 
-			//rand() % (border - (padding + padding)),
 			getRandInt(generator, 0, border - (padding + padding)),
 			0,
-			//rand() % (border - (padding + padding))
 			getRandInt(generator, 0, border - (padding + padding))
 		};
-		//gotoPos += 5;
 		gotoPos += padding;
-		//gotoPos.y = 0;
 		auto pos = physics.getPos(bodyID);
 		gotoPos.y = pos.y;
 		enemyAI->gotoPos = gotoPos;
@@ -230,7 +221,6 @@ private:
 		auto vel = targetPos;
 		auto pos = physics.getPos(bodyID);
 
-		//int rng = rand() % 10;
 		int rng = getRandInt(generator, 0, 10);
 		if (rng == 0) {
 			Vec3D<FixedPoint<256 * 256>> avoidanceDir = getAvoidanceDir(enemyAI, bodyID);
@@ -251,9 +241,7 @@ private:
 		auto siz = physics.getSize(bodyID);
 		pointPos += siz / 2;
 		pointPos.y += siz.y / 2;
-		//pointPos.y += "0.01f";
 		pointPos.y += "0.1f";
-		//if (physics.getBodiesInPoint(pointPos, bodyID).count == 0) {
 		if (physics.pointTrace(pointPos, bodyID) == false) {
 			vel.y = physics.getVelocity(bodyID).y;
 		}
@@ -295,20 +283,9 @@ private:
 
 	void createEnemy(Vec3D<uint32_t> pos) {
 		EntityID entityID = ecs.getNewEntity();
-		//BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, "0.2f", "0.8f", "0.2f",
-		//BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, "0.5f", "1.0f", "0.5f",
 		BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, "0.1f", "1.0f", "0.1f",
 			to_void_ptr(entityID), true);
 		ecs.emplace(entityID, bodyComponentID, &bodyID);
-		//std::string path = "Meshes/Cube2.fbx/cube.001.mesh";
-		//std::string path = "./Data/Meshes/Props/Dynamite.obj";
-		//void* mesh = EE_getNewMesh(path.c_str());
-		//EE_setTextureSubmesh(mesh, 0, "diffuse", "./Data/Meshes/Props/D_Dynamite.png");
-		//ecs.emplace(entityID, meshComponentID, &mesh);
-
-		//u32 instanceMeshTypeID = instancedMeshCodex.add("Meshes/Cube2.fbx/cube.001.mesh");
-		//instancedMeshCodex.setSize(instanceMeshTypeID, {50*0.2f, 50*0.8f, 50*0.2f});
-		//ecs.emplace(entityID, instancedMeshComponentID, &instanceMeshTypeID);
 
 		u32 instanceMeshTypeID = instancedMeshCodex.add("./Data/Meshes/Props/Dynamite.obj");
 		instancedMeshCodex.setTexture(instanceMeshTypeID, "./Data/Meshes/Props/D_Dynamite.png");
@@ -324,9 +301,7 @@ private:
 		u32 padding = 40, border = world_size;
 		while (true) {
 			Vec3D<u32> pos = {};
-			//pos.x = rand() % (border-(padding+padding));
 			pos.x = getRandInt(generator, 0, border-(padding+padding));
-			//pos.z = rand() % (border-(padding+padding));
 			pos.z = getRandInt(generator, 0, border-(padding+padding));
 			pos += padding;
 			pos.y = 153;

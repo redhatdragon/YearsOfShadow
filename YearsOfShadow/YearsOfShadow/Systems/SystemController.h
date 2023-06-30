@@ -38,7 +38,6 @@ struct Controller {
 	}
 	inline bool canJump() {
 		if (isFloored())
-			//if(ecs.getTicksPassed() >= lastJumped + jumpDuration)
 				return true;
 		return false;
 	}
@@ -112,7 +111,6 @@ public:
 		EE_useCamera(EE_camera);
 
 		EntityID entity = ecs.getNewEntity();
-		//BodyID bodyID = physics.addBodyBox(30, 155-15, 30, 1, 1, 1);
 		BodyID bodyID = physics.addBodyBox(30, 155-15, 30, "0.5f", 1, "0.5f", 
 			to_void_ptr(entity), true);
 		ecs.emplace(entity, bodyComponentID, &bodyID);
@@ -158,8 +156,6 @@ private:
 
 		FPSCamera& cam = controller->cam;
 		cam.setPosition({ pos.x.getAsFloat(), pos.y.getAsFloat(), pos.z.getAsFloat() });
-		//cam.setPosition(pos);
-		//std::cout << mouseOffset.x << " " << mouseOffset.y << std::endl;
 		cam.ProcessMouseMovement(-mouseOffset.x, mouseOffset.y);
 		auto lookAt = cam.getWorldLookAtPos();
 		EE_setCameraPos(EE_camera, pos.x.getAsFloat(), pos.y.getAsFloat(), pos.z.getAsFloat());
@@ -193,7 +189,6 @@ private:
 		pointPos.y += siz.y / 2;
 		pointPos.y += "0.01f";
 		if (controller->isFalling()) {
-			//if (physics.getBodiesInPoint(pointPos, bodyID).count) {
 			if (physics.pointTrace(pointPos, bodyID)) {
 				controller->setHasFloored();
 				vel.y = 0;
@@ -210,22 +205,6 @@ private:
 		} else if (controller->isJumping()) {
 			vel.y = -controller->getJumpDistPerTick();
 		}
-		//if (physics.getBodiesInPoint(pointPos, bodyID).count && controller->isFalling()) {
-		//	controller->setHasFloored();
-		//} else {
-		//	if (controller->isFloored())
-		//		controller->state = controller->IS_FALLING;
-		//}
-		//if(controller->isFloored())
-		//	vel.y = 0;
-		//controller->lastY = pos.y;
-		
-		//if (EE_getKeyState(32) && controller->canJump()) {
-		//	controller->setHasJumped();
-		//}
-		//if (controller->isJumping()) {
-		//	vel.y = -controller->getJumpDistPerTick();
-		//}
 		physics.setVelocity(bodyID, vel.x, vel.y, vel.z);
 	}
 	void jumpPhase(Controller* controller, const Vec3D<FixedPoint<256 * 256>>& pos, BodyID bodyID) {
@@ -256,21 +235,14 @@ private:
 		velocity *= "0.25f";
 		BodyID bodyID = physics.addBodyBox(spawnAt.x, spawnAt.y, spawnAt.z, "0.1f", "0.1f", "0.1f",
 			to_void_ptr(bomb), true);
-		//BodyID bodyID = physics.addBodyBox(spawnAt.x, spawnAt.y, spawnAt.z, 1, 1, 1);
 		physics.setVelocity(bodyID, velocity.x, velocity.y, velocity.z);
 
 		Explode explode;
 		explode.init(Explode::ON_CONTACT | Explode::ON_TIMER, 60);
-		//std::string meshPath = EE_getDirData();
-		
-		//std::string meshPath = "Meshes/Cube2.fbx/cube.001.mesh";
-		//void* meshID = EE_getNewMesh(meshPath.c_str());
 
 		std::string path = "./Data/Meshes/Props/Dynamite.obj";
 		void* meshID = EE_getNewMesh(path.c_str());
 		EE_setTextureSubmesh(meshID, 0, "diffuse", "./Data/Meshes/Props/D_Dynamite.png");
-		//EE_setScaleMesh(meshID, 50 / 10, 50 / 10, 50 / 10);
-		//EE_setScaleMesh(meshID, 50, 50, 50);
 		EE_setScaleMesh(meshID, 0.1f, 0.1f, 0.1f);
 		ecs.emplace(bomb, bodyComponentID, &bodyID);
 		ecs.emplace(bomb, explodeComponentID, &explode);
