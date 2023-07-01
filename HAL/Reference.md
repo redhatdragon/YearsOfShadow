@@ -25,7 +25,7 @@ void HAL::app_loop(){
 
 void HAL::app_post_frame(){}  // Optional logic may run after frame buffer is swapped
 
-void HAL::appEnd(){
+void HAL::app_end(){
     printf("App is closing, good place to log potential errors...");
 }
 ```
