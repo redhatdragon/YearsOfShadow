@@ -11,6 +11,7 @@
 #include <cstdio>
 #include <iomanip>
 #include <mutex>
+#include <utility>
 
 #define GLEW_STATIC
 #pragma comment(lib, "opengl32.lib")
@@ -49,6 +50,7 @@ void translateScreen2DToGL(float& x, float& y);
 
 #define STB_IMAGE_IMPLEMENTATION
 
+#include <HAL/ExampleImplimentations/GLFW/GL_Utils/GL_Call.h>
 #include "GL_Utils/Shader.h"
 #include "GL_Utils/Shapes.h"
 #include "GL_Utils/VertexBuffer.h"
@@ -80,7 +82,7 @@ static class log_to_file_context_t
 {
     FILE *last_log_;
     FILE *date_log_;
-    std::array<char, 512> output_buffer_ ;
+    std::array<char, 1024> output_buffer_ ;
     size_t buffer_pos_;
 
 public:
@@ -184,14 +186,7 @@ void HAL::hal_assert(bool cond, const std::string &msg)
             (se.source_file() + "("s + std::to_string(se.source_line()) + ")" + se.description() + "\n").c_str());
 }
 
-static void clearErrors() {
-    while (glGetError() != GL_NO_ERROR);
-}
-static void getErrors() {
-    while (GLenum error = glGetError() != GL_NO_ERROR) {
-        HAL_ERROR("Opengl_Error: {}\n", error);
-    }
-}
+
 
 inline void translateScreen2DToGL(float& x, float& y)
 {
@@ -217,14 +212,14 @@ HAL::texture_handle_t HAL::get_new_texture(const std::string_view fileName)
 
 void HAL::draw_texture(HAL::texture_handle_t texture, int32_t x, int32_t y, uint32_t w, uint32_t h)
 {
-    HAL_ASSERT(std::to_underlying(texture) < max_textures && textures.getIsValid(to_underlying(texture)),
+    HAL_ASSERT(std::to_underlying(texture) < max_textures && textures.getIsValid(std::to_underlying(texture)),
                "Invalid texture handle.");
     textures[std::to_underlying(texture)].draw(static_cast<float>(x), static_cast<float>(y), static_cast<float>(w), static_cast<float>(h));
 }
 
 void HAL::release_texture(texture_handle_t texture)
 {
-    HAL_ASSERT(std::to_underlying(texture) < max_textures && textures.getIsValid(to_underlying(texture)),
+    HAL_ASSERT(std::to_underlying(texture) < max_textures && textures.getIsValid(std::to_underlying(texture)),
                "Invalid texture handle.");
     // TODO: Implement textures as a free list buffer
     // KOI: ^ attempting this now with the FlatFlaggedBuffer if am understanding free list buffers?
@@ -232,8 +227,9 @@ void HAL::release_texture(texture_handle_t texture)
 
 void HAL::draw_background(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 {
-    glClearColor(static_cast<float>(r)/256.f, static_cast<float>(g)/256.f, static_cast<float>(b)/256.f, static_cast<float>(a)/256.f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    GL_CALL(glClearColor(static_cast<float>(r) / 256.f, static_cast<float>(g) / 256.f, static_cast<float>(b) / 256.f,
+                        static_cast<float>(a) / 256.f));
+    GL_CALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 }
 
 bool HAL::get_key_state(char k)
@@ -379,9 +375,11 @@ void HAL::draw_mesh(mesh_handle_t mesh)
 {
     const auto meshPtr = reinterpret_cast<Mesh*>(mesh);
     if (activeSceneCamera)
-        meshPtr->draw(activeSceneCamera->GetViewMatrix(), perspective);
+        meshPtr->draw(activeSceneCamera->getPosition(),
+        activeSceneCamera->getFront(), activeSceneCamera->GetViewMatrix(),
+                      perspective);
     else
-        meshPtr->draw({}, perspective);
+        meshPtr->draw({}, {0, 0, 1}, {}, perspective);
 }
 
 void HAL::set_mesh_submesh_texture(mesh_handle_t mesh, uint8_t submeshIndex, const char *meshType, const char *path)
@@ -476,9 +474,10 @@ void HAL::draw_instanced_mesh(HAL::instanced_mesh_handle_t meshID)
         return;
 
     if (activeSceneCamera)
-        imesh->draw(activeSceneCamera->GetViewMatrix(), perspective);
+        imesh->draw(activeSceneCamera->getPosition(), activeSceneCamera->getFront(), activeSceneCamera->GetViewMatrix(),
+                    perspective);
     else
-        imesh->draw({}, perspective);
+        imesh->draw({}, {0, 0, 1}, {}, perspective);
 }
 
 void HAL::release_instanced_mesh(HAL::instanced_mesh_handle_t meshID)
@@ -618,6 +617,8 @@ static void show_performance_overlay(bool *p_open)
 
 int main()
 {
+    CoInitialize(nullptr);
+
     // Colorful output!
 #ifdef _WIN32
     {
@@ -645,7 +646,6 @@ int main()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
 
     glfwWindowHint(GLFW_SAMPLES, 4);
-    glEnable(GL_MULTISAMPLE);
 
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(640*2, 480, "Hello World", NULL, NULL);
@@ -662,10 +662,12 @@ int main()
         HAL_ERROR("Error: glewInit failed\n");
     }
 
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_BLEND);
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);  // Accept fragment if it closer to the camera than the former one
+    GL_CALL(glEnable(GL_MULTISAMPLE));
+
+    GL_CALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+    GL_CALL(glEnable(GL_BLEND));
+    GL_CALL(glEnable(GL_DEPTH_TEST));
+    GL_CALL(glDepthFunc(GL_LESS));  // Accept fragment if it closer to the camera than the former one
     //glFrontFace(GL_CW);
 
     //camera = Camera();  //TODO: necessary?
@@ -722,12 +724,13 @@ int main()
         telemetry_counters.lastFPS = telemetry_counters.FPS;
 
         /* Render here */
-        glClearColor(0.5f, 0.5f, 0.5f, 1);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        GL_CALL(glClearColor(0.5f, 0.5f, 0.5f, 1));
+        GL_CALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 
         auto winDim = HAL::get_canvas_size();
         //perspective = glm::perspective(45.0f, (GLfloat)winWidth / (GLfloat)winHeight, 0.00001f, 1500.0f);
-        perspective = glm::perspective(45.0f, static_cast<GLfloat>(winDim.x) / static_cast<GLfloat>(winDim.y), 1.0f, 15000.0f);
+        perspective = glm::perspective(45.0f, static_cast<GLfloat>(winDim.x) / static_cast<GLfloat>(winDim.y), 
+            0.01f, 15000.0f);
 
         HAL::app_loop();
 
@@ -737,7 +740,6 @@ int main()
         telemetry_counters.appTime = app_end.QuadPart - time_start.QuadPart;
         telemetry_counters.appLoopTimeMS = static_cast<long double>(telemetry_counters.appTime) / freqMS;
 
-        getErrors();
         /* Swap front and back buffers */
         
         /* Poll for and process events */

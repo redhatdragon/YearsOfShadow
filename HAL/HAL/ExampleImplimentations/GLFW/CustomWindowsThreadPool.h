@@ -59,6 +59,8 @@ public:
 
 private:
 	static DWORD WINAPI threadLoop(void* _customThread) {
+        CoInitialize(nullptr); // Initialize COM for all threads
+
 		CustomThread* thread = (CustomThread*)_customThread;
 
 		loopStart:

@@ -17,12 +17,12 @@ public:
 
 
 void VertexArray::init() {
-	glGenVertexArrays(1, &id);
+	GL_CALL(glGenVertexArrays(1, &id));
 	layoutCount = 0;
 	lastOffset = 0;
 }
 void VertexArray::destruct() {
-	glDeleteVertexArrays(1, &id);
+	GL_CALL(glDeleteVertexArrays(1, &id));
 }
 void VertexArray::addBuffer(const VertexBuffer& vb, const VertexBufferLayout& layout) {
 	bind();
@@ -31,17 +31,17 @@ void VertexArray::addBuffer(const VertexBuffer& vb, const VertexBufferLayout& la
 	uint32_t offset = 0;
 	for (uint32_t i = 0; i < elements.size(); i++) {
 		const auto& element = elements[i];
-		glEnableVertexAttribArray(i+layoutCount);
-		glVertexAttribPointer(i+layoutCount, element.count, element.type, element.normalized, layout.getStride(), (const void*)offset);
+        GL_CALL(glEnableVertexAttribArray(i+layoutCount));
+        GL_CALL(glVertexAttribPointer(i+layoutCount, element.count, element.type, element.normalized, layout.getStride(), (const void*)offset));
 		offset += element.count * element.getSize();
 		if (element.isForInstance)
-			glVertexAttribDivisor(i+layoutCount, 1);  //ever 'instance' (not vertex) gets this attribute
+            GL_CALL(glVertexAttribDivisor(i+layoutCount, 1));  //ever 'instance' (not vertex) gets this attribute
 	}
 	layoutCount += elements.size();
 }
 void VertexArray::bind() const {
-	glBindVertexArray(id);
+	GL_CALL(glBindVertexArray(id));
 }
 void VertexArray::unbind() const {
-	glBindVertexArray(0);
+	GL_CALL(glBindVertexArray(0));
 }

@@ -36,35 +36,40 @@ struct InstancedSubMesh {
         std::string shaderPath = EE_getDirData(); shaderPath += "ShadersGL/BasicInstancedMesh.shader";
         shader.init(shaderPath);
 
-        glGenBuffers(1, &VBO);
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex3D)*vertCount, verticies, GL_DYNAMIC_DRAW);
-        VertexBuffer;
+        GL_CALL(glGenBuffers(1, &VBO));
+        GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, VBO));
+        GL_CALL(glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex3D)*vertCount, verticies, GL_DYNAMIC_DRAW));
 
-        glGenBuffers(1, &IBO);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * 2, indices, GL_DYNAMIC_DRAW);
+
+        GL_CALL(glGenBuffers(1, &IBO));
+        GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO));
+        GL_CALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * 2, indices, GL_DYNAMIC_DRAW));
         IndexBuffer;
 
-        glGenBuffers(1, &PBO);
-        glBindBuffer(GL_ARRAY_BUFFER, PBO);
+        GL_CALL(glGenBuffers(1, &PBO));
+        GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, PBO));
         VertexBuffer;
 
-        glGenVertexArrays(1, &VAO);
-        glBindVertexArray(VAO);
+        GL_CALL(glGenVertexArrays(1, &VAO));
+        GL_CALL(glBindVertexArray(VAO));
 
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (const void*)0);
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (const void*)(3*sizeof(float)));
+        GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, VBO));
+        GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO));
+        // Position
+        GL_CALL(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (const void *)0));
+        GL_CALL(glEnableVertexAttribArray(0));
+        // TexCoord
+        GL_CALL(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (const void *)(3 * sizeof(float))));
+        GL_CALL(glEnableVertexAttribArray(1));
+        // Normal
+        GL_CALL(glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (const void *)(5 * sizeof(float))));
+        GL_CALL(glEnableVertexAttribArray(2));
 
-        glBindBuffer(GL_ARRAY_BUFFER, PBO);
-        glEnableVertexAttribArray(2);
+        GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, PBO));
+        GL_CALL(glEnableVertexAttribArray(3));
         //glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (const void*)(5*sizeof(float)));
-        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (const void*)(0));
-        glVertexAttribDivisor(2, 1);
+        GL_CALL(glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (const void*)(0)));
+        GL_CALL(glVertexAttribDivisor(3, 1));
         VertexArray;
 
         //glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -74,10 +79,12 @@ struct InstancedSubMesh {
     void destruct() {
 
     }
-    void draw(Pos3D pos, Pos3D rot, Pos3D siz, const glm::mat4& view, const glm::mat4& perspective, uint32_t instanceCount) {
-        glBindVertexArray(VAO);
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+    void draw(Pos3D pos, Pos3D rot, Pos3D siz, glm::vec3 cam_pos, glm::vec3 cam_dir, const glm::mat4 &view,
+              const glm::mat4 &perspective, uint32_t instanceCount)
+    {
+        GL_CALL(glBindVertexArray(VAO));
+        GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, VBO));
+        GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO));
 
         textures[0].bind();
         shader.bind();
@@ -89,18 +96,22 @@ struct InstancedSubMesh {
         ////model = glm::scale(model, { siz.x, siz.y, siz.z });
         //model = glm::scale(model, { 1, 1, 1 });
         glm::mat4 mvp = perspective * view * model;
+        shader.setUniformMat4f("u_M", model);
         shader.setUniformMat4f("u_MVP", mvp);
         shader.setUniform3f("u_scale", siz.x, siz.y, siz.z);
         shader.setUniform4f("u_color", 1, 1, 1, 1);
 
-        glDrawElementsInstanced(GL_TRIANGLES, indexCount, GL_UNSIGNED_SHORT, nullptr, instanceCount);
+        shader.setUniform3f("u_camPos", cam_pos.x, cam_pos.y, cam_pos.z);
+        // shader.setUniform3f("u_camDir", cam_dir.x, cam_dir.y, cam_dir.z);
+
+        GL_CALL(glDrawElementsInstanced(GL_TRIANGLES, indexCount, GL_UNSIGNED_SHORT, nullptr, instanceCount));
 
         //glBindBuffer(GL_ARRAY_BUFFER, 0);
         //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
     void setOffsets(const std::vector<glm::vec3>& offsets) {
-        glBindBuffer(GL_ARRAY_BUFFER, PBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * offsets.size(), &offsets[0], GL_DYNAMIC_DRAW);
+        GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, PBO));
+        GL_CALL(glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * offsets.size(), &offsets[0], GL_DYNAMIC_DRAW));
 
         //positionsBuffer.destruct();
 
@@ -136,9 +147,10 @@ struct InstancedMesh {
         for (uint32_t i = 0; i < subMeshes.size(); i++)
             subMeshes[i].destruct();
     }
-    void draw(const glm::mat4& viewMatrix, const glm::mat4& perspectiveMatrix) {
+    void draw(glm::vec3 cam_pos, glm::vec3 cam_dir, const glm::mat4 &viewMatrix, const glm::mat4 &perspectiveMatrix)
+    {
         for (uint32_t i = 0; i < subMeshes.size(); i++)
-            subMeshes[i].draw(pos, rot, siz, viewMatrix, perspectiveMatrix, instanceCount);
+            subMeshes[i].draw(pos, rot, siz, cam_pos, cam_dir, viewMatrix, perspectiveMatrix, instanceCount);
     }
     void setOffsets(glm::vec3* _positions, uint32_t count)
     {
@@ -179,11 +191,15 @@ private:
         for (uint32_t i = 0; i < vertexCount; i++) {
             Vertex3D toVert;
             auto& fromVert = mesh.Vertices[i];
-            toVert.x = fromVert.Position.X;
-            toVert.y = fromVert.Position.Y;
-            toVert.z = fromVert.Position.Z;
-            toVert.u = fromVert.TextureCoordinate.X;
-            toVert.v = fromVert.TextureCoordinate.Y;
+            toVert.pos.x = fromVert.Position.X;
+            toVert.pos.y = fromVert.Position.Y;
+            toVert.pos.z = fromVert.Position.Z;
+            toVert.texCoord.x = fromVert.TextureCoordinate.X;
+            toVert.texCoord.y = fromVert.TextureCoordinate.Y;
+            toVert.normal.x = fromVert.Normal.X;
+            toVert.normal.y = fromVert.Normal.Y;
+            toVert.normal.z = fromVert.Normal.Z;
+            toVert.normal = glm::normalize(toVert.normal);
             vertices.push_back(toVert);
         }
 

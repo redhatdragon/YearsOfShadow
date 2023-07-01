@@ -37,25 +37,25 @@ void Shader::init(const std::string& fileName) {
     }
 }
 void Shader::destruct() {
-    glDeleteProgram(id);
+    GL_CALL(glDeleteProgram(id));
 }
 inline void Shader::bind() {
-    glUseProgram(id);
+    GL_CALL(glUseProgram(id));
 }
 inline void Shader::unbind() {
-    glUseProgram(0);
+    GL_CALL(glUseProgram(0));
 }
 inline void Shader::setUniform4f(const std::string& name, float v0, float v1, float v2, float v3) {
-    glUniform4f(getUniformLocation(name), v0, v1, v2, v3);
+    GL_CALL(glUniform4f(getUniformLocation(name), v0, v1, v2, v3));
 }
 inline void Shader::setUniform3f(const std::string& name, float v0, float v1, float v2) {
-    glUniform3f(getUniformLocation(name), v0, v1, v2);
+    GL_CALL(glUniform3f(getUniformLocation(name), v0, v1, v2));
 }
 inline void Shader::setUniform1i(const std::string& name, int32_t v) {
-    glUniform1i(getUniformLocation(name), v);
+    GL_CALL(glUniform1i(getUniformLocation(name), v));
 }
 inline void Shader::setUniformMat4f(const std::string& name, const glm::mat4& matrix) {
-    glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &matrix[0][0]);
+    GL_CALL(glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &matrix[0][0]));
 }
 
 
@@ -64,7 +64,7 @@ inline void Shader::setUniformMat4f(const std::string& name, const glm::mat4& ma
 inline int32_t Shader::getUniformLocation(const std::string& name) {
     if (uniformLocationCache.find(name) != uniformLocationCache.end())
         return uniformLocationCache[name];
-    auto retValue = glGetUniformLocation(id, name.c_str());
+    GL_CALL(auto retValue = glGetUniformLocation(id, name.c_str()));
     if (retValue == -1)
     {
         HAL_WARN("Warning: uniform '{}' doesn't exist.\n", name);
@@ -73,19 +73,19 @@ inline int32_t Shader::getUniformLocation(const std::string& name) {
     return retValue;
 }
 int Shader::compileShader(uint32_t type, const std::string& source) {
-    uint32_t id = glCreateShader(type);
+    GL_CALL(uint32_t id = glCreateShader(type));
     const char* src = source.c_str();
     const int srcLen = source.size();
-    glShaderSource(id, 1, &src, &srcLen);
-    glCompileShader(id);
+    GL_CALL(glShaderSource(id, 1, &src, &srcLen));
+    GL_CALL(glCompileShader(id));
     //TODO: error handling
     int result = GL_FALSE;
-    glGetShaderiv(id, GL_COMPILE_STATUS, &result);
+    GL_CALL(glGetShaderiv(id, GL_COMPILE_STATUS, &result));
     int length;
-    glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
+    GL_CALL(glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length));
     if (length > 0) {
         char* message = (char*)alloca(length * sizeof(char));
-        glGetShaderInfoLog(id, length, &length, message);
+        GL_CALL(glGetShaderInfoLog(id, length, &length, message));
         std::string shaderTypeString;
         switch (type) {
         case GL_VERTEX_SHADER:
@@ -96,21 +96,21 @@ int Shader::compileShader(uint32_t type, const std::string& source) {
             break;
         }
         HAL_ERROR("Shader of type '{}' has failed to compile\n'{}'\nSource: '{}'\n", shaderTypeString, message, source);
-        glDeleteShader(id);
+        GL_CALL(glDeleteShader(id));
         return 0;
     }
     return id;
 }
 int Shader::createShaderProgram(const std::string& vertexShader, const std::string& fragmentShader) {
-    uint32_t program = glCreateProgram();
+    GL_CALL(uint32_t program = glCreateProgram());
     uint32_t vs = compileShader(GL_VERTEX_SHADER, vertexShader);
     uint32_t fs = compileShader(GL_FRAGMENT_SHADER, fragmentShader);
-    glAttachShader(program, vs);
-    glAttachShader(program, fs);
-    glLinkProgram(program);
-    glValidateProgram(program);
-    glDeleteShader(vs);
-    glDeleteShader(fs);
+    GL_CALL(glAttachShader(program, vs));
+    GL_CALL(glAttachShader(program, fs));
+    GL_CALL(glLinkProgram(program));
+    GL_CALL(glValidateProgram(program));
+    GL_CALL(glDeleteShader(vs));
+    GL_CALL(glDeleteShader(fs));
     return program;
 }
 int Shader::createShaderProgramFromFile(const std::string& filepath) {

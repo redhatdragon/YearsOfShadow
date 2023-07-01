@@ -36,8 +36,8 @@ public:
         return glm::lookAt(position, position + front, up);
     }
 
-    void getFront(float& x, float& y, float& z) {
-        x = front.x; y = front.y; z = front.z;
+    glm::vec3 getFront() const {
+        return front;
     }
 
     void setFront(float x, float y, float z) {

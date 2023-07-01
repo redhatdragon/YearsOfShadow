@@ -7,7 +7,7 @@ class VertexBuffer {
 	uint32_t id;
 public:
 	void init() {
-		glGenBuffers(1, &id);
+		GL_CALL(glGenBuffers(1, &id));
 	}
 	void init(const void* data, uint32_t size);
 	void destruct();
@@ -19,20 +19,20 @@ public:
 
 
 void VertexBuffer::init(const void* data, uint32_t size) {
-	glGenBuffers(1, &id);
+	GL_CALL(glGenBuffers(1, &id));
 	buffer(data, size);
 }
 void VertexBuffer::destruct() {
-	glDeleteBuffers(1, &id);
+	GL_CALL(glDeleteBuffers(1, &id));
 }
 void VertexBuffer::buffer(const void* data, uint32_t size) {
 	bind();
 	//glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
-	glBufferData(GL_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW);
+    GL_CALL(glBufferData(GL_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW));
 }
 void VertexBuffer::bind() const {
-	glBindBuffer(GL_ARRAY_BUFFER, id);
+	GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, id));
 }
 void VertexBuffer::unbind() const {
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, 0));
 }

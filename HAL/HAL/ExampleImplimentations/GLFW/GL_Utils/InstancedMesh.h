@@ -10,6 +10,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <OBJ-Loader/Source/OBJ_Loader.h>
+#include <HAL/ExampleImplimentations/GLFW/GL_Utils/GL_Call.h>
 
 #include "../../../../Vec.h"
 
@@ -33,6 +34,7 @@ struct InstancedSubMesh {
         VertexBufferLayout vertexLayout;
         vertexLayout.push<float>(3);
         vertexLayout.push<float>(2);
+        vertexLayout.push<float>(3);
         vertexArray.addBuffer(vertexBuffer, vertexLayout);
         //std::string shaderPath = EE_getDirData(); shaderPath += "ShadersGL/BasicInstancedMesh.shader";
         //shader.init(shaderPath);
@@ -74,8 +76,9 @@ struct InstancedSubMesh {
         shader.setUniformMat4f("u_MVP", mvp);
         vertexArray.bind();
 
-        glDrawElementsInstanced(GL_TRIANGLES, indexBuffer.getCount(), GL_UNSIGNED_SHORT, nullptr, instanceCount);
+        GL_CALL(glDrawElementsInstanced(GL_TRIANGLES, indexBuffer.getCount(), GL_UNSIGNED_SHORT, nullptr, instanceCount));
     }
+
     void setOffsets(const std::vector<Vec3D<float>>& offsets) {
         //positionsBuffer.destruct();
         positionsBuffer.buffer(&offsets[0], offsets.size() * sizeof(Vec3D<float>));

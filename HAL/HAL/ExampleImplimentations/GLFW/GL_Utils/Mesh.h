@@ -82,14 +82,27 @@ struct SubMesh {
         //vertexBuffer.init(cube_vertices, cube_vertCount * sizeof(Vertex3D));
         //indexBuffer.init(cube_indices, cube_indexCount, 2);
         vertexArray.init();
-        vertexLayout.push<float>(3);
-        vertexLayout.push<float>(2);
+        vertexLayout.push<float>(3); // Position
+        vertexLayout.push<float>(2); // Texture Coords
+        vertexLayout.push<float>(3); // Normals
+
         vertexArray.addBuffer(vertexBuffer, vertexLayout);
-        std::string shaderPath = EE_getDirData(); shaderPath += "ShadersGL/BasicMesh.shader";
-        shader.init(shaderPath);
-        textures.push_back(Texture());
-        std::string texturePath = EE_getDirData(); texturePath += "Textures/RightArrow.png";
-        textures[0].init(texturePath);
+
+        // Shader
+        {
+            std::string shaderPath = EE_getDirData();
+            shaderPath += "ShadersGL/BasicMesh.shader";
+            shader.init(shaderPath);    
+        }
+
+        // Texture
+        {
+            textures.push_back(Texture());
+            std::string texturePath = EE_getDirData();
+            texturePath += "Textures/RightArrow.png";
+            textures[0].init(texturePath);    
+        }
+        
         //uint32_t textureCount = _textures.size();
         //for (uint32_t i = 0; i < textureCount; i++) {
         //    textures.push_back(_textures[i]);
@@ -107,7 +120,9 @@ struct SubMesh {
         for(auto i = 0; i < textures.size(); i++)
             textures[i].destruct();
     }
-    void draw(Pos3D pos, Pos3D rot, Pos3D siz, const glm::mat4& view, const glm::mat4& perspective) {
+    void draw(Pos3D pos, Pos3D rot, Pos3D siz, glm::vec3 cam_pos, glm::vec3 cam_dir, const glm::mat4 &view,
+              const glm::mat4 &perspective)
+    {
         vertexBuffer.bind();
         indexBuffer.bind();
         //for(uint32_t i = 0; i < textures.size(); i++)
@@ -123,13 +138,16 @@ struct SubMesh {
         model = glm::rotate(model, glm::radians(rot.z), { 0.0f, 0.0f, 1.0f });
         model = glm::scale(model, { siz.x, siz.y, siz.z });
         glm::mat4 mvp = perspective * view * model;
+        shader.setUniformMat4f("u_M", model);
         shader.setUniformMat4f("u_MVP", mvp);
+        shader.setUniform3f("u_camPos", cam_pos.x, cam_pos.y, cam_pos.z);
+        // shader.setUniform3f("u_camDir", cam_dir.x, cam_dir.y, cam_dir.z);
         vertexArray.bind();
 
         vertexBuffer.bind();
         indexBuffer.bind();
 
-        glDrawElements(GL_TRIANGLES, indexBuffer.getCount(), GL_UNSIGNED_SHORT, nullptr);
+        GL_CALL(glDrawElements(GL_TRIANGLES, indexBuffer.getCount(), GL_UNSIGNED_SHORT, nullptr));
 
         //vertexBuffer.unbind();
         //indexBuffer.unbind();
@@ -147,7 +165,8 @@ struct Mesh {
 
     void init(const char* filepath);
     void destruct();
-    void draw(const glm::mat4& viewMatrix, const glm::mat4& perspectiveMatrix);
+    void draw(glm::vec3 cam_pos, glm::vec3 cam_dir, const glm::mat4 &viewMatrix, const glm::mat4 &perspectiveMatrix);
+
 private:
     SubMesh loadSubMeshData(const objl::Mesh& mesh);
 };
@@ -178,10 +197,10 @@ void Mesh::destruct() {
         subMeshes[i].destruct();
     }
 }
-void Mesh::draw(const glm::mat4& viewMatrix, const glm::mat4& perspectiveMatrix) {
+void Mesh::draw(glm::vec3 cam_pos, glm::vec3 cam_dir, const glm::mat4& viewMatrix, const glm::mat4& perspectiveMatrix) {
     for (uint32_t i = 0; i < subMeshes.size(); i++) {
         //glm::mat4 proj = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
-        subMeshes[i].draw(pos, rot, siz, viewMatrix, perspectiveMatrix);
+        subMeshes[i].draw(pos, rot, siz, cam_pos, cam_dir, viewMatrix, perspectiveMatrix);
     }
 }
 SubMesh Mesh::loadSubMeshData(const objl::Mesh& mesh) {
@@ -220,13 +239,15 @@ SubMesh Mesh::loadSubMeshData(const objl::Mesh& mesh) {
     for (uint32_t i = 0; i < vertexCount; i++) {
         Vertex3D toVert;
         auto& fromVert = mesh.Vertices[i];
-        toVert.x = fromVert.Position.X;
-        toVert.y = fromVert.Position.Y;
-        toVert.z = fromVert.Position.Z;
-        toVert.u = fromVert.TextureCoordinate.X;
-        toVert.v = fromVert.TextureCoordinate.Y;
-        //std::cout << " Vert: " << toVert.x << ", " << toVert.y << ", " << toVert.z;
-        //std::cout << " UV: " << toVert.u << ", " << toVert.v << std::endl;
+        toVert.pos.x = fromVert.Position.X;
+        toVert.pos.y = fromVert.Position.Y;
+        toVert.pos.z = fromVert.Position.Z;
+        toVert.texCoord.x = fromVert.TextureCoordinate.X;
+        toVert.texCoord.y = fromVert.TextureCoordinate.Y;
+        toVert.normal.x = fromVert.Normal.X;
+        toVert.normal.y = fromVert.Normal.Y;
+        toVert.normal.z = fromVert.Normal.Z;
+        toVert.normal = glm::normalize(toVert.normal);
         vertices.push_back(toVert);
     }
 
