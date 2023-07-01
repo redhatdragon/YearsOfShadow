@@ -62,7 +62,6 @@ void translateScreen2DToGL(float& x, float& y);
 // GLOBAL STATES
 // Temporarily used unique_ptr to patch a memory leak
 static glm::mat4 perspective;
-static std::vector<glm::mat4> viewMatrices;
 static std::vector<std::unique_ptr<SceneCamera>> sceneCameras;
 static SceneCamera* activeSceneCamera = nullptr;
 static GLFWwindow *window;
@@ -370,12 +369,10 @@ HAL::mesh_handle_t HAL::get_new_mesh(const std::string_view filepath)
 void HAL::draw_mesh(mesh_handle_t mesh)
 {
     const auto meshPtr = reinterpret_cast<Mesh*>(mesh);
-    //meshes[meshID].draw(viewMatrices.back(), perspective);
     if (activeSceneCamera)
         meshPtr->draw(activeSceneCamera->GetViewMatrix(), perspective);
     else
-        meshPtr->draw(viewMatrices.back(), perspective);
-    //meshes[meshID].draw(glm::mat4(1), perspective);
+        meshPtr->draw({}, perspective);
 }
 
 void HAL::set_mesh_submesh_texture(mesh_handle_t mesh, uint8_t submeshIndex, const char *meshType, const char *path)
@@ -457,7 +454,7 @@ void HAL::draw_instanced_mesh(HAL::instanced_mesh_handle_t meshID)
     if (activeSceneCamera)
         imesh->draw(activeSceneCamera->GetViewMatrix(), perspective);
     else
-        imesh->draw(viewMatrices.back(), perspective);
+        imesh->draw({}, perspective);
 }
 
 void HAL::release_instanced_mesh(HAL::instanced_mesh_handle_t meshID)
@@ -633,6 +630,7 @@ int main()
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
+    glfwSwapInterval(0);
 
     if (glewInit() != GLEW_OK) {
         HAL_ERROR("Error: glewInit failed\n");
@@ -679,6 +677,8 @@ int main()
 
     bool show_demo = true, performance_window = true;
     while (!glfwWindowShouldClose(window)) {
+        double startTime = glfwGetTime();  //TODO: replace with below time_start
+
         LARGE_INTEGER time_start;
         QueryPerformanceCounter(&time_start);
         glfwPollEvents();
@@ -691,8 +691,6 @@ int main()
 
         if (performance_window)
             show_performance_overlay(&performance_window);
-
-        double startTime = glfwGetTime();
 
         telemetry_counters.FPSLimit = 60;
         telemetry_counters.lastFPS = telemetry_counters.FPS;
@@ -717,8 +715,6 @@ int main()
         /* Swap front and back buffers */
         
         /* Poll for and process events */
-        
-        viewMatrices.clear();
 
         LARGE_INTEGER draw_end;
         QueryPerformanceCounter(&draw_end);
@@ -726,11 +722,6 @@ int main()
         telemetry_counters.drawTimeMS = static_cast<long double>(telemetry_counters.drawTime) / freqMS;
 
         HAL::appPostFrame();
-
-        while (startTime + (1.0f / telemetry_counters.FPSLimit) > glfwGetTime())
-        {
-            continue;
-        }
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -744,6 +735,12 @@ int main()
         }
 
         glfwSwapBuffers(window);
+
+        //TODO: needs a tunup to be more accurate
+        while (glfwGetTime() < startTime + (1.0 / telemetry_counters.FPSLimit))
+        {
+            continue;
+        }
 
         LARGE_INTEGER frame_end;
         QueryPerformanceCounter(&frame_end);
