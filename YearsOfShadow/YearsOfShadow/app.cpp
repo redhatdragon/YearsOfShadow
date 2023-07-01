@@ -14,7 +14,6 @@ void HAL::app_start() {
     initSystems();
 }
 bool FPressedLastTick = true;
-;
 void HAL::app_loop() {
     HAL::draw_background(0, 0, 0, 255);
     ecs.runSystems();
