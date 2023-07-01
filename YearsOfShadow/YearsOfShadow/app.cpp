@@ -60,12 +60,12 @@ void HAL::appPostFrame() {
     // printStr += std::to_string(HAL::get_draw_time_MS());
     // printStr += '\n';
     // fwrite(printStr.c_str(), printStr.size(), 1, stderr);
-    if (waitFor <= 2)
-        return;
-    for (u32 i = 0; i < threadCount; i++)
-        HAL::submit_thread_pool_task(threadPool, sleepForThreaded, to_void_ptr(waitFor));
-    while (HAL::is_thread_pool_finished(threadPool) == false)
-        continue;
+    //if (waitFor <= 4)
+    //    return;
+    //for (u32 i = 0; i < threadCount; i++)
+    //    HAL::submit_thread_pool_task(threadPool, sleepForThreaded, to_void_ptr(waitFor-2));
+    //while (HAL::is_thread_pool_finished(threadPool) == false)
+    //    continue;
 }
 void HAL::appEnd() {
 
