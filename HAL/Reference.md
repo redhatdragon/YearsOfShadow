@@ -36,7 +36,7 @@ This is REQUIRED to be defined by the end user (it may be left blank).\
 The user defined entry point of our application.\
 Use this to prep your application/game before the loop phase.\
 ### Example Code:
-See this [simple example](#simple-example)\
+See this [simple example](#simple-example)
 ### See also:
 [void app_loop()](#app-loop)\
 [void app_post_frame()](#app-post-frame)\
@@ -48,7 +48,7 @@ Back to [Reference](#reference)
 This is REQUIRED to be defined by the end user (the body may be left blank).\
 The user defined loop function, called every frame (gfx buffer swap).  Your gfx and game code should go here.\
 ### Example Code:
-See this [simple example](#simple-example)\
+See this [simple example](#simple-example)
 ### See also:
 [void app_start()](#app-loop)\
 [void app_post_frame()](#app-post-frame)\
@@ -61,7 +61,7 @@ This is REQUIRED to be defined by the end user (the body may be left blank).\
 The user defined 'post frame' function, called 'after' every frame (after gfx buffer swap).\
 Could occasionally be useful for logging/debugging purposes, don't put gfx code in here!.\
 ### Example Code:
-See this [simple example](#simple-example)\
+See this [simple example](#simple-example)
 ### See also:
 [void app_start()](#app-loop)\
 [void app_loop()](#app-loop)\
@@ -75,7 +75,7 @@ The user defined function meant to be ran right before the application fully clo
 Note that aside the end user clicking the X icon, it's possible to manually signal the application should end.\
 This can be done with [void signal_end()](#signal-end)\
 ### Example Code:
-See this [simple example](#simple-example)\
+See this [simple example](#simple-example)
 ### See also:
 [void app_start()](#app-loop)\
 [void app_loop()](#app-loop)\
