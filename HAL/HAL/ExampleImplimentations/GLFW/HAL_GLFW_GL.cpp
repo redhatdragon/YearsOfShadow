@@ -665,7 +665,7 @@ int main()
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330");
 
-    HAL::appStart();
+    HAL::app_start();
     // cs_spawn_mix_thread(cs_ctx);
 
     /* Loop until the user closes the window */
@@ -703,7 +703,7 @@ int main()
         //perspective = glm::perspective(45.0f, (GLfloat)winWidth / (GLfloat)winHeight, 0.00001f, 1500.0f);
         perspective = glm::perspective(45.0f, static_cast<GLfloat>(winDim.x) / static_cast<GLfloat>(winDim.y), 1.0f, 15000.0f);
 
-        HAL::appLoop();
+        HAL::app_loop();
 
         LARGE_INTEGER app_end;
         QueryPerformanceCounter(&app_end);
@@ -721,7 +721,7 @@ int main()
         telemetry_counters.drawTime = draw_end.QuadPart - app_end.QuadPart;
         telemetry_counters.drawTimeMS = static_cast<long double>(telemetry_counters.drawTime) / freqMS;
 
-        HAL::appPostFrame();
+        HAL::app_post_frame();
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -771,7 +771,7 @@ int main()
         telemetry_counters.drawTimeMSCount += telemetry_counters.drawTimeMS;
     }
 
-    HAL::appEnd();
+    HAL::app_end();
 
     log_to_file_context.flush();
 

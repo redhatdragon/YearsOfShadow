@@ -10,12 +10,12 @@ void sleepForThreaded(void* data) {
 
 void* exampleMesh;
 void* exampleInstancedMeshTest;
-void HAL::appStart() {
+void HAL::app_start() {
     initSystems();
 }
 bool FPressedLastTick = true;
 ;
-void HAL::appLoop() {
+void HAL::app_loop() {
     HAL::draw_background(0, 0, 0, 255);
     ecs.runSystems();
     // auto dbgInfo = ecs.getDebugInfoStr();
@@ -46,7 +46,7 @@ void HAL::appLoop() {
     ticksSinceRewind++;
 #endif
 }
-void HAL::appPostFrame() {
+void HAL::app_post_frame() {
     while (HAL::is_thread_pool_finished(threadPool) == false)
         continue;
     u16 threadCount = static_cast<u16>(HAL::get_thread_pool_free_thread_count(threadPool));
@@ -67,6 +67,6 @@ void HAL::appPostFrame() {
     //while (HAL::is_thread_pool_finished(threadPool) == false)
     //    continue;
 }
-void HAL::appEnd() {
+void HAL::app_end() {
 
 }

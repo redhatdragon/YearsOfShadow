@@ -21,10 +21,10 @@ const char *EE_getDirData();
 namespace HAL
 {
     // Define these in your application to be called by the HAL_ implimentations.
-    void appStart();
-    void appLoop();
-    void appPostFrame();
-    void appEnd();
+    void app_start();
+    void app_loop();
+    void app_post_frame();
+    void app_end();
 
     template<class... Args>
 	std::string hal_format(std::string_view format, Args... args)
