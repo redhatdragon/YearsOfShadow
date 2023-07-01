@@ -58,7 +58,7 @@ Back to [Reference](#reference)
 ### <a id="app-post-frame"></a> void app_post_frame()
 About:\
 This is REQUIRED to be defined by the end user (the body may be left blank).\
-The user defined 'post frame' function, called every 'after' frame (after gfx buffer swap).\
+The user defined 'post frame' function, called 'after' every frame (after gfx buffer swap).\
 Could occasionally be useful for logging/debugging purposes, don't put gfx code in here!.\
 Example Code:\
 See this [simple example](#simple-example)\
