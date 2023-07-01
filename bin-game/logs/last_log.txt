@@ -1,3 +1,0 @@
-LOG: Hello, LOG!
-WARNING: Hello, WARN!
-ERROR: Hello, ERROR!

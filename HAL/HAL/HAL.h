@@ -44,7 +44,7 @@ namespace HAL
 #define HAL_ERROR(FORMAT, ...) HAL::hal_error(HAL::hal_format(FORMAT, __VA_ARGS__ ));
 
 #ifdef NDEBUG
-#define HAL_ASSERT(COND, FORMAT, ...) (void);
+#define HAL_ASSERT(COND, FORMAT, ...) ;
 #else
 #define HAL_ASSERT(COND, FORMAT, ...) HAL_ASSERT_REL(COND, FORMAT, __VA_ARGS__);
 #endif
