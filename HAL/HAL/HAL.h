@@ -107,7 +107,7 @@ namespace HAL
 
 	void draw_background(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 
-	void drawText(const char* str, int x, int y, unsigned int fontWidth);
+	void draw_text(const char* str, int x, int y, unsigned int fontWidth);
 
 	enum class key_code_t : int32_t
     {
@@ -240,7 +240,6 @@ namespace HAL
     };
 
 	bool get_key_state(char k);
-
     bool get_key_state(key_code_t key_code);
 
 	bool get_mouse_left_state();
@@ -259,7 +258,7 @@ namespace HAL
 	void limit_FPS(uint32_t fps);
 	float get_app_loop_time_MS();
 	float get_draw_time_MS();
-	float get_frame_time_MS();
+	//float get_frame_time_MS();  TODO: need a better name for this or maybe have it removed?
 
 	// bool EE_playAudioFile(const char* fileName, uint8_t loop);
 	// bool EE_getNewAudio(const char* fileName, void* audioBuffer);
