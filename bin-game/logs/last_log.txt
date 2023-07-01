@@ -1,0 +1,6 @@
+LOG: Hello, LOG!
+WARNING: Hello, WARN!
+ERROR: Hello, ERROR!
+ERROR: Opengl_Error: 1
+ERROR: Opengl_Error: 1
+ERROR: Opengl_Error: 1
