@@ -14,10 +14,13 @@ public:
 	inline uint16_t getWidth() const { return w; }
 	inline uint16_t getHeight() const { return h; }
 	inline uint8_t getBPP() const { return bpp; }
+    inline std::string getPath() const { return path; }
 
-	void setIfUnique(const std::string& _path) {
+	void swapIfUnique(const std::string& _path) {
 		if (path == _path)
 			return;
+        if (path.empty() == false)
+            destruct();
 		init(_path);
 	}
 };

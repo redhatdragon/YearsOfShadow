@@ -291,6 +291,8 @@ namespace HAL
     instanced_mesh_handle_t get_new_instanced_mesh(const std::string_view filePath);
     void set_instanced_mesh_submesh_texture(instanced_mesh_handle_t meshID, uint8_t submeshIndex,
                                             const char *textureType, const char *path);
+    void set_instanced_mesh_submesh_texture(instanced_mesh_handle_t meshID, uint8_t submeshIndex,
+                                            const char *textureType, texture_handle_t texture);
 
     void draw_instanced_mesh(instanced_mesh_handle_t meshID);
 

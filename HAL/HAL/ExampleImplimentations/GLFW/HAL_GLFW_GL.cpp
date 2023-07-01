@@ -31,6 +31,10 @@
 
 #include <HAL/HAL.h>
 
+// TODO: Might need an include dependency in cmake or maybe HAL should be moved back inside EchoEngine?
+// Maybe could be avoided with std::vector<T*> and checking for nullptr instead of using FlatFlaggedBuffer?
+#include "../../../EchoEngine/EchoEngine/FlatBuffer.h"
+
 //#pragma comment(lib, "dsound.lib")
 //#pragma comment(lib, "dxguid.lib")  //TODO: check which of these are required for cs_
 //#pragma comment(lib, "winmm.lib")
@@ -65,7 +69,9 @@ static glm::mat4 perspective;
 static std::vector<std::unique_ptr<SceneCamera>> sceneCameras;
 static SceneCamera* activeSceneCamera = nullptr;
 static GLFWwindow *window;
-static std::vector<TexturedQuad> textures;
+//static std::vector<TexturedQuad> textures;
+constexpr uint32_t max_textures = 512;
+FlatFlaggedBuffer<TexturedQuad, max_textures> textures;
 static std::vector<std::unique_ptr<Mesh>> meshes = {};
 static std::vector<std::unique_ptr<InstancedMesh>> instancedMeshes = {};
 
@@ -205,20 +211,22 @@ HAL::texture_handle_t HAL::get_new_texture(const std::string_view fileName)
 {
     TexturedQuad texture;
     texture.init(static_cast<std::string>(fileName).c_str(), 0, 0, 0, 0);
-    textures.push_back(texture);
-    return static_cast<HAL::texture_handle_t>(textures.size() - 1);
+    return static_cast<HAL::texture_handle_t>(textures.insert(texture));
 }
 
 void HAL::draw_texture(HAL::texture_handle_t texture, int32_t x, int32_t y, uint32_t w, uint32_t h)
 {
-    HAL_ASSERT(std::to_underlying(texture) < textures.size(), "Invalid texture handle.");
+    HAL_ASSERT(std::to_underlying(texture) < max_textures && textures.getIsValid(to_underlying(texture)),
+               "Invalid texture handle.");
     textures[std::to_underlying(texture)].draw(static_cast<float>(x), static_cast<float>(y), static_cast<float>(w), static_cast<float>(h));
 }
 
 void HAL::release_texture(texture_handle_t texture)
 {
-    HAL_ASSERT(std::to_underlying(texture) < textures.size(), "Invalid texture handle.");
+    HAL_ASSERT(std::to_underlying(texture) < max_textures && textures.getIsValid(to_underlying(texture)),
+               "Invalid texture handle.");
     // TODO: Implement textures as a free list buffer
+    // KOI: ^ attempting this now with the FlatFlaggedBuffer if am understanding free list buffers?
 }
 
 void HAL::draw_background(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
@@ -429,7 +437,7 @@ HAL::instanced_mesh_handle_t HAL::get_new_instanced_mesh(const std::string_view 
     return static_cast<HAL::instanced_mesh_handle_t>(reinterpret_cast<std::uintptr_t>(instancedMeshes.back().get()));
 }
 
-void HAL::set_instanced_mesh_submesh_texture(HAL::instanced_mesh_handle_t meshID, uint8_t submeshIndex,
+void HAL::set_instanced_mesh_submesh_texture(instanced_mesh_handle_t meshID, uint8_t submeshIndex,
                                              const char *textureType,
                                              const char *path)
 {
@@ -441,7 +449,22 @@ void HAL::set_instanced_mesh_submesh_texture(HAL::instanced_mesh_handle_t meshID
     if (std::to_underlying(meshID) == std::numeric_limits<std::uintptr_t>::max()) // Assert?
         return;
 
-    imesh->subMeshes[submeshIndex].textures[0].setIfUnique(path);
+    imesh->subMeshes[submeshIndex].textures[0].swapIfUnique(path);
+}
+void HAL::set_instanced_mesh_submesh_texture(instanced_mesh_handle_t meshID, uint8_t submeshIndex,
+                                        const char *textureType,
+                                        texture_handle_t texture)
+{
+    const auto imesh = reinterpret_cast<InstancedMesh *>(meshID);
+
+    if (meshID == HAL::invalid_instanced_mesh_handle)
+        return;
+
+    if (std::to_underlying(meshID) == std::numeric_limits<std::uintptr_t>::max()) // Assert?
+        return;
+    if (imesh->subMeshes[submeshIndex].textures[0].getPath().empty())
+        imesh->subMeshes[submeshIndex].textures[0].destruct();  //TODO: rework this...
+    imesh->subMeshes[submeshIndex].textures[0] = textures[std::to_underlying(texture)].texture;
 }
 
 void HAL::draw_instanced_mesh(HAL::instanced_mesh_handle_t meshID)

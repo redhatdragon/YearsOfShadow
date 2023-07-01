@@ -7,6 +7,7 @@ struct VoxelBlockMetaData {
 	uint16_t maxHealth;
 };
 VoxelBlockMetaData voxelBlockMetaData[256];
+HAL::mesh_handle_t grassTexture;
 
 //NOTE: Excactly 4 bytes large in 'usage'.
 //WARNING: STORING A DIRECT BUFFER OF THIS TYPE MAY CAUSE UB!!!
@@ -61,7 +62,8 @@ public:
 
 		path += "./Data/Meshes/Cube.obj";
 		blockMesh = HAL::get_new_instanced_mesh(path);
-		HAL::set_instanced_mesh_submesh_texture(blockMesh, 0, "diffuse", "./Data/Textures/grass1.png");
+		//HAL::set_instanced_mesh_submesh_texture(blockMesh, 0, "diffuse", "./Data/Textures/grass1.png");
+        HAL::set_instanced_mesh_submesh_texture(blockMesh, 0, "diffuse", grassTexture);
 
 
 		//for (uint32_t z = 0; z < depth; z++)
@@ -334,6 +336,9 @@ class VoxelWorld {
 public:
 	void init(uint32_t genHeight, uint32_t x, uint32_t y, uint32_t z) {
 		memset(this, 0, sizeof(*this));
+
+		grassTexture = HAL::get_new_texture("./Data/Textures/grass1.png");
+
 		for (uint32_t i = 0; i < worldSize; i++)
 			for (uint32_t j = 0; j < worldSize; j++) {
 				//float dx = x + i * width, dy = y, dz = z + j * depth;
