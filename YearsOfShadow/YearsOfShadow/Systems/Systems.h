@@ -13,8 +13,8 @@ HAL::thread_pool_handle_t threadPool;
 //#include <stddef>
 
 constexpr uint32_t chunk_width = 16, chunk_depth = 16, chunk_height = 256;
-constexpr uint32_t world_size = 240 - (240 % chunk_width);  //block across
-constexpr uint32_t max_npc = 100;
+constexpr uint32_t world_size = 400 - (400 % chunk_width);  //block across
+constexpr uint32_t max_npc = 10000;
 //constexpr uint32_t hash_width = 2;
 //constexpr uint32_t max_bodies_per_hash = 16;
 constexpr uint32_t hash_width = 1;
