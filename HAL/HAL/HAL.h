@@ -12,6 +12,7 @@ For now keyboard values are 1:1 with the ascii table.  Ref: https://www.asciitab
 #include <stacktrace>
 #include <span>
 #include <cstdint>
+#include <format>
 
 #include <glm/glm.hpp>
 
@@ -22,6 +23,39 @@ void EE_appStart();
 void EE_appLoop();
 void EE_appPostFrame();
 void EE_appEnd();
+
+namespace HAL
+{
+    template<class... Args>
+	std::string hal_format(std::string_view format, Args... args)
+    {
+        return std::vformat(format, std::make_format_args(args...));
+    }
+
+    void hal_log(const std::string& msg);
+    void hal_warn(const std::string &msg);
+    void hal_error(const std::string &msg);
+
+	void hal_assert(bool cond, const std::string &msg);
+}
+
+#define HAL_LOG(FORMAT, ...) HAL::hal_log(HAL::hal_format(FORMAT, __VA_ARGS__ ));
+#define HAL_WARN(FORMAT, ...) HAL::hal_warn(HAL::hal_format(FORMAT, __VA_ARGS__ ));
+#define HAL_ERROR(FORMAT, ...) HAL::hal_error(HAL::hal_format(FORMAT, __VA_ARGS__ ));
+
+#ifdef NDEBUG
+#define HAL_ASSERT(COND, FORMAT, ...) (void);
+#else
+#define HAL_ASSERT(COND, FORMAT, ...) HAL_ASSERT_REL(COND, FORMAT, __VA_ARGS__);
+#endif
+#define HAL_ASSERT_REL(COND, FORMAT, ...)																				\
+    {																													\
+        if (!(COND))																									\
+		{																												\
+            HAL::hal_assert(COND, HAL::hal_format(FORMAT, __VA_ARGS__));												\
+		    __debugbreak();																								\
+		}                                                                                                               \
+    };
 
 namespace HAL
 {

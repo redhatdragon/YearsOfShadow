@@ -1,13 +1,16 @@
 #pragma once
 #pragma warning(push, 0)
 
-#include <iostream>
-#include <fstream>
+// #include <fstream>
 #include <sstream>
 #include <thread>
 #include <ranges>
 #include <memory>
 #include <format>
+#include <array>
+#include <cstdio>
+#include <iomanip>
+#include <mutex>
 
 #define GLEW_STATIC
 #pragma comment(lib, "opengl32.lib")
@@ -52,7 +55,11 @@ void translateScreen2DToGL(float& x, float& y);
 #include "GL_Utils/InstancedMesh2.h"
 #include "GL_Utils/SceneCamera.h"
 
-//GLOBAL STATES
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_glfw.h>
+#include <imgui/imgui_impl_opengl3.h>
+
+// GLOBAL STATES
 // Temporarily used unique_ptr to patch a memory leak
 static glm::mat4 perspective;
 static std::vector<glm::mat4> viewMatrices;
@@ -63,41 +70,120 @@ static std::vector<TexturedQuad> textures;
 static std::vector<std::unique_ptr<Mesh>> meshes = {};
 static std::vector<std::unique_ptr<InstancedMesh>> instancedMeshes = {};
 
-void HAL_assert_impl(bool value, const std::string &msg)
+static class log_to_file_context_t
+{
+    FILE *last_log_;
+    FILE *date_log_;
+    std::array<char, 512> output_buffer_ ;
+    size_t buffer_pos_;
+
+public:
+    log_to_file_context_t()
+        : buffer_pos_(0)
+    {
+        fopen_s(&last_log_ , "logs/last_log.txt", "w+");
+        auto in_time_t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+        std::stringstream ss;
+        ss << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d %X");
+        
+        fopen_s(&date_log_, ("logs/" + ss.str() + ".txt").c_str(), "w+");
+    }
+
+    void log_message(const std::string& msg)
+    {
+        if (buffer_pos_ + msg.size() > output_buffer_.size())
+            flush();
+
+        std::copy(msg.begin(), msg.end(), output_buffer_.begin() + buffer_pos_);
+        buffer_pos_ += msg.size();
+    }
+
+    void flush()
+    {
+        if (last_log_)
+        {
+            fwrite(output_buffer_.data(), 1, buffer_pos_, last_log_);
+            fflush(last_log_);
+        }
+        if (date_log_)
+        {
+            fwrite(output_buffer_.data(), 1, buffer_pos_, date_log_);
+            fflush(date_log_);
+        }
+
+        buffer_pos_ = 0;
+    }
+
+    ~log_to_file_context_t()
+    {
+        flush();
+
+        if (last_log_)
+            fclose(last_log_);
+        if (date_log_)
+            fclose(date_log_);
+    }
+} log_to_file_context;
+
+
+static bool consoleSupportsColors  = false;
+static std::mutex consoleMutex;
+
+void HAL::hal_log(const std::string &msg)
+{
+    std::unique_lock<std::mutex> lock(consoleMutex);
+    OutputDebugStringA(("LOG: " + msg).c_str());
+    log_to_file_context.log_message(("LOG: " + msg).c_str());
+    if (consoleSupportsColors)
+       printf_s("\033[37m%s\033[0m", msg.c_str());
+    else 
+        printf_s("%s", msg.c_str());
+}
+
+void HAL::hal_warn(const std::string &msg)
+{
+    std::unique_lock<std::mutex> lock(consoleMutex);
+    OutputDebugStringA(("WARNING: " + msg).c_str());
+    log_to_file_context.log_message(("WARNING: " + msg).c_str());
+    if (consoleSupportsColors)
+        printf_s("\033[33m%s\033[0m", msg.c_str());
+    else
+        printf_s("WARNING: %s", msg.c_str());
+}
+
+void HAL::hal_error(const std::string &msg)
+{
+    std::unique_lock<std::mutex> lock(consoleMutex);
+    OutputDebugStringA(("ERROR: " + msg).c_str());
+    log_to_file_context.log_message(("ERROR: " + msg).c_str());
+    if (consoleSupportsColors)
+        printf_s("\033[31m%s\033[0m", msg.c_str());
+    else
+        printf_s("ERROR: %s", msg.c_str());
+}
+
+void HAL::hal_assert(bool cond, const std::string &msg)
 {
     using namespace std::string_literals;
 
-    if (value == true) return;
+    if (cond == true)
+        return;
 
-    OutputDebugStringA(("HAL Assertion Failed\n"s + msg + "\nStack Trace:\n").c_str());
+    hal_error(("HAL Assertion Failed\n"s + msg + "\nStack Trace:\n").c_str());
 
     auto stack = std::stacktrace::current();
 
     for (auto se : stack | std::views::drop(1))
-        OutputDebugStringA((se.source_file() + "("s + std::to_string(se.source_line()) + ")" + se.description() + "\n").c_str());
-
-    __debugbreak();
+        hal_error(
+            (se.source_file() + "("s + std::to_string(se.source_line()) + ")" + se.description() + "\n").c_str());
 }
-
-#define HAL_ASSERT(STATEMENT, MSG) \
-   HAL_assert_impl(STATEMENT, MSG)
-
-template<class... Args>
-void HAL_log_impl(std::string_view format, Args&&... args)
-{
-    using namespace std::string_literals;
-    std::string msg = std::vformat(format, std::make_format_args(args...));
-    OutputDebugStringA(("HAL: "s + msg + "\n").c_str());
-}
-
-#define HAL_LOG(FORMAT, ...) HAL_log_impl( FORMAT , __VA_ARGS__ )
 
 static void clearErrors() {
     while (glGetError() != GL_NO_ERROR);
 }
 static void getErrors() {
     while (GLenum error = glGetError() != GL_NO_ERROR) {
-        std::cout << "Opengl_Error: " << error << std::endl;
+        HAL_ERROR("Opengl_Error: {}\n", error);
     }
 }
 
@@ -193,17 +279,29 @@ const char* EE_getDirData() {
     return "./data/";
 }
 
-float FPS, FPSLimit, lastFPS;
-float HAL::get_FPS() { return lastFPS; }
+struct telemetry_counters_t
+{
+    long double FPS, FPSLimit, lastFPS;
+    long double appLoopTimeMS, drawTimeMS;
 
-void HAL::limit_FPS(uint32_t fps) { FPSLimit = fps; };
+    long double appLoopTimeMSAvg, drawTimeMSAvg, FPSAvg;
 
-float appLoopTimeMS, drawTimeMS;
-float HAL::get_app_loop_time_MS() { return appLoopTimeMS; };
+    size_t count = {};
+    long double appLoopTimeMSCount, drawTimeMSCount, FPSAvgCount;
 
-float HAL::get_draw_time_MS() { return drawTimeMS; };
+    uint64_t appTime;
+    uint64_t drawTime;
+} telemetry_counters;
 
-float HAL::get_frame_time_MS() { return appLoopTimeMS + drawTimeMS; };
+float HAL::get_FPS() { return telemetry_counters.lastFPS; }
+
+void HAL::limit_FPS(uint32_t fps) { telemetry_counters.FPSLimit = fps; };
+
+float HAL::get_app_loop_time_MS() { return telemetry_counters.appLoopTimeMS; };
+
+float HAL::get_draw_time_MS() { return telemetry_counters.drawTimeMS; };
+
+float HAL::get_frame_time_MS() { return telemetry_counters.appLoopTimeMS + telemetry_counters.drawTimeMS; };
 
 
 size_t HAL::get_hardware_thread_count()
@@ -449,8 +547,71 @@ void HAL::release_camera(HAL::camera_handle_t self)
     }
 }
 
+static void show_performance_overlay(bool *p_open)
+{
+    static int location = 0;
+    ImGuiIO &io = ImGui::GetIO();
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoDocking |
+        ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing |
+        ImGuiWindowFlags_NoNav;
+    if (location >= 0)
+    {
+        const float PAD = 10.0f;
+        const ImGuiViewport *viewport = ImGui::GetMainViewport();
+        ImVec2 work_pos = viewport->WorkPos; // Use work area to avoid menu-bar/task-bar, if any!
+        ImVec2 work_size = viewport->WorkSize;
+        ImVec2 window_pos, window_pos_pivot;
+        window_pos.x = (location & 1) ? (work_pos.x + work_size.x - PAD) : (work_pos.x + PAD);
+        window_pos.y = (location & 2) ? (work_pos.y + work_size.y - PAD) : (work_pos.y + PAD);
+        window_pos_pivot.x = (location & 1) ? 1.0f : 0.0f;
+        window_pos_pivot.y = (location & 2) ? 1.0f : 0.0f;
+        ImGui::SetNextWindowPos(window_pos, ImGuiCond_Always, window_pos_pivot);
+        ImGui::SetNextWindowViewport(viewport->ID);
+        window_flags |= ImGuiWindowFlags_NoMove;
+    }
+    else if (location == -2)
+    {
+        // Center window
+        ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+        window_flags |= ImGuiWindowFlags_NoMove;
+    }
+    ImGui::SetNextWindowBgAlpha(0.35f); // Transparent background
+
+    if (ImGui::Begin("Performance", p_open, window_flags))
+    {
+        ImGui::Text("Performance Statistics");
+        ImGui::Separator();
+        ImGui::Text("FPS LIMIT: (%.4f)", static_cast<float>(telemetry_counters.FPSLimit));
+        ImGui::Text("App Loop Time: (%.4f) [MS]", static_cast<float>(telemetry_counters.appLoopTimeMS));
+        ImGui::Text("Draw Time: (%.4f) [MS]", static_cast<float>(telemetry_counters.drawTimeMS));
+        ImGui::Text("FPS: (%.4f)", static_cast<float>(telemetry_counters.FPS));
+        ImGui::Spacing();
+        ImGui::Text("Averages");
+        ImGui::Separator();
+        ImGui::Text("App Loop Time: (%.4f) [MS]", static_cast<float>(telemetry_counters.appLoopTimeMSAvg));
+        ImGui::Text("Draw Time: (%.4f) [MS]", static_cast<float>(telemetry_counters.drawTimeMSAvg));
+        ImGui::Text("FPS: (%.4f)", static_cast<float>(telemetry_counters.FPSAvg));
+    }
+    ImGui::End();
+}
+
 int main()
 {
+    // Colorful output!
+#ifdef _WIN32
+    {
+        DWORD dwMode;
+        HANDLE hOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+        GetConsoleMode(hOutput, &dwMode);
+        dwMode |= ENABLE_PROCESSED_OUTPUT | ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+        consoleSupportsColors = (SetConsoleMode(hOutput, dwMode) != 0);    
+    }
+#endif
+
+    HAL_LOG("Hello, LOG!\n");
+    HAL_WARN("Hello, WARN!\n");
+    HAL_ERROR("Hello, ERROR!\n");
+
     /* Initialize the library */
     if (!glfwInit())
         return -1;
@@ -458,6 +619,7 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
 
     glfwWindowHint(GLFW_SAMPLES, 4);
     glEnable(GL_MULTISAMPLE);
@@ -473,7 +635,7 @@ int main()
     glfwMakeContextCurrent(window);
 
     if (glewInit() != GLEW_OK) {
-        printf("Error: glewInit failed\n");
+        HAL_ERROR("Error: glewInit failed\n");
     }
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -487,20 +649,53 @@ int main()
     //Initialize sound context
     HWND hwnd = glfwGetWin32Window(window);
     // cs_ctx = cs_make_context(hwnd, 48000, 8192 * 10, 0, NULL);
+
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO &io = ImGui::GetIO();
+    (void)io;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;   // Enable Keyboard Controls
+//     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;    // Enable Gamepad Controls
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;       // Enable Docking
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;     // Enable Multi-Viewport / Platform Windows
+    // io.ConfigViewportsNoAutoMerge = true;
+    // io.ConfigViewportsNoTaskBarIcon = true;
+
+    // Setup Dear ImGui style
+    ImGui::StyleColorsDark();
+
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init("#version 330");
+
     EE_appStart();
     // cs_spawn_mix_thread(cs_ctx);
 
     /* Loop until the user closes the window */
+
+    LARGE_INTEGER frequency;
+    QueryPerformanceFrequency(&frequency);
+    long double freq = static_cast<long double>(frequency.QuadPart);
+    long double freqMS = freq / 1000.0;
+
+    bool show_demo = true, performance_window = true;
     while (!glfwWindowShouldClose(window)) {
+        LARGE_INTEGER time_start;
+        QueryPerformanceCounter(&time_start);
+        glfwPollEvents();
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+        if (show_demo)
+            ImGui::ShowDemoWindow(&show_demo);
+
+        if (performance_window)
+            show_performance_overlay(&performance_window);
 
         double startTime = glfwGetTime();
 
-        FPSLimit = 60;
-        lastFPS = FPS;
-        FPS = clock();
-        appLoopTimeMS = clock();
-
-        // EE_pushMatrix();
+        telemetry_counters.FPSLimit = 60;
+        telemetry_counters.lastFPS = telemetry_counters.FPS;
 
         /* Render here */
         glClearColor(0.5f, 0.5f, 0.5f, 1);
@@ -510,38 +705,84 @@ int main()
         //perspective = glm::perspective(45.0f, (GLfloat)winWidth / (GLfloat)winHeight, 0.00001f, 1500.0f);
         perspective = glm::perspective(45.0f, static_cast<GLfloat>(winDim.x) / static_cast<GLfloat>(winDim.y), 1.0f, 15000.0f);
 
-        // for (size_t i = 0; i < activeSoundCount; i++) {
-        //     if (activeSound[i]->active == false) {
-        //         cs_free_sound(activeSound[i]->loaded_sound);
-        //         free(activeSound[i]->loaded_sound);
-        //         free(activeSound[i]);
-        //         activeSoundCount--;
-        //         activeSound[i] = activeSound[activeSoundCount];
-        //     }
-        // }
-
         EE_appLoop();
-        appLoopTimeMS = clock() - appLoopTimeMS;
 
-        drawTimeMS = clock();
+        LARGE_INTEGER app_end;
+        QueryPerformanceCounter(&app_end);
+
+        telemetry_counters.appTime = app_end.QuadPart - time_start.QuadPart;
+        telemetry_counters.appLoopTimeMS = static_cast<long double>(telemetry_counters.appTime) / freqMS;
+
         getErrors();
         /* Swap front and back buffers */
-        glfwSwapBuffers(window);
+        
         /* Poll for and process events */
-        glfwPollEvents();
+        
         viewMatrices.clear();
-        drawTimeMS = clock() - drawTimeMS;
+
+        LARGE_INTEGER draw_end;
+        QueryPerformanceCounter(&draw_end);
+        telemetry_counters.drawTime = draw_end.QuadPart - app_end.QuadPart;
+        telemetry_counters.drawTimeMS = static_cast<long double>(telemetry_counters.drawTime) / freqMS;
 
         EE_appPostFrame();
 
-        while (startTime + (1.0f / FPSLimit) > glfwGetTime()) {
+        while (startTime + (1.0f / telemetry_counters.FPSLimit) > glfwGetTime())
+        {
             continue;
         }
-        FPS = clock() - FPS;
+
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+        {
+            GLFWwindow *backup_current_context = glfwGetCurrentContext();
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
+            glfwMakeContextCurrent(backup_current_context);
+        }
+
+        glfwSwapBuffers(window);
+
+        LARGE_INTEGER frame_end;
+        QueryPerformanceCounter(&frame_end);
+
+        telemetry_counters.FPS = static_cast<long double>(freq) / static_cast<long double>(frame_end.QuadPart - time_start.QuadPart);
+
+        if (telemetry_counters.count % static_cast<size_t>(telemetry_counters.FPSLimit) == 0 ||
+            telemetry_counters.count >= static_cast<size_t>(telemetry_counters.FPSLimit))
+        {
+            telemetry_counters.FPSAvg =
+                telemetry_counters.FPSAvgCount / static_cast<long double>(telemetry_counters.count);
+
+            telemetry_counters.appLoopTimeMSAvg =
+                telemetry_counters.appLoopTimeMSCount / static_cast<long double>(telemetry_counters.count);
+
+            telemetry_counters.drawTimeMSAvg =
+                telemetry_counters.drawTimeMSCount / static_cast<long double>(telemetry_counters.count);
+
+            telemetry_counters.FPSAvgCount = telemetry_counters.appLoopTimeMSCount =
+                telemetry_counters.drawTimeMSCount = 0.0;
+
+            telemetry_counters.count = 0;
+        }
+
+        telemetry_counters.count += 1;
+        telemetry_counters.FPSAvgCount += telemetry_counters.FPS;
+        telemetry_counters.appLoopTimeMSCount += telemetry_counters.appLoopTimeMS;
+        telemetry_counters.drawTimeMSCount += telemetry_counters.drawTimeMS;
     }
 
     EE_appEnd();
 
+    log_to_file_context.flush();
+
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+
+    glfwDestroyWindow(window);
     glfwTerminate();
     return 0;
 }

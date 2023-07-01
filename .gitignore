@@ -13,6 +13,7 @@ unigine_editor.cfg
 *.cache
 *.modified
 *.tlog
+external/ImGUI/include/imgui/*
 
 #VS 2015+
 .vs

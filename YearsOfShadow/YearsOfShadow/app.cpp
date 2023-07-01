@@ -21,14 +21,14 @@ void EE_appLoop() {
     // auto dbgInfo = ecs.getDebugInfoStr();
     // for (auto& i : dbgInfo)
     //	std::cout << i << std::endl;
-    auto dbgInfo = ecs.getDebugInfoStr();
-    std::string dbgStr = "";
-    for (auto &str : dbgInfo)
-    {
-        dbgStr += str;
-        dbgStr += '\n';
-    }
-    fwrite(dbgStr.c_str(), dbgStr.size(), 1, stderr);
+    // auto dbgInfo = ecs.getDebugInfoStr();
+    // std::string dbgStr = "";
+    // for (auto &str : dbgInfo)
+    // {
+    //     dbgStr += str;
+    //     dbgStr += '\n';
+    // }
+    // fwrite(dbgStr.c_str(), dbgStr.size(), 1, stderr);
 
 #ifdef REWIND_ENABLED
     static int ticksSinceRewind = 0;
@@ -52,14 +52,14 @@ void EE_appPostFrame() {
     u16 threadCount = static_cast<u16>(HAL::get_thread_pool_free_thread_count(threadPool));
     clock_t remainingTime = static_cast<clock_t>(HAL::get_app_loop_time_MS() + HAL::get_draw_time_MS());
     i32 waitFor = 16 - remainingTime;
-    std::string printStr = "waitFor: ";
-    printStr += std::to_string(waitFor);
-    printStr += " LoopTime: ";
-    printStr += std::to_string(HAL::get_app_loop_time_MS());
-    printStr += " DrawTime: ";
-    printStr += std::to_string(HAL::get_draw_time_MS());
-    printStr += '\n';
-    fwrite(printStr.c_str(), printStr.size(), 1, stderr);
+    // std::string printStr = "waitFor: ";
+    // printStr += std::to_string(waitFor);
+    // printStr += " LoopTime: ";
+    // printStr += std::to_string(HAL::get_app_loop_time_MS());
+    // printStr += " DrawTime: ";
+    // printStr += std::to_string(HAL::get_draw_time_MS());
+    // printStr += '\n';
+    // fwrite(printStr.c_str(), printStr.size(), 1, stderr);
     if (waitFor <= 2)
         return;
     for (u32 i = 0; i < threadCount; i++)
