@@ -28,6 +28,7 @@
 #include <unordered_map>
 #include "CustomWindowsThreadPool.h"
 //#include "CustomCPP11ThreadPool.h"
+#include <memory>
 
 #include <HAL/HAL.h>
 
@@ -308,7 +309,7 @@ float HAL::get_app_loop_time_MS() { return telemetry_counters.appLoopTimeMS; };
 
 float HAL::get_draw_time_MS() { return telemetry_counters.drawTimeMS; };
 
-float HAL::get_frame_time_MS() { return telemetry_counters.appLoopTimeMS + telemetry_counters.drawTimeMS; };
+//float HAL::get_frame_time_MS() { return telemetry_counters.appLoopTimeMS + telemetry_counters.drawTimeMS; };
 
 
 size_t HAL::get_hardware_thread_count()
@@ -626,6 +627,8 @@ int main()
         dwMode |= ENABLE_PROCESSED_OUTPUT | ENABLE_VIRTUAL_TERMINAL_PROCESSING;
         consoleSupportsColors = (SetConsoleMode(hOutput, dwMode) != 0);    
     }
+
+    //SetPriorityClass( GetCurrentProcess(), HIGH_PRIORITY_CLASS );
 #endif
 
     HAL_LOG("Hello, LOG!\n");
