@@ -1,7 +1,8 @@
 #pragma once
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <stdint.h>
+#include <cstdint>
+
 
 class IndexBuffer {
 	uint32_t id;

@@ -46,4 +46,5 @@ target_link_libraries(
 	GLFW
 	GLM
 	OBJ_LOADER
+	imgui
 )

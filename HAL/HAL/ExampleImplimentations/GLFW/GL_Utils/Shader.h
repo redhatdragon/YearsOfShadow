@@ -1,8 +1,10 @@
 #pragma once
-#include <stdint.h>
+
+#include <cstdint>
 #include <string>
-#include <iostream>
 #include <unordered_map>
+#include <fstream>
+
 #include <glm/glm.hpp>
 
 class Shader {
@@ -30,7 +32,9 @@ private:
 void Shader::init(const std::string& fileName) {
     id = createShaderProgramFromFile(fileName);
     if (id == -1)
-        std::cout << "Error: shader not loaded from path " << fileName << std::endl;
+    {
+        HAL_LOG("Error: shader not loaded from path '{}'\n", fileName);
+    }
 }
 void Shader::destruct() {
     glDeleteProgram(id);
@@ -62,7 +66,9 @@ inline int32_t Shader::getUniformLocation(const std::string& name) {
         return uniformLocationCache[name];
     auto retValue = glGetUniformLocation(id, name.c_str());
     if (retValue == -1)
-        std::cout << "Warning: uniform " << name << " doesn't exist." << std::endl;
+    {
+        HAL_WARN("Warning: uniform '{}' doesn't exist.\n", name);
+    }
     uniformLocationCache[name] = retValue;
     return retValue;
 }
@@ -89,9 +95,7 @@ int Shader::compileShader(uint32_t type, const std::string& source) {
             shaderTypeString = "fragment";
             break;
         }
-        std::cout << "Shader of type " << shaderTypeString << " Has failed to compile" << std::endl;
-        std::cout << message << std::endl;
-        std::cout << std::endl << std::endl << source << std::endl;
+        HAL_ERROR("Shader of type '{}' has failed to compile\n'{}'\nSource: '{}'\n", shaderTypeString, message, source);
         glDeleteShader(id);
         return 0;
     }
@@ -126,7 +130,7 @@ int Shader::createShaderProgramFromFile(const std::string& filepath) {
                 type = SHADER_TYPE::FRAGMENT;
             }
             else {
-                std::cout << "Error: unkown shader type!" << std::endl;
+                HAL_ERROR("Error: unkown shader type!\n");
                 return -1;
             }
         }
