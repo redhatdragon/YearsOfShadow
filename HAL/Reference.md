@@ -32,9 +32,9 @@ void HAL::appEnd(){
 
 ### <a id="app-start"></a> void app_start()
 About:\
+This is REQUIRED to be defined by the end user (it may be left blank).\
 The user defined entry point of our application.\
 Use this to prep your application/game before the loop phase.\
-This is REQUIRED to be defined by the end user (it may be left blank).\
 Example Code:\
 See this [simple example](#simple-example)\
 See also:\
