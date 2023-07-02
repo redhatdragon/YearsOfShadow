@@ -46,7 +46,8 @@ void Texture::init(const std::string& _path) {
 	GL_CALL(glGenerateMipmap(GL_TEXTURE_2D));
 	GL_CALL(glBindTexture(GL_TEXTURE_2D, 0));
 	if (!data) {
-		std::cout << "Error: Texture::init(_path) texture from path " << _path <<  " failed to load!" << stbi_failure_reason() << std::endl;
+		HAL_ERROR("Error: Texture::init(_path) texture from path {} failed to load! {}\n",
+			_path, stbi_failure_reason());
 		return;
 	}
 	stbi_image_free(data);

@@ -1,7 +1,7 @@
 #pragma once
 
 /*
-Screen space is in cartesian coordinates.  Relative to window dimensions.
+Screen space is in screenspace coordinates (+x,+y).  Relative to window dimensions.
 Example: if winWidth and winHeight == 400;  200, 200 is the cnter of the window.
 In the 3D extension of this API, +Z is away from the camera, -Z is towards it.
 

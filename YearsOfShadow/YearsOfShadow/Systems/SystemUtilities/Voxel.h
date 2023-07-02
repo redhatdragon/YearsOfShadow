@@ -399,31 +399,27 @@ public:
 	}
 
 	inline const VoxelBlock& getBlock(uint32_t x, uint32_t y, uint32_t z) {
-		if (posInBounds(x, y, z) == false) {
-			std::cout << "Error: VoxelWorld::getBlock's input position isn't in bounds!" << std::endl;
-			std::cout << "Input: " << x << ", " << y << ", " << z << std::endl;
-			throw;
-		}
+        HAL_ASSERT_REL(posInBounds(x, y, z) == true, "Error: VoxelWorld::getBlock's input position isn't in bounds!\n" 
+			"Input: {}, {}, {}\n"
+			, x, y, z);
 		uint32_t cx = x / width;
 		uint32_t cz = z / depth;
 		return chunks[cx][cz].getBlock(x % width, y, z % depth);
 	}
 	inline void setBlock(const VoxelBlock& _block, uint32_t x, uint32_t y, uint32_t z) {
-		if (posInBounds(x, y, z) == false) {
-			std::cout << "Error: VoxelWorld::setBlock's input position isn't in bounds!" << std::endl;
-			std::cout << "Input: " << x << ", " << y << ", " << z << std::endl;
-			throw;
-		}
+        HAL_ASSERT_REL(posInBounds(x, y, z) == true,
+			"Error: VoxelWorld::setBlock's input position isn't in bounds!\n"
+			"Input: {}, {}, {}\n",
+			x, y, z);
 		uint32_t cx = x / width;
 		uint32_t cz = z / depth;
 		chunks[cx][cz].setBlock(_block, x % width, y, z % depth);
 	}
 	inline void destroyBlock(uint32_t x, uint32_t y, uint32_t z) {
-		if (posInBounds(x, y, z) == false) {
-			std::cout << "Error: VoxelWorld::destroyBlock's input position isn't in bounds!" << std::endl;
-			std::cout << "Input: " << x << ", " << y << ", " << z << std::endl;
-			throw;
-		}
+		HAL_ASSERT_REL(posInBounds(x, y, z) == true,
+			"Error: VoxelWorld::destroyBlock's input position isn't in bounds!\n"
+			"Input: {}, {}, {}\n",
+			x, y, z);
 		uint32_t cx = x / width;
 		uint32_t cz = z / depth;
 		chunks[cx][cz].destroyBlock(x % width, y, z % depth);

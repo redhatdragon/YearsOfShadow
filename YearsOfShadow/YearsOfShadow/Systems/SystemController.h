@@ -7,12 +7,13 @@ struct Controller {
 	GameTick lastFired;
 	GameTick fireRate;
 	GameTick lastJumped;
-	uint16_t jumpDuration;
-	uint16_t jumpDistance;
+	//uint16_t jumpDuration;
+	//uint16_t jumpDistance;
 
 	enum {
-		IS_JUMPING,
-		IS_FALLING,
+		//IS_JUMPING,
+		//IS_FALLING,
+		IS_AIRBORNE,
 		IS_FLOORED
 	} state;
 
@@ -21,10 +22,22 @@ struct Controller {
 		lastFired = 0;
 		fireRate = 20;
 		lastJumped = 0;
-		jumpDuration = 60;
-		jumpDistance = 2;
-		state = IS_FALLING;
+		//jumpDuration = 60;
+		//jumpDistance = 2;
+		//state = IS_FALLING;
 	}
+
+	FixedPoint<256 * 256> getJumpVel() {
+		//Based on...  v = sqrt(2g * h);
+		//TODO: figure out how to make h runtime dynamic later.
+		FixedPoint<256 * 256> g = "0.40f";
+        g *= "1.414f";
+        FixedPoint<256 * 256> h = "1.22f";
+		FixedPoint<256 * 256> retValue = g * h;
+        retValue /= 3;
+		return -retValue;
+	}
+
 	inline bool canFire() {
 		if (lastFired + fireRate <= ecs.getTicksPassed())
 			return true;
@@ -33,44 +46,44 @@ struct Controller {
 	inline void setHasFired() {
 		lastFired = ecs.getTicksPassed();
 	}
-	inline void setHasFloored() {
-		state = IS_FLOORED;
-	}
-	inline bool canJump() {
-		if (isFloored())
-				return true;
-		return false;
-	}
-	inline void setHasJumped() {
-		state = IS_JUMPING;
-		lastJumped = ecs.getTicksPassed();
-	}
-	inline bool isJumping() {
-		if (state == IS_JUMPING)
-			if (ecs.getTicksPassed() <= lastJumped + jumpDuration)
-				return true;
-			else {
-				lastJumped = ecs.getTicksPassed();
-				state = IS_FALLING;
-				return false;
-			}
-		return false;
-	}
-	inline FixedPoint<256 * 256> getJumpDistPerTick() {
-		FixedPoint<256 * 256> retValue = jumpDistance;
-		retValue /= jumpDuration;
-		return retValue;
-	}
-	inline bool isFalling() {
-		if (state == IS_FALLING)
-			return true;
-		return false;
-	}
-	inline bool isFloored() {
-		if (state == IS_FLOORED)
-			return true;
-		return false;
-	}
+	//inline void setHasFloored() {
+	//	state = IS_FLOORED;
+	//}
+	//inline bool canJump() {
+	//	if (isFloored())
+	//			return true;
+	//	return false;
+	//}
+	//inline void setHasJumped() {
+	//	state = IS_JUMPING;
+	//	lastJumped = ecs.getTicksPassed();
+	//}
+	//inline bool isJumping() {
+	//	if (state == IS_JUMPING)
+	//		if (ecs.getTicksPassed() <= lastJumped + jumpDuration)
+	//			return true;
+	//		else {
+	//			lastJumped = ecs.getTicksPassed();
+	//			state = IS_FALLING;
+	//			return false;
+	//		}
+	//	return false;
+	//}
+	//inline FixedPoint<256 * 256> getJumpDistPerTick() {
+	//	FixedPoint<256 * 256> retValue = jumpDistance;
+	//	retValue /= jumpDuration;
+	//	return retValue;
+	//}
+	//inline bool isFalling() {
+	//	if (state == IS_FALLING)
+	//		return true;
+	//	return false;
+	//}
+	//inline bool isFloored() {
+	//	if (state == IS_FLOORED)
+	//		return true;
+	//	return false;
+	//}
 };
 struct Explode {
 	GameTick explodeTime;
@@ -189,24 +202,52 @@ private:
 		pointPos += siz / 2;
 		pointPos.y += siz.y / 2;
 		pointPos.y += "0.01f";
-		if (controller->isFalling()) {
-			if (physics.pointTrace(pointPos, bodyID)) {
-				controller->setHasFloored();
-				vel.y = 0;
-			}
-			else
-				vel.y = originalVel.y;
-		} else if (controller->isFloored()) {
+		//if (controller->isFalling()) {
+		//	if (physics.pointTrace(pointPos, bodyID)) {
+		//		controller->setHasFloored();
+		//		vel.y = 0;
+		//	}
+		//	else
+		//		vel.y = originalVel.y;
+		//} else if (controller->isFloored()) {
+        //    if (HAL::get_key_state(HAL::key_code_t::key_space))
+        //    {
+		//		controller->setHasJumped();
+		//		vel.y = -controller->getJumpDistPerTick();
+		//	}
+		//	else
+		//		vel.y = 0;
+		//} else if (controller->isJumping()) {
+		//	vel.y = -controller->getJumpDistPerTick();
+		//}
+        auto belowPos = pos;
+        belowPos += {siz.x / 2, siz.y, siz.z / 2};
+        belowPos.y += "0.01f";
+
+		if (controller->state == Controller::IS_AIRBORNE)
+        {
+            bool canFall = !physics.pointTrace(belowPos, bodyID);
+            if (canFall == false)
+            {
+                controller->state = Controller::IS_FLOORED;
+            }
+        }
+        if (controller->state == Controller::IS_FLOORED) {
             if (HAL::get_key_state(HAL::key_code_t::key_space))
             {
-				controller->setHasJumped();
-				vel.y = -controller->getJumpDistPerTick();
+                controller->state = Controller::IS_AIRBORNE;
+                vel.y = controller->getJumpVel();
+            }
+            else if (!physics.pointTrace(belowPos, bodyID))
+            {
+                controller->state = Controller::IS_AIRBORNE;
 			}
 			else
 				vel.y = 0;
-		} else if (controller->isJumping()) {
-			vel.y = -controller->getJumpDistPerTick();
+        } else if (controller->state == Controller::IS_AIRBORNE) {  //Probably always true...
+            vel.y = originalVel.y;
 		}
+
 		physics.setVelocity(bodyID, vel.x, vel.y, vel.z);
 	}
 	void jumpPhase(Controller* controller, const Vec3D<FixedPoint<256 * 256>>& pos, BodyID bodyID) {

@@ -6,7 +6,6 @@ HAL::thread_pool_handle_t threadPool;
 
 //#define REWIND_ENABLED
 #define THREADING_ENABLED
-#include <EchoEngine/PhysicsEngineAABB3D.h>
 #include <EchoEngine/DDECS.h>
 
 //#include <memory>
@@ -21,13 +20,24 @@ constexpr uint32_t hash_width = 1;
 constexpr uint32_t max_bodies_per_hash = 50;
 
 
-typedef PhysicsEngineAABB3D <
-	((world_size) / hash_width) + 2,
-	(chunk_height / hash_width) + 2,
-	((world_size) / hash_width) + 2,
-	hash_width,
-	max_bodies_per_hash
-> PHYSICS_DEF;
+#define physics_width ((world_size) / hash_width) + 2
+#define physics_height (chunk_height / hash_width) + 2
+#define physics_depth ((world_size) / hash_width) + 2
+
+#define physics_hash_width hash_width
+#define physics_max_bodies_per_hash max_bodies_per_hash
+#define physics_max_bodies_per_collision 64
+
+#include <EchoEngine/PhysicsEngineAABB3D.h>
+
+//typedef PhysicsEngineAABB3D <
+//	((world_size) / hash_width) + 2,
+//	(chunk_height / hash_width) + 2,
+//	((world_size) / hash_width) + 2,
+//	hash_width,
+//	max_bodies_per_hash
+//> PHYSICS_DEF;
+typedef PhysicsEngineAABB3D PHYSICS_DEF;
 
 PHYSICS_DEF physics;
 
