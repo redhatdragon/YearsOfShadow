@@ -112,6 +112,9 @@ public:
 	inline void setRaw(int32_t other) {
 		data_ = other;
 	}
+	inline bool hasDecimal() {
+		return data_ % decScale;
+	}
 	inline std::string getAsString() const {
 		std::string retValue = "";
 		int32_t whole = data_ / decScale;
