@@ -72,6 +72,7 @@ class DDECS {
 		}
 	};
 	FlatBuffer<ComponentBuffer, max_components> components;
+#ifdef REWIND_ENABLED
 	class BufferSerializer {
 		void(*serializerFunction)(ComponentID id, void* outBuff);
 		uint32_t sizePerDArrayElem;
@@ -168,9 +169,8 @@ class DDECS {
 		}
 	};
 	static constexpr uint32_t max_frames = 60 * 5;
-	#ifdef REWIND_ENABLED
 	RingBuffer<ECSFrame*, max_frames> frames;
-	#endif
+#endif
 
 	/*struct Bucket {
 		std::vector<ComponentID> componentTypes;
@@ -203,10 +203,10 @@ public:
 		for (unsigned int i = 0; i < max_components; i++) {
 			destructors[i] = nullptr;
 		}
+#ifdef REWIND_ENABLED
 		for (unsigned int i = 0; i < max_components; i++) {
 			serializers[i].defineAsDefault();
 		}
-		#ifdef REWIND_ENABLED
 		frames.init();
 		for (unsigned int i = 0; i < max_frames; i++) {
 			ECSFrame* frame = frames.get();
@@ -215,7 +215,7 @@ public:
 			frames.set(frame);
 			frames.advance();
 		}
-		#endif
+#endif
 	}
 	void destruct() {
 		size_t count = systems.size();
@@ -258,7 +258,9 @@ public:
 		if (retValue == -1)
 			return registerComponentUnsafe(componentName, size);
 		//TODO: need to check for valid size, if false return -1
+#ifdef REWIND_ENABLED
 		serializers[retValue].defineAsDefault();
+#endif
 		return retValue;
 	}
 	ComponentID getComponentID(const std::string& componentName) {
@@ -269,15 +271,17 @@ public:
 		}
 		return { (uint32_t)-1 };
 	}
+#ifdef REWIND_ENABLED
 	void setComponentSerializerAsCustom(ComponentID componentID, void(*serializerFunction)(ComponentID id, void* outBuff)) {
 		serializers[componentID].defineAsCustom(componentID, serializerFunction);
 	}
 	void setComponentSerializerAsDArray(ComponentID componentID, uint32_t dArrayElemSize) {
 		serializers[componentID].defineAsDArray(componentID, dArrayElemSize);
 	}
+#endif
 	void emplace(EntityID entity, ComponentID componentID, void* data) {
 		if (entityHasComponent(entity, componentID)) {
-			std::cout << "warning: entity already had component " << components[componentID].name
+			std::cout << "Warning: DDECS::emplace()'s entity arg already had component " << components[componentID].name
 				<< " " << "canceling emplace()" << std::endl;
 			return;
 		}

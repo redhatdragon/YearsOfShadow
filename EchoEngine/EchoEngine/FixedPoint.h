@@ -14,7 +14,7 @@ public:
 	FixedPoint() {
 		data_ = 0;
 	}
-	FixedPoint(const char* str) {
+	constexpr FixedPoint(const char* str) {
 		fromString(str);
 	}
 	FixedPoint(const FixedPoint<decScale>& other) {
@@ -124,7 +124,7 @@ public:
 		retValue += std::to_string(dec);
 		return retValue;
 	}
-	inline bool fromString(const std::string& _str) {
+	constexpr bool fromString(const std::string& _str) {
 		std::string str = _str;
 		char lastChar = str[str.size() - 1];
 		if (lastChar != 'f' && lastChar != 'F')

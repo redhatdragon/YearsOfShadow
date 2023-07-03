@@ -13,6 +13,26 @@
 #endif
 #include <time.h>
 
+#ifndef physics_width
+#define physics_width 1024
+#endif
+#ifndef physics_height
+#define physics_height 256
+#endif
+#ifndef physics_depth
+#define physics_depth 1024
+#endif
+
+#ifndef physics_hash_width
+#define physics_hash_width 50
+#endif
+#ifndef physics_max_bodies_per_hash
+#define physics_max_bodies_per_hash 64
+#endif
+#ifndef physics_max_bodies_per_collision
+#define physics_max_bodies_per_collision 64
+#endif
+
 
 /*
 ABOUT
@@ -29,13 +49,9 @@ when most of your game logic uses a similar threading model which to be frank is
 
 //#define ENABLE_REWIND  use this to enable rewind functionality, useful when you want this functionality on different executables
 
-#ifndef physics_unit_size
-#define physics_unit_size (256*256)  //used as a pretend "1" normalized value to emulate decimal
-#else
-// defined externally, reusing external define
-#endif
+constexpr size_t physics_unit_size = 256 * 256; // used as a pretend "1" normalized value to emulate decimal
 
-#define physics_fp FixedPoint<physics_unit_size>
+using physics_fp = FixedPoint<physics_unit_size>;
 
 //TODO: Consider expanding for future utility.
 
@@ -45,7 +61,7 @@ when most of your game logic uses a similar threading model which to be frank is
 
 
 
-template<uint32_t width, uint32_t height, uint32_t depth, uint32_t hash_width, uint32_t max_bodies_per_hash = 64, uint32_t max_bodies_per_collision = 64>
+//template<uint32_t width, uint32_t height, uint32_t depth, uint32_t hash_width, uint32_t max_bodies_per_hash = 64, uint32_t max_bodies_per_collision = 64>
 class PhysicsEngineAABB3D {
 	static constexpr uint32_t max_dynamic_bodies = 100000;  //100k
 	static constexpr uint32_t max_static_bodies = 1000000;  //1mill
@@ -55,8 +71,9 @@ class PhysicsEngineAABB3D {
 	uint32_t staticBodyCount;  //mostly for debug purposes
 	FlatFlagBuffer<max_bodies> isValid;
 	DArray<void*> userData;
-	DArray<FlatBuffer<BodyID, max_bodies_per_collision>> overlappingBodyIDs;
-	SpatialHashTable<width, height, depth, hash_width* physics_unit_size, max_bodies_per_hash> spatialHashTable;
+    DArray<FlatBuffer<BodyID, physics_max_bodies_per_collision>> overlappingBodyIDs;
+    SpatialHashTable<physics_width, physics_height, physics_depth,
+		physics_hash_width * physics_unit_size, physics_max_bodies_per_hash> spatialHashTable;
 	float timeFromStepping;
 
 	uint32_t threadsFinished;
@@ -86,6 +103,9 @@ public:
 		frames.init();
 		frames.get().clear();
 		#endif
+
+		acceleration16ms = getGravityAccelerationPer16ms();
+        gravityMax16ms = getGravityMaxPer16ms();
 	}
 	BodyID addBodyBox(physics_fp x, physics_fp y, physics_fp z,
 		physics_fp w, physics_fp h, physics_fp d, void* data, bool isSolid) {
@@ -152,7 +172,7 @@ public:
 		return userData[id.id];
 	}
 
-	FlatBuffer<BodyID, 100>& getOverlappingBodies(BodyID id) {
+	FlatBuffer<BodyID, physics_max_bodies_per_collision>& getOverlappingBodies(BodyID id) {
 		return overlappingBodyIDs[id.id];
 	}
 
@@ -321,8 +341,9 @@ public:
 	}
 	static void detectThreadBody(void* _data) {
 		DetectThreadData* data = (DetectThreadData*)_data;
-		PhysicsEngineAABB3D<width, height, depth, hash_width, max_bodies_per_hash>* self =
-			(PhysicsEngineAABB3D<width, height, depth, hash_width, max_bodies_per_hash>*)data->self;
+		//PhysicsEngineAABB3D<width, height, depth, hash_width, max_bodies_per_hash>* self =
+		//	(PhysicsEngineAABB3D<width, height, depth, hash_width, max_bodies_per_hash>*)data->self;
+        PhysicsEngineAABB3D *self = (PhysicsEngineAABB3D*)data->self;
 
 		std::vector<BodyID> IDs;
 		IDs.reserve(100);
@@ -423,13 +444,6 @@ public:
 		return dynamicBodyCount + staticBodyCount;
 	}
 
-	constexpr int32_t getGravityAcceleration() {
-		return ((0163 * physics_unit_size) / 10000) / 2;
-	}
-	constexpr int32_t getGravityMax() {
-		return getGravityAcceleration() * 2;
-	}
-
 #ifdef REWIND_ENABLED
 	void rewind(uint32_t ticksPassed) {
 		if (ticksPassed > max_frames) {
@@ -489,9 +503,24 @@ private:
 	}
 	__forceinline void gravity(BodyID bodyID) {
 		//FixedPoint<physics_unit_size> acceleration = "0.0163f";
-		int32_t acceleration = getGravityAcceleration();
+        //physics_fp acceleration = getGravityAccelerationPer16ms();
 		BodyAABB& body = bodies[bodyID.id];
-		if ((int32_t)body.vel.y < getGravityMax() * 2)
-			body.vel.y += acceleration * 2;
+		if ((int32_t)body.vel.y < gravityMax16ms.getRaw())
+			body.vel.y += acceleration16ms.getRaw();
 	}
+
+	physics_fp getGravityAccelerationPer16ms()
+    {
+        // return ((0163 * physics_unit_size) / 10000) / 2;
+        physics_fp retValue = "9.81f";
+        return retValue / 440;
+    }
+    physics_fp getGravityMaxPer16ms()
+    {
+        physics_fp retValue = "0.9f";
+        return retValue;
+    }
+
+    physics_fp acceleration16ms;
+    physics_fp gravityMax16ms;
 };
