@@ -1,5 +1,6 @@
 .thumbnails
 bin
+bin-game/logs
 bin-etc
 output
 data/.thumbnails
