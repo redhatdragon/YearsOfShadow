@@ -1,3 +1,5 @@
+[![Tests](https://github.com/redhatdragon/YearsOfShadow/actions/workflows/cmake.yml/badge.svg)](https://github.com/redhatdragon/YearsOfShadow/actions/workflows/cmake.yml)
+
 # YearsOfShadow
 Our discord community: https://discord.gg/tady8b4rjn
 
