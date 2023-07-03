@@ -23,7 +23,7 @@ namespace EchoEngine
         FixedPoint<> value;
         value.fromString("5.5f");
         value *= FixedPoint<>(2);
-        EXPECT_EQ(value.getAsString(), "2.275");
+        EXPECT_EQ(value.getAsString(), "11.0f");
     }
 
     TEST(FixedPoint, division_assignment_operator)
@@ -31,7 +31,7 @@ namespace EchoEngine
         FixedPoint<> value;
         value.fromString("5.5f");
         value /= FixedPoint<>(2);
-        EXPECT_EQ(value.getAsString(), "5.5f");
+        EXPECT_EQ(value.getAsString(), "2.275f");
     }
 
     TEST(FixedPoint, addition_assignment_operator) 
