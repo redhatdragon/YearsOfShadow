@@ -283,7 +283,7 @@ private:
 
 	void createEnemy(Vec3D<uint32_t> pos) {
 		EntityID entityID = ecs.getNewEntity();
-		BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, "0.1f", "1.0f", "0.1f",
+		BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, "0.25f", "1.0f", "0.25f",
 			to_void_ptr(entityID), true);
 		ecs.emplace(entityID, bodyComponentID, &bodyID);
 
