@@ -1,15 +1,13 @@
 #pragma once
 
-#include "Vec.h"
-#include "FlatBuffer.h"
-#include "DArray.h"
+#include <EchoEngine/Vec.h>
+#include <EchoEngine/FlatBuffer.h>
+#include <EchoEngine/DArray.h>
 #ifdef THREADING_ENABLED
-#include "HAL/HAL.h"
+#include <HAL/HAL.h>
 #endif
 #ifdef REWIND_ENABLED
-#include "../customDBG.h"
-//#include <Windows.h>
-#include "RingBuffer.h"
+#include <RingBuffer.h>
 #endif
 #include <time.h>
 
@@ -110,12 +108,7 @@ public:
 	BodyID addBodyBox(physics_fp x, physics_fp y, physics_fp z,
 		physics_fp w, physics_fp h, physics_fp d, void* data, bool isSolid) {
 		BodyID retValue;
-		BodyAABB body = {
-			{
-				static_cast<uint32_t>(x.getRaw()), static_cast<uint32_t>(y.getRaw()), static_cast<uint32_t>(z.getRaw())
-			}, { static_cast<uint32_t>(w.getRaw()), static_cast<uint32_t>(h.getRaw()), static_cast<uint32_t>(d.getRaw())},
-			{ 0u,0u,0u }
-		};
+        BodyAABB body = {{x, y, z}, {w, h, d}, {0, 0, 0}};
 		//retValue.id = bodies.insert(body);
 		retValue.id = isValid.toggleFirstInvalid();
 		bodies[retValue.id] = body;
@@ -132,8 +125,7 @@ public:
 	BodyID addStaticBodyBox(physics_fp x, physics_fp y, physics_fp z,
 		physics_fp w, physics_fp h, physics_fp d, void* data, bool isSolid) {
 		BodyID retValue;
-		BodyAABB body = { { (uint32_t)x.getRaw(), (uint32_t)y.getRaw(), (uint32_t)z.getRaw() },
-			{ (uint32_t)w.getRaw(), (uint32_t)h.getRaw(), (uint32_t)d.getRaw() }, { 0,0,0 } };
+        BodyAABB body = {{x, y, z}, {w, h, d}, {0, 0, 0}};
 		retValue.id = isValid.toggleFirstInvalid(max_dynamic_bodies);
 		bodies[retValue.id] = body;
 		setUserData(retValue, data);
@@ -178,7 +170,7 @@ public:
 
 	inline std::vector<BodyID> getBodiesInRectRough(Vec3D<physics_fp> pos, Vec3D<physics_fp> siz) {
 		std::vector<BodyID> retValue;
-		auto hashes = spatialHashTable.getHashes(*(Vec3D<uint32_t>*)&pos, *(Vec3D<uint32_t>*)&siz);
+        auto hashes = spatialHashTable.getHashes(pos, siz);
 		retValue.reserve(hashes.size());
 		uint32_t hashCount = (uint32_t)hashes.size();
 		for (uint32_t i = 0; i < hashCount; i++) {
@@ -202,10 +194,10 @@ public:
 		pos *= physics_unit_size; siz *= physics_unit_size;
 		return getBodiesInRectRough(*(Vec3D<physics_fp>*)&pos, *(Vec3D<physics_fp>*)&siz);
 	}
-	inline bool pointTrace(const Vec3D<FixedPoint<256 * 256>>& pos, BodyID ignoredBody) {
+	inline bool pointTrace(const Vec3D<physics_fp>& pos, BodyID ignoredBody) {
 		std::vector<BodyID> out = {};
-		Vec3D<uint32_t> siz = { 1, 1, 1 };
-		spatialHashTable.getIDs(*(Vec3D<uint32_t>*) & pos, siz, out);
+        Vec3D<physics_fp> siz = {1, 1, 1};
+		spatialHashTable.getIDs(pos, siz, out);
 		uint32_t size = (uint32_t)out.size();
 		for (uint32_t i = 0; i < size; i++)
 			if (out[i] != ignoredBody)
@@ -215,13 +207,13 @@ public:
 	void setVelocity(BodyID id, physics_fp vx, physics_fp vy, physics_fp vz) {
 		BodyAABB* body = &bodies[id.id];
 		#ifdef REWIND_ENABLED
-		Vec3D<uint32_t> offset = { (uint32_t)vx.getRaw(), (uint32_t)vy.getRaw(), (uint32_t)vz.getRaw() };
+		Vec3D<physics_fp> offset = { vx, vy, vz };
 		offset -= body->vel;
 		frames.get().addVelocity(offset, id);
 		#endif
-		body->vel.x = (uint32_t)vx.getRaw();
-		body->vel.y = (uint32_t)vy.getRaw();
-		body->vel.z = (uint32_t)vz.getRaw();
+		body->vel.x = vx;
+		body->vel.y = vy;
+		body->vel.z = vz;
 	}
 	Vec3D<physics_fp> getVelocity(BodyID id) {
 		BodyAABB* body = &bodies[id.id];
@@ -232,30 +224,26 @@ public:
 		return bodies[id.id].isSolid;
 	}
 
-	Vec3D<FixedPoint<physics_unit_size>> getPos(BodyID id) {
-		Vec3D<uint32_t>& bodyPos = bodies[id.id].pos;
-		Vec3D<FixedPoint<physics_unit_size>> pos;
-		pos.x.setRaw(bodyPos.x);
-		pos.y.setRaw(bodyPos.y);
-		pos.z.setRaw(bodyPos.z);
-		return pos;
+	Vec3D<physics_fp> getPos(BodyID id) {
+        Vec3D<physics_fp> &bodyPos = bodies[id.id].pos;
+		return bodyPos;
 	}
 	Vec3D<float> getPosF(BodyID id) {
-		Vec3D<uint32_t>& bodyPos = bodies[id.id].pos;
-		Vec3D<float> pos = { (float)bodyPos.x / physics_unit_size, (float)bodyPos.y / physics_unit_size, (float)bodyPos.z / physics_unit_size };
+        Vec3D<physics_fp> &bodyPos = bodies[id.id].pos;
+		Vec3D<float> pos = { (float)bodyPos.x.getRaw() / physics_unit_size,
+			(float)bodyPos.y.getRaw() / physics_unit_size,
+			(float)bodyPos.z.getRaw() / physics_unit_size };
 		return pos;
 	}
-	Vec3D<FixedPoint<physics_unit_size>> getSize(BodyID id) {
-		Vec3D<uint32_t> bodySiz = bodies[id.id].siz;
-		Vec3D<FixedPoint<physics_unit_size>> siz;
-		siz.x.setRaw(bodySiz.x);
-		siz.y.setRaw(bodySiz.y);
-		siz.z.setRaw(bodySiz.z);
-		return siz;
+	Vec3D<physics_fp> getSize(BodyID id) {
+        Vec3D<physics_fp>& bodySiz = bodies[id.id].siz;
+		return bodySiz;
 	}
 	Vec3D<float> getSizeF(BodyID id) {
-		Vec3D<uint32_t>& bodySiz = bodies[id.id].siz;
-		Vec3D<float> siz = { (float)bodySiz.x / physics_unit_size, (float)bodySiz.y / physics_unit_size, (float)bodySiz.z / physics_unit_size };
+        Vec3D<physics_fp> &bodySiz = bodies[id.id].siz;
+		Vec3D<float> siz = { (float)bodySiz.x.getRaw() / physics_unit_size,
+			(float)bodySiz.y.getRaw() / physics_unit_size,
+			(float)bodySiz.z.getRaw() / physics_unit_size };
 		return siz;
 	}
 
@@ -505,8 +493,8 @@ private:
 		//FixedPoint<physics_unit_size> acceleration = "0.0163f";
         //physics_fp acceleration = getGravityAccelerationPer16ms();
 		BodyAABB& body = bodies[bodyID.id];
-		if ((int32_t)body.vel.y < gravityMax16ms.getRaw())
-			body.vel.y += acceleration16ms.getRaw();
+		if (body.vel.y < gravityMax16ms)
+			body.vel.y += acceleration16ms;
 	}
 
 	physics_fp getGravityAccelerationPer16ms()

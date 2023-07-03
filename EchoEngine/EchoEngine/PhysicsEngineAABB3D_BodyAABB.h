@@ -1,5 +1,5 @@
 struct BodyAABB {
-	Vec3D<uint32_t> pos, siz, vel;
+    Vec3D<physics_fp> pos, siz, vel;
 	uint8_t isSolid;
 
 	__forceinline void simulate() {
@@ -16,7 +16,7 @@ struct BodyAABB {
 		return true;
 	}
 	//Expects the input body to already be reverse simulated and was colliding with other before hand
-	__forceinline Vec3D<uint32_t> resolveClosestSafePosition(const BodyAABB& other) {
+	__forceinline Vec3D<physics_fp> resolveClosestSafePosition(const BodyAABB& other) {
 		//const Vec3D<int32_t>& signedVel = *(Vec3D<int32_t>*)&vel;
 		//Vec3D<uint32_t> futurePos = pos + vel;
 		//Vec3D<uint32_t> closestPos = futurePos;
@@ -45,12 +45,12 @@ struct BodyAABB {
 		//}
 		//return closestPos;
 
-		Vec3D<uint32_t> savedPos = pos;
+		Vec3D<physics_fp> savedPos = pos;
 		constexpr uint32_t intervil = 100;
-		Vec3D<int32_t> miniVel = *(Vec3D<int32_t>*) & vel / intervil;
-		Vec3D<uint32_t> lastPos = pos;
+        Vec3D<physics_fp> miniVel = vel / intervil;
+        Vec3D<physics_fp> lastPos = pos;
 		for (uint32_t i = 0; i < intervil; i++) {
-			pos += *(Vec3D<uint32_t>*) & miniVel;
+            pos += miniVel;
 			if (collidesWith(other))
 				break;
 			lastPos = pos;
@@ -58,12 +58,12 @@ struct BodyAABB {
 		pos = savedPos;
 		return lastPos;
 	}
-	__forceinline Vec3D<uint32_t> resolveClosestSafePosition(BodyAABB** others, uint32_t count) {
-		Vec3D<uint32_t> closestPos = resolveClosestSafePosition(*others[0]);
+	__forceinline Vec3D<physics_fp> resolveClosestSafePosition(BodyAABB** others, uint32_t count) {
+        Vec3D<physics_fp> closestPos = resolveClosestSafePosition(*others[0]);
 		for (uint32_t i = 1; i < count; i++) {
-			Vec3D<uint32_t> curPos = resolveClosestSafePosition(*others[i]);
-			Vec3D<uint32_t> dist = curPos - pos;
-			if (dist.getDistanceSquared() < (closestPos - pos).getDistanceSquared())
+            Vec3D<physics_fp> curPos = resolveClosestSafePosition(*others[i]);
+            Vec3D<physics_fp> dist = curPos - pos;
+			if (dist.getDistanceSquaredFP() < (closestPos - pos).getDistanceSquaredFP())
 				closestPos = curPos;
 		}
 		return closestPos;

@@ -39,26 +39,42 @@ class SpatialHashTable {
 		throw;
 	}
 
-	inline void getIterationBounds(const Vec3D<uint32_t>& pos, const Vec3D<uint32_t>& siz, Bounds& bounds) {
+	inline void getIterationBounds(const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& siz, Bounds& bounds) {
 		//uint32_t startRight = pos.x / hash_width, startDown = pos.y / hash_width;
 		//uint32_t endRight = pos.x / hash_width + siz.x / hash_width, endDown = pos.y / hash_width + siz.y / hash_width;
 		//uint32_t startForward = pos.z / hash_width, endForward = pos.z / hash_width + siz.z / hash_width;
+		
+		//bounds = {
+		//	{
+		//		pos.x / hash_width, pos.y / hash_width, pos.z / hash_width
+		//	},
+		//	{
+		//		(pos.x + siz.x) / hash_width,
+		//		(pos.y + siz.y) / hash_width,
+		//		(pos.z + siz.z) / hash_width
+		//	}
+		//};
+		//if (bounds.siz.x % hash_width == 0)
+		//	bounds.siz.x--;
+		//if (bounds.siz.y % hash_width == 0)
+		//	bounds.siz.y--;
+		//if (bounds.siz.z % hash_width == 0)
+		//	bounds.siz.z--;
+
 		bounds = {
+			{(uint32_t)pos.x.getAsInt(), (uint32_t)pos.y.getAsInt(), (uint32_t)pos.z.getAsInt()}, 
 			{
-				pos.x / hash_width, pos.y / hash_width, pos.z / hash_width
-			},
-			{
-				(pos.x + siz.x) / hash_width,
-				(pos.y + siz.y) / hash_width,
-				(pos.z + siz.z) / hash_width
+				(uint32_t)pos.x.getAsInt() + (uint32_t)siz.x.getAsInt(),
+				(uint32_t)pos.y.getAsInt() + (uint32_t)siz.y.getAsInt(),
+				(uint32_t)pos.z.getAsInt() + (uint32_t)siz.z.getAsInt()
 			}
 		};
-		if (bounds.siz.x % hash_width == 0)
-			bounds.siz.x--;
-		if (bounds.siz.y % hash_width == 0)
-			bounds.siz.y--;
-		if (bounds.siz.z % hash_width == 0)
-			bounds.siz.z--;
+        //if (bounds.siz.x.hasDecimal() == false)
+        //    bounds.siz.x--;
+        //if (bounds.siz.y.hasDecimal() == false)
+        //    bounds.siz.y--;
+        //if (bounds.siz.z.hasDecimal() == false)
+        //    bounds.siz.z--;
 
 		//return { {startRight, startDown, startForward}, {endRight, endDown, endForward} };
 	}
@@ -81,7 +97,7 @@ public:
 		//		}
 		memset(hash, 0, sizeOfHash);
 	}
-	void addBody(BodyID id, const Vec3D<uint32_t>& pos, const Vec3D<uint32_t>& siz) {
+	void addBody(BodyID id, const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& siz) {
 		Bounds bounds;
 		getIterationBounds(pos, siz, bounds);	
 		for (uint32_t z = bounds.pos.z; z <= bounds.siz.z; z++)
@@ -89,7 +105,7 @@ public:
 				for (uint32_t x = bounds.pos.x; x <= bounds.siz.x; x++)
 					addBodyToHash(id, x, y, z);
 	}
-	void removeBody(BodyID id, const Vec3D<uint32_t>& pos, const Vec3D<uint32_t>& siz) {
+	void removeBody(BodyID id, const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& siz) {
 		Bounds bounds;
 		getIterationBounds(pos, siz, bounds);
 		for (uint32_t z = bounds.pos.z; z <= bounds.siz.z; z++)
@@ -98,7 +114,7 @@ public:
 					removeBodyFromHash(id, x, y, z);
 	}
 	//TODO: consider making this return through param as to potentially allow .reserve() before calling.
-	__forceinline std::vector<FlatBuffer<BodyID, max_bodies_per_hash>*> getHashes(const Vec3D<uint32_t>& pos, const Vec3D<uint32_t>& siz) {
+	__forceinline std::vector<FlatBuffer<BodyID, max_bodies_per_hash>*> getHashes(const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& siz) {
 		std::vector<FlatBuffer<BodyID, max_bodies_per_hash>*> returnValue = {};
 		//std::vector<std::vector<BodyID>*> returnValue = {};
 		Bounds bounds;
@@ -110,7 +126,7 @@ public:
 		return returnValue;
 	}
 	// This was complicated and may need another look over
-	inline void getIDs(const Vec3D<uint32_t>& pos, const Vec3D<uint32_t>& siz, std::vector<BodyID>& returnValue) {
+	inline void getIDs(const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& siz, std::vector<BodyID>& returnValue) {
 		Bounds bounds;
 		getIterationBounds(pos, siz, bounds);
 		for (uint32_t z = bounds.pos.z; z <= bounds.siz.z; z++)
