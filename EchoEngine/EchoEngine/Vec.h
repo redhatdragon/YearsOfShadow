@@ -257,6 +257,14 @@ struct Vec3D {
 		if (retValue < 0) return -retValue;
 		return retValue;
 	}
+	__forceinline uint64_t getDistanceSquaredFP() {
+		int64_t retValue = 
+			(int64_t)(x.getRaw() * (int64_t)x.getRaw()) +
+			(int64_t)(y.getRaw() * (int64_t)y.getRaw()) +
+            ((int64_t)z.getRaw() * (int64_t)z.getRaw());
+		if (retValue < 0) return -retValue;
+		return retValue;
+	}
 	__forceinline T getDistanceFrom(Vec3D& other) {
 		return (*this - other).getDistance();
 	}
