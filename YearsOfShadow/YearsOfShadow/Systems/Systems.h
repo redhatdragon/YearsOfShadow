@@ -6,13 +6,14 @@ HAL::thread_pool_handle_t threadPool;
 
 //#define REWIND_ENABLED
 #define THREADING_ENABLED
+#define PROFILER_ENABLED
 #include <EchoEngine/DDECS.h>
 
 //#include <memory>
 //#include <stddef>
 
 constexpr uint32_t chunk_width = 16, chunk_depth = 16, chunk_height = 256;
-constexpr uint32_t world_size = 400 - (400 % chunk_width);  //block across
+constexpr uint32_t world_size = 500 - (500 % chunk_width);  //block across
 constexpr uint32_t max_npc = 10000;
 //constexpr uint32_t hash_width = 2;
 //constexpr uint32_t max_bodies_per_hash = 16;
@@ -89,7 +90,7 @@ inline void initSystems() {
 	ecs.init();
 
 	auto threadCount = HAL::get_hardware_thread_count();
-    threadCount = threadCount / 4;
+    threadCount = threadCount / 2 - 1;
 	std::cout << "ThreadPool thread count: " << threadCount << std::endl;
 
 	threadPool = HAL::get_new_thread_pool(threadCount);

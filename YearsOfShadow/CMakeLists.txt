@@ -44,4 +44,5 @@ target_link_libraries(
 	YearsOfShadow
 	PUBLIC
 	EchoEngine
+	OptickCore
 )

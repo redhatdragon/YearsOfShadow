@@ -305,7 +305,7 @@ private:
 			pos.z = getRandInt(generator, 0, border-(padding+padding));
 			pos += padding;
 			pos.y = 153;
-			if (physics.getBodiesInRectRough(pos, { 4, 1, 4 }).size())
+			if (physics.getBodiesInRectRough(pos, { 6, 1, 6 }).size())
 				continue;
 			createEnemy(pos);
 			count++;

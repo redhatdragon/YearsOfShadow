@@ -1,6 +1,8 @@
 #include <EchoEngine/EE_Types.h>
 #include "Systems/Systems.h"
 #include <thread>
+#include <optick.h>
+//#include <EchoEngine/OP.h>
 
 void sleepForThreaded(void* data) {
     std::this_thread::sleep_for(std::chrono::milliseconds(reinterpret_cast<int64_t>(data)));
@@ -11,10 +13,18 @@ void sleepForThreaded(void* data) {
 void* exampleMesh;
 void* exampleInstancedMeshTest;
 void HAL::app_start() {
+    OPTICK_THREAD("MainThread");
+    OPTICK_START_CAPTURE();
+
+    //OP_THREAD("MainThread");
+    //OP_START();
     initSystems();
+
 }
 bool FPressedLastTick = true;
 void HAL::app_loop() {
+    OPTICK_EVENT();
+    //OP_CAP_FUNCTION();
     HAL::draw_background(0, 0, 0, 255);
     ecs.runSystems();
     // auto dbgInfo = ecs.getDebugInfoStr();
@@ -67,5 +77,8 @@ void HAL::app_post_frame() {
     //    continue;
 }
 void HAL::app_end() {
-
+    OPTICK_STOP_CAPTURE();
+    OPTICK_SAVE_CAPTURE("profiler_dump");
+    //OP_STOP();
+    //OP_SAVE("profiler_dump");
 }

@@ -10,6 +10,11 @@
 #include <RingBuffer.h>
 #endif
 #include <time.h>
+#ifdef PROFILER_ENABLED  //TODO: figure insanity out
+#include <optick.h>
+//#include <windows.h>
+#include <sstream>
+#endif
 
 #ifndef physics_width
 #define physics_width 1024
@@ -260,6 +265,7 @@ public:
 
 	uint32_t lastBodyIndex;
 	inline void simulate() {
+        OPTICK_EVENT();
 		uint32_t bodyCount = dynamicBodyCount;
 		if (bodyCount == 0) return;
 		uint32_t validBodyCount = 0;
@@ -277,6 +283,7 @@ public:
 		}
 	}
 	inline void detectSingle() {
+        OPTICK_EVENT();
 		uint32_t bodyCount = dynamicBodyCount;
 		if (bodyCount == 0) return;
 		for (uint32_t i = 0; i <= lastBodyIndex; i++) {
@@ -328,6 +335,10 @@ public:
 			continue;
 	}
 	static void detectThreadBody(void* _data) {
+        std::ostringstream ss;
+        ss << std::this_thread::get_id();
+        OPTICK_THREAD(ss.str().c_str());
+        OPTICK_EVENT();
 		DetectThreadData* data = (DetectThreadData*)_data;
 		//PhysicsEngineAABB3D<width, height, depth, hash_width, max_bodies_per_hash>* self =
 		//	(PhysicsEngineAABB3D<width, height, depth, hash_width, max_bodies_per_hash>*)data->self;
@@ -353,6 +364,7 @@ public:
 		}
 	}
 	inline void resolve() {
+        OPTICK_EVENT();
 		uint32_t bodyCount = dynamicBodyCount;
 		if (bodyCount == 0) return;
 		for (uint32_t i = 0; i <= lastBodyIndex; i++) {
@@ -382,6 +394,7 @@ public:
 	}
 
 	void tick() {
+        OPTICK_EVENT();
 		clock_t c = clock();
 		#ifdef REWIND_ENABLED
 		frames.advance();
