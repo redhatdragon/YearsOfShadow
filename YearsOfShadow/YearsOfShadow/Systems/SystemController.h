@@ -118,6 +118,8 @@ class SystemController : public System {
 
 public:
 	virtual void init() {
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
 		bodyComponentID = ecs.registerComponent("body", sizeof(BodyID));
 		controllerComponentID = ecs.registerComponent("controller", sizeof(Controller));
 		explodeComponentID = ecs.registerComponent("explode", sizeof(Explode));
@@ -134,6 +136,8 @@ public:
 		ecs.emplace(entity, controllerComponentID, &controller);
 	}
 	virtual void run() {
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
 		if (ecs.getComponentCount(controllerComponentID) == 0)
 			return;
 		Controller* controller = (Controller*)ecs.getComponentBuffer(controllerComponentID);
@@ -224,7 +228,7 @@ private:
 		//}
         auto belowPos = pos;
         belowPos += {siz.x / 2, siz.y, siz.z / 2};
-        belowPos.y += "0.01f";
+        belowPos.y += "0.0001f";
 
 		if (controller->state == Controller::IS_AIRBORNE)
         {

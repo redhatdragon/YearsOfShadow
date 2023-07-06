@@ -12,6 +12,8 @@ class SystemVoxel : public System {
 	ComponentID controllerComponentID;
 public:
 	virtual void init() {
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
 		voxelWorld.init(100, 0, 0, 0);
 		//testBuffer.init(100000000);
 		//for (uint32_t i = 0; i < 100000000; i+=4) {
@@ -23,6 +25,8 @@ public:
 		controllerComponentID = ecs.registerComponent("controller", sizeof(Controller));
 	}
 	virtual void run() {
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
 		Controller* controller = (Controller*)ecs.getComponentBuffer(controllerComponentID);
 		auto pos = controller->cam.getPosition();
 		voxelWorld.display((uint32_t)pos.x, (uint32_t)pos.z);

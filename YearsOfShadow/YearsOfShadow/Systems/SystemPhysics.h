@@ -8,18 +8,24 @@ class SystemPhysics : public System {
 	}
 public:
 	virtual void init() {
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
 		ComponentID bodyComponentID = ecs.registerComponent("body", sizeof(BodyID));
 		ecs.registerDestructor(bodyComponentID, destructPhysicsBody);
 		physics.init();
 		spawnBoundaries();
 	}
 	virtual void run() {
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
 		physics.tick();
 	}
 	virtual const char* getName() {
 		return "SystemPhysics";
 	}
 	void spawnBoundaries() {
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
 		Vec3D<FixedPoint<256 * 256>> pos, siz;
 
 		pos = { 0, 0, 0 };

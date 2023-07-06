@@ -90,6 +90,8 @@ class PhysicsEngineAABB3D {
 
 public:
 	void init() {
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
 		dynamicBodyCount = staticBodyCount = 0;
 		timeFromStepping = 0.f;
 
@@ -265,6 +267,7 @@ public:
 
 	uint32_t lastBodyIndex;
 	inline void simulate() {
+        OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
 		uint32_t bodyCount = dynamicBodyCount;
 		if (bodyCount == 0) return;
@@ -283,6 +286,7 @@ public:
 		}
 	}
 	inline void detectSingle() {
+        OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
 		uint32_t bodyCount = dynamicBodyCount;
 		if (bodyCount == 0) return;
@@ -304,6 +308,8 @@ public:
         std::vector<BodyID> bodyIDs;
 	};
 	inline void detect() {
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
 		uint32_t bodyCount = dynamicBodyCount;
 		if (bodyCount == 0) return;
 		for (uint32_t i = 0; i <= lastBodyIndex; i++) {
@@ -327,6 +333,7 @@ public:
 		for (uint32_t i = 0; i < threadCount; i++) {
             HAL::submit_thread_pool_task(threadPool, detectThreadBody, &dtd[i]);
 		}
+        OPTICK_EVENT();
 		static DetectThreadData lastDTD;
 		uint32_t start = workPerThread * threadCount; uint32_t end = start + leftover;
 		lastDTD = { this, start, end };
@@ -366,6 +373,7 @@ public:
 		}
 	}
 	inline void resolve() {
+        OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
 		uint32_t bodyCount = dynamicBodyCount;
 		if (bodyCount == 0) return;
@@ -396,6 +404,7 @@ public:
 	}
 
 	void tick() {
+        OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
 		clock_t c = clock();
 		#ifdef REWIND_ENABLED

@@ -47,4 +47,5 @@ target_link_libraries(
 	GLM
 	OBJ_LOADER
 	imgui
+	OptickCore
 )

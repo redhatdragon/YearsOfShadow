@@ -51,6 +51,7 @@ class SystemEnemy : public System {
 	int activeThreadCount;
 public:
 	virtual void init() {
+        OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
 		bodyComponentID = ecs.registerComponent("body", sizeof(BodyID));
 		meshComponentID = ecs.registerComponent("mesh", sizeof(void*));
@@ -63,6 +64,7 @@ public:
 		activeThreadCount = 0;
 	}
 	virtual void run() {
+        OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
 		u32 enemyCount = ecs.getComponentCount(enemyAIComponentID);
 		#ifdef THREADING_ENABLED
@@ -79,6 +81,7 @@ public:
 	}
 private:
 	void runSingle() {
+        OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
         static std::vector<BodyID> castBuff;
 		std::mt19937& generator = getRandGenerator();
@@ -109,6 +112,7 @@ private:
 		}
 	};
 	void runMulti() {
+        OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
 		const auto threadCount = HAL::get_thread_pool_free_thread_count(threadPool);
 		u32 enemyCount = ecs.getComponentCount(enemyAIComponentID);

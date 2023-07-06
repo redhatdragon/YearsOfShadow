@@ -23,6 +23,7 @@ void HAL::app_start() {
 }
 bool FPressedLastTick = true;
 void HAL::app_loop() {
+    OPTICK_THREAD("MainThread");
     OPTICK_EVENT();
     //OP_CAP_FUNCTION();
     HAL::draw_background(0, 0, 0, 255);
