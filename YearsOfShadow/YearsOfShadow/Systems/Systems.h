@@ -90,7 +90,7 @@ inline void initSystems() {
 	ecs.init();
 
 	auto threadCount = HAL::get_hardware_thread_count();
-    threadCount = threadCount / 2 - 1;
+    threadCount = (size_t)((threadCount * 0.75) - 1);
 	std::cout << "ThreadPool thread count: " << threadCount << std::endl;
 
 	threadPool = HAL::get_new_thread_pool(threadCount);

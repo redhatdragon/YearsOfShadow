@@ -2,6 +2,7 @@
 #include "../FPSCamera.h"
 #include <iostream>
 #include <random>
+#include <optick.h>
 
 inline std::mt19937& getRandGenerator() {
 	static thread_local std::mt19937 generator;
@@ -50,6 +51,7 @@ class SystemEnemy : public System {
 	int activeThreadCount;
 public:
 	virtual void init() {
+        OPTICK_EVENT();
 		bodyComponentID = ecs.registerComponent("body", sizeof(BodyID));
 		meshComponentID = ecs.registerComponent("mesh", sizeof(void*));
 		instancedMeshComponentID = ecs.registerComponent("instancedMesh", sizeof(u32));
@@ -61,6 +63,7 @@ public:
 		activeThreadCount = 0;
 	}
 	virtual void run() {
+        OPTICK_EVENT();
 		u32 enemyCount = ecs.getComponentCount(enemyAIComponentID);
 		#ifdef THREADING_ENABLED
 		const auto threadCount = HAL::get_thread_pool_free_thread_count(threadPool);
@@ -76,6 +79,8 @@ public:
 	}
 private:
 	void runSingle() {
+        OPTICK_EVENT();
+        static std::vector<BodyID> castBuff;
 		std::mt19937& generator = getRandGenerator();
 		u32 enemyCount = ecs.getComponentCount(enemyAIComponentID);
 		EnemyAI* enemyAIs = (EnemyAI*)ecs.getComponentBuffer(enemyAIComponentID);
@@ -90,27 +95,31 @@ private:
 					|| (enemyAI->gotoPos - pos).getDistance() <= 2)
 					findRandomTargetPos(enemyAI, bodyID, generator);
 			}
-			movement(enemyAI, bodyID, generator);
+			movement(enemyAI, bodyID, generator, castBuff);
 		}
 	}
 	struct ThreadData {
 		u32 startingIndex, endingIndex;
 		SystemEnemy* self;
-
+        std::vector<BodyID> castBuff;
+		void init(u32 _startingIndex, u32 _endingIndex, SystemEnemy* _self) {
+            startingIndex = _startingIndex;
+            endingIndex = _endingIndex;
+            self = _self;
+		}
 	};
 	void runMulti() {
+        OPTICK_EVENT();
 		const auto threadCount = HAL::get_thread_pool_free_thread_count(threadPool);
 		u32 enemyCount = ecs.getComponentCount(enemyAIComponentID);
 		u32 totalWork = enemyCount;
 		const auto workPerThread = totalWork / threadCount;
 		u32 leftover = totalWork % threadCount;
 		static std::vector<ThreadData> tds;
-		tds.resize(threadCount);
+		tds.resize(threadCount+1);
 		for (u32 i = 0; i < threadCount; i++) {
 			u32 start = static_cast<u32>(workPerThread * i); u32 end = static_cast<u32>(start + workPerThread - 1);
-			ThreadData td = { start, end, this };
-			//std::cout << start << ' ' << end << std::endl;
-			tds[i] = td;
+            tds[i].init(start, end, this);
 		}
 		for (u32 i = 0; i < threadCount; i++) {
 			HAL::submit_thread_pool_task(threadPool, runThreadedBody, (void*)&tds[i]);
@@ -118,14 +127,18 @@ private:
 		//NOTE: Needs to happen after all other threads finished, reasons beyond me
 		if (leftover) {
 			u32 start = static_cast<u32>(workPerThread * threadCount); u32 end = static_cast<u32>(start + leftover - 1);
-			ThreadData td = { start, end, this };
+            tds[threadCount].init(start, end, this);
 			//std::cout << start << ' ' << end << std::endl;
-			runThreadedBody(&td);
+            runThreadedBody(&tds[threadCount]);
 		}
 		while (HAL::is_thread_pool_finished(threadPool) == false)
 			continue;
 	}
 	static void runThreadedBody(void* data) {
+        std::ostringstream ss;
+        ss << std::this_thread::get_id();
+        OPTICK_THREAD(ss.str().c_str());
+        OPTICK_EVENT();
 		ThreadData* td = (ThreadData*)data;
 		SystemEnemy* self = td->self;
 
@@ -144,7 +157,7 @@ private:
 					|| (enemyAI->gotoPos - pos).getDistance() <= 2)
 					self->findRandomTargetPos(enemyAI, bodyID, generator);
 			}
-			self->movement(enemyAI, bodyID, generator);
+			self->movement(enemyAI, bodyID, generator, td->castBuff);
 		}
 	}
 
@@ -213,7 +226,8 @@ private:
 		gotoPos.y = pos.y;
 		enemyAI->gotoPos = gotoPos;
 	}
-	void movement(EnemyAI* enemyAI, BodyID bodyID, std::mt19937& generator) {
+    void movement(EnemyAI *enemyAI, BodyID bodyID, std::mt19937 &generator, std::vector<BodyID>& castBuff)
+    {
 		if (enemyAI->gotoPos.isZero())
 			return;
 
@@ -242,7 +256,7 @@ private:
 		pointPos += siz / 2;
 		pointPos.y += siz.y / 2;
 		pointPos.y += "0.1f";
-		if (physics.pointTrace(pointPos, bodyID) == false) {
+		if (physics.pointTrace(pointPos, bodyID, castBuff) == false) {
 			vel.y = physics.getVelocity(bodyID).y;
 		}
 		physics.setVelocity(bodyID, vel.x, vel.y, vel.z);

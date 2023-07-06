@@ -199,9 +199,9 @@ public:
 		pos *= physics_unit_size; siz *= physics_unit_size;
 		return getBodiesInRectRough(*(Vec3D<physics_fp>*)&pos, *(Vec3D<physics_fp>*)&siz);
 	}
-	inline bool pointTrace(const Vec3D<physics_fp>& pos, BodyID ignoredBody) {
-		std::vector<BodyID> out = {};
-        Vec3D<physics_fp> siz = {1, 1, 1};
+    inline bool pointTrace(const Vec3D<physics_fp> &pos, BodyID ignoredBody, std::vector<BodyID>& out) {
+        out.resize(0);
+		Vec3D<physics_fp> siz = {1, 1, 1};
 		spatialHashTable.getIDs(pos, siz, out);
 		uint32_t size = (uint32_t)out.size();
 		for (uint32_t i = 0; i < size; i++)
@@ -301,6 +301,7 @@ public:
 	struct DetectThreadData {
 		void* self;
 		uint32_t start, end;
+        std::vector<BodyID> bodyIDs;
 	};
 	inline void detect() {
 		uint32_t bodyCount = dynamicBodyCount;
@@ -344,8 +345,9 @@ public:
 		//	(PhysicsEngineAABB3D<width, height, depth, hash_width, max_bodies_per_hash>*)data->self;
         PhysicsEngineAABB3D *self = (PhysicsEngineAABB3D*)data->self;
 
-		std::vector<BodyID> IDs;
-		IDs.reserve(100);
+		//std::vector<BodyID> IDs;
+        //IDs.reserve(100);
+		std::vector<BodyID>& IDs = data->bodyIDs;
 		for (uint32_t i = data->start; i <= data->end; i++) {
 			if (self->isValid.getIsValid(i) == false)
 				continue;

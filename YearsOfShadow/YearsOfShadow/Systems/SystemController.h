@@ -114,6 +114,8 @@ class SystemController : public System {
 	ComponentID meshComponentID;
 	HAL::camera_handle_t EE_camera;
 
+	std::vector<BodyID> castBuff;
+
 public:
 	virtual void init() {
 		bodyComponentID = ecs.registerComponent("body", sizeof(BodyID));
@@ -226,7 +228,7 @@ private:
 
 		if (controller->state == Controller::IS_AIRBORNE)
         {
-            bool canFall = !physics.pointTrace(belowPos, bodyID);
+            bool canFall = !physics.pointTrace(belowPos, bodyID, castBuff);
             if (canFall == false)
             {
                 controller->state = Controller::IS_FLOORED;
@@ -238,7 +240,7 @@ private:
                 controller->state = Controller::IS_AIRBORNE;
                 vel.y = controller->getJumpVel();
             }
-            else if (!physics.pointTrace(belowPos, bodyID))
+            else if (!physics.pointTrace(belowPos, bodyID, castBuff))
             {
                 controller->state = Controller::IS_AIRBORNE;
 			}

@@ -619,6 +619,8 @@ int main()
 {
     CoInitialize(nullptr);
 
+    SetPriorityClass(GetCurrentProcess(), REALTIME_PRIORITY_CLASS);
+
     // Colorful output!
 #ifdef _WIN32
     {
