@@ -113,17 +113,16 @@ public:
 				for (uint32_t x = bounds.pos.x; x <= bounds.siz.x; x++)
 					removeBodyFromHash(id, x, y, z);
 	}
-	//TODO: consider making this return through param as to potentially allow .reserve() before calling.
-	__forceinline std::vector<FlatBuffer<BodyID, max_bodies_per_hash>*> getHashes(const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& siz) {
-		std::vector<FlatBuffer<BodyID, max_bodies_per_hash>*> returnValue = {};
+	//__forceinline std::vector<FlatBuffer<BodyID, max_bodies_per_hash>*> getHashes(const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& siz) {
+	__forceinline void getHashes(const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& siz, std::vector<FlatBuffer<BodyID, max_bodies_per_hash>*>& out) {
 		//std::vector<std::vector<BodyID>*> returnValue = {};
+        out.clear();
 		Bounds bounds;
 		getIterationBounds(pos, siz, bounds);
 		for (uint32_t z = bounds.pos.z; z <= bounds.siz.z; z++)
 			for (uint32_t y = bounds.pos.y; y <= bounds.siz.y; y++)
 				for (uint32_t x = bounds.pos.x; x <= bounds.siz.x; x++)
-					returnValue.push_back(&getHash(x, y, z));
-		return returnValue;
+					out.push_back(&getHash(x, y, z));
 	}
 	// This was complicated and may need another look over
 	inline void getIDs(const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& siz, std::vector<BodyID>& returnValue) {

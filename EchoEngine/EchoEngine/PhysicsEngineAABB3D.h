@@ -175,31 +175,32 @@ public:
 		return overlappingBodyIDs[id.id];
 	}
 
-	inline std::vector<BodyID> getBodiesInRectRough(Vec3D<physics_fp> pos, Vec3D<physics_fp> siz) {
-		std::vector<BodyID> retValue;
-        auto hashes = spatialHashTable.getHashes(pos, siz);
-		retValue.reserve(hashes.size());
+	inline bool getBodiesInRectRough(Vec3D<physics_fp> pos, Vec3D<physics_fp> siz, std::vector<BodyID>& out) {
+        out.clear();
+        thread_local std::vector<FlatBuffer<BodyID, physics_max_bodies_per_hash>*> hashes;
+        spatialHashTable.getHashes(pos, siz, hashes);
+        out.reserve(hashes.size());
 		uint32_t hashCount = (uint32_t)hashes.size();
 		for (uint32_t i = 0; i < hashCount; i++) {
 			auto* hashPtr = hashes[i];
 			uint32_t hashSize = hashPtr->count;
 			for (uint32_t j = 0; j < hashSize; j++) {
 				BodyID bodyID = (*hashPtr)[j];
-				uint32_t totalBodyCount = (uint32_t)retValue.size();
+                uint32_t totalBodyCount = (uint32_t)out.size();
 				for (uint32_t k = 0; k < totalBodyCount; k++) {
-					if (retValue[k] == bodyID)
+                    if (out[k] == bodyID)
 						goto skip;
 				}
-				retValue.push_back(bodyID);
+                out.push_back(bodyID);
 			skip:
 				continue;
 			}
 		}
-		return retValue;
+        return (bool)out.size();
 	}
-	inline std::vector<BodyID> getBodiesInRectRough(Vec3D<uint32_t> pos, Vec3D<uint32_t> siz) {
+	inline bool getBodiesInRectRough(Vec3D<uint32_t> pos, Vec3D<uint32_t> siz, std::vector<BodyID>& out) {
 		pos *= physics_unit_size; siz *= physics_unit_size;
-		return getBodiesInRectRough(*(Vec3D<physics_fp>*)&pos, *(Vec3D<physics_fp>*)&siz);
+		return getBodiesInRectRough(*(Vec3D<physics_fp>*)&pos, *(Vec3D<physics_fp>*)&siz, out);
 	}
     inline bool pointTrace(const Vec3D<physics_fp> &pos, BodyID ignoredBody, std::vector<BodyID>& out) {
         out.resize(0);
@@ -305,7 +306,6 @@ public:
 	struct DetectThreadData {
 		void* self;
 		uint32_t start, end;
-        std::vector<BodyID> bodyIDs;
 	};
 	inline void detect() {
         OPTICK_THREAD("MainThread");
@@ -339,6 +339,7 @@ public:
 		lastDTD = { this, start, end };
 		if (leftover)
 			detectThreadBody(&lastDTD);
+        OPTICK_EVENT();
         while (HAL::is_thread_pool_finished(threadPool) == false)
 			continue;
 	}
@@ -354,7 +355,8 @@ public:
 
 		//std::vector<BodyID> IDs;
         //IDs.reserve(100);
-		std::vector<BodyID>& IDs = data->bodyIDs;
+		//std::vector<BodyID>& IDs = data->bodyIDs;
+        thread_local std::vector<BodyID> IDs;
 		for (uint32_t i = data->start; i <= data->end; i++) {
 			if (self->isValid.getIsValid(i) == false)
 				continue;

@@ -43,7 +43,8 @@ public:
 					voxelWorld.destroyBlock(pos.x, pos.y, pos.z);
 				}
 				continue;
-				std::vector<BodyID> bodies = physics.getBodiesInRectRough(rootPos, totalSiz);
+                static std::vector<BodyID> bodies;
+                physics.getBodiesInRectRough(rootPos, totalSiz, bodies);
 				uint32_t bodyCount = (uint32_t)bodies.size();
 				for (uint32_t j = 0; j < bodyCount; j++) {
 					BodyID nextBody = bodies[j];
