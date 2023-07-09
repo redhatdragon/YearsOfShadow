@@ -653,7 +653,7 @@ int main()
     OPTICK_EVENT();
     CoInitialize(nullptr);
 
-    SetPriorityClass(GetCurrentProcess(), REALTIME_PRIORITY_CLASS);
+    //SetPriorityClass(GetCurrentProcess(), REALTIME_PRIORITY_CLASS);
 
     // Colorful output!
 #ifdef _WIN32

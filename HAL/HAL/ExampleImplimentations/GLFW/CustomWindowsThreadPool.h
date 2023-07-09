@@ -35,7 +35,7 @@ public:
 			0,                      // use default creation flags 
 			&threadID);				// returns the thread identifier 
 
-		SetThreadPriority(threadHandle, THREAD_PRIORITY_TIME_CRITICAL);
+		//SetThreadPriority(threadHandle, THREAD_PRIORITY_TIME_CRITICAL);
 	}
 
 	void run() {

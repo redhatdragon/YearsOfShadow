@@ -3,9 +3,36 @@
 #include <thread>
 #include <optick.h>
 //#include <EchoEngine/OP.h>
+#include <Windows.h>
+
+static NTSTATUS(__stdcall *NtDelayExecution)(BOOL Alertable, PLARGE_INTEGER DelayInterval) =
+    (NTSTATUS(__stdcall *)(BOOL, PLARGE_INTEGER))GetProcAddress(GetModuleHandle("ntdll.dll"), "NtDelayExecution");
+static NTSTATUS(__stdcall *ZwSetTimerResolution)(IN ULONG RequestedResolution, IN BOOLEAN Set,
+                                                 OUT PULONG ActualResolution) =
+    (NTSTATUS(__stdcall *)(ULONG, BOOLEAN, PULONG))GetProcAddress(GetModuleHandle("ntdll.dll"), "ZwSetTimerResolution");
+
+static void SleepShort(float milliseconds)
+{
+    static bool once = true;
+    if (once)
+    {
+        ULONG actualResolution;
+        ZwSetTimerResolution(1, true, &actualResolution);
+        once = false;
+    }
+
+    LARGE_INTEGER interval;
+    interval.QuadPart = -1 * (int)(milliseconds * 10000.0f);
+    NtDelayExecution(false, &interval);
+}
 
 void sleepForThreaded(void* data) {
-    std::this_thread::sleep_for(std::chrono::milliseconds(reinterpret_cast<int64_t>(data)));
+    std::ostringstream ss;
+    ss << std::this_thread::get_id();
+    OPTICK_THREAD(ss.str().c_str());
+    OPTICK_EVENT();
+    //std::this_thread::sleep_for(std::chrono::milliseconds(reinterpret_cast<int64_t>(data)));
+    SleepShort((float)reinterpret_cast<int64_t>(data));
 }
 
 
@@ -57,6 +84,8 @@ void HAL::app_loop() {
 #endif
 }
 void HAL::app_post_frame() {
+    OPTICK_THREAD("MainThread");
+    OPTICK_EVENT();
     while (HAL::is_thread_pool_finished(threadPool) == false)
         continue;
     u16 threadCount = static_cast<u16>(HAL::get_thread_pool_free_thread_count(threadPool));
@@ -70,12 +99,13 @@ void HAL::app_post_frame() {
     // printStr += std::to_string(HAL::get_draw_time_MS());
     // printStr += '\n';
     // fwrite(printStr.c_str(), printStr.size(), 1, stderr);
-    //if (waitFor <= 4)
-    //    return;
-    //for (u32 i = 0; i < threadCount; i++)
-    //    HAL::submit_thread_pool_task(threadPool, sleepForThreaded, to_void_ptr(waitFor-2));
-    //while (HAL::is_thread_pool_finished(threadPool) == false)
-    //    continue;
+    if (waitFor <= 4)
+        return;
+    for (u32 i = 0; i < threadCount; i++)
+        HAL::submit_thread_pool_task(threadPool, sleepForThreaded, to_void_ptr(waitFor-2));
+    sleepForThreaded(to_void_ptr(waitFor - 2));
+    while (HAL::is_thread_pool_finished(threadPool) == false)
+        continue;
 }
 void HAL::app_end() {
     OPTICK_STOP_CAPTURE();
