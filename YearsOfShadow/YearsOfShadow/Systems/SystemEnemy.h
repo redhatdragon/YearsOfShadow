@@ -246,8 +246,6 @@ private:
 		if (enemyAI->gotoPos.isZero())
 			return;
 
-		auto targetPos = enemyAI->gotoPos;
-		auto vel = targetPos;
 		auto pos = physics.getPos(bodyID);
 
 		int rng = getRandInt(generator, 0, 10);
@@ -255,14 +253,17 @@ private:
 			Vec3D<FixedPoint<256 * 256>> avoidanceDir = getAvoidanceDir(enemyAI, bodyID, castBuff);
 			if (avoidanceDir.isZero() == false) {
 				auto gotoPos = pos + avoidanceDir * 3;
-				Vec3D<FixedPoint<256 * 256>> min = { 0 + 20, 0 + 20 }, max = {world_size - 20, world_size - 20};
+				Vec3D<FixedPoint<256 * 256>> min = { 0 + 20, 20, 0 + 20 },
+					max = {world_size - 20, 256-20, world_size - 20};
 				if (gotoPos.isBetween(min, max))
 					enemyAI->gotoPos = gotoPos;
 			}
 		}
 
+        auto vel = enemyAI->gotoPos;
+
 		vel -= pos;
-		vel *= 10;
+		//vel *= 30;
 		vel.normalize();
 		vel /= 30;
 		vel.y = 0;
