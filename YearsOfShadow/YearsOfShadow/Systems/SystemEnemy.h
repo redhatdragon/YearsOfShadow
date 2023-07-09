@@ -39,6 +39,7 @@ struct EnemyAI {
 		active_state = IDLE;
 		visualDistance = 16;
 		targetHandle = -1;
+        targetEntity = -1;
         lastPositionChoice = 0;
 	}
 };
@@ -129,11 +130,9 @@ private:
 		for (u32 i = 0; i < threadCount; i++) {
 			HAL::submit_thread_pool_task(threadPool, runThreadedBody, (void*)&tds[i]);
 		}
-		//NOTE: Needs to happen after all other threads finished, reasons beyond me
 		if (leftover) {
 			u32 start = static_cast<u32>(workPerThread * threadCount); u32 end = static_cast<u32>(start + leftover - 1);
             tds[threadCount].init(start, end, this);
-			//std::cout << start << ' ' << end << std::endl;
             runThreadedBody(&tds[threadCount]);
 		}
 		while (HAL::is_thread_pool_finished(threadPool) == false)
@@ -158,7 +157,9 @@ private:
 			EntityID owner = ecs.getOwner(self->enemyAIComponentID, i);
 			BodyID bodyID = *(BodyID*)ecs.getEntityComponent(owner, self->bodyComponentID);
 
-			self->findTarget(enemyAI, bodyID);
+            self->verifyTarget(enemyAI);
+            if (enemyAI->targetEntity == -1 || getRandInt(generator, 0, 10) == 0)
+				self->findTarget(enemyAI, bodyID);
 			if (enemyAI->targetEntity == -1) {
 				auto pos = physics.getPos(bodyID);
                 //if (ecs.getTicksPassed() - enemyAI->lastPositionChoice >= 60
@@ -174,6 +175,13 @@ private:
 		}
 	}
 
+	void verifyTarget(EnemyAI* enemyAI) {
+		if (enemyAI->targetEntity == -1
+			|| ecs.entityHandleValid(enemyAI->targetEntity, enemyAI->targetHandle) == true) {
+            enemyAI->targetEntity = -1;
+            enemyAI->targetHandle = -1;
+		}
+	}
 	void findTarget(EnemyAI* enemyAI, BodyID bodyID) {
 		u32 controllerCount = ecs.getComponentCount(controllerComponentID);
 		EntityID closestEntity = -1;
