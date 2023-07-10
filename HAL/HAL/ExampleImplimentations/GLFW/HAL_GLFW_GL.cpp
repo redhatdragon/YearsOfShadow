@@ -322,14 +322,16 @@ size_t HAL::get_hardware_thread_count()
 HAL::thread_pool_handle_t HAL::get_new_thread_pool(size_t maxThreadCount)
 {
     OPTICK_EVENT();
-    CustomThreadPool *tp = new CustomThreadPool();
+    CustomThreadPool* tp = new CustomThreadPool();
     tp->init(maxThreadCount);
     return static_cast<HAL::thread_pool_handle_t>(std::bit_cast<std::uintptr_t>(static_cast<void *>(tp)));
 }
 void HAL::release_thread_pool(HAL::thread_pool_handle_t self)
 {
     OPTICK_EVENT();
-    delete std::bit_cast<CustomThreadPool*>(std::to_underlying(self));
+    CustomThreadPool* tp = std::bit_cast<CustomThreadPool*>(std::to_underlying(self));
+    tp->destruct();
+    delete tp;
 }
 size_t HAL::get_thread_pool_free_thread_count(HAL::thread_pool_handle_t self)
 {

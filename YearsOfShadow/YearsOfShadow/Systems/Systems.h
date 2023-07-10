@@ -69,6 +69,8 @@ constexpr uint64_t sizeOfECS = sizeof(ecs);
 
 #include "SystemUtilities/Serialize.h"
 
+#include "SystemUtilities/ThreadPoolAdjuster.h"
+
 void meshDestructor(ComponentID id, uint32_t index) {
 	const auto meshBuffer = reinterpret_cast<HAL::mesh_handle_t*>(ecs.getComponentBuffer(id));
 	auto mesh = meshBuffer[index];
@@ -89,8 +91,10 @@ void registerDestructors() {
 inline void initSystems() {
 	ecs.init();
 
-	auto threadCount = HAL::get_hardware_thread_count();
-    threadCount = (size_t)((threadCount * 0.75f) - 1);
+	//auto threadCount = HAL::get_hardware_thread_count();
+    ////threadCount = (size_t)((threadCount * 0.75f) - 1);
+    //threadCount = 3;
+    uint32_t threadCount = ThreadPoolAdjuster::getIdealThreadCount();
 	std::cout << "ThreadPool thread count: " << threadCount << std::endl;
 
 	threadPool = HAL::get_new_thread_pool(threadCount);
