@@ -651,8 +651,6 @@ static void show_performance_overlay(bool *p_open)
 
 int main()
 {
-    OPTICK_THREAD("MainThread");
-    OPTICK_EVENT();
     CoInitialize(nullptr);
 
     //SetPriorityClass(GetCurrentProcess(), REALTIME_PRIORITY_CLASS);
@@ -771,8 +769,6 @@ int main()
             0.01f, 15000.0f);
 
         HAL::app_loop();
-        OPTICK_THREAD("MainThread");
-        OPTICK_EVENT();
 
         LARGE_INTEGER app_end;
         QueryPerformanceCounter(&app_end);
@@ -791,7 +787,6 @@ int main()
 
         HAL::app_post_frame();
 
-        OPTICK_EVENT();
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
@@ -840,11 +835,10 @@ int main()
         telemetry_counters.drawTimeMSCount += telemetry_counters.drawTimeMS;
     }
 
-    OPTICK_EVENT();
     HAL::app_end();
 
-    OPTICK_EVENT();
     log_to_file_context.flush();
+
 
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();

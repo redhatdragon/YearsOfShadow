@@ -40,8 +40,8 @@ void sleepForThreaded(void* data) {
 void* exampleMesh;
 void* exampleInstancedMeshTest;
 void HAL::app_start() {
-    OPTICK_THREAD("MainThread");
     OPTICK_START_CAPTURE();
+    OPTICK_THREAD("MainThread");
 
     //OP_THREAD("MainThread");
     //OP_START();
@@ -108,8 +108,9 @@ void HAL::app_post_frame() {
         continue;
 }
 void HAL::app_end() {
+    HAL::release_thread_pool(threadPool);
+
     OPTICK_STOP_CAPTURE();
     OPTICK_SAVE_CAPTURE("profiler_dump");
-    //OP_STOP();
-    //OP_SAVE("profiler_dump");
+    OPTICK_SHUTDOWN();
 }
