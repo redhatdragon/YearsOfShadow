@@ -66,8 +66,6 @@ void translateScreen2DToGL(float& x, float& y);
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 
-#include <Optick.h>
-
 // GLOBAL STATES
 // Temporarily used unique_ptr to patch a memory leak
 static glm::mat4 perspective;
@@ -207,7 +205,6 @@ inline void getAspectRatio(float& w, float& h) {
 
 HAL::texture_handle_t HAL::get_new_texture(const std::string_view fileName)
 {
-    OPTICK_EVENT();
     TexturedQuad texture;
     texture.init(static_cast<std::string>(fileName).c_str(), 0, 0, 0, 0);
     return static_cast<HAL::texture_handle_t>(textures.insert(texture));
@@ -215,7 +212,6 @@ HAL::texture_handle_t HAL::get_new_texture(const std::string_view fileName)
 
 void HAL::draw_texture(HAL::texture_handle_t texture, int32_t x, int32_t y, uint32_t w, uint32_t h)
 {
-    OPTICK_EVENT();
     HAL_ASSERT(std::to_underlying(texture) < max_textures && textures.getIsValid(std::to_underlying(texture)),
                "Invalid texture handle.");
     textures[std::to_underlying(texture)].draw(static_cast<float>(x), static_cast<float>(y), static_cast<float>(w), static_cast<float>(h));
@@ -223,7 +219,6 @@ void HAL::draw_texture(HAL::texture_handle_t texture, int32_t x, int32_t y, uint
 
 void HAL::release_texture(texture_handle_t texture)
 {
-    OPTICK_EVENT();
     HAL_ASSERT(std::to_underlying(texture) < max_textures && textures.getIsValid(std::to_underlying(texture)),
                "Invalid texture handle.");
     // TODO: Implement textures as a free list buffer
@@ -232,7 +227,6 @@ void HAL::release_texture(texture_handle_t texture)
 
 void HAL::draw_background(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 {
-    OPTICK_EVENT();
     GL_CALL(glClearColor(static_cast<float>(r) / 256.f, static_cast<float>(g) / 256.f, static_cast<float>(b) / 256.f,
                         static_cast<float>(a) / 256.f));
     GL_CALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
@@ -321,34 +315,29 @@ size_t HAL::get_hardware_thread_count()
 
 HAL::thread_pool_handle_t HAL::get_new_thread_pool(size_t maxThreadCount)
 {
-    OPTICK_EVENT();
     CustomThreadPool* tp = new CustomThreadPool();
     tp->init(maxThreadCount);
     return static_cast<HAL::thread_pool_handle_t>(std::bit_cast<std::uintptr_t>(static_cast<void *>(tp)));
 }
 void HAL::release_thread_pool(HAL::thread_pool_handle_t self)
 {
-    OPTICK_EVENT();
     CustomThreadPool* tp = std::bit_cast<CustomThreadPool*>(std::to_underlying(self));
     tp->destruct();
     delete tp;
 }
 size_t HAL::get_thread_pool_free_thread_count(HAL::thread_pool_handle_t self)
 {
-    OPTICK_EVENT();
     const auto tp = reinterpret_cast<CustomThreadPool*>(self);
     return tp->getFreeThreadCount();
 }
 bool HAL::submit_thread_pool_task(HAL::thread_pool_handle_t self, void (*func)(void *), void *param)
 {
-    OPTICK_EVENT();
     const auto tp = reinterpret_cast<CustomThreadPool *>(self);
     tp->addTask(func, param);
     return true;
 }
 bool HAL::is_thread_pool_finished(HAL::thread_pool_handle_t self)
 {
-    OPTICK_EVENT();
     const auto tp = reinterpret_cast<CustomThreadPool *>(self);
     return tp->allTasksFinished();
 }
@@ -378,7 +367,6 @@ bool HAL::is_thread_pool_finished(HAL::thread_pool_handle_t self)
 
 HAL::mesh_handle_t HAL::get_new_mesh(const std::string_view filepath)
 {
-    OPTICK_EVENT();
     // TODO: Use vector
     auto retValue = std::make_unique<Mesh>();
     retValue->init(static_cast<std::string>(filepath).c_str());
@@ -388,7 +376,6 @@ HAL::mesh_handle_t HAL::get_new_mesh(const std::string_view filepath)
 
 void HAL::draw_mesh(mesh_handle_t mesh)
 {
-    OPTICK_EVENT();
     const auto meshPtr = reinterpret_cast<Mesh*>(mesh);
     if (activeSceneCamera)
         meshPtr->draw(activeSceneCamera->getPosition(),
@@ -400,14 +387,12 @@ void HAL::draw_mesh(mesh_handle_t mesh)
 
 void HAL::set_mesh_submesh_texture(mesh_handle_t mesh, uint8_t submeshIndex, const char *meshType, const char *path)
 {
-    OPTICK_EVENT();
     const auto meshPtr = reinterpret_cast<Mesh *>(mesh);
     meshPtr->subMeshes[submeshIndex].textures[0].init(path);
 }
 
 void HAL::set_mesh_position(mesh_handle_t mesh, glm::vec3 pos)
 {
-    OPTICK_EVENT();
     const auto meshPtr = reinterpret_cast<Mesh *>(mesh);
     //translateScreen3DToGL(x, y, z);  //TODO: why was this used?  Is it needed?
     pos.y = -pos.y;
@@ -418,14 +403,12 @@ void HAL::set_mesh_position(mesh_handle_t mesh, glm::vec3 pos)
 
 void HAL::set_mesh_rotation(mesh_handle_t mesh, glm::vec3 angles)
 {
-    OPTICK_EVENT();
     const auto meshPtr = reinterpret_cast<Mesh *>(mesh);
     meshPtr->rot = { angles.x, angles.y, angles.z };
 }
 
 void HAL::set_mesh_scale(mesh_handle_t mesh, glm::vec3 scale)
 {
-    OPTICK_EVENT();
     const auto meshPtr = reinterpret_cast<Mesh *>(mesh);
     //translateScreen3DToGL(x, y, z);
     meshPtr->siz = { scale.x, scale.y, scale.z };
@@ -433,7 +416,6 @@ void HAL::set_mesh_scale(mesh_handle_t mesh, glm::vec3 scale)
 
 void HAL::release_mesh(mesh_handle_t mesh)
 {
-    OPTICK_EVENT();
     const auto meshPtr = reinterpret_cast<Mesh *>(mesh);
     auto r = std::ranges::find_if(meshes, [meshPtr](const auto &mesh) { return mesh.get() == meshPtr; });
     HAL_ASSERT(r != std::end(meshes), "Invalid mesh handle.");
@@ -442,7 +424,6 @@ void HAL::release_mesh(mesh_handle_t mesh)
 
 HAL::instanced_mesh_handle_t HAL::get_new_instanced_mesh(const std::string_view filePath)
 {
-    OPTICK_EVENT();
     auto imesh = std::make_unique<InstancedMesh>();
     imesh->init(static_cast<std::string>(filePath).c_str()); // TODO: Return false if failed to load
 
@@ -462,7 +443,6 @@ void HAL::set_instanced_mesh_submesh_texture(instanced_mesh_handle_t meshID, uin
                                              const char *textureType,
                                              const char *path)
 {
-    OPTICK_EVENT();
     const auto imesh = reinterpret_cast<InstancedMesh*>(meshID);
 
     if (meshID == HAL::invalid_instanced_mesh_handle)
@@ -477,7 +457,6 @@ void HAL::set_instanced_mesh_submesh_texture(instanced_mesh_handle_t meshID, uin
                                         const char *textureType,
                                         texture_handle_t texture)
 {
-    OPTICK_EVENT();
     const auto imesh = reinterpret_cast<InstancedMesh *>(meshID);
 
     if (meshID == HAL::invalid_instanced_mesh_handle)
@@ -492,7 +471,6 @@ void HAL::set_instanced_mesh_submesh_texture(instanced_mesh_handle_t meshID, uin
 
 void HAL::draw_instanced_mesh(HAL::instanced_mesh_handle_t meshID)
 {
-    OPTICK_EVENT();
     const auto imesh = reinterpret_cast<InstancedMesh *>(meshID);
 
     if (meshID == HAL::invalid_instanced_mesh_handle)
@@ -507,7 +485,6 @@ void HAL::draw_instanced_mesh(HAL::instanced_mesh_handle_t meshID)
 
 void HAL::release_instanced_mesh(HAL::instanced_mesh_handle_t meshID)
 {
-    OPTICK_EVENT();
     const auto imesh = reinterpret_cast<InstancedMesh *>(meshID);
 
     auto r = std::ranges::find_if(instancedMeshes, [imesh](const auto &mesh) { return mesh.get() == imesh; });
@@ -517,7 +494,6 @@ void HAL::release_instanced_mesh(HAL::instanced_mesh_handle_t meshID)
 
 void HAL::set_instanced_mesh_positions(HAL::instanced_mesh_handle_t meshID, std::span<const glm::vec3> _posBuffer)
 {
-    OPTICK_EVENT();
     const auto imesh = reinterpret_cast<InstancedMesh *>(meshID);
 
     if (meshID == HAL::invalid_instanced_mesh_handle)
@@ -539,7 +515,6 @@ void HAL::set_instanced_mesh_positions(HAL::instanced_mesh_handle_t meshID, std:
 
 void HAL::set_instanced_mesh_scale(HAL::instanced_mesh_handle_t meshID, glm::vec3 scale)
 {
-    OPTICK_EVENT();
     const auto imesh = reinterpret_cast<InstancedMesh *>(meshID);
 
     if (meshID == HAL::invalid_instanced_mesh_handle)
@@ -550,14 +525,12 @@ void HAL::set_instanced_mesh_scale(HAL::instanced_mesh_handle_t meshID, glm::vec
 
 HAL::camera_handle_t HAL::get_new_camera()
 {
-    OPTICK_EVENT();
     sceneCameras.push_back(std::make_unique<SceneCamera>());
     return static_cast<HAL::camera_handle_t>(reinterpret_cast<std::uintptr_t>(sceneCameras.back().get()));
 }
 
 void HAL::camera_look_at(HAL::camera_handle_t self, glm::vec3 at)
 {
-    OPTICK_EVENT();
     const auto cam = reinterpret_cast<SceneCamera*>(self);
     glm::vec3 newFront = {at.x, -at.y, -at.z};
     auto camPos = cam->getPosition();
@@ -567,20 +540,18 @@ void HAL::camera_look_at(HAL::camera_handle_t self, glm::vec3 at)
 
 void HAL::set_camera_position(HAL::camera_handle_t self, glm::vec3 pos)
 {
-    OPTICK_EVENT();
     const auto cam = reinterpret_cast<SceneCamera *>(self);
     
     cam->setPosition(pos.x, -pos.y, -pos.z);
 }
 
-void HAL::use_camera(HAL::camera_handle_t self) {
-    OPTICK_EVENT();
+void HAL::use_camera(HAL::camera_handle_t self)
+{
     activeSceneCamera = reinterpret_cast<SceneCamera *>(self);
 }
 
 void HAL::release_camera(HAL::camera_handle_t self)
 {
-    OPTICK_EVENT();
     const auto cam = reinterpret_cast<SceneCamera *>(self);
 
     // TODO: Use free-list buffer
@@ -602,7 +573,6 @@ void HAL::release_camera(HAL::camera_handle_t self)
 
 static void show_performance_overlay(bool *p_open)
 {
-    OPTICK_EVENT();
     static int location = 0;
     ImGuiIO &io = ImGui::GetIO();
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoDocking |
