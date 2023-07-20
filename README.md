@@ -1,4 +1,5 @@
 [![MSVC CMake Build](https://github.com/redhatdragon/YearsOfShadow/actions/workflows/msvc_cmake.yml/badge.svg)](https://github.com/redhatdragon/YearsOfShadow/actions/workflows/msvc_cmake.yml)
+[![MSVC CMake Test](https://github.com/redhatdragon/YearsOfShadow/actions/workflows/msvc_test.yml/badge.svg)](https://github.com/redhatdragon/YearsOfShadow/actions/workflows/msvc_test.yml)
 
 # YearsOfShadow
 Our discord community: https://discord.gg/tady8b4rjn
