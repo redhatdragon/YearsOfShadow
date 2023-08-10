@@ -69,11 +69,11 @@ void HAL::app_loop() {
 
 #ifdef REWIND_ENABLED
     static int ticksSinceRewind = 0;
-    if (EE_getKeyState('F'))
-    {
-        if (FPressedLastTick == false && ticksSinceRewind >= 90)
-        {
-            physics.rewind(60);
+    if (HAL::get_key_state('F')) {
+        if (FPressedLastTick == false && ticksSinceRewind >= 90) {
+            //physics.rewind(60);
+            //ecs.rewind(60);
+            voxelWorld.rewind(60);
             ticksSinceRewind = 0;
         }
         FPressedLastTick = true;

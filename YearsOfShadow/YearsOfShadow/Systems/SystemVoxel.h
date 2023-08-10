@@ -22,7 +22,7 @@ public:
 		//	testBuffer[i+2] = i+2;
 		//	testBuffer[i+3] = i+3;
 		//}
-		controllerComponentID = ecs.registerComponent("controller", sizeof(Controller));
+        controllerComponentID = ecs.registerComponentAsBlittable("controller", sizeof(Controller));
 	}
 	virtual void run() {
         OPTICK_THREAD("MainThread");

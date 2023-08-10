@@ -5,14 +5,14 @@
 #include <concepts>
 #include <type_traits>
 #include <bit>
+#include <iostream>
 
 #include "FlatBuffer.h"
 #ifdef THREADING_ENABLED
 #include "HAL/HAL.h"
 #endif
-#ifdef REWIND_ENABLED
+#include "DArray.h"
 #include "RingBuffer.h"
-#endif
 #include <time.h>
 typedef uint32_t EntityID;
 
@@ -72,13 +72,12 @@ class DDECS {
 		}
 	};
 	FlatBuffer<ComponentBuffer, max_components> components;
-#ifdef REWIND_ENABLED
 	class BufferSerializer {
 		void(*serializerFunction)(ComponentID id, void* outBuff);
 		uint32_t sizePerDArrayElem;
 	public:
 		inline void defineAsDArray(uint32_t sizePerElem) {
-			serializerFunction = -1;
+            serializerFunction = (void(*)(ComponentID, void *)) - 1;
 			sizePerDArrayElem = sizePerElem;
 		}
 		inline void defineAsCustom(void(*_serializerFunction)(ComponentID id, void* outBuff)) {
@@ -91,10 +90,10 @@ class DDECS {
 			if (isCustom())
 				serializerFunction(id, outBuff);
 			else if (isDArray()) {  //Hacks!
-				u32 count = ecs.getComponentCount(id);
+				uint32_t count = ecs.getComponentCount(id);
 				DArray<uint8_t>* componentBuffer = (DArray<uint8_t>*)ecs.getComponentBuffer(id);
 				DArray<uint8_t>* outBuffAsDArrays = (DArray<uint8_t>*)outBuff;
-				for (u32 i = 0; i < count; i++) {
+				for (uint32_t i = 0; i < count; i++) {
 					DArray<uint8_t>* elem = &componentBuffer[i];
 					DArray<uint8_t>* outElem = &outBuffAsDArrays[i];
 					if (elem->size() != outElem->size()) {
@@ -170,7 +169,6 @@ class DDECS {
 	};
 	static constexpr uint32_t max_frames = 60 * 5;
 	RingBuffer<ECSFrame*, max_frames> frames;
-#endif
 
 	/*struct Bucket {
 		std::vector<ComponentID> componentTypes;
@@ -199,7 +197,7 @@ public:
 		for (unsigned int i = 0; i < max_entities; i++) {
 			entities[i].clear();
 		}
-		handleComponentID = registerComponent("handle", sizeof(EntityHandle));
+		handleComponentID = registerComponentAsBlittable("handle", sizeof(EntityHandle));
 		for (unsigned int i = 0; i < max_components; i++) {
 			destructors[i] = nullptr;
 		}
@@ -246,21 +244,27 @@ public:
 		entities.decrementCount();
 		entities.setInvalid(entity);
 	}
-	ComponentID registerComponentUnsafe(const std::string& componentName, uint32_t size) {
+	ComponentID _registerComponentUnsafe(const std::string& componentName, uint32_t size) {
 		ComponentID retValue = { components.count };
 		ComponentBuffer *buffer = &components[components.count];
 		buffer->init(componentName, size);
 		components.count++;
 		return retValue;
 	}
-	ComponentID registerComponent(const std::string& componentName, uint32_t size) {
+	ComponentID registerComponentAsBlittable(const std::string& componentName, uint32_t size) {
 		ComponentID retValue = getComponentID(componentName);
 		if (retValue == -1)
-			return registerComponentUnsafe(componentName, size);
+            return _registerComponentUnsafe(componentName, size);
 		//TODO: need to check for valid size, if false return -1
-#ifdef REWIND_ENABLED
 		serializers[retValue].defineAsDefault();
-#endif
+		return retValue;
+	}
+	ComponentID registerComponentAsDArray(const std::string& componentName, uint32_t sizePerElem) {
+		ComponentID retValue = getComponentID(componentName);
+		if (retValue == -1)
+            return _registerComponentUnsafe(componentName, sizeof(DArray<uint8_t>));
+		//TODO: need to check for valid size, if false return -1
+		serializers[retValue].defineAsDArray(sizePerElem);
 		return retValue;
 	}
 	ComponentID getComponentID(const std::string& componentName) {
@@ -370,12 +374,12 @@ public:
 	void rewind(uint32_t amount) {
 		if (amount >= max_frames) {
 			std::cout << "Error: DDECS:rewind()'s amount param is bigger than max frames, exiting!" << std::endl;
-			std::cout << << "Amount: " << amount << " max_frames: " << max_frames << std::endl;
+			std::cout << "Amount: " << amount << " max_frames: " << max_frames << std::endl;
 			throw;
 		}
 		frames.rewindFor(amount);
 		ECSFrame* frame = frames.get();
-		frame->copyData(this);
+		frame->update(*this);
 	}
 	void rewindTo(GameTick _gameTick) {
 		GameTick rewindAmount = getTicksPassed() - _gameTick;

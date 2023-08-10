@@ -1,6 +1,7 @@
 #pragma once
 #include <memory.h>
 #include <array>
+#include <tuple>
 
 
 struct VoxelBlockMetaData {
@@ -17,8 +18,8 @@ struct VoxelBlock {
 	uint8_t  padding;  //Reserved for later...
 	uint16_t damage;
 
-	inline uint8_t isAir() const { return !typeID; }
-	inline uint8_t isNotAir() const { return typeID; }
+	inline bool isAir() const { return !typeID; }
+	inline bool isNotAir() const { return typeID; }
 	inline const VoxelBlockMetaData& getMetaData() const {
 		return voxelBlockMetaData[typeID];
 	}
@@ -39,7 +40,7 @@ class VoxelChunk {
 	uint32_t blocks[width][height][depth];
 	FlatBuffer<BlockPos, width * height * depth> drawableBlocks;
 	bool hasBody[width][height][depth];
-	FlatBuffer<BodyID, width* height* depth> activeBodies;
+	FlatBuffer<BodyID, width * height * depth> activeBodies;
 
 	HAL::instanced_mesh_handle_t blockMesh;
 	bool modified;
@@ -51,19 +52,8 @@ public:
 		modified = true;
 		worldOffsetX = _x; worldOffsetY = _y; worldOffsetZ = _z;
 		//std::string path = EE_getDirData();
-		std::string path = "";
-		//path += "Meshes/Cube.obj";
-		//path += "Meshes/Cube2.fbx/cube.001.mesh";
-		//path += "./Data/Meshes/Props/Dynamite.obj";
-		//blockMesh = EE_getNewInstancedMesh(path.c_str());
-		//EE_setInstancedMeshScale(blockMesh, { 50, 50, 50 });
-		//EE_setInstancedSubmeshTexture(blockMesh, 0, "albedo", "Textures/Grass1.png");
-		//EE_setInstancedSubmeshTexture(blockMesh, 0, "normal", "Textures/Grass1_n.png");
-
-		path += "./Data/Meshes/Cube.obj";
-		blockMesh = HAL::get_new_instanced_mesh(path);
-		//HAL::set_instanced_mesh_submesh_texture(blockMesh, 0, "diffuse", "./Data/Textures/grass1.png");
-        HAL::set_instanced_mesh_submesh_texture(blockMesh, 0, "diffuse", grassTexture);
+        blockMesh = HAL::invalid_instanced_mesh_handle;
+        //rebuildMesh();
 
 
 		//for (uint32_t z = 0; z < depth; z++)
@@ -102,11 +92,12 @@ public:
 	}
 
 	void display() {
-		HAL::draw_instanced_mesh(blockMesh);
-		if (modified == false)
+		if (modified == false) {
+            HAL::draw_instanced_mesh(blockMesh);
 			return;
+		}
 		rebuild();
-		modified = false;
+        HAL::draw_instanced_mesh(blockMesh);
 	}
 
 	void freshBuildPhysics() {
@@ -225,22 +216,32 @@ public:
 					}
 				}
 		spawnPhysics();
-
-		uint32_t count = drawableBlocks.count;
-		std::vector<glm::vec3> positions;
-		positions.reserve(count);
-		for (uint32_t i = 0; i < count; i++) {
-			BlockPos& blockPos = drawableBlocks[i];
-			glm::vec3 pos = {
-				static_cast<float>(blockPos.x) + worldOffsetX,
-				static_cast<float>(blockPos.y) + worldOffsetY,
-				static_cast<float>(blockPos.z) + worldOffsetZ
-			};
-			pos.x += 0.5f; pos.y += 0.5f; pos.z += 0.5f;
-			positions.push_back(pos);
+        rebuildMesh();
+        modified = false;
+	}
+	void rebuildMesh() {
+		if (blockMesh == HAL::invalid_instanced_mesh_handle) {
+            std::string path = "./Data/Meshes/Cube.obj";
+            blockMesh = HAL::get_new_instanced_mesh(path);
+            HAL::set_instanced_mesh_submesh_texture(blockMesh, 0, "diffuse", grassTexture);
 		}
+
+        uint32_t count = drawableBlocks.count;
+        std::vector<glm::vec3> positions;
+        positions.reserve(count);
+        for (uint32_t i = 0; i < count; i++)
+        {
+            BlockPos &blockPos = drawableBlocks[i];
+            glm::vec3 pos = {static_cast<float>(blockPos.x) + worldOffsetX,
+                             static_cast<float>(blockPos.y) + worldOffsetY,
+                             static_cast<float>(blockPos.z) + worldOffsetZ};
+            pos.x += 0.5f;
+            pos.y += 0.5f;
+            pos.z += 0.5f;
+            positions.push_back(pos);
+        }
         HAL::set_instanced_mesh_positions(blockMesh, positions);
-		HAL::set_instanced_mesh_scale(blockMesh, {0.5f, 0.5f, 0.5f});
+        HAL::set_instanced_mesh_scale(blockMesh, {0.5f, 0.5f, 0.5f});
 	}
 	void unload() {
 		if (drawableBlocks.count == 0)
@@ -250,15 +251,44 @@ public:
 
 		memset(hasBody, 0, sizeof(hasBody));
 		//memset(requiresBody, 0, sizeof(requiresBody));
-		{
-			//uint32_t bodyCount = activeBodies.count;
-			//for (uint32_t i = 0; i < bodyCount; i++)
-			//	physics.removeBody(activeBodies[i]);
-			//activeBodies.clear();
-		}
+		//{
+		//	uint32_t bodyCount = activeBodies.count;
+		//	for (uint32_t i = 0; i < bodyCount; i++)
+		//		physics.removeBody(activeBodies[i]);
+		//	activeBodies.clear();
+		//}
         // assert(false); // TODO: What does OG unload do??
-		std::array<glm::vec3, 0> positions;
-        HAL::set_instanced_mesh_positions(blockMesh, positions);
+		//std::array<glm::vec3, 0> positions;
+        //HAL::set_instanced_mesh_positions(blockMesh, positions);
+        HAL::release_instanced_mesh(blockMesh);
+        blockMesh = HAL::invalid_instanced_mesh_handle;
+	}
+
+	inline void copyTo(VoxelChunk& other) const {
+		other.worldOffsetX = worldOffsetX;
+        other.worldOffsetY = worldOffsetY;
+        other.worldOffsetZ = worldOffsetZ;
+        //other.blocks = blocks;
+        memcpy(other.blocks, blocks, sizeof(blocks));
+        other.drawableBlocks = drawableBlocks;
+        //other.hasBody = hasBody;
+        memcpy(other.hasBody, hasBody, sizeof(hasBody));
+        other.activeBodies = activeBodies;
+        //other.activeBodies.initCopy(activeBodies);
+		//if (other.blockMesh != HAL::invalid_instanced_mesh_handle) {
+        //    HAL::release_instanced_mesh(other.blockMesh);
+		//}
+        //std::string path = "./Data/Meshes/Cube.obj";
+        //other.blockMesh = HAL::get_new_instanced_mesh(path);
+        //HAL::set_instanced_mesh_submesh_texture(other.blockMesh, 0, "diffuse", grassTexture);
+        //other.rebuildMesh();
+		if (other.blockMesh != HAL::invalid_instanced_mesh_handle) {
+		    HAL::release_instanced_mesh(other.blockMesh);
+            other.blockMesh = HAL::invalid_instanced_mesh_handle;
+		}
+        //other.rebuild();
+        //other.rebuildMesh();
+        other.modified = true;
 	}
 private:
 	inline bool isVisible(uint8_t x, uint8_t y, uint8_t z) {
@@ -331,8 +361,46 @@ private:
 //worldSize is the number or chunks wide for the x as well as z axis.
 template<uint32_t worldSize = 1, uint32_t width = 16, uint32_t height = 256, uint32_t depth = 16>
 class VoxelWorld {
+	struct VoxelFrame {
+        static constexpr uint32_t max_chunks_modifiable = 50;
+        FlatBuffer<Vec2D<uint16_t>, max_chunks_modifiable> chunksModifiedPos;
+        DArray<VoxelChunk<width, height, depth>> chunkCopies;
+		void init() {
+            chunkCopies.init(max_chunks_modifiable);
+            for (uint32_t i = 0; i < max_chunks_modifiable; i++)
+                chunkCopies[i].init(0, 0, 0);
+            reset();
+		}
+		void reset() {
+			chunksModifiedPos.count = 0;
+		}
+		void destruct() {
+            chunkCopies.free();
+			chunksModifiedPos.count = 0;
+		}
+		void addChunkIfUnique(const VoxelChunk<width, height, depth>& chunk, Vec2D<uint16_t> pos) {
+            uint32_t count = getChunkCount();
+			for (uint32_t i = 0; i < count; i++)
+                if (chunksModifiedPos[i].isEqual(pos))
+                    return;
+            chunksModifiedPos.push(pos);
+            chunk.copyTo(chunkCopies[count]);
+		}
+		inline bool hasChunk(Vec2D<uint16_t> pos) {
+            uint32_t count = getChunkCount();
+			for (uint32_t i = 0; i < count; i++)
+                if (chunksModifiedPos[i] == pos)
+                    return true;
+            return false;
+		}
+		uint32_t getChunkCount() {
+			return chunksModifiedPos.count;
+		}
+	};
 	VoxelChunk<width, height, depth> chunks[worldSize][worldSize];
 	//bool needsRebuilding[worldSize][worldSize];
+    static constexpr uint32_t max_frames = 60*2;
+	RingBuffer<VoxelFrame, max_frames> frames;
 public:
 	void init(uint32_t genHeight, uint32_t x, uint32_t y, uint32_t z) {
 		memset(this, 0, sizeof(*this));
@@ -347,6 +415,11 @@ public:
 				chunks[i][j].gen(genHeight);
 			}
 		//rebuild();
+		for (uint32_t i = 0; i < max_frames; i++) {
+            VoxelFrame* frame = &frames.get();
+            frame->init();
+            frames.advance();
+		}
 	}
 
 	void display(uint32_t x, uint32_t z) {
@@ -364,6 +437,49 @@ public:
 				else
 					chunks[j][i].unload();
 			}
+		}
+        frames.advance();
+        VoxelFrame *frame = &frames.get();
+        frame->reset();
+	}
+
+	void rewind(uint16_t ticks) {
+        std::vector<std::tuple<VoxelChunk<width, height, depth> *, uint16_t>> chunksToModify;
+        std::vector<Vec2D<uint16_t>> chunkPositions;
+		if (ticks >= max_frames) {
+            HAL_ERROR("Voxel::rewind()'s ticks ${ticks} arg is larger than max_frames ${max_frames}!  Throwing...");
+            throw;
+		}
+        frames.rewindFor(ticks);
+		for (uint32_t i = 0; i < ticks; i++) {
+			//frames.rewind();
+            //frames.advance();
+            VoxelFrame *frame = &frames.get();
+            uint32_t count = frame->getChunkCount();
+			for (uint32_t j = 0; j < count; j++) {
+                VoxelChunk<width, height, depth>* chunk = &frame->chunkCopies[j];
+				for (uint32_t k = 0; k < chunksToModify.size(); k++) {
+					if (std::get<0>(chunksToModify[k]) == chunk) {
+                        //std::get<1>(chunksToModify[k]) = i;
+                        goto end;
+					}
+				}
+                chunksToModify.push_back({chunk, i});
+                chunkPositions.push_back(frame->chunksModifiedPos[j]);
+                end:
+                continue;
+			}
+            frames.advance();
+		}
+        frames.rewindFor(ticks);
+        // TODO: Multithread this!
+        uint32_t count = (uint32_t)(uint64_t)chunksToModify.size();
+		for (uint32_t i = 0; i < count; i++) {
+            auto &pos = chunkPositions[i];
+            VoxelChunk<width, height, depth> &chunk = chunks[pos.x][pos.y];
+            std::get<0>(chunksToModify[i])->copyTo(chunk);
+            chunk.rebuild();
+            //throw;
 		}
 	}
 
@@ -411,19 +527,25 @@ public:
 			"Error: VoxelWorld::setBlock's input position isn't in bounds!\n"
 			"Input: {}, {}, {}\n",
 			x, y, z);
-		uint32_t cx = x / width;
-		uint32_t cz = z / depth;
+		uint16_t cx = x / width;
+		uint16_t cz = z / depth;
+        VoxelFrame *frame = &frames.get();
+        frame->markChunkIfUnique(chunks[cx][cz], {cx, cz});
 		chunks[cx][cz].setBlock(_block, x % width, y, z % depth);
+	}
+	inline const VoxelChunk<width, height, depth>& getChunk(uint16_t x, uint16_t z) const {
+		return chunks[x][z];
 	}
 	inline void destroyBlock(uint32_t x, uint32_t y, uint32_t z) {
 		HAL_ASSERT_REL(posInBounds(x, y, z) == true,
 			"Error: VoxelWorld::destroyBlock's input position isn't in bounds!\n"
 			"Input: {}, {}, {}\n",
 			x, y, z);
-		uint32_t cx = x / width;
-		uint32_t cz = z / depth;
+		uint16_t cx = x / width;
+		uint16_t cz = z / depth;
+        VoxelFrame *frame = &frames.get();
+        frame->addChunkIfUnique(chunks[cx][cz], {cx, cz});
 		chunks[cx][cz].destroyBlock(x % width, y, z % depth);
-		//needsRebuilding[x % width][z % depth] = true;
 	}
 
 	//void rebuild() {

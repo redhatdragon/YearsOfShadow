@@ -3,7 +3,7 @@
 
 class ThreadPoolAdjuster {
     static constexpr uint32_t test_count = 100000000;  //100 mill
-    static constexpr uint32_t iteration_count = 10;
+    static constexpr uint32_t iteration_count = 2;
     static uint8_t buff1[test_count];
     static uint8_t buff2[test_count];
 

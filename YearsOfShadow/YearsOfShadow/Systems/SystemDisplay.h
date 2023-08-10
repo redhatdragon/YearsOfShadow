@@ -9,9 +9,9 @@ public:
 	virtual void init() {
         OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
-		bodyComponentID = ecs.registerComponent("body", sizeof(BodyID));
-		meshComponentID = ecs.registerComponent("mesh", sizeof(void*));
-		instancedMeshComponentID = ecs.registerComponent("instancedMesh", sizeof(u32));
+		bodyComponentID = ecs.registerComponentAsBlittable("body", sizeof(BodyID));
+		meshComponentID = ecs.registerComponentAsBlittable("mesh", sizeof(void*));
+		instancedMeshComponentID = ecs.registerComponentAsBlittable("instancedMesh", sizeof(u32));
 	}
 	virtual void run() {
         OPTICK_THREAD("MainThread");

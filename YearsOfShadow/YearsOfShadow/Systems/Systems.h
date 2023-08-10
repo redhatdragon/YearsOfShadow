@@ -4,7 +4,7 @@
 
 HAL::thread_pool_handle_t threadPool;
 
-//#define REWIND_ENABLED
+#define REWIND_ENABLED
 #define THREADING_ENABLED
 #define PROFILER_ENABLED
 #include <EchoEngine/DDECS.h>
@@ -13,8 +13,8 @@ HAL::thread_pool_handle_t threadPool;
 //#include <stddef>
 
 constexpr uint32_t chunk_width = 16, chunk_depth = 16, chunk_height = 256;
-constexpr uint32_t world_size = 500 - (500 % chunk_width);  //block across
-constexpr uint32_t max_npc = 10000;
+constexpr uint32_t world_size = 200 - (200 % chunk_width);  //block across
+constexpr uint32_t max_npc = 25;
 //constexpr uint32_t hash_width = 2;
 //constexpr uint32_t max_bodies_per_hash = 16;
 constexpr uint32_t hash_width = 1;
@@ -82,9 +82,9 @@ void instancedMeshDestrutor(ComponentID id, u32 index) {
 	instancedMeshCodex.release(instancedMesh);
 }
 void registerDestructors() {
-	ComponentID meshComponentID = ecs.registerComponent("mesh", sizeof(void*));
+	ComponentID meshComponentID = ecs.registerComponentAsBlittable("mesh", sizeof(void*));
 	ecs.registerDestructor(meshComponentID, meshDestructor);
-	ComponentID instancedMeshComponentID = ecs.registerComponent("instancedMesh", sizeof(u32));
+	ComponentID instancedMeshComponentID = ecs.registerComponentAsBlittable("instancedMesh", sizeof(u32));
 	ecs.registerDestructor(instancedMeshComponentID, instancedMeshDestrutor);
 }
 
@@ -108,11 +108,11 @@ inline void initSystems() {
 	ecs.registerSystem<SystemDeath>();
 	ecs.registerSystem<SystemPhysics>();
 	ecs.registerSystem<SystemController>();
-	ecs.registerSystem<SystemVoxel>();
 	//ecs.registerSystem<SystemExplosionTest>();
 	ecs.registerSystem<SystemEnemy>();
 	ecs.registerSystem<SystemExplode>();
 
+	ecs.registerSystem<SystemVoxel>();
 	ecs.registerSystem<SystemDisplay>();
 }
 

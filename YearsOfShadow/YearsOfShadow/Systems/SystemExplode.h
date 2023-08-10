@@ -11,10 +11,10 @@ public:
 	virtual void init() {
         OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
-		explodeComponentID = ecs.registerComponent("explode", sizeof(Explode));
-		bodyComponentID = ecs.registerComponent("body", sizeof(BodyID));
-		meshComponentID = ecs.registerComponent("mesh", sizeof(void*));
-		deadComponentID = ecs.registerComponent("dead", NULL);
+        explodeComponentID = ecs.registerComponentAsBlittable("explode", sizeof(Explode));
+		bodyComponentID = ecs.registerComponentAsBlittable("body", sizeof(BodyID));
+		meshComponentID = ecs.registerComponentAsBlittable("mesh", sizeof(void*));
+		deadComponentID = ecs.registerComponentAsBlittable("dead", NULL);
 	}
 	virtual void run() {
         OPTICK_THREAD("MainThread");

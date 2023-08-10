@@ -10,7 +10,7 @@ public:
 	virtual void init() {
         OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
-		ComponentID bodyComponentID = ecs.registerComponent("body", sizeof(BodyID));
+		ComponentID bodyComponentID = ecs.registerComponentAsBlittable("body", sizeof(BodyID));
 		ecs.registerDestructor(bodyComponentID, destructPhysicsBody);
 		physics.init();
 		spawnBoundaries();

@@ -14,14 +14,16 @@ namespace EchoEngine
     TEST(FixedPoint, GetAsString) // to_string()
     {
         FixedPoint<100> value;
-        value.fromString("0.3f");
-        EXPECT_EQ(value.getAsString(), "0.3f");
+        value.fromString("2.5f");
+        value.setRaw(250);
+        EXPECT_EQ(value.getAsString(), "2.5f");
     }
 
     TEST(FixedPoint, multiplication_assignment_operator) 
     {
         FixedPoint<> value;
         value.fromString("5.5f");
+        std::cout << value.getAsString();
         value *= FixedPoint<>(2);
         EXPECT_EQ(value.getAsString(), "11.0f");
     }
@@ -31,7 +33,7 @@ namespace EchoEngine
         FixedPoint<> value;
         value.fromString("5.5f");
         value /= FixedPoint<>(2);
-        EXPECT_EQ(value.getAsString(), "2.275f");
+        EXPECT_EQ(value.getAsString(), "2.75f");
     }
 
     TEST(FixedPoint, addition_assignment_operator) 

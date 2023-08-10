@@ -25,14 +25,22 @@ public:
 		memset(dataHeader, 0, (uint64_t)sizeof(DataHeader) + sizeof(T) * size);
 		dataHeader->count = size;
 	}
+	void initCopy(const DArray<T>& data) {
+		initCopy(data->dataHeader->data, data->size());
+	}
 	void initCopy(const void* data, size_t size) {
 		//::free(dataHeader);
 		//dataHeader = (DataHeader*)malloc(sizeof(DataHeader) + sizeof(T) * size);
+        if (dataHeader)
+			if (size != dataHeader->count) {
+                this->free();
+				dataHeader = nullptr;
+			}
         dataHeader = std::construct_at<DataHeader>(
 			reinterpret_cast<DataHeader*>(malloc(sizeof(DataHeader) + sizeof(T) * size)), size);
 		//if (dataHeader == nullptr)
         //    throw std::logic_error("Error: DArray::initCopy()'s failed to allocate enough memory!");
-		memcpy(dataHeader, data, sizeof(DataHeader) + sizeof(T) * size);
+		memcpy(dataHeader->data, data, sizeof(DataHeader) + sizeof(T) * size);
 		dataHeader->count = size;
 	}
 	void free() {

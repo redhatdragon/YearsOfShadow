@@ -56,11 +56,11 @@ public:
 	virtual void init() {
         OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
-		bodyComponentID = ecs.registerComponent("body", sizeof(BodyID));
-		meshComponentID = ecs.registerComponent("mesh", sizeof(void*));
-		instancedMeshComponentID = ecs.registerComponent("instancedMesh", sizeof(u32));
-		enemyAIComponentID = ecs.registerComponent("enemyAI", sizeof(EnemyAI));
-		controllerComponentID = ecs.registerComponent("controller", sizeof(Controller));
+		bodyComponentID = ecs.registerComponentAsBlittable("body", sizeof(BodyID));
+		meshComponentID = ecs.registerComponentAsBlittable("mesh", sizeof(void*));
+        instancedMeshComponentID = ecs.registerComponentAsBlittable("instancedMesh", sizeof(u32));
+        enemyAIComponentID = ecs.registerComponentAsBlittable("enemyAI", sizeof(EnemyAI));
+        controllerComponentID = ecs.registerComponentAsBlittable("controller", sizeof(Controller));
 
 		std::mt19937& generator = getRandGenerator();
 		createTest(generator);
@@ -206,7 +206,7 @@ private:
 					if (otherPos < closestPos) {
 						goto setNewTarget;
 					}
-					if (otherPos == closestPos) {  //NOTE: this shouldn't logically ever happen.
+					if (otherPos.isEqual(closestPos)) {  //NOTE: this shouldn't logically ever happen.
 						std::cout << "Error: SystemEnemyAI::perception() otherPos SOMHOW is == closestPos!?" << std::endl;
 						throw;
 					}

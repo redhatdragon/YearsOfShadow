@@ -7,7 +7,7 @@
 #include <HAL/HAL.h>
 #endif
 #ifdef REWIND_ENABLED
-#include <RingBuffer.h>
+#include "RingBuffer.h"
 #endif
 #include <time.h>
 #ifdef PROFILER_ENABLED  //TODO: figure insanity out
@@ -84,7 +84,7 @@ class PhysicsEngineAABB3D {
 	//NOTE: used for rewinding
 	#ifdef REWIND_ENABLED
 	#include "PhysicsFrame.h"
-	static constexpr uint32_t max_frames = 60 * 5;  //5 seconds at 60 TPS
+	static constexpr uint32_t max_frames = 60 * 2;  //2 seconds at 60 TPS
 	RingBuffer<PhysicsFrame, max_frames> frames;
 	#endif
 

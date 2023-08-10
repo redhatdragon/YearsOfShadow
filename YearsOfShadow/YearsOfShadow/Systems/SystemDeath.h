@@ -7,7 +7,7 @@ public:
 	virtual void init() {
         OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
-		deadComponentID = ecs.registerComponent("dead", NULL);
+		deadComponentID = ecs.registerComponentAsBlittable("dead", NULL);
 	}
 	virtual void run() {
         OPTICK_THREAD("MainThread");

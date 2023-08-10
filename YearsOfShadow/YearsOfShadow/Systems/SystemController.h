@@ -120,10 +120,10 @@ public:
 	virtual void init() {
         OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
-		bodyComponentID = ecs.registerComponent("body", sizeof(BodyID));
-		controllerComponentID = ecs.registerComponent("controller", sizeof(Controller));
-		explodeComponentID = ecs.registerComponent("explode", sizeof(Explode));
-		meshComponentID = ecs.registerComponent("mesh", sizeof(void*));
+		bodyComponentID = ecs.registerComponentAsBlittable("body", sizeof(BodyID));
+        controllerComponentID = ecs.registerComponentAsBlittable("controller", sizeof(Controller));
+        explodeComponentID = ecs.registerComponentAsBlittable("explode", sizeof(Explode));
+        meshComponentID = ecs.registerComponentAsBlittable("mesh", sizeof(void *));
 		EE_camera = HAL::get_new_camera();
         HAL::use_camera(EE_camera);
 
