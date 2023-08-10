@@ -86,6 +86,7 @@ class PhysicsEngineAABB3D {
 	#include "PhysicsFrame.h"
 	static constexpr uint32_t max_frames = 60 * 2;  //2 seconds at 60 TPS
 	RingBuffer<PhysicsFrame, max_frames> frames;
+    bool isRecording;
 	#endif
 
 public:
@@ -111,6 +112,7 @@ public:
 
 		acceleration16ms = getGravityAccelerationPer16ms();
         gravityMax16ms = getGravityMaxPer16ms();
+        isRecording = false;
 	}
 	BodyID addBodyBox(physics_fp x, physics_fp y, physics_fp z,
 		physics_fp w, physics_fp h, physics_fp d, void* data, bool isSolid) {
@@ -122,7 +124,8 @@ public:
 		setUserData(retValue, data);
 		setIsSolid(retValue, isSolid);
 		#ifdef REWIND_ENABLED
-		frames.get().addBody(bodies[retValue.id], isSolid, data, retValue);
+        if (isRecording)
+			frames.get().addBody(bodies[retValue.id], isSolid, data, retValue);
 		#endif
 		spatialHashTable.addBody(retValue, body.pos, body.siz);
 		overlappingBodyIDs[retValue.id].clear();
@@ -138,7 +141,8 @@ public:
 		setUserData(retValue, data);
 		setIsSolid(retValue, isSolid);
 		#ifdef REWIND_ENABLED
-		frames.get().addBody(bodies[retValue.id], isSolid, data, retValue);
+        if (isRecording)
+			frames.get().addBody(bodies[retValue.id], isSolid, data, retValue);
 		#endif
 		spatialHashTable.addBody(retValue, body.pos, body.siz);
 		overlappingBodyIDs[retValue.id].clear();
@@ -163,7 +167,8 @@ public:
 		#ifdef REWIND_ENABLED
 		bool _isSolid = getIsSolid(bodyID);
 		void* _userData = getUserData(bodyID);
-		frames.get().removeBody(body, _isSolid, _userData, bodyID);
+        if (isRecording)
+			frames.get().removeBody(body, _isSolid, _userData, bodyID);
 		#endif
 	}
 
@@ -217,7 +222,8 @@ public:
 		#ifdef REWIND_ENABLED
 		Vec3D<physics_fp> offset = { vx, vy, vz };
 		offset -= body->vel;
-		frames.get().addVelocity(offset, id);
+        if (isRecording)
+			frames.get().addVelocity(offset, id);
 		#endif
 		body->vel.x = vx;
 		body->vel.y = vy;
@@ -399,9 +405,10 @@ public:
 				}
 			}
 			gravity({ i });
-#ifdef REWIND_ENABLED
-			frames.get().cpyDynamicBodyPosAndVel({i}, bodies[i].pos, bodies[i].vel);
-#endif
+			#ifdef REWIND_ENABLED
+            if (isRecording)
+				frames.get().cpyDynamicBodyPosAndVel({i}, bodies[i].pos, bodies[i].vel);
+			#endif
 		}
 	}
 
@@ -471,6 +478,10 @@ public:
 			//bodies[0].printDebug();
 			frames.rewind();
 		}
+	}
+
+	void setRecording(bool isTrue) {
+		isRecording = isTrue;
 	}
 #endif
 

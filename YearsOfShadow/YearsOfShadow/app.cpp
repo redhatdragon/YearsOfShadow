@@ -46,7 +46,7 @@ void HAL::app_start() {
     //OP_THREAD("MainThread");
     //OP_START();
     initSystems();
-
+    physics.setRecording(true);
 }
 bool FPressedLastTick = true;
 void HAL::app_loop() {
