@@ -2,6 +2,7 @@
 #include <memory.h>
 #include <array>
 #include <tuple>
+#include <EchoEngine/Crunch.h>
 
 
 struct VoxelBlockMetaData {
@@ -74,7 +75,18 @@ public:
 					setBlock(block, x, (height-1)-y, z);
 				}
 
-		rebuild();
+		//rebuild();
+        modified = true;
+
+        //void* outData = malloc(sizeof(blocks) * 2);
+        static uint8_t buff[300000];
+        //if (outData == 0)
+        //    throw;
+        uint32_t outSize = 300000;
+        //Crunch::comp(blocks, sizeof(blocks), buff, &outSize);
+        //free(outData);
+        //std::cout << sizeof(blocks) << " : VS : " << outSize << std::endl;
+        //throw;
 	}
 
 	inline const VoxelBlock& getBlock(uint8_t x, uint8_t y, uint8_t z) const {
