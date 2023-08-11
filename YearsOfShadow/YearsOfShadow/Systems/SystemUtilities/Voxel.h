@@ -46,24 +46,11 @@ class VoxelChunk {
 	HAL::instanced_mesh_handle_t blockMesh;
 	bool modified;
 public:
-	//static constexpr uint32_t width = 16, height = 256, depth = 16;
-
 	void init(uint32_t _x, uint32_t _y, uint32_t _z) {
 		memset(this, 0, sizeof(*this));
 		modified = true;
 		worldOffsetX = _x; worldOffsetY = _y; worldOffsetZ = _z;
-		//std::string path = EE_getDirData();
         blockMesh = HAL::invalid_instanced_mesh_handle;
-        //rebuildMesh();
-
-
-		//for (uint32_t z = 0; z < depth; z++)
-		//	for (uint32_t y = 0; y < height; y++)
-		//		for (uint32_t x = 0; x < width; x++) {
-		//			VoxelBlock block; block.typeID = 0; block.damage = 0;
-		//			setBlock(block, x, y, z);
-		//		}
-		//activeBodies.clear();
 	}
 
 	void gen(uint32_t genHeight) {
@@ -74,19 +61,6 @@ public:
 					VoxelBlock block; block.typeID = 1; block.damage = 0;
 					setBlock(block, x, (height-1)-y, z);
 				}
-
-		//rebuild();
-        modified = true;
-
-        //void* outData = malloc(sizeof(blocks) * 2);
-        static uint8_t buff[300000];
-        //if (outData == 0)
-        //    throw;
-        uint32_t outSize = 300000;
-        //Crunch::comp(blocks, sizeof(blocks), buff, &outSize);
-        //free(outData);
-        //std::cout << sizeof(blocks) << " : VS : " << outSize << std::endl;
-        //throw;
 	}
 
 	inline const VoxelBlock& getBlock(uint8_t x, uint8_t y, uint8_t z) const {
