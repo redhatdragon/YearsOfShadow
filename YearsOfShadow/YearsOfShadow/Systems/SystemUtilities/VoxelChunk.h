@@ -17,6 +17,8 @@ class VoxelChunk {
 	bool hasBody[width][height][depth];
 	FlatBuffer<BodyID, width * height * depth> activeBodies;
 
+	GameTick lastModified;  //Last modification timestamp for IO syncing reasons.
+
 	HAL::instanced_mesh_handle_t blockMesh;
 	bool modified;
 public:

@@ -2,6 +2,7 @@
 #include <memory.h>
 #include <array>
 #include <tuple>
+#include <fstream>
 #include <EchoEngine/Crunch.h>
 
 
@@ -32,6 +33,7 @@ struct VoxelBlock {
 template<uint32_t worldSize = 1, uint32_t width = 16, uint32_t height = 256, uint32_t depth = 16>
 class VoxelWorld {
 	#include "VoxelFrame.h"
+	#include "VoxelLoader.h"
 	VoxelChunk<width, height, depth> chunks[worldSize][worldSize];
 	//bool needsRebuilding[worldSize][worldSize];
     static constexpr uint32_t max_frames = 60*2;
