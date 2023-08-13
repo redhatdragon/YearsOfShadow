@@ -51,6 +51,7 @@ public:
 				//float dx = x + i * width, dy = y, dz = z + j * depth;
 				uint32_t dx = x + j * chunk_width, dy = 0, dz = z + i * chunk_depth;
 
+				//TODO: add in chunk pooling and actual unloading/loading mechanics.
 				chunks[j][i] = (VoxelChunk*)malloc(sizeof(VoxelChunk));
 				VoxelChunk* chunk = chunks[j][i];
 				if (chunk == nullptr)
