@@ -21,7 +21,7 @@ target_include_directories(
 )
 
 if(${IPO_SUPPORTED})
-	set_target_properties(YearsOfShadow PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
+	#set_target_properties(YearsOfShadow PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
 endif()
 
 set_target_properties(YearsOfShadow PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../bin-game/")
