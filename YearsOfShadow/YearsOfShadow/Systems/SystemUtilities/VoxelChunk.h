@@ -250,6 +250,26 @@ public:
         //other.rebuildMesh();
         other.modified = true;
 	}
+	inline void copyBlocks(const uint32_t& _blocks) {
+		memcpy(blocks, &_blocks, sizeOfBlockBuffer());
+		modified = true;
+	}
+	inline void copyBodIDs(const FlatBuffer<BodyID, chunk_width * chunk_height * chunk_depth>& _IDs) {
+		activeBodies = _IDs;
+		modified = true;
+	}
+	const auto& blockBuffer() const {
+		return blocks;
+	}
+	const auto& bodyBuffer() const {
+		return activeBodies;
+	}
+	static inline constexpr size_t sizeOfBlockBuffer() {
+		return sizeof(uint32_t[chunk_width][chunk_height][chunk_depth]);
+	}
+	static inline constexpr size_t sizeOfBodyBuffer() {
+		return sizeof(activeBodies);
+	}
 private:
 	inline bool isVisible(uint8_t x, uint8_t y, uint8_t z) {
 		if (isAir(x, y, z) == false && hasNeighboringAir(x, y, z) == true)

@@ -93,8 +93,10 @@ public:
 	}
 
 	void rewind(uint16_t ticks) {
-        std::vector<std::tuple<VoxelChunk *, uint16_t>> chunksToModify;
+        //std::vector<std::tuple<VoxelChunk*, uint16_t>> chunksToModify;
+		std::vector<uint32_t*> chunksToModify;
         std::vector<Vec2D<uint16_t>> chunkPositions;
+		std::vector<FlatBuffer<BodyID, chunk_width * chunk_height * chunk_depth>*> chunkBodies;
 		if (ticks >= max_frames) {
             HAL_ERROR("Voxel::rewind()'s ticks ${ticks} arg is larger than max_frames ${max_frames}!  Throwing...");
             throw;
@@ -106,15 +108,18 @@ public:
             VoxelFrame *frame = &frames.get();
             uint32_t count = frame->getChunkCount();
 			for (uint32_t j = 0; j < count; j++) {
-                VoxelChunk* chunk = &frame->chunkCopies[j];
+                //VoxelChunk* chunk = &frame->chunkCopies[j];
+				auto* blockData = frame->chunkBlockData(j);
 				for (uint32_t k = 0; k < chunksToModify.size(); k++) {
-					if (std::get<0>(chunksToModify[k]) == chunk) {
+					//if (std::get<0>(chunksToModify[k]) == chunk) {
+					if(chunksToModify[k] == (uint32_t*)blockData) {
                         //std::get<1>(chunksToModify[k]) = i;
                         goto end;
 					}
 				}
-                chunksToModify.push_back({chunk, i});
-                chunkPositions.push_back(frame->chunksModifiedPos[j]);
+                chunksToModify.push_back((uint32_t*)blockData);
+				chunkBodies.push_back(frame->chunkBodyData(j));
+                chunkPositions.push_back(frame->getChunkPos(j));
                 end:
                 continue;
 			}
@@ -126,7 +131,9 @@ public:
 		for (uint32_t i = 0; i < count; i++) {
             auto &pos = chunkPositions[i];
             VoxelChunk& chunk = chunkAt(pos.x, pos.y);
-            std::get<0>(chunksToModify[i])->copyTo(chunk);
+            //std::get<0>(chunksToModify[i])->copyTo(chunk);
+			chunk.copyBlocks(*chunksToModify[i]);
+			chunk.copyBodIDs(*chunkBodies[i]);
             chunk.rebuild();
             //throw;
 		}
