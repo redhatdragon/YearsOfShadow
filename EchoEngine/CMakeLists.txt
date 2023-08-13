@@ -13,7 +13,7 @@ add_library(
 	EchoEngine
 	STATIC
 	${SOURCES}
-	"${CMAKE_CURRENT_SOURCE_DIR}/../.clang-format"
+	#"${CMAKE_CURRENT_SOURCE_DIR}/../.clang-format"
 )
 
 target_include_directories(
@@ -23,7 +23,7 @@ target_include_directories(
 )
 
 if(${IPO_SUPPORTED})
-	set_target_properties(EchoEngine PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
+	#set_target_properties(EchoEngine PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
 endif()
 
 if(MSVC)
