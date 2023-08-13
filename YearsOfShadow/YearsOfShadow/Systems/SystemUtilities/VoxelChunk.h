@@ -1,6 +1,5 @@
 #pragma once
 
-template<uint32_t width = 16, uint32_t height = 256, uint32_t depth = 16>
 class VoxelChunk {
 	struct BlockPos {
 		uint8_t x, y, z;
@@ -12,10 +11,10 @@ class VoxelChunk {
 	uint32_t worldOffsetX, worldOffsetY, worldOffsetZ;
 	//NOTE: Each element is meant to be cast to VoxelBlock.
 	//This just ensures across all compilers that struct padding not intefere.
-	uint32_t blocks[width][height][depth];
-	FlatBuffer<BlockPos, width * height * depth> drawableBlocks;
-	bool hasBody[width][height][depth];
-	FlatBuffer<BodyID, width * height * depth> activeBodies;
+	uint32_t blocks[chunk_width][chunk_height][chunk_depth];
+	FlatBuffer<BlockPos, chunk_width * chunk_height * chunk_depth> drawableBlocks;
+	bool hasBody[chunk_width][chunk_height][chunk_depth];
+	FlatBuffer<BodyID, chunk_width * chunk_height * chunk_depth> activeBodies;
 
 	GameTick lastModified;  //Last modification timestamp for IO syncing reasons.
 
@@ -31,11 +30,11 @@ public:
 
 	void gen(uint32_t genHeight) {
 		modified = true;
-		for (uint32_t z = 0; z < depth; z++)
+		for (uint32_t z = 0; z < chunk_depth; z++)
 			for (uint32_t y = 0; y < genHeight; y++)
-				for (uint32_t x = 0; x < width; x++) {
+				for (uint32_t x = 0; x < chunk_width; x++) {
 					VoxelBlock block; block.typeID = 1; block.damage = 0;
-					setBlock(block, x, (height-1)-y, z);
+					setBlock(block, x, (chunk_height-1)-y, z);
 				}
 	}
 
@@ -69,7 +68,7 @@ public:
 			if (hasBody[rootBlockPos.x][rootBlockPos.y][rootBlockPos.z])
 				continue;
 			uint32_t xplus = 0;
-			for (uint32_t i = rootBlockPos.x; i < width; i++) {
+			for (uint32_t i = rootBlockPos.x; i < chunk_width; i++) {
 				//if (isInBounds(i, rootBlockPos.y, rootBlockPos.z) == false)
 				if(isVisible(i, rootBlockPos.y, rootBlockPos.z) == false)
 					break;
@@ -89,7 +88,7 @@ public:
 				xminus++;
 			}
 			uint32_t yplus = 0;
-			for (uint32_t i = rootBlockPos.y; i < height; i++) {
+			for (uint32_t i = rootBlockPos.y; i < chunk_height; i++) {
 				//if (isInBounds(rootBlockPos.x, i, rootBlockPos.z) == false)
 				if (isVisible(rootBlockPos.x, i, rootBlockPos.z) == false)
 					break;
@@ -169,9 +168,9 @@ public:
 			activeBodies.clear();
 		}
 
-		for (uint32_t z = 0; z < depth; z++)
-			for (uint32_t y = 0; y < height; y++)
-				for (uint32_t x = 0; x < width; x++) {
+		for (uint32_t z = 0; z < chunk_depth; z++)
+			for (uint32_t y = 0; y < chunk_height; y++)
+				for (uint32_t x = 0; x < chunk_width; x++) {
 					if (isVisible(x, y, z)) {
 						drawableBlocks.push({ (uint8_t)x, (uint8_t)y, (uint8_t)z });
 						//requiresBody[x][y][z] = true;
@@ -191,8 +190,7 @@ public:
         uint32_t count = drawableBlocks.count;
         std::vector<glm::vec3> positions;
         positions.reserve(count);
-        for (uint32_t i = 0; i < count; i++)
-        {
+        for (uint32_t i = 0; i < count; i++) {
             BlockPos &blockPos = drawableBlocks[i];
             glm::vec3 pos = {static_cast<float>(blockPos.x) + worldOffsetX,
                              static_cast<float>(blockPos.y) + worldOffsetY,
@@ -285,7 +283,7 @@ private:
 			return true;
 		if (isAir(x - 1, y, z))
 			return true;
-		if (x == width - 1)
+		if (x == chunk_width - 1)
 			return true;
 		if (isAir(x + 1, y, z))
 			return true;
@@ -294,7 +292,7 @@ private:
 			return true;
 		if (isAir(x, y - 1, z))
 			return true;
-		if (y == height - 1)
+		if (y == chunk_height - 1)
 			return true;
 		if (isAir(x, y + 1, z))
 			return true;
@@ -303,7 +301,7 @@ private:
 			return true;
 		if (isAir(x, y, z - 1))
 			return true;
-		if (z == depth - 1)
+		if (z == chunk_depth - 1)
 			return true;
 		if (isAir(x, y, z + 1))
 			return true;

@@ -1,7 +1,7 @@
 struct VoxelFrame {
         static constexpr uint32_t max_chunks_modifiable = 50;
         FlatBuffer<Vec2D<uint16_t>, max_chunks_modifiable> chunksModifiedPos;
-        DArray<VoxelChunk<width, height, depth>> chunkCopies;
+        DArray<VoxelChunk> chunkCopies;
 		void init() {
             chunkCopies.init(max_chunks_modifiable);
             for (uint32_t i = 0; i < max_chunks_modifiable; i++)
@@ -15,7 +15,7 @@ struct VoxelFrame {
             chunkCopies.free();
 			chunksModifiedPos.count = 0;
 		}
-		void addChunkIfUnique(const VoxelChunk<width, height, depth>& chunk, Vec2D<uint16_t> pos) {
+		void addChunkIfUnique(const VoxelChunk& chunk, Vec2D<uint16_t> pos) {
             uint32_t count = getChunkCount();
 			for (uint32_t i = 0; i < count; i++)
                 if (chunksModifiedPos[i].isEqual(pos))
@@ -26,7 +26,7 @@ struct VoxelFrame {
 		inline bool hasChunk(Vec2D<uint16_t> pos) {
             uint32_t count = getChunkCount();
 			for (uint32_t i = 0; i < count; i++)
-                if (chunksModifiedPos[i] == pos)
+                if (chunksModifiedPos[i].isEqual(pos))
                     return true;
             return false;
 		}

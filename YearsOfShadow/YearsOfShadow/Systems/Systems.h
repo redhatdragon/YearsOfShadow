@@ -46,7 +46,7 @@ constexpr uint64_t sizeofPhysics = sizeof(PHYSICS_DEF);
 
 #include "SystemUtilities/Voxel.h"
 
-typedef VoxelWorld<world_size / chunk_width> VOXEL_WORLD_DEF;
+typedef VoxelWorld VOXEL_WORLD_DEF;
 
 VOXEL_WORLD_DEF voxelWorld;
 

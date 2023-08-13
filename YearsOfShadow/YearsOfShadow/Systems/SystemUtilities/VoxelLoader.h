@@ -1,19 +1,23 @@
 struct VoxelLoader {
     struct ChunkDataCompressed {
+    private:
         uint32_t size;
         uint64_t chunkID;
-        uint8_t blocks[];  //Cast to VoxelBlock
+        uint8_t blocks[1];  //Cast to VoxelBlock
+    public:
         ChunkDataCompressed* next() {
-            return this+size;
+            return this+4+8+size;
         }
         void getAsUncompressed(uint32_t& blocksOut) {
             uint32_t outCount = 16*16*256*4;
-            Crunch::decomp(blocks, size, blocksOut, &outCount);
+            Crunch::decomp(blocks, size, &blocksOut, &outCount);
         }
     };
     struct FileData {
+    private:
         uint32_t count;
-        uint8_t data[];
+        uint8_t data[1];
+    public:
         ChunkDataCompressed* root() {
             return (ChunkDataCompressed*)data;
         }
