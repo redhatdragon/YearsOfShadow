@@ -37,6 +37,19 @@ void sleepForThreaded(void* data) {
 
 
 void HAL::app_start() {
+    auto soc = HAL::UDP_open("127.0.0.1", 8082, 8083);
+    uint8_t sendBuff[] = "WHY DO YOU CUM!";
+    uint16_t sendLen = sizeof(sendBuff);
+    HAL::UDP_send_packet(soc, sendBuff, sendLen);
+
+    while (true) {
+        static uint8_t buff[100000];
+        uint16_t len;
+        HAL::UDP_get_packet(soc, buff, &len, NULL, NULL);
+    }
+    throw;
+    return;
+
     OPTICK_START_CAPTURE();
     OPTICK_THREAD("MainThread");
     initSystems();
@@ -44,6 +57,9 @@ void HAL::app_start() {
 }
 bool FPressedLastTick = true;
 void HAL::app_loop() {
+
+    return;
+
     OPTICK_THREAD("MainThread");
     OPTICK_EVENT();
     HAL::draw_background(0, 0, 0, 255);
@@ -66,6 +82,9 @@ void HAL::app_loop() {
 #endif
 }
 void HAL::app_post_frame() {
+
+    return;
+
     OPTICK_THREAD("MainThread");
     OPTICK_EVENT();
     while (HAL::is_thread_pool_finished(threadPool) == false)
@@ -82,6 +101,7 @@ void HAL::app_post_frame() {
         continue;
 }
 void HAL::app_end() {
+    return;
     HAL::release_thread_pool(threadPool);
 
     OPTICK_STOP_CAPTURE();

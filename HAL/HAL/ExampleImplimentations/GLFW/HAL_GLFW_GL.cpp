@@ -13,6 +13,10 @@
 #include <mutex>
 #include <utility>
 
+#include <WinSock2.h>
+#include <Ws2tcpip.h>
+#pragma comment(lib, "Ws2_32.lib")
+
 #define GLEW_STATIC
 #pragma comment(lib, "opengl32.lib")
 
@@ -306,6 +310,183 @@ float HAL::get_app_loop_time_MS() { return telemetry_counters.appLoopTimeMS; };
 float HAL::get_draw_time_MS() { return telemetry_counters.drawTimeMS; };
 
 //float HAL::get_frame_time_MS() { return telemetry_counters.appLoopTimeMS + telemetry_counters.drawTimeMS; };
+
+
+
+uint32_t get_ip_from_string(const std::string_view str) {
+    if (str.size() > 15) {
+        std::string errStr = "Error: get_ip_from_string()'s input str character length is > 15, len: ";
+        errStr += str.size();
+        HAL::hal_error(errStr);
+        return 0;
+    }
+    uint8_t segments[4];
+    uint32_t segCount = 0;
+    std::string segStr = "";
+    for (size_t i = 0; i < str.size(); i++) {
+        if (str[i] == '.') {
+            uint32_t result = stoi(segStr);
+            segments[segCount] = result;
+            segCount++;
+            segStr = "";
+        }
+        if (str[i] < '0' || str[i] > '9') {
+            std::string errStr = "Error: get_ip_from_string()'s input str has non valid character\n";
+            errStr += "Pos: "; errStr += i; errStr += '\n';
+            errStr += "Val: "; errStr += str[i];
+            HAL::hal_error(errStr);
+            return 0;
+        }
+    }
+    uint32_t retValue;
+    memcpy(&retValue, &segments[0], sizeof(uint32_t));
+    return retValue;
+}
+//void send_packet_UDP(const std::span<uint8_t, HAL::maxPacketLen> data, uint32_t ip) {
+//    SOCKET soc;
+//    struct sockaddr_in server, si_other;
+//    int slen, recv_len;
+//    char buf[HAL::maxPacketLen];
+//    WSADATA wsa;
+//}
+//void recv_packet_UDP(std::span<uint8_t, HAL::maxPacketLen> data, uint32_t ipSrc, uint16_t port) {
+//    SOCKET soc;
+//    struct sockaddr_in server, si_other;
+//    int slen, recv_len;
+//    char buf[HAL::maxPacketLen];
+//    WSADATA wsa;
+//
+//    slen = sizeof(si_other);
+//
+//    //TODO: consider moving to main
+//    //Initialise winsock
+//    if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) {
+//        std::string errStr = "Error: failed to initialize winsoc, Code: "; errStr += WSAGetLastError();
+//        HAL::hal_error(errStr);
+//        exit(EXIT_FAILURE);
+//    }
+//
+//    if ((soc = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == INVALID_SOCKET) {
+//        std::string errStr = "Error: Could not create socket: "; errStr += WSAGetLastError();
+//        HAL::hal_error(errStr);
+//        exit(EXIT_FAILURE);
+//    }
+//
+//
+//
+//    //Prepare the sockaddr_in structure
+//    server.sin_family = AF_INET;
+//    //server.sin_addr.s_addr = INADDR_ANY;
+//    server.sin_addr.s_addr = inet_addr("127.0.0.1");
+//    server.sin_port = htons(port);
+//
+//    //Bind
+//    if (bind(soc, (struct sockaddr*)&server, sizeof(server)) == SOCKET_ERROR) {
+//        printf("Bind failed with error code : %d", WSAGetLastError());
+//        exit(EXIT_FAILURE);
+//    }
+//
+//    int bytes_received;
+//    char serverBuf[1025];
+//    int serverBufLen = 1024;
+//
+//    // Keep a seperate address struct to store sender information. 
+//    struct sockaddr_in SenderAddr;
+//    int SenderAddrSize = sizeof(SenderAddr);
+//
+//    printf("Receiving datagrams on %s\n", "127.0.0.1");
+//    bytes_received = recvfrom(serverSocket, serverBuf, serverBufLen, 0 /* no flags*/, (SOCKADDR*)&SenderAddr, &SenderAddrSize);
+//    if (bytes_received == SOCKET_ERROR) {
+//        printf("recvfrom failed with error %d\n", WSAGetLastError());
+//    }
+//    serverBuf[bytes_received] = '\0'
+//
+//    closesocket(s);
+//    WSACleanup();
+//}
+
+static_assert(sizeof(HAL::udp_socket_handle_t) == sizeof(SOCKET),
+    "sizeof udp_socket_handle_t != sizeof SOCKET!");
+
+WSADATA wsa;
+sockaddr_in local_socaddr, dest_socaddr;
+
+void _network_init() {
+    //Initialise winsock
+    if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) {
+        std::string errStr = "Error: failed to initialize winsoc, Code: "; errStr += WSAGetLastError();
+        HAL::hal_error(errStr);
+        exit(EXIT_FAILURE);
+    }
+}
+
+HAL::udp_socket_handle_t HAL::UDP_open(const char* ip, uint16_t sendPort, uint16_t recvPort) {
+    SOCKET soc = {};
+    HAL::udp_socket_handle_t retValue;
+    
+    if ((soc = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == INVALID_SOCKET) {
+        std::string errStr = "Error: Could not create socket: "; errStr += WSAGetLastError();
+        HAL::hal_error(errStr);
+        exit(EXIT_FAILURE);
+    }
+    
+    local_socaddr.sin_family = AF_INET;
+    //local_socaddr.sin_addr.s_addr = inet_addr(ip);
+    inet_pton(AF_INET, ip, &local_socaddr.sin_addr.s_addr);
+    local_socaddr.sin_port = htons(recvPort);
+
+    dest_socaddr.sin_family = AF_INET;
+    //dest_socaddr.sin_addr.s_addr = INADDR_ANY;
+    //dest_socaddr.sin_addr.s_addr = inet_addr(ip);
+    inet_pton(AF_INET, ip, &dest_socaddr.sin_addr.s_addr);
+    dest_socaddr.sin_port = htons(sendPort);
+    
+    if (bind(soc, (struct sockaddr*)&local_socaddr, sizeof(local_socaddr)) == SOCKET_ERROR) {
+        printf("Bind failed with error code : %d", WSAGetLastError());
+        exit(EXIT_FAILURE);
+    }
+
+    memcpy(&retValue, &soc, sizeof(soc));
+    return retValue;
+}
+void HAL::UDP_send_packet(HAL::udp_socket_handle_t _soc, const uint8_t* data, uint16_t len) {
+    SOCKET soc;
+    memcpy(&soc, &_soc, sizeof(SOCKET));
+
+    sockaddr addr;
+    int addrLen = sizeof(addr);
+    getsockname(soc, &addr, &addrLen);
+
+    if (send(soc, (const char*)data, len, 0) == SOCKET_ERROR) {
+        printf("send failed with error %d\n", WSAGetLastError());
+        return;
+    }
+}
+void HAL::UDP_get_packet(HAL::udp_socket_handle_t _soc, uint8_t* outData, uint16_t* outLen,
+    uint32_t* outIP, uint16_t* outPort) {
+    SOCKET soc;
+    memcpy(&soc, &_soc, sizeof(SOCKET));
+
+    int bytes_received;
+    static uint8_t serverBuf[maxPacketLen + 1];
+    int serverBufLen = maxPacketLen;
+
+    sockaddr addr;
+    int addrLen = sizeof(addr);
+    getsockname(soc, &addr, &addrLen);
+
+    // Keep a seperate address struct to store sender information.
+    struct sockaddr_in SenderAddr;
+    int SenderAddrSize = sizeof(SenderAddr);
+
+    bytes_received = recvfrom(soc, (char*)serverBuf, serverBufLen, 0 /* no flags*/, (SOCKADDR*)&SenderAddr, &SenderAddrSize);
+    if (bytes_received == SOCKET_ERROR) {
+        printf("recvfrom failed with error %d\n", WSAGetLastError());
+        return;
+    }
+    serverBuf[bytes_received] = '\0';
+}
+
 
 
 size_t HAL::get_hardware_thread_count()
@@ -678,9 +859,11 @@ int main()
 
     //camera = Camera();  //TODO: necessary?
 
-    //Initialize sound context
     HWND hwnd = glfwGetWin32Window(window);
+    //Initialize sound context
     // cs_ctx = cs_make_context(hwnd, 48000, 8192 * 10, 0, NULL);
+    _network_init();
+
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
