@@ -279,9 +279,9 @@ namespace HAL
 	//void get_ip_as_string(uint32_t ip, char* str);
 
 	//open with 127.0.0.1 ip address to set as server.
-	udp_socket_handle_t UDP_open(const char* ip, uint16_t sendPort, uint16_t recvPort);
+	udp_socket_handle_t UDP_open(const char* ip, uint16_t sharedPort);
 	void UDP_send_packet(udp_socket_handle_t soc, const uint8_t* data, uint16_t len);
-	void UDP_get_packet(udp_socket_handle_t soc, uint8_t* outData, uint16_t* outLen,
+	void UDP_get_packet(udp_socket_handle_t soc, uint8_t* outData, uint32_t* outLen,
 		uint32_t* outIP, uint16_t* outPort);
 
 	size_t get_hardware_thread_count();

@@ -420,7 +420,7 @@ void _network_init() {
     }
 }
 
-HAL::udp_socket_handle_t HAL::UDP_open(const char* ip, uint16_t sendPort, uint16_t recvPort) {
+HAL::udp_socket_handle_t HAL::UDP_open(const char* ip, uint16_t sharedPort) {
     SOCKET soc = {};
     HAL::udp_socket_handle_t retValue;
     
@@ -429,17 +429,22 @@ HAL::udp_socket_handle_t HAL::UDP_open(const char* ip, uint16_t sendPort, uint16
         HAL::hal_error(errStr);
         exit(EXIT_FAILURE);
     }
+
+    unsigned long ul = 1;  //cause winapi is dumb...
+    ioctlsocket(soc, FIONBIO, &ul);
     
     local_socaddr.sin_family = AF_INET;
     //local_socaddr.sin_addr.s_addr = inet_addr(ip);
     inet_pton(AF_INET, ip, &local_socaddr.sin_addr.s_addr);
-    local_socaddr.sin_port = htons(recvPort);
+    //local_socaddr.sin_port = htons(recvPort);
+    local_socaddr.sin_port = htons(sharedPort);
 
     dest_socaddr.sin_family = AF_INET;
     //dest_socaddr.sin_addr.s_addr = INADDR_ANY;
     //dest_socaddr.sin_addr.s_addr = inet_addr(ip);
     inet_pton(AF_INET, ip, &dest_socaddr.sin_addr.s_addr);
-    dest_socaddr.sin_port = htons(sendPort);
+    //dest_socaddr.sin_port = htons(sendPort);
+    local_socaddr.sin_port = htons(sharedPort);
     
     if (bind(soc, (struct sockaddr*)&local_socaddr, sizeof(local_socaddr)) == SOCKET_ERROR) {
         printf("Bind failed with error code : %d", WSAGetLastError());
@@ -457,19 +462,20 @@ void HAL::UDP_send_packet(HAL::udp_socket_handle_t _soc, const uint8_t* data, ui
     int addrLen = sizeof(addr);
     getsockname(soc, &addr, &addrLen);
 
-    if (send(soc, (const char*)data, len, 0) == SOCKET_ERROR) {
+    //if (send(soc, (const char*)data, len, 0) == SOCKET_ERROR) {
+    if (sendto(soc, (const char*)data, len, 0, &addr, sizeof(addr)) == SOCKET_ERROR) {
         printf("send failed with error %d\n", WSAGetLastError());
         return;
     }
 }
-void HAL::UDP_get_packet(HAL::udp_socket_handle_t _soc, uint8_t* outData, uint16_t* outLen,
+void HAL::UDP_get_packet(HAL::udp_socket_handle_t _soc, uint8_t* outData, uint32_t* outLen,
     uint32_t* outIP, uint16_t* outPort) {
     SOCKET soc;
     memcpy(&soc, &_soc, sizeof(SOCKET));
 
-    int bytes_received;
-    static uint8_t serverBuf[maxPacketLen + 1];
-    int serverBufLen = maxPacketLen;
+    //int bytes_received;
+    //static uint8_t serverBuf[maxPacketLen + 1];
+    //int serverBufLen = maxPacketLen;
 
     sockaddr addr;
     int addrLen = sizeof(addr);
@@ -479,12 +485,22 @@ void HAL::UDP_get_packet(HAL::udp_socket_handle_t _soc, uint8_t* outData, uint16
     struct sockaddr_in SenderAddr;
     int SenderAddrSize = sizeof(SenderAddr);
 
-    bytes_received = recvfrom(soc, (char*)serverBuf, serverBufLen, 0 /* no flags*/, (SOCKADDR*)&SenderAddr, &SenderAddrSize);
-    if (bytes_received == SOCKET_ERROR) {
+    //bytes_received = recvfrom(soc, (char*)serverBuf, serverBufLen, 0 /* no flags*/, (SOCKADDR*)&SenderAddr, &SenderAddrSize);
+    //bytes_received = recv(soc, (char*)serverBuf, serverBufLen, 0 /* no flags*/);
+    *outLen = recvfrom(soc, (char*)outData, *outLen, 0 /* no flags*/, (SOCKADDR*)&SenderAddr, &SenderAddrSize);
+    if (*outLen == SOCKET_ERROR) {
+        if (WSAGetLastError() == WSAEWOULDBLOCK) {
+            *outLen = 0;
+            outData[0] = '\0';
+            return;
+        }
         printf("recvfrom failed with error %d\n", WSAGetLastError());
+        *outLen = 0;
+        outData[0] = '\0';
         return;
     }
-    serverBuf[bytes_received] = '\0';
+    //serverBuf[bytes_received] = '\0';
+    outData[*outLen] = '\0';
 }
 
 

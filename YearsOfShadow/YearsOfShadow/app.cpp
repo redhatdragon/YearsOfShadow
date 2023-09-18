@@ -37,17 +37,24 @@ void sleepForThreaded(void* data) {
 
 
 void HAL::app_start() {
-    auto soc = HAL::UDP_open("127.0.0.1", 8082, 8083);
+    auto soc = HAL::UDP_open("127.0.0.1", 8082);
     uint8_t sendBuff[] = "WHY DO YOU CUM!";
+    std::cout << "sending: " << sendBuff << std::endl;
     uint16_t sendLen = sizeof(sendBuff);
     HAL::UDP_send_packet(soc, sendBuff, sendLen);
 
+    static uint8_t buff[100000] = { 0 };
+    uint32_t len = 100000;
     while (true) {
-        static uint8_t buff[100000];
-        uint16_t len;
         HAL::UDP_get_packet(soc, buff, &len, NULL, NULL);
+        if (len != 0) {
+            std::cout << "received: " << (const char*)buff << std::endl;
+        }
     }
-    throw;
+    HAL::UDP_get_packet(soc, buff, &len, NULL, NULL);
+    if (len != 0) {
+        std::cout << "received: " << (const char*)buff << std::endl;
+    }
     return;
 
     OPTICK_START_CAPTURE();
