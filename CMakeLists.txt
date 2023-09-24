@@ -13,6 +13,45 @@ if (PROJECT_IS_TOP_LEVEL)
     
     set(CMAKE_CXX_STANDARD 23)
     set(CMAKE_CXX_STANDARD_REQUIRED)
+
+    if(CMAKE_CONFIGURATION_TYPES AND MSVC)
+        list(APPEND CMAKE_CONFIGURATION_TYPES ReleaseProfile)
+        list(REMOVE_DUPLICATES CMAKE_CONFIGURATION_TYPES)
+
+        set(CMAKE_CONFIGURATION_TYPES "${CMAKE_CONFIGURATION_TYPES}" CACHE STRING
+            "Add the configurations that we need"
+        FORCE)
+
+        set(CMAKE_CXX_FLAGS_RELEASEPROFILE "${CMAKE_CXX_FLAGS_RELWITHDEBINFO}" CACHE STRING
+            "Flags used by the C++ compiler during ReleaseProfile builds."
+        FORCE)
+
+        set(CMAKE_C_FLAGS_RELEASEPROFILE "${CMAKE_C_FLAGS_RELWITHDEBINFO}" CACHE STRING
+            "Flags used by the C compiler during ReleaseProfile builds."
+        FORCE)
+
+        set(CMAKE_EXE_LINKER_FLAGS_RELEASEPROFILE "${CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO} /PROFILE" CACHE STRING
+            "Flags used for linking binaries during ReleaseProfile builds."
+        FORCE)
+
+        set(CMAKE_SHARED_LINKER_FLAGS_RELEASEPROFILE "${CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO} /PROFILE" CACHE STRING
+            "Flags used by the shared libraries linker during ReleaseProfile builds."
+        FORCE)
+
+        mark_as_advanced(
+            CMAKE_CXX_FLAGS_RELEASEPROFILE
+            CMAKE_C_FLAGS_RELEASEPROFILE
+            CMAKE_EXE_LINKER_FLAGS_RELEASEPROFILE
+            CMAKE_SHARED_LINKER_FLAGS_RELEASEPROFILE
+        )
+        
+        # Update the documentation string of CMAKE_BUILD_TYPE for GUIs
+        set(CMAKE_BUILD_TYPE "${CMAKE_BUILD_TYPE}" CACHE STRING
+            "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel ReleaseProfile."
+        FORCE)
+
+    endif()
+
 endif()
     
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
