@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.6)
 
 file(GLOB_RECURSE SOURCES
 	"${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
@@ -36,6 +36,7 @@ if(MSVC)
 	)
 
 	set_property(TARGET YearsOfShadow APPEND PROPERTY LINK_FLAGS /IGNORE:4098 )
+	set_property( DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT YearsOfShadow )
 endif()
 
 set_target_properties(YearsOfShadow PROPERTIES FOLDER "YearsOfShadow")
