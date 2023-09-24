@@ -9,12 +9,16 @@ class SystemExplode : public System {
 	static constexpr Vec3D<uint32_t> siz = { 1, 1, 1 };
 public:
 	virtual void init() {
-		explodeComponentID = ecs.registerComponent("explode", sizeof(Explode));
-		bodyComponentID = ecs.registerComponent("body", sizeof(BodyID));
-		meshComponentID = ecs.registerComponent("mesh", sizeof(void*));
-		deadComponentID = ecs.registerComponent("dead", NULL);
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
+        explodeComponentID = ecs.registerComponentAsBlittable("explode", sizeof(Explode));
+		bodyComponentID = ecs.registerComponentAsBlittable("body", sizeof(BodyID));
+		meshComponentID = ecs.registerComponentAsBlittable("mesh", sizeof(void*));
+		deadComponentID = ecs.registerComponentAsBlittable("dead", NULL);
 	}
 	virtual void run() {
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
 		uint32_t explodeCount = ecs.getComponentCount(explodeComponentID);
 		Explode* explodeComponentBuffer = (Explode*)ecs.getComponentBuffer(explodeComponentID);
 		for (uint32_t i = 0; i < explodeCount; i++) {
@@ -39,7 +43,8 @@ public:
 					voxelWorld.destroyBlock(pos.x, pos.y, pos.z);
 				}
 				continue;
-				std::vector<BodyID> bodies = physics.getBodiesInRectRough(rootPos, totalSiz);
+                static std::vector<BodyID> bodies;
+                physics.getBodiesInRectRough(rootPos, totalSiz, bodies);
 				uint32_t bodyCount = (uint32_t)bodies.size();
 				for (uint32_t j = 0; j < bodyCount; j++) {
 					BodyID nextBody = bodies[j];

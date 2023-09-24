@@ -35,7 +35,15 @@ public:
 			0,                      // use default creation flags 
 			&threadID);				// returns the thread identifier 
 
-		// SetThreadPriority(threadHandle, THREAD_PRIORITY_HIGHEST);
+		//SetThreadPriority(threadHandle, THREAD_PRIORITY_TIME_CRITICAL);
+	}
+
+	void destruct() {
+		clear();
+		TerminateThread(
+			threadHandle,	// ThreadHandle
+			0				// ExitCode
+		);
 	}
 
 	void run() {
@@ -90,6 +98,11 @@ public:
 		maxThreadCount = _maxThreadCount;
 		for (uint32_t i = 0; i < _maxThreadCount; i++) {
 			threads[i].init();
+		}
+	}
+	void destruct() {
+		for (uint32_t i = 0; i < maxThreadCount; i++) {
+			threads[i].destruct();
 		}
 	}
 	void addTask(void (*_foo)(void*), void* _data) {

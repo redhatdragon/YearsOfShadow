@@ -315,12 +315,15 @@ size_t HAL::get_hardware_thread_count()
 
 HAL::thread_pool_handle_t HAL::get_new_thread_pool(size_t maxThreadCount)
 {
-    CustomThreadPool *tp = new CustomThreadPool();
+    CustomThreadPool* tp = new CustomThreadPool();
     tp->init(maxThreadCount);
     return static_cast<HAL::thread_pool_handle_t>(std::bit_cast<std::uintptr_t>(static_cast<void *>(tp)));
 }
-void HAL::release_thread_pool(HAL::thread_pool_handle_t self) {
-    delete std::bit_cast<CustomThreadPool*>(std::to_underlying(self));
+void HAL::release_thread_pool(HAL::thread_pool_handle_t self)
+{
+    CustomThreadPool* tp = std::bit_cast<CustomThreadPool*>(std::to_underlying(self));
+    tp->destruct();
+    delete tp;
 }
 size_t HAL::get_thread_pool_free_thread_count(HAL::thread_pool_handle_t self)
 {
@@ -542,7 +545,8 @@ void HAL::set_camera_position(HAL::camera_handle_t self, glm::vec3 pos)
     cam->setPosition(pos.x, -pos.y, -pos.z);
 }
 
-void HAL::use_camera(HAL::camera_handle_t self) {
+void HAL::use_camera(HAL::camera_handle_t self)
+{
     activeSceneCamera = reinterpret_cast<SceneCamera *>(self);
 }
 
@@ -618,6 +622,8 @@ static void show_performance_overlay(bool *p_open)
 int main()
 {
     CoInitialize(nullptr);
+
+    //SetPriorityClass(GetCurrentProcess(), REALTIME_PRIORITY_CLASS);
 
     // Colorful output!
 #ifdef _WIN32
@@ -802,6 +808,7 @@ int main()
     HAL::app_end();
 
     log_to_file_context.flush();
+
 
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();

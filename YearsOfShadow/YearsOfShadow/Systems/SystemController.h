@@ -114,12 +114,16 @@ class SystemController : public System {
 	ComponentID meshComponentID;
 	HAL::camera_handle_t EE_camera;
 
+	std::vector<BodyID> castBuff;
+
 public:
 	virtual void init() {
-		bodyComponentID = ecs.registerComponent("body", sizeof(BodyID));
-		controllerComponentID = ecs.registerComponent("controller", sizeof(Controller));
-		explodeComponentID = ecs.registerComponent("explode", sizeof(Explode));
-		meshComponentID = ecs.registerComponent("mesh", sizeof(void*));
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
+		bodyComponentID = ecs.registerComponentAsBlittable("body", sizeof(BodyID));
+        controllerComponentID = ecs.registerComponentAsBlittable("controller", sizeof(Controller));
+        explodeComponentID = ecs.registerComponentAsBlittable("explode", sizeof(Explode));
+        meshComponentID = ecs.registerComponentAsBlittable("mesh", sizeof(void *));
 		EE_camera = HAL::get_new_camera();
         HAL::use_camera(EE_camera);
 
@@ -132,6 +136,8 @@ public:
 		ecs.emplace(entity, controllerComponentID, &controller);
 	}
 	virtual void run() {
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
 		if (ecs.getComponentCount(controllerComponentID) == 0)
 			return;
 		Controller* controller = (Controller*)ecs.getComponentBuffer(controllerComponentID);
@@ -222,11 +228,11 @@ private:
 		//}
         auto belowPos = pos;
         belowPos += {siz.x / 2, siz.y, siz.z / 2};
-        belowPos.y += "0.01f";
+        belowPos.y += "0.0001f";
 
 		if (controller->state == Controller::IS_AIRBORNE)
         {
-            bool canFall = !physics.pointTrace(belowPos, bodyID);
+            bool canFall = !physics.pointTrace(belowPos, bodyID, castBuff);
             if (canFall == false)
             {
                 controller->state = Controller::IS_FLOORED;
@@ -238,7 +244,7 @@ private:
                 controller->state = Controller::IS_AIRBORNE;
                 vel.y = controller->getJumpVel();
             }
-            else if (!physics.pointTrace(belowPos, bodyID))
+            else if (!physics.pointTrace(belowPos, bodyID, castBuff))
             {
                 controller->state = Controller::IS_AIRBORNE;
 			}

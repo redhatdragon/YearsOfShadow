@@ -1,5 +1,9 @@
+Optick_1.4.0
+*.opt
+
 .thumbnails
 bin
+bin-game/logs
 bin-etc
 output
 data/.thumbnails

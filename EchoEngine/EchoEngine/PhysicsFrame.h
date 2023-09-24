@@ -2,20 +2,20 @@
 
 class PhysicsFrame {
 	struct BodyData {
-		Vec3D<uint32_t> pos, siz, vel;
+		Vec3D<physics_fp> pos, siz, vel;
 		bool isSolid;
 		void* userData;
 		BodyID id;
 	};
 	struct VelocityData {
-		Vec3D<uint32_t> vel;
+        Vec3D<physics_fp> vel;
 		BodyID id;
 	};
 	struct PosAndVel {
-		Vec3D<uint32_t> pos, vel;
+        Vec3D<physics_fp> pos, vel;
 		BodyID id;
 	};
-	static constexpr uint32_t max = 20000;
+	static constexpr uint32_t max = 40000;
 	FlatBuffer<BodyData, max> bodiesAdded;
 	FlatBuffer<VelocityData, max> velocitesAdded;
 	FlatBuffer<BodyData, max> bodiesRemoved;
@@ -43,7 +43,7 @@ public:
 		}
 		bodiesRemoved.push(bodyData);
 	}
-	void addVelocity(const Vec3D<uint32_t>& vel, BodyID id) {
+	void addVelocity(const Vec3D<physics_fp>& vel, BodyID id) {
 		VelocityData velocityData = { vel, id };
 		if (velocitesAdded.count == max) {
 			std::cout << "Error: PhysicsFrame::addVelocity() called more than " << max
@@ -54,7 +54,7 @@ public:
 	}
 
 	//TODO: rename
-	void cpyDynamicBodyPosAndVel(BodyID id, const Vec3D<uint32_t>& pos, const Vec3D<uint32_t>& vel) {
+	void cpyDynamicBodyPosAndVel(BodyID id, const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& vel) {
 		PosAndVel pav = { pos, vel, id };
 		if (dynamicBodyPosAndVelMirror.count == max) {
 			std::cout << "Error: PhysicsFrame::cpyDynamicBodyPosAndVel() called more than " << max
@@ -70,28 +70,31 @@ public:
 		uint32_t bodyRemovedCount = bodiesRemoved.count;
 		uint32_t dbCount = dynamicBodyPosAndVelMirror.count;
 
-		//for (uint32_t i = 0; i < velCount; i++) {
-		//	VelocityData& velData = velocitesAdded[i];
-		//	Vec3D<int32_t> vec = { velData.vel.x, velData.vel.y, velData.vel.z };
-		//	vec = { -vec.x, -vec.y, -vec.z };
-		//	
-		//	BodyAABB* body = &physics.bodies[velData.id.id];
-		//	body->vel = { (uint32_t)vec.x, (uint32_t)vec.y, (uint32_t)vec.z };
-		//}
-		//for (uint32_t i = 0; i < bodyAddCount; i++) {
-		//	BodyData& bodyData = bodiesAdded[i];
-		//	//physics.bodies[bodyData.id] = {bodyData.pos, }
-		//	physics.isValid.setInvalid(bodyData.id.id);
-		//}
-		//for (uint32_t i = 0; i < bodyRemovedCount; i++) {
-		//	BodyData& bodyData = bodiesAdded[i];
-		//	BodyAABB& body = physics.bodies[bodyData.id.id];
-		//	body.pos = bodyData.pos;
-		//	body.siz = bodyData.siz;
-		//	body.vel = bodyData.vel;
-		//	body.isSolid = bodyData.isSolid;
-		//	physics.setUserData(bodyData.id, bodyData.userData);
-		//}
+		for (uint32_t i = 0; i < velCount; i++) {
+			VelocityData& velData = velocitesAdded[i];
+            Vec3D<physics_fp> vec = {velData.vel.x, velData.vel.y, velData.vel.z};
+			vec = { -vec.x, -vec.y, -vec.z };
+			
+			BodyAABB* body = &physics.bodies[velData.id.id];
+			body->vel = { vec.x, vec.y, vec.z };
+		}
+		for (uint32_t i = 0; i < bodyAddCount; i++) {
+			BodyData& bodyData = bodiesAdded[i];
+			//physics.bodies[bodyData.id] = {bodyData.pos, }
+			physics.isValid.setInvalid(bodyData.id.id);
+            physics.spatialHashTable.removeBody(bodyData.id, bodyData.pos, bodyData.siz);
+		}
+		for (uint32_t i = 0; i < bodyRemovedCount; i++) {
+			BodyData& bodyData = bodiesRemoved[i];
+			BodyAABB& body = physics.bodies[bodyData.id.id];
+            physics.isValid.setValid(bodyData.id.id);
+			body.pos = bodyData.pos;
+			body.siz = bodyData.siz;
+			body.vel = bodyData.vel;
+			body.isSolid = bodyData.isSolid;
+			physics.setUserData(bodyData.id, bodyData.userData);
+            physics.spatialHashTable.addBody(bodyData.id, body.pos, body.siz);
+		}
 
 		for (uint32_t i = 0; i < dbCount; i++) {
 			PosAndVel& pav = dynamicBodyPosAndVelMirror[i];

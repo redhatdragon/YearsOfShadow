@@ -58,7 +58,32 @@ struct Vec2D {
 	__forceinline Vec2D<T> operator*(const T num) const {
 		return { x * num, y * num };
 	}
-	__forceinline bool isZero() {
+	__forceinline bool operator>(const Vec2D& other) const {
+		T a = x + y;
+		T b = other.x + other.y;
+		return a > b;
+	}
+	__forceinline bool operator>=(const Vec2D& other) const {
+		T a = x + y;
+		T b = other.x + other.y;
+		return a >= b;
+	}
+	__forceinline bool operator<(const Vec2D& other) const {
+		T a = x + y;
+		T b = other.x + other.y;
+		return a < b;
+	}
+	__forceinline bool operator<=(const Vec2D& other) const {
+		T a = x + y;
+		T b = other.x + other.y;
+		return a <= b;
+	}
+	__forceinline bool isEqual(const Vec2D& other) const {
+        if (x == other.x && y == other.y)
+            return true;
+        return false;
+	}
+	__forceinline bool isZero() const {
 		if (x == 0 && y == 0)
 			return true;
 		return false;
@@ -206,12 +231,12 @@ struct Vec3D {
 		T b = other.x + other.y + other.z;
 		return a <= b;
 	}
-	__forceinline bool operator==(const Vec3D& other) const {
-		T a = x + y + z;
-		T b = other.x + other.y + other.z;
-		return a == b;
+	__forceinline bool isEqual(const Vec3D& other) const {
+        if (x == other.x && y == other.y && z == other.z)
+            return true;
+        return false;
 	}
-	__forceinline bool isZero() {
+	__forceinline bool isZero() const {
 		if (x == 0 && y == 0 && z == 0)
 			return true;
 		return false;
@@ -254,6 +279,14 @@ struct Vec3D {
 	}
 	__forceinline uint64_t getDistanceSquared() {
 		int64_t retValue = (x * x) + (y * y) + (z * z);
+		if (retValue < 0) return -retValue;
+		return retValue;
+	}
+	__forceinline uint64_t getDistanceSquaredFP() {
+		int64_t retValue = 
+			(int64_t)(x.getRaw() * (int64_t)x.getRaw()) +
+			(int64_t)(y.getRaw() * (int64_t)y.getRaw()) +
+            ((int64_t)z.getRaw() * (int64_t)z.getRaw());
 		if (retValue < 0) return -retValue;
 		return retValue;
 	}

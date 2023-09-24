@@ -112,16 +112,32 @@ public:
 	inline void setRaw(int32_t other) {
 		data_ = other;
 	}
+	inline bool hasDecimal() {
+		return data_ % decScale;
+	}
 	inline std::string getAsString() const {
 		std::string retValue = "";
 		int32_t whole = data_ / decScale;
 		int32_t remainder = data_ % decScale;
 		//float dec = remainder/decScale;
-		int32_t dec = (data_ * 100) / decScale;
+        int32_t dec = ((int64_t)remainder * 100000) / decScale;
 
 		retValue += std::to_string(whole);
 		retValue += ".";
-		retValue += std::to_string(dec);
+		std::string decAsStr = std::to_string(dec);
+        int count = 0;
+        for (int64_t i = (int64_t)decAsStr.size()-1; i >= 0; i--) {
+            char c = decAsStr[i];
+            if (c != '0')
+                break;
+            count++;
+		}
+        for (int i = 0; i < count; i++)
+            decAsStr.pop_back();
+        if (decAsStr.size() == 0)
+            decAsStr.push_back('0');
+        retValue += decAsStr;
+        retValue += "f";
 		return retValue;
 	}
 	constexpr bool fromString(const std::string& _str) {

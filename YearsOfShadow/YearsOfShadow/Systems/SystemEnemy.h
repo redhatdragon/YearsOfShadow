@@ -2,6 +2,7 @@
 #include "../FPSCamera.h"
 #include <iostream>
 #include <random>
+#include <optick.h>
 
 inline std::mt19937& getRandGenerator() {
 	static thread_local std::mt19937 generator;
@@ -29,6 +30,7 @@ struct EnemyAI {
 	u8 auditorySensitivity;
 	EntityHandle targetHandle;
 	EntityID targetEntity;
+    GameTick lastPositionChoice;
 	Vec3D<FixedPoint<256 * 256>> gotoPos;
 	GameTick lastJumped;
 	u8 jumpDuration;
@@ -37,6 +39,8 @@ struct EnemyAI {
 		active_state = IDLE;
 		visualDistance = 16;
 		targetHandle = -1;
+        targetEntity = -1;
+        lastPositionChoice = 0;
 	}
 };
 
@@ -50,17 +54,21 @@ class SystemEnemy : public System {
 	int activeThreadCount;
 public:
 	virtual void init() {
-		bodyComponentID = ecs.registerComponent("body", sizeof(BodyID));
-		meshComponentID = ecs.registerComponent("mesh", sizeof(void*));
-		instancedMeshComponentID = ecs.registerComponent("instancedMesh", sizeof(u32));
-		enemyAIComponentID = ecs.registerComponent("enemyAI", sizeof(EnemyAI));
-		controllerComponentID = ecs.registerComponent("controller", sizeof(Controller));
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
+		bodyComponentID = ecs.registerComponentAsBlittable("body", sizeof(BodyID));
+		meshComponentID = ecs.registerComponentAsBlittable("mesh", sizeof(void*));
+        instancedMeshComponentID = ecs.registerComponentAsBlittable("instancedMesh", sizeof(u32));
+        enemyAIComponentID = ecs.registerComponentAsBlittable("enemyAI", sizeof(EnemyAI));
+        controllerComponentID = ecs.registerComponentAsBlittable("controller", sizeof(Controller));
 
 		std::mt19937& generator = getRandGenerator();
 		createTest(generator);
 		activeThreadCount = 0;
 	}
 	virtual void run() {
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
 		u32 enemyCount = ecs.getComponentCount(enemyAIComponentID);
 		#ifdef THREADING_ENABLED
 		const auto threadCount = HAL::get_thread_pool_free_thread_count(threadPool);
@@ -76,6 +84,9 @@ public:
 	}
 private:
 	void runSingle() {
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
+        static std::vector<BodyID> castBuff;
 		std::mt19937& generator = getRandGenerator();
 		u32 enemyCount = ecs.getComponentCount(enemyAIComponentID);
 		EnemyAI* enemyAIs = (EnemyAI*)ecs.getComponentBuffer(enemyAIComponentID);
@@ -83,72 +94,95 @@ private:
 			EnemyAI* enemyAI = &enemyAIs[i];
 			EntityID owner = ecs.getOwner(enemyAIComponentID, i);
 			BodyID bodyID = *(BodyID*)ecs.getEntityComponent(owner, bodyComponentID);
-			findTarget(enemyAI, bodyID, generator);
+			findTarget(enemyAI, bodyID);
 			if (enemyAI->targetEntity == -1) {
 				auto pos = physics.getPos(bodyID);
 				if (enemyAI->gotoPos.isZero()
 					|| (enemyAI->gotoPos - pos).getDistance() <= 2)
 					findRandomTargetPos(enemyAI, bodyID, generator);
 			}
-			movement(enemyAI, bodyID, generator);
+			movement(enemyAI, bodyID, generator, castBuff);
 		}
 	}
 	struct ThreadData {
 		u32 startingIndex, endingIndex;
 		SystemEnemy* self;
-
+		void init(u32 _startingIndex, u32 _endingIndex, SystemEnemy* _self) {
+            startingIndex = _startingIndex;
+            endingIndex = _endingIndex;
+            self = _self;
+		}
 	};
 	void runMulti() {
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
 		const auto threadCount = HAL::get_thread_pool_free_thread_count(threadPool);
 		u32 enemyCount = ecs.getComponentCount(enemyAIComponentID);
 		u32 totalWork = enemyCount;
 		const auto workPerThread = totalWork / threadCount;
 		u32 leftover = totalWork % threadCount;
 		static std::vector<ThreadData> tds;
-		tds.resize(threadCount);
+		tds.resize(threadCount+1);
 		for (u32 i = 0; i < threadCount; i++) {
 			u32 start = static_cast<u32>(workPerThread * i); u32 end = static_cast<u32>(start + workPerThread - 1);
-			ThreadData td = { start, end, this };
-			//std::cout << start << ' ' << end << std::endl;
-			tds[i] = td;
+            tds[i].init(start, end, this);
 		}
 		for (u32 i = 0; i < threadCount; i++) {
 			HAL::submit_thread_pool_task(threadPool, runThreadedBody, (void*)&tds[i]);
 		}
-		//NOTE: Needs to happen after all other threads finished, reasons beyond me
 		if (leftover) {
 			u32 start = static_cast<u32>(workPerThread * threadCount); u32 end = static_cast<u32>(start + leftover - 1);
-			ThreadData td = { start, end, this };
-			//std::cout << start << ' ' << end << std::endl;
-			runThreadedBody(&td);
+            tds[threadCount].init(start, end, this);
+            runThreadedBody(&tds[threadCount]);
 		}
 		while (HAL::is_thread_pool_finished(threadPool) == false)
 			continue;
 	}
 	static void runThreadedBody(void* data) {
+        std::ostringstream ss;
+        ss << std::this_thread::get_id();
+        OPTICK_THREAD(ss.str().c_str());
+        OPTICK_EVENT();
 		ThreadData* td = (ThreadData*)data;
 		SystemEnemy* self = td->self;
 
 		auto generator = getRandGenerator();
 
+		thread_local std::vector<BodyID> castBuff;
 		u32 enemyCount = ecs.getComponentCount(self->enemyAIComponentID);
 		EnemyAI* enemyAIs = (EnemyAI*)ecs.getComponentBuffer(self->enemyAIComponentID);
-		for (u32 i = td->startingIndex; i <= td->endingIndex; i++) {
+        u32 start = td->startingIndex, end = td->endingIndex;
+		for (u32 i = start; i <= end; i++) {
 			EnemyAI* enemyAI = &enemyAIs[i];
 			EntityID owner = ecs.getOwner(self->enemyAIComponentID, i);
 			BodyID bodyID = *(BodyID*)ecs.getEntityComponent(owner, self->bodyComponentID);
-			self->findTarget(enemyAI, bodyID, generator);
+
+            self->verifyTarget(enemyAI);
+            if (enemyAI->targetEntity == -1 || getRandInt(generator, 0, 10) == 0)
+				self->findTarget(enemyAI, bodyID);
 			if (enemyAI->targetEntity == -1) {
 				auto pos = physics.getPos(bodyID);
-				if (enemyAI->gotoPos.isZero()
-					|| (enemyAI->gotoPos - pos).getDistance() <= 2)
+                //if (ecs.getTicksPassed() - enemyAI->lastPositionChoice >= 60
+                if (getRandInt(generator, 0, 60) == 0
+					|| (enemyAI->gotoPos - pos).getDistance() <= 2) {
 					self->findRandomTargetPos(enemyAI, bodyID, generator);
+                    //int rng = getRandInt(generator, 0, 60);
+                    //rng -= 30;
+                    //enemyAI->lastPositionChoice = ecs.getTicksPassed() + rng;
+				}
 			}
-			self->movement(enemyAI, bodyID, generator);
+			self->movement(enemyAI, bodyID, generator, castBuff);
 		}
 	}
 
-	void findTarget(EnemyAI* enemyAI, BodyID bodyID, std::mt19937& generator) {
+	void verifyTarget(EnemyAI* enemyAI) {
+		if (enemyAI->targetEntity == -1
+			|| ecs.entityHandleValid(enemyAI->targetEntity, enemyAI->targetHandle) == true) {
+            enemyAI->targetEntity = -1;
+            enemyAI->targetHandle = -1;
+		}
+	}
+	void findTarget(EnemyAI* enemyAI, BodyID bodyID) {
 		u32 controllerCount = ecs.getComponentCount(controllerComponentID);
 		EntityID closestEntity = -1;
 		Vec3D<FixedPoint<256 * 256>> closestPos;
@@ -172,7 +206,7 @@ private:
 					if (otherPos < closestPos) {
 						goto setNewTarget;
 					}
-					if (otherPos == closestPos) {  //NOTE: this shouldn't logically ever happen.
+					if (otherPos.isEqual(closestPos)) {  //NOTE: this shouldn't logically ever happen.
 						std::cout << "Error: SystemEnemyAI::perception() otherPos SOMHOW is == closestPos!?" << std::endl;
 						throw;
 					}
@@ -202,7 +236,7 @@ private:
 		}
 	}
 	void findRandomTargetPos(EnemyAI* enemyAI, BodyID bodyID, std::mt19937& generator) {
-		u32 padding = 40, border = world_size;
+		u32 padding = 20, border = world_size;
 		Vec3D<FixedPoint<256 * 256>> gotoPos = { 
 			getRandInt(generator, 0, border - (padding + padding)),
 			0,
@@ -212,28 +246,32 @@ private:
 		auto pos = physics.getPos(bodyID);
 		gotoPos.y = pos.y;
 		enemyAI->gotoPos = gotoPos;
+        enemyAI->targetEntity = -1;
+        enemyAI->targetHandle = -1;
 	}
-	void movement(EnemyAI* enemyAI, BodyID bodyID, std::mt19937& generator) {
+    void movement(EnemyAI *enemyAI, BodyID bodyID, std::mt19937 &generator, std::vector<BodyID>& castBuff)
+    {
 		if (enemyAI->gotoPos.isZero())
 			return;
 
-		auto targetPos = enemyAI->gotoPos;
-		auto vel = targetPos;
 		auto pos = physics.getPos(bodyID);
 
 		int rng = getRandInt(generator, 0, 10);
 		if (rng == 0) {
-			Vec3D<FixedPoint<256 * 256>> avoidanceDir = getAvoidanceDir(enemyAI, bodyID);
+			Vec3D<FixedPoint<256 * 256>> avoidanceDir = getAvoidanceDir(enemyAI, bodyID, castBuff);
 			if (avoidanceDir.isZero() == false) {
 				auto gotoPos = pos + avoidanceDir * 3;
-				Vec3D<FixedPoint<256 * 256>> min = { 0 + 20, 0 + 20 }, max = {world_size - 20, world_size - 20};
+				Vec3D<FixedPoint<256 * 256>> min = { 0 + 20, 20, 0 + 20 },
+					max = {world_size - 20, 256-20, world_size - 20};
 				if (gotoPos.isBetween(min, max))
 					enemyAI->gotoPos = gotoPos;
 			}
 		}
 
+        auto vel = enemyAI->gotoPos;
+
 		vel -= pos;
-		vel *= 10;
+		//vel *= 30;
 		vel.normalize();
 		vel /= 30;
 		vel.y = 0;
@@ -242,7 +280,7 @@ private:
 		pointPos += siz / 2;
 		pointPos.y += siz.y / 2;
 		pointPos.y += "0.1f";
-		if (physics.pointTrace(pointPos, bodyID) == false) {
+		if (physics.pointTrace(pointPos, bodyID, castBuff) == false) {
 			vel.y = physics.getVelocity(bodyID).y;
 		}
 		physics.setVelocity(bodyID, vel.x, vel.y, vel.z);
@@ -250,13 +288,15 @@ private:
 
 
 
-	inline Vec3D<FixedPoint<256 * 256>> getAvoidanceDir(EnemyAI* enemyAI, BodyID bodyID) {
+	inline Vec3D<FixedPoint<256 * 256>> getAvoidanceDir(EnemyAI* enemyAI, BodyID bodyID, std::vector<BodyID>& castBuff) {
 		Vec3D<FixedPoint<256 * 256>> retValue = {};
 		Vec3D<FixedPoint<256 * 256>> pos = physics.getPos(bodyID);
 		Vec3D<FixedPoint<256 * 256>> offset = {1, 0, 1};
 		Vec3D<FixedPoint<256 * 256>> siz = { 2, 1, 2 };
-		std::vector<BodyID> bodies = physics.getBodiesInRectRough(pos-offset, siz);
-		std::vector<BodyID> bodiesWithEntities;
+		std::vector<BodyID>& bodies = castBuff;
+		physics.getBodiesInRectRough(pos-offset, siz, bodies);
+		thread_local std::vector<BodyID> bodiesWithEntities;
+        bodiesWithEntities.clear();
 		bodiesWithEntities.reserve(bodies.size());
 		u32 count = (u32)bodies.size();
 		for (u32 i = 0; i < count; i++) {
@@ -283,7 +323,7 @@ private:
 
 	void createEnemy(Vec3D<uint32_t> pos) {
 		EntityID entityID = ecs.getNewEntity();
-		BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, "0.1f", "1.0f", "0.1f",
+		BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, "0.25f", "1.0f", "0.25f",
 			to_void_ptr(entityID), true);
 		ecs.emplace(entityID, bodyComponentID, &bodyID);
 
@@ -297,6 +337,8 @@ private:
 		ecs.emplace(entityID, enemyAIComponentID, &enemyAI);
 	}
 	void createTest(std::mt19937& generator) {
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
 		u32 count = 0;
 		u32 padding = 40, border = world_size;
 		while (true) {
@@ -305,7 +347,8 @@ private:
 			pos.z = getRandInt(generator, 0, border-(padding+padding));
 			pos += padding;
 			pos.y = 153;
-			if (physics.getBodiesInRectRough(pos, { 4, 1, 4 }).size())
+            static std::vector<BodyID> castBuff;
+			if (physics.getBodiesInRectRough(pos, { 6, 1, 6 }, castBuff))
 				continue;
 			createEnemy(pos);
 			count++;

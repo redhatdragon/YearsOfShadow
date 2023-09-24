@@ -71,22 +71,27 @@ namespace SystemUtilities {
 		if (size) {
 			BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, size->getArray()[0], size->getArray()[1], size->getArray()[2],
 				reinterpret_cast<void*>(static_cast<size_t>(entity)), isSolid);
-			ComponentID bodyComponentID = ecs.registerComponent("body", sizeof(BodyID));
+			ComponentID bodyComponentID = ecs.registerComponentAsBlittable("body", sizeof(BodyID));
 			ecs.emplace(entity, bodyComponentID, &bodyID);
 		}
 
 		for (auto& c : entityObject.components) {
 			if (c.name == "size") continue;
-			ComponentID componentID = ecs.registerComponent(c.name, c.size);
 			if (c.type == ComponentObject::TYPE::TYPE_INT ||
 				c.type == ComponentObject::TYPE::TYPE_FIXED_FLOAT ||
-				c.type == ComponentObject::TYPE::TYPE_STRING ||
-				c.type == ComponentObject::TYPE::TYPE_DARRAY)
-				ecs.emplace(entity, componentID, &c.data);
-			else if (c.type == ComponentObject::TYPE::TYPE_ARRAY)
+				c.type == ComponentObject::TYPE::TYPE_STRING) {
+                ComponentID componentID = ecs.registerComponentAsBlittable(c.name, c.size);
+                ecs.emplace(entity, componentID, &c.data);
+			} else if (c.type == ComponentObject::TYPE::TYPE_DARRAY) {
+                ComponentID componentID = ecs.registerComponentAsDArray(c.name, c.size);
+                ecs.emplace(entity, componentID, &c.data);
+			} else if (c.type == ComponentObject::TYPE::TYPE_ARRAY) {
+                ComponentID componentID = ecs.registerComponentAsBlittable(c.name, c.size);
 				ecs.emplace(entity, componentID, c.data);
-			else if (c.type == ComponentObject::TYPE::TYPE_NULL)
-				ecs.emplace(entity, componentID, NULL);
+			} else if (c.type == ComponentObject::TYPE::TYPE_NULL) {
+                ComponentID componentID = ecs.registerComponentAsBlittable(c.name, c.size);
+                ecs.emplace(entity, componentID, NULL);
+			}
 			else {
 				std::cout << "error: spawnEntityAt()'s entity has component of invalid type..?  destroying entity" << std::endl;
 				ecs.removeEntity(entity);
@@ -97,7 +102,7 @@ namespace SystemUtilities {
 	}
 	inline EntityID spawnEntityAtWithSize(const std::string& entityPath, Vec3D<uint32_t> pos, Vec3D<uint32_t> siz, bool isSolid) {
 		EntityID retValue = spawnEntityAt(entityPath, pos, isSolid);
-		ComponentID bodyComponentID = ecs.registerComponent("body", sizeof(BodyID));
+        ComponentID bodyComponentID = ecs.registerComponentAsBlittable("body", sizeof(BodyID));
 		if (ecs.entityHasComponent(retValue, bodyComponentID)) {
 			std::cout << "Error: spawnEntityAtWithSize()'s entity from entityPath had a size declared in file " <<
 				entityPath << std::endl;

@@ -1,17 +1,20 @@
 #pragma once
 
-#include "Vec.h"
-#include "FlatBuffer.h"
-#include "DArray.h"
+#include <EchoEngine/Vec.h>
+#include <EchoEngine/FlatBuffer.h>
+#include <EchoEngine/DArray.h>
 #ifdef THREADING_ENABLED
-#include "HAL/HAL.h"
+#include <HAL/HAL.h>
 #endif
 #ifdef REWIND_ENABLED
-#include "../customDBG.h"
-//#include <Windows.h>
 #include "RingBuffer.h"
 #endif
 #include <time.h>
+#ifdef PROFILER_ENABLED  //TODO: figure insanity out
+#include <optick.h>
+//#include <windows.h>
+#include <sstream>
+#endif
 
 #ifndef physics_width
 #define physics_width 1024
@@ -81,12 +84,15 @@ class PhysicsEngineAABB3D {
 	//NOTE: used for rewinding
 	#ifdef REWIND_ENABLED
 	#include "PhysicsFrame.h"
-	static constexpr uint32_t max_frames = 60 * 5;  //5 seconds at 60 TPS
+	static constexpr uint32_t max_frames = 60 * 2;  //2 seconds at 60 TPS
 	RingBuffer<PhysicsFrame, max_frames> frames;
+    bool isRecording;
 	#endif
 
 public:
 	void init() {
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
 		dynamicBodyCount = staticBodyCount = 0;
 		timeFromStepping = 0.f;
 
@@ -106,23 +112,20 @@ public:
 
 		acceleration16ms = getGravityAccelerationPer16ms();
         gravityMax16ms = getGravityMaxPer16ms();
+        isRecording = false;
 	}
 	BodyID addBodyBox(physics_fp x, physics_fp y, physics_fp z,
 		physics_fp w, physics_fp h, physics_fp d, void* data, bool isSolid) {
 		BodyID retValue;
-		BodyAABB body = {
-			{
-				static_cast<uint32_t>(x.getRaw()), static_cast<uint32_t>(y.getRaw()), static_cast<uint32_t>(z.getRaw())
-			}, { static_cast<uint32_t>(w.getRaw()), static_cast<uint32_t>(h.getRaw()), static_cast<uint32_t>(d.getRaw())},
-			{ 0u,0u,0u }
-		};
+        BodyAABB body = {{x, y, z}, {w, h, d}, {0, 0, 0}};
 		//retValue.id = bodies.insert(body);
 		retValue.id = isValid.toggleFirstInvalid();
 		bodies[retValue.id] = body;
 		setUserData(retValue, data);
 		setIsSolid(retValue, isSolid);
 		#ifdef REWIND_ENABLED
-		frames.get().addBody(bodies[retValue.id], isSolid, data, retValue);
+        if (isRecording)
+			frames.get().addBody(bodies[retValue.id], isSolid, data, retValue);
 		#endif
 		spatialHashTable.addBody(retValue, body.pos, body.siz);
 		overlappingBodyIDs[retValue.id].clear();
@@ -132,14 +135,14 @@ public:
 	BodyID addStaticBodyBox(physics_fp x, physics_fp y, physics_fp z,
 		physics_fp w, physics_fp h, physics_fp d, void* data, bool isSolid) {
 		BodyID retValue;
-		BodyAABB body = { { (uint32_t)x.getRaw(), (uint32_t)y.getRaw(), (uint32_t)z.getRaw() },
-			{ (uint32_t)w.getRaw(), (uint32_t)h.getRaw(), (uint32_t)d.getRaw() }, { 0,0,0 } };
+        BodyAABB body = {{x, y, z}, {w, h, d}, {0, 0, 0}};
 		retValue.id = isValid.toggleFirstInvalid(max_dynamic_bodies);
 		bodies[retValue.id] = body;
 		setUserData(retValue, data);
 		setIsSolid(retValue, isSolid);
 		#ifdef REWIND_ENABLED
-		frames.get().addBody(bodies[retValue.id], isSolid, data, retValue);
+        if (isRecording)
+			frames.get().addBody(bodies[retValue.id], isSolid, data, retValue);
 		#endif
 		spatialHashTable.addBody(retValue, body.pos, body.siz);
 		overlappingBodyIDs[retValue.id].clear();
@@ -164,7 +167,8 @@ public:
 		#ifdef REWIND_ENABLED
 		bool _isSolid = getIsSolid(bodyID);
 		void* _userData = getUserData(bodyID);
-		frames.get().removeBody(body, _isSolid, _userData, bodyID);
+        if (isRecording)
+			frames.get().removeBody(body, _isSolid, _userData, bodyID);
 		#endif
 	}
 
@@ -176,36 +180,37 @@ public:
 		return overlappingBodyIDs[id.id];
 	}
 
-	inline std::vector<BodyID> getBodiesInRectRough(Vec3D<physics_fp> pos, Vec3D<physics_fp> siz) {
-		std::vector<BodyID> retValue;
-		auto hashes = spatialHashTable.getHashes(*(Vec3D<uint32_t>*)&pos, *(Vec3D<uint32_t>*)&siz);
-		retValue.reserve(hashes.size());
+	inline bool getBodiesInRectRough(Vec3D<physics_fp> pos, Vec3D<physics_fp> siz, std::vector<BodyID>& out) {
+        out.clear();
+        thread_local std::vector<FlatBuffer<BodyID, physics_max_bodies_per_hash>*> hashes;
+        spatialHashTable.getHashes(pos, siz, hashes);
+        out.reserve(hashes.size());
 		uint32_t hashCount = (uint32_t)hashes.size();
 		for (uint32_t i = 0; i < hashCount; i++) {
 			auto* hashPtr = hashes[i];
 			uint32_t hashSize = hashPtr->count;
 			for (uint32_t j = 0; j < hashSize; j++) {
 				BodyID bodyID = (*hashPtr)[j];
-				uint32_t totalBodyCount = (uint32_t)retValue.size();
+                uint32_t totalBodyCount = (uint32_t)out.size();
 				for (uint32_t k = 0; k < totalBodyCount; k++) {
-					if (retValue[k] == bodyID)
+                    if (out[k] == bodyID)
 						goto skip;
 				}
-				retValue.push_back(bodyID);
+                out.push_back(bodyID);
 			skip:
 				continue;
 			}
 		}
-		return retValue;
+        return (bool)out.size();
 	}
-	inline std::vector<BodyID> getBodiesInRectRough(Vec3D<uint32_t> pos, Vec3D<uint32_t> siz) {
+	inline bool getBodiesInRectRough(Vec3D<uint32_t> pos, Vec3D<uint32_t> siz, std::vector<BodyID>& out) {
 		pos *= physics_unit_size; siz *= physics_unit_size;
-		return getBodiesInRectRough(*(Vec3D<physics_fp>*)&pos, *(Vec3D<physics_fp>*)&siz);
+		return getBodiesInRectRough(*(Vec3D<physics_fp>*)&pos, *(Vec3D<physics_fp>*)&siz, out);
 	}
-	inline bool pointTrace(const Vec3D<FixedPoint<256 * 256>>& pos, BodyID ignoredBody) {
-		std::vector<BodyID> out = {};
-		Vec3D<uint32_t> siz = { 1, 1, 1 };
-		spatialHashTable.getIDs(*(Vec3D<uint32_t>*) & pos, siz, out);
+    inline bool pointTrace(const Vec3D<physics_fp> &pos, BodyID ignoredBody, std::vector<BodyID>& out) {
+        out.resize(0);
+		Vec3D<physics_fp> siz = {1, 1, 1};
+		spatialHashTable.getIDs(pos, siz, out);
 		uint32_t size = (uint32_t)out.size();
 		for (uint32_t i = 0; i < size; i++)
 			if (out[i] != ignoredBody)
@@ -215,13 +220,14 @@ public:
 	void setVelocity(BodyID id, physics_fp vx, physics_fp vy, physics_fp vz) {
 		BodyAABB* body = &bodies[id.id];
 		#ifdef REWIND_ENABLED
-		Vec3D<uint32_t> offset = { (uint32_t)vx.getRaw(), (uint32_t)vy.getRaw(), (uint32_t)vz.getRaw() };
+		Vec3D<physics_fp> offset = { vx, vy, vz };
 		offset -= body->vel;
-		frames.get().addVelocity(offset, id);
+        if (isRecording)
+			frames.get().addVelocity(offset, id);
 		#endif
-		body->vel.x = (uint32_t)vx.getRaw();
-		body->vel.y = (uint32_t)vy.getRaw();
-		body->vel.z = (uint32_t)vz.getRaw();
+		body->vel.x = vx;
+		body->vel.y = vy;
+		body->vel.z = vz;
 	}
 	Vec3D<physics_fp> getVelocity(BodyID id) {
 		BodyAABB* body = &bodies[id.id];
@@ -232,30 +238,26 @@ public:
 		return bodies[id.id].isSolid;
 	}
 
-	Vec3D<FixedPoint<physics_unit_size>> getPos(BodyID id) {
-		Vec3D<uint32_t>& bodyPos = bodies[id.id].pos;
-		Vec3D<FixedPoint<physics_unit_size>> pos;
-		pos.x.setRaw(bodyPos.x);
-		pos.y.setRaw(bodyPos.y);
-		pos.z.setRaw(bodyPos.z);
-		return pos;
+	Vec3D<physics_fp> getPos(BodyID id) {
+        Vec3D<physics_fp> &bodyPos = bodies[id.id].pos;
+		return bodyPos;
 	}
 	Vec3D<float> getPosF(BodyID id) {
-		Vec3D<uint32_t>& bodyPos = bodies[id.id].pos;
-		Vec3D<float> pos = { (float)bodyPos.x / physics_unit_size, (float)bodyPos.y / physics_unit_size, (float)bodyPos.z / physics_unit_size };
+        Vec3D<physics_fp> &bodyPos = bodies[id.id].pos;
+		Vec3D<float> pos = { (float)bodyPos.x.getRaw() / physics_unit_size,
+			(float)bodyPos.y.getRaw() / physics_unit_size,
+			(float)bodyPos.z.getRaw() / physics_unit_size };
 		return pos;
 	}
-	Vec3D<FixedPoint<physics_unit_size>> getSize(BodyID id) {
-		Vec3D<uint32_t> bodySiz = bodies[id.id].siz;
-		Vec3D<FixedPoint<physics_unit_size>> siz;
-		siz.x.setRaw(bodySiz.x);
-		siz.y.setRaw(bodySiz.y);
-		siz.z.setRaw(bodySiz.z);
-		return siz;
+	Vec3D<physics_fp> getSize(BodyID id) {
+        Vec3D<physics_fp>& bodySiz = bodies[id.id].siz;
+		return bodySiz;
 	}
 	Vec3D<float> getSizeF(BodyID id) {
-		Vec3D<uint32_t>& bodySiz = bodies[id.id].siz;
-		Vec3D<float> siz = { (float)bodySiz.x / physics_unit_size, (float)bodySiz.y / physics_unit_size, (float)bodySiz.z / physics_unit_size };
+        Vec3D<physics_fp> &bodySiz = bodies[id.id].siz;
+		Vec3D<float> siz = { (float)bodySiz.x.getRaw() / physics_unit_size,
+			(float)bodySiz.y.getRaw() / physics_unit_size,
+			(float)bodySiz.z.getRaw() / physics_unit_size };
 		return siz;
 	}
 
@@ -272,6 +274,8 @@ public:
 
 	uint32_t lastBodyIndex;
 	inline void simulate() {
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
 		uint32_t bodyCount = dynamicBodyCount;
 		if (bodyCount == 0) return;
 		uint32_t validBodyCount = 0;
@@ -289,6 +293,8 @@ public:
 		}
 	}
 	inline void detectSingle() {
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
 		uint32_t bodyCount = dynamicBodyCount;
 		if (bodyCount == 0) return;
 		for (uint32_t i = 0; i <= lastBodyIndex; i++) {
@@ -308,6 +314,8 @@ public:
 		uint32_t start, end;
 	};
 	inline void detect() {
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
 		uint32_t bodyCount = dynamicBodyCount;
 		if (bodyCount == 0) return;
 		for (uint32_t i = 0; i <= lastBodyIndex; i++) {
@@ -331,22 +339,30 @@ public:
 		for (uint32_t i = 0; i < threadCount; i++) {
             HAL::submit_thread_pool_task(threadPool, detectThreadBody, &dtd[i]);
 		}
+        OPTICK_EVENT();
 		static DetectThreadData lastDTD;
 		uint32_t start = workPerThread * threadCount; uint32_t end = start + leftover;
 		lastDTD = { this, start, end };
 		if (leftover)
 			detectThreadBody(&lastDTD);
+        OPTICK_EVENT();
         while (HAL::is_thread_pool_finished(threadPool) == false)
 			continue;
 	}
 	static void detectThreadBody(void* _data) {
+        std::ostringstream ss;
+        ss << std::this_thread::get_id();
+        OPTICK_THREAD(ss.str().c_str());
+        OPTICK_EVENT();
 		DetectThreadData* data = (DetectThreadData*)_data;
 		//PhysicsEngineAABB3D<width, height, depth, hash_width, max_bodies_per_hash>* self =
 		//	(PhysicsEngineAABB3D<width, height, depth, hash_width, max_bodies_per_hash>*)data->self;
         PhysicsEngineAABB3D *self = (PhysicsEngineAABB3D*)data->self;
 
-		std::vector<BodyID> IDs;
-		IDs.reserve(100);
+		//std::vector<BodyID> IDs;
+        //IDs.reserve(100);
+		//std::vector<BodyID>& IDs = data->bodyIDs;
+        thread_local std::vector<BodyID> IDs;
 		for (uint32_t i = data->start; i <= data->end; i++) {
 			if (self->isValid.getIsValid(i) == false)
 				continue;
@@ -365,6 +381,8 @@ public:
 		}
 	}
 	inline void resolve() {
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
 		uint32_t bodyCount = dynamicBodyCount;
 		if (bodyCount == 0) return;
 		for (uint32_t i = 0; i <= lastBodyIndex; i++) {
@@ -387,13 +405,16 @@ public:
 				}
 			}
 			gravity({ i });
-#ifdef REWIND_ENABLED
-			frames.get().cpyDynamicBodyPosAndVel({i}, bodies[i].pos, bodies[i].vel);
-#endif
+			#ifdef REWIND_ENABLED
+            if (isRecording)
+				frames.get().cpyDynamicBodyPosAndVel({i}, bodies[i].pos, bodies[i].vel);
+			#endif
 		}
 	}
 
 	void tick() {
+        OPTICK_THREAD("MainThread");
+        OPTICK_EVENT();
 		clock_t c = clock();
 		#ifdef REWIND_ENABLED
 		frames.advance();
@@ -458,6 +479,10 @@ public:
 			frames.rewind();
 		}
 	}
+
+	void setRecording(bool isTrue) {
+		isRecording = isTrue;
+	}
 #endif
 
 private:
@@ -505,8 +530,8 @@ private:
 		//FixedPoint<physics_unit_size> acceleration = "0.0163f";
         //physics_fp acceleration = getGravityAccelerationPer16ms();
 		BodyAABB& body = bodies[bodyID.id];
-		if ((int32_t)body.vel.y < gravityMax16ms.getRaw())
-			body.vel.y += acceleration16ms.getRaw();
+		if (body.vel.y < gravityMax16ms)
+			body.vel.y += acceleration16ms;
 	}
 
 	physics_fp getGravityAccelerationPer16ms()
