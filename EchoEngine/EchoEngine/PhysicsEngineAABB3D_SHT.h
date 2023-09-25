@@ -39,7 +39,7 @@ class SpatialHashTable {
 		throw;
 	}
 
-	inline void getIterationBounds(const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& siz, Bounds& bounds) {
+	inline void getIterationBounds(const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& _siz, Bounds& bounds) {
 		//uint32_t startRight = pos.x / hash_width, startDown = pos.y / hash_width;
 		//uint32_t endRight = pos.x / hash_width + siz.x / hash_width, endDown = pos.y / hash_width + siz.y / hash_width;
 		//uint32_t startForward = pos.z / hash_width, endForward = pos.z / hash_width + siz.z / hash_width;
@@ -60,6 +60,14 @@ class SpatialHashTable {
 		//	bounds.siz.y--;
 		//if (bounds.siz.z % hash_width == 0)
 		//	bounds.siz.z--;
+
+		Vec3D<physics_fp> siz = _siz;
+		//if (siz.x.getRaw() > 0)
+		//	siz.x.setRaw(siz.x.getRaw() - 1);
+		//if (siz.y.getRaw() > 0)
+		//	siz.y.setRaw(siz.y.getRaw() - 1);
+		//if (siz.z.getRaw() > 0)
+		//	siz.z.setRaw(siz.z.getRaw() - 1);
 
 		bounds = {
 			{(uint32_t)pos.x.getAsInt(), (uint32_t)pos.y.getAsInt(), (uint32_t)pos.z.getAsInt()}, 
@@ -128,6 +136,9 @@ public:
 	inline void getIDs(const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& siz, std::vector<BodyID>& returnValue) {
 		Bounds bounds;
 		getIterationBounds(pos, siz, bounds);
+		//std::cout << bounds.siz.x - bounds.pos.x << ' ' <<
+		//	bounds.siz.y - bounds.pos.y << ' ' <<
+		//	bounds.siz.z - bounds.pos.z << std::endl;
 		for (uint32_t z = bounds.pos.z; z <= bounds.siz.z; z++)
 			for (uint32_t y = bounds.pos.y; y <= bounds.siz.y; y++)
 				for (uint32_t x = bounds.pos.x; x <= bounds.siz.x; x++) {
