@@ -323,6 +323,11 @@ private:
 
 	void createEnemy(Vec3D<uint32_t> pos) {
 		EntityID entityID = ecs.getNewEntity();
+<<<<<<< Updated upstream
+=======
+		//Can't be 1.0f or larger on any axis, 
+		//without harming runtime via broad phase physics putting this in more cells.
+>>>>>>> Stashed changes
 		BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, "0.25f", "1.0f", "0.25f",
 			to_void_ptr(entityID), true);
 		ecs.emplace(entityID, bodyComponentID, &bodyID);
@@ -340,7 +345,7 @@ private:
         OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
 		u32 count = 0;
-		u32 padding = 40, border = world_size;
+		u32 padding = 10, border = world_size;
 		while (true) {
 			Vec3D<u32> pos = {};
 			pos.x = getRandInt(generator, 0, border-(padding+padding));
