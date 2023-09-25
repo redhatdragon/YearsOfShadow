@@ -409,7 +409,9 @@ static_assert(sizeof(HAL::udp_socket_handle_t) == sizeof(SOCKET),
     "sizeof udp_socket_handle_t != sizeof SOCKET!");
 
 WSADATA wsa;
-sockaddr_in local_socaddr, dest_socaddr;
+struct UDP_Connection {
+    SOCKET in, out;
+};
 
 void _network_init() {
     //Initialise winsock
@@ -420,87 +422,122 @@ void _network_init() {
     }
 }
 
-HAL::udp_socket_handle_t HAL::UDP_open(const char* ip, uint16_t sharedPort) {
-    SOCKET soc = {};
-    HAL::udp_socket_handle_t retValue;
-    
-    if ((soc = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == INVALID_SOCKET) {
+HAL::udp_socket_handle_t HAL::UDP_open(const char* ip, uint16_t inPort, uint16_t outPort)
+{
+    SOCKET inSoc, outSoc = {};
+    //udp_socket_handle_t retValue = (udp_socket_handle_t)(uintptr_t)malloc(sizeof(UDP_Connection));
+    UDP_Connection* conn = (UDP_Connection*)malloc(sizeof(UDP_Connection));
+    if (conn == nullptr) {  //make macro wrapper for malloc to avoid this...
+        std::cout << "Error: Failed to allocate UDP_Connection type.." << std::endl;
+        throw;
+    }
+    if ((inSoc = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == INVALID_SOCKET) {
+        std::string errStr = "Error: Could not create socket: "; errStr += WSAGetLastError();
+        HAL::hal_error(errStr);
+        exit(EXIT_FAILURE);
+    }
+    if ((outSoc = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == INVALID_SOCKET) {
         std::string errStr = "Error: Could not create socket: "; errStr += WSAGetLastError();
         HAL::hal_error(errStr);
         exit(EXIT_FAILURE);
     }
 
-    unsigned long ul = 1;  //cause winapi is dumb...
-    ioctlsocket(soc, FIONBIO, &ul);
+    unsigned long ul = 1;
+    ioctlsocket(inSoc, FIONBIO, &ul);
+    ul = 1;
+    ioctlsocket(outSoc, FIONBIO, &ul);
+
+    int optval = 1;
+    setsockopt(inSoc, SOL_SOCKET, SO_REUSEADDR, (const char*)&optval, sizeof optval);
+    optval = 1;
+    setsockopt(outSoc, SOL_SOCKET, SO_REUSEADDR, (const char*)&optval, sizeof optval);
+    optval = 1;
+    setsockopt(inSoc, SOL_SOCKET, SO_BROADCAST, (const char*)&optval, sizeof optval);
+    optval = 1;
+    setsockopt(outSoc, SOL_SOCKET, SO_BROADCAST, (const char*)&optval, sizeof optval);
+
+    sockaddr_in local_socaddr, dest_socaddr;
     
     local_socaddr.sin_family = AF_INET;
-    //local_socaddr.sin_addr.s_addr = inet_addr(ip);
     inet_pton(AF_INET, ip, &local_socaddr.sin_addr.s_addr);
-    //local_socaddr.sin_port = htons(recvPort);
-    local_socaddr.sin_port = htons(sharedPort);
+    local_socaddr.sin_port = htons(inPort);
 
     dest_socaddr.sin_family = AF_INET;
-    //dest_socaddr.sin_addr.s_addr = INADDR_ANY;
-    //dest_socaddr.sin_addr.s_addr = inet_addr(ip);
-    inet_pton(AF_INET, ip, &dest_socaddr.sin_addr.s_addr);
-    //dest_socaddr.sin_port = htons(sendPort);
-    local_socaddr.sin_port = htons(sharedPort);
+    dest_socaddr.sin_addr.s_addr = INADDR_ANY;
+    //inet_pton(AF_INET, ip, &dest_socaddr.sin_addr.s_addr);
+    dest_socaddr.sin_port = htons(outPort);
     
-    if (bind(soc, (struct sockaddr*)&local_socaddr, sizeof(local_socaddr)) == SOCKET_ERROR) {
+    if (bind(inSoc, (struct sockaddr*)&local_socaddr, sizeof(local_socaddr)) == SOCKET_ERROR) {
+        printf("Bind failed with error code : %d", WSAGetLastError());
+        exit(EXIT_FAILURE);
+    }
+    if (bind(outSoc, (struct sockaddr*)&dest_socaddr, sizeof(dest_socaddr)) == SOCKET_ERROR) {
         printf("Bind failed with error code : %d", WSAGetLastError());
         exit(EXIT_FAILURE);
     }
 
-    memcpy(&retValue, &soc, sizeof(soc));
+    *conn = { inSoc, outSoc };
+    udp_socket_handle_t retValue = (udp_socket_handle_t)(uintptr_t)conn;
     return retValue;
 }
-void HAL::UDP_send_packet(HAL::udp_socket_handle_t _soc, const uint8_t* data, uint16_t len) {
-    SOCKET soc;
-    memcpy(&soc, &_soc, sizeof(SOCKET));
+void HAL::UDP_close(HAL::udp_socket_handle_t _conn)
+{
+    UDP_Connection* conn = (UDP_Connection*)_conn;
+}
+void HAL::UDP_send_packet(HAL::udp_socket_handle_t _conn, const uint8_t* data, uint16_t len)
+{
+    UDP_Connection* conn = (UDP_Connection*)_conn;
+    SOCKET outSoc = conn->out;
 
     sockaddr addr;
     int addrLen = sizeof(addr);
-    getsockname(soc, &addr, &addrLen);
+    getsockname(outSoc, &addr, &addrLen);
 
     //if (send(soc, (const char*)data, len, 0) == SOCKET_ERROR) {
-    if (sendto(soc, (const char*)data, len, 0, &addr, sizeof(addr)) == SOCKET_ERROR) {
+    if (sendto(outSoc, (const char*)data, len, 0, &addr, sizeof(addr)) == SOCKET_ERROR) {
         printf("send failed with error %d\n", WSAGetLastError());
         return;
     }
 }
-void HAL::UDP_get_packet(HAL::udp_socket_handle_t _soc, uint8_t* outData, uint32_t* outLen,
-    uint32_t* outIP, uint16_t* outPort) {
-    SOCKET soc;
-    memcpy(&soc, &_soc, sizeof(SOCKET));
+void HAL::UDP_get_packet(HAL::udp_socket_handle_t _conn, uint8_t* outData, uint32_t& outLen,
+    uint32_t& outIP, uint16_t& outPort)
+{
+    UDP_Connection* conn = (UDP_Connection*)_conn;
+    SOCKET inSoc = conn->in;
 
     //int bytes_received;
     //static uint8_t serverBuf[maxPacketLen + 1];
     //int serverBufLen = maxPacketLen;
 
-    sockaddr addr;
-    int addrLen = sizeof(addr);
-    getsockname(soc, &addr, &addrLen);
+    //sockaddr addr;
+    //int addrLen = sizeof(addr);
+    //getsockname(inSoc, &addr, &addrLen);
 
     // Keep a seperate address struct to store sender information.
-    struct sockaddr_in SenderAddr;
-    int SenderAddrSize = sizeof(SenderAddr);
+    //struct sockaddr_in SenderAddr;
+    //int SenderAddrSize = sizeof(SenderAddr);
+
+    sockaddr addr;
+    int addrLen = sizeof(addr);
+    getsockname(inSoc, &addr, &addrLen);
 
     //bytes_received = recvfrom(soc, (char*)serverBuf, serverBufLen, 0 /* no flags*/, (SOCKADDR*)&SenderAddr, &SenderAddrSize);
     //bytes_received = recv(soc, (char*)serverBuf, serverBufLen, 0 /* no flags*/);
-    *outLen = recvfrom(soc, (char*)outData, *outLen, 0 /* no flags*/, (SOCKADDR*)&SenderAddr, &SenderAddrSize);
-    if (*outLen == SOCKET_ERROR) {
+    //outLen = recvfrom(inSoc, (char*)outData, outLen, 0 /* no flags*/, (SOCKADDR*)&SenderAddr, &SenderAddrSize);
+    outLen = recvfrom(inSoc, (char*)outData, outLen, 0 /* no flags*/, (SOCKADDR*)&addr, &addrLen);
+    if (outLen == SOCKET_ERROR) {
         if (WSAGetLastError() == WSAEWOULDBLOCK) {
-            *outLen = 0;
+            outLen = 0;
             outData[0] = '\0';
             return;
         }
         printf("recvfrom failed with error %d\n", WSAGetLastError());
-        *outLen = 0;
+        outLen = 0;
         outData[0] = '\0';
         return;
     }
     //serverBuf[bytes_received] = '\0';
-    outData[*outLen] = '\0';
+    outData[outLen] = '\0';
 }
 
 
