@@ -80,6 +80,7 @@ struct BodyAABB {
 };
 constexpr uint32_t sizeofBodyAABB = sizeof(BodyAABB);
 
+#pragma pack(push, 1)
 struct BodyID {
 	uint32_t id;
 	bool operator==(BodyID other) {
@@ -93,3 +94,4 @@ struct BodyID {
 		return false;
 	}
 };
+#pragma pack(pop)
