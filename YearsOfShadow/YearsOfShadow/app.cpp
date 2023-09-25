@@ -36,26 +36,47 @@ void sleepForThreaded(void* data) {
 
 
 
-void HAL::app_start() {
-    auto soc = HAL::UDP_open("127.0.0.1", 8082);
-    uint8_t sendBuff[] = "WHY DO YOU CUM!";
-    std::cout << "sending: " << sendBuff << std::endl;
-    uint16_t sendLen = sizeof(sendBuff);
-    HAL::UDP_send_packet(soc, sendBuff, sendLen);
+void netTest() {
+    std::string inChar;
+    std::cout << "Enter y if running client" << std::endl;
+    std::cin >> inChar;
+    HAL::udp_socket_handle_t conn;
+    std::string sendStr = "";
+    if (inChar == "y") {
+        conn = HAL::UDP_open("127.0.0.1", 8182, 8183);
+        sendStr = "I'MA FIRIN MA LAZAR!";
+    } else {
+        conn = HAL::UDP_open("127.0.0.1", 8183, 8182);
+        sendStr = "WHY DO YOU CUM!";
+    }
 
     static uint8_t buff[100000] = { 0 };
     uint32_t len = 100000;
+    uint32_t outIP;
+    uint16_t outPort;
+    //HAL::UDP_send_packet(conn, (const uint8_t*)sendStr.c_str(), (uint16_t)sendStr.size());
     while (true) {
-        HAL::UDP_get_packet(soc, buff, &len, NULL, NULL);
-        if (len != 0) {
+        while (true) {
+            len = 100000;
+            HAL::UDP_get_packet(conn, buff, len, outIP, outPort);
+            if (len == 0) break;
             std::cout << "received: " << (const char*)buff << std::endl;
+            std::cout << "len: " << len << std::endl;
         }
+        HAL::UDP_send_packet(conn, (const uint8_t*)sendStr.c_str(), (uint16_t)sendStr.size());
+        Sleep(1000);
     }
-    HAL::UDP_get_packet(soc, buff, &len, NULL, NULL);
-    if (len != 0) {
-        std::cout << "received: " << (const char*)buff << std::endl;
-    }
-    return;
+    //HAL::UDP_get_packet(conn, buff, len, outIP, outPort);
+    //if (len != 0) {
+    //    std::cout << "received: " << (const char*)buff << std::endl;
+    //    std::cout << "len: " << len << std::endl;
+    //    len = 100000;
+    //}
+    HAL::UDP_close(conn);
+}
+
+void HAL::app_start() {
+    //netTest();
 
     OPTICK_START_CAPTURE();
     OPTICK_THREAD("MainThread");
@@ -64,9 +85,6 @@ void HAL::app_start() {
 }
 bool FPressedLastTick = true;
 void HAL::app_loop() {
-
-    return;
-
     OPTICK_THREAD("MainThread");
     OPTICK_EVENT();
     HAL::draw_background(0, 0, 0, 255);
@@ -89,9 +107,6 @@ void HAL::app_loop() {
 #endif
 }
 void HAL::app_post_frame() {
-
-    return;
-
     OPTICK_THREAD("MainThread");
     OPTICK_EVENT();
     while (HAL::is_thread_pool_finished(threadPool) == false)
@@ -108,7 +123,6 @@ void HAL::app_post_frame() {
         continue;
 }
 void HAL::app_end() {
-    return;
     HAL::release_thread_pool(threadPool);
 
     OPTICK_STOP_CAPTURE();
