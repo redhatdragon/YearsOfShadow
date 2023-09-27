@@ -12,6 +12,8 @@
 #include <iomanip>
 #include <mutex>
 #include <utility>
+#include <new>
+#include <new.h>
 
 #include <WinSock2.h>
 #include <Ws2tcpip.h>
@@ -34,6 +36,7 @@
 #include "CustomWindowsThreadPool.h"
 //#include "CustomCPP11ThreadPool.h"
 #include <memory>
+#include <memory_resource>
 
 #include <HAL/HAL.h>
 
@@ -82,6 +85,9 @@ FlatFlaggedBuffer<TexturedQuad, max_textures> textures;
 static std::vector<std::unique_ptr<Mesh>> meshes = {};
 static std::vector<std::unique_ptr<InstancedMesh>> instancedMeshes = {};
 
+// A test for systems that live longer that this object
+// Static intialization order is a mess...
+bool log_to_file_context_alive = false; 
 static class log_to_file_context_t
 {
     FILE *last_log_;
@@ -99,10 +105,14 @@ public:
         ss << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d %X");
         
         fopen_s(&date_log_, ("logs/" + ss.str() + ".txt").c_str(), "w+");
+        log_to_file_context_alive = true;
     }
 
     void log_message(const std::string& msg)
     {
+        if (!log_to_file_context_alive)
+            return;
+
         if (buffer_pos_ + msg.size() > output_buffer_.size())
             flush();
 
@@ -128,6 +138,7 @@ public:
 
     ~log_to_file_context_t()
     {
+        log_to_file_context_alive = false;
         flush();
 
         if (last_log_)
@@ -135,8 +146,8 @@ public:
         if (date_log_)
             fclose(date_log_);
     }
-} log_to_file_context;
 
+} log_to_file_context;
 
 static bool consoleSupportsColors  = false;
 static std::mutex consoleMutex;
@@ -1056,3 +1067,234 @@ int main()
 }
 
 #pragma warning(pop)
+
+#ifndef NDEBUG
+
+/*
+ *  C++ only requires us to implement:
+ *  https://en.cppreference.com/w/cpp/memory/new/operator_new
+ *  void* operator new  ( std::size_t count );
+ *  void* operator new  ( std::size_t count, std::align_val_t al );
+ *
+ *  https://en.cppreference.com/w/cpp/memory/new/operator_delete
+ *  void operator delete  ( void* ptr ) throw();
+ *  void operator delete  ( void* ptr, std::align_val_t al ) noexcept;
+ *
+ *  For data-colleciton reasons we will also replace the array-throwing functions
+ */
+
+struct non_tracking_memory_resource : public std::pmr::memory_resource
+{
+public:
+    virtual void* do_allocate(size_t bytes, size_t align)
+    {
+#ifdef _MSC_VER
+        void* const memory = _aligned_malloc(bytes, align);
+#else
+#error "Use allocation function that doesn't invoke NEW/DELETE"
+#endif	    
+        return memory;
+    }
+    virtual void do_deallocate(void* ptr, size_t bytes, size_t align)
+    {
+#ifdef _MSC_VER
+        _aligned_free(ptr);
+#else
+#error "Use deallocation function that doesn't invoke NEW/DELETE"
+#endif
+    }
+
+    virtual bool do_is_equal(const memory_resource& other) const noexcept
+    {
+        return true;
+    }
+};
+
+bool allocation_tracker_alive = false;
+struct allocation_tracker
+{
+    non_tracking_memory_resource non_tracking_memory_resource;
+    std::pmr::polymorphic_allocator<void> allocator{ std::addressof(non_tracking_memory_resource) };
+    struct allocation_info
+    {
+        size_t allocation_idx;
+        void* pointer;
+        bool new_array;
+        std::size_t size;
+        std::size_t alignment;
+#ifdef ENABLE_ALLOC_STACK_TRACE
+        std::pmr::stacktrace alloc_st;
+        std::pmr::stacktrace dealloc_st;
+#endif
+    };
+
+    mutable std::recursive_mutex mx;
+    std::pmr::unordered_map<void*, allocation_info> active_allocations{ allocator };
+    std::pmr::vector<allocation_info> allocation_history{ allocator };
+
+    void* allocate(size_t size, size_t alignment, bool is_array)
+    {
+    	if (size == 0)
+            return nullptr;
+
+#ifdef _MSC_VER
+        void* const memory = _aligned_malloc(size, alignment);
+#else
+        void* const memory = std::aligned_alloc()
+#endif
+
+    	if (!allocation_tracker_alive)
+    		return memory;
+
+        if (memory == nullptr) // Allocating 0-size array is valid and might return a nullptr
+        {
+            // Shouldn't throw because nothrow versions exist
+            HAL_ASSERT_REL(size == 0, "Failed to allocate memory\n."); // TODO: Log stack-trace
+            return nullptr;
+        }
+
+        std::unique_lock lck(mx);
+
+        allocation_history.emplace_back(
+            allocation_info{
+                .allocation_idx = std::size(allocation_history),
+                .pointer = memory,
+                .new_array = is_array,
+                .size = size,
+                .alignment = alignment
+#ifdef ENABLE_ALLOC_STACK_TRACE
+                ,
+                .alloc_st = std::pmr::stacktrace::current(2, allocator) // TODO: Also skip new/delete
+#endif
+            });
+
+        active_allocations.emplace(memory, allocation_history.back());
+
+        return memory;
+    }
+
+    void deallocate(void* ptr, bool is_array)
+    {
+        if (ptr == nullptr) // Deallocating nullptr is valid
+            return;
+
+#ifdef _MSC_VER
+        _aligned_free(ptr);
+#else
+        void* const memory = std::free(ptr);
+#endif
+
+        if (!allocation_tracker_alive)
+            return;
+
+        std::unique_lock lck(mx);
+
+        const auto r = active_allocations.find(ptr);
+
+        // Check if we own the memory
+        if(r == std::end(active_allocations))
+        {
+            HAL_ASSERT_REL(false, "Trying to deallocate memory address we don't own!");
+        }
+
+        // Check if the memory was deallocated with the same new/delete kind
+		if(r->second.new_array == false && is_array == true)
+		{
+            HAL_ASSERT_REL(false, "new/delete[] mismatch\n. Memory was allocated using operator new() and deallcoated using operator delete[]()");
+		}
+        else if(r->second.new_array == true && is_array == false)
+        {
+            HAL_ASSERT_REL(false, "new[]/delete mismatch\n. Memory was allocated using operator new[]() and deallcoated using operator delete()");
+        }
+
+#ifdef ENABLE_ALLOC_STACK_TRACE
+        allocation_history[r->second.allocation_idx].dealloc_st = std::pmr::stacktrace::current(2, allocator);
+#endif
+
+        active_allocations.erase(r);
+    }
+
+    allocation_tracker()
+    {
+        allocation_tracker_alive = true;
+        _set_new_mode(false);
+    }
+
+    ~allocation_tracker() noexcept
+    {
+        std::unique_lock lck(mx);
+        allocation_tracker_alive = false;
+
+        HAL_LOG("TOTAL MEMORY ALLOCATIONS: {}\n",
+            std::size(this->allocation_history));
+
+        if (std::empty(active_allocations))
+            return;
+
+        for(const auto& a : active_allocations | std::views::values)
+        {
+            HAL_ERROR("MEMORY LEAK:\nAddress: {}\nSize: {}\nAlignment: {}\nAllocated at:\n",
+                a.pointer, a.size, a.alignment);
+
+            using namespace std::string_literals;
+
+#ifdef ENABLE_ALLOC_STACK_TRACE
+            for (auto se : a.alloc_st)
+                HAL_ERROR("{} ({}) {}\n",
+                    se.source_file(),
+                    se.source_line(),
+                    se.description()
+                );
+#endif
+        }
+    }
+};
+
+allocation_tracker& get_allocation_tracker()
+{
+    static allocation_tracker instance;
+    return instance;
+}
+
+[[nodiscard]] void* operator new(std::size_t n) noexcept(false)
+{
+    return get_allocation_tracker().allocate(n, alignof(std::max_align_t), false);
+}
+
+[[nodiscard]] void* operator new(std::size_t n, std::align_val_t al) noexcept(false)
+{
+    return get_allocation_tracker().allocate(n, std::to_underlying(al), false);
+}
+
+[[nodiscard]] void* operator new[](std::size_t n) noexcept(false)
+{
+    return get_allocation_tracker().allocate(n, alignof(std::max_align_t), true);
+}
+
+[[nodiscard]] void* operator new[](std::size_t n, std::align_val_t al) noexcept(false)
+{
+    return get_allocation_tracker().allocate(n, std::to_underlying(al), true);
+}
+
+void operator delete (void* ptr) 
+{
+    return get_allocation_tracker().deallocate(ptr, false);
+}
+
+void operator delete (void* ptr, std::align_val_t) 
+{
+    return get_allocation_tracker().deallocate(ptr, false);
+}
+
+void operator delete[] (void* ptr) 
+{
+    return get_allocation_tracker().deallocate(ptr, true);
+}
+
+void operator delete[] (void* ptr, std::align_val_t) 
+{
+    return get_allocation_tracker().deallocate(ptr, true);
+}
+
+#endif
+

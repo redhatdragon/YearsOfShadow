@@ -58,6 +58,8 @@ namespace HAL
     };
 	
 
+
+
 namespace HAL
 {
     enum class resource_handle_t : std::uintptr_t;
