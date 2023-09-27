@@ -37,18 +37,6 @@ namespace HAL
     void hal_error(const std::string &msg);
 
 	void hal_assert(bool cond, const std::string &msg);
-
-	inline void* alloc(size_t size, const char* file, uint32_t line) {
-		void* data = malloc(size);
-		if (data == nullptr) {
-			std::string str = "Error: unable to allocate at file ";
-			str += file;
-			str += " in line ";
-			str += std::to_string(line);
-			hal_error(str);
-		}
-		return data;
-	}
 }
 
 #define HAL_LOG(FORMAT, ...) HAL::hal_log(HAL::hal_format(FORMAT, __VA_ARGS__ ));
@@ -68,14 +56,6 @@ namespace HAL
 		    __debugbreak();																								\
 		}                                                                                                               \
     };
-
-#define HAL_ALLOC(T, count) \
-	(T*)HAL::alloc(sizeof(T) * count, __FILE__, __LINE__);
-
-#define HAL_THROW() \
-	HAL_ERROR("Throw: File {}, line {}", __FILE__, __LINE__); \
-	system("pause"); \
-	throw;
 	
 
 namespace HAL
