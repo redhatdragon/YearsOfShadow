@@ -71,6 +71,11 @@ namespace HAL
 
 #define HAL_ALLOC(T, count) \
 	(T*)HAL::alloc(sizeof(T) * count, __FILE__, __LINE__);
+
+#define HAL_THROW() \
+	HAL_ERROR("Throw: File {}, line {}", __FILE__, __LINE__); \
+	system("pause"); \
+	throw;
 	
 
 namespace HAL
