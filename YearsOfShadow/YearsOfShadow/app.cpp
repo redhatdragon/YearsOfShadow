@@ -81,7 +81,9 @@ void HAL::app_start() {
     OPTICK_START_CAPTURE();
     OPTICK_THREAD("MainThread");
     initSystems();
+    #ifdef REWIND_ENABLED
     physics.setRecording(true);
+    #endif
 }
 bool FPressedLastTick = true;
 void HAL::app_loop() {

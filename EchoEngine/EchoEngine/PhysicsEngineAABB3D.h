@@ -112,7 +112,9 @@ public:
 
 		acceleration16ms = getGravityAccelerationPer16ms();
         gravityMax16ms = getGravityMaxPer16ms();
+		#ifdef REWIND_ENABLED
         isRecording = false;
+		#endif
 	}
 	BodyID addBodyBox(physics_fp x, physics_fp y, physics_fp z,
 		physics_fp w, physics_fp h, physics_fp d, void* data, bool isSolid) {
