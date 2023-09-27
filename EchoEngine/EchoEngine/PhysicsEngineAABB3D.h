@@ -283,9 +283,9 @@ public:
 			if (isValid.getIsValid(i) == false)
 				continue;
 			validBodyCount++;
-			spatialHashTable.removeBody({ i }, bodies[i].pos, bodies[i].siz);
+			spatialHashTable.removeBody({ (BodyID)i }, bodies[i].pos, bodies[i].siz);
 			bodies[i].simulate();
-			spatialHashTable.addBody({ i }, bodies[i].pos, bodies[i].siz);
+			spatialHashTable.addBody({ (BodyID)i }, bodies[i].pos, bodies[i].siz);
 			if (validBodyCount >= bodyCount) {
 				lastBodyIndex = i;
 				break;
@@ -388,26 +388,26 @@ public:
 		for (uint32_t i = 0; i <= lastBodyIndex; i++) {
 			if (isValid.getIsValid(i) == false)
 				continue;
-			bool isSolid = getIsSolid({ i });
-			if (overlappingBodyIDs[i].count && bodies[i].vel.isZero() == false && getIsSolid({ i })) {
+			bool isSolid = getIsSolid({ (BodyID)i });
+			if (overlappingBodyIDs[i].count && bodies[i].vel.isZero() == false && getIsSolid({ (BodyID)i })) {
 				static FlatBuffer<BodyAABB*, 100> overlappingSolidBodies = {};
 				overlappingSolidBodies.clear();
 				getOverlappingSolidBodies(i, overlappingSolidBodies);
 				if (overlappingSolidBodies.count) {
 
-					spatialHashTable.removeBody({ i }, bodies[i].pos, bodies[i].siz);
+					spatialHashTable.removeBody({ (BodyID)i }, bodies[i].pos, bodies[i].siz);
 					bodies[i].reverseSimulate();
 					auto newPos = bodies[i].resolveClosestSafePosition(&overlappingSolidBodies[0],
 						overlappingSolidBodies.count);
 					bodies[i].pos = newPos;
 					*(Vec3D<int32_t>*)& bodies[i].vel /= 2;
-					spatialHashTable.addBody({ i }, bodies[i].pos, bodies[i].siz);
+					spatialHashTable.addBody({ (BodyID)i }, bodies[i].pos, bodies[i].siz);
 				}
 			}
-			gravity({ i });
+			gravity({ (BodyID)i });
 			#ifdef REWIND_ENABLED
             if (isRecording)
-				frames.get().cpyDynamicBodyPosAndVel({i}, bodies[i].pos, bodies[i].vel);
+				frames.get().cpyDynamicBodyPosAndVel({ (BodyID)i}, bodies[i].pos, bodies[i].vel);
 			#endif
 		}
 	}

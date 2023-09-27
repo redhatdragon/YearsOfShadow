@@ -62,29 +62,29 @@ namespace HAL
     enum class resource_handle_t : std::uintptr_t;
 
     using thread_pool_handle_t = resource_handle_t;
-
 	static constexpr thread_pool_handle_t invalid_thread_pool_handle =
         static_cast<thread_pool_handle_t>(std::numeric_limits<std::uintptr_t>::max());
 
     using texture_handle_t = resource_handle_t;;
-
 	static constexpr texture_handle_t invalid_texture_handle =
         static_cast<texture_handle_t>(std::numeric_limits<std::uintptr_t>::max());
 
     using mesh_handle_t = resource_handle_t;;
-
 	static constexpr mesh_handle_t invalid_mesh_handle =
         static_cast<mesh_handle_t>(std::numeric_limits<std::uintptr_t>::max());
 
     using instanced_mesh_handle_t = resource_handle_t;;
-
 	static constexpr instanced_mesh_handle_t invalid_instanced_mesh_handle =
         static_cast<instanced_mesh_handle_t>(std::numeric_limits<std::uintptr_t>::max());
 
     using camera_handle_t = resource_handle_t;;
-
 	static constexpr camera_handle_t invalid_camera_handle =
         static_cast<camera_handle_t>(std::numeric_limits<std::uintptr_t>::max());
+
+	//TODO: might not be needed...
+	using udp_socket_handle_t = resource_handle_t;
+	static constexpr udp_socket_handle_t invalid_udp_socket_handle =
+		static_cast<udp_socket_handle_t>(std::numeric_limits<std::uintptr_t>::max());
 
     /**
      * \brief Load new texture from the file and return handle to it
@@ -267,6 +267,15 @@ namespace HAL
 
 	// bool EE_sendPacketUDP(void* packet);
 	// struct EE_PacketUDP* EE_recvPacketUDP();
+
+	constexpr uint32_t maxPacketLen = 256 * 256;
+
+	//open with 127.0.0.1 ip address to set as server.
+	udp_socket_handle_t UDP_open(const char* ip, uint16_t inPort, uint16_t outPort);
+	void UDP_close(udp_socket_handle_t soc);
+	void UDP_send_packet(udp_socket_handle_t soc, const uint8_t* data, uint16_t len);
+	void UDP_get_packet(udp_socket_handle_t soc, uint8_t* outData, uint32_t& outLen,
+		uint32_t& outIP, uint16_t& outPort);
 
 	size_t get_hardware_thread_count();
 

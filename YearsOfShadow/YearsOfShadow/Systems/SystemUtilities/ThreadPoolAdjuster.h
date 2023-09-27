@@ -9,6 +9,7 @@ class ThreadPoolAdjuster {
 
 public:
     static uint32_t getIdealThreadCount() {
+        #ifdef THREADING_ENABLED
         size_t maxThreadCount = HAL::get_hardware_thread_count() - 1;
         uint32_t bestThreadCount = 1;
         float bestThreadCountWorst = 0, bestThreadCountAverage = 0;
@@ -26,6 +27,9 @@ public:
             }
         }
         return bestThreadCount;
+        #else
+        return 0;
+        #endif
     }
 
 private:
