@@ -4,6 +4,8 @@ Optick_1.4.0
 .thumbnails
 bin
 bin-game/logs
+bin-game/*.lib
+bin-game/*.ini
 bin-etc
 output
 data/.thumbnails
