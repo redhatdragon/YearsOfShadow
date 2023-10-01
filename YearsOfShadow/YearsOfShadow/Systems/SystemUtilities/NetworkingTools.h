@@ -3,13 +3,14 @@
 constexpr uint16_t PACKET_MAX_LEN = 65000;
 
 class Packet {
+	// Though much data is duplicated between packets, it makes things easier/safer.
 	struct PacketData {
 		uint64_t messageID;
 		uint16_t packetNum;
 		//uint8_t toClient;  //0 == true, else toServer
-		uint8_t confirmedSent;
+		//uint8_t confirmedSent;
 		uint16_t packetCount;
-		uint8_t padding[2];
+		uint8_t padding[4];  //Adjust to keep data buffer 8 byte offset
 		uint8_t data[PACKET_MAX_LEN];
 	} data;
 	uint16_t len;
@@ -21,7 +22,7 @@ public:
 		data.messageID = _messageID;
 		data.packetNum = _packetNum;
 		//data.toClient = _toClient;
-		data.confirmedSent = false;
+		//data.confirmedSent = false;
 		data.packetCount = _packetCount;
 	}
 	void send() {
@@ -29,9 +30,6 @@ public:
 	}
 	void confirmToSender() {
 
-	}
-	bool isSent() {
-		return (bool)data.confirmedSent;
 	}
 };
 
@@ -68,6 +66,7 @@ public:
 		ip = _ip; messageID = nextMessageID++;
 		uint16_t totalFullPackets = (uint16_t)(_msg.size() / PACKET_MAX_LEN);
 		uint16_t remainder = _msg.size() % PACKET_MAX_LEN;
+		packets.clear();
 		if (remainder) {
 			for (uint32_t i = 0; i < totalFullPackets; i++)
 				pushNewPacket(&_msg[i * PACKET_MAX_LEN], PACKET_MAX_LEN, i, totalFullPackets+1);
