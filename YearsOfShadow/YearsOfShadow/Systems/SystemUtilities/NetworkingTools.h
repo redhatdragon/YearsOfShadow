@@ -6,7 +6,7 @@ class Packet {
 	struct PacketData {
 		uint64_t messageID;
 		uint16_t packetNum;
-		uint8_t toClient;  //0 == true, else toServer
+		//uint8_t toClient;  //0 == true, else toServer
 		uint8_t confirmedSent;
 		uint16_t packetCount;
 		uint8_t padding[2];
@@ -15,12 +15,12 @@ class Packet {
 	uint16_t len;
 public:
 	void write(const uint8_t* _data, uint16_t _len,
-		uint64_t _messageID, uint16_t _packetNum, uint8_t _toClient, uint16_t _packetCount) {
+		uint64_t _messageID, uint16_t _packetNum, uint16_t _packetCount) {
 		memcpy(data.data, _data, _len);
 		len = _len;
 		data.messageID = _messageID;
 		data.packetNum = _packetNum;
-		data.toClient = _toClient;
+		//data.toClient = _toClient;
 		data.confirmedSent = false;
 		data.packetCount = _packetCount;
 	}
@@ -57,17 +57,25 @@ struct PacketPool {
 
 class NetworkMessage {
 	std::string ip;
-	uint64_t id;
-	static uint64_t nextID;
+	uint64_t messageID;
+	static uint64_t nextMessageID;
 	FlatBuffer<Packet*, PacketPool::max_packets> packets;
 public:
-	NetworkMessage(std::string_view _ip, std::span<const uint8_t> _msg)
-	: ip(_ip), id(nextID++) {
-		uint16_t totalPackets = _msg.size() / PACKET_MAX_LEN;
+	//NetworkMessage(std::string_view _ip, std::span<const uint8_t> _msg, uint8_t _toClient) {
+	//	init()
+	//}
+	void init(std::string_view _ip, std::span<const uint8_t> _msg) {
+		ip = _ip; messageID = nextMessageID++;
+		uint16_t totalFullPackets = (uint16_t)(_msg.size() / PACKET_MAX_LEN);
 		uint16_t remainder = _msg.size() % PACKET_MAX_LEN;
-		for (uint32_t i = 0; i < totalPackets; i++)
-			pushNewPacket(&_msg[i * PACKET_MAX_LEN], PACKET_MAX_LEN);
-		pushNewPacket(&_msg[totalPackets * PACKET_MAX_LEN], remainder);
+		if (remainder) {
+			for (uint32_t i = 0; i < totalFullPackets; i++)
+				pushNewPacket(&_msg[i * PACKET_MAX_LEN], PACKET_MAX_LEN, i, totalFullPackets+1);
+			pushNewPacket(&_msg[totalFullPackets * PACKET_MAX_LEN], remainder, totalFullPackets, totalFullPackets+1);
+		} else {
+			for (uint32_t i = 0; i < totalFullPackets; i++)
+				pushNewPacket(&_msg[i * PACKET_MAX_LEN], PACKET_MAX_LEN, i, totalFullPackets);
+		}
 	}
 	void send() {
 
@@ -76,13 +84,13 @@ public:
 
 	}
 private:
-	void pushNewPacket(const uint8_t* data, uint16_t size) {
+	void pushNewPacket(const uint8_t* data, uint16_t size, uint16_t packetNum, uint16_t packetCount) {
 		Packet* packet = packetPool.get();
-		packet->write(data, size);
+		packet->write(data, size, messageID, packetNum, packetCount);
 		packets.push(packet);
 	}
 };
-uint64_t NetworkMessage::nextID = 0;
+uint64_t NetworkMessage::nextMessageID = 0;
 
 class NetworkStream {
 	HAL::udp_socket_handle_t conn;
@@ -101,8 +109,9 @@ public:
 		//	throw;
 		//}
 		//memcpy(msg, data, size);
-		messages.push_back(NetworkMessage(ip, {data, size} ));
-		//messages[messages.size() - 1].init(ip, msg, size);
+		//messages.push_back(NetworkMessage(ip, {data, size} ));
+		messages.push_back({});
+		messages[messages.size() - 1].init(ip, { data, size });
 	}
 	void sendAll() {
 		uint32_t count = (uint32_t)messages.size();
