@@ -2,6 +2,9 @@
 
 namespace NetworkingUtilities {
 	constexpr uint16_t PACKET_MAX_LEN = 65000;
+	constexpr uint16_t PACKETS_MAX = 200;
+	constexpr uint32_t CONNECTIONS_MAX = 10;
+	constexpr uint32_t MESSAGES_PER_CONNECTION_MAX = 5;
 
 	class Packet {
 		// Though much data is duplicated between packets, it makes things easier/safer.
@@ -40,12 +43,11 @@ namespace NetworkingUtilities {
 	};
 
 	struct PacketPool {
-		static constexpr uint32_t max_packets = 10000;
-		Packet packets[max_packets];
-		FlatBuffer<Packet*, max_packets> packetPtrs;
-		PacketPool() {
+		Packet packets[PACKETS_MAX];
+		FlatBuffer<Packet*, PACKETS_MAX> packetPtrs;
+		void setup() {
 			packetPtrs.clear();
-			for (uint32_t i = 0; i < max_packets; i++) {
+			for (uint32_t i = 0; i < PACKETS_MAX; i++) {
 				packetPtrs[i] = &packets[i];
 			}
 		}
@@ -57,22 +59,24 @@ namespace NetworkingUtilities {
 		void ret(Packet* packet) {
 			packetPtrs.push(packet);
 		}
-	} packetPool = PacketPool();
+	};
 
 	class NetworkMessage {
-		std::string ip;
 		uint64_t messageID;
 		static uint64_t nextMessageID;
-		FlatBuffer<Packet*, PacketPool::max_packets> packets;
+		FlatBuffer<Packet*, PACKETS_MAX> packets;
+		PacketPool* packetPoolPtr;
 	public:
-		//NetworkMessage(std::string_view _ip, std::span<const uint8_t> _msg, uint8_t _toClient) {
-		//	init()
-		//}
-		void init(std::string_view _ip, std::span<const uint8_t> _msg) {
-			ip = _ip; messageID = nextMessageID++;
+		//Total data passed must be less than PACKETS_MAX * PACKET_MAX_LEN
+		void construct(std::span<const uint8_t> _msg, PacketPool& _packetPool) {
+			packetPoolPtr = &_packetPool;
+			messageID = nextMessageID++;
 			uint16_t totalFullPackets = (uint16_t)(_msg.size() / PACKET_MAX_LEN);
 			uint16_t remainder = _msg.size() % PACKET_MAX_LEN;
-			packets.clear();
+			if (packets.count) {
+				HAL_ERROR("NetworkMessage::construct() called when packets buffer wasn't cleared!");
+				throw;
+			}
 			if (remainder) {
 				for (uint32_t i = 0; i < totalFullPackets; i++)
 					pushNewPacket(&_msg[i * PACKET_MAX_LEN], PACKET_MAX_LEN, i, totalFullPackets + 1);
@@ -83,52 +87,87 @@ namespace NetworkingUtilities {
 					pushNewPacket(&_msg[i * PACKET_MAX_LEN], PACKET_MAX_LEN, i, totalFullPackets);
 			}
 		}
-		void send() {
-
-		}
-		bool isFinished() {
-
+		void deconstruct() {
+			uint32_t count = packets.count;
+			for (uint32_t i = 0; i < count; i++)
+				packetPoolPtr->ret(packets[i]);
+			packets.clear();
+			packetPoolPtr = nullptr;
 		}
 	private:
 		void pushNewPacket(const uint8_t* data, uint16_t size, uint16_t packetNum, uint16_t packetCount) {
-			Packet* packet = packetPool.get();
+			Packet* packet = packetPoolPtr->get();
 			packet->write(data, size, messageID, packetNum, packetCount);
 			packets.push(packet);
 		}
 	};
 	uint64_t NetworkMessage::nextMessageID = 0;
 
-	class NetworkStream {
+	class NetworkManager {
+		PacketPool packetPool;
+		//Reused connection handle, no need to clean
 		HAL::udp_socket_handle_t conn;
-		uint16_t inPort, outPort;
-		std::vector<NetworkMessage> messages;
+		//FlatBuffer<NetworkMessage, CONNECTIONS_MAX> recvMsgs;
+		//FlatBuffer<NetworkMessage, CONNECTIONS_MAX> sentMsgs;
 	public:
-		void init(uint16_t _inPort, uint16_t _outPort) {
-			inPort = _inPort;
-			outPort = _outPort;
-			messages.reserve(10);
-		}
-		void push(std::string_view ip, const uint8_t* data, uint32_t size) {
-			//uint8_t* msg = (uint8_t*)malloc(size);
-			//if (msg == nullptr) {
-			//	HAL_ERROR("NetworkStream::send() can't allocate enough space for msg!");
-			//	throw;
-			//}
-			//memcpy(msg, data, size);
-			//messages.push_back(NetworkMessage(ip, {data, size} ));
-			messages.push_back({});
-			messages[messages.size() - 1].init(ip, { data, size });
-		}
-		void sendAll() {
-			uint32_t count = (uint32_t)messages.size();
-			for (uint32_t i = 0; i < count; i++) {
-				messages[i].send();
-			}
-		}
-		void clear() {
-			conn = HAL::invalid_udp_socket_handle;
-			inPort = outPort = 0;
-			messages.resize(0);
+		// <otherIP, messagesForOtherIP>
+		std::unordered_map<std::string, FlatBuffer<NetworkMessage, MESSAGES_PER_CONNECTION_MAX>>
+			recvMsgs, sentMsgs;
+		void init(HAL::udp_socket_handle_t _conn) {
+			conn = _conn;
+			recvMsgs.reserve(CONNECTIONS_MAX);
+			sentMsgs.reserve(CONNECTIONS_MAX);
 		}
 	};
+	constexpr uint64_t sizeofNetworkManager_MB_ish =
+		((sizeof(NetworkMessage) * MESSAGES_PER_CONNECTION_MAX * CONNECTIONS_MAX * 2) / 1000000)
+		+ sizeof(PacketPool) / 1000000;
+
+	//Might get renamed/removed soon...
+	//Meant to house all messages between one client
+	//class NetworkStream {
+	//	//HAL::udp_socket_handle_t conn;
+	//	std::string outIP;
+	//	uint16_t inPort, outPort;
+	//	std::vector<NetworkMessage> messages;
+	//public:
+	//	void init(std::string_view _outIP, uint16_t _inPort, uint16_t _outPort) {
+	//		outIP = _outIP;
+	//		inPort = _inPort;
+	//		outPort = _outPort;
+	//		messages.reserve(10);
+	//	}
+	//	void push(std::string_view ip, const uint8_t* data, uint32_t size) {
+	//		//uint8_t* msg = (uint8_t*)malloc(size);
+	//		//if (msg == nullptr) {
+	//		//	HAL_ERROR("NetworkStream::send() can't allocate enough space for msg!");
+	//		//	throw;
+	//		//}
+	//		//memcpy(msg, data, size);
+	//		//messages.push_back(NetworkMessage(ip, {data, size} ));
+	//		messages.push_back({});
+	//		messages[messages.size() - 1].init(ip, { data, size });
+	//	}
+	//	void sendAll() {
+	//		uint32_t count = (uint32_t)messages.size();
+	//		for (uint32_t i = 0; i < count; i++) {
+	//			messages[i].send();
+	//		}
+	//	}
+	//	void clear() {
+	//		outIP = "";
+	//		inPort = outPort = 0;
+	//		messages.resize(0);
+	//	}
+	//	bool consumePacketIfMatching(const uint8_t* packet, std::string_view _outIP) {
+	//		if (outIP != _outIP)
+	//			return false;
+	//		consume(packet);
+	//		return true;
+	//	}
+	//private:
+	//	void consume(const uint8_t* packet) {
+	//
+	//	}
+	//};
 }
