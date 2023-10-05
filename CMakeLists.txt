@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 3.21)
 
+cmake_policy(PUSH)
+
+if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.24.0")
+    cmake_policy(SET CMP0135 NEW)
+endif()
+
 project(YearsOfShadow VERSION 0.1.0 LANGUAGES C CXX)
 
 if (PROJECT_IS_TOP_LEVEL)
@@ -71,3 +77,5 @@ add_subdirectory(HAL)
 add_subdirectory(EchoEngine)
 add_subdirectory(YearsOfShadow)
 add_subdirectory("test")
+
+cmake_policy(POP)
