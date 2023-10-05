@@ -31,6 +31,9 @@ public:
 		auto pos = controller->cam.getPosition();
 		voxelWorld.display((uint32_t)pos.x, (uint32_t)pos.z);
 	}
+	virtual void destruct() {
+		voxelWorld.destruct();
+	}
 	virtual const char* getName() {
 		return "SystemVoxel";
 	}

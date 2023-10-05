@@ -20,6 +20,7 @@ public:
 		chunksModifiedPos.count = 0;
 	}
 	void destruct() {
+		chunkActiveBodies.free();
         chunkBlockCopies.free();
 		chunksModifiedPos.count = 0;
 	}

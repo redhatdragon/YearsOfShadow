@@ -70,6 +70,20 @@ public:
             frames.advance();
 		}
 	}
+	void destruct() {
+		HAL::release_texture(grassTexture);
+
+		for (uint32_t i = 0; i < chunks_wide; i++)
+			for (uint32_t j = 0; j < chunks_wide; j++) {
+				chunks[j][i]->unload();
+				free(chunks[j][i]);
+			}
+		for (uint32_t i = 0; i < max_frames; i++) {
+			VoxelFrame* frame = &frames.get();
+			frame->destruct();
+			frames.advance();
+		}
+	}
 
 	void display(uint32_t x, uint32_t z) {
 		uint32_t chunksWide = 9;

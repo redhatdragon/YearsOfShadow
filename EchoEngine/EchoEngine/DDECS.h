@@ -218,8 +218,10 @@ public:
 	void destruct() {
 		size_t count = systems.size();
 		for (size_t i = 0; i < count; i++) {
+			systems[i]->destroy();
 			delete systems[i];
 		}
+		systems.resize(0);
 	}
 	EntityID getNewEntity() {
 		static EntityHandle uid = 1;
@@ -508,8 +510,9 @@ class System {
 protected:
 	clock_t ms = 0;
 public:
-	virtual void init() {};
+	virtual void init() = 0;
 	virtual void run() = 0;
+	virtual void destroy() {};
 	virtual const char* getName() = 0;
 	inline clock_t getTimeMS() const {
 		return ms;
