@@ -44,7 +44,13 @@ public:
 		dataHeader->count = size;
 	}
 	void free() {
+		//TODO: add better logging...
+		if (dataHeader == nullptr) {
+			std::cout << "Warning: DArray::free() attempted to deallocate while already empty" << std::endl;
+			return;
+		}
 		::free(dataHeader);
+		dataHeader = nullptr;
 	}
 	T& operator[](size_t index) {
 		return dataHeader->data[index];
