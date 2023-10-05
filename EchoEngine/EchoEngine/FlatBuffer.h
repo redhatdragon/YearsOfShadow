@@ -297,9 +297,10 @@ public:
 	__forceinline T& operator[](uint32_t index) {
 		return data[index];
 	}
-	__forceinline void push(T _data) {
+	__forceinline T& push(T _data) {
 		data[count] = _data;
 		count++;
+		return data[count - 1];
 	}
 	__forceinline void pop() {
 		count--;
