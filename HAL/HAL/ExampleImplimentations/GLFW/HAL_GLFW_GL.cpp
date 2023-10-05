@@ -878,7 +878,7 @@ int main()
 
 #pragma warning(pop)
 
-#ifndef UNCOMMENT_NDEBUG
+#ifdef NDEBUG
 
 /*
  *  C++ only requires us to implement:
