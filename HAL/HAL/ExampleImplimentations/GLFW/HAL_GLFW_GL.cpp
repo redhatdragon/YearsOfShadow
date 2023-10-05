@@ -878,7 +878,7 @@ int main()
 
 #pragma warning(pop)
 
-#ifdef NDEBUG
+#ifdef ALLOCATION_TRACKING
 
 /*
  *  C++ only requires us to implement:

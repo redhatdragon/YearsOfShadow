@@ -16,6 +16,12 @@ add_library(
 	#"${CMAKE_CURRENT_SOURCE_DIR}/../.clang-format"
 )
 
+message($<CONFIG:RelWithDebInfo>)
+#if($<CONFIG> STREQUAL "RelWithDebInfo")
+if($<CONFIG:RelWithDebInfo>)
+  target_compile_definitions(HAL PUBLIC -DALLOCATION_TRACKING)
+endif()
+
 target_include_directories(
 	HAL
 	PUBLIC
