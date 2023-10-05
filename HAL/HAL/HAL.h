@@ -275,11 +275,13 @@ namespace HAL
 
 	//open with 127.0.0.1 ip address to set as server.
 	udp_socket_handle_t UDP_open(const char* ip, uint16_t inPort, uint16_t outPort);
-	void UDP_close(udp_socket_handle_t soc);
+	void UDP_close(udp_socket_handle_t _conn);
+	uint16_t UDP_get_our_port(HAL::udp_socket_handle_t _conn);
+	std::string UDP_get_our_ip(HAL::udp_socket_handle_t _conn);
 	void UDP_send_packet(udp_socket_handle_t soc, const uint8_t* data, uint16_t len,
 		const char* ip, uint16_t port = 0);
 	void UDP_get_packet(udp_socket_handle_t soc, uint8_t* outData, uint32_t& outLen,
-		uint32_t& outIP, uint16_t& outPort);
+		std::string& outIP, uint16_t& outPort);
 
 	size_t get_hardware_thread_count();
 

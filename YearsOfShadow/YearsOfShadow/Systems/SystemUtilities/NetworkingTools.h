@@ -94,6 +94,12 @@ namespace NetworkingUtilities {
 			packets.clear();
 			packetPoolPtr = nullptr;
 		}
+		void update() {
+
+		}
+		bool isFinished() {
+
+		}
 	private:
 		void pushNewPacket(const uint8_t* data, uint16_t size, uint16_t packetNum, uint16_t packetCount) {
 			Packet* packet = packetPoolPtr->get();
@@ -107,16 +113,61 @@ namespace NetworkingUtilities {
 		PacketPool packetPool;
 		//Reused connection handle, no need to clean
 		HAL::udp_socket_handle_t conn;
-		//FlatBuffer<NetworkMessage, CONNECTIONS_MAX> recvMsgs;
-		//FlatBuffer<NetworkMessage, CONNECTIONS_MAX> sentMsgs;
-	public:
-		// <otherIP, messagesForOtherIP>
+		std::string ourIP;
+		//<otherIP, messagesForOtherIP>
 		std::unordered_map<std::string, FlatBuffer<NetworkMessage, MESSAGES_PER_CONNECTION_MAX>>
 			recvMsgs, sentMsgs;
+	public:
 		void init(HAL::udp_socket_handle_t _conn) {
 			conn = _conn;
+			ourIP = HAL::UDP_get_our_ip(conn);
 			recvMsgs.reserve(CONNECTIONS_MAX);
 			sentMsgs.reserve(CONNECTIONS_MAX);
+		}
+		void sendTo(std::string_view ip, std::span<uint8_t> msg) {
+			FlatBuffer<NetworkMessage, MESSAGES_PER_CONNECTION_MAX>* msgsPtr;
+			if (sentMsgs.find(ip.data()) == sentMsgs.end()) {
+				sentMsgs[ip.data()] = {};
+				msgsPtr = &sentMsgs[ip.data()];
+				msgsPtr->clear();
+			} else
+				msgsPtr = &sentMsgs[ip.data()];
+			FlatBuffer<NetworkMessage, MESSAGES_PER_CONNECTION_MAX>& msgs = *msgsPtr;
+			NetworkMessage& nm = msgs.push({});
+			nm.construct(msg, packetPool);
+		}
+		//Call once per game tick
+		void update() {
+			//for (auto& msgs : sentMsgs) {
+			//	uint32_t count = msgs.second.count;
+			//	for (uint32_t i = 0; i < count; i++) {
+			//		NetworkMessage& msg = msgs.second[i];
+			//		msg.update();
+			//		if (msg.isFinished())
+			//			msg.deconstruct();
+			//	}
+			//}
+			//for (auto& msgs : recvMsgs) {
+			//	uint32_t count = msgs.second.count;
+			//	for (uint32_t i = 0; i < count; i++) {
+			//		NetworkMessage& msg = msgs.second[i];
+			//		msg.update();
+			//	}
+			//}
+
+			static FlatBuffer<uint8_t, 256 * 256> buff;
+			std::string senderIP;
+			uint16_t outPort;
+			while (true) {
+				HAL::UDP_get_packet(conn, &buff[0], buff.count, senderIP, outPort);
+				if (buff.count == 0)
+					continue;
+				processPacket(&buff[0], buff.count, senderIP);
+			}
+		}
+	private:
+		void processPacket(const uint8_t* data, uint16_t len, std::string_view senderIP) {
+				
 		}
 	};
 	constexpr uint64_t sizeofNetworkManager_MB_ish =

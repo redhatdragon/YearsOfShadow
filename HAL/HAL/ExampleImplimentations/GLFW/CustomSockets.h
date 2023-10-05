@@ -69,6 +69,13 @@ void HAL::UDP_close(HAL::udp_socket_handle_t _conn)
 {
     UDP_Connection* conn = (UDP_Connection*)_conn;
 }
+uint16_t HAL::UDP_get_our_port(HAL::udp_socket_handle_t _conn)
+{
+    return ((UDP_Connection*)_conn)->inPort;
+}
+std::string HAL::UDP_get_our_ip(HAL::udp_socket_handle_t _conn) {
+    return {};
+}
 void HAL::UDP_send_packet(HAL::udp_socket_handle_t _conn, const uint8_t* data, uint16_t len, const char* ip, uint16_t port)
 {
     UDP_Connection* conn = (UDP_Connection*)_conn;
@@ -88,7 +95,7 @@ void HAL::UDP_send_packet(HAL::udp_socket_handle_t _conn, const uint8_t* data, u
     }
 }
 void HAL::UDP_get_packet(HAL::udp_socket_handle_t _conn, uint8_t* outData, uint32_t& outLen,
-    uint32_t& outIP, uint16_t& outPort)
+    std::string& outIP, uint16_t& outPort)
 {
     UDP_Connection* conn = (UDP_Connection*)_conn;
     SOCKET inSoc = conn->soc;
