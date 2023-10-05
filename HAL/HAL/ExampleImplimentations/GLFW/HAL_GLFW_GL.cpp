@@ -12,6 +12,7 @@
 #include <iomanip>
 #include <mutex>
 #include <utility>
+#include <unordered_set>
 #include <new>
 #include <new.h>
 
@@ -72,6 +73,8 @@ void translateScreen2DToGL(float& x, float& y);
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
+
+#include <fox/stacktree.hpp>
 
 // GLOBAL STATES
 // Temporarily used unique_ptr to patch a memory leak
@@ -875,7 +878,7 @@ int main()
 
 #pragma warning(pop)
 
-#ifndef NDEBUG
+#ifndef UNCOMMENT_NDEBUG
 
 /*
  *  C++ only requires us to implement:
@@ -921,7 +924,29 @@ bool allocation_tracker_alive = false;
 struct allocation_tracker
 {
     non_tracking_memory_resource non_tracking_memory_resource;
-    std::pmr::polymorphic_allocator<void> allocator{ std::addressof(non_tracking_memory_resource) };
+    std::pmr::unsynchronized_pool_resource memory_pool{ std::addressof(non_tracking_memory_resource) };
+    std::pmr::polymorphic_allocator<void> allocator{ std::addressof(memory_pool) };
+	
+#define ENABLE_ALLOC_STACK_TRACE
+
+    // Caching the names should significantly reduce the memory footprint
+#ifdef ENABLE_ALLOC_STACK_TRACE
+    std::pmr::unordered_map<std::size_t, std::pmr::stacktrace> stack_trace_storage{ allocator }; 
+
+    std::size_t register_stack_trace(std::size_t skip)
+    {
+        auto stack_trace = std::pmr::stacktrace::current(skip + 1, allocator);
+        auto hash = std::hash<decltype(stack_trace)>{}(stack_trace);
+        stack_trace_storage.insert_or_assign(hash, std::move(stack_trace));
+        return hash;
+    }
+
+    const std::pmr::stacktrace& get_stack_trace(std::size_t hash)
+    {
+        return stack_trace_storage.at(hash);
+    }
+#endif
+
     struct allocation_info
     {
         size_t allocation_idx;
@@ -930,12 +955,13 @@ struct allocation_tracker
         std::size_t size;
         std::size_t alignment;
 #ifdef ENABLE_ALLOC_STACK_TRACE
-        std::pmr::stacktrace alloc_st;
-        std::pmr::stacktrace dealloc_st;
+        std::size_t alloc_st_hash = {};
+        std::size_t dealloc_st_hash = {};
 #endif
+
     };
 
-    mutable std::recursive_mutex mx;
+    mutable std::mutex mx;
     std::pmr::unordered_map<void*, allocation_info> active_allocations{ allocator };
     std::pmr::vector<allocation_info> allocation_history{ allocator };
 
@@ -971,7 +997,7 @@ struct allocation_tracker
                 .alignment = alignment
 #ifdef ENABLE_ALLOC_STACK_TRACE
                 ,
-                .alloc_st = std::pmr::stacktrace::current(2, allocator) // TODO: Also skip new/delete
+                .alloc_st_hash = register_stack_trace(2) // TODO: Also skip new/delete
 #endif
             });
 
@@ -1015,7 +1041,7 @@ struct allocation_tracker
         }
 
 #ifdef ENABLE_ALLOC_STACK_TRACE
-        allocation_history[r->second.allocation_idx].dealloc_st = std::pmr::stacktrace::current(2, allocator);
+        allocation_history[r->second.allocation_idx].dealloc_st_hash = register_stack_trace(2);
 #endif
 
         active_allocations.erase(r);
@@ -1025,6 +1051,17 @@ struct allocation_tracker
     {
         allocation_tracker_alive = true;
         _set_new_mode(false);
+    }
+
+    struct stacktree_allocation_info
+    {
+        std::size_t num_allocations = {};
+        std::size_t size_allocation = {};
+    };
+
+    friend std::ostream& operator<<(std::ostream& os, const stacktree_allocation_info& v)
+    {
+        return os << v.num_allocations << " / " << v.size_allocation << " Bytes";
     }
 
     ~allocation_tracker() noexcept
@@ -1046,7 +1083,9 @@ struct allocation_tracker
             using namespace std::string_literals;
 
 #ifdef ENABLE_ALLOC_STACK_TRACE
-            for (auto se : a.alloc_st)
+            auto stack = get_stack_trace(a.alloc_st_hash);
+
+            for (const auto& se : stack)
                 HAL_ERROR("{} ({}) {}\n",
                     se.source_file(),
                     se.source_line(),
@@ -1054,6 +1093,26 @@ struct allocation_tracker
                 );
 #endif
         }
+
+        // Generate stacktree
+        HAL_LOG("BUILING STACKTREE OF ALLOCATIONS...\n");
+        fox::stacktree<stacktree_allocation_info> stacktree;
+    	for (const auto& a : allocation_history)
+        {
+            auto st = this->stack_trace_storage.at(a.alloc_st_hash);
+            stacktree.insert(st, [&](auto& v) { v.value().num_allocations += 1; v.value().size_allocation += a.size; });
+        }
+
+        const auto stacktree_dump = fox::to_string(stacktree);
+
+        {
+            FILE* stacktree_log;
+            fopen_s(&stacktree_log, "logs/alloc_stacktree.txt", "w+");
+            fprintf(stacktree_log, "%s", stacktree_dump.c_str());
+            fclose(stacktree_log);
+        }
+
+        HAL_LOG("==\n\n{}\n\n==\n", stacktree_dump);
     }
 };
 

@@ -38,6 +38,17 @@ if(MSVC)
 	set_property(TARGET HAL APPEND PROPERTY LINK_FLAGS /IGNORE:4098 )
 endif()
 
+include(FetchContent) 
+
+FetchContent_Declare(
+	stacktree
+	GIT_REPOSITORY https://github.com/RedSkittleFox/stacktree.git
+	GIT_TAG main  
+)
+
+FetchContent_MakeAvailable(stacktree)
+set_target_properties(stacktree PROPERTIES FOLDER "vendor")
+
 set_target_properties(HAL PROPERTIES FOLDER "YearsOfShadow")
 
 target_link_libraries(
@@ -48,4 +59,5 @@ target_link_libraries(
 	OBJ_LOADER
 	imgui
 	OptickCore
+	fox::stacktree
 )
