@@ -309,9 +309,9 @@ class FlatBuffer {
 	T data[maxLength];
 public:
 	uint32_t count = 0;
-	__forceinline void operator=(const FlatBuffer& other) {
+	void copyIntoShallow(const FlatBuffer& other) {
 		memcpy(data, other.data, other.count * sizeof(T));
-        count = other.count;
+		count = other.count;
 	}
 	__forceinline T& operator[](uint32_t index) {
 		return data[index];
