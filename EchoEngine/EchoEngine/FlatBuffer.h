@@ -14,6 +14,13 @@
 
 
 
+/*
+Meant to only use trivial POD types.
+Shouldn't be used to store a buffer of pointers to objects.
+Uses a hidden bit buffer to help toggle elements as valid/invalid.
+Ideal use case is 10k ish or less element buffers that are too runtime 
+sensitive to use a buffer of pointers for.
+*/
 template <typename T, uint32_t maxLength>
 class FlatFlaggedBuffer {
 	T data[maxLength];
@@ -168,6 +175,12 @@ private:
 
 
 
+/*
+Meant to only use trivial POD types.
+Shouldn't be used to store a buffer of pointers to objects.
+Uses a bit buffer to help toggle elements as valid/invalid.
+Ideal use case is 10k ish or less element.
+*/
 template <uint32_t maxLength>
 class FlatFlagBuffer {
 	uint8_t isValid[maxLength / 8 + 1];
@@ -285,6 +298,12 @@ private:
 
 
 
+/*
+Meant to only use trivial POD types.
+Shouldn't be used to store a buffer of pointers to objects.
+Similar to std::array just with some additional utilities
+and a count member to do as you pleese with.
+*/
 template <typename T, uint32_t maxLength>
 class FlatBuffer {
 	T data[maxLength];

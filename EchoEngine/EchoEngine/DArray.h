@@ -1,6 +1,10 @@
 #pragma once
 #include <stdint.h>
 
+/*
+Meant to only use trivial POD types.
+Shouldn't be used to store a buffer of pointers to objects
+*/
 template<typename T>
 class DArray {
 public:
