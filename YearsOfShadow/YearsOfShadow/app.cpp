@@ -143,7 +143,6 @@ void HAL::app_end() {
     ecs.destruct();
     HAL::release_thread_pool(threadPool);
     HAL_LOG("Application cleanup complete!\n");
-    system("pause");
 
     OPTICK_STOP_CAPTURE();
     OPTICK_SAVE_CAPTURE("profiler_dump");
