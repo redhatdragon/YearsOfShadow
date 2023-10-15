@@ -56,6 +56,7 @@ namespace HAL
 		    __debugbreak();																								\
 		}                                                                                                               \
     };
+#define HAL_PANIC(FORMAT, ...) HAL_ASSERT_REL(false, FORMAT, __VA_ARGS__);
 	
 
 
