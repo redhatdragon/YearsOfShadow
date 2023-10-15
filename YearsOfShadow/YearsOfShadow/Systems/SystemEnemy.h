@@ -192,7 +192,7 @@ private:
 		for (u32 i = 0; i < controllerCount; i++) {
 			EntityID otherEntityID = ecs.getOwner(controllerComponentID, i);
 			if (ecs.entityHasComponent(otherEntityID, bodyComponentID) == false) {
-				std::cout << "Error: SystemEnemyAI::perception(), an entity with a controller component lacks a body component" << std::endl;
+				HAL_WARN("Error: SystemEnemyAI::perception(), an entity with a controller component lacks a body component")
 				continue;
 			}
 			BodyID otherBodyID = *(BodyID*)ecs.getEntityComponent(otherEntityID, bodyComponentID);
@@ -207,8 +207,7 @@ private:
 						goto setNewTarget;
 					}
 					if (otherPos.isEqual(closestPos)) {  //NOTE: this shouldn't logically ever happen.
-						std::cout << "Error: SystemEnemyAI::perception() otherPos SOMHOW is == closestPos!?" << std::endl;
-						throw;
+						HAL_PANIC("Error: SystemEnemyAI::perception() otherPos SOMHOW is == closestPos!?")
 					}
 				}
 				if (distFrom < closestDist) {

@@ -96,7 +96,7 @@ inline void initSystems() {
     //threadCount = 3;
     //uint32_t threadCount = ThreadPoolAdjuster::getIdealThreadCount();
 	uint32_t threadCount = 1;
-	std::cout << "ThreadPool thread count: " << threadCount << std::endl;
+	HAL_LOG("ThreadPool thread count: {}\n", threadCount)
 
 	threadPool = HAL::get_new_thread_pool(threadCount);
 
