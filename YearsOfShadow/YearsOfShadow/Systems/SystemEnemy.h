@@ -206,9 +206,8 @@ private:
 					if (otherPos < closestPos) {
 						goto setNewTarget;
 					}
-					if (otherPos.isEqual(closestPos)) {  //NOTE: this shouldn't logically ever happen.
-						HAL_PANIC("Error: SystemEnemyAI::perception() otherPos SOMHOW is == closestPos!?")
-					}
+					//NOTE: this shouldn't logically ever be equal.
+					HAL_ASSERT_REL(otherPos.isEqual(closestPos) == false, "otherPos SOMHOW is == closestPos!?")
 				}
 				if (distFrom < closestDist) {
 					goto setNewTarget;
