@@ -94,8 +94,8 @@ inline void initSystems() {
 	//auto threadCount = HAL::get_hardware_thread_count();
     ////threadCount = (size_t)((threadCount * 0.75f) - 1);
     //threadCount = 3;
-    //uint32_t threadCount = ThreadPoolAdjuster::getIdealThreadCount();
-	uint32_t threadCount = 1;
+    uint32_t threadCount = ThreadPoolAdjuster::getIdealThreadCount();
+	//uint32_t threadCount = 1;
 	HAL_LOG("ThreadPool thread count: {}\n", threadCount)
 
 	threadPool = HAL::get_new_thread_pool(threadCount);
