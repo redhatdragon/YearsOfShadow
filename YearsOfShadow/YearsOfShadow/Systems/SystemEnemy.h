@@ -50,12 +50,11 @@ class SystemEnemy : public System {
 	ComponentID instancedMeshComponentID;
 	ComponentID enemyAIComponentID;
 	ComponentID controllerComponentID;
-
-	int activeThreadCount;
 public:
 	virtual void init() {
         OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
+
 		bodyComponentID = ecs.registerComponentAsBlittable("body", sizeof(BodyID));
 		meshComponentID = ecs.registerComponentAsBlittable("mesh", sizeof(void*));
         instancedMeshComponentID = ecs.registerComponentAsBlittable("instancedMesh", sizeof(u32));
@@ -64,7 +63,6 @@ public:
 
 		std::mt19937& generator = getRandGenerator();
 		createTest(generator);
-		activeThreadCount = 0;
 	}
 	virtual void run() {
         OPTICK_THREAD("MainThread");
@@ -72,12 +70,13 @@ public:
 		u32 enemyCount = ecs.getComponentCount(enemyAIComponentID);
 		#ifdef THREADING_ENABLED
 		const auto threadCount = HAL::get_thread_pool_free_thread_count(threadPool);
-		if (threadCount < enemyCount + 10 && threadCount > 1) {
+		if (threadCount < enemyCount + 10 && threadCount > 1)
 			runMulti();
-			return;
-		}
-		#endif
+		else
+			runSingle();
+		#else
 		runSingle();
+		#endif
 	}
 	virtual const char* getName() {
 		return "SystemEnemy";
@@ -91,26 +90,29 @@ private:
 		u32 enemyCount = ecs.getComponentCount(enemyAIComponentID);
 		EnemyAI* enemyAIs = (EnemyAI*)ecs.getComponentBuffer(enemyAIComponentID);
 		for (u32 i = 0; i < enemyCount; i++) {
-			EnemyAI* enemyAI = &enemyAIs[i];
-			EntityID owner = ecs.getOwner(enemyAIComponentID, i);
-			BodyID bodyID = *(BodyID*)ecs.getEntityComponent(owner, bodyComponentID);
-			findTarget(enemyAI, bodyID);
-			if (enemyAI->targetEntity == -1) {
-				auto pos = physics.getPos(bodyID);
-				if (enemyAI->gotoPos.isZero()
-					|| (enemyAI->gotoPos - pos).getDistance() <= 2)
-					findRandomTargetPos(enemyAI, bodyID, generator);
-			}
-			movement(enemyAI, bodyID, generator, castBuff);
+			//EnemyAI* enemyAI = &enemyAIs[i];
+			//EntityID owner = ecs.getOwner(enemyAIComponentID, i);
+			//BodyID bodyID = *(BodyID*)ecs.getEntityComponent(owner, bodyComponentID);
+			//findTarget(enemyAI, bodyID);
+			//if (enemyAI->targetEntity == -1) {
+			//	auto pos = physics.getPos(bodyID);
+			//	if (enemyAI->gotoPos.isZero()
+			//		|| (enemyAI->gotoPos - pos).getDistance() <= 2)
+			//		findRandomTargetPos(enemyAI, bodyID, generator);
+			//}
+			//movement(enemyAI, bodyID, generator, castBuff);
 		}
+		ThreadData td;
+		td.init(0, enemyCount - 1, this);
+		runThreadedBody(&td);
 	}
 	struct ThreadData {
 		u32 startingIndex, endingIndex;
 		SystemEnemy* self;
 		void init(u32 _startingIndex, u32 _endingIndex, SystemEnemy* _self) {
-            startingIndex = _startingIndex;
-            endingIndex = _endingIndex;
-            self = _self;
+			startingIndex = _startingIndex;
+			endingIndex = _endingIndex;
+			self = _self;
 		}
 	};
 	void runMulti() {
@@ -121,8 +123,7 @@ private:
 		u32 totalWork = enemyCount;
 		const auto workPerThread = totalWork / threadCount;
 		u32 leftover = totalWork % threadCount;
-		static std::vector<ThreadData> tds;
-		tds.resize(threadCount+1);
+		static ThreadData tds[256];
 		for (u32 i = 0; i < threadCount; i++) {
 			u32 start = static_cast<u32>(workPerThread * i); u32 end = static_cast<u32>(start + workPerThread - 1);
             tds[i].init(start, end, this);
@@ -164,6 +165,7 @@ private:
 				auto pos = physics.getPos(bodyID);
                 //if (ecs.getTicksPassed() - enemyAI->lastPositionChoice >= 60
                 if (getRandInt(generator, 0, 60) == 0
+					|| enemyAI->gotoPos.isZero()
 					|| (enemyAI->gotoPos - pos).getDistance() <= 2) {
 					self->findRandomTargetPos(enemyAI, bodyID, generator);
                     //int rng = getRandInt(generator, 0, 60);
