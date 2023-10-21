@@ -342,7 +342,7 @@ private:
         OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
 		u32 count = 0;
-		u32 padding = 10, border = world_size;
+		u32 padding = 20, border = world_size;
 		while (true) {
 			Vec3D<u32> pos = {};
 			pos.x = getRandInt(generator, 0, border-(padding+padding));
