@@ -777,8 +777,8 @@ int main()
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        if (show_demo)
-            ImGui::ShowDemoWindow(&show_demo);
+        //if (show_demo)
+        //    ImGui::ShowDemoWindow(&show_demo);
 
         if (performance_window)
             show_performance_overlay(&performance_window);
