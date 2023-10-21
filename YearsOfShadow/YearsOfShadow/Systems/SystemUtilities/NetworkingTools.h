@@ -1,4 +1,32 @@
 #include <ranges>
+#include <string>
+#include <unordered_map>
+
+
+
+//TODO: figure out where to put this, hashes string_view
+template<class Char, class CharTraits = std::char_traits<Char>>
+class string_hash
+{
+	using is_transparent = void;
+
+	[[nodiscard]] std::size_t operator()(const Char* str) const {
+		return std::hash<std::basic_string_view<Char, CharTraits>>{}(str);
+	}
+
+	[[nodiscard]] std::size_t operator()(std::basic_string_view<Char, CharTraits> str) const {
+		return std::hash<std::basic_string_view<Char, CharTraits>>{}(str);
+	}
+
+	template<class Allocator>
+	[[nodiscard]] std::size_t operator()(const std::basic_string<Char, CharTraits, Allocator>& str) const {
+		return std::hash<std::basic_string_view<Char, CharTraits>>{}(str);
+	}
+};
+
+std::unordered_map<std::string, int, string_hash<char>, std::equal_to<>> sus{};
+
+
 
 namespace NetworkingUtilities {
 	constexpr uint16_t PACKET_MAX_LEN = 65000;
@@ -6,39 +34,43 @@ namespace NetworkingUtilities {
 	constexpr uint32_t CONNECTIONS_MAX = 10;
 	constexpr uint32_t MESSAGES_PER_CONNECTION_MAX = 5;
 
-	class Packet {
+	struct Packet {
 		// Though much data is duplicated between packets, it makes things easier/safer.
-		struct PacketData {
-			uint64_t messageID;
-			uint16_t packetNum;
-			uint16_t packetCount;
-			enum OPERATION_STATE : uint8_t {
-				//Send packet with valid data buffer
-				INITIAL_SEND,
-				//Get confirmation that sent packet made it
-				CONFIRMING_SENT,
-				//Let other know we didn't yet receive confirmation, could be useful for debugging
-				REQUEST_CONFIRMATION
-			} operationState;
-			uint8_t padding[3];  //Adjust to keep data buffer 8 byte offset
-			uint8_t data[PACKET_MAX_LEN];
-		} data;
 		uint16_t len;
-	public:
+		uint16_t packetNum;
+		uint16_t packetCount;
+		enum OPERATION_STATE : uint8_t {
+			//Send packet with valid data buffer
+			INITIAL_SEND,
+			//Get confirmation that sent packet made it
+			CONFIRMING_SENT,
+			//Let other know we didn't yet receive confirmation, could be useful for debugging
+			REQUEST_CONFIRMATION
+		} operationState;
+		uint8_t padding[1];  //Adjust to keep data buffer 8 byte offset
+		char signature[8];  //YoS Pack
+		uint64_t messageID;
+		uint8_t data[PACKET_MAX_LEN];
 		void write(const uint8_t* _data, uint16_t _len,
 			uint64_t _messageID, uint16_t _packetNum, uint16_t _packetCount) {
-			memcpy(data.data, _data, _len);
+			memcpy(data, _data, _len);
 			len = _len;
-			data.messageID = _messageID;
-			data.packetNum = _packetNum;
-			data.operationState = PacketData::INITIAL_SEND;
-			data.packetCount = _packetCount;
+			memcpy(signature, "YoS Pack", sizeof("YoS Pack"));
+			messageID = _messageID;
+			packetNum = _packetNum;
+			operationState = INITIAL_SEND;
+			packetCount = _packetCount;
 		}
-		void send() {
-
+		inline void cpyFrom(const Packet& other) {
+			memcpy(this, &other, other.len + getHeaderSize());
 		}
-		void confirmToSender() {
-
+		inline bool isSignatureValid() const {
+			if (strcmp(signature, "YoS Pack") == 0)
+				return true;
+			return false;
+		}
+		inline uint8_t getHeaderSize() const {
+			return 8 + 8 + 8;
 		}
 	};
 
@@ -62,13 +94,21 @@ namespace NetworkingUtilities {
 	};
 
 	class NetworkMessage {
+	public:
 		uint64_t messageID;
 		static uint64_t nextMessageID;
 		FlatBuffer<Packet*, PACKETS_MAX> packets;
 		PacketPool* packetPoolPtr;
-	public:
+	//public:
+		void setup(PacketPool& _packetPool) {
+			packetPoolPtr = &_packetPool;
+			for (uint32_t i = 0; i < packets.count; i++) {
+				packets[i] = nullptr;
+			}
+		}
 		//Total data passed must be less than PACKETS_MAX * PACKET_MAX_LEN
 		void construct(std::span<const uint8_t> _msg, PacketPool& _packetPool) {
+			setup(_packetPool);
 			packetPoolPtr = &_packetPool;
 			messageID = nextMessageID++;
 			uint16_t totalFullPackets = (uint16_t)(_msg.size() / PACKET_MAX_LEN);
@@ -94,17 +134,51 @@ namespace NetworkingUtilities {
 			packets.clear();
 			packetPoolPtr = nullptr;
 		}
-		void update() {
-
+		//Return true if it belongs to this NetworkMessage.
+		bool tryUpdate(const uint8_t* _packet, uint16_t len) {
+			const Packet* inPacketPtr = (const Packet*)_packet;
+			if (inPacketPtr->messageID != getMessageID())
+				return false;
+			if (inPacketPtr->isSignatureValid() == false) {
+				HAL_WARN("NetworkMessage::tryUpdate()'s input packet's signature is invalid");
+				return false;
+			}
+			if (inPacketPtr->packetNum >= getPacketCount()) {
+				HAL_WARN("NetworkMessage::tryUpdate()'s input packet's packetNum >= packetCount");
+				return false;
+			}
+			if (inPacketPtr->packetCount != getPacketCount()) {
+				HAL_WARN("NetworkMessage::tryUpdate()'s input packet's packetCount doesn't match");
+				return false;
+			}
+			if (inPacketPtr->operationState == Packet::INITIAL_SEND) {
+				Packet* packet = packets[inPacketPtr->packetNum];
+				if (packet == nullptr)
+					packet = packets[inPacketPtr->packetNum] = packetPoolPtr->get();
+				packet->cpyFrom(*inPacketPtr);
+				return true;
+			}
+			return false;
 		}
 		bool isFinished() {
-
+			uint32_t count = packets.count;
+			for (uint32_t i = 0; i < count; i++)
+				if (packets[i] == nullptr)
+					return false;
+			return true;
 		}
 	private:
 		void pushNewPacket(const uint8_t* data, uint16_t size, uint16_t packetNum, uint16_t packetCount) {
 			Packet* packet = packetPoolPtr->get();
 			packet->write(data, size, messageID, packetNum, packetCount);
 			packets.push(packet);
+		}
+
+		uint64_t getMessageID() {
+
+		}
+		uint16_t getPacketCount() {
+
 		}
 	};
 	uint64_t NetworkMessage::nextMessageID = 0;
@@ -113,14 +187,16 @@ namespace NetworkingUtilities {
 		PacketPool packetPool;
 		//Reused connection handle, no need to clean
 		HAL::udp_socket_handle_t conn;
-		std::string ourIP;
+		//std::string ourIP;
+		uint16_t ourOutPort;
 		//<otherIP, messagesForOtherIP>
 		std::unordered_map<std::string, FlatBuffer<NetworkMessage, MESSAGES_PER_CONNECTION_MAX>>
 			recvMsgs, sentMsgs;
 	public:
 		void init(HAL::udp_socket_handle_t _conn) {
 			conn = _conn;
-			ourIP = HAL::UDP_get_our_ip(conn);
+			//ourIP = HAL::UDP_get_our_ip(conn);
+			ourOutPort = HAL::UDP_get_our_port(conn);
 			recvMsgs.reserve(CONNECTIONS_MAX);
 			sentMsgs.reserve(CONNECTIONS_MAX);
 		}
@@ -157,17 +233,34 @@ namespace NetworkingUtilities {
 
 			static FlatBuffer<uint8_t, 256 * 256> buff;
 			std::string senderIP;
-			uint16_t outPort;
+			uint16_t outPort;  //TODO: still need to verify port is proper...
 			while (true) {
 				HAL::UDP_get_packet(conn, &buff[0], buff.count, senderIP, outPort);
 				if (buff.count == 0)
-					continue;
-				processPacket(&buff[0], buff.count, senderIP);
+					break;
+
+				processPacket(&buff[0], buff.count, senderIP, outPort);
 			}
 		}
+		void clear() {
+			sentMsgs.clear();
+		}
 	private:
-		void processPacket(const uint8_t* data, uint16_t len, std::string_view senderIP) {
-				
+		void processPacket(const uint8_t* data, uint16_t len, std::string_view senderIP, uint16_t senderPort) {
+			NetworkMessage nm;
+			nm.construct({ data, len }, packetPool);
+			const char* ipStr = senderIP.data();
+			if (sentMsgs.find(ipStr) == sentMsgs.end()) {
+				sentMsgs[ipStr] = {};
+				sentMsgs[ipStr].clear();
+			}
+			auto& msgBuff = sentMsgs[ipStr];
+			uint32_t size = msgBuff.count;
+			for (uint32_t i = 0; i < size; i++) {
+				if (msgBuff[i].tryUpdate(data, len)) {
+
+				}
+			}
 		}
 	};
 	constexpr uint64_t sizeofNetworkManager_MB_ish =
