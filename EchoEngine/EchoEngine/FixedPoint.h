@@ -116,6 +116,7 @@ public:
 		return data_ % decScale;
 	}
 	inline std::string getAsString() const {
+		//TODO: there might be one or two excessive u64 vars...
 		std::string retValue = "";
 		int32_t whole = data_ / decScale;
 		int32_t remainder = data_ % decScale;
@@ -147,6 +148,7 @@ public:
 		return retValue;
 	}
 	constexpr bool fromString(const std::string& _str) {
+		//TODO: there might be one or two excessive u64 vars...
 		std::string str = _str;
 		char lastChar = str[str.size() - 1];
 		if (lastChar != 'f' && lastChar != 'F')
@@ -170,21 +172,21 @@ public:
 				digitValue *= 10;
 			wholeValue += (digitValue)*(uint32_t)(str[i] - '0');
 		}
-		int32_t decimalNumbers = 0;
+		int64_t decimalNumbers = 0;
 		for (uint32_t i = (uint32_t)dotPos + 1; i < (uint32_t)str.size(); i++) {
 			if (str[i] < '0' || str[i] > '9') return false;
 			uint32_t digitCount = ((uint32_t)str.size()) - i;
-			int32_t digitValue = 1;
+			int64_t digitValue = 1;
 			for (uint32_t j = 1; j < digitCount; j++)
 				digitValue *= 10;
 			decimalNumbers += digitValue * (uint32_t)(str[i] - '0');
 		}
 
 		int32_t totalValue = wholeValue * decScale;
-		int32_t decDigitOffset = 1;
+		int64_t decDigitOffset = 1;
 		for (uint32_t i = dotPos+1; i < str.size(); i++)
 			decDigitOffset *= 10;
-		totalValue += ((decimalNumbers * decScale) / decDigitOffset);
+		totalValue += (int32_t)((decimalNumbers * decScale) / decDigitOffset);
 		data_ = totalValue;
 		return true;
 	}
