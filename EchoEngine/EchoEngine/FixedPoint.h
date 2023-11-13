@@ -119,12 +119,18 @@ public:
 		std::string retValue = "";
 		int32_t whole = data_ / decScale;
 		int32_t remainder = data_ % decScale;
-		//float dec = remainder/decScale;
-        int32_t dec = ((int64_t)remainder * 100000) / decScale;
+        int64_t dec = ((int64_t)remainder * 100000) / decScale;
 
 		retValue += std::to_string(whole);
 		retValue += ".";
-		std::string decAsStr = std::to_string(dec);
+		std::string tmp = std::to_string(dec);
+		int moveDigits = (int)(std::to_string(100000).size() - tmp.size());
+		moveDigits--;
+		std::string decAsStr = "";
+		for (int i = 0; i < moveDigits; i++) {
+			decAsStr.push_back('0');
+		}
+		decAsStr += tmp;
         int count = 0;
         for (int64_t i = (int64_t)decAsStr.size()-1; i >= 0; i--) {
             char c = decAsStr[i];
