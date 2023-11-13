@@ -147,6 +147,9 @@ public:
         retValue += "f";
 		return retValue;
 	}
+	//WARN: for display purposes only!
+	//This doesn't seem to give back a string that can make a new identical fixed point yet.
+	//Treat this datatype as a blittable when serializing for safety.
 	constexpr bool fromString(const std::string& _str) {
 		//TODO: there might be one or two excessive u64 vars...
 		std::string str = _str;
@@ -163,11 +166,11 @@ public:
 			}
 		}
 		if (dotPos == -1) return false;
-		int32_t wholeValue = 0;
+		int64_t wholeValue = 0;
 		for (uint32_t i = 0; i < (uint32_t)dotPos; i++) {
 			if (str[i] < '0' || str[i] > '9') return false;
 			uint32_t digitCount = (uint32_t)dotPos - i;
-			int32_t digitValue = 1;
+			int64_t digitValue = 1;
 			for (uint32_t j = 1; j < digitCount; j++)
 				digitValue *= 10;
 			wholeValue += (digitValue)*(uint32_t)(str[i] - '0');
@@ -182,12 +185,12 @@ public:
 			decimalNumbers += digitValue * (uint32_t)(str[i] - '0');
 		}
 
-		int32_t totalValue = wholeValue * decScale;
+		int64_t totalValue = wholeValue * decScale;
 		int64_t decDigitOffset = 1;
 		for (uint32_t i = dotPos+1; i < str.size(); i++)
 			decDigitOffset *= 10;
-		totalValue += (int32_t)((decimalNumbers * decScale) / decDigitOffset);
-		data_ = totalValue;
+		totalValue += ((decimalNumbers * decScale) / decDigitOffset);
+		data_ = (uint32_t)totalValue;
 		return true;
 	}
 	inline const uint32_t getDecScale() const {
