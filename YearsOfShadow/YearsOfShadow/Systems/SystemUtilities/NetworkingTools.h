@@ -100,23 +100,29 @@ namespace NetworkingUtilities {
 		FlatBuffer<Packet*, PACKETS_MAX> packets;
 		PacketPool* packetPoolPtr;
 	//public:
-		void setup(PacketPool& _packetPool) {
+		//void setup(PacketPool& _packetPool) {
+		//	packetPoolPtr = &_packetPool;
+		//	for (uint32_t i = 0; i < packets.count; i++) {
+		//		packets[i] = nullptr;
+		//	}
+		//}
+		//Total data passed must be less than PACKETS_MAX * PACKET_MAX_LEN
+		bool tryConstruct(std::span<const uint8_t> _msg, PacketPool& _packetPool) {
 			packetPoolPtr = &_packetPool;
 			for (uint32_t i = 0; i < packets.count; i++) {
 				packets[i] = nullptr;
 			}
-		}
-		//Total data passed must be less than PACKETS_MAX * PACKET_MAX_LEN
-		void construct(std::span<const uint8_t> _msg, PacketPool& _packetPool) {
-			setup(_packetPool);
-			packetPoolPtr = &_packetPool;
-			messageID = nextMessageID++;
 			uint16_t totalFullPackets = (uint16_t)(_msg.size() / PACKET_MAX_LEN);
 			uint16_t remainder = _msg.size() % PACKET_MAX_LEN;
 			if (packets.count) {
-				HAL_ERROR("NetworkMessage::construct() called when packets buffer wasn't cleared!");
+				HAL_ERROR("NetworkMessage::construct() called from non destroyed !");
 				throw;
 			}
+			if (canConstruct(_msg) == false) {
+				HAL_WARN("NetworkMessage::construct() failed to construct with input data!");
+				return false;
+			}
+			messageID = nextMessageID++;
 			if (remainder) {
 				for (uint32_t i = 0; i < totalFullPackets; i++)
 					pushNewPacket(&_msg[i * PACKET_MAX_LEN], PACKET_MAX_LEN, i, totalFullPackets + 1);
@@ -126,6 +132,7 @@ namespace NetworkingUtilities {
 				for (uint32_t i = 0; i < totalFullPackets; i++)
 					pushNewPacket(&_msg[i * PACKET_MAX_LEN], PACKET_MAX_LEN, i, totalFullPackets);
 			}
+			return true;
 		}
 		void deconstruct() {
 			uint32_t count = packets.count;
@@ -134,23 +141,11 @@ namespace NetworkingUtilities {
 			packets.clear();
 			packetPoolPtr = nullptr;
 		}
-		//Return true if it belongs to this NetworkMessage.
+		//Return true if packet belongs to this NetworkMessage.
 		bool tryUpdate(const uint8_t* _packet, uint16_t len) {
 			const Packet* inPacketPtr = (const Packet*)_packet;
-			if (inPacketPtr->messageID != getMessageID())
+			if (isPacketValid(_packet, len) == false)
 				return false;
-			if (inPacketPtr->isSignatureValid() == false) {
-				HAL_WARN("NetworkMessage::tryUpdate()'s input packet's signature is invalid");
-				return false;
-			}
-			if (inPacketPtr->packetNum >= getPacketCount()) {
-				HAL_WARN("NetworkMessage::tryUpdate()'s input packet's packetNum >= packetCount");
-				return false;
-			}
-			if (inPacketPtr->packetCount != getPacketCount()) {
-				HAL_WARN("NetworkMessage::tryUpdate()'s input packet's packetCount doesn't match");
-				return false;
-			}
 			if (inPacketPtr->operationState == Packet::INITIAL_SEND) {
 				Packet* packet = packets[inPacketPtr->packetNum];
 				if (packet == nullptr)
@@ -172,6 +167,30 @@ namespace NetworkingUtilities {
 			Packet* packet = packetPoolPtr->get();
 			packet->write(data, size, messageID, packetNum, packetCount);
 			packets.push(packet);
+		}
+
+		bool canConstruct(std::span<const uint8_t> _msg) {
+
+			return true;
+		}
+
+		bool isPacketValid(const uint8_t* _packetPtr, uint16_t len) {
+			const Packet* packetPtr = (const Packet*)_packetPtr;
+			if (packetPtr->messageID != getMessageID())
+				return false;
+			if (packetPtr->isSignatureValid() == false) {
+				HAL_WARN("input packet's signature is invalid, possible spoof?");
+				return false;
+			}
+			if (packetPtr->packetNum >= getPacketCount()) {
+				HAL_WARN("input packet's packetNum >= packetCount");
+				return false;
+			}
+			if (packetPtr->packetCount != getPacketCount()) {
+				HAL_WARN("input packet's packetCount doesn't match");
+				return false;
+			}
+			return true;
 		}
 
 		uint64_t getMessageID() {
@@ -210,7 +229,7 @@ namespace NetworkingUtilities {
 				msgsPtr = &sentMsgs[ip.data()];
 			FlatBuffer<NetworkMessage, MESSAGES_PER_CONNECTION_MAX>& msgs = *msgsPtr;
 			NetworkMessage& nm = msgs.push({});
-			nm.construct(msg, packetPool);
+			nm.tryConstruct(msg, packetPool);
 		}
 		//Call once per game tick
 		void update() {
@@ -247,20 +266,21 @@ namespace NetworkingUtilities {
 		}
 	private:
 		void processPacket(const uint8_t* data, uint16_t len, std::string_view senderIP, uint16_t senderPort) {
-			NetworkMessage nm;
-			nm.construct({ data, len }, packetPool);
 			const char* ipStr = senderIP.data();
-			if (sentMsgs.find(ipStr) == sentMsgs.end()) {
-				sentMsgs[ipStr] = {};
-				sentMsgs[ipStr].clear();
+			if (recvMsgs.find(ipStr) == recvMsgs.end()) {
+				recvMsgs[ipStr] = {};
+				recvMsgs[ipStr].clear();
 			}
-			auto& msgBuff = sentMsgs[ipStr];
+			auto& msgBuff = recvMsgs[ipStr];
 			uint32_t size = msgBuff.count;
 			for (uint32_t i = 0; i < size; i++) {
 				if (msgBuff[i].tryUpdate(data, len)) {
-
+					return;
 				}
 			}
+			NetworkMessage nm;
+			if(nm.tryConstruct({data, len}, packetPool) == false)
+				HAL_WARN("Invalid packet came in");
 		}
 	};
 	constexpr uint64_t sizeofNetworkManager_MB_ish =
