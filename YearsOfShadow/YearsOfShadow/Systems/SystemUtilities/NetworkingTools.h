@@ -4,6 +4,12 @@
 
 
 
+/*
+* TODO: refactor this entire abstraction after situation is felt out.
+*/
+
+
+
 //TODO: figure out where to put this, hashes string_view
 template<class Char, class CharTraits = std::char_traits<Char>>
 class string_hash
@@ -69,7 +75,7 @@ namespace NetworkingUtilities {
 				return true;
 			return false;
 		}
-		inline uint8_t getHeaderSize() const {
+		inline static uint8_t getHeaderSize() {
 			return 8 + 8 + 8;
 		}
 	};
@@ -99,19 +105,11 @@ namespace NetworkingUtilities {
 		static uint64_t nextMessageID;
 		FlatBuffer<Packet*, PACKETS_MAX> packets;
 		PacketPool* packetPoolPtr;
-	//public:
-		//void setup(PacketPool& _packetPool) {
-		//	packetPoolPtr = &_packetPool;
-		//	for (uint32_t i = 0; i < packets.count; i++) {
-		//		packets[i] = nullptr;
-		//	}
-		//}
+
 		//Total data passed must be less than PACKETS_MAX * PACKET_MAX_LEN
 		bool tryConstruct(std::span<const uint8_t> _msg, PacketPool& _packetPool) {
 			packetPoolPtr = &_packetPool;
-			for (uint32_t i = 0; i < packets.count; i++) {
-				packets[i] = nullptr;
-			}
+			packets.count = 0;
 			uint16_t totalFullPackets = (uint16_t)(_msg.size() / PACKET_MAX_LEN);
 			uint16_t remainder = _msg.size() % PACKET_MAX_LEN;
 			if (packets.count) {
@@ -155,6 +153,21 @@ namespace NetworkingUtilities {
 			}
 			return false;
 		}
+		//Auto returns packets
+		bool tryPopMsg(std::vector<uint8_t>& out) {
+			if (isFinished()) {
+				uint32_t count = packets.count;
+				out.reserve(count * PACKET_MAX_LEN);
+				for (uint32_t i = 0; i < count; i++) {
+					uint32_t packLen = packets[i]->len;
+					for (uint32_t j = 0; j < packLen; j++)
+						out.push_back(packets[i]->data[j]);
+					packetPoolPtr->ret(packets[i]);
+				}
+				return true;
+			}
+			return false;
+		}
 		bool isFinished() {
 			uint32_t count = packets.count;
 			for (uint32_t i = 0; i < count; i++)
@@ -170,7 +183,27 @@ namespace NetworkingUtilities {
 		}
 
 		bool canConstruct(std::span<const uint8_t> _msg) {
-
+			const Packet* packetPtr = (const Packet*)_msg.data();
+			if (_msg.size() <= packetPtr->getHeaderSize()) {
+				HAL_WARN("input packet's physical length <= expected header size");
+				return false;
+			}
+			if (packetPtr->isSignatureValid() == false) {
+				HAL_WARN("input packet's signature is invalid");
+				return false;
+			}
+			if (packetPtr->packetNum >= packetPtr->packetCount) {
+				HAL_WARN("input packet's packetNum >= input packet's packetCount");
+				return false;
+			}
+			if (packetPtr->len > _msg.size() - Packet::getHeaderSize()) {
+				HAL_WARN("input packet's specified length > actual capacity");
+				return false;
+			}
+			if (packetPtr->operationState != Packet::OPERATION_STATE::INITIAL_SEND) {
+				HAL_WARN("input packet's operation state != INITIAL_SEND");
+				return false;
+			}
 			return true;
 		}
 
@@ -179,7 +212,7 @@ namespace NetworkingUtilities {
 			if (packetPtr->messageID != getMessageID())
 				return false;
 			if (packetPtr->isSignatureValid() == false) {
-				HAL_WARN("input packet's signature is invalid, possible spoof?");
+				HAL_WARN("input packet's signature is invalid");
 				return false;
 			}
 			if (packetPtr->packetNum >= getPacketCount()) {
@@ -194,10 +227,20 @@ namespace NetworkingUtilities {
 		}
 
 		uint64_t getMessageID() {
-
+			Packet* packet = getFirstValidPacket();
+			return packet->messageID;
 		}
 		uint16_t getPacketCount() {
+			Packet* packet = getFirstValidPacket();
+			return packet->packetCount;
+		}
 
+		Packet* getFirstValidPacket() {
+			uint32_t count = packets.count;
+			for (uint32_t i = 0; i < count; i++)
+				if (packets[i])
+					return packets[i];
+			HAL_PANIC("NetworkMessage::getFirstPacket() can't find valid packet?!");
 		}
 	};
 	uint64_t NetworkMessage::nextMessageID = 0;
@@ -264,6 +307,19 @@ namespace NetworkingUtilities {
 		void clear() {
 			sentMsgs.clear();
 		}
+
+		bool tryPopNextMsg(std::vector<uint8_t>& out) {
+			for (auto& e : recvMsgs) {
+				for (uint32_t i = 0; i < e.second.count; i++) {
+					NetworkMessage& nm = e.second[i];
+					if (nm.tryPopMsg(out)) {
+						e.second[i] = e.second[e.second.count];
+						return true;
+					}
+				}
+			}
+			return false;
+		}
 	private:
 		void processPacket(const uint8_t* data, uint16_t len, std::string_view senderIP, uint16_t senderPort) {
 			const char* ipStr = senderIP.data();
@@ -275,6 +331,7 @@ namespace NetworkingUtilities {
 			uint32_t size = msgBuff.count;
 			for (uint32_t i = 0; i < size; i++) {
 				if (msgBuff[i].tryUpdate(data, len)) {
+
 					return;
 				}
 			}
