@@ -337,6 +337,9 @@ public:
 			if (data[i] == _data) return true;
 		return false;
 	}
+	__forceinline bool isFull() {
+		return count == maxLength;
+	}
 };
 
 
