@@ -106,14 +106,15 @@ namespace NetworkingUtilities {
 	public:
 		uint64_t messageID;
 		static uint64_t nextMessageID;
-		FlatBuffer<Packet*, PACKETS_MAX> packets;
+		std::array<Packet*, PACKETS_MAX> packets;
 		PacketPool* packetPoolPtr;
 
 		//Total data passed must be less than PACKETS_MAX * PACKET_MAX_LEN
 		bool tryConstructForSend(std::span<const uint8_t> _msg, PacketPool& _packetPool) {
-			//TODO: consider getting rid of try prefix, shoudl work anyway?
+			//TODO: consider getting rid of try prefix, should work anyway?
 			packetPoolPtr = &_packetPool;
-			packets.count = 0;
+			for (uint32_t i = 0; i < packets.size(); i++)
+				packets[i] = nullptr;
 			uint16_t totalFullPackets = (uint16_t)(_msg.size() / PACKET_MAX_LEN);
 			uint16_t remainder = _msg.size() % PACKET_MAX_LEN;
 			messageID = nextMessageID++;
@@ -157,6 +158,11 @@ namespace NetworkingUtilities {
 				HAL_WARN("input packet's packetNum >= input packet's packetCount\n");
 				return false;
 			}
+			if (packet->packetCount == 0) {
+				HAL_WARN("NetworkMessage::tryConstructForRecv()\n");
+				HAL_WARN("input packet's packets packetCount == 0?!\n");
+				return false;
+			}
 			if (packet->dataLen > len - Packet::getHeaderSize()) {
 				HAL_WARN("NetworkMessage::tryConstructForRecv()\n");
 				HAL_WARN("input packet's specified length > actual capacity\n");
@@ -168,21 +174,25 @@ namespace NetworkingUtilities {
 				return false;
 			}
 			packetPoolPtr = &_packetPool;
-			Packet* newPacket = packetPoolPtr->get();
-			newPacket->cpyFrom(*packet);
-			packets.clear();
-			packets.push(newPacket);
+			for (uint32_t i = 0; i < packets.size(); i++)
+				packets[i] = nullptr;
+			packets[packet->packetNum] = packetPoolPtr->get();
+			packets[packet->packetNum]->cpyFrom(*packet);
 			return true;
 		}
 		void deconstruct() {
-			uint32_t count = packets.count;
-			for (uint32_t i = 0; i < count; i++)
-				packetPoolPtr->ret(packets[i]);
-			packets.clear();
+			for (uint32_t i = 0; i < packets.size(); i++)
+				if(packets[i])
+					packetPoolPtr->ret(packets[i]);
 			packetPoolPtr = nullptr;
 		}
 		//Return true if packet belongs to this NetworkMessage.
 		bool tryUpdate(const uint8_t* _packet, uint16_t len) {
+			for (uint32_t i = 0; i < packets.size(); i++)
+				if (packets[i])
+					goto hasPackets;
+			return false;
+			hasPackets:
 			if (len > PACKET_MAX_LEN) {
 				HAL_WARN("NetworkMessage::tryUpdate()\n");
 				HAL_WARN("NetworkMessage::tryUpdate()'s input len: {} >= PACKET_MAX_LEN: {}\n",
@@ -216,42 +226,53 @@ namespace NetworkingUtilities {
 				HAL_WARN("input packet's packetCount doesn't match\n");
 				return false;
 			}
-			if (inPacketPtr->operationState == Packet::INITIAL_SEND) {
-				Packet* packet = packets[inPacketPtr->packetNum];
-				if (packet == nullptr)
-					packet = packets[inPacketPtr->packetNum] = packetPoolPtr->get();
-				packet->cpyFrom(*inPacketPtr);
-				return true;
+			if (inPacketPtr->operationState != Packet::INITIAL_SEND) {
+				HAL_WARN("NetworkMessage::tryUpdate()\n");
+				HAL_WARN("packet operation: {} != INITIAL_SEND\n", (uint32_t)inPacketPtr->operationState);
+				return false;
 			}
-			return false;
+			Packet* packet = packets[inPacketPtr->packetNum];
+			if (packet != nullptr) {
+				HAL_WARN("NetworkMessage::tryUpdate()\n");
+				HAL_WARN("duplicate packet detected\n");
+				return false;
+			}
+			packet = packets[inPacketPtr->packetNum] = packetPoolPtr->get();
+			packet->cpyFrom(*inPacketPtr);
+			return true;
 		}
 		//Auto returns packets
 		bool tryPopMsg(std::vector<uint8_t>& out) {
 			if (isFinished()) {
-				uint32_t count = packets.count;
+				uint32_t count = (uint32_t)packets.size();
 				out.reserve(count * PACKET_MAX_LEN);
 				for (uint32_t i = 0; i < count; i++) {
+					if (packets[i] == nullptr)
+						continue;
 					uint32_t packLen = packets[i]->dataLen;
 					for (uint32_t j = 0; j < packLen; j++)
 						out.push_back(packets[i]->data[j]);
 					packetPoolPtr->ret(packets[i]);
+					packets[i] = nullptr;
 				}
 				return true;
 			}
 			return false;
 		}
 		bool isFinished() {
-			uint32_t count = packets.count;
-			for (uint32_t i = 0; i < count; i++)
+			for (uint32_t i = 0; i < packets.size(); i++) {
 				if (packets[i] == nullptr)
 					return false;
+				if (i == packets[i]->packetCount - 1)
+					return true;
+			}
 			return true;
 		}
 	private:
 		void pushNewPacket(const uint8_t* data, uint16_t size, uint16_t packetNum, uint16_t packetCount) {
 			Packet* packet = packetPoolPtr->get();
 			packet->write(data, size, messageID, packetNum, packetCount);
-			packets.push(packet);
+			packets[packetNum] = packet;
 		}
 
 		uint64_t getMessageID() {
@@ -264,11 +285,10 @@ namespace NetworkingUtilities {
 		}
 
 		Packet* getFirstValidPacket() {
-			uint32_t count = packets.count;
-			for (uint32_t i = 0; i < count; i++)
+			for (uint32_t i = 0; i < packets.size(); i++)
 				if (packets[i])
 					return packets[i];
-			HAL_PANIC("NetworkMessage::getFirstPacket() can't find valid packet?!");
+			HAL_PANIC("NetworkMessage::getFirstPacket() can't find valid packet?!\n");
 			return nullptr;
 		}
 	};
@@ -357,14 +377,20 @@ namespace NetworkingUtilities {
 					return;
 				}
 			}
+			if (msgBuff.isFull()) {
+				HAL_WARN("NetworkManager::processPacket()\n");
+				HAL_WARN("msgBuff to ip: {} is already full up to {} elements", ipStr, msgBuff.getMax());
+				return;
+			}
 			NetworkMessage nm;
 			nm.tryConstructForRecv(data, len, packetPool);
+			msgBuff.push(nm);
 			//if(nm.tryConstruct({data, len}, packetPool) == false)
 			//	HAL_WARN("Invalid packet came in");
 		}
 
 		void sendTo(NetworkMessage& nm, std::string_view ip) {
-			uint32_t count = nm.packets.count;
+			uint32_t count = nm.packets[0]->packetCount;
 			for (uint32_t i = 0; i < count; i++)
 				nm.packets[i]->sendTo(conn, ip);
 		}
