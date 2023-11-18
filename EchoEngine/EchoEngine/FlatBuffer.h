@@ -340,6 +340,9 @@ public:
 	__forceinline bool isFull() {
 		return count == maxLength;
 	}
+	__forceinline uint32_t getMax() const {
+		return maxLength;
+	}
 };
 
 
