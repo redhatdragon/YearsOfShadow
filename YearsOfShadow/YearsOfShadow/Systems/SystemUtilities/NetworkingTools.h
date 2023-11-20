@@ -36,9 +36,10 @@ std::unordered_map<std::string, int, string_hash<char>, std::equal_to<>> sus{};
 
 namespace NetworkingUtilities {
 	constexpr uint16_t PACKET_MAX_LEN = 65000;
-	constexpr uint16_t PACKETS_MAX = 200;
+	constexpr uint16_t PACKETS_MAX = 6000;  //Shared between all connections/messages
+	constexpr uint16_t PACKETS_PER_MESSAGE_MAX = 100;
 	constexpr uint32_t CONNECTIONS_MAX = 10;
-	constexpr uint32_t MESSAGES_PER_CONNECTION_MAX = 5;
+	constexpr uint32_t MESSAGES_PER_CONNECTION_MAX = 120;
 
 	struct Packet {
 		// Though much data is duplicated between packets, it makes things easier/safer.
@@ -101,31 +102,33 @@ namespace NetworkingUtilities {
 			packetPtrs.push(packet);
 		}
 	};
+	constexpr int sizeOfPacketPool = sizeof(PacketPool);
 
 	class NetworkMessage {
 	public:
-		uint64_t messageID;
-		static uint64_t nextMessageID;
-		std::array<Packet*, PACKETS_MAX> packets;
+		//uint64_t messageID;
+		//static uint64_t nextMessageID;
+		std::array<Packet*, PACKETS_PER_MESSAGE_MAX> packets;
 		PacketPool* packetPoolPtr;
+		uint64_t tick;  //Tracked for number of update ticks passed
 
 		//Total data passed must be less than PACKETS_MAX * PACKET_MAX_LEN
-		bool tryConstructForSend(std::span<const uint8_t> _msg, PacketPool& _packetPool) {
+		bool tryConstructForSend(std::span<const uint8_t> _msg, PacketPool& _packetPool, uint64_t id) {
 			//TODO: consider getting rid of try prefix, should work anyway?
+			tick = 0;
 			packetPoolPtr = &_packetPool;
 			for (uint32_t i = 0; i < packets.size(); i++)
 				packets[i] = nullptr;
 			uint16_t totalFullPackets = (uint16_t)(_msg.size() / PACKET_MAX_LEN);
 			uint16_t remainder = _msg.size() % PACKET_MAX_LEN;
-			messageID = nextMessageID++;
 			if (remainder) {
 				for (uint32_t i = 0; i < totalFullPackets; i++)
-					pushNewPacket(&_msg[i * PACKET_MAX_LEN], PACKET_MAX_LEN, i, totalFullPackets + 1);
-				pushNewPacket(&_msg[totalFullPackets * PACKET_MAX_LEN], remainder, totalFullPackets, totalFullPackets + 1);
+					pushNewPacket(&_msg[i * PACKET_MAX_LEN], PACKET_MAX_LEN, i, totalFullPackets + 1, id);
+				pushNewPacket(&_msg[totalFullPackets * PACKET_MAX_LEN], remainder, totalFullPackets, totalFullPackets + 1, id);
 			}
 			else {
 				for (uint32_t i = 0; i < totalFullPackets; i++)
-					pushNewPacket(&_msg[i * PACKET_MAX_LEN], PACKET_MAX_LEN, i, totalFullPackets);
+					pushNewPacket(&_msg[i * PACKET_MAX_LEN], PACKET_MAX_LEN, i, totalFullPackets, id);
 			}
 
 
@@ -173,6 +176,7 @@ namespace NetworkingUtilities {
 				HAL_WARN("input packet's operation state != INITIAL_SEND\n");
 				return false;
 			}
+			tick = 0;
 			packetPoolPtr = &_packetPool;
 			for (uint32_t i = 0; i < packets.size(); i++)
 				packets[i] = nullptr;
@@ -188,11 +192,8 @@ namespace NetworkingUtilities {
 		}
 		//Return true if packet belongs to this NetworkMessage.
 		bool tryUpdate(const uint8_t* _packet, uint16_t len) {
-			for (uint32_t i = 0; i < packets.size(); i++)
-				if (packets[i])
-					goto hasPackets;
-			return false;
-			hasPackets:
+			if(packetPoolPtr == nullptr)
+				return false;
 			if (len > PACKET_MAX_LEN) {
 				HAL_WARN("NetworkMessage::tryUpdate()\n");
 				HAL_WARN("NetworkMessage::tryUpdate()'s input len: {} >= PACKET_MAX_LEN: {}\n",
@@ -268,13 +269,6 @@ namespace NetworkingUtilities {
 			}
 			return true;
 		}
-	private:
-		void pushNewPacket(const uint8_t* data, uint16_t size, uint16_t packetNum, uint16_t packetCount) {
-			Packet* packet = packetPoolPtr->get();
-			packet->write(data, size, messageID, packetNum, packetCount);
-			packets[packetNum] = packet;
-		}
-
 		uint64_t getMessageID() {
 			Packet* packet = getFirstValidPacket();
 			return packet->messageID;
@@ -282,6 +276,12 @@ namespace NetworkingUtilities {
 		uint16_t getPacketCount() {
 			Packet* packet = getFirstValidPacket();
 			return packet->packetCount;
+		}
+	private:
+		void pushNewPacket(const uint8_t* data, uint16_t size, uint16_t packetNum, uint16_t packetCount, uint64_t id) {
+			Packet* packet = packetPoolPtr->get();
+			packet->write(data, size, id, packetNum, packetCount);
+			packets[packetNum] = packet;
 		}
 
 		Packet* getFirstValidPacket() {
@@ -292,7 +292,7 @@ namespace NetworkingUtilities {
 			return nullptr;
 		}
 	};
-	uint64_t NetworkMessage::nextMessageID = 0;
+	//uint64_t NetworkMessage::nextMessageID = 0;
 
 	class NetworkManager {
 		PacketPool packetPool;
@@ -318,25 +318,58 @@ namespace NetworkingUtilities {
 			if (sentMsgs.find(ip.data()) == sentMsgs.end()) {
 				sentMsgs[ip.data()] = {};
 				msgsPtr = &sentMsgs[ip.data()];
+				for (uint32_t i = 0; i < msgsPtr->getMax(); i++)
+					(*msgsPtr)[i].packetPoolPtr = nullptr;
 				msgsPtr->clear();
 			} else
 				msgsPtr = &sentMsgs[ip.data()];
-			FlatBuffer<NetworkMessage, MESSAGES_PER_CONNECTION_MAX>& msgs = *msgsPtr;
-			if (msgs.isFull()) {
+			if (msgsPtr->isFull()) {
 				HAL_WARN("NetworkManager::sendTo() failed to send, overloaded with messages to same ip\n");
 				HAL_WARN("IP: {}; MSG_LEN: {}\n", ip, len);
 				return;
 			}
-			NetworkMessage& nm = msgs.push({});
-			nm.tryConstructForSend({msg, len}, packetPool);
+			NetworkMessage& nm = (*msgsPtr)[msgsPtr->count];
+			msgsPtr->count++;
+			static uint64_t id = 0;
+			nm.tryConstructForSend({msg, len}, packetPool, id);
+			id++;
 			sendTo(nm, ip);
 		}
-		void clear() {
-			sentMsgs.clear();
+		void update() {
+			constexpr uint64_t maxTicksTillReset = 60 * 2;
+			static uint64_t tick = 0;
+			for (auto& e : recvMsgs) {
+				for (uint32_t i = 0; i < e.second.count; i++) {
+					NetworkMessage& nm = e.second[i];
+					if (nm.packetPoolPtr) {
+						if (tick >= nm.tick + maxTicksTillReset) {
+							nm.deconstruct();
+							e.second[i] = e.second[e.second.count];
+							e.second.pop();
+							continue;
+						}
+						nm.tick++;
+					}
+				}
+			}
+			for (auto& e : sentMsgs) {
+				for (uint32_t i = 0; i < e.second.count; i++) {
+					NetworkMessage& nm = e.second[i];
+					if (nm.packetPoolPtr) {
+						if (tick >= nm.tick + maxTicksTillReset) {
+							nm.deconstruct();
+							e.second[i] = e.second[e.second.count];
+							e.second.pop();
+							continue;
+						}
+						nm.tick++;
+					}
+				}
+			}
 		}
 
 		bool tryPopNextMsg(std::vector<uint8_t>& out) {
-			update();
+			getNewMessages();
 			for (auto& e : recvMsgs) {
 				for (uint32_t i = 0; i < e.second.count; i++) {
 					NetworkMessage& nm = e.second[i];
@@ -349,7 +382,7 @@ namespace NetworkingUtilities {
 			return false;
 		}
 	private:
-		void update() {
+		void getNewMessages() {
 			static FlatBuffer<uint8_t, 256 * 256> buff;
 			std::string senderIP;
 			uint16_t outPort;  //TODO: still need to verify port is proper...
