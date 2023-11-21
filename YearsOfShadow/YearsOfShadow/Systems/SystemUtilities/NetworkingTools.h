@@ -337,6 +337,7 @@ namespace NetworkingUtilities {
 		}
 		void update() {
 			constexpr uint64_t maxTicksTillReset = 60 * 2;
+			constexpr uint64_t maxTicksTillResend = 10;
 			static uint64_t tick = 0;
 			for (auto& e : recvMsgs) {
 				for (uint32_t i = 0; i < e.second.count; i++) {
@@ -363,6 +364,13 @@ namespace NetworkingUtilities {
 							continue;
 						}
 						nm.tick++;
+						uint32_t count = e.second[i].getPacketCount();
+						for (uint32_t j = 0; j < count; j++) {
+							Packet* packet = e.second[i].packets[j];
+							if (packet->operationState != Packet::OPERATION_STATE::CONFIRMING_SENT)
+								if(nm.tick == maxTicksTillResend+1)
+									packet->sendTo(conn, e.first);
+						}
 					}
 				}
 			}
@@ -391,15 +399,54 @@ namespace NetworkingUtilities {
 				HAL::UDP_get_packet(conn, &buff[0], buff.count, senderIP, outPort);
 				if (buff.count == 0)
 					break;
-
-				processPacket(&buff[0], buff.count, senderIP, outPort);
+				if(tryProcessResend(&buff[0], buff.count, senderIP, outPort) == false)
+					processPacket(&buff[0], buff.count, senderIP, outPort);
 			}
+		}
+
+		bool tryProcessResend(const uint8_t* data, uint16_t len, std::string_view senderIP, uint16_t senderPort) {
+			const Packet* packet = (Packet*)data;
+			if (len < Packet::getHeaderSize()) {
+				HAL_WARN("NetworkManager::tryProcessResend()\n");
+				HAL_WARN("Input len: {} >= Packet::getHeaderSize(): {}\n", len, Packet::getHeaderSize());
+				return false;
+			}
+			if (packet->operationState != Packet::OPERATION_STATE::CONFIRMING_SENT)
+				return false;
+			const char* ipStr = senderIP.data();
+			if (sentMsgs.find(ipStr) == sentMsgs.end()) {
+				HAL_WARN("NetworkManager::tryProcessResend()\n");
+				HAL_WARN("Got confirmation packet was sent to to ip: {} when nothing was actually sent to that ip?!\n", ipStr);
+				HAL_WARN("Connection could perhaps be lagging?!...");
+				return false;
+			}
+			auto& msgBuff = sentMsgs[ipStr];
+			uint32_t size = msgBuff.count;
+			for (uint32_t i = 0; i < size; i++) {
+				if (msgBuff[i].packetPoolPtr)
+					if (msgBuff[i].getMessageID() == packet->messageID) {
+						if (packet->packetNum >= msgBuff[i].getPacketCount()) {
+							HAL_WARN("NetworkManager::tryProcessResend()\n");
+							HAL_WARN("Input packet's number: {} >= actual sent packetCount {}\n",
+								packet->packetNum, msgBuff[i].getPacketCount());
+							HAL_WARN("Suspected spoofing, connected ip: {}\n", ipStr);
+							return false;
+						}
+						msgBuff[i].packets[packet->packetNum]->operationState =
+							Packet::OPERATION_STATE::CONFIRMING_SENT;
+						return true;
+					}
+			}
+			HAL_WARN("NetworkManager::tryProcessResend()\n");
+			HAL_WARN("Incoming packet's id: {} doesn't match known message ids", packet->messageID);
+			HAL_WARN("Connection could be lagging...?")
+			return false;
 		}
 
 		void processPacket(const uint8_t* data, uint16_t len, std::string_view senderIP, uint16_t senderPort) {
 			const char* ipStr = senderIP.data();
 			if (recvMsgs.find(ipStr) == recvMsgs.end()) {
-				recvMsgs[ipStr] = {};
+				recvMsgs[ipStr];
 				recvMsgs[ipStr].clear();
 			}
 			auto& msgBuff = recvMsgs[ipStr];
