@@ -50,7 +50,7 @@ void netManagerTest() {
         sendStr = "WHY DO YOU CUM!";
     }
 
-    static NetworkingUtilities::NetworkManager nm;
+    static NetworkingTools::NetworkManager nm;
     nm.init(conn);
     nm.trySendTo("127.0.0.1", (const uint8_t*)sendStr.c_str(), (uint32_t)sendStr.size());
 

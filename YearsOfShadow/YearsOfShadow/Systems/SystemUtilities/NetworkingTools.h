@@ -34,7 +34,7 @@ std::unordered_map<std::string, int, string_hash<char>, std::equal_to<>> sus{};
 
 
 
-namespace NetworkingUtilities {
+namespace NetworkingTools {
 	constexpr uint16_t PACKET_MAX_LEN = 65000;
 	constexpr uint16_t PACKETS_MAX = 6000;  //Shared between all connections/messages
 	constexpr uint16_t PACKETS_PER_MESSAGE_MAX = 100;
