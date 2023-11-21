@@ -22,16 +22,17 @@ public:
 		bodyComponentID = ecs.registerComponentAsBlittable("body", sizeof(BodyID));
 		controllerComponentID = ecs.registerComponentAsBlittable("controller", sizeof(Controller));
 		replicateEntityComponentID = ecs.registerComponentAsBlittable("replicateEntity", sizeof(ReplicateEntity));
+
+		auto conn = HAL::UDP_open("127.0.0.1", 8122, 8123);
+		nm.init(conn);
 	}
 	virtual void run() {
 		OPTICK_THREAD("MainThread");
 		OPTICK_EVENT();
-		#if GAME_TYPE != GAME_TYPE_SINGLE
 		#if GAME_TYPE == GAME_TYPE_SERVER
 			serverLogic();
 		#else
 			clientLogic();
-		#endif
 		#endif
 	}
 	virtual const char* getName() {
@@ -50,7 +51,15 @@ private:
 	#endif
 	#if GAME_TYPE == GAME_TYPE_CLIENT
 	inline void clientLogic() {
+		nm.update();
+		static std::vector<uint8_t> buff;
+		while (true) {
+			buff.clear();
+			nm.tryPopNextMsg(buff);
+			if (buff.size() == 0)
+				break;
 
+		}
 	}
 	#endif
 };
