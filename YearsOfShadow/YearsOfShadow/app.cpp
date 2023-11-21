@@ -87,11 +87,27 @@ void netManagerTest() {
 
     static NetworkingUtilities::NetworkManager nm;
     nm.init(conn);
+    nm.trySendTo("127.0.0.1", (const uint8_t*)sendStr.c_str(), (uint32_t)sendStr.size());
 
+    while (true) {
+        std::vector<uint8_t> buff;
+        nm.update();
+        nm.tryPopNextMsg(buff);
+        nm.trySendTo("127.0.0.1", (const uint8_t*)sendStr.c_str(), (uint32_t)sendStr.size());
+        if (buff.size()) {
+            std::string str;
+            str.reserve(buff.size());
+            for (uint32_t i = 0; i < buff.size(); i++)
+                str.push_back(buff[i]);
+            HAL_LOG(str);
+        }
+        Sleep(1000);
+    }
 }
 
 void HAL::app_start() {
     //netTest();
+    //netManagerTest();
 
     OPTICK_START_CAPTURE();
     OPTICK_THREAD("MainThread");
