@@ -73,9 +73,7 @@ constexpr uint64_t sizeOfECS = sizeof(ecs);
 #include "SystemEnemy.h"
 #include "SystemNetwork.h"
 
-#if GAME_TYPE != GAME_TYPE_SERVER
 #include "SystemDisplay.h"
-#endif
 
 #include "SystemUtilities/Serialize.h"
 
@@ -124,9 +122,7 @@ inline void initSystems() {
 	ecs.registerSystem<SystemExplode>();
 
 	ecs.registerSystem<SystemVoxel>();
-	#if GAME_TYPE != GAME_TYPE_SERVER
 	ecs.registerSystem<SystemDisplay>();
-	#endif
 }
 
 #include "Systems_impl.h"
