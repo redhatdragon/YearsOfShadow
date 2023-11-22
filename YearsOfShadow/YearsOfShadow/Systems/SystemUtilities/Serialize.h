@@ -7,11 +7,11 @@ namespace SystemUtilities {
 	//Freeing directly should thus be safe
 	class SerialEntity {
 		struct Component {
-			Name name;
+			ComponentID componentID;
 			uint32_t size;
 			uint8_t data[1];  //Not allowed to do 0 length array gaaaaaaaaaaaay
 			static constexpr uint32_t getHeaderSize() {
-				return sizeof(name) + sizeof(size);
+				return sizeof(componentID) + sizeof(size);
 			}
 		};
 		uint8_t components[1];
@@ -27,7 +27,7 @@ namespace SystemUtilities {
 			uint32_t totalSize = 0;
 			for (uint32_t i = 0; i < idCount; i++) {
 				if (ecs.isComponentTypeDArray(idBuff[i])) {
-
+					totalSize += ecs.getDArrayElementSize(idBuff[i]);
 					continue;
 				}
 				totalSize += ecs.getComponentSize(idBuff[i]);
@@ -39,18 +39,27 @@ namespace SystemUtilities {
 			uint8_t* retValueOffset = (uint8_t*)retValue;
 			for (uint32_t i = 0; i < idCount; i++) {
 				if (ecs.isComponentTypeDArray(idBuff[i])) {
-
+					uint32_t DArrayElementSize = ecs.getDArrayElementSize(idBuff[i]);
+					DArray<uint8_t>* componentDArray = (DArray<uint8_t>*)ecs.getEntityComponent(entity, idBuff[i]);
+					uint32_t componentSize = DArrayElementSize * (uint32_t)componentDArray->size();
+					void* componentData = componentDArray->data();
+					memcpy(retValueOffset, &idBuff[i], sizeof(ComponentID));
+					retValueOffset += sizeof(ComponentID);
+					memcpy(retValueOffset, &componentSize, sizeof(uint32_t));
+					retValueOffset += sizeof(uint32_t);
+					memcpy(retValueOffset, componentData, componentSize);
+					retValueOffset += componentSize;
 					continue;
 				}
 				uint32_t componentSize = ecs.getComponentSize(idBuff[i]);
 				void* componentData = ecs.getEntityComponent(entity, idBuff[i]);
+				memcpy(retValueOffset, &idBuff[i], sizeof(ComponentID));
+				retValueOffset += sizeof(ComponentID);
+				memcpy(retValueOffset, &componentSize, sizeof(uint32_t));
+				retValueOffset += sizeof(uint32_t);
 				memcpy(retValueOffset, componentData, componentSize);
 				retValueOffset += componentSize;
 			}
 		}
-	};
-
-	struct Serialize {
-		
 	};
 }
