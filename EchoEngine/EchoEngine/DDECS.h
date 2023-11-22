@@ -346,6 +346,16 @@ public:
 		void* retValue = getEntityComponent(entity, componentID);
 		return *(T*)retValue;
 	}
+	inline uint32_t getComponentSize(ComponentID componentID) {
+		//TODO: add error checking here later to note if componentID is valid
+		return components[componentID]->getComponentSize();
+	}
+	inline void getEntityComponentIDs(EntityID entity, FlatBuffer<ComponentID, max_components>& outBuff) {
+		//TODO: optimize using findFirstValid calls mid index
+		for (uint32_t i = 0; i < max_components; i++)
+			if (entities[entity].componentIndexes.getIsValid(i) == true)
+				outBuff.push(i);
+	}
 	bool entityHasComponent(EntityID entity, ComponentID componentID) {
 		if (getEntityComponent(entity, componentID)) return true;
 		return false;
