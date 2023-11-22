@@ -111,7 +111,6 @@ class DDECS {
 				memcpy(outBuff, componentBuffer, count * size);
 			}
 		}
-	private:
 		inline bool isDArray() {
 			if (serializerFunction == (void*)-1)
 				return true;
@@ -355,6 +354,9 @@ public:
 		for (uint32_t i = 0; i < max_components; i++)
 			if (entities[entity].componentIndexes.getIsValid(i) == true)
 				outBuff.push(i);
+	}
+	bool isComponentTypeDArray(ComponentID componentID) {
+		return serializers[componentID].isDArray();
 	}
 	bool entityHasComponent(EntityID entity, ComponentID componentID) {
 		if (getEntityComponent(entity, componentID)) return true;
