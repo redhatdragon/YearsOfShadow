@@ -256,7 +256,7 @@ public:
 	ComponentID registerComponentAsBlittable(const std::string& componentName, uint32_t size) {
 		ComponentID retValue = getComponentID(componentName);
 		if (retValue == -1)
-            return _registerComponentUnsafe(componentName, size);
+			retValue = _registerComponentUnsafe(componentName, size);
 		//TODO: need to check for valid size, if false return -1
 		serializers[retValue].defineAsDefault();
 		return retValue;
@@ -264,7 +264,7 @@ public:
 	ComponentID registerComponentAsDArray(const std::string& componentName, uint32_t sizePerElem) {
 		ComponentID retValue = getComponentID(componentName);
 		if (retValue == -1)
-            return _registerComponentUnsafe(componentName, sizeof(DArray<uint8_t>));
+			retValue = _registerComponentUnsafe(componentName, sizeof(DArray<uint8_t>));
 		//TODO: need to check for valid size, if false return -1
 		serializers[retValue].defineAsDArray(sizePerElem);
 		return retValue;
