@@ -349,6 +349,9 @@ public:
 		//TODO: add error checking here later to note if componentID is valid
 		return components[componentID].getComponentSize();
 	}
+	inline std::string getComponentName(ComponentID componentID) {
+		return components[componentID].name;
+	}
 	inline void getEntityComponentIDs(EntityID entity, FlatBuffer<ComponentID, max_components>& outBuff) {
 		//TODO: optimize using findFirstValid calls mid index
 		for (uint32_t i = 0; i < max_components; i++)
