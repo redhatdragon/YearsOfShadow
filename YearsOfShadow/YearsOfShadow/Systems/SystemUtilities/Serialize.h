@@ -7,9 +7,9 @@ namespace SystemUtilities {
 		struct Component {
 			Name name;
 			uint32_t size;
-			uint8_t data[];
+			uint8_t data[1];  //Not allowed to do 0 length array gaaaaaaaaaaaay
 		};
-		uint8_t components[];
+		uint8_t components[1];
 		Component* getRootComponent() {
 			return (Component*)components;
 		}

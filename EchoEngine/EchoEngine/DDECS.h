@@ -348,7 +348,7 @@ public:
 	}
 	inline uint32_t getComponentSize(ComponentID componentID) {
 		//TODO: add error checking here later to note if componentID is valid
-		return components[componentID]->getComponentSize();
+		return components[componentID].getComponentSize();
 	}
 	inline void getEntityComponentIDs(EntityID entity, FlatBuffer<ComponentID, max_components>& outBuff) {
 		//TODO: optimize using findFirstValid calls mid index
