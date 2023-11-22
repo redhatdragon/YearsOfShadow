@@ -2,16 +2,30 @@
 #include <fstream>
 #include <unordered_map>
 
+//Attach this to all entities that should be replicated across the network or saved to file
+//Internal data used to help avoid accidentally duplicating entities client side
 struct ReplicateEntity {
 	EntityID serverEntityID;
 	EntityHandle serverEntityHandle;
+	void init(EntityID entityID, EntityHandle entityHandle) {
+		serverEntityID = entityID;
+		serverEntityHandle = entityHandle;
+	}
+	bool match(ReplicateEntity& other) {
+		if (serverEntityID == other.serverEntityID &&
+			serverEntityHandle == other.serverEntityHandle)
+			return true;
+		return false;
+	}
 };
 
 namespace SystemUtilities {
 	//A purely blittable object
 	//Freeing directly should thus be safe
+	//Expects that entity has a ReplicateEntity component, else will crash
 	class SerialEntity {
 		struct Component {
+			//If == -1 we have reached the very end of our SerialEntity object
 			ComponentID componentID;
 			uint32_t size;
 			uint8_t data[1];  //Not allowed to do 0 length array gaaaaaaaaaaaay
@@ -22,6 +36,23 @@ namespace SystemUtilities {
 		uint8_t components[1];
 		Component* getRootComponent() {
 			return (Component*)components;
+		}
+		Component* getNextComponent(Component* component) {
+			uint8_t* ptr = (uint8_t*)component;
+			ptr += Component::getHeaderSize() + component->size;
+			return (Component*)ptr;
+		}
+		Component* findComponent(ComponentID componentID) {
+			Component* component = getRootComponent();
+			loop:
+			if (component->componentID == -1) {
+				HAL_WARN("SerialEntity::findComponent()\n");
+				HAL_WARN("Couldn't find component with id: {}\n", ecs.getComponentName(componentID));
+				return nullptr;
+			}
+			if (component->componentID == componentID)
+				return component;
+			goto loop;
 		}
 	public:
 		static SerialEntity* constructNew(EntityID entity) {
@@ -38,6 +69,7 @@ namespace SystemUtilities {
 				totalSize += ecs.getComponentSize(idBuff[i]);
 			}
 			totalSize += Component::getHeaderSize() * idCount;
+			totalSize += sizeof(ComponentID);  //-1 end of obj marker
 			SerialEntity* retValue = (SerialEntity*)malloc(totalSize);
 			if (retValue == nullptr)
 				HAL_PANIC("SerialEntity::constructNew() failed to allocate new SerialEntity with size {}\n", totalSize);
@@ -65,6 +97,33 @@ namespace SystemUtilities {
 				memcpy(retValueOffset, componentData, componentSize);
 				retValueOffset += componentSize;
 			}
+			ComponentID EOO = -1;  //End Of Object marker
+			memcpy(retValueOffset, &EOO, sizeof(ComponentID));
+		}
+		void deserializeToDDECS() {
+			ComponentID replicateEntityComponentID = ecs.getComponentID("replicateEntity");
+			Component* replicateEntityComponent = findComponent(replicateEntityComponentID);
+			if (replicateEntityComponent == nullptr) {
+				HAL_ERROR("SerialEntity::deserializeToDDECS()\n");
+				HAL_PANIC("Couldn't find replicateEntityComponent (this shouldn't ever be possible), aboring process...\n");
+			}
+			if (replicateEntityComponent->size != sizeof(ReplicateEntity)) {
+				HAL_ERROR("SerialEntity::deserializeToDDECS()\n");
+				HAL_PANIC("replicateEntityComponent size: {} != sizeof(ReplicateEntity): {}, Aboring...\n",
+					replicateEntityComponent->size, sizeof(ReplicateEntity));
+			}
+			ReplicateEntity* replicateEntity = (ReplicateEntity*)replicateEntityComponent->data;
+			uint32_t count = ecs.getComponentCount(replicateEntityComponentID);
+			ReplicateEntity* replicateEntityBuff = (ReplicateEntity*)ecs.getComponentBuffer(replicateEntityComponentID);
+			for (uint32_t i = 0; i < count; i++) {
+				EntityID entity = ecs.getOwner(replicateEntityComponentID, i);
+				ReplicateEntity& re = replicateEntityBuff[i];
+				if (replicateEntity->match(re)) {
+					//TODO: What to do, ignore, copy everything??!
+					return;
+				}
+			}
+			//create entity and add all components...
 		}
 	};
 }
