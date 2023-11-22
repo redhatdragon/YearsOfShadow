@@ -358,6 +358,9 @@ public:
 	bool isComponentTypeDArray(ComponentID componentID) {
 		return serializers[componentID].isDArray();
 	}
+	uint32_t getDArrayElementSize(ComponentID componentID) {
+		return serializers[componentID].getDArrayElemSize();
+	}
 	bool entityHasComponent(EntityID entity, ComponentID componentID) {
 		if (getEntityComponent(entity, componentID)) return true;
 		return false;
