@@ -2,6 +2,11 @@
 #include <fstream>
 #include <unordered_map>
 
+struct ReplicateEntity {
+	EntityID serverEntityID;
+	EntityHandle serverEntityHandle;
+};
+
 namespace SystemUtilities {
 	//A purely blittable object
 	//Freeing directly should thus be safe

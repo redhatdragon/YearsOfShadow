@@ -1,13 +1,8 @@
 #pragma once
 #include "SystemUtilities/NetworkingTools.h"
+#include "SystemUtilities/Serialize.h"
 
 using namespace NetworkingTools;
-
-struct ReplicateEntity {
-	Vec3D<FixedPoint<>> distToClient;
-	EntityID serverEntityID;
-	EntityHandle serverEntityHandle;
-};
 
 class SystemNetwork : public System {
 	ComponentID bodyComponentID;
