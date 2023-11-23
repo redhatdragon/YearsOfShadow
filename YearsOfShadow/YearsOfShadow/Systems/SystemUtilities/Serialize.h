@@ -1,6 +1,7 @@
 #pragma once
 #include <fstream>
 #include <unordered_map>
+#include "EchoEngine//PhysicsEngineAABB3D.h"  //Help to serialize actual physics bodies
 
 //Attach this to all entities that should be replicated across the network or saved to file
 //Internal data used to help avoid accidentally duplicating entities client side
@@ -17,11 +18,6 @@ struct ReplicateEntity {
 			return true;
 		return false;
 	}
-};
-
-//Pass this to clients to be deserialized back into physics bodies
-struct SerialPhysicsBody {
-
 };
 
 namespace SystemUtilities {
@@ -132,6 +128,7 @@ namespace SystemUtilities {
 			}
 			Component* component = getRootComponent();
 			EntityID entity = ecs.getNewEntity();
+			ComponentID bodyComponentID = ecs.getComponentID("body");
 			while (true) {
 				ComponentID componentID = component->componentID;
 				//Run first to avoid accidently reading past object
@@ -152,11 +149,24 @@ namespace SystemUtilities {
 					ecs.emplace(entity, componentID, &darray);
 					continue;
 				}
+				if (componentID == bodyComponentID) {
+					BodyAABB* body = (BodyAABB*)component->data;
+					if (component->size != sizeof(BodyAABB)) {
+						HAL_ERROR("SerialEntity::deserializeToDDECS()\n");
+						HAL_ERROR("THIS SHOULD NOT BE HAPPENING!\n");
+						HAL_PANIC("serial entity component: {} size: {} != expected size: {}, Aboring...\n",
+							ecs.getComponentName(componentID), size, sizeof(BodyAABB));
+					}
+					BodyID bodyID = physics.addBodyBox(body->pos.x, body->pos.y, body->pos.z,
+						body->siz.x, body->siz.y, body->siz.z, &entity, body->isSolid);
+					ecs.emplace(entity, componentID, &bodyID);
+					continue;
+				}
 				if (size != ecs.getComponentSize(componentID)) {
 					HAL_ERROR("SerialEntity::deserializeToDDECS()\n");
 					HAL_ERROR("THIS SHOULD NOT BE HAPPENING!\n");
 					HAL_PANIC("serial entity component: {} size: {} != expected size: {}, Aboring...\n",
-						ecs.getComponentName(), size, ecs.getComponentSize(componentID));
+						ecs.getComponentName(componentID), size, ecs.getComponentSize(componentID));
 				}
 				ecs.emplace(entity, componentID, data);
 			}
