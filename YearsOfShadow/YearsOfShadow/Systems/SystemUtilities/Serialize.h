@@ -19,6 +19,11 @@ struct ReplicateEntity {
 	}
 };
 
+//Pass this to clients to be deserialized back into physics bodies
+struct SerialPhysicsBody {
+
+};
+
 namespace SystemUtilities {
 	//A purely blittable object
 	//Freeing directly should thus be safe
@@ -105,10 +110,12 @@ namespace SystemUtilities {
 			Component* replicateEntityComponent = findComponent(replicateEntityComponentID);
 			if (replicateEntityComponent == nullptr) {
 				HAL_ERROR("SerialEntity::deserializeToDDECS()\n");
-				HAL_PANIC("Couldn't find replicateEntityComponent (this shouldn't ever be possible), aboring process...\n");
+				HAL_ERROR("THIS SHOULD NOT BE HAPPENING!\n");
+				HAL_PANIC("Couldn't find replicateEntityComponent, aboring process...\n");
 			}
 			if (replicateEntityComponent->size != sizeof(ReplicateEntity)) {
 				HAL_ERROR("SerialEntity::deserializeToDDECS()\n");
+				HAL_ERROR("THIS SHOULD NOT BE HAPPENING!\n");
 				HAL_PANIC("replicateEntityComponent size: {} != sizeof(ReplicateEntity): {}, Aboring...\n",
 					replicateEntityComponent->size, sizeof(ReplicateEntity));
 			}
@@ -123,7 +130,36 @@ namespace SystemUtilities {
 					return;
 				}
 			}
-			//create entity and add all components...
+			Component* component = getRootComponent();
+			EntityID entity = ecs.getNewEntity();
+			while (true) {
+				ComponentID componentID = component->componentID;
+				//Run first to avoid accidently reading past object
+				if (componentID == -1)
+					break;
+				void* data = component->data;
+				uint32_t size = component->size;
+				if (ecs.isComponentTypeDArray(componentID)) {
+					uint32_t sizePerElem = ecs.getDArrayElementSize(componentID);
+					if (size % sizePerElem) {
+						HAL_ERROR("SerialEntity::deserializeToDDECS()\n");
+						HAL_ERROR("THIS SHOULD NOT BE HAPPENING!\n");
+						HAL_PANIC("serial entity component: {} size: {} % expected size: {} != 0, result: {}, Aboring...\n",
+							size, sizePerElem, size % sizePerElem);
+					}
+					DArray<uint8_t> darray;
+					darray.initCopy(component->data, component->size);
+					ecs.emplace(entity, componentID, &darray);
+					continue;
+				}
+				if (size != ecs.getComponentSize(componentID)) {
+					HAL_ERROR("SerialEntity::deserializeToDDECS()\n");
+					HAL_ERROR("THIS SHOULD NOT BE HAPPENING!\n");
+					HAL_PANIC("serial entity component: {} size: {} != expected size: {}, Aboring...\n",
+						ecs.getComponentName(), size, ecs.getComponentSize(componentID));
+				}
+				ecs.emplace(entity, componentID, data);
+			}
 		}
 	};
 }
