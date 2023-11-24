@@ -487,6 +487,11 @@ public:
 	}
 #endif
 
+	//Do not use unless you know wtf you're doing!
+	BodyAABB _getBodyCpy(BodyID id) {
+		return bodies[id.id];
+	}
+
 private:
 	void setUserData(BodyID id, void* data) {
 		userData[id.id] = data;
