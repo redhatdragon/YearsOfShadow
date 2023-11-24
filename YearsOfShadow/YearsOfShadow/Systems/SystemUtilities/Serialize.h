@@ -89,6 +89,19 @@ namespace SystemUtilities {
 					retValueOffset += componentSize;
 					continue;
 				}
+				ComponentID bodyComponentID = ecs.getComponentID("body");
+				if (idBuff[i] == bodyComponentID) {
+					uint32_t componentSize = sizeof(BodyAABB);
+					BodyID* bodyIDPtr = (BodyID*)ecs.getEntityComponent(entity, bodyComponentID);
+					BodyAABB body = physics._getBodyCpy(*bodyIDPtr);
+					memcpy(retValueOffset, &idBuff[i], sizeof(ComponentID));
+					retValueOffset += sizeof(ComponentID);
+					memcpy(retValueOffset, &componentSize, sizeof(uint32_t));
+					retValueOffset += sizeof(uint32_t);
+					memcpy(retValueOffset, &body, componentSize);
+					retValueOffset += componentSize;
+					continue;
+				}
 				uint32_t componentSize = ecs.getComponentSize(idBuff[i]);
 				void* componentData = ecs.getEntityComponent(entity, idBuff[i]);
 				memcpy(retValueOffset, &idBuff[i], sizeof(ComponentID));
