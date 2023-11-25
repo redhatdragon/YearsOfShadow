@@ -189,8 +189,11 @@ namespace SystemUtilities {
 		}
 
 		//Thread safe!
+		//Returns nullptr on if last object in buffer
 		SerialEntity* next() {
 			Component* component = getRootComponent();
+			if (*(uint32_t*)this == -1)  //Check if end of SerialEntity* buffer
+				return nullptr;
 			while (true) {
 				if (component->componentID == -1) {
 					uint8_t* ptr = (uint8_t*)component;
@@ -218,13 +221,18 @@ namespace SystemUtilities {
 			size+=sizeof(uint32_t);  //Account for the uint32_t -1 value for EndOfObject
 			return size;
 		}
+		bool isEnd() {
+			if (*(uint32_t*)this == -1)  //Check if end of SerialEntity* buffer
+				return true;
+			return false;
+		}
 	};
 
 	//Returns buffer of SerialEntity + additional u32 EndOfBuffer value of -1
 	//Perfectly blittable, safe to call free manually or memcpy
 	//Meant to be sent over the network and saved to disk
 	//Thread safe!
-	SerialEntity* constructSerialEntityBuffer(EntityID* ids, uint32_t count) {
+	SerialEntity* constructSerialEntityBuffer(EntityID* ids, uint32_t count, uint32_t& outSize) {
 		static thread_local std::vector<SerialEntity*> ses;
 		ses.clear();
 		uint32_t totalSize = 0;
@@ -237,9 +245,10 @@ namespace SystemUtilities {
 		if (totalSize == 0) {
 			for (uint32_t i = 0; i < count; i++)
 				free(ses[i]);
+			outSize = 0;
 			return nullptr;
 		}
-		totalSize += sizeof(decltype(totalSize));  //Account for EndOfBuffer value
+		totalSize += sizeof(uint32_t);  //Account for EndOfBuffer value
 		SerialEntity* serialEntityBuffer;
 		HAL_ALLOC_RAWBYTE(serialEntityBuffer, totalSize);
 		uint8_t* offset = (uint8_t*)serialEntityBuffer;
@@ -252,6 +261,7 @@ namespace SystemUtilities {
 		memcpy(offset, &buffTerminator, sizeof(buffTerminator));
 		for (uint32_t i = 0; i < count; i++)
 			free(ses[i]);
+		outSize = totalSize;
 		return serialEntityBuffer;
 	}
 }
