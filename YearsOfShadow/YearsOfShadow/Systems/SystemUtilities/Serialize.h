@@ -114,6 +114,7 @@ namespace SystemUtilities {
 			}
 			ComponentID EOO = -1;  //End Of Object marker
 			memcpy(retValueOffset, &EOO, sizeof(ComponentID));
+			return retValue;
 		}
 		//NOT THREAD SAFE!
 		void deserializeToDDECS() {
@@ -215,6 +216,7 @@ namespace SystemUtilities {
 				}
 			}
 			size+=sizeof(uint32_t);  //Account for the uint32_t -1 value for EndOfObject
+			return size;
 		}
 	};
 

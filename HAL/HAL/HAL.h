@@ -60,21 +60,21 @@ namespace HAL
 
 #define HAL_ALLOC_COUNT(data, count) \
 	{ \
-		data = (decltype(data))malloc(count * sizeof(data));\
+		data = (decltype(data))malloc(count * sizeof(data)); \
 		if(data == nullptr) \
-			HAL_PANIC("Failed to allocate data {} with count at file {} file: {} line: {}!", data, count, __FILE__, __LINE__) \
+			HAL_PANIC("Failed to allocate data {} with count at file {} file: {} line: {}!", #data, count, __FILE__, __LINE__) \
 	}
 #define HAL_ALLOC_TYPE(data) \
 	{ \
-		data = (decltype(data))malloc(sizeof(data));\
+		data = (decltype(data))malloc(sizeof(data)); \
 		if(data == nullptr) \
-			HAL_PANIC("Failed to allocate data {} line: {}!", data, __FILE__, __LINE__) \
+			HAL_PANIC("Failed to allocate data {} line: {}!", #data, __FILE__, __LINE__) \
 	}
 #define HAL_ALLOC_RAWBYTE(data, size) \
 	{ \
-		data = (decltype(data))malloc(size);\
+		data = (decltype(data))malloc(size); \
 		if(data == nullptr) \
-			HAL_PANIC("Failed to allocate data {} with byte count {} file: {} line: {}!", data, size, __FILE__, __LINE__) \
+			HAL_PANIC("Failed to allocate data {} with byte count {} file: {} line: {}!", #data, size, __FILE__, __LINE__) \
 	}
 	
 
