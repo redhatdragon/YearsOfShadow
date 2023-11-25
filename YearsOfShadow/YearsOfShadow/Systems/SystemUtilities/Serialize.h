@@ -56,8 +56,9 @@ namespace SystemUtilities {
 			goto loop;
 		}
 	public:
+		//Thread safe!
 		static SerialEntity* constructNew(EntityID entity) {
-			static FlatBuffer<ComponentID, 32> idBuff;
+			static thread_local FlatBuffer<ComponentID, 32> idBuff;
 			idBuff.clear();
 			ecs.getEntityComponentIDs(entity, idBuff);
 			uint32_t idCount = idBuff.count;
@@ -114,6 +115,7 @@ namespace SystemUtilities {
 			ComponentID EOO = -1;  //End Of Object marker
 			memcpy(retValueOffset, &EOO, sizeof(ComponentID));
 		}
+		//NOT THREAD SAFE!
 		void deserializeToDDECS() {
 			ComponentID replicateEntityComponentID = ecs.getComponentID("replicateEntity");
 			Component* replicateEntityComponent = findComponent(replicateEntityComponentID);
@@ -184,5 +186,70 @@ namespace SystemUtilities {
 				ecs.emplace(entity, componentID, data);
 			}
 		}
+
+		//Thread safe!
+		SerialEntity* next() {
+			Component* component = getRootComponent();
+			while (true) {
+				if (component->componentID == -1) {
+					uint8_t* ptr = (uint8_t*)component;
+					ptr++;
+					//End of SerialEntity buffer
+					if (*(uint32_t*)ptr == -1) {
+						return nullptr;
+					}
+					return (SerialEntity*)ptr;
+				}
+				component = getNextComponent(component);
+			}
+		}
+		uint32_t getSize() {
+			uint32_t size = 0;
+			Component* c = getRootComponent();
+			if (c != nullptr) {
+				while (true) {
+					c = getNextComponent(c);
+					if (c == nullptr)
+						break;
+					size += Component::getHeaderSize() + c->size;
+				}
+			}
+			size+=sizeof(uint32_t);  //Account for the uint32_t -1 value for EndOfObject
+		}
 	};
+
+	//Returns buffer of SerialEntity + additional u32 EndOfBuffer value of -1
+	//Perfectly blittable, safe to call free manually or memcpy
+	//Meant to be sent over the network and saved to disk
+	//Thread safe!
+	SerialEntity* constructSerialEntityBuffer(EntityID* ids, uint32_t count) {
+		static thread_local std::vector<SerialEntity*> ses;
+		ses.clear();
+		uint32_t totalSize = 0;
+		for (uint32_t i = 0; i < count; i++) {
+			ses.push_back(SerialEntity::constructNew(ids[i]));
+		}
+		for (uint32_t i = 0; i < count; i++) {
+			totalSize += ses[i]->getSize();
+		}
+		if (totalSize == 0) {
+			for (uint32_t i = 0; i < count; i++)
+				free(ses[i]);
+			return nullptr;
+		}
+		totalSize += sizeof(decltype(totalSize));  //Account for EndOfBuffer value
+		SerialEntity* serialEntityBuffer;
+		HAL_ALLOC_RAWBYTE(serialEntityBuffer, totalSize);
+		uint8_t* offset = (uint8_t*)serialEntityBuffer;
+		for (uint32_t i = 0; i < count; i++) {
+			uint32_t size = ses[i]->getSize();
+			memcpy(offset, ses[i], size);
+			offset += size;
+		}
+		uint32_t buffTerminator = -1;
+		memcpy(offset, &buffTerminator, sizeof(buffTerminator));
+		for (uint32_t i = 0; i < count; i++)
+			free(ses[i]);
+		return serialEntityBuffer;
+	}
 }
