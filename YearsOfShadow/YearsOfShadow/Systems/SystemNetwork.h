@@ -36,16 +36,23 @@ public:
 private:
 	#if GAME_TYPE == GAME_TYPE_SERVER
 	inline void serverLogic() {
+		using namespace SystemUtilities;
 		uint32_t count = ecs.getComponentCount(replicateEntityComponentID);
 		ReplicateEntity* replicateEntityBuff =
 			(ReplicateEntity*)ecs.getComponentBuffer(replicateEntityComponentID);
+		std::vector<EntityID> entities;
+		entities.reserve(count);
 		for (uint32_t i = 0; i < count; i++) {
-			
-		}
+			entities.push_back(ecs.getOwner(replicateEntityComponentID, i));
+}
+		uint32_t size;
+		SerialEntity* seBuff = constructSerialEntityBuffer(&entities[0], count, size);
+		nm.trySendTo("127.0.0.1", (uint8_t*)seBuff, size);
 	}
 	#endif
 	#if GAME_TYPE == GAME_TYPE_CLIENT
 	inline void clientLogic() {
+		using namespace SystemUtilities;
 		nm.update();
 		static std::vector<uint8_t> buff;
 		while (true) {
@@ -53,7 +60,14 @@ private:
 			nm.tryPopNextMsg(buff);
 			if (buff.size() == 0)
 				break;
-
+			SerialEntity* se = (SerialEntity*)&buff[0];
+			if (se->isEnd())
+				break;
+			while (true) {
+				se->deserializeToDDECS();
+				if ((se = se->next()) == nullptr)
+					break;
+			}
 		}
 	}
 	#endif
