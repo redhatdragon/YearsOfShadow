@@ -226,6 +226,16 @@ namespace SystemUtilities {
 				return true;
 			return false;
 		}
+
+		//Blittable, can use free on result
+		static Component* constructComponent(void* data, uint32_t size, ComponentID componentID) {
+			uint32_t totalSize = size + Component::getHeaderSize();
+			Component* component;
+			HAL_ALLOC_RAWBYTE(component, totalSize);
+			component->componentID = componentID;
+			component->size = size;
+			memcpy(component->data, data, size);
+		}
 	};
 
 	//Returns buffer of SerialEntity + additional u32 EndOfBuffer value of -1
@@ -264,4 +274,17 @@ namespace SystemUtilities {
 		outSize = totalSize;
 		return serialEntityBuffer;
 	}
+
+	static std::unordered_map<ComponentID, void(*)(uint32_t index)> serializeFunctions;
+	static std::unordered_map<ComponentID, void(*)(void* data, uint32_t size)> deserializeFunctions;
+}
+
+void serializeInstancedMesh(uint32_t index) {
+	void* data;
+	uint32_t size;
+	SystemUtilities::SerialEntity::Component* component = 
+		SystemUtilities::SerialEntity::constructComponent(data, size, 1);
+}
+void deserializeInstancedMesh(void* data, uint32_t size) {
+
 }
