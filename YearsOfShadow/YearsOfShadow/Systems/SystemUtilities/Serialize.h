@@ -280,8 +280,8 @@ namespace SystemUtilities {
 }
 
 void serializeInstancedMesh(uint32_t index) {
-	void* data;
-	uint32_t size;
+	//void* data;
+	//uint32_t size;
 	//SystemUtilities::SerialEntity::Component* component = 
 		//SystemUtilities::SerialEntity::constructComponent(data, size, 1);
 }
