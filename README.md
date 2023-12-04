@@ -3,9 +3,10 @@
 
 # YearsOfShadow
 Our discord community: https://discord.gg/tady8b4rjn
+Our videos showcase: https://rumble.com/c/c-2944062
 
 # Building
-Cmake required. VS 2022 recommended.
+Cmake + VS 2022 required for now.
 ```bash
 git clone https://github.com/redhatdragon/YearsOfShadow.git
 cd YearsOfShadow
