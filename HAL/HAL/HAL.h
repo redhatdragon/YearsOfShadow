@@ -327,13 +327,10 @@ namespace HAL
                                             const char *textureType, const char *path);
     void set_instanced_mesh_submesh_texture(instanced_mesh_handle_t meshID, uint8_t submeshIndex,
                                             const char *textureType, texture_handle_t texture);
-
     void draw_instanced_mesh(instanced_mesh_handle_t meshID);
-
     void set_instanced_mesh_positions(instanced_mesh_handle_t meshID, std::span<const glm::vec3> posBuffer);
-
     void set_instanced_mesh_scale(instanced_mesh_handle_t meshID, glm::vec3 scale);
-
+	const char* get_instanced_mesh_name(instanced_mesh_handle_t meshID);
     void release_instanced_mesh(instanced_mesh_handle_t meshID);
 
     camera_handle_t get_new_camera();

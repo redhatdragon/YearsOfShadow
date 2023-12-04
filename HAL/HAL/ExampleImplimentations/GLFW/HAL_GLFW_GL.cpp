@@ -551,8 +551,10 @@ void HAL::set_instanced_mesh_positions(HAL::instanced_mesh_handle_t meshID, std:
 {
     const auto imesh = reinterpret_cast<InstancedMesh *>(meshID);
 
-    if (meshID == HAL::invalid_instanced_mesh_handle)
+    if (meshID == HAL::invalid_instanced_mesh_handle) {
+        HAL_WARN("set_instanced_mesh_positions()'s meshID input == invalid_instanced_mesh_handle\n");
         return;
+    }
 
     HAL_ASSERT(_posBuffer.size() < 256llu * 256llu,
                "Error: EE_setInstancedMeshPositions()'s count arg is larger than 256*256-1");
@@ -572,10 +574,20 @@ void HAL::set_instanced_mesh_scale(HAL::instanced_mesh_handle_t meshID, glm::vec
 {
     const auto imesh = reinterpret_cast<InstancedMesh *>(meshID);
 
-    if (meshID == HAL::invalid_instanced_mesh_handle)
+    if (meshID == HAL::invalid_instanced_mesh_handle) {
+        HAL_WARN("set_instanced_mesh_scale()'s meshID input == invalid_instanced_mesh_handle\n");
         return;
+    }
 
     imesh->setScale(scale.x, scale.y, scale.z);
+}
+const char* HAL::get_instanced_mesh_name(HAL::instanced_mesh_handle_t meshID) {
+    const auto imesh = reinterpret_cast<InstancedMesh*>(meshID);
+    if (meshID == HAL::invalid_instanced_mesh_handle) {
+        HAL_WARN("get_instanced_mesh_name()'s meshID input == invalid_instanced_mesh_handle\n");
+        return nullptr;
+    }
+    return imesh->filepath.c_str();
 }
 
 HAL::camera_handle_t HAL::get_new_camera()
