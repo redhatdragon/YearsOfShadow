@@ -235,6 +235,7 @@ namespace SystemUtilities {
 			component->componentID = componentID;
 			component->size = size;
 			memcpy(component->data, data, size);
+			return component;
 		}
 	};
 
@@ -275,16 +276,28 @@ namespace SystemUtilities {
 		return serialEntityBuffer;
 	}
 
-	static std::unordered_map<ComponentID, void(*)(uint32_t index)> serializeFunctions;
-	static std::unordered_map<ComponentID, void(*)(void* data, uint32_t size)> deserializeFunctions;
+	static std::unordered_map<ComponentID, void*(*)(uint32_t index)> serializeFunctions;
+	static std::unordered_map<ComponentID, void(*)(EntityID entity, void* data, uint32_t size)> deserializeFunctions;
 }
 
-void serializeInstancedMesh(uint32_t index) {
-	//void* data;
-	//uint32_t size;
-	//SystemUtilities::SerialEntity::Component* component = 
-		//SystemUtilities::SerialEntity::constructComponent(data, size, 1);
+auto* serializeInstancedMesh(uint32_t index, uint32_t& outSize) {
+	void* data = nullptr;
+	auto iMeshHandle = instancedMeshCodex.get(0);
+	const char* meshPath = HAL::get_instanced_mesh_name(iMeshHandle);
+	size_t strSize = strlen(meshPath);
+	HAL_ALLOC_RAWBYTE(data, strSize+1);
+	memcpy(data, meshPath, strSize);
+	((uint8_t*)data)[strSize] = 0;  //null terminator...
+	outSize = (uint32_t)strSize + 1;
+	return data;
 }
-void deserializeInstancedMesh(void* data, uint32_t size) {
-
+void deserializeInstancedMesh(EntityID entity, void* data, uint32_t size) {
+	const char* cstr = (const char*)data;
+	if (strlen(cstr) != size)
+		HAL_PANIC("deserializeInstancedMesh()  input data's strlen != size: {}", size);
+	ComponentID componentID = ecs.registerComponentAsBlittable("instancedMesh", sizeof(u32));
+	if (ecs.entityHasComponent(entity, componentID) == true)
+		return;
+	uint32_t id = instancedMeshCodex.add(cstr);
+	ecs.emplace(entity, componentID, &id);
 }
