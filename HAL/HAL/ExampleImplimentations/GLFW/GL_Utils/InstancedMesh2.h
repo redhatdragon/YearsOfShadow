@@ -133,10 +133,12 @@ struct InstancedMesh {
     Pos3D siz = { 1, 1, 1 };
     //std::vector<Vec3D<float>> offsets;
     uint32_t instanceCount;
+    std::string filepath;
 
-    void init(const char* filepath) {
+    void init(const char* _filepath) {
         objl::Loader loader;
-        loader.LoadFile(filepath);
+        loader.LoadFile(_filepath);
+        filepath = _filepath;
         auto& meshes = loader.LoadedMeshes;
         loader.LoadedIndices;
         for (uint32_t i = 0; i < meshes.size(); i++) {
