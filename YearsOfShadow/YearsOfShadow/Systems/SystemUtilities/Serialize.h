@@ -63,7 +63,18 @@ namespace SystemUtilities {
 			ecs.getEntityComponentIDs(entity, idBuff);
 			uint32_t idCount = idBuff.count;
 			uint32_t totalSize = 0;
+			static thread_local FlatBuffer<Component*, 32> customSerializedComponents;
+			customSerializedComponents.clear();
 			for (uint32_t i = 0; i < idCount; i++) {
+				if (serializeFunctions.find(idBuff[i]) != serializeFunctions.end()) {
+					uint32_t size = 0;  //screw you compilation errors.
+					void* data = serializeFunctions[idBuff[i]](entity, size);
+					Component* component = constructComponent(data, size, idBuff[i]);
+					free(data);
+					totalSize += size;
+					customSerializedComponents.push(component);
+					continue;
+				}
 				if (ecs.isComponentTypeDArray(idBuff[i])) {
 					totalSize += ecs.getDArrayElementSize(idBuff[i]);
 					continue;
@@ -77,6 +88,19 @@ namespace SystemUtilities {
 				HAL_PANIC("SerialEntity::constructNew() failed to allocate new SerialEntity with size {}\n", totalSize);
 			uint8_t* retValueOffset = (uint8_t*)retValue;
 			for (uint32_t i = 0; i < idCount; i++) {
+				if (serializeFunctions.find(idBuff[i]) != serializeFunctions.end()) {
+					Component* component = nullptr;
+					for (uint32_t j = 0; j < customSerializedComponents.count; j++) {
+						if (idBuff[i] == customSerializedComponents[j]->componentID) {
+							component = customSerializedComponents[j];
+							break;
+						}
+					}
+					uint32_t size = component->size + Component::getHeaderSize();
+					memcpy(retValueOffset, component, size);
+					retValueOffset += size;
+					continue;
+				}
 				if (ecs.isComponentTypeDArray(idBuff[i])) {
 					uint32_t DArrayElementSize = ecs.getDArrayElementSize(idBuff[i]);
 					DArray<uint8_t>* componentDArray = (DArray<uint8_t>*)ecs.getEntityComponent(entity, idBuff[i]);
@@ -112,6 +136,8 @@ namespace SystemUtilities {
 				memcpy(retValueOffset, componentData, componentSize);
 				retValueOffset += componentSize;
 			}
+			for (uint32_t i = 0; i < customSerializedComponents.count; i++)
+				free(customSerializedComponents[i]);
 			ComponentID EOO = -1;  //End Of Object marker
 			memcpy(retValueOffset, &EOO, sizeof(ComponentID));
 			return retValue;
@@ -152,6 +178,10 @@ namespace SystemUtilities {
 					break;
 				void* data = component->data;
 				uint32_t size = component->size;
+				if (deserializeFunctions.find(component->componentID) != deserializeFunctions.end()) {
+					deserializeFunctions[component->componentID](entity, component->data, size);
+					continue;
+				}
 				if (ecs.isComponentTypeDArray(componentID)) {
 					uint32_t sizePerElem = ecs.getDArrayElementSize(componentID);
 					if (size % sizePerElem) {
@@ -237,52 +267,69 @@ namespace SystemUtilities {
 			memcpy(component->data, data, size);
 			return component;
 		}
-	};
 
-	//Returns buffer of SerialEntity + additional u32 EndOfBuffer value of -1
-	//Perfectly blittable, safe to call free manually or memcpy
-	//Meant to be sent over the network and saved to disk
-	//Thread safe!
-	SerialEntity* constructSerialEntityBuffer(EntityID* ids, uint32_t count, uint32_t& outSize) {
-		static thread_local std::vector<SerialEntity*> ses;
-		ses.clear();
-		uint32_t totalSize = 0;
-		for (uint32_t i = 0; i < count; i++) {
-			ses.push_back(SerialEntity::constructNew(ids[i]));
-		}
-		for (uint32_t i = 0; i < count; i++) {
-			totalSize += ses[i]->getSize();
-		}
-		if (totalSize == 0) {
+		//Returns buffer of SerialEntity + additional u32 EndOfBuffer value of -1
+		//Perfectly blittable, safe to call free manually or memcpy
+		//Meant to be sent over the network and saved to disk
+		//Thread safe!
+		SerialEntity* constructSerialEntityBuffer(EntityID* ids, uint32_t count, uint32_t& outSize) {
+			static thread_local std::vector<SerialEntity*> ses;
+			ses.clear();
+			uint32_t totalSize = 0;
+			for (uint32_t i = 0; i < count; i++) {
+				ses.push_back(SerialEntity::constructNew(ids[i]));
+			}
+			for (uint32_t i = 0; i < count; i++) {
+				totalSize += ses[i]->getSize();
+			}
+			if (totalSize == 0) {
+				for (uint32_t i = 0; i < count; i++)
+					free(ses[i]);
+				outSize = 0;
+				return nullptr;
+			}
+			totalSize += sizeof(uint32_t);  //Account for EndOfBuffer value
+			SerialEntity* serialEntityBuffer;
+			HAL_ALLOC_RAWBYTE(serialEntityBuffer, totalSize);
+			uint8_t* offset = (uint8_t*)serialEntityBuffer;
+			for (uint32_t i = 0; i < count; i++) {
+				uint32_t size = ses[i]->getSize();
+				memcpy(offset, ses[i], size);
+				offset += size;
+			}
+			uint32_t buffTerminator = -1;
+			memcpy(offset, &buffTerminator, sizeof(buffTerminator));
 			for (uint32_t i = 0; i < count; i++)
 				free(ses[i]);
-			outSize = 0;
-			return nullptr;
+			outSize = totalSize;
+			return serialEntityBuffer;
 		}
-		totalSize += sizeof(uint32_t);  //Account for EndOfBuffer value
-		SerialEntity* serialEntityBuffer;
-		HAL_ALLOC_RAWBYTE(serialEntityBuffer, totalSize);
-		uint8_t* offset = (uint8_t*)serialEntityBuffer;
-		for (uint32_t i = 0; i < count; i++) {
-			uint32_t size = ses[i]->getSize();
-			memcpy(offset, ses[i], size);
-			offset += size;
-		}
-		uint32_t buffTerminator = -1;
-		memcpy(offset, &buffTerminator, sizeof(buffTerminator));
-		for (uint32_t i = 0; i < count; i++)
-			free(ses[i]);
-		outSize = totalSize;
-		return serialEntityBuffer;
-	}
 
-	static std::unordered_map<ComponentID, void*(*)(uint32_t index)> serializeFunctions;
-	static std::unordered_map<ComponentID, void(*)(EntityID entity, void* data, uint32_t size)> deserializeFunctions;
+		static std::unordered_map<ComponentID, void* (*)(EntityID entity, uint32_t& outSize)> serializeFunctions;
+		static std::unordered_map<ComponentID, void(*)(EntityID entity, void* data, uint32_t size)> deserializeFunctions;
+
+		void registerSerializeFunction(ComponentID componentID, void* (*func)(EntityID entity, uint32_t& outSize)) {
+			if (serializeFunctions.find(componentID) == serializeFunctions.end()) {
+				HAL_WARN("registerSerializeFunction()'s input func already used, ignoring...\n");
+				return;
+			}
+			serializeFunctions[componentID] = func;
+		}
+		void registerDeSerializeFunction(ComponentID componentID, void(*func)(EntityID entity, void* data, uint32_t size)) {
+			if (deserializeFunctions.find(componentID) == deserializeFunctions.end()) {
+				HAL_WARN("registerDeSerializeFunction()'s input func already used, ignoring...\n");
+				return;
+			}
+			deserializeFunctions[componentID] = func;
+		}
+	};
 }
 
-auto* serializeInstancedMesh(uint32_t index, uint32_t& outSize) {
+auto* serializeInstancedMesh(EntityID entity, uint32_t& outSize) {
 	void* data = nullptr;
-	auto iMeshHandle = instancedMeshCodex.get(0);
+	ComponentID componentID = ecs.registerComponentAsBlittable("instancedMesh", sizeof(u32));
+	u32 iMeshID = *(u32*)ecs.getEntityComponent(entity, componentID);
+	auto iMeshHandle = instancedMeshCodex.get(iMeshID);
 	const char* meshPath = HAL::get_instanced_mesh_name(iMeshHandle);
 	size_t strSize = strlen(meshPath);
 	HAL_ALLOC_RAWBYTE(data, strSize+1);
