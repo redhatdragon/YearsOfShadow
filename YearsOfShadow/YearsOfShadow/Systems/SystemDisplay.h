@@ -1,6 +1,34 @@
 #pragma once
 #include <iostream>
 
+
+
+auto* serializeInstancedMesh(EntityID entity, uint32_t& outSize) {
+	void* data = nullptr;
+	ComponentID componentID = ecs.registerComponentAsBlittable("instancedMesh", sizeof(u32));
+	u32 iMeshID = *(u32*)ecs.getEntityComponent(entity, componentID);
+	auto iMeshHandle = instancedMeshCodex.get(iMeshID);
+	const char* meshPath = HAL::get_instanced_mesh_name(iMeshHandle);
+	size_t strSize = strlen(meshPath);
+	HAL_ALLOC_RAWBYTE(data, strSize + 1);
+	memcpy(data, meshPath, strSize);
+	((uint8_t*)data)[strSize] = 0;  //null terminator...
+	outSize = (uint32_t)strSize + 1;
+	return data;
+}
+void deserializeInstancedMesh(EntityID entity, void* data, uint32_t size) {
+	const char* cstr = (const char*)data;
+	if (strlen(cstr) != size)
+		HAL_PANIC("deserializeInstancedMesh()  input data's strlen != size: {}", size);
+	ComponentID componentID = ecs.registerComponentAsBlittable("instancedMesh", sizeof(u32));
+	if (ecs.entityHasComponent(entity, componentID) == true)
+		return;
+	uint32_t id = instancedMeshCodex.add(cstr);
+	ecs.emplace(entity, componentID, &id);
+}
+
+
+
 class SystemDisplay : public System {
 	ComponentID bodyComponentID;
 	ComponentID meshComponentID;
@@ -71,29 +99,3 @@ private:
 		}
 	}
 };
-
-
-
-auto* serializeInstancedMesh(EntityID entity, uint32_t& outSize) {
-	void* data = nullptr;
-	ComponentID componentID = ecs.registerComponentAsBlittable("instancedMesh", sizeof(u32));
-	u32 iMeshID = *(u32*)ecs.getEntityComponent(entity, componentID);
-	auto iMeshHandle = instancedMeshCodex.get(iMeshID);
-	const char* meshPath = HAL::get_instanced_mesh_name(iMeshHandle);
-	size_t strSize = strlen(meshPath);
-	HAL_ALLOC_RAWBYTE(data, strSize + 1);
-	memcpy(data, meshPath, strSize);
-	((uint8_t*)data)[strSize] = 0;  //null terminator...
-	outSize = (uint32_t)strSize + 1;
-	return data;
-}
-void deserializeInstancedMesh(EntityID entity, void* data, uint32_t size) {
-	const char* cstr = (const char*)data;
-	if (strlen(cstr) != size)
-		HAL_PANIC("deserializeInstancedMesh()  input data's strlen != size: {}", size);
-	ComponentID componentID = ecs.registerComponentAsBlittable("instancedMesh", sizeof(u32));
-	if (ecs.entityHasComponent(entity, componentID) == true)
-		return;
-	uint32_t id = instancedMeshCodex.add(cstr);
-	ecs.emplace(entity, componentID, &id);
-}

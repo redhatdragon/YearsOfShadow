@@ -323,4 +323,6 @@ namespace SystemUtilities {
 			deserializeFunctions[componentID] = func;
 		}
 	};
+	std::unordered_map<ComponentID, void* (*)(EntityID entity, uint32_t& outSize)> SerialEntity::serializeFunctions = {};
+	std::unordered_map<ComponentID, void(*)(EntityID entity, void* data, uint32_t size)> SerialEntity::deserializeFunctions = {};
 }
