@@ -7,7 +7,7 @@ HAL::thread_pool_handle_t threadPool;
 #define GAME_TYPE_SINGLE 0
 #define GAME_TYPE_CLIENT 1
 #define GAME_TYPE_SERVER 2
-#define GAME_TYPE GAME_TYPE_CLIENT
+//#define GAME_TYPE GAME_TYPE_CLIENT
 
 #if GAME_TYPE == GAME_TYPE_CLIENT
 //#define REWIND_ENABLED

@@ -14,19 +14,21 @@ public:
 	virtual void init() {
 		OPTICK_THREAD("MainThread");
 		OPTICK_EVENT();
+		#if GAME_TYPE == GAME_TYPE_SERVER || GAME_TYPE == GAME_TYPE_CLIENT
 		bodyComponentID = ecs.registerComponentAsBlittable("body", sizeof(BodyID));
 		controllerComponentID = ecs.registerComponentAsBlittable("controller", sizeof(Controller));
 		replicateEntityComponentID = ecs.registerComponentAsBlittable("replicateEntity", sizeof(ReplicateEntity));
 
 		auto conn = HAL::UDP_open("127.0.0.1", 8122, 8123);
 		nm.init(conn);
+		#endif
 	}
 	virtual void run() {
 		OPTICK_THREAD("MainThread");
 		OPTICK_EVENT();
 		#if GAME_TYPE == GAME_TYPE_SERVER
 			serverLogic();
-		#else
+		#elif GAME_TYPE == GAME_TYPE_CLIENT
 			clientLogic();
 		#endif
 	}
@@ -46,7 +48,7 @@ private:
 			entities.push_back(ecs.getOwner(replicateEntityComponentID, i));
 }
 		uint32_t size;
-		SerialEntity* seBuff = constructSerialEntityBuffer(&entities[0], count, size);
+		SerialEntity* seBuff = SerialEntity::constructSerialEntityBuffer(&entities[0], count, size);
 		nm.trySendTo("127.0.0.1", (uint8_t*)seBuff, size);
 	}
 	#endif

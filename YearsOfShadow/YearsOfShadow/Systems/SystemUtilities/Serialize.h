@@ -272,7 +272,7 @@ namespace SystemUtilities {
 		//Perfectly blittable, safe to call free manually or memcpy
 		//Meant to be sent over the network and saved to disk
 		//Thread safe!
-		SerialEntity* constructSerialEntityBuffer(EntityID* ids, uint32_t count, uint32_t& outSize) {
+		static SerialEntity* constructSerialEntityBuffer(EntityID* ids, uint32_t count, uint32_t& outSize) {
 			static thread_local std::vector<SerialEntity*> ses;
 			ses.clear();
 			uint32_t totalSize = 0;
