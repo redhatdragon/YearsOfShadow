@@ -469,6 +469,15 @@ void HAL::set_mesh_scale(mesh_handle_t mesh, glm::vec3 scale)
     meshPtr->siz = { scale.x, scale.y, scale.z };
 }
 
+const char* HAL::get_mesh_name(mesh_handle_t mesh) {
+    const auto meshPtr = reinterpret_cast<Mesh*>(mesh);
+    if (mesh == invalid_mesh_handle) {
+        HAL_WARN("get_mesh_name()'s mesh input == invalid_mesh_handle\n");
+        return nullptr;
+    }
+    return meshPtr->filepath.c_str();
+}
+
 void HAL::release_mesh(mesh_handle_t mesh)
 {
     const auto meshPtr = reinterpret_cast<Mesh *>(mesh);
@@ -494,30 +503,30 @@ HAL::instanced_mesh_handle_t HAL::get_new_instanced_mesh(const std::string_view 
     return static_cast<HAL::instanced_mesh_handle_t>(reinterpret_cast<std::uintptr_t>(instancedMeshes.back().get()));
 }
 
-void HAL::set_instanced_mesh_submesh_texture(instanced_mesh_handle_t meshID, uint8_t submeshIndex,
+void HAL::set_instanced_mesh_submesh_texture(instanced_mesh_handle_t mesh, uint8_t submeshIndex,
                                              const char *textureType,
                                              const char *path)
 {
-    const auto imesh = reinterpret_cast<InstancedMesh*>(meshID);
+    const auto imesh = reinterpret_cast<InstancedMesh*>(mesh);
 
-    if (meshID == HAL::invalid_instanced_mesh_handle)
+    if (mesh == HAL::invalid_instanced_mesh_handle)
         return;
 
-    if (std::to_underlying(meshID) == std::numeric_limits<std::uintptr_t>::max()) // Assert?
+    if (std::to_underlying(mesh) == std::numeric_limits<std::uintptr_t>::max()) // Assert?
         return;
 
     imesh->subMeshes[submeshIndex].textures[0].swapIfUnique(path);
 }
-void HAL::set_instanced_mesh_submesh_texture(instanced_mesh_handle_t meshID, uint8_t submeshIndex,
+void HAL::set_instanced_mesh_submesh_texture(instanced_mesh_handle_t mesh, uint8_t submeshIndex,
                                         const char *textureType,
                                         texture_handle_t texture)
 {
-    const auto imesh = reinterpret_cast<InstancedMesh *>(meshID);
+    const auto imesh = reinterpret_cast<InstancedMesh *>(mesh);
 
-    if (meshID == HAL::invalid_instanced_mesh_handle)
+    if (mesh == HAL::invalid_instanced_mesh_handle)
         return;
 
-    if (std::to_underlying(meshID) == std::numeric_limits<std::uintptr_t>::max()) // Assert?
+    if (std::to_underlying(mesh) == std::numeric_limits<std::uintptr_t>::max()) // Assert?
         return;
     if (imesh->subMeshes[submeshIndex].textures[0].getPath().empty())
         imesh->subMeshes[submeshIndex].textures[0].destruct();  //TODO: rework this...
@@ -538,21 +547,12 @@ void HAL::draw_instanced_mesh(HAL::instanced_mesh_handle_t meshID)
         imesh->draw({}, {0, 0, 1}, {}, perspective);
 }
 
-void HAL::release_instanced_mesh(HAL::instanced_mesh_handle_t meshID)
+void HAL::set_instanced_mesh_positions(HAL::instanced_mesh_handle_t mesh, std::span<const glm::vec3> _posBuffer)
 {
-    const auto imesh = reinterpret_cast<InstancedMesh *>(meshID);
+    const auto imesh = reinterpret_cast<InstancedMesh *>(mesh);
 
-    auto r = std::ranges::find_if(instancedMeshes, [imesh](const auto &mesh) { return mesh.get() == imesh; });
-    HAL_ASSERT(r != std::end(instancedMeshes), "Invalid mesh handle.");
-    r->release();
-}
-
-void HAL::set_instanced_mesh_positions(HAL::instanced_mesh_handle_t meshID, std::span<const glm::vec3> _posBuffer)
-{
-    const auto imesh = reinterpret_cast<InstancedMesh *>(meshID);
-
-    if (meshID == HAL::invalid_instanced_mesh_handle) {
-        HAL_WARN("set_instanced_mesh_positions()'s meshID input == invalid_instanced_mesh_handle\n");
+    if (mesh == HAL::invalid_instanced_mesh_handle) {
+        HAL_WARN("set_instanced_mesh_positions()'s mesh input == invalid_instanced_mesh_handle\n");
         return;
     }
 
@@ -570,24 +570,32 @@ void HAL::set_instanced_mesh_positions(HAL::instanced_mesh_handle_t meshID, std:
     imesh->setOffsets(std::data(posBuffer), static_cast<uint32_t>(std::size(posBuffer)));
 }
 
-void HAL::set_instanced_mesh_scale(HAL::instanced_mesh_handle_t meshID, glm::vec3 scale)
+void HAL::set_instanced_mesh_scale(HAL::instanced_mesh_handle_t mesh, glm::vec3 scale)
 {
-    const auto imesh = reinterpret_cast<InstancedMesh *>(meshID);
+    const auto imesh = reinterpret_cast<InstancedMesh *>(mesh);
 
-    if (meshID == HAL::invalid_instanced_mesh_handle) {
-        HAL_WARN("set_instanced_mesh_scale()'s meshID input == invalid_instanced_mesh_handle\n");
+    if (mesh == HAL::invalid_instanced_mesh_handle) {
+        HAL_WARN("set_instanced_mesh_scale()'s mesh input == invalid_instanced_mesh_handle\n");
         return;
     }
 
     imesh->setScale(scale.x, scale.y, scale.z);
 }
-const char* HAL::get_instanced_mesh_name(HAL::instanced_mesh_handle_t meshID) {
-    const auto imesh = reinterpret_cast<InstancedMesh*>(meshID);
-    if (meshID == HAL::invalid_instanced_mesh_handle) {
-        HAL_WARN("get_instanced_mesh_name()'s meshID input == invalid_instanced_mesh_handle\n");
+const char* HAL::get_instanced_mesh_name(HAL::instanced_mesh_handle_t mesh) {
+    const auto imesh = reinterpret_cast<InstancedMesh*>(mesh);
+    if (mesh == HAL::invalid_instanced_mesh_handle) {
+        HAL_WARN("get_instanced_mesh_name()'s mesh input == invalid_instanced_mesh_handle\n");
         return nullptr;
     }
     return imesh->filepath.c_str();
+}
+void HAL::release_instanced_mesh(HAL::instanced_mesh_handle_t mesh)
+{
+    const auto imesh = reinterpret_cast<InstancedMesh*>(mesh);
+
+    auto r = std::ranges::find_if(instancedMeshes, [imesh](const auto& mesh) { return mesh.get() == imesh; });
+    HAL_ASSERT(r != std::end(instancedMeshes), "Invalid mesh handle.");
+    r->release();
 }
 
 HAL::camera_handle_t HAL::get_new_camera()

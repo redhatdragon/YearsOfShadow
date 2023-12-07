@@ -320,18 +320,19 @@ namespace HAL
     void set_mesh_position(mesh_handle_t mesh, glm::vec3 pos);
     void set_mesh_rotation(mesh_handle_t mesh, glm::vec3 angles);
     void set_mesh_scale(mesh_handle_t mesh, glm::vec3 scale);
+	const char* get_mesh_name(mesh_handle_t mesh);
     void release_mesh(mesh_handle_t mesh);
 
     instanced_mesh_handle_t get_new_instanced_mesh(const std::string_view filePath);
-    void set_instanced_mesh_submesh_texture(instanced_mesh_handle_t meshID, uint8_t submeshIndex,
+    void set_instanced_mesh_submesh_texture(instanced_mesh_handle_t mesh, uint8_t submeshIndex,
                                             const char *textureType, const char *path);
-    void set_instanced_mesh_submesh_texture(instanced_mesh_handle_t meshID, uint8_t submeshIndex,
+    void set_instanced_mesh_submesh_texture(instanced_mesh_handle_t mesh, uint8_t submeshIndex,
                                             const char *textureType, texture_handle_t texture);
-    void draw_instanced_mesh(instanced_mesh_handle_t meshID);
-    void set_instanced_mesh_positions(instanced_mesh_handle_t meshID, std::span<const glm::vec3> posBuffer);
-    void set_instanced_mesh_scale(instanced_mesh_handle_t meshID, glm::vec3 scale);
-	const char* get_instanced_mesh_name(instanced_mesh_handle_t meshID);
-    void release_instanced_mesh(instanced_mesh_handle_t meshID);
+    void draw_instanced_mesh(instanced_mesh_handle_t mesh);
+    void set_instanced_mesh_positions(instanced_mesh_handle_t mesh, std::span<const glm::vec3> posBuffer);
+    void set_instanced_mesh_scale(instanced_mesh_handle_t mesh, glm::vec3 scale);
+	const char* get_instanced_mesh_name(instanced_mesh_handle_t mesh);
+    void release_instanced_mesh(instanced_mesh_handle_t mesh);
 
     camera_handle_t get_new_camera();
     void camera_look_at(camera_handle_t self, glm::vec3 at);

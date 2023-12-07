@@ -162,8 +162,9 @@ struct Mesh {
     Pos3D pos = { .5, .5, 0 };
     Pos3D rot = { 1, 1, 1 };
     Pos3D siz = { 1, 1, 1 };
+    std::string filepath;
 
-    void init(const char* filepath);
+    void init(const char* _filepath);
     void destruct();
     void draw(glm::vec3 cam_pos, glm::vec3 cam_dir, const glm::mat4 &viewMatrix, const glm::mat4 &perspectiveMatrix);
 
@@ -171,7 +172,7 @@ private:
     SubMesh loadSubMeshData(const objl::Mesh& mesh);
 };
 
-void Mesh::init(const char* filepath) {
+void Mesh::init(const char* _filepath) {
     //Vertex3D* vertices;
     //void* indices;
     //uint32_t vertCount;
@@ -191,6 +192,7 @@ void Mesh::init(const char* filepath) {
         //loadSubMeshData(mesh, vertices, indices);
         subMeshes.push_back(loadSubMeshData(mesh));
     }
+    filepath = _filepath;
 }
 void Mesh::destruct() {
     for (uint32_t i = 0; i < subMeshes.size(); i++) {
