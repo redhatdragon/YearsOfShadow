@@ -26,6 +26,28 @@ void deserializeInstancedMesh(EntityID entity, void* data, uint32_t size) {
 	uint32_t id = instancedMeshCodex.add(cstr);
 	ecs.emplace(entity, componentID, &id);
 }
+auto* serializeMesh(EntityID entity, uint32_t& outSize) {
+	void* data = nullptr;
+	ComponentID componentID = ecs.registerComponentAsBlittable("mesh", sizeof(void*));
+	HAL::mesh_handle_t meshHandle = *(HAL::mesh_handle_t*)ecs.getEntityComponent(entity, componentID);
+	const char* meshPath = HAL::get_mesh_name(meshHandle);
+	size_t strSize = strlen(meshPath);
+	HAL_ALLOC_RAWBYTE(data, strSize + 1);
+	memcpy(data, meshPath, strSize);
+	((uint8_t*)data)[strSize] = 0;  //null terminator...
+	outSize = (uint32_t)strSize + 1;
+	return data;
+}
+void deserializeMesh(EntityID entity, void* data, uint32_t size) {
+	const char* cstr = (const char*)data;
+	if (strlen(cstr) != size)
+		HAL_PANIC("deserializeMesh()  input data's strlen != size: {}", size);
+	ComponentID componentID = ecs.registerComponentAsBlittable("mesh", sizeof(void*));
+	if (ecs.entityHasComponent(entity, componentID) == true)
+		return;
+	uint32_t id = instancedMeshCodex.add(cstr);
+	ecs.emplace(entity, componentID, &id);
+}
 
 
 
