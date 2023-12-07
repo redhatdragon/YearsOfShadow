@@ -309,14 +309,14 @@ namespace SystemUtilities {
 		static std::unordered_map<ComponentID, void(*)(EntityID entity, void* data, uint32_t size)> deserializeFunctions;
 
 		static void registerSerializeFunction(ComponentID componentID, void* (*func)(EntityID entity, uint32_t& outSize)) {
-			if (serializeFunctions.find(componentID) == serializeFunctions.end()) {
+			if (serializeFunctions.find(componentID) != serializeFunctions.end()) {
 				HAL_WARN("registerSerializeFunction()'s input func already used, ignoring...\n");
 				return;
 			}
 			serializeFunctions[componentID] = func;
 		}
 		static void registerDeSerializeFunction(ComponentID componentID, void(*func)(EntityID entity, void* data, uint32_t size)) {
-			if (deserializeFunctions.find(componentID) == deserializeFunctions.end()) {
+			if (deserializeFunctions.find(componentID) != deserializeFunctions.end()) {
 				HAL_WARN("registerDeSerializeFunction()'s input func already used, ignoring...\n");
 				return;
 			}
