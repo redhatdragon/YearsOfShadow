@@ -84,7 +84,7 @@ static SceneCamera* activeSceneCamera = nullptr;
 static GLFWwindow *window;
 //static std::vector<TexturedQuad> textures;
 constexpr uint32_t max_textures = 512;
-FlatFlaggedBuffer<TexturedQuad, max_textures> textures;
+//FlatFlaggedBuffer<TexturedQuad, max_textures> textures;
 static std::vector<std::unique_ptr<Mesh>> meshes = {};
 static std::vector<std::unique_ptr<InstancedMesh>> instancedMeshes = {};
 
@@ -223,24 +223,22 @@ inline void getAspectRatio(float& w, float& h) {
 
 HAL::texture_handle_t HAL::get_new_texture(const std::string_view fileName)
 {
-    TexturedQuad texture;
-    texture.init(static_cast<std::string>(fileName).c_str(), 0, 0, 0, 0);
-    return static_cast<HAL::texture_handle_t>(textures.insert(texture));
+    TexturedQuad* texture = new TexturedQuad();
+    //HAL_ALLOC_TYPE(texture);  //Doesn't work reliable for some reason...
+    texture->init(static_cast<std::string>(fileName).c_str(), 0, 0, 0, 0);
+    return (HAL::texture_handle_t)(uintptr_t)texture;
 }
 
 void HAL::draw_texture(HAL::texture_handle_t texture, int32_t x, int32_t y, uint32_t w, uint32_t h)
 {
-    HAL_ASSERT(std::to_underlying(texture) < max_textures && textures.getIsValid(std::to_underlying(texture)),
-               "Invalid texture handle.");
-    textures[std::to_underlying(texture)].draw(static_cast<float>(x), static_cast<float>(y), static_cast<float>(w), static_cast<float>(h));
+    TexturedQuad* t = (TexturedQuad*)texture;
+    t->draw();
 }
 
 void HAL::release_texture(texture_handle_t texture)
 {
-    HAL_ASSERT(std::to_underlying(texture) < max_textures && textures.getIsValid(std::to_underlying(texture)),
-               "Invalid texture handle.");
-    // TODO: Implement textures as a free list buffer
-    // KOI: ^ attempting this now with the FlatFlaggedBuffer if am understanding free list buffers?
+    //free((void*)texture);
+    delete (TexturedQuad*)texture;
 }
 
 void HAL::draw_background(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
@@ -248,6 +246,10 @@ void HAL::draw_background(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
     GL_CALL(glClearColor(static_cast<float>(r) / 256.f, static_cast<float>(g) / 256.f, static_cast<float>(b) / 256.f,
                         static_cast<float>(a) / 256.f));
     GL_CALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+}
+
+void HAL::draw_text(const char* str, int x, int y, unsigned int fontWidth) {
+
 }
 
 bool HAL::get_key_state(char k)
@@ -523,14 +525,14 @@ void HAL::set_instanced_mesh_submesh_texture(instanced_mesh_handle_t mesh, uint8
 {
     const auto imesh = reinterpret_cast<InstancedMesh *>(mesh);
 
-    if (mesh == HAL::invalid_instanced_mesh_handle)
+    if (mesh == HAL::invalid_instanced_mesh_handle) {
+        HAL_WARN("HAL::set_instanced_mesh_submesh_texture()'s input mesh is invalid!");
         return;
-
-    if (std::to_underlying(mesh) == std::numeric_limits<std::uintptr_t>::max()) // Assert?
-        return;
+    }
     if (imesh->subMeshes[submeshIndex].textures[0].getPath().empty())
         imesh->subMeshes[submeshIndex].textures[0].destruct();  //TODO: rework this...
-    imesh->subMeshes[submeshIndex].textures[0] = textures[std::to_underlying(texture)].texture;
+    TexturedQuad* t = (TexturedQuad*)texture;
+    imesh->subMeshes[submeshIndex].textures[0] = t->texture;
 }
 
 void HAL::draw_instanced_mesh(HAL::instanced_mesh_handle_t meshID)
