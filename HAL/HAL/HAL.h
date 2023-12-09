@@ -116,16 +116,7 @@ namespace HAL
      */
     texture_handle_t get_new_texture(const std::string_view fileName);
 
-    /**
-     * \brief 
-     * \param texture 
-     * \param x 
-     * \param y 
-     * \param w 
-     * \param h 
-     */
     void draw_texture(texture_handle_t texture, int32_t x, int32_t y, uint32_t w, uint32_t h);
-
 	void release_texture(texture_handle_t texture);
 
 	void draw_background(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
