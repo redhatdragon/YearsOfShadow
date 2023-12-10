@@ -100,7 +100,7 @@ struct SubMesh {
             textures.push_back(Texture());
             std::string texturePath = EE_getDirData();
             texturePath += "Textures/RightArrow.png";
-            textures[0].init(texturePath);    
+            textures[0].init(texturePath);
         }
         
         //uint32_t textureCount = _textures.size();
