@@ -65,7 +65,7 @@ void translateScreen2DToGL(float& x, float& y);
 #include "GL_Utils/IndexBuffer.h"
 #include "GL_Utils/VertexArray.h"
 #include "GL_Utils/Texture.h"
-#include "GL_Utils/TexturedQuad.h"
+#include "GL_Utils/TexturedQuad2.h"
 #include "GL_Utils/Mesh.h"
 #include "GL_Utils/InstancedMesh2.h"
 #include "GL_Utils/SceneCamera.h"
@@ -224,8 +224,7 @@ inline void getAspectRatio(float& w, float& h) {
 HAL::texture_handle_t HAL::get_new_texture(const std::string_view fileName)
 {
     TexturedQuad* texture = new TexturedQuad();
-    //HAL_ALLOC_TYPE(texture);  //Doesn't work reliable for some reason...
-    texture->init(static_cast<std::string>(fileName).c_str(), 0, 0, 0, 0);
+    texture->init(static_cast<std::string>(fileName).c_str(), 0, 0, 20, 20);
     return (HAL::texture_handle_t)(uintptr_t)texture;
 }
 
@@ -771,10 +770,10 @@ int main()
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;     // Enable Multi-Viewport / Platform Windows
     // io.ConfigViewportsNoAutoMerge = true;
     // io.ConfigViewportsNoTaskBarIcon = true;
-
+    
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
-
+    
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330");
 
@@ -838,7 +837,7 @@ int main()
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
+        
         if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
         {
             GLFWwindow *backup_current_context = glfwGetCurrentContext();
