@@ -4,6 +4,7 @@
 #include <optick.h>
 #include <Windows.h>
 #include "QuickTests.h"
+#include "UX/mainManu.h"
 
 static NTSTATUS(__stdcall *NtDelayExecution)(BOOL Alertable, PLARGE_INTEGER DelayInterval) =
     (NTSTATUS(__stdcall *)(BOOL, PLARGE_INTEGER))GetProcAddress(GetModuleHandle("ntdll.dll"), "NtDelayExecution");
