@@ -1,13 +1,13 @@
 #shader vertex
 #version 330 core
 
-layout(location = 0) in vec4 position;
+layout(location = 0) in vec2 position;
 layout(location = 1) in vec2 texCoord;
 out vec2 v_texCoord;
 //uniform mat4 u_MVP;  //model-view-projection matrix
 
 void main() {
-    gl_Position = position;
+    gl_Position = vec4(position, 0.0, 1.0);
     v_texCoord = texCoord;
 }
 
@@ -26,5 +26,6 @@ void main() {
     vec4 texColor = texture(u_texture, v_texCoord);
     //color = texColor;
     color = u_color*texColor;
-    //color = texColor;
+    color = texColor;
+    color = vec4(1, 1, 1, 1);
 }
