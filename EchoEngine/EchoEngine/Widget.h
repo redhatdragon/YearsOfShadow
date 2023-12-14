@@ -47,6 +47,12 @@ struct Widget {
         widgets.pop_back();
     }
 
+    static void parentTo(Widget* parent, Widget* child) {
+        child->parent = parent;
+        child->layer = parent->layer + 1;
+        parent->children.push_back(child);
+    }
+
     static void update(int _mouseX, int _mouseY, bool _leftMousePressed) {
         updateInputState(_mouseX, _mouseY, _leftMousePressed);
         if (releasedWidget) {
@@ -89,13 +95,13 @@ struct Widget {
             }
         }
     }
-private:
     static bool pointInWidget(Widget* self, int px, int py) {
         if (px > self->x + self->w || px < self->x ||
             py > self->y + self->h || py < self->y)
             return false;
         return true;
     }
+private:
     static void updateInputState(int _mouseX, int _mouseY, bool _leftMousePressed) {
         mouseX = _mouseX;
         mouseY = _mouseY;
