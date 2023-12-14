@@ -27,18 +27,18 @@ struct InstancedSubMesh {
 
         indexCount = _indexCount;
 
-        textures.push_back(Texture());
         std::string texturePath = EE_getDirData(); texturePath += "Textures/RightArrow.png";
+        textures.push_back(Texture());
         textures[0].init(texturePath);
 
-        
+
 
         std::string shaderPath = EE_getDirData(); shaderPath += "ShadersGL/BasicInstancedMesh.shader";
         shader.init(shaderPath);
 
         GL_CALL(glGenBuffers(1, &VBO));
         GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, VBO));
-        GL_CALL(glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex3D)*vertCount, verticies, GL_DYNAMIC_DRAW));
+        GL_CALL(glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex3D) * vertCount, verticies, GL_DYNAMIC_DRAW));
 
 
         GL_CALL(glGenBuffers(1, &IBO));
@@ -56,13 +56,13 @@ struct InstancedSubMesh {
         GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, VBO));
         GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO));
         // Position
-        GL_CALL(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (const void *)0));
+        GL_CALL(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (const void*)0));
         GL_CALL(glEnableVertexAttribArray(0));
         // TexCoord
-        GL_CALL(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (const void *)(3 * sizeof(float))));
+        GL_CALL(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (const void*)(3 * sizeof(float))));
         GL_CALL(glEnableVertexAttribArray(1));
         // Normal
-        GL_CALL(glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (const void *)(5 * sizeof(float))));
+        GL_CALL(glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (const void*)(5 * sizeof(float))));
         GL_CALL(glEnableVertexAttribArray(2));
 
         GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, PBO));
@@ -175,7 +175,6 @@ private:
         void* indices;
         uint32_t indexCount = mesh.Indices.size();
         uint32_t vertexCount = mesh.Vertices.size();
-        InstancedSubMesh retValue;
         if (indexCount <= 256 * 256) {
             indices = malloc(indexCount * sizeof(uint16_t));
             uint16_t* indicesAs16 = (uint16_t*)indices;
@@ -204,7 +203,7 @@ private:
             toVert.normal = glm::normalize(toVert.normal);
             vertices.push_back(toVert);
         }
-
+        InstancedSubMesh retValue;
         retValue.init(vertices.data(), indices, vertexCount, indexCount, {});
         free(indices);
         return retValue;
