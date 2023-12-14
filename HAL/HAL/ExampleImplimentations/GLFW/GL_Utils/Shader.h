@@ -30,6 +30,7 @@ private:
 
 //Public
 void Shader::init(const std::string& fileName) {
+    uniformLocationCache = {};
     id = createShaderProgramFromFile(fileName);
     if (id == -1)
     {

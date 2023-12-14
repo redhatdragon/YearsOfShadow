@@ -29,6 +29,7 @@ public:
 
 void Texture::init(const std::string& _path) {
 	data = nullptr;
+	path = {};
 	path = _path;
 	stbi_set_flip_vertically_on_load(1);
 	data = stbi_load(_path.c_str(), &w, &h, &bpp, 4);
