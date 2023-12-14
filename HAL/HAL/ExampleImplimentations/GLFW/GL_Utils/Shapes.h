@@ -13,7 +13,7 @@ struct Vertex2D {
             return false;
         return true;
     }
-    void log() {
+    void log() const {
         HAL_LOG("Vertex2D: x, y, u, v;\n  {}, {}, {}, {}\n", x, y, u, v);
     }
 
