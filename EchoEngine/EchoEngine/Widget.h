@@ -62,7 +62,8 @@ struct Widget {
         if (pressedWidget) {
             if (leftMousePressed == false || Widget::pointInWidget(pressedWidget, _mouseX, _mouseY) == false) {
                 releasedWidget = pressedWidget;
-                pressedWidget->onReleased(pressedWidget);
+                if(pressedWidget->onReleased)
+                    pressedWidget->onReleased(pressedWidget);
                 releasedWidget->state = RELEASED;
                 pressedWidget = nullptr;
             }
