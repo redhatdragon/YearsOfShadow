@@ -31,13 +31,13 @@ void VertexArray::addBuffer(const VertexBuffer& vb, const VertexBufferLayout& la
 	uint32_t offset = 0;
 	for (uint32_t i = 0; i < elements.size(); i++) {
 		const auto& element = elements[i];
-        GL_CALL(glEnableVertexAttribArray(i+layoutCount));
-        GL_CALL(glVertexAttribPointer(i+layoutCount, element.count, element.type, element.normalized, layout.getStride(), (const void*)offset));
+        GL_CALL(glEnableVertexAttribArray(i));
+        GL_CALL(glVertexAttribPointer(i, element.count, element.type, element.normalized, layout.getStride(), (const void*)offset));
 		offset += element.count * element.getSize();
 		if (element.isForInstance)
-            GL_CALL(glVertexAttribDivisor(i+layoutCount, 1));  //ever 'instance' (not vertex) gets this attribute
+            GL_CALL(glVertexAttribDivisor(i, 1));  //ever 'instance' (not vertex) gets this attribute
 	}
-	layoutCount += elements.size();
+	//layoutCount += elements.size();
 }
 void VertexArray::bind() const {
 	GL_CALL(glBindVertexArray(id));
