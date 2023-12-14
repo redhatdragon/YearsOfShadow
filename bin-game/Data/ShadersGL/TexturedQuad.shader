@@ -27,5 +27,5 @@ void main() {
     //color = texColor;
     color = u_color*texColor;
     color = texColor;
-    color = vec4(1, 1, 1, 1);
+    //color = vec4(1, 1, 1, 1);
 }
