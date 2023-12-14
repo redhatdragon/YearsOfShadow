@@ -13,6 +13,9 @@ struct Vertex2D {
             return false;
         return true;
     }
+    void log() {
+        HAL_LOG("Vertex2D: x, y, u, v;\n  {}, {}, {}, {}\n", x, y, u, v);
+    }
 
     struct HashFunction {
         size_t operator()(const Vertex2D& pos) const {
