@@ -17,6 +17,7 @@ void drawTextButton(Widget* self) {
 	if (self->state == Widget::PRESSED) {
 		HAL::draw_texture(data->textureOnDown, x, y, w, h);
 		HAL::draw_text(data->text, x+2, y+2, data->fontSize);
+		//throw;
 		return;
 	}
 	auto pos = HAL::get_mouse_canvas_pos();
@@ -39,7 +40,7 @@ Widget* makeTextButton(const char* str, int x, int y,
 	HAL::texture_handle_t textureOnDraw = HAL::get_new_texture(_textureOnDraw);
 	HAL::texture_handle_t textureOnDown = HAL::get_new_texture(_textureOnDown);
 	HAL::texture_handle_t textureOnHover = HAL::get_new_texture(_textureOnHover);
-	int w = fontSize * (int)strlen(str) + 4, h = (int)strlen(str) + 4;
+	int w = fontSize * (int)strlen(str) + 4, h = fontSize + 4;
 	Widget* textButton = Widget::createNew(x, y, w, h);
 	textButton->onDisplay = drawTextButton;
 	textButton->cleanUpData = cleanupTextButton;
@@ -57,18 +58,19 @@ Widget* makeTextButton(const char* str, int x, int y,
 
 
 Widget* wMainMenu;
+Widget* wMainButton;
 void initMainMenu() {
 	wMainMenu = Widget::createNew(0, 0, 0, 0);
 	const char* buttonDrawPath = "./Data/Textures/grass1.png";
 	const char* buttonDownPath = "./Data/Textures/Grass1_n.png";
 	const char* buttonHoverPath = "./Data/Textures/grass1.png";
-	Widget* playButton = makeTextButton("Play", 20, 20, buttonDrawPath, buttonDownPath, buttonHoverPath, 8);
+	Widget* playButton = makeTextButton("Play", 200, 200, buttonDrawPath, buttonDownPath, buttonHoverPath, 64);
 	Widget::parentTo(wMainMenu, playButton);
 }
 
 void tickMainMenu() {
 	auto mPos = HAL::get_mouse_canvas_pos();
 	bool leftClicked = HAL::get_mouse_left_state();
-	wMainMenu->update(mPos.x, mPos.y, leftClicked);
-	wMainMenu->display();
+	Widget::update(mPos.x, mPos.y, leftClicked);
+	Widget::display();
 }
