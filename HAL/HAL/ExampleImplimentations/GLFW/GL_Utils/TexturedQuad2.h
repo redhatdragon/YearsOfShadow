@@ -49,6 +49,11 @@ struct TexturedQuad {
         //{1+1, -1+1, 1.0f, 0.0f}, //bottom right
         //{-1+1, -1+1, 0.0f, 0.0f},//bottom left
         //{-1+1,  1+1, 0.0f, 1.0f} //top left
+
+        //{1, 1, 1.0f, 1.0f},  //top right
+        //{1, 0, 1.0f, 0.0f}, //bottom right
+        //{0, 0, 0.0f, 0.0f},//bottom left
+        //{0, 1, 0.0f, 1.0f} //top left
     };
     //static constexpr uint8_t indices[] = {
     //    0, 1, 2,
@@ -168,16 +173,6 @@ void TexturedQuad::draw(float x, float y, float w, float h) {
     draw();
 }
 void TexturedQuad::setPosAndSiz(float _x, float _y, float _w, float _h) {
-
-    //Vertex2D newVerts[4];
-    //for (uint32_t i = 0; i < 4; i++) {
-    //    newVerts[i].u = verts[i].u; newVerts[i].v = verts[i].v;
-    //    newVerts[i].x = verts[i].x * w; newVerts[i].y = verts[i].y * h;
-    //    newVerts[i].x += verts[i].x + w / 2; newVerts[i].y += verts[i].y + h / 2;
-    //    newVerts[i].x += x; newVerts[i].y += y;
-    //    translateScreen2DToGL(newVerts[i].x, newVerts[i].y);
-    //}
-
     float x = _x, y = _y, w = _w, h = _h;
     auto cSize = HAL::get_canvas_size();
     w = w / cSize.x; h = h / cSize.y;
@@ -185,15 +180,18 @@ void TexturedQuad::setPosAndSiz(float _x, float _y, float _w, float _h) {
     Vertex2D newVerts[4];
     for (uint32_t i = 0; i < 4; i++) {
         newVerts[i] = verts[i];
-        newVerts[i].x *= w; newVerts[i].x += x;
-        newVerts[i].y *= -h; newVerts[i].y -= y;
-        {
-            newVerts[i].x += w;
-            newVerts[i].y -= h;
-        }
-        //newVerts[i].y = -newVerts[i].y;
-        newVerts[i].x -= 1; newVerts[i].y += 1;
-        //verts[i].log();
+        newVerts[i].x = verts[i].x * w;
+        newVerts[i].y = verts[i].y * h;
+    }
+    float glX = _x, glY = _y;
+    glX = x - 0.5f; glY = y - 0.5f;
+    float offX = glX * 2;
+    float offY = glY * 2;
+    offX += w;
+    offY += h;
+    for (uint32_t i = 0; i < 4; i++) {
+        newVerts[i].x += offX;
+        newVerts[i].y -= offY;
     }
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
