@@ -53,15 +53,15 @@ void Texture::init(const std::string& _path) {
 			_path, stbi_failure_reason());
 		return;
 	}
-	stbi_image_free(data);
+	//stbi_image_free(data);
 }
 void Texture::init(const uint8_t* _data, uint8_t _bpp, uint32_t _w, uint32_t _h) {
 	data = nullptr;
 	path = {};
 	path = "";
 	bpp = _bpp, w = _w, h = _h;
-	HAL_ALLOC_RAWBYTE(data, bpp * w * h);
-	memcpy(data, _data, bpp * w * h);
+	HAL_ALLOC_RAWBYTE(data, (bpp) * w * h);
+	memcpy(data, _data, (bpp) * w * h);
 	GL_CALL(glGenTextures(1, &id));
 	GL_CALL(glBindTexture(GL_TEXTURE_2D, id));
 	GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
@@ -78,6 +78,7 @@ void Texture::init(const uint8_t* _data, uint8_t _bpp, uint32_t _w, uint32_t _h)
 }
 void Texture::destruct() {
 	glDeleteTextures(1, &id);
+	stbi_image_free(data);
 }
 inline void Texture::bind(uint32_t slot) {
 	GL_CALL(glActiveTexture(GL_TEXTURE0 + slot));
