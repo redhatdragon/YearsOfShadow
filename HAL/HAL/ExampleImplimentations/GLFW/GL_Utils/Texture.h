@@ -15,6 +15,7 @@ public:
 	inline uint16_t getHeight() const { return h; }
 	inline uint8_t getBPP() const { return bpp; }
     inline std::string getPath() const { return path; }
+	inline const uint8_t* getPixels() const { return data; }
 
 	void swapIfUnique(const std::string& _path) {
 		if (path == _path)
