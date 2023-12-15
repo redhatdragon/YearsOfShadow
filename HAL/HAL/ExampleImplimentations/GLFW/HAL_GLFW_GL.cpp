@@ -66,6 +66,7 @@ void translateScreen2DToGL(float& x, float& y);
 #include "GL_Utils/VertexArray.h"
 #include "GL_Utils/Texture.h"
 #include "GL_Utils/TexturedQuad2.h"
+#include "GL_Utils/TextQuad.h"
 #include "GL_Utils/Mesh.h"
 #include "GL_Utils/InstancedMesh2.h"
 #include "GL_Utils/SceneCamera.h"
@@ -231,7 +232,10 @@ HAL::texture_handle_t HAL::get_new_texture(const std::string_view fileName)
 void HAL::draw_texture(HAL::texture_handle_t texture, int32_t x, int32_t y, uint32_t w, uint32_t h)
 {
     TexturedQuad* t = (TexturedQuad*)texture;
+    GL_CALL(glDisable(GL_DEPTH_TEST));
     t->draw(x, y, w, h);
+    GL_CALL(glEnable(GL_DEPTH_TEST));
+    GL_CALL(glDepthFunc(GL_LESS));
 }
 
 void HAL::release_texture(texture_handle_t texture)
@@ -248,7 +252,25 @@ void HAL::draw_background(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 }
 
 void HAL::draw_text(const char* str, int x, int y, unsigned int fontWidth) {
-
+    static Texture* fontAtlas = nullptr;
+    if (fontAtlas == nullptr) {
+        fontAtlas = new Texture();
+        fontAtlas->init("./Data/Font/MenuFont/MenuFont.png");
+        fontAtlas->unbind();
+    }
+    //TexturedQuad tq;
+    //tq.init("./Data/Font/MenuFont/MenuFont.png", x, y, 1024, 16);
+    //tq.draw(x, y, 1024, 16);
+    //tq.destruct();
+    //return;
+    TextQuad tQuad;
+    uint32_t strLen = (uint32_t)strlen(str);
+    tQuad.init(fontAtlas, str, x, y, strLen * fontWidth, fontWidth);
+    GL_CALL(glDisable(GL_DEPTH_TEST));
+    tQuad.draw(x, y, strLen * fontWidth, fontWidth);
+    tQuad.destruct();
+    GL_CALL(glEnable(GL_DEPTH_TEST));
+    GL_CALL(glDepthFunc(GL_LESS));
 }
 
 bool HAL::get_key_state(char k)
@@ -748,7 +770,7 @@ int main()
 
     GL_CALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
     GL_CALL(glEnable(GL_BLEND));
-    GL_CALL(glEnable(GL_DEPTH_TEST));
+    GL_CALL(glEnable(GL_DEPTH_TEST));  //causes out of order rendering with text(ure)Quads?
     GL_CALL(glDepthFunc(GL_LESS));  // Accept fragment if it closer to the camera than the former one
     //glFrontFace(GL_CW);
 
