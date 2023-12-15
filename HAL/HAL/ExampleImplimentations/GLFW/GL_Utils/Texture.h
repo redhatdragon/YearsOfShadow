@@ -8,6 +8,7 @@ class Texture {
 	int32_t w, h, bpp;
 public:
 	void init(const std::string& _path);
+	void init(const uint8_t* _data, uint8_t _bpp, uint32_t _w, uint32_t _h);
 	void destruct();
 	inline void bind(uint32_t slot = 0);
 	inline void unbind();
@@ -53,6 +54,27 @@ void Texture::init(const std::string& _path) {
 		return;
 	}
 	stbi_image_free(data);
+}
+void Texture::init(const uint8_t* _data, uint8_t _bpp, uint32_t _w, uint32_t _h) {
+	data = nullptr;
+	path = {};
+	path = "";
+	bpp = _bpp, w = _w, h = _h;
+	HAL_ALLOC_RAWBYTE(data, bpp * w * h);
+	memcpy(data, _data, bpp * w * h);
+	GL_CALL(glGenTextures(1, &id));
+	GL_CALL(glBindTexture(GL_TEXTURE_2D, id));
+	GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
+	GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
+	GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
+	GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
+
+	GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR));
+	GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
+
+	GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data));
+	GL_CALL(glGenerateMipmap(GL_TEXTURE_2D));
+	GL_CALL(glBindTexture(GL_TEXTURE_2D, 0));
 }
 void Texture::destruct() {
 	glDeleteTextures(1, &id);
