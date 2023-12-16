@@ -57,15 +57,14 @@ Widget* makeTextButton(const char* str, int x, int y,
 
 
 
-Widget* wMainMenu;
-Widget* wMainButton;
+//Widget* wMainMenu;
 void initMainMenu() {
-	wMainMenu = Widget::createNew(0, 0, 0, 0);
+	//wMainMenu = Widget::createNew(0, 0, 0, 0);
 	const char* buttonDrawPath = "./Data/Textures/grass1.png";
 	const char* buttonDownPath = "./Data/Textures/Grass1_n.png";
-	const char* buttonHoverPath = "./Data/Textures/grass1.png";
+	const char* buttonHoverPath = "./Data/Textures/Bullet.png";
 	Widget* playButton = makeTextButton("Play", 200, 200, buttonDrawPath, buttonDownPath, buttonHoverPath, 64);
-	Widget::parentTo(wMainMenu, playButton);
+	//Widget::parentTo(wMainMenu, playButton);
 }
 
 void tickMainMenu() {
