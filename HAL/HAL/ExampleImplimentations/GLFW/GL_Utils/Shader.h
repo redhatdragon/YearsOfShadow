@@ -9,7 +9,7 @@
 
 class Shader {
     uint32_t id;
-    std::unordered_map<std::string, int32_t> uniformLocationCache;
+    std::unordered_map<std::string, int32_t>* uniformLocationCache;
 public:
     void init(const std::string& fileName);
     void destruct();
@@ -30,7 +30,10 @@ private:
 
 //Public
 void Shader::init(const std::string& fileName) {
-    uniformLocationCache = {};
+    memset(this, 0, sizeof(*this));
+    std::unordered_map<std::string, int32_t>* tmap = new std::unordered_map<std::string, int32_t>();
+    uniformLocationCache = tmap;
+    //memcpy(&uniformLocationCache, &tmap, sizeof(tmap));
     id = createShaderProgramFromFile(fileName);
     if (id == -1)
     {
@@ -63,14 +66,14 @@ inline void Shader::setUniformMat4f(const std::string& name, const glm::mat4& ma
 
 //Private
 inline int32_t Shader::getUniformLocation(const std::string& name) {
-    if (uniformLocationCache.find(name) != uniformLocationCache.end())
-        return uniformLocationCache[name];
+    if ((*uniformLocationCache).find(name) != (*uniformLocationCache).end())
+        return (*uniformLocationCache)[name];
     GL_CALL(auto retValue = glGetUniformLocation(id, name.c_str()));
     if (retValue == -1)
     {
         HAL_WARN("Warning: uniform '{}' doesn't exist.\n", name);
     }
-    uniformLocationCache[name] = retValue;
+    (*uniformLocationCache)[name] = retValue;
     return retValue;
 }
 int Shader::compileShader(uint32_t type, const std::string& source) {
