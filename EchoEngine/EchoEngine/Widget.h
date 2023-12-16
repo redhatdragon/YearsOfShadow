@@ -48,6 +48,14 @@ struct Widget {
     }
 
     static void parentTo(Widget* parent, Widget* child) {
+        if (parent == nullptr) {
+            printf("Widget::parentTo()'s parent arg is nullptr!\n");
+            return;
+        }
+        if (child == nullptr) {
+            printf("Widget::parentTo()'s child arg is nullptr!\n");
+            return;
+        }
         child->parent = parent;
         child->layer = parent->layer + 1;
         parent->children.push_back(child);
