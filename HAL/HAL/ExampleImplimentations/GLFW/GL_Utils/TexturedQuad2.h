@@ -196,9 +196,9 @@ void TexturedQuad::setPosAndSiz(float _x, float _y, float _w, float _h) {
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(newVerts), newVerts, GL_STATIC_DRAW);
-    //
-    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     //vertexBuffer.buffer(verts, sizeof(verts));
 }

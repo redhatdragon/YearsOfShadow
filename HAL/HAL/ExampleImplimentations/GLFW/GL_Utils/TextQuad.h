@@ -104,7 +104,9 @@ void TextQuad::setPosAndSiz(float _x, float _y, float _w, float _h) {
     }
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(newVerts), newVerts, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(newVerts), newVerts, GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_DYNAMIC_DRAW);
 }
 void TextQuad::initTexture(Texture* fontAtlas, const char* str) {
     uint8_t bytesPerPixel = fontAtlas->getBPP();
