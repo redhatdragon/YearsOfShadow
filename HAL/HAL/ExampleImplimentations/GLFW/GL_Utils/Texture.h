@@ -30,11 +30,12 @@ public:
 
 
 void Texture::init(const std::string& _path) {
+	memset(this, 0, sizeof(*this));
 	data = nullptr;
 	path = {};
 	path = _path;
 	stbi_set_flip_vertically_on_load(1);
-	data = stbi_load(_path.c_str(), &w, &h, &bpp, 4);
+	data = stbi_load(path.c_str(), &w, &h, &bpp, 4);
 	GL_CALL(glGenTextures(1, &id));
 	GL_CALL(glBindTexture(GL_TEXTURE_2D, id));
 	GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
@@ -50,7 +51,7 @@ void Texture::init(const std::string& _path) {
 	GL_CALL(glBindTexture(GL_TEXTURE_2D, 0));
 	if (!data) {
 		HAL_ERROR("Error: Texture::init(_path) texture from path {} failed to load! {}\n",
-			_path, stbi_failure_reason());
+			path, stbi_failure_reason());
 		return;
 	}
 	//stbi_image_free(data);
