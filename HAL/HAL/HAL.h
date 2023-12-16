@@ -66,7 +66,7 @@ namespace HAL
 	}
 #define HAL_ALLOC_TYPE(data) \
 	{ \
-		data = (decltype(data))malloc(sizeof(data)); \
+		data = (decltype(data))malloc(sizeof(*data)); \
 		if(data == nullptr) \
 			HAL_PANIC("Failed to allocate data {} line: {}!", #data, __FILE__, __LINE__) \
 	}
