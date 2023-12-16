@@ -73,6 +73,7 @@ struct SubMesh {
 
     void init(const Vertex3D* verticies, const void* indices, uint32_t vertCount, uint32_t indexCount,
             const std::vector<Texture>& _textures) {
+        memset(this, 0, sizeof(*this));
         vertexBuffer.init(verticies, vertCount * sizeof(Vertex3D));
         if(vertCount <= 256*256)
             indexBuffer.init(indices, indexCount, 2);
@@ -178,8 +179,15 @@ void Mesh::init(const char* _filepath) {
     //uint32_t vertCount;
     //uint32_t indexCount;
 
+    memset(this, 0, sizeof(*this));
+    subMeshes = {};
+    pos = { .5, .5, 0 };
+    rot = { 1, 1, 1 };
+    siz = { 1, 1, 1 };
+    filepath = _filepath;
+
     objl::Loader loader;
-    loader.LoadFile(filepath);
+    loader.LoadFile(_filepath);
     auto& meshes = loader.LoadedMeshes;
     loader.LoadedIndices;
     //meshes[0].MeshMaterial;
