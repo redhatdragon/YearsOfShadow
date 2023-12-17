@@ -782,22 +782,22 @@ int main()
     _network_init();
 
 
-    //IMGUI_CHECKVERSION();
-    //ImGui::CreateContext();
-    //ImGuiIO &io = ImGui::GetIO();
-    //(void)io;
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;   // Enable Keyboard Controls
-    //// io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;    // Enable Gamepad Controls
-    //io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;       // Enable Docking
-    //io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;     // Enable Multi-Viewport / Platform Windows
-    //// io.ConfigViewportsNoAutoMerge = true;
-    //// io.ConfigViewportsNoTaskBarIcon = true;
-    //
-    //// Setup Dear ImGui style
-    //ImGui::StyleColorsDark();
-    //
-    //ImGui_ImplGlfw_InitForOpenGL(window, true);
-    //ImGui_ImplOpenGL3_Init("#version 330");
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO &io = ImGui::GetIO();
+    (void)io;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;   // Enable Keyboard Controls
+    // io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;    // Enable Gamepad Controls
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;       // Enable Docking
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;     // Enable Multi-Viewport / Platform Windows
+    // io.ConfigViewportsNoAutoMerge = true;
+    // io.ConfigViewportsNoTaskBarIcon = true;
+    
+    // Setup Dear ImGui style
+    ImGui::StyleColorsDark();
+    
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init("#version 330");
 
     HAL::app_start();
     // cs_spawn_mix_thread(cs_ctx);
@@ -816,15 +816,15 @@ int main()
         LARGE_INTEGER time_start;
         QueryPerformanceCounter(&time_start);
         glfwPollEvents();
-        //ImGui_ImplOpenGL3_NewFrame();
-        //ImGui_ImplGlfw_NewFrame();
-        //ImGui::NewFrame();
-        //
-        ////if (show_demo)
-        ////    ImGui::ShowDemoWindow(&show_demo);
-        //
-        //if (performance_window)
-        //    show_performance_overlay(&performance_window);
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+        
+        //if (show_demo)
+        //    ImGui::ShowDemoWindow(&show_demo);
+        
+        if (performance_window)
+            show_performance_overlay(&performance_window);
 
         telemetry_counters.FPSLimit = 60;
         telemetry_counters.lastFPS = telemetry_counters.FPS;
@@ -857,16 +857,16 @@ int main()
 
         HAL::app_post_frame();
 
-        //ImGui::Render();
-        //ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-        //
-        //if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-        //{
-        //    GLFWwindow *backup_current_context = glfwGetCurrentContext();
-        //    ImGui::UpdatePlatformWindows();
-        //    ImGui::RenderPlatformWindowsDefault();
-        //    glfwMakeContextCurrent(backup_current_context);
-        //}
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+        {
+            GLFWwindow *backup_current_context = glfwGetCurrentContext();
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
+            glfwMakeContextCurrent(backup_current_context);
+        }
 
         glfwSwapBuffers(window);
 
@@ -910,9 +910,9 @@ int main()
     log_to_file_context.flush();
 
 
-    //ImGui_ImplOpenGL3_Shutdown();
-    //ImGui_ImplGlfw_Shutdown();
-    //ImGui::DestroyContext();
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 
     glfwDestroyWindow(window);
     glfwTerminate();
