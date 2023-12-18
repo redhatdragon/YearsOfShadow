@@ -10,6 +10,7 @@
 class Shader {
     uint32_t id;
     std::unordered_map<std::string, int32_t>* uniformLocationCache;
+    static std::unordered_map<std::string, uint32_t>* shaderProgramIDs;
 public:
     void init(const std::string& fileName);
     void destruct();
@@ -25,23 +26,36 @@ private:
     static int createShaderProgram(const std::string& vertexShader, const std::string& fragmentShader);
     static int createShaderProgramFromFile(const std::string& filepath);
 };
+std::unordered_map<std::string, uint32_t>* Shader::shaderProgramIDs = nullptr;
 
 
 
 //Public
 void Shader::init(const std::string& fileName) {
     memset(this, 0, sizeof(*this));
-    std::unordered_map<std::string, int32_t>* tmap = new std::unordered_map<std::string, int32_t>();
-    uniformLocationCache = tmap;
+    std::unordered_map<std::string, int32_t>* newMap = new std::unordered_map<std::string, int32_t>();
+    uniformLocationCache = newMap;
+    static bool firstInit = true;
+    if (firstInit) {
+        std::unordered_map<std::string, uint32_t>* newMap = new std::unordered_map<std::string, uint32_t>();
+        shaderProgramIDs = newMap;
+        firstInit = false;
+    }
     //memcpy(&uniformLocationCache, &tmap, sizeof(tmap));
-    id = createShaderProgramFromFile(fileName);
+    if (shaderProgramIDs->find(fileName) == shaderProgramIDs->end()) {
+        id = createShaderProgramFromFile(fileName);
+        (*shaderProgramIDs)[fileName] = id;
+    }
+    else
+        id = (*shaderProgramIDs)[fileName];
     if (id == -1)
     {
         HAL_LOG("Error: shader not loaded from path '{}'\n", fileName);
     }
 }
 void Shader::destruct() {
-    GL_CALL(glDeleteProgram(id));
+    //TODO: figure out of we scraping this or what...
+    //GL_CALL(glDeleteProgram(id));
 }
 inline void Shader::bind() {
     GL_CALL(glUseProgram(id));
