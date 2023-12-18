@@ -10,25 +10,6 @@ struct TextButtonData {
 	char* text;
 	uint32_t fontSize;
 };
-std::vector<std::string> splitString(const char* input, char delim) {
-	uint32_t i = 0;
-	std::vector<std::string> retValue = {};
-	std::string currentString = "";
-	while (true) {
-		if (input[i] == 0) {
-			retValue.push_back(currentString);
-			return retValue;
-		}
-		if (input[i] == '\n') {
-			retValue.push_back(currentString);
-			currentString = "";
-			i++;
-			continue;
-		}
-		currentString += input[i];
-		i++;
-	}
-}
 void drawTextButton(Widget* self) {
 	int x = self->x, y = self->y, w = self->w, h = self->h;
 	TextButtonData* data = (TextButtonData*)self->data;
@@ -39,30 +20,21 @@ void drawTextButton(Widget* self) {
 			endlineCount++;
 	//h += data->fontSize * endlineCount;
 	//TODO: this will have a bug where clicking before hoving would trigger this still...
-	auto strings = splitString(data->text, '\n');
+	auto strings = HAL::splitString(data->text, '\n');
 	if (self->state == Widget::PRESSED) {
 		HAL::draw_texture(data->textureOnDown, x, y, w, h);
-		HAL::draw_text(strings[0].c_str(), x+2, y+2, data->fontSize);
-		for (uint32_t i = 0; i < endlineCount; i++) {
-			HAL::draw_text(strings[i+1].c_str(), x+2, y+2+1 + data->fontSize*(i+1), data->fontSize);
-		}
+		HAL::draw_text_multi_line(data->text, x+2, y+2, data->fontSize, 0);
 		//throw;
 		return;
 	}
 	auto pos = HAL::get_mouse_canvas_pos();
 	if (Widget::pointInWidget(self, pos.x, pos.y)) {
 		HAL::draw_texture(data->textureOnHover, x, y, w, h);
-		HAL::draw_text(strings[0].c_str(), x+2, y+2, data->fontSize);
-		for (uint32_t i = 0; i < endlineCount; i++) {
-			HAL::draw_text(strings[i + 1].c_str(), x + 2, y + 2 + 1 + data->fontSize * (i + 1), data->fontSize);
-		}
+		HAL::draw_text_multi_line(data->text, x + 2, y + 2, data->fontSize, 0);
 		return;
 	}
 	HAL::draw_texture(data->textureOnDraw, x, y, w, h);
-	HAL::draw_text(strings[0].c_str(), x+2, y+2, data->fontSize);
-	for (uint32_t i = 0; i < endlineCount; i++) {
-		HAL::draw_text(strings[i + 1].c_str(), x + 2, y + 2 + 1 + data->fontSize * (i + 1), data->fontSize);
-	}
+	HAL::draw_text_multi_line(data->text, x + 2, y + 2, data->fontSize, 0);
 }
 void cleanupTextButton(Widget* self) {
 	TextButtonData* data = (TextButtonData*)self->data;
