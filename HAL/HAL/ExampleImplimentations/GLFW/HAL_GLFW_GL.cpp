@@ -272,6 +272,41 @@ void HAL::draw_text(const char* str, int x, int y, unsigned int fontWidth) {
     GL_CALL(glEnable(GL_DEPTH_TEST));
     GL_CALL(glDepthFunc(GL_LESS));
 }
+std::vector<std::string> HAL::splitString(const char* input, char delim) {
+	uint32_t i = 0;
+	std::vector<std::string> retValue = {};
+	std::string currentString = "";
+	while (true) {
+		if (input[i] == 0) {
+            if(currentString.size())
+			    retValue.push_back(currentString);
+			return retValue;
+		}
+		if (input[i] == '\n') {
+            if(currentString.size())
+			    retValue.push_back(currentString);
+			currentString = "";
+			i++;
+			continue;
+		}
+		currentString += input[i];
+		i++;
+	}
+}
+void HAL::draw_text_multi_line(const char* str, int x, int y, unsigned int fontWidth, unsigned int spacer) {
+    uint32_t strLen = (uint32_t)strlen(str);
+    uint32_t endlineCount = 0;
+    for (uint32_t i = 0; i < strLen; i++)
+        if (str[i] == '\n')
+            endlineCount++;
+    auto strings = splitString(str, '\n');  //TODO: Doesn't yet account for empty lines...
+
+    HAL::draw_text(strings[0].c_str(), x+2, y+2, fontWidth);
+    for (uint32_t i = 1; i < strings.size(); i++) {
+        HAL::draw_text(strings[i].c_str(), x+2, y+2+1 + fontWidth*(i), fontWidth);
+    }
+    return;
+}
 
 bool HAL::get_key_state(char k)
 {
@@ -717,6 +752,20 @@ static void show_performance_overlay(bool *p_open)
     ImGui::End();
 }
 
+void customShowPerfOverlay() {
+    std::string str = "Performance Statistics\n";
+    str += "FPS LIMIT: "; str += std::to_string(telemetry_counters.FPSLimit) + '\n';
+    str += "App Loop Time: "; str += std::to_string(telemetry_counters.appLoopTimeMS) + " [MS]\n";
+    str += "Draw Time: "; str += std::to_string(telemetry_counters.drawTimeMS) + " [MS]\n";
+    str += "FPS: "; str += std::to_string(telemetry_counters.FPS) + '\n';
+    str += "\nAverages\n";
+    str += "App Loop Time: "; str += std::to_string(telemetry_counters.appLoopTimeMSAvg) + "[MS]\n";
+    str += "Draw Time: "; str += std::to_string(telemetry_counters.drawTimeMSAvg) + " [MS]\n";
+    str += "FPS: "; str += std::to_string(telemetry_counters.FPSAvg);
+
+    HAL::draw_text_multi_line(str.c_str(), 20, 20, 16, 0);
+}
+
 int main()
 {
     CoInitialize(nullptr);
@@ -782,22 +831,22 @@ int main()
     _network_init();
 
 
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO &io = ImGui::GetIO();
-    (void)io;
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;   // Enable Keyboard Controls
-    // io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;    // Enable Gamepad Controls
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;       // Enable Docking
-    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;     // Enable Multi-Viewport / Platform Windows
-    // io.ConfigViewportsNoAutoMerge = true;
-    // io.ConfigViewportsNoTaskBarIcon = true;
+    //IMGUI_CHECKVERSION();
+    //ImGui::CreateContext();
+    //ImGuiIO &io = ImGui::GetIO();
+    //(void)io;
+    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;   // Enable Keyboard Controls
+    //// io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;    // Enable Gamepad Controls
+    //io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;       // Enable Docking
+    //io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;     // Enable Multi-Viewport / Platform Windows
+    //// io.ConfigViewportsNoAutoMerge = true;
+    //// io.ConfigViewportsNoTaskBarIcon = true;
     
     // Setup Dear ImGui style
-    ImGui::StyleColorsDark();
-    
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
-    ImGui_ImplOpenGL3_Init("#version 330");
+    //ImGui::StyleColorsDark();
+    //
+    //ImGui_ImplGlfw_InitForOpenGL(window, true);
+    //ImGui_ImplOpenGL3_Init("#version 330");
 
     HAL::app_start();
     // cs_spawn_mix_thread(cs_ctx);
@@ -816,15 +865,15 @@ int main()
         LARGE_INTEGER time_start;
         QueryPerformanceCounter(&time_start);
         glfwPollEvents();
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
+        //ImGui_ImplOpenGL3_NewFrame();
+        //ImGui_ImplGlfw_NewFrame();
+        //ImGui::NewFrame();
         
         //if (show_demo)
         //    ImGui::ShowDemoWindow(&show_demo);
         
-        if (performance_window)
-            show_performance_overlay(&performance_window);
+        //if (performance_window)
+        //    show_performance_overlay(&performance_window);
 
         telemetry_counters.FPSLimit = 60;
         telemetry_counters.lastFPS = telemetry_counters.FPS;
@@ -839,6 +888,7 @@ int main()
             0.01f, 15000.0f);
 
         HAL::app_loop();
+        customShowPerfOverlay();
 
         LARGE_INTEGER app_end;
         QueryPerformanceCounter(&app_end);
@@ -857,16 +907,16 @@ int main()
 
         HAL::app_post_frame();
 
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-        
-        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-        {
-            GLFWwindow *backup_current_context = glfwGetCurrentContext();
-            ImGui::UpdatePlatformWindows();
-            ImGui::RenderPlatformWindowsDefault();
-            glfwMakeContextCurrent(backup_current_context);
-        }
+        //ImGui::Render();
+        //ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        //
+        //if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+        //{
+        //    GLFWwindow *backup_current_context = glfwGetCurrentContext();
+        //    ImGui::UpdatePlatformWindows();
+        //    ImGui::RenderPlatformWindowsDefault();
+        //    glfwMakeContextCurrent(backup_current_context);
+        //}
 
         glfwSwapBuffers(window);
 
@@ -910,9 +960,9 @@ int main()
     log_to_file_context.flush();
 
 
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
+    //ImGui_ImplOpenGL3_Shutdown();
+    //ImGui_ImplGlfw_Shutdown();
+    //ImGui::DestroyContext();
 
     glfwDestroyWindow(window);
     glfwTerminate();
