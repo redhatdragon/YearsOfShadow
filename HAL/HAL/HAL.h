@@ -109,6 +109,9 @@ namespace HAL
 	static constexpr udp_socket_handle_t invalid_udp_socket_handle =
 		static_cast<udp_socket_handle_t>(std::numeric_limits<std::uintptr_t>::max());
 
+	//Utilities...
+	std::vector<std::string> splitString(const char* input, char delim);
+
     /**
      * \brief Load new texture from the file and return handle to it
      * \param fileName Texture path relative to mounted paths
@@ -122,6 +125,7 @@ namespace HAL
 	void draw_background(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 
 	void draw_text(const char* str, int x, int y, unsigned int fontWidth);
+	void draw_text_multi_line(const char* str, int x, int y, unsigned int fontWidth, unsigned int spacer);
 
 	enum class key_code_t : int32_t
     {
