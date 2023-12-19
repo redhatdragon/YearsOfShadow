@@ -30,6 +30,7 @@ public:
 			serverLogic();
 			spawnTest();
 		#elif GAME_TYPE == GAME_TYPE_CLIENT
+		return;
 			clientLogic();
 		#endif
 	}
@@ -47,7 +48,9 @@ private:
 		entities.reserve(count);
 		for (uint32_t i = 0; i < count; i++) {
 			entities.push_back(ecs.getOwner(replicateEntityComponentID, i));
-		}		
+		}
+		if (count == 0)
+			return;
 		uint32_t size;
 		SerialEntity* seBuff = SerialEntity::constructSerialEntityBuffer(&entities[0], count, size);
 		nm.trySendTo("127.0.0.1", (uint8_t*)seBuff, size);
@@ -63,6 +66,7 @@ private:
 			nm.tryPopNextMsg(buff);
 			if (buff.size() == 0)
 				break;
+			HAL_LOG("HIT {}", buff.size());
 			SerialEntity* se = (SerialEntity*)&buff[0];
 			if (se->isEnd())
 				break;
