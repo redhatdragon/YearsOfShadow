@@ -122,6 +122,7 @@ inline void initSystems() {
 	ecs.registerSystem<SystemExplode>();
 
 	ecs.registerSystem<SystemVoxel>();
+	ecs.registerSystem<SystemNetwork>();
 	ecs.registerSystem<SystemDisplay>();
 }
 
