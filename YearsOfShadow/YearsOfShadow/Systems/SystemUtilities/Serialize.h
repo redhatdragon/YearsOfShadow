@@ -41,7 +41,10 @@ namespace SystemUtilities {
 		Component* getNextComponent(Component* component) {
 			uint8_t* ptr = (uint8_t*)component;
 			ptr += Component::getHeaderSize() + component->size;
-			return (Component*)ptr;
+			Component* nextComponent = (Component*)ptr;
+			if (nextComponent->componentID == -1)
+				return nullptr;
+			return nextComponent;
 		}
 		Component* findComponent(ComponentID componentID) {
 			Component* component = getRootComponent();
@@ -83,7 +86,9 @@ namespace SystemUtilities {
 			}
 			totalSize += Component::getHeaderSize() * idCount;
 			totalSize += sizeof(ComponentID);  //-1 end of obj marker
-			SerialEntity* retValue = (SerialEntity*)malloc(totalSize);
+			//SerialEntity* retValue = (SerialEntity*)malloc(totalSize);
+			SerialEntity* retValue;
+			HAL_ALLOC_RAWBYTE(retValue, totalSize);
 			if (retValue == nullptr)
 				HAL_PANIC("SerialEntity::constructNew() failed to allocate new SerialEntity with size {}\n", totalSize);
 			uint8_t* retValueOffset = (uint8_t*)retValue;
