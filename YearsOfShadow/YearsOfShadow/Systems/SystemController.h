@@ -202,7 +202,7 @@ private:
 			vel += right;
         if (HAL::get_key_state('D'))
 			vel -= right;
-		vel *= "0.1f";
+		vel *= "0.2f";
 		Vec3D<FixedPoint<256 * 256>> originalVel = physics.getVelocity(bodyID);
 		vel.y = originalVel.y;
 		Vec3D<FixedPoint<256 * 256>> siz = physics.getSize(bodyID);
