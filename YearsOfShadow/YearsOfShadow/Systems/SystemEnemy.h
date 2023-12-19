@@ -65,6 +65,21 @@ public:
 		#if GAME_TYPE != GAME_TYPE_CLIENT
 		createTest(generator);
 		#endif
+
+		//u32 padding = 20, border = world_size;
+		//while (true) {
+		//	Vec3D<u32> pos = {};
+		//	pos.x = getRandInt(generator, 0, border - (padding + padding));
+		//	pos.z = getRandInt(generator, 0, border - (padding + padding));
+		//	pos += padding;
+		//	pos.y = 153;
+		//	static std::vector<BodyID> castBuff;
+		//	if (physics.getBodiesInRectRough(pos, { 6, 1, 6 }, castBuff))
+		//		continue;
+		//	createEnemy(pos);
+		//	break;
+		//}
+
 	}
 	virtual void run() {
         OPTICK_THREAD("MainThread");
@@ -72,7 +87,7 @@ public:
 		u32 enemyCount = ecs.getComponentCount(enemyAIComponentID);
 		#ifdef THREADING_ENABLED
 		const auto threadCount = HAL::get_thread_pool_free_thread_count(threadPool);
-		if (threadCount < enemyCount + 10 && threadCount > 1)
+		if (enemyCount / 3 > threadCount && threadCount > 1)
 			runMulti();
 		else
 			runSingle();
@@ -90,6 +105,8 @@ private:
         static std::vector<BodyID> castBuff;
 		std::mt19937& generator = getRandGenerator();
 		u32 enemyCount = ecs.getComponentCount(enemyAIComponentID);
+		if (enemyCount == 0)
+			return;
 		EnemyAI* enemyAIs = (EnemyAI*)ecs.getComponentBuffer(enemyAIComponentID);
 		for (u32 i = 0; i < enemyCount; i++) {
 			//EnemyAI* enemyAI = &enemyAIs[i];

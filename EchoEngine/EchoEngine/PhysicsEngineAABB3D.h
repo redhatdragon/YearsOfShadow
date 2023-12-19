@@ -424,7 +424,10 @@ public:
 		#endif
 		simulate();
 		#ifdef THREADING_ENABLED
-		detect();
+		if (dynamicBodyCount / 3 > HAL::get_thread_pool_free_thread_count(threadPool))
+			detect();
+		else
+			detectSingle();
 		#else
 		detectSingle();
 		#endif
