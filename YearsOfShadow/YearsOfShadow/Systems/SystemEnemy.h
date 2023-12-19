@@ -62,7 +62,9 @@ public:
         controllerComponentID = ecs.registerComponentAsBlittable("controller", sizeof(Controller));
 
 		std::mt19937& generator = getRandGenerator();
+		#if GAME_TYPE != GAME_TYPE_CLIENT
 		createTest(generator);
+		#endif
 	}
 	virtual void run() {
         OPTICK_THREAD("MainThread");
