@@ -68,13 +68,16 @@ public:
 	virtual void run() {
         OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
+		#if GAME_TYPE != GAME_TYPE_SERVER
 		drawMeshes();
 		drawInstancedMeshes();
+		#endif
 	}
 	virtual const char* getName() {
 		return "SystemDisplay";
 	}
 private:
+	#if GAME_TYPE != GAME_TYPE_SERVER
 	void drawMeshes() {
         OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
@@ -120,4 +123,5 @@ private:
 			HAL::draw_instanced_mesh(instanceTypeID);
 		}
 	}
+	#endif
 };

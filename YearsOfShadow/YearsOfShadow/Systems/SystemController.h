@@ -138,6 +138,7 @@ public:
 	virtual void run() {
         OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
+		#if GAME_TYPE != GAME_TYPE_SERVER
 		if (ecs.getComponentCount(controllerComponentID) == 0)
 			return;
 		Controller* controller = (Controller*)ecs.getComponentBuffer(controllerComponentID);
@@ -155,6 +156,7 @@ public:
 		strafePhase(controller, pos, bodyID);
 		jumpPhase(controller, pos, bodyID);
 		firePhase(controller, pos);
+		#endif
 	}
 	virtual const char* getName() {
 		return "SystemController";
