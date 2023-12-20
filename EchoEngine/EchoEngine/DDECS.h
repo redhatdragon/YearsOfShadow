@@ -226,6 +226,7 @@ public:
 		static EntityHandle uid = 1;
 		entities.incrementCount();
 		EntityID retValue = entities.toggleFirstInvalid();
+		entities[retValue].clear();
 		emplace(retValue, handleComponentID, &uid);
 		uid++;
 		return retValue;
