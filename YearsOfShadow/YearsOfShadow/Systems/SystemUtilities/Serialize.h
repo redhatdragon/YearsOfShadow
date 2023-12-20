@@ -33,12 +33,24 @@ namespace SystemUtilities {
 			static constexpr uint32_t getHeaderSize() {
 				return sizeof(componentID) + sizeof(size);
 			}
+			void log() const {
+				HAL_LOG("Component data at addr: {}\n", (void*)this);
+				HAL_LOG("componentID: {}\n", componentID);
+				if (componentID != -1) {
+					HAL_LOG("size: {}\n\n", size);
+				}
+			}
 		};
-		uint8_t components[1];
+		//uint8_t components[1];
+		Component components[1];  //Used for debugging pruposes
 		Component* getRootComponent() {
 			return (Component*)components;
 		}
 		Component* getNextComponent(Component* component) {
+			if (component->componentID == -1) {
+				HAL_WARN("SerialEntity::Component::getNextComponent()'s input component is terminator...");
+				return nullptr;  //TODO: Gotta figure this out...
+			}
 			uint8_t* ptr = (uint8_t*)component;
 			ptr += Component::getHeaderSize() + component->size;
 			Component* nextComponent = (Component*)ptr;
@@ -245,14 +257,15 @@ namespace SystemUtilities {
 		uint32_t getSize() {
 			uint32_t size = 0;
 			Component* c = getRootComponent();
-			if (c != nullptr) {
-				while (true) {
-					c = getNextComponent(c);
-					if (c == nullptr)
-						break;
-					size += Component::getHeaderSize() + c->size;
-				}
+			if (c->componentID == -1)
+				goto end;
+			while (true) {
+				c = getNextComponent(c);
+				if (c == nullptr)
+					break;
+				size += Component::getHeaderSize() + c->size;
 			}
+			end:
 			size+=sizeof(uint32_t);  //Account for the uint32_t -1 value for EndOfObject
 			return size;
 		}
@@ -260,6 +273,16 @@ namespace SystemUtilities {
 			if (*(uint32_t*)this == -1)  //Check if end of SerialEntity* buffer
 				return true;
 			return false;
+		}
+		void log() {
+			Component* component = getRootComponent();
+			while (true) {
+				component->log();
+				component = getNextComponent(component);
+
+				if (component == nullptr)
+					return;
+			}
 		}
 
 		//Blittable, can use free on result
@@ -283,6 +306,7 @@ namespace SystemUtilities {
 			uint32_t totalSize = 0;
 			for (uint32_t i = 0; i < count; i++) {
 				ses.push_back(SerialEntity::constructNew(ids[i]));
+				//ses[i]->log();
 			}
 			for (uint32_t i = 0; i < count; i++) {
 				totalSize += ses[i]->getSize();
@@ -304,8 +328,9 @@ namespace SystemUtilities {
 			}
 			uint32_t buffTerminator = -1;
 			memcpy(offset, &buffTerminator, sizeof(buffTerminator));
-			for (uint32_t i = 0; i < count; i++)
-				free(ses[i]);
+			//for (uint32_t i = 0; i < count; i++)
+			//	free(ses[i]);
+			//throw;
 			outSize = totalSize;
 			return serialEntityBuffer;
 		}
