@@ -151,6 +151,10 @@ public:
 		//}
 	}
 
+	void rebuildIfModified() {
+		if (modified)
+			rebuild();
+	}
 	void rebuild() {
 		drawableBlocks.count = 0;
 		modified = true;

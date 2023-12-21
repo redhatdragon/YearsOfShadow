@@ -29,7 +29,8 @@ public:
         OPTICK_EVENT();
 		Controller* controller = (Controller*)ecs.getComponentBuffer(controllerComponentID);
 		auto pos = controller->cam.getPosition();
-		voxelWorld.display((uint32_t)pos.x, (uint32_t)pos.z);
+		//voxelWorld.display((uint32_t)pos.x, (uint32_t)pos.z);
+		voxelWorld.update((uint32_t)pos.x, (uint32_t)pos.z);
 	}
 	virtual void destruct() {
 		voxelWorld.destruct();

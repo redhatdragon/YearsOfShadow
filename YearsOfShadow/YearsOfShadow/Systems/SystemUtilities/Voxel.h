@@ -97,13 +97,30 @@ public:
 				Vec2D<int32_t> curPos = {static_cast<int32_t>(j * chunk_width), static_cast<int32_t>(i * chunk_width)};
 				if (curPos.isBetween(start, end))
 					chunkAt(j, i).display();
+				//else
+				//	chunkAt(j, i).unload();
+			}
+		}
+	}
+	void update(uint32_t x, uint32_t z) {
+		uint32_t chunksWide = 9;
+		Vec2D<int32_t> start, end;
+		start = { (int32_t)x, (int32_t)z };
+		end = start;
+		start -= (chunksWide / 2) * chunk_width;
+		end += (chunksWide / 2) * chunk_width;
+		for (uint32_t i = 0; i < chunks_wide; i++) {
+			for (uint32_t j = 0; j < chunks_wide; j++) {
+				Vec2D<int32_t> curPos = { static_cast<int32_t>(j * chunk_width), static_cast<int32_t>(i * chunk_width) };
+				if (curPos.isBetween(start, end))
+					chunkAt(j, i).rebuildIfModified();
 				else
 					chunkAt(j, i).unload();
 			}
 		}
-        frames.advance();
-        VoxelFrame *frame = &frames.get();
-        frame->reset();
+		frames.advance();
+		VoxelFrame* frame = &frames.get();
+		frame->reset();
 	}
 
 	void rewind(uint16_t ticks) {
