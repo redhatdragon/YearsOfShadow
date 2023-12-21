@@ -385,18 +385,32 @@ float HAL::get_draw_time_MS() { return telemetry_counters.drawTimeMS; };
 
 
 
+cs_context_t* cs_ctx;
+FlatBuffer<cs_playing_sound_t*, 256*256> activeSound;
 bool HAL::play_audio_file(const char* fileName, uint8_t loop) {
-    return false;
+    cs_loaded_sound_t tAudio = cs_load_wav(fileName);
+    cs_loaded_sound_t* audio;
+    HAL_ALLOC_TYPE(audio);
+    memcpy(audio, &tAudio, sizeof(struct cs_loaded_sound_t));
+    cs_playing_sound_t tAudioInstance = cs_make_playing_sound(audio);
+    if (loop)
+        tAudioInstance.looped = true;  //TODO: Test
+    cs_playing_sound_t* audioInstance;
+    HAL_ALLOC_TYPE(audioInstance);
+    memcpy(audioInstance, &tAudioInstance, sizeof(tAudioInstance));
+    activeSound.push(audioInstance);
+    cs_insert_sound(cs_ctx, activeSound.last());
+    return true;
 }
-bool HAL::get_new_audio(const char* fileName, void* audioBuffer) {
-    return false;
-}
-bool HAL::play_audio(void* audio, uint8_t loop) {
-    return false;
-}
-bool HAL::stop_audio(void* audio) {
-    return false;
-}
+//bool HAL::get_new_audio(const char* fileName, void* audioBuffer) {
+//    return false;
+//}
+//bool HAL::play_audio(void* audio, uint8_t loop) {
+//    return false;
+//}
+//bool HAL::stop_audio(void* audio) {
+//    return false;
+//}
 
 
 
@@ -842,7 +856,7 @@ int main()
 
     HWND hwnd = glfwGetWin32Window(window);
     //Initialize sound context
-    // cs_ctx = cs_make_context(hwnd, 48000, 8192 * 10, 0, NULL);
+    cs_ctx = cs_make_context(hwnd, 48000, 8192 * 10, 0, NULL);
     _network_init();
 
 
@@ -865,6 +879,7 @@ int main()
 
     HAL::app_start();
     // cs_spawn_mix_thread(cs_ctx);
+    cs_mix(cs_ctx);
 
     /* Loop until the user closes the window */
 
