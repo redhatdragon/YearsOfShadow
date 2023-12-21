@@ -386,16 +386,16 @@ float HAL::get_draw_time_MS() { return telemetry_counters.drawTimeMS; };
 
 
 bool HAL::play_audio_file(const char* fileName, uint8_t loop) {
-
+    return false;
 }
 bool HAL::get_new_audio(const char* fileName, void* audioBuffer) {
-
+    return false;
 }
 bool HAL::play_audio(void* audio, uint8_t loop) {
-
+    return false;
 }
 bool HAL::stop_audio(void* audio) {
-
+    return false;
 }
 
 
