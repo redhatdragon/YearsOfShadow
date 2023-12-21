@@ -879,7 +879,6 @@ int main()
 
     HAL::app_start();
     // cs_spawn_mix_thread(cs_ctx);
-    cs_mix(cs_ctx);
 
     /* Loop until the user closes the window */
 
@@ -918,6 +917,7 @@ int main()
             0.01f, 15000.0f);
 
         HAL::app_loop();
+        cs_mix(cs_ctx);
         customShowPerfOverlay();
 
         LARGE_INTEGER app_end;
