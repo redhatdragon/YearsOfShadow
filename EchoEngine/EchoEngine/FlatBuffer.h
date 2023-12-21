@@ -327,6 +327,9 @@ public:
 	__forceinline void clear() {
 		count = 0;
 	}
+	__forceinline T& last() {
+		return data[count - 1];
+	}
 	__forceinline uint32_t findFirst(const T& _data) {
 		for (uint32_t i = 0; i < count; i++)
 			if (data[i] == _data) return i;
