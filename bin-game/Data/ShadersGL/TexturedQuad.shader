@@ -27,7 +27,7 @@ void main() {
     //color = vec4(0, 0, 0, 0);
     //color = texColor;
     if (texColor.a == 0.0f) {
-        discard;
+        //discard;
     }
     color = u_color*texColor;
     color = texColor;
