@@ -44,7 +44,8 @@ if(MSVC)
 	)
 
 	set_property(TARGET YearsOfShadow_Single APPEND PROPERTY LINK_FLAGS /IGNORE:4098 )
-	set_property( DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT YearsOfShadow_Single )
+	#set_property( DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT YearsOfShadow_Single )
+	set_target_properties(YearsOfShadow_Single PROPERTIES LINK_FLAGS "/PROFILE")
 endif()
 
 set_target_properties(YearsOfShadow_Single PROPERTIES FOLDER "YearsOfShadow")
@@ -88,7 +89,7 @@ if(MSVC)
 	)
 
 	set_property(TARGET YearsOfShadow_Client APPEND PROPERTY LINK_FLAGS /IGNORE:4098 )
-	set_property( DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT YearsOfShadow_Client )
+	#set_property( DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT YearsOfShadow_Client )
 endif()
 
 set_target_properties(YearsOfShadow_Client PROPERTIES FOLDER "YearsOfShadow")
@@ -132,7 +133,7 @@ if(MSVC)
 	)
 
 	set_property(TARGET YearsOfShadow_Server APPEND PROPERTY LINK_FLAGS /IGNORE:4098 )
-	set_property( DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT YearsOfShadow_Server )
+	#set_property( DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT YearsOfShadow_Server )
 endif()
 
 set_target_properties(YearsOfShadow_Server PROPERTIES FOLDER "YearsOfShadow")
