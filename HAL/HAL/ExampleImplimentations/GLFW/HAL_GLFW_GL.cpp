@@ -385,6 +385,21 @@ float HAL::get_draw_time_MS() { return telemetry_counters.drawTimeMS; };
 
 
 
+bool HAL::play_audio_file(const char* fileName, uint8_t loop) {
+
+}
+bool HAL::get_new_audio(const char* fileName, void* audioBuffer) {
+
+}
+bool HAL::play_audio(void* audio, uint8_t loop) {
+
+}
+bool HAL::stop_audio(void* audio) {
+
+}
+
+
+
 uint32_t get_ip_from_string(const std::string_view str) {
     if (str.size() > 15) {
         std::string errStr = "Error: get_ip_from_string()'s input str character length is > 15, len: ";

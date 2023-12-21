@@ -278,10 +278,11 @@ namespace HAL
 	float get_draw_time_MS();
 	//float get_frame_time_MS();  TODO: need a better name for this or maybe have it removed?
 
-	// bool EE_playAudioFile(const char* fileName, uint8_t loop);
-	// bool EE_getNewAudio(const char* fileName, void* audioBuffer);
-	// bool EE_playAudio(void* audio, uint8_t loop);
-	// bool EE_stopAudio(void* audio);
+	//TODO: add position offset + volume offset to these somehow later
+	bool play_audio_file(const char* fileName, uint8_t loop);
+	bool get_new_audio(const char* fileName, void* audioBuffer);
+	bool play_audio(void* audio, uint8_t loop);
+	bool stop_audio(void* audio);
 
 	// bool EE_sendPacketUDP(void* packet);
 	// struct EE_PacketUDP* EE_recvPacketUDP();
