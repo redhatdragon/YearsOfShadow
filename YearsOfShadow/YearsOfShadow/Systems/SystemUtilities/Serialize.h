@@ -87,22 +87,24 @@ namespace SystemUtilities {
 					Component* component = constructComponent(data, size, idBuff[i]);
 					free(data);
 					totalSize += size;
+					//totalSize += Component::getHeaderSize();
 					customSerializedComponents.push(component);
 					continue;
 				}
 				if (ecs.isComponentTypeDArray(idBuff[i])) {
 					totalSize += ecs.getDArrayElementSize(idBuff[i]);
+					//totalSize += Component::getHeaderSize();
 					continue;
 				}
 				totalSize += ecs.getComponentSize(idBuff[i]);
+				//totalSize += Component::getHeaderSize();
 			}
 			totalSize += Component::getHeaderSize() * idCount;
 			totalSize += sizeof(ComponentID);  //-1 end of obj marker
 			//SerialEntity* retValue = (SerialEntity*)malloc(totalSize);
 			SerialEntity* retValue;
-			HAL_ALLOC_RAWBYTE(retValue, totalSize);
-			if (retValue == nullptr)
-				HAL_PANIC("SerialEntity::constructNew() failed to allocate new SerialEntity with size {}\n", totalSize);
+			HAL_ALLOC_RAWBYTE(retValue, totalSize+100);
+			//^ I don't know wtf I did but apparently needed extra bytes frick >.<
 			uint8_t* retValueOffset = (uint8_t*)retValue;
 			for (uint32_t i = 0; i < idCount; i++) {
 				if (serializeFunctions.find(idBuff[i]) != serializeFunctions.end()) {
@@ -256,7 +258,8 @@ namespace SystemUtilities {
 		}
 		uint32_t getSize() {
 			uint32_t size = 0;
-			Component* c = getRootComponent();
+			Component* root = getRootComponent();
+			Component* c = root;
 			if (c->componentID == -1)
 				goto end;
 			while (true) {
