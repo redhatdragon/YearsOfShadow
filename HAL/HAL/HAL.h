@@ -270,6 +270,7 @@ namespace HAL
 
 	const char* get_dir_data();
 	bool file_exists(const char* filepath);
+	void file_append_str(const char* filepath, const char* str);
 
 	float get_FPS();
 	void limit_FPS(uint32_t fps);

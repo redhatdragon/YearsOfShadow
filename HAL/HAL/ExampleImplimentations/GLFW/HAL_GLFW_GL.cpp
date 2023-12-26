@@ -364,6 +364,16 @@ const char* HAL::get_dir_data() {
 bool HAL::file_exists(const char* filepath) {
     return (bool)_access(filepath, F_OK);
 }
+void HAL::file_append_str(const char* filepath, const char* str) {
+    FILE* fp = fopen(filepath, "ab");
+    if (fp != NULL)
+    {
+        fputs(str, fp);
+        fclose(fp);
+        return;
+    }
+    HAL_ERROR("file_append_str() failed to fopen {}\n", filepath);
+}
 
 struct telemetry_counters_t
 {
