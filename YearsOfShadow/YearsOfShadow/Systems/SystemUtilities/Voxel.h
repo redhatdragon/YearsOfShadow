@@ -39,7 +39,9 @@ class VoxelWorld {
 	//VoxelChunk chunks[chunks_wide][chunks_wide];
 	VoxelChunk* chunks[chunks_wide][chunks_wide];
     static constexpr uint32_t max_frames = 60*2;
+	#ifdef REWIND_ENABLED
 	RingBuffer<VoxelFrame, max_frames> frames;
+	#endif
 public:
 	void init(uint32_t genHeight, uint32_t x, uint32_t y, uint32_t z) {
 		memset(this, 0, sizeof(*this));
@@ -64,11 +66,13 @@ public:
 				//chunks[i][j].gen(genHeight);
 			}
 		//rebuild();
+		#ifdef REWIND_ENABLED
 		for (uint32_t i = 0; i < max_frames; i++) {
             VoxelFrame* frame = &frames.get();
             frame->init();
             frames.advance();
 		}
+		#endif
 	}
 	void destruct() {
 		HAL::release_texture(grassTexture);
@@ -78,11 +82,13 @@ public:
 				chunks[j][i]->unload();
 				free(chunks[j][i]);
 			}
+		#ifdef REWIND_ENABLED
 		for (uint32_t i = 0; i < max_frames; i++) {
 			VoxelFrame* frame = &frames.get();
 			frame->destruct();
 			frames.advance();
 		}
+		#endif
 	}
 
 	void display(uint32_t x, uint32_t z) {
@@ -118,11 +124,14 @@ public:
 					chunkAt(j, i).unload();
 			}
 		}
+		#ifdef REWIND_ENABLED
 		frames.advance();
 		VoxelFrame* frame = &frames.get();
 		frame->reset();
+		#endif
 	}
 
+	#ifdef REWIND_ENABLED
 	void rewind(uint16_t ticks) {
         //std::vector<std::tuple<VoxelChunk*, uint16_t>> chunksToModify;
 		std::vector<uint32_t*> chunksToModify;
@@ -169,6 +178,7 @@ public:
             //throw;
 		}
 	}
+	#endif
 
 	//Checks within rectangle, top left corner is origin
 	std::vector<Vec3D<uint32_t>> getValidBlockPositions(Vec3D<uint32_t> pos, Vec3D<uint32_t> siz) {
@@ -216,8 +226,10 @@ public:
 			x, y, z);
 		uint16_t cx = x / chunk_width;
 		uint16_t cz = z / chunk_depth;
+		#ifdef REWIND_ENABLED
         VoxelFrame *frame = &frames.get();
         frame->addChunkIfUnique(chunkAt(cx, cz), {cx, cz});
+		#endif
 		chunkAt(cx, cz).setBlock(_block, x % chunk_width, y, z % chunk_depth);
 	}
 	inline const VoxelChunk& getChunk(uint16_t x, uint16_t z) {
@@ -230,8 +242,10 @@ public:
 			x, y, z);
 		uint16_t cx = x / chunk_width;
 		uint16_t cz = z / chunk_depth;
+		#ifdef REWIND_ENABLED
         VoxelFrame *frame = &frames.get();
         frame->addChunkIfUnique(chunkAt(cx, cz), {cx, cz});
+		#endif
 		chunkAt(cx, cz).destroyBlock(x % chunk_width, y, z % chunk_depth);
 	}
 
