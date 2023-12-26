@@ -27,13 +27,13 @@ struct InstancedSubMesh {
 
         indexCount = _indexCount;
 
-        std::string texturePath = EE_getDirData(); texturePath += "Textures/RightArrow.png";
+        std::string texturePath = HAL::get_dir_data(); texturePath += "Textures/RightArrow.png";
         textures.push_back(Texture());
         textures[0].init(texturePath);
 
 
 
-        std::string shaderPath = EE_getDirData(); shaderPath += "ShadersGL/BasicInstancedMesh.shader";
+        std::string shaderPath = HAL::get_dir_data(); shaderPath += "ShadersGL/BasicInstancedMesh.shader";
         shader.init(shaderPath);
 
         GL_CALL(glGenBuffers(1, &VBO));

@@ -133,7 +133,7 @@ void TexturedQuad::init(const char* filename, float _x, float _y, float _w, floa
     //vertexArray.addBuffer(vertexBuffer, vertexLayout);
 
     initTexture(filename);
-    std::string dataDir = EE_getDirData();
+    std::string dataDir = HAL::get_dir_data();
     shader.init(dataDir + "ShadersGL/TexturedQuad.shader");
 }
 void TexturedQuad::destruct() {

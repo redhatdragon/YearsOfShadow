@@ -16,8 +16,6 @@ For now keyboard values are 1:1 with the ascii table.  Ref: https://www.asciitab
 
 #include <glm/glm.hpp>
 
-const char *EE_getDirData();
-
 namespace HAL
 {
     // Define these in your application to be called by the HAL_ implimentations.
@@ -270,7 +268,8 @@ namespace HAL
 	glm::uvec2 get_canvas_size();
 	void set_canvas_size(glm::uvec2 size);
 
-	// const char* EE_getDirData();
+	const char* get_dir_data();
+	bool file_exists(const char* filepath);
 
 	float get_FPS();
 	void limit_FPS(uint32_t fps);
@@ -283,9 +282,6 @@ namespace HAL
 	bool get_new_audio(const char* fileName, void* audioBuffer);
 	bool play_audio(void* audio, uint8_t loop);
 	bool stop_audio(void* audio);
-
-	// bool EE_sendPacketUDP(void* packet);
-	// struct EE_PacketUDP* EE_recvPacketUDP();
 
 	constexpr uint32_t maxPacketLen = 256 * 256;
 

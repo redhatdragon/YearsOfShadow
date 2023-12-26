@@ -91,7 +91,7 @@ struct SubMesh {
 
         // Shader
         {
-            std::string shaderPath = EE_getDirData();
+            std::string shaderPath = HAL::get_dir_data();
             shaderPath += "ShadersGL/BasicMesh.shader";
             shader.init(shaderPath);    
         }
@@ -99,7 +99,7 @@ struct SubMesh {
         // Texture
         {
             textures.push_back(Texture());
-            std::string texturePath = EE_getDirData();
+            std::string texturePath = HAL::get_dir_data();
             texturePath += "Textures/RightArrow.png";
             textures[0].init(texturePath);
         }

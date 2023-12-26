@@ -20,6 +20,9 @@
 #include <Ws2tcpip.h>
 #pragma comment(lib, "Ws2_32.lib")
 
+#include <io.h>
+#define F_OK 0
+
 #define GLEW_STATIC
 #pragma comment(lib, "opengl32.lib")
 
@@ -355,8 +358,11 @@ void HAL::set_canvas_size(glm::uvec2 size)
     glfwSetWindowSize(window, static_cast<int>(size.x), static_cast<int>(size.y));
 }
 
-const char* EE_getDirData() {
+const char* HAL::get_dir_data() {
     return "./data/";
+}
+bool HAL::file_exists(const char* filepath) {
+    return (bool)_access(filepath, F_OK);
 }
 
 struct telemetry_counters_t

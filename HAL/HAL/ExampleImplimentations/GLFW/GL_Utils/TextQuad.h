@@ -52,7 +52,7 @@ void TextQuad::init(Texture* fontAtlas, const char* str, float _x, float _y, flo
     glEnableVertexAttribArray(1);
 
     initTexture(fontAtlas, str);
-    std::string dataDir = EE_getDirData();
+    std::string dataDir = HAL::get_dir_data();
     shader.init(dataDir + "ShadersGL/TexturedQuad.shader");
 }
 void TextQuad::destruct() {
