@@ -364,10 +364,17 @@ const char* HAL::get_dir_data() {
 bool HAL::file_exists(const char* filepath) {
     return (bool)_access(filepath, F_OK);
 }
+void HAL::file_create(const char* filepath) {
+    auto fp = fopen(filepath, "a");
+    if (fp) {
+        fclose(fp);
+        return;
+    }
+    HAL_ERROR("file_create() failed to fopen {}\n", filepath);
+}
 void HAL::file_append_str(const char* filepath, const char* str) {
-    FILE* fp = fopen(filepath, "ab");
-    if (fp != NULL)
-    {
+    auto fp = fopen(filepath, "ab");
+    if (fp) {
         fputs(str, fp);
         fclose(fp);
         return;
