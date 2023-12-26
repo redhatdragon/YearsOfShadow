@@ -10,7 +10,7 @@ HAL::thread_pool_handle_t threadPool;
 //#define GAME_TYPE GAME_TYPE_CLIENT
 
 #if GAME_TYPE == GAME_TYPE_CLIENT
-//#define REWIND_ENABLED
+#define REWIND_ENABLED
 #endif
 #define THREADING_ENABLED
 #define PROFILER_ENABLED
@@ -120,9 +120,10 @@ inline void initSystems() {
 			EntityObjectLoader::writeComponentObjectToFile("Settings.ent", "threadCount", std::to_string(threadCount));
 		}
 	}
-	HAL_LOG("ThreadPool thread count: {}\n", threadCount)
-
+	#ifdef THREADING_ENABLED
+	HAL_LOG("ThreadPool thread count: {}\n", threadCount);
 	threadPool = HAL::get_new_thread_pool(threadCount);
+	#endif
 
 	instancedMeshCodex.init();
 
