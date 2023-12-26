@@ -265,7 +265,7 @@ namespace EntityObjectLoader {
         return retValue;
     }
 
-    inline EntityObject createEntityObjectFromFile(const std::string &filename) {
+    inline EntityObject createEntityObjectFromFile(const std::string& filename) {
         std::string line;
         std::ifstream myfile(filename);
         std::string fileText = "";
@@ -275,10 +275,56 @@ namespace EntityObjectLoader {
             myfile.close();
         }
         else {
-            std::cout << "Error: createEntityObjectFromFile()'s designated file from 'filename' couldn't be opened" << std::endl;
-            std::cout << "filename was " << filename << std::endl;
+            HAL_ERROR("Error: createEntityObjectFromFile()'s designated file from 'filename' couldn't be opened\n");
+            HAL_ERROR("filename was {}\n", filename);
         }
         auto v = createEntityObjectFromString(fileText);
         return v;
+    }
+    inline void writeComponentObjectToFile(const std::string& filename, const std::string& componentName, const std::string& val) {
+        std::string line;
+        std::fstream myfile(filename);
+        std::string fileText = "";
+        if (myfile.is_open()) {
+            while (getline(myfile, line))
+                fileText += line + "\n";
+            myfile.close();
+        }
+        else {
+            HAL_ERROR("Error: writeComponentObjectToFile()'s designated file from 'filename' couldn't be opened\n");
+            HAL_ERROR("filename was {}\n", filename);
+        }
+
+        std::string newText = "";
+        bool hasComponent = false;
+
+        cleanText(fileText);
+        EntityObject retValue = EntityObject();
+        size_t currentPos = 0;
+        uint32_t statementCount = 0;
+        while (true) {
+            statementCount++;
+            size_t newPos = fileText.find(';', currentPos);
+            if (newPos == std::string::npos) break;
+            std::string statement = fileText.substr(currentPos, newPos - currentPos);
+            {
+                size_t equalPos = statement.find('=', 0);
+                std::string var = statement.substr(0, equalPos);
+                if (var == componentName) {
+                    statement = componentName + "=";
+                    statement += val + ";\n";
+                    currentPos = newPos + 1;
+                    hasComponent = true;
+                    continue;
+                }
+            }
+            newText += statement + ";\n";
+            currentPos = newPos + 1;
+        }
+        if (hasComponent == false) {
+            newText += componentName + "=";
+            newText += val + ";\n";
+        }
+        HAL::file_append_str(filename.c_str(), newText.c_str());
     }
 }
