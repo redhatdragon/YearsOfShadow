@@ -6,6 +6,7 @@ bin
 bin-game/logs
 bin-game/*.lib
 bin-game/*.ini
+bin-game/Settings.ent
 bin-etc
 output
 data/.thumbnails
