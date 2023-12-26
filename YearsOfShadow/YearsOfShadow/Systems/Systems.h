@@ -99,11 +99,27 @@ void registerDestructors() {
 inline void initSystems() {
 	ecs.init();
 
-	//auto threadCount = HAL::get_hardware_thread_count();
-    ////threadCount = (size_t)((threadCount * 0.75f) - 1);
-    //threadCount = 3;
-    uint32_t threadCount = ThreadPoolAdjuster::getIdealThreadCount();
-	//uint32_t threadCount = 1;
+	uint32_t threadCount = -1;
+	{
+		if (HAL::file_exists("Settings.ent") == false) {
+			HAL::file_create("Settings.ent");
+		}
+		auto eo = EntityObjectLoader::createEntityObjectFromFile("Settings.ent");
+		if (auto co = eo.getComponent("threadCount")) {
+			if (co->type != ComponentObject::TYPE::TYPE_INT) {
+				HAL_WARN("Settings.ent has component threadCount but isn't of type int, ignoring!");
+				threadCount = ThreadPoolAdjuster::getIdealThreadCount();
+			}
+			else {
+				threadCount = co->getInt();
+				//EntityObjectLoader::writeComponentObjectToFile("Settings.ent", "threadCount", std::to_string(threadCount));
+			}
+		}
+		else {
+			threadCount = ThreadPoolAdjuster::getIdealThreadCount();
+			EntityObjectLoader::writeComponentObjectToFile("Settings.ent", "threadCount", std::to_string(threadCount));
+		}
+	}
 	HAL_LOG("ThreadPool thread count: {}\n", threadCount)
 
 	threadPool = HAL::get_new_thread_pool(threadCount);
