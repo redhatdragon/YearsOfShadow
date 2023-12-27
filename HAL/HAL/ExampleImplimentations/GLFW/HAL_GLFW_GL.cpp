@@ -362,7 +362,7 @@ const char* HAL::get_dir_data() {
     return "./data/";
 }
 bool HAL::file_exists(const char* filepath) {
-    return (bool)_access(filepath, F_OK);
+    return !(bool)_access(filepath, F_OK);
 }
 void HAL::file_create(const char* filepath) {
     auto fp = fopen(filepath, "a");
