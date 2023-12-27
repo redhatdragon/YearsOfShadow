@@ -41,7 +41,8 @@ namespace NetworkingTools {
 	constexpr uint16_t PACKETS_MAX = 6000;  //Shared between all connections/messages
 	constexpr uint16_t PACKETS_PER_MESSAGE_MAX = 100;
 	constexpr uint32_t CONNECTIONS_MAX = 10;
-	constexpr uint32_t MESSAGES_PER_CONNECTION_MAX = 120;
+	constexpr uint32_t MESSAGES_PER_CONNECTION_MAX = 120 * 10;
+	constexpr uint32_t TICKS_TILL_MESSAGE_DROP = 120 * 5;
 
 	struct Packet {
 		// Though much data is duplicated between packets, it makes things easier/safer.
@@ -305,6 +306,7 @@ namespace NetworkingTools {
 		//<otherIP, messagesForOtherIP>
 		std::unordered_map<std::string, FlatBuffer<NetworkMessage, MESSAGES_PER_CONNECTION_MAX>>
 			recvMsgs, sentMsgs;
+		uint64_t tick;
 	public:
 		void init(HAL::udp_socket_handle_t _conn) {
 			conn = _conn;
@@ -314,6 +316,8 @@ namespace NetworkingTools {
 			sentMsgs.reserve(CONNECTIONS_MAX);
 
 			packetPool.setup();
+
+			tick = 0;
 		}
 		void trySendTo(std::string_view ip, const uint8_t* msg, uint32_t len) {
 			FlatBuffer<NetworkMessage, MESSAGES_PER_CONNECTION_MAX>* msgsPtr;
@@ -338,20 +342,20 @@ namespace NetworkingTools {
 			sendTo(nm, ip);
 		}
 		void update() {
-			constexpr uint64_t maxTicksTillReset = 60 * 2;
 			constexpr uint64_t maxTicksTillResend = 10;
-			static uint64_t tick = 0;
+			static std::vector<std::string> msgsToRemove;
+			msgsToRemove.clear();
 			for (auto& e : recvMsgs) {
 				for (uint32_t i = 0; i < e.second.count; i++) {
 					NetworkMessage& nm = e.second[i];
 					if (nm.packetPoolPtr) {
-						if (tick >= nm.tick + maxTicksTillReset) {
+						if (tick >= nm.tick + TICKS_TILL_MESSAGE_DROP) {
 							nm.deconstruct();
-							e.second[i] = e.second[e.second.count];
 							e.second.pop();
+							e.second[i] = e.second[e.second.count];
 							continue;
 						}
-						nm.tick++;
+						//nm.tick++;
 					}
 				}
 			}
@@ -359,13 +363,13 @@ namespace NetworkingTools {
 				for (uint32_t i = 0; i < e.second.count; i++) {
 					NetworkMessage& nm = e.second[i];
 					if (nm.packetPoolPtr) {
-						if (tick >= nm.tick + maxTicksTillReset) {
+						if (tick >= nm.tick + TICKS_TILL_MESSAGE_DROP) {
 							nm.deconstruct();
-							e.second[i] = e.second[e.second.count];
 							e.second.pop();
+							e.second[i] = e.second[e.second.count];
 							continue;
 						}
-						nm.tick++;
+						//nm.tick++;
 						uint32_t count = e.second[i].getPacketCount();
 						for (uint32_t j = 0; j < count; j++) {
 							Packet* packet = e.second[i].packets[j];
@@ -376,6 +380,7 @@ namespace NetworkingTools {
 					}
 				}
 			}
+			tick++;
 		}
 
 		bool tryPopNextMsg(std::vector<uint8_t>& out) {

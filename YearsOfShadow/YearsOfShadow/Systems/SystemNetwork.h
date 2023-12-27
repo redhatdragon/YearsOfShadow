@@ -41,6 +41,7 @@ private:
 	#if GAME_TYPE == GAME_TYPE_SERVER
 	inline void serverLogic() {
 		using namespace SystemUtilities;
+		nm.update();
 		uint32_t count = ecs.getComponentCount(replicateEntityComponentID);
 		ReplicateEntity* replicateEntityBuff =
 			(ReplicateEntity*)ecs.getComponentBuffer(replicateEntityComponentID);
@@ -54,6 +55,14 @@ private:
 		uint32_t size;
 		SerialEntity* seBuff = SerialEntity::constructSerialEntityBuffer(&entities[0], count, size);
 		nm.trySendTo("127.0.0.1", (uint8_t*)seBuff, size);
+
+		static std::vector<uint8_t> buff;
+		while (true) {
+			buff.clear();
+			nm.tryPopNextMsg(buff);
+			if (buff.size() == 0)
+				break;
+		}
 	}
 	#endif
 	#if GAME_TYPE == GAME_TYPE_CLIENT
