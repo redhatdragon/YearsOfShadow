@@ -109,8 +109,7 @@ inline void initSystems() {
 			if (co->type != ComponentObject::TYPE::TYPE_INT) {
 				HAL_WARN("Settings.ent has component threadCount but isn't of type int, ignoring!");
 				threadCount = ThreadPoolAdjuster::getIdealThreadCount();
-			}
-			else {
+			} else {
 				threadCount = co->getInt();
 				//EntityObjectLoader::writeComponentObjectToFile("Settings.ent", "threadCount", std::to_string(threadCount));
 			}
