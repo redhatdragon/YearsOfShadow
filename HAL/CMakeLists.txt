@@ -35,7 +35,8 @@ endif()
 if(MSVC)
 	target_compile_options(
 		HAL
-		PRIVATE /W3 # warning lvl-1
+		#PRIVATE /W3 # warning lvl-1
+		PRIVATE /Ze # fpermissive
 		PRIVATE /MP # multi-processor compilation
 		PRIVATE /arch:AVX2
 		PRIVATE /WX
