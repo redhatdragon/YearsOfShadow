@@ -1,5 +1,4 @@
 #pragma once
-#include "../stb/stb_image.h"
 
 class Texture {
 	uint32_t id;

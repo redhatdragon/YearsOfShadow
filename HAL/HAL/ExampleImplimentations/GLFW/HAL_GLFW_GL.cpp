@@ -54,12 +54,12 @@
 // #define CUTE_SOUND_IMPLEMENTATION - compiled in cute_sound.cpp
 extern "C"
 {
-	#include "cute_sound.h"
+    #include "stb/stb_image.h"
+    #define STB_VORBIS_INCLUDE_STB_VORBIS_H
+	#include "stb/cute_sound.h"
 }
 
 void translateScreen2DToGL(float& x, float& y);
-
-#define STB_IMAGE_IMPLEMENTATION
 
 #include <HAL/ExampleImplimentations/GLFW/GL_Utils/GL_Call.h>
 #include "GL_Utils/Shader.h"
@@ -408,10 +408,24 @@ float HAL::get_draw_time_MS() { return telemetry_counters.drawTimeMS; };
 
 
 
+bool strHasExtension(std::string str, const std::string& ext) {
+    if (str.find(ext) == std::string::npos)
+        return false;
+    return true;
+}
 cs_context_t* cs_ctx;
 FlatBuffer<cs_playing_sound_t*, 256*256> activeSound;
 bool HAL::play_audio_file(const char* fileName, uint8_t loop) {
-    cs_loaded_sound_t tAudio = cs_load_wav(fileName);
+    cs_loaded_sound_t tAudio = {};
+    if (strHasExtension(fileName, ".wav"))
+        tAudio = cs_load_wav(fileName);
+    else if (strHasExtension(fileName, ".ogg"))
+        tAudio = cs_load_ogg(fileName);
+    else {
+        HAL_ERROR("play_audio_file()'s filename arg is not extension .wav or .ogg\n");
+        HAL_ERROR("ARG: {}\n", fileName);
+        return false;
+    }
     cs_loaded_sound_t* audio;
     HAL_ALLOC_TYPE(audio);
     memcpy(audio, &tAudio, sizeof(struct cs_loaded_sound_t));

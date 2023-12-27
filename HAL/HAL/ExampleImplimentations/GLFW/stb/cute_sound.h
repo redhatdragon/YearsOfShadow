@@ -2216,7 +2216,7 @@ void cs_mix(cs_context_t* ctx)
 	int bytes_to_write;
 	cs_position(ctx, &byte_to_lock, &bytes_to_write);
 
-	if (!bytes_to_write) goto unlock;
+	//if (!bytes_to_write) goto unlock;  // Fixing vs bullfuckery error...
 	int samples_to_write = bytes_to_write / ctx->bps;
 
 #elif CUTE_SOUND_PLATFORM == CUTE_SOUND_APPLE || CUTE_SOUND_PLATFORM == CUTE_SOUND_SDL
@@ -2426,6 +2426,8 @@ void cs_mix(cs_context_t* ctx)
 		samples[i] = _mm_packs_epi32(a0b0a1b1, a2b2a3b3);
 	}
 	cs_memcpy_to_directsound(ctx, (int16_t*)samples, byte_to_lock, bytes_to_write);
+
+	if (!bytes_to_write) goto unlock;  // Moved here to fix MS error bullfuckery
 
 #elif CUTE_SOUND_PLATFORM == CUTE_SOUND_APPLE || CUTE_SOUND_PLATFORM == CUTE_SOUND_SDL || CUTE_SOUND_PLATFORM == CUTE_SOUND_LINUX
 
