@@ -19,7 +19,11 @@ public:
 		controllerComponentID = ecs.registerComponentAsBlittable("controller", sizeof(Controller));
 		replicateEntityComponentID = ecs.registerComponentAsBlittable("replicateEntity", sizeof(ReplicateEntity));
 
+		#if GAME_TYPE == GAME_TYPE_SERVER
 		auto conn = HAL::UDP_open("127.0.0.1", 8122, 8123);
+		#elif GAME_TYPE == GAME_TYPE_CLIENT
+		auto conn = HAL::UDP_open("127.0.0.1", 8123, 8122);
+		#endif
 		nm.init(conn);
 		#endif
 	}
@@ -30,7 +34,6 @@ public:
 			serverLogic();
 			spawnTest();
 		#elif GAME_TYPE == GAME_TYPE_CLIENT
-		return;
 			clientLogic();
 		#endif
 	}
@@ -54,6 +57,7 @@ private:
 			return;
 		uint32_t size;
 		SerialEntity* seBuff = SerialEntity::constructSerialEntityBuffer(&entities[0], count, size);
+		//HAL_LOG("HIT {}, {}", count, size);
 		nm.trySendTo("127.0.0.1", (uint8_t*)seBuff, size);
 
 		static std::vector<uint8_t> buff;
