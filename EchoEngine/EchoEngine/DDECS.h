@@ -298,6 +298,15 @@ public:
 		entities[entity].componentIndexes.setValid(componentID);
 		entities[entity].componentIndexes.incrementCount();
 	}
+	void emplaceOrCpy(EntityID entity, ComponentID componentID, void* data) {
+		if (entityHasComponent(entity, componentID) == false) {
+			emplace(entity, componentID, data);
+			return;
+		}
+		void* oldData = getEntityComponent(entity, componentID);
+		auto componentSize = getComponentSize(componentID);
+		memcpy(oldData, data, componentSize);
+	}
 	void removeComponent(EntityID entity, ComponentID componentID) {
 		auto index = entities[entity].componentIndexes[componentID];
 		if (componentID >= max_components) {
