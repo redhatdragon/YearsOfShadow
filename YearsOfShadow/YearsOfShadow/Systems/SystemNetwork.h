@@ -88,7 +88,7 @@ private:
 			while (true) {
 				se->log();
 				se->deserializeToDDECS();
-				if ((se = se->next()) == nullptr)
+				if ((se = SerialEntity::getNextSerialEntity(se)) == nullptr)
 					break;
 			}
 		}
