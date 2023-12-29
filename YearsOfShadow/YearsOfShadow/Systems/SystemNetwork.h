@@ -57,7 +57,8 @@ private:
 			return;
 		uint32_t size;
 		SerialEntity* seBuff = SerialEntity::constructSerialEntityBuffer(&entities[0], count, size);
-		//HAL_LOG("HIT {}, {}", count, size);
+		HAL_LOG("HIT {}, {}\n", count, size);
+		SerialEntity::logSerialEntityBuffer(seBuff);
 		nm.trySendTo("127.0.0.1", (uint8_t*)seBuff, size);
 
 		static std::vector<uint8_t> buff;
@@ -81,9 +82,11 @@ private:
 				break;
 			HAL_LOG("HIT {}", buff.size());
 			SerialEntity* se = (SerialEntity*)&buff[0];
-			if (se->isEnd())
+			SerialEntity::logSerialEntityBuffer(se);
+			if (se->isEnd())  //TODO: fix this maybe?  Should it exist?
 				break;
 			while (true) {
+				se->log();
 				se->deserializeToDDECS();
 				if ((se = se->next()) == nullptr)
 					break;
