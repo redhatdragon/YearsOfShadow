@@ -18,8 +18,8 @@ auto* serializeInstancedMesh(EntityID entity, uint32_t& outSize) {
 }
 void deserializeInstancedMesh(EntityID entity, void* data, uint32_t size) {
 	const char* cstr = (const char*)data;
-	if (strlen(cstr) != size)
-		HAL_PANIC("deserializeInstancedMesh()  input data's strlen != size: {}", size);
+	if (strlen(cstr) != size-1)
+		HAL_PANIC("deserializeInstancedMesh()  input data's strlen: {} != size: {}", size);
 	ComponentID componentID = ecs.registerComponentAsBlittable("instancedMesh", sizeof(u32));
 	if (ecs.entityHasComponent(entity, componentID) == true)
 		return;
