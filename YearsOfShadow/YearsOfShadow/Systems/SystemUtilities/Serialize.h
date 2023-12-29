@@ -34,11 +34,11 @@ namespace SystemUtilities {
 				return sizeof(componentID) + sizeof(size);
 			}
 			void log() const {
+				if (componentID == -1)
+					return;
 				HAL_LOG("Component data at addr: {}\n", (void*)this);
-				HAL_LOG("componentID: {}\n", componentID);
-				if (componentID != -1) {
-					HAL_LOG("size: {}\n\n", size);
-				}
+				HAL_LOG("componentID: {}, name: {}\n", componentID, ecs.getComponentName(componentID));
+				HAL_LOG("size: {}\n", size);
 			}
 		};
 		//uint8_t components[1];
@@ -46,7 +46,7 @@ namespace SystemUtilities {
 		Component* getRootComponent() {
 			return (Component*)components;
 		}
-		Component* getNextComponent(Component* component) {
+		static Component* getNextComponent(Component* component) {
 			if (component->componentID == -1) {
 				HAL_WARN("SerialEntity::Component::getNextComponent()'s input component is terminator...");
 				return nullptr;  //TODO: Gotta figure this out...
@@ -68,6 +68,7 @@ namespace SystemUtilities {
 			}
 			if (component->componentID == componentID)
 				return component;
+			component = getNextComponent(component);
 			goto loop;
 		}
 	public:
@@ -92,7 +93,9 @@ namespace SystemUtilities {
 					continue;
 				}
 				if (ecs.isComponentTypeDArray(idBuff[i])) {
-					totalSize += ecs.getDArrayElementSize(idBuff[i]);
+					uint32_t DArrayElementSize = ecs.getDArrayElementSize(idBuff[i]);
+					DArray<uint8_t>* componentDArray = (DArray<uint8_t>*)ecs.getEntityComponent(entity, idBuff[i]);
+					totalSize += DArrayElementSize * (uint32_t)componentDArray->size();
 					//totalSize += Component::getHeaderSize();
 					continue;
 				}
@@ -103,7 +106,7 @@ namespace SystemUtilities {
 			totalSize += sizeof(ComponentID);  //-1 end of obj marker
 			//SerialEntity* retValue = (SerialEntity*)malloc(totalSize);
 			SerialEntity* retValue;
-			HAL_ALLOC_RAWBYTE(retValue, totalSize+100);
+			HAL_ALLOC_RAWBYTE(retValue, totalSize);
 			//^ I don't know wtf I did but apparently needed extra bytes frick >.<
 			uint8_t* retValueOffset = (uint8_t*)retValue;
 			for (uint32_t i = 0; i < idCount; i++) {
@@ -193,12 +196,15 @@ namespace SystemUtilities {
 			while (true) {
 				ComponentID componentID = component->componentID;
 				//Run first to avoid accidently reading past object
-				if (componentID == -1)
+				//if (componentID == -1)
+				//	break;
+				if (component == nullptr)
 					break;
 				void* data = component->data;
 				uint32_t size = component->size;
 				if (deserializeFunctions.find(component->componentID) != deserializeFunctions.end()) {
 					deserializeFunctions[component->componentID](entity, component->data, size);
+					component = getNextComponent(component);
 					continue;
 				}
 				if (ecs.isComponentTypeDArray(componentID)) {
@@ -211,7 +217,8 @@ namespace SystemUtilities {
 					}
 					DArray<uint8_t> darray;
 					darray.initCopy(component->data, component->size);
-					ecs.emplace(entity, componentID, &darray);
+					ecs.emplaceOrCpy(entity, componentID, &darray);
+					component = getNextComponent(component);
 					continue;
 				}
 				if (componentID == bodyComponentID) {
@@ -224,7 +231,8 @@ namespace SystemUtilities {
 					}
 					BodyID bodyID = physics.addBodyBox(body->pos.x, body->pos.y, body->pos.z,
 						body->siz.x, body->siz.y, body->siz.z, &entity, body->isSolid);
-					ecs.emplace(entity, componentID, &bodyID);
+					ecs.emplaceOrCpy(entity, componentID, &bodyID);
+					component = getNextComponent(component);
 					continue;
 				}
 				if (size != ecs.getComponentSize(componentID)) {
@@ -233,27 +241,27 @@ namespace SystemUtilities {
 					HAL_PANIC("serial entity component: {} size: {} != expected size: {}, Aboring...\n",
 						ecs.getComponentName(componentID), size, ecs.getComponentSize(componentID));
 				}
-				ecs.emplace(entity, componentID, data);
+				ecs.emplaceOrCpy(entity, componentID, data);
+				component = getNextComponent(component);
 			}
 		}
 
 		//Thread safe!
 		//Returns nullptr on if last object in buffer
-		SerialEntity* next() {
-			Component* component = getRootComponent();
-			if (*(uint32_t*)this == -1)  //Check if end of SerialEntity* buffer
+		static SerialEntity* getNextSerialEntity(SerialEntity* serialEntity) {
+			Component* component = serialEntity->getRootComponent();
+			if (*(uint32_t*)serialEntity == -1)  //Check if end of SerialEntity* buffer
 				return nullptr;
 			while (true) {
-				if (component->componentID == -1) {
-					uint8_t* ptr = (uint8_t*)component;
+				Component* nextComponent = getNextComponent(component);
+				if (nextComponent == nullptr) {
+					uint32_t* ptr = (uint32_t*)component;
 					ptr++;
-					//End of SerialEntity buffer
-					if (*(uint32_t*)ptr == -1) {
+					if (*ptr == -1)  //Reached end of SerialEntity buffer
 						return nullptr;
-					}
 					return (SerialEntity*)ptr;
 				}
-				component = getNextComponent(component);
+				component = nextComponent;
 			}
 		}
 		uint32_t getSize() {
@@ -278,14 +286,15 @@ namespace SystemUtilities {
 			return false;
 		}
 		void log() {
+			HAL_LOG("SerialEntity addr: {}\n", (void*)this);
 			Component* component = getRootComponent();
 			while (true) {
+				if (component == nullptr)
+					break;;
 				component->log();
 				component = getNextComponent(component);
-
-				if (component == nullptr)
-					return;
 			}
+			HAL_LOG("\n");
 		}
 
 		//Blittable, can use free on result
@@ -336,6 +345,15 @@ namespace SystemUtilities {
 			//throw;
 			outSize = totalSize;
 			return serialEntityBuffer;
+		}
+
+		static void logSerialEntityBuffer(SerialEntity* serialEntityBuffer) {
+			loop:
+			serialEntityBuffer->log();
+			serialEntityBuffer = getNextSerialEntity(serialEntityBuffer);
+			if (serialEntityBuffer == nullptr)
+				return;
+			goto loop;
 		}
 
 		static std::unordered_map<ComponentID, void* (*)(EntityID entity, uint32_t& outSize)> serializeFunctions;
