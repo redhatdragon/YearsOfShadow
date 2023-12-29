@@ -6,6 +6,8 @@
 #include <fstream>
 #include <iostream>
 
+#include <map>
+
 namespace EntityObjectLoader {
     static std::string errorStr = "";
 
@@ -326,5 +328,273 @@ namespace EntityObjectLoader {
             newText += val + ";\n";
         }
         HAL::file_append_str(filename.c_str(), newText.c_str());
+    }
+
+
+
+
+
+
+
+    ComponentObject processItemComponent(const std::string& line) {
+        auto tokens = split(line, " ");
+        const std::string& componentName = tokens[0];
+        //ComponentObject retValue = {};
+
+        //GUN
+        if (componentName == "MAGAZINE_SIZE") {
+            std::string& arg1 = tokens.at(1);
+            if (isDigits(arg1) == false) {
+                HAL_ERROR("processItemComponent(): component MAGAZINE_SIZE arg1: {} not integer");
+                return {};
+            }
+            return createComponentInteger("MAGAZINE_SIZE", arg1);
+        }
+        if (componentName == "MUZZLE_VELOCITY") {
+
+        }
+        if (componentName == "BULLET_WEIGHT") {
+
+        }
+        if (componentName == "RATE_OF_FIRE") {
+
+        }
+        if (componentName == "RELOAD_TIME") {
+
+        }
+        if (componentName == "DEGRADATION_PER_USE") {
+
+        }
+
+        //GENERIC
+        if (componentName == "MAX_DURABILITY") {
+
+        }
+        if (componentName == "SCRAPS_INTO") {
+
+        }
+        if (componentName == "DEGRADATION_PER_USE") {
+
+        }
+        if (componentName == "MAX_STACK") {
+
+        }
+
+        //MELEE
+        if (componentName == "ENTITY_DAMAGE") {
+
+        }
+        if (componentName == "POWER_ATTACK_ENTITY_DAMAGE") {
+
+        }
+        if (componentName == "BLOCK_DAMAGE") {
+
+        }
+        if (componentName == "POWER_ATTACK_BLOCK_DAMAGE") {
+
+        }
+        if (componentName == "RANGE") {
+
+        }
+        if (componentName == "ATTACKS_PER_MINUTE") {
+
+        }
+        if (componentName == "STAMINA_USAGE") {
+
+        }
+        if (componentName == "POWER_ATTACK_STAMINA_USAGE") {
+
+        }
+        if (componentName == "BUTCHER_DAMAGE_MULTIPLIER") {
+
+        }
+        if (componentName == "ATTACKS_PER_MINUTE") {
+
+        }
+
+        //BLOCKS
+        if (componentName == "HIT_POINTS") {
+
+        }
+        if (componentName == "ELECTRICAL_POWER_REQUIRED") {
+
+        }
+        if (componentName == "HORIZONTAL_SUPPORT") {
+
+        }
+        if (componentName == "MASS") {
+
+        }
+
+        //TOOLS
+
+        //AMMO
+        if (componentName == "EFFECTIVE_RANGE") {
+
+        }
+        if (componentName == "EXPLOSION_RANGE_ENTITIES") {
+
+        }
+        if (componentName == "EXPLOSION_RANGE_BLOCKS") {
+
+        }
+        if (componentName == "VELOCITY") {
+
+        }
+
+        //ARMOR
+        if (componentName == "ARMOR_RATING") {
+
+        }
+        if (componentName == "ELEMENTAL_PROTECTION") {
+
+        }
+        if (componentName == "EFFECT_PROTECTION") {
+
+        }
+        if (componentName == "MOBILITY_REDUCTION") {
+
+        }
+        if (componentName == "STAMINA_REGEN_REDUCTION") {
+
+        }
+        if (componentName == "NOISE_INCREASE") {
+
+        }
+
+        //RAW RESOURCES
+        if (componentName == "BURN_TIME") {
+
+        }
+        if (componentName == "MATERIAL") {
+
+        }
+        if (componentName == "MOBILITY_REDUCTION") {
+
+        }
+        if (componentName == "MOBILITY_REDUCTION") {
+
+        }
+
+        //INTERMEDIATE RESOURCES
+
+        //FOOD
+        if (componentName == "RESTORES_FOOD") {
+
+        }
+        if (componentName == "RESTORES_HYDRATION") {
+
+        }
+        if (componentName == "DECREASES_FOOD") {
+
+        }
+        if (componentName == "DECREASES_HYDRATION") {
+
+        }
+
+        //MEDICAL
+        if (componentName == "CURES_INFECTION") {
+
+        }
+        if (componentName == "RESTORES_HEALTH") {
+
+        }
+        if (componentName == "CREATES_ITEM_ON_USE") {
+
+        }
+        if (componentName == "REDUCES_BROKEN_LIMB_TIME") {
+
+        }
+        if (componentName == "HAS_USE_COOLDOWN") {
+
+        }
+        if (componentName == "BUFF_NO_ECUMBERENCE") {
+
+        }
+        if (componentName == "BUFF_MOVEMENT_SPEED") {
+
+        }
+        if (componentName == "BUFF_RANGED_DAMAGE") {
+
+        }
+        return {};
+    }
+    //Takes .ITEM format/extension files
+    inline std::map<std::string, EntityObject> createEntityObjectsFromFileITEM(const std::string& filename) {
+        std::string line;
+        std::fstream myfile(filename);
+        std::string fileText = "";
+        std::map<std::string, EntityObject> retValue;
+
+        if (myfile.is_open() == false) {
+            HAL_ERROR("Error: createEntityObjectFromFileITEM()'s designated file from 'filename' couldn't be opened\n");
+            HAL_ERROR("filename was {}\n", filename);
+            return retValue;
+        }
+
+        EntityObject eo;
+        while (getline(myfile, line)) {
+            size_t dashPos = line.find('-');
+            if (dashPos != std::string::npos)
+                line = line.substr(dashPos);
+            if (line.size() == 0)
+                continue;
+
+            static bool isSecondLine = false;
+            //Declaring our item name...
+            if (line[0] == '#') {
+                //Pushing our last object if it was built...
+                if (eo.components.size()) {
+                    auto c = eo.getComponent("NAME");
+                    if (c == nullptr) {
+                        HAL_ERROR("createEntityObjectsFromFileITEM(): from file {}\n", filename);
+                        HAL_ERROR("THIS SHOULD NOT BE HAPPENING!");
+                        HAL_ERROR("last object doesn't have a NAME component somehow?");
+                        continue;
+                    }
+                    if (c->type != ComponentObject::TYPE::TYPE_STRING) {
+                        HAL_ERROR("createEntityObjectsFromFileITEM(): from file {}\n", filename);
+                        HAL_ERROR("THIS SHOULD NOT BE HAPPENING!");
+                        HAL_ERROR("last object's NAME component isn't a name/string?");
+                        continue;
+                    }
+                    retValue[c->getString().c_str()] = eo;
+                }
+                eo = {};
+                ComponentObject cName;
+                if (line.size() == 1) {
+                    HAL_ERROR("createEntityObjectsFromFileITEM(): from file {}\n", filename);
+                    HAL_ERROR("THIS SHOULD NOT BE HAPPENING!");
+                    HAL_ERROR("new object's would be name is empty? # is by itself...");
+                    continue;
+                }
+                const char* str = line.c_str();
+                cName.name = "NAME";
+                cName.setString(&str[1]);
+                eo.components.push_back(cName);
+                isSecondLine = true;
+            }
+
+            if (isSecondLine) {
+                ComponentObject cDescription;
+                cDescription.name = "DESCRIPTION";
+                cDescription.setString(line.c_str());
+                eo.components.push_back(cDescription);
+                isSecondLine = false;
+                continue;
+            }
+
+            auto tokens = split(line, " ");
+            if (tokens.size() == 1) {  //We are handling an attribute...
+                ComponentObject cAttrib;
+                cAttrib.name = tokens[0];
+                cAttrib.setNULL();
+                continue;
+            }
+
+            processItemComponent(line);
+
+        }
+        myfile.close();
     }
 }
