@@ -11,7 +11,7 @@
 #include <OBJ_Loader/OBJ_Loader.h>
 
 struct InstancedSubMesh {
-    Shader shader;
+    Shader* shader;
     std::vector<Texture> textures;
 
     GLuint VBO, IBO, PBO, VAO;
@@ -20,70 +20,60 @@ struct InstancedSubMesh {
 
     //void* indicesCpy;
 
-    InstancedSubMesh(const Vertex3D* verticies, const void* indices, uint32_t vertCount, uint32_t _indexCount,
-        const std::vector<Texture>& _textures) {
-        _init(verticies, indices, vertCount, _indexCount,
-            _textures);
-    }
+    InstancedSubMesh(const Vertex3D* verticies, const void* indices, uint32_t vertCount, uint32_t _indexCount, const std::vector<Texture>& _textures) {
+            //indicesCpy = malloc(_indexCount * 2);
+            //memcpy(indicesCpy, indices, _indexCount * 2);
 
-    void _init(const Vertex3D* verticies, const void* indices, uint32_t vertCount, uint32_t _indexCount,
-        const std::vector<Texture>& _textures) {
-        //indicesCpy = malloc(_indexCount * 2);
-        //memcpy(indicesCpy, indices, _indexCount * 2);
+            indexCount = _indexCount;
 
-        indexCount = _indexCount;
-
-        std::string texturePath = HAL::get_dir_data(); texturePath += "Textures/RightArrow.png";
-        textures.push_back(Texture());
-        textures[0].init(texturePath);
+            std::string texturePath = HAL::get_dir_data(); texturePath += "Textures/RightArrow.png";
+            textures.push_back(Texture());
+            textures[0].init(texturePath);
 
 
 
-        std::string shaderPath = HAL::get_dir_data(); shaderPath += "ShadersGL/BasicInstancedMesh.shader";
-        shader.init(shaderPath);
+            std::string shaderPath = HAL::get_dir_data(); shaderPath += "ShadersGL/BasicInstancedMesh.shader";
+            shader = ShaderCache::get(shaderPath);
 
-        GL_CALL(glGenBuffers(1, &VBO));
-        GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, VBO));
-        GL_CALL(glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex3D) * vertCount, verticies, GL_DYNAMIC_DRAW));
+            GL_CALL(glGenBuffers(1, &VBO));
+            GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, VBO));
+            GL_CALL(glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex3D)* vertCount, verticies, GL_DYNAMIC_DRAW));
 
 
-        GL_CALL(glGenBuffers(1, &IBO));
-        GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO));
-        GL_CALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * 2, indices, GL_DYNAMIC_DRAW));
-        IndexBuffer;
+            GL_CALL(glGenBuffers(1, &IBO));
+            GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO));
+            GL_CALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * 2, indices, GL_DYNAMIC_DRAW));
+            IndexBuffer;
 
-        GL_CALL(glGenBuffers(1, &PBO));
-        GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, PBO));
-        VertexBuffer;
+            GL_CALL(glGenBuffers(1, &PBO));
+            GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, PBO));
+            VertexBuffer;
 
-        GL_CALL(glGenVertexArrays(1, &VAO));
-        GL_CALL(glBindVertexArray(VAO));
+            GL_CALL(glGenVertexArrays(1, &VAO));
+            GL_CALL(glBindVertexArray(VAO));
 
-        GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, VBO));
-        GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO));
-        // Position
-        GL_CALL(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (const void*)0));
-        GL_CALL(glEnableVertexAttribArray(0));
-        // TexCoord
-        GL_CALL(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (const void*)(3 * sizeof(float))));
-        GL_CALL(glEnableVertexAttribArray(1));
-        // Normal
-        GL_CALL(glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (const void*)(5 * sizeof(float))));
-        GL_CALL(glEnableVertexAttribArray(2));
+            GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, VBO));
+            GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO));
+            // Position
+            GL_CALL(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (const void*)0));
+            GL_CALL(glEnableVertexAttribArray(0));
+            // TexCoord
+            GL_CALL(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (const void*)(3 * sizeof(float))));
+            GL_CALL(glEnableVertexAttribArray(1));
+            // Normal
+            GL_CALL(glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (const void*)(5 * sizeof(float))));
+            GL_CALL(glEnableVertexAttribArray(2));
 
-        GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, PBO));
-        GL_CALL(glEnableVertexAttribArray(3));
-        //glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (const void*)(5*sizeof(float)));
-        GL_CALL(glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (const void*)(0)));
-        GL_CALL(glVertexAttribDivisor(3, 1));
-        VertexArray;
+            GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, PBO));
+            GL_CALL(glEnableVertexAttribArray(3));
+            //glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (const void*)(5*sizeof(float)));
+            GL_CALL(glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (const void*)(0)));
+            GL_CALL(glVertexAttribDivisor(3, 1));
+            VertexArray;
 
-        //glBindBuffer(GL_ARRAY_BUFFER, 0);
-        //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-        //glBindVertexArray(0);
-    }
-    void destruct() {
-
+            //glBindBuffer(GL_ARRAY_BUFFER, 0);
+            //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+            //glBindVertexArray(0);
     }
     void draw(Pos3D pos, Pos3D rot, Pos3D siz, glm::vec3 cam_pos, glm::vec3 cam_dir, const glm::mat4 &view,
               const glm::mat4 &perspective, uint32_t instanceCount)
@@ -93,7 +83,7 @@ struct InstancedSubMesh {
         GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO));
 
         textures[0].bind();
-        shader.bind();
+        shader->bind();
         glm::mat4 model = glm::mat4(1.0f);
         //model = glm::translate(model, { pos.x, pos.y, pos.z });
         //model = glm::rotate(model, glm::radians(rot.x), { 1.0f, 0.0f, 0.0f });
@@ -102,12 +92,12 @@ struct InstancedSubMesh {
         ////model = glm::scale(model, { siz.x, siz.y, siz.z });
         //model = glm::scale(model, { 1, 1, 1 });
         glm::mat4 mvp = perspective * view * model;
-        shader.setUniformMat4f("u_M", model);
-        shader.setUniformMat4f("u_MVP", mvp);
-        shader.setUniform3f("u_scale", siz.x, siz.y, siz.z);
-        shader.setUniform4f("u_color", 1, 1, 1, 1);
+        shader->setUniformMat4f("u_M", model);
+        shader->setUniformMat4f("u_MVP", mvp);
+        shader->setUniform3f("u_scale", siz.x, siz.y, siz.z);
+        shader->setUniform4f("u_color", 1, 1, 1, 1);
 
-        shader.setUniform3f("u_camPos", cam_pos.x, cam_pos.y, cam_pos.z);
+        shader->setUniform3f("u_camPos", cam_pos.x, cam_pos.y, cam_pos.z);
         // shader.setUniform3f("u_camDir", cam_dir.x, cam_dir.y, cam_dir.z);
 
         GL_CALL(glDrawElementsInstanced(GL_TRIANGLES, indexCount, GL_UNSIGNED_SHORT, nullptr, instanceCount));
@@ -142,10 +132,6 @@ struct InstancedMesh {
     std::string filepath;
 
     InstancedMesh(const char* _filepath) {
-        _init(_filepath);
-    }
-
-    void _init(const char* _filepath) {
         objl::Loader loader;
         loader.LoadFile(_filepath);
         filepath = _filepath;
@@ -155,10 +141,7 @@ struct InstancedMesh {
             subMeshes.push_back(loadSubMeshData(meshes[i]));
         }
     }
-    void destruct() {
-        for (uint32_t i = 0; i < subMeshes.size(); i++)
-            subMeshes[i].destruct();
-    }
+
     void draw(glm::vec3 cam_pos, glm::vec3 cam_dir, const glm::mat4 &viewMatrix, const glm::mat4 &perspectiveMatrix)
     {
         for (uint32_t i = 0; i < subMeshes.size(); i++)

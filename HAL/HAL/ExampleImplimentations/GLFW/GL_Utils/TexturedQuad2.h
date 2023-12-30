@@ -17,7 +17,7 @@ struct TexturedQuad {
 
     uint32_t VBO, VAO, IBO;
 
-    Shader shader;
+    Shader* shader;
     Texture texture;
     //uint32_t texture;
     float colors[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -65,12 +65,12 @@ struct TexturedQuad {
     };
 
     //void init(const Vertex2D* verticies, const uint8_t* indicies, uint32_t vertCount, uint32_t indexCount);
-    void init(const char* filename, float x, float y, float w, float h);
-    void destruct();
-    void setColor(float r, float g, float b, float a);
-    void draw();
-    void draw(float x, float y, float w, float h);
-    void setPosAndSiz(float x, float y, float w, float h);
+    inline TexturedQuad(const char* filename, float x, float y, float w, float h);
+    inline ~TexturedQuad();
+    inline void setColor(float r, float g, float b, float a);
+    inline void draw();
+    inline void draw(float x, float y, float w, float h);
+    inline void setPosAndSiz(float x, float y, float w, float h);
 private:
     void initTexture(const char* filename);
 };
@@ -90,7 +90,7 @@ private:
     //shader.init("./Shaders/Basic.shader");
     texture.init("./data/textures/ChernoLogo.png");
 }*/
-void TexturedQuad::init(const char* filename, float _x, float _y, float _w, float _h) {
+TexturedQuad::TexturedQuad(const char* filename, float _x, float _y, float _w, float _h) {
     //Vertex2D origVertsTrans[4];
     //for (uint32_t i = 0; i < 4; i++) {
     //    origVertsTrans[i] = verts[i];
@@ -134,16 +134,12 @@ void TexturedQuad::init(const char* filename, float _x, float _y, float _w, floa
 
     initTexture(filename);
     std::string dataDir = HAL::get_dir_data();
-    shader.init(dataDir + "ShadersGL/TexturedQuad.shader");
+    shader = ShaderCache::get(dataDir + "ShadersGL/TexturedQuad.shader");
 }
-void TexturedQuad::destruct() {
+TexturedQuad::~TexturedQuad() {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &IBO);
-    //vertexArray.destruct();
-    //vertexBuffer.destruct();
-    //indexBuffer.destruct();
-    shader.destruct();
     texture.destruct();
 }
 void TexturedQuad::setColor(float r, float g, float b, float a) {
@@ -160,9 +156,9 @@ void TexturedQuad::draw() {
     //glActiveTexture(GL_TEXTURE0);
     //glBindTexture(GL_TEXTURE_2D, texture);
     texture.bind();
-    shader.bind();
-    shader.setUniform4f("u_color", colors[0], colors[1], colors[2], colors[3]);
-    shader.setUniform1i("u_texture", 0);
+    shader->bind();
+    shader->setUniform4f("u_color", colors[0], colors[1], colors[2], colors[3]);
+    shader->setUniform1i("u_texture", 0);
 
     glBindVertexArray(VAO);
     //vertexArray.bind();

@@ -6,11 +6,26 @@
 class VertexBuffer {
 	uint32_t id;
 public:
-	void init() {
-		GL_CALL(glGenBuffers(1, &id));
+	VertexBuffer() = delete;
+	VertexBuffer(const VertexBuffer&) = delete;
+	VertexBuffer& operator=(const VertexBuffer&) = delete;
+	VertexBuffer(VertexBuffer&& other) : id(std::exchange(other.id, 0)) {
+
 	}
-	void init(const void* data, uint32_t size);
-	void destruct();
+	VertexBuffer& operator=(VertexBuffer&& other) {
+		if (id != 0)
+			GL_CALL(glDeleteBuffers(1, &id));
+		id = std::exchange(other.id, 0);
+		return *this;
+	}
+	VertexBuffer(const void* data, uint32_t size) {
+		GL_CALL(glGenBuffers(1, &id));
+		buffer(data, size);
+	}
+	~VertexBuffer() {
+		if(id != 0)
+			GL_CALL(glDeleteBuffers(1, &id));
+	}
 	void buffer(const void* data, uint32_t size);
 	void bind() const;
 	void unbind() const;
@@ -18,21 +33,14 @@ public:
 
 
 
-void VertexBuffer::init(const void* data, uint32_t size) {
-	GL_CALL(glGenBuffers(1, &id));
-	buffer(data, size);
-}
-void VertexBuffer::destruct() {
-	GL_CALL(glDeleteBuffers(1, &id));
-}
-void VertexBuffer::buffer(const void* data, uint32_t size) {
+inline void VertexBuffer::buffer(const void* data, uint32_t size) {
 	bind();
 	//glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
     GL_CALL(glBufferData(GL_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW));
 }
-void VertexBuffer::bind() const {
+inline void VertexBuffer::bind() const {
 	GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, id));
 }
-void VertexBuffer::unbind() const {
+inline void VertexBuffer::unbind() const {
 	GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, 0));
 }

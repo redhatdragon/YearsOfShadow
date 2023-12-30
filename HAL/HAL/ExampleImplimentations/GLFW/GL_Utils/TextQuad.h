@@ -9,9 +9,9 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
-struct TextQuad {
+class TextQuad {
     uint32_t VBO, VAO, IBO;
-    Shader shader;
+    Shader* shader;
     Texture texture;
     //uint32_t texture;
     float colors[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -27,17 +27,17 @@ struct TextQuad {
         0, 1, 3, // first triangle
         1, 2, 3  // second triangle
     };
-
-    void init(Texture* fontAtlas, const char* str, float x, float y, float w, float h);
-    void destruct();
-    void setColor(float r, float g, float b, float a);
-    void draw();
-    void draw(float x, float y, float w, float h);
-    void setPosAndSiz(float x, float y, float w, float h);
+public:
+    inline TextQuad(Texture* fontAtlas, const char* str, float x, float y, float w, float h);
+    inline ~TextQuad();
+    inline void setColor(float r, float g, float b, float a);
+    inline void draw();
+    inline void draw(float x, float y, float w, float h);
+    inline void setPosAndSiz(float x, float y, float w, float h);
 private:
-    void initTexture(Texture* fontAtlas, const char* str);
+    inline void initTexture(Texture* fontAtlas, const char* str);
 };
-void TextQuad::init(Texture* fontAtlas, const char* str, float _x, float _y, float _w, float _h) {
+TextQuad::TextQuad(Texture* fontAtlas, const char* str, float _x, float _y, float _w, float _h) {
     Vertex2D newVerts[4];
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -53,13 +53,12 @@ void TextQuad::init(Texture* fontAtlas, const char* str, float _x, float _y, flo
 
     initTexture(fontAtlas, str);
     std::string dataDir = HAL::get_dir_data();
-    shader.init(dataDir + "ShadersGL/TexturedQuad.shader");
+    shader = ShaderCache::get(dataDir + "ShadersGL/TexturedQuad.shader");
 }
-void TextQuad::destruct() {
+TextQuad::~TextQuad() {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &IBO);
-    shader.destruct();
     texture.destruct();
 }
 void TextQuad::setColor(float r, float g, float b, float a) {
@@ -70,9 +69,9 @@ void TextQuad::draw() {
     GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, VBO));
     GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO));
     texture.bind();
-    shader.bind();
-    shader.setUniform4f("u_color", colors[0], colors[1], colors[2], colors[3]);
-    shader.setUniform1i("u_texture", 0);
+    shader->bind();
+    shader->setUniform4f("u_color", colors[0], colors[1], colors[2], colors[3]);
+    shader->setUniform1i("u_texture", 0);
 
     glBindVertexArray(VAO);
     GL_CALL(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, 0));

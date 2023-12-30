@@ -227,8 +227,7 @@ inline void getAspectRatio(float& w, float& h) {
 
 HAL::texture_handle_t HAL::get_new_texture(const std::string_view fileName)
 {
-    TexturedQuad* texture = new TexturedQuad();
-    texture->init(static_cast<std::string>(fileName).c_str(), 0, 0, 20, 20);
+    TexturedQuad* texture = new TexturedQuad(static_cast<std::string>(fileName).c_str(), 0, 0, 20, 20);
     return (HAL::texture_handle_t)(uintptr_t)texture;
 }
 
@@ -266,12 +265,10 @@ void HAL::draw_text(const char* str, int x, int y, unsigned int fontWidth) {
     //tq.draw(x, y, 1024, 16);
     //tq.destruct();
     //return;
-    TextQuad tQuad;
     uint32_t strLen = (uint32_t)strlen(str);
-    tQuad.init(fontAtlas, str, x, y, strLen * fontWidth, fontWidth);
+    TextQuad tQuad = TextQuad(fontAtlas, str, x, y, strLen * fontWidth, fontWidth);
     GL_CALL(glDisable(GL_DEPTH_TEST));
     tQuad.draw(x, y, strLen * fontWidth, fontWidth);
-    tQuad.destruct();
     GL_CALL(glEnable(GL_DEPTH_TEST));
     GL_CALL(glDepthFunc(GL_LESS));
 }
@@ -547,8 +544,8 @@ bool HAL::is_thread_pool_finished(HAL::thread_pool_handle_t self)
 HAL::mesh_handle_t HAL::get_new_mesh(const std::string_view filepath)
 {
     // TODO: Use vector
-    auto retValue = std::make_unique<Mesh>();
-    retValue->init(static_cast<std::string>(filepath).c_str());
+    auto retValue = std::make_unique<Mesh>(static_cast<std::string>(filepath).c_str());
+    //retValue->init(static_cast<std::string>(filepath).c_str());
     meshes.push_back(std::move(retValue));
     return static_cast<HAL::mesh_handle_t>(reinterpret_cast<std::uintptr_t>(static_cast<void *>(meshes.back().get())));
 }
@@ -895,6 +892,12 @@ int main()
     //Initialize sound context
     cs_ctx = cs_make_context(hwnd, 48000, 8192 * 10, 0, NULL);
     _network_init();
+
+
+    VertexBuffer v(nullptr, 0);
+    VertexBuffer v2 = std::move(v);
+    v2 = std::move(v);
+
 
 
     //IMGUI_CHECKVERSION();
