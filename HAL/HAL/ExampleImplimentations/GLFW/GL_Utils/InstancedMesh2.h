@@ -20,7 +20,13 @@ struct InstancedSubMesh {
 
     //void* indicesCpy;
 
-    void init(const Vertex3D* verticies, const void* indices, uint32_t vertCount, uint32_t _indexCount,
+    InstancedSubMesh(const Vertex3D* verticies, const void* indices, uint32_t vertCount, uint32_t _indexCount,
+        const std::vector<Texture>& _textures) {
+        _init(verticies, indices, vertCount, _indexCount,
+            _textures);
+    }
+
+    void _init(const Vertex3D* verticies, const void* indices, uint32_t vertCount, uint32_t _indexCount,
         const std::vector<Texture>& _textures) {
         //indicesCpy = malloc(_indexCount * 2);
         //memcpy(indicesCpy, indices, _indexCount * 2);
@@ -135,7 +141,11 @@ struct InstancedMesh {
     uint32_t instanceCount;
     std::string filepath;
 
-    void init(const char* _filepath) {
+    InstancedMesh(const char* _filepath) {
+        _init(_filepath);
+    }
+
+    void _init(const char* _filepath) {
         objl::Loader loader;
         loader.LoadFile(_filepath);
         filepath = _filepath;
@@ -203,8 +213,8 @@ private:
             toVert.normal = glm::normalize(toVert.normal);
             vertices.push_back(toVert);
         }
-        InstancedSubMesh retValue;
-        retValue.init(vertices.data(), indices, vertexCount, indexCount, {});
+        InstancedSubMesh retValue = InstancedSubMesh(vertices.data(), indices, vertexCount, indexCount, {});
+        //retValue.init(vertices.data(), indices, vertexCount, indexCount, {});
         free(indices);
         return retValue;
     }

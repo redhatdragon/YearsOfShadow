@@ -612,10 +612,10 @@ void HAL::release_mesh(mesh_handle_t mesh)
 
 HAL::instanced_mesh_handle_t HAL::get_new_instanced_mesh(const std::string_view filePath)
 {
-    auto imesh = std::make_unique<InstancedMesh>();
-    imesh->init(static_cast<std::string>(filePath).c_str()); // TODO: Return false if failed to load
+    auto imesh = std::make_unique<InstancedMesh>(static_cast<std::string>(filePath).c_str());
+    //imesh->init(static_cast<std::string>(filePath).c_str()); // TODO: Return false if failed to load
 
-    if (std::empty(imesh->subMeshes)) 
+    if (std::empty(imesh->subMeshes))
     {
         HAL_LOG("EE_getNewInstancedMesh()'s filepath arg didn't turn up a usable mesh file, path: {}", filePath);
         imesh.reset();
