@@ -109,6 +109,7 @@ namespace HAL
 
 	//Utilities...
 	std::vector<std::string> splitString(const char* input, char delim);
+	void splitString(const char* input, char delim, std::vector<std::string>& retValue);
 
     /**
      * \brief Load new texture from the file and return handle to it
@@ -280,8 +281,8 @@ namespace HAL
 	//float get_frame_time_MS();  TODO: need a better name for this or maybe have it removed?
 
 	//TODO: add position offset + volume offset to these somehow later
-	bool play_audio_file(const char* fileName, uint8_t loop);
-	bool get_new_audio(const char* fileName, void* audioBuffer);
+	bool play_audio_file(const char* fileName);
+	void* get_new_audio(const char* fileName);
 	bool play_audio(void* audio, uint8_t loop);
 	bool stop_audio(void* audio);
 

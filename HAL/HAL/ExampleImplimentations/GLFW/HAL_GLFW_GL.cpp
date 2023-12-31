@@ -273,25 +273,38 @@ void HAL::draw_text(const char* str, int x, int y, unsigned int fontWidth) {
     GL_CALL(glDepthFunc(GL_LESS));
 }
 std::vector<std::string> HAL::splitString(const char* input, char delim) {
-	uint32_t i = 0;
-	std::vector<std::string> retValue = {};
-	std::string currentString = "";
-	while (true) {
-		if (input[i] == 0) {
-            if(currentString.size())
-			    retValue.push_back(currentString);
-			return retValue;
-		}
-		if (input[i] == '\n') {
-            if(currentString.size())
-			    retValue.push_back(currentString);
-			currentString = "";
-			i++;
-			continue;
-		}
-		currentString += input[i];
-		i++;
-	}
+    uint32_t i = 0;
+    std::vector<std::string> retValue = {};
+    std::string currentString = "";
+    while (true) {
+        if (input[i] == 0) {
+            if (currentString.size())
+                retValue.push_back(currentString);
+            return retValue;
+        }
+        if (input[i] == '\n') {
+            if (currentString.size())
+                retValue.push_back(currentString);
+            currentString = "";
+            i++;
+            continue;
+        }
+        currentString += input[i];
+        i++;
+    }
+}
+void HAL::splitString(const char* input, char delim, std::vector<std::string>& retValue) {
+    const char* current = input;
+    const char* last = current;
+    while (true) {
+        last = current;
+        if ((current = strchr(current, delim)) == NULL)
+            break;
+        retValue.push_back(std::string());
+        std::string* ptr = &retValue[retValue.size() - 1];
+        ptr->append(current, (uint32_t)(current - last));
+        current++;
+    }
 }
 void HAL::draw_text_multi_line(const char* str, int x, int y, unsigned int fontWidth, unsigned int spacer) {
     uint32_t strLen = (uint32_t)strlen(str);
@@ -412,7 +425,7 @@ bool strHasExtension(std::string str, const std::string& ext) {
 }
 cs_context_t* cs_ctx;
 FlatBuffer<cs_playing_sound_t*, 256*256> activeSound;
-bool HAL::play_audio_file(const char* fileName, uint8_t loop) {
+bool HAL::play_audio_file(const char* fileName) {
     cs_loaded_sound_t tAudio = {};
     if (strHasExtension(fileName, ".wav"))
         tAudio = cs_load_wav(fileName);
@@ -427,8 +440,8 @@ bool HAL::play_audio_file(const char* fileName, uint8_t loop) {
     HAL_ALLOC_TYPE(audio);
     memcpy(audio, &tAudio, sizeof(struct cs_loaded_sound_t));
     cs_playing_sound_t tAudioInstance = cs_make_playing_sound(audio);
-    if (loop)
-        tAudioInstance.looped = true;  //TODO: Test
+    //if (loop)
+    //    tAudioInstance.looped = true;  //TODO: Test
     cs_playing_sound_t* audioInstance;
     HAL_ALLOC_TYPE(audioInstance);
     memcpy(audioInstance, &tAudioInstance, sizeof(tAudioInstance));
