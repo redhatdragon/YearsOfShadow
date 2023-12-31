@@ -199,10 +199,6 @@ public:
 	inline void getDynamicBodyIDsInBox(const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& siz, uint32_t dynamicBodyIndex, std::vector<BodyID>& retValue) {
 		Bounds bounds;
 		getIterationBounds(pos, siz, bounds);
-		//std::cout << bounds.siz.x - bounds.pos.x << ' ' <<
-		//	bounds.siz.y - bounds.pos.y << ' ' <<
-		//	bounds.siz.z - bounds.pos.z << std::endl;
-		thread_local std::unordered_set<uint32_t> idMap;
 		for (uint32_t z = bounds.pos.z; z <= bounds.siz.z; z++)
 			for (uint32_t y = bounds.pos.y; y <= bounds.siz.y; y++)
 				for (uint32_t x = bounds.pos.x; x <= bounds.siz.x; x++) {
@@ -218,7 +214,16 @@ public:
 						}
 					}
 				}
-		idMap.clear();
+	}
+	inline void getBodyIDsInPoint(const Vec3D<physics_fp>& pos, BodyID ignoreBody, std::vector<BodyID>& retValue) {
+		auto hash = getHash(pos.x.getAsInt(), pos.y.getAsInt(), pos.z.getAsInt());
+		uint32_t count = hash.getCount();
+		for (uint32_t i = 0; i < count; i++) {
+			BodyID id = hash.getBodyID(i);
+			if (id == ignoreBody)
+				continue;
+			retValue.push_back(hash.getBodyID(i));
+		}
 	}
 	std::string getDbgStr() {
 		uint64_t sizeOfHash = sizeof(FlatBuffer<BodyID, max_bodies_per_hash>);

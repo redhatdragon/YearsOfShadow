@@ -313,7 +313,7 @@ private:
 		Vec3D<FixedPoint<256 * 256>> offset = {1, 0, 1};
 		Vec3D<FixedPoint<256 * 256>> siz = { 2, 1, 2 };
 		std::vector<BodyID>& bodies = castBuff;
-		physics.getBodiesInBoxRough(pos-offset, siz, bodies);
+		physics.getDynamicBodiesInBoxRough(pos-offset, siz, bodies);
 		thread_local std::vector<BodyID> bodiesWithEntities;
         bodiesWithEntities.clear();
 		bodiesWithEntities.reserve(bodies.size());

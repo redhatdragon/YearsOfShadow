@@ -233,14 +233,17 @@ public:
 		return out.size();
 	}
     inline bool pointTrace(const Vec3D<physics_fp> &pos, BodyID ignoredBody, std::vector<BodyID>& out) {
-        out.resize(0);
-		Vec3D<physics_fp> siz = {1, 1, 1};
-		spatialHashTable.getBodyIDsInBox(pos, siz, out);
-		uint32_t size = (uint32_t)out.size();
-		for (uint32_t i = 0; i < size; i++)
-			if (out[i] != ignoredBody)
-				return true;
-		return false;
+        //out.resize(0);
+		//Vec3D<physics_fp> siz = {1, 1, 1};
+		//spatialHashTable.getBodyIDsInBox(pos, siz, out);
+		//uint32_t size = (uint32_t)out.size();
+		//for (uint32_t i = 0; i < size; i++)
+		//	if (out[i] != ignoredBody)
+		//		return true;
+		//return false;
+		out.clear();
+		spatialHashTable.getBodyIDsInPoint(pos, ignoredBody, out);
+		return out.size();
 	}
 	void setVelocity(BodyID id, physics_fp vx, physics_fp vy, physics_fp vz) {
 		BodyAABB* body = &bodies[id.id];
