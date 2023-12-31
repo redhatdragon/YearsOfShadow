@@ -155,7 +155,7 @@ public:
 		//std::cout << bounds.siz.x - bounds.pos.x << ' ' <<
 		//	bounds.siz.y - bounds.pos.y << ' ' <<
 		//	bounds.siz.z - bounds.pos.z << std::endl;
-		thread_local std::unordered_set<uint32_t> idMap;
+		//thread_local std::unordered_set<uint32_t> idMap;
 		for (uint32_t z = bounds.pos.z; z <= bounds.siz.z; z++)
 			for (uint32_t y = bounds.pos.y; y <= bounds.siz.y; y++)
 				for (uint32_t x = bounds.pos.x; x <= bounds.siz.x; x++) {
@@ -194,7 +194,7 @@ public:
 						}
 					}
 				}
-		idMap.clear();
+		//idMap.clear();
 	}
 	inline void getDynamicBodyIDsInBox(const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& siz, uint32_t dynamicBodyIndex, std::vector<BodyID>& retValue) {
 		Bounds bounds;
