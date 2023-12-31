@@ -44,7 +44,7 @@ public:
 				}
 				continue;
                 static std::vector<BodyID> bodies;
-                physics.getBodyiesInBoxRough(rootPos, totalSiz, bodies);
+                physics.getBodiesInBoxRough(rootPos, totalSiz, bodies);
 				uint32_t bodyCount = (uint32_t)bodies.size();
 				for (uint32_t j = 0; j < bodyCount; j++) {
 					BodyID nextBody = bodies[j];

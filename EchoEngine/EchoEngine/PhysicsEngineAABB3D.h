@@ -15,6 +15,9 @@
 //#include <windows.h>
 #include <sstream>
 #endif
+//#include <unordered_map>
+#include <unordered_set>
+#include <algorithm>
 
 #ifndef physics_width
 #define physics_width 1024
@@ -205,16 +208,28 @@ public:
 	//	}
     //    return (bool)out.size();
 	//}
-	inline bool getBodyiesInBoxRough(Vec3D<physics_fp> pos, Vec3D<physics_fp> siz, std::vector<BodyID>& out) {
+	inline bool getBodiesInBoxRough(Vec3D<physics_fp> pos, Vec3D<physics_fp> siz, std::vector<BodyID>& out) {
 		out.clear();
 		spatialHashTable.getBodyIDsInBox(pos, siz, out);
 		return out.size();
 	}
-	inline bool getBodyiesInBoxRough(Vec3D<uint32_t> pos, Vec3D<uint32_t> siz, std::vector<BodyID>& out) {
+	inline bool getBodiesInBoxRough(Vec3D<uint32_t> pos, Vec3D<uint32_t> siz, std::vector<BodyID>& out) {
 		out.clear();
 		pos *= physics_unit_size; siz *= physics_unit_size;
 		//return getBodiesInRectRough(*(Vec3D<physics_fp>*)&pos, *(Vec3D<physics_fp>*)&siz, out);
 		spatialHashTable.getBodyIDsInBox(*(Vec3D<physics_fp>*)&pos, *(Vec3D<physics_fp>*)&siz, out);
+		return out.size();
+	}
+	inline bool getDynamicBodiesInBoxRough(Vec3D<physics_fp> pos, Vec3D<physics_fp> siz, std::vector<BodyID>& out) {
+		out.clear();
+		spatialHashTable.getDynamicBodyIDsInBox(pos, siz, max_static_bodies, out);
+		return out.size();
+	}
+	inline bool getDynamicBodiesInBoxRough(Vec3D<uint32_t> pos, Vec3D<uint32_t> siz, std::vector<BodyID>& out) {
+		out.clear();
+		pos *= physics_unit_size; siz *= physics_unit_size;
+		//return getBodiesInRectRough(*(Vec3D<physics_fp>*)&pos, *(Vec3D<physics_fp>*)&siz, out);
+		spatialHashTable.getDynamicBodyIDsInBox(*(Vec3D<physics_fp>*) & pos, *(Vec3D<physics_fp>*) & siz, max_static_bodies, out);
 		return out.size();
 	}
     inline bool pointTrace(const Vec3D<physics_fp> &pos, BodyID ignoredBody, std::vector<BodyID>& out) {

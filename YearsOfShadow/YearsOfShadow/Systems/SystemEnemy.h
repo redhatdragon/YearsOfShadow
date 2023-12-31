@@ -313,7 +313,7 @@ private:
 		Vec3D<FixedPoint<256 * 256>> offset = {1, 0, 1};
 		Vec3D<FixedPoint<256 * 256>> siz = { 2, 1, 2 };
 		std::vector<BodyID>& bodies = castBuff;
-		physics.getBodyiesInBoxRough(pos-offset, siz, bodies);
+		physics.getBodiesInBoxRough(pos-offset, siz, bodies);
 		thread_local std::vector<BodyID> bodiesWithEntities;
         bodiesWithEntities.clear();
 		bodiesWithEntities.reserve(bodies.size());
@@ -369,7 +369,7 @@ private:
 			pos += padding;
 			pos.y = 153;
             static std::vector<BodyID> castBuff;
-			if (physics.getBodyiesInBoxRough(pos, { 6, 1, 6 }, castBuff))
+			if (physics.getBodiesInBoxRough(pos, { 6, 1, 6 }, castBuff))
 				continue;
 			createEnemy(pos);
 			count++;

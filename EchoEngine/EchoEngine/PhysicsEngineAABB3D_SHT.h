@@ -149,12 +149,13 @@ public:
 	//				out.push_back(&getHash(x, y, z));
 	//}
 	// This was complicated and may need another look over
-	inline void getBodyIDsInBox(const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& siz, std::vector<BodyID>& returnValue) {
+	inline void getBodyIDsInBox(const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& siz, std::vector<BodyID>& retValue) {
 		Bounds bounds;
 		getIterationBounds(pos, siz, bounds);
 		//std::cout << bounds.siz.x - bounds.pos.x << ' ' <<
 		//	bounds.siz.y - bounds.pos.y << ' ' <<
 		//	bounds.siz.z - bounds.pos.z << std::endl;
+		thread_local std::unordered_set<uint32_t> idMap;
 		for (uint32_t z = bounds.pos.z; z <= bounds.siz.z; z++)
 			for (uint32_t y = bounds.pos.y; y <= bounds.siz.y; y++)
 				for (uint32_t x = bounds.pos.x; x <= bounds.siz.x; x++) {
@@ -163,24 +164,61 @@ public:
 					//	std::cout << hash_width << std::endl;
 					//	throw;
 					//}
+					//for (uint32_t i = 0; i < len; i++) {
+					//	auto retValueLen = retValue.size();
+					//	bool hasID = false;
+					//	BodyID id = getHash(x,y,z).getBodyID(i);
+					//	for (size_t j = 0; j < retValueLen; j++) {
+					//		if (retValue[j].id == id.id) {
+					//			hasID = true;
+					//			break;
+					//		}
+					//	}
+					//	if (hasID == false) {
+					//		retValue.push_back(id);
+					//	}
+					//}
+					//for (uint32_t i = 0; i < len; i++) {
+					//	BodyID id = getHash(x, y, z).getBodyID(i);
+					//	if (idMap.contains(id.id) == false) {
+					//		idMap.insert(id.id);
+					//		retValue.push_back(id);
+					//	}
+					//}
 					for (uint32_t i = 0; i < len; i++) {
-						auto retValueLen = returnValue.size();
-						bool hasID = false;
-						BodyID id = getHash(x,y,z).getBodyID(i);
-						for (size_t j = 0; j < retValueLen; j++) {
-							if (returnValue[j].id == id.id) {
-								hasID = true;
-								break;
-							}
+						BodyID id = getHash(x, y, z).getBodyID(i);
+						std::vector<uint32_t>* retValueAs32 = reinterpret_cast<std::vector<uint32_t>*>(&retValue);
+						auto it = std::find(retValueAs32->begin(), retValueAs32->end(), id.id);
+						if (it == retValueAs32->end()) {
+							retValue.push_back(id);
 						}
-						if (hasID == false) {
-							returnValue.push_back(id);
-						}
-
 					}
 				}
-		//if (clock() - c > 2)  //Why?
-		//	throw;
+		idMap.clear();
+	}
+	inline void getDynamicBodyIDsInBox(const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& siz, uint32_t dynamicBodyIndex, std::vector<BodyID>& retValue) {
+		Bounds bounds;
+		getIterationBounds(pos, siz, bounds);
+		//std::cout << bounds.siz.x - bounds.pos.x << ' ' <<
+		//	bounds.siz.y - bounds.pos.y << ' ' <<
+		//	bounds.siz.z - bounds.pos.z << std::endl;
+		thread_local std::unordered_set<uint32_t> idMap;
+		for (uint32_t z = bounds.pos.z; z <= bounds.siz.z; z++)
+			for (uint32_t y = bounds.pos.y; y <= bounds.siz.y; y++)
+				for (uint32_t x = bounds.pos.x; x <= bounds.siz.x; x++) {
+					auto len = getHash(x, y, z).getCount();
+					for (uint32_t i = 0; i < len; i++) {
+						BodyID id = getHash(x, y, z).getBodyID(i);
+						if (id.id < dynamicBodyIndex)
+							continue;
+						std::vector<uint32_t>* retValueAs32 = reinterpret_cast<std::vector<uint32_t>*>(&retValue);
+						auto it = std::find(retValueAs32->begin(), retValueAs32->end(), id.id);
+						if (it == retValueAs32->end()) {
+							retValue.push_back(id);
+						}
+					}
+				}
+		idMap.clear();
 	}
 	std::string getDbgStr() {
 		uint64_t sizeOfHash = sizeof(FlatBuffer<BodyID, max_bodies_per_hash>);
