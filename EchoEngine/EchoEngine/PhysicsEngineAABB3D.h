@@ -182,37 +182,45 @@ public:
 		return overlappingBodyIDs[id.id];
 	}
 
-	inline bool getBodiesInRectRough(Vec3D<physics_fp> pos, Vec3D<physics_fp> siz, std::vector<BodyID>& out) {
-        out.clear();
-        thread_local std::vector<FlatBuffer<BodyID, physics_max_bodies_per_hash>*> hashes;
-        spatialHashTable.getHashes(pos, siz, hashes);
-        out.reserve(hashes.size());
-		uint32_t hashCount = (uint32_t)hashes.size();
-		for (uint32_t i = 0; i < hashCount; i++) {
-			auto* hashPtr = hashes[i];
-			uint32_t hashSize = hashPtr->count;
-			for (uint32_t j = 0; j < hashSize; j++) {
-				BodyID bodyID = (*hashPtr)[j];
-                uint32_t totalBodyCount = (uint32_t)out.size();
-				for (uint32_t k = 0; k < totalBodyCount; k++) {
-                    if (out[k] == bodyID)
-						goto skip;
-				}
-                out.push_back(bodyID);
-			skip:
-				continue;
-			}
-		}
-        return (bool)out.size();
+	//inline bool getBodiesInRectRough(Vec3D<physics_fp> pos, Vec3D<physics_fp> siz, std::vector<BodyID>& out) {
+    //    out.clear();
+    //    thread_local std::vector<FlatBuffer<BodyID, physics_max_bodies_per_hash>*> hashes;
+    //    spatialHashTable.getHashes(pos, siz, hashes);
+    //    out.reserve(hashes.size());
+	//	uint32_t hashCount = (uint32_t)hashes.size();
+	//	for (uint32_t i = 0; i < hashCount; i++) {
+	//		auto* hashPtr = hashes[i];
+	//		uint32_t hashSize = hashPtr->count;
+	//		for (uint32_t j = 0; j < hashSize; j++) {
+	//			BodyID bodyID = (*hashPtr)[j];
+    //            uint32_t totalBodyCount = (uint32_t)out.size();
+	//			for (uint32_t k = 0; k < totalBodyCount; k++) {
+    //                if (out[k] == bodyID)
+	//					goto skip;
+	//			}
+    //            out.push_back(bodyID);
+	//		skip:
+	//			continue;
+	//		}
+	//	}
+    //    return (bool)out.size();
+	//}
+	inline bool getBodyiesInBoxRough(Vec3D<physics_fp> pos, Vec3D<physics_fp> siz, std::vector<BodyID>& out) {
+		out.clear();
+		spatialHashTable.getBodyIDsInBox(pos, siz, out);
+		return out.size();
 	}
-	inline bool getBodiesInRectRough(Vec3D<uint32_t> pos, Vec3D<uint32_t> siz, std::vector<BodyID>& out) {
+	inline bool getBodyiesInBoxRough(Vec3D<uint32_t> pos, Vec3D<uint32_t> siz, std::vector<BodyID>& out) {
+		out.clear();
 		pos *= physics_unit_size; siz *= physics_unit_size;
-		return getBodiesInRectRough(*(Vec3D<physics_fp>*)&pos, *(Vec3D<physics_fp>*)&siz, out);
+		//return getBodiesInRectRough(*(Vec3D<physics_fp>*)&pos, *(Vec3D<physics_fp>*)&siz, out);
+		spatialHashTable.getBodyIDsInBox(*(Vec3D<physics_fp>*)&pos, *(Vec3D<physics_fp>*)&siz, out);
+		return out.size();
 	}
     inline bool pointTrace(const Vec3D<physics_fp> &pos, BodyID ignoredBody, std::vector<BodyID>& out) {
         out.resize(0);
 		Vec3D<physics_fp> siz = {1, 1, 1};
-		spatialHashTable.getIDs(pos, siz, out);
+		spatialHashTable.getBodyIDsInBox(pos, siz, out);
 		uint32_t size = (uint32_t)out.size();
 		for (uint32_t i = 0; i < size; i++)
 			if (out[i] != ignoredBody)
@@ -370,7 +378,7 @@ public:
 				continue;
 			IDs.clear();
 			const BodyAABB& b = self->bodies[i];
-			self->spatialHashTable.getIDs(b.pos, b.siz, IDs);
+			self->spatialHashTable.getBodyIDsInBox(b.pos, b.siz, IDs);
 			size_t IDCount = IDs.size();
 			for (size_t j = 0; j < IDCount; j++) {
 				if (i == IDs[j].id)

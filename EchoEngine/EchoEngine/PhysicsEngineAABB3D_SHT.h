@@ -8,35 +8,49 @@ class SpatialHashTable {
 	struct Bounds {
 		Vec3D<uint32_t> pos, siz;
 	};
+	class SpatialHash {
+		FlatBuffer<BodyID, max_bodies_per_hash> bodyIDs;
+	public:
+		inline void addBody(BodyID id) {
+			if (bodyIDs.count == max_bodies_per_hash) {
+				printf("SpatialHashTable::addBodyToHash - Error: too many bodies in hash!\n");
+				//std::cout << "BodyID: " << id.id << " hash: " << x << ' ' << y << ' ' << z << '!' << std::endl;
+				throw;
+			}
+			bodyIDs.push(id);
+		}
+		inline void removeBody(BodyID id) {
+			uint32_t len = bodyIDs.count;
+			for (uint32_t i = 0; i < len; i++) {
+				if (bodyIDs[i].id == id.id) {
+					bodyIDs[i] = bodyIDs[len - 1];
+					bodyIDs.pop();
+					return;
+				}
+			}
+			std::cout << "SpatialHashTable::removeBodyFromHash - Error: body " << id.id << " not found in hash " << std::endl;
+			//	<< x << ' ' << y << ' ' << z << '!' << std::endl;
+			throw;
+		}
+		inline BodyID getBodyID(uint32_t index) {
+			return bodyIDs[index];
+		}
+		inline uint32_t getCount() {
+			return bodyIDs.count;
+		}
+	};
 
-	FlatBuffer<BodyID, max_bodies_per_hash>(*hash)[width][height][depth];
+	SpatialHash(*hash)[width][height][depth];
 
-	inline FlatBuffer<BodyID, max_bodies_per_hash>& getHash(uint32_t x, uint32_t y, uint32_t z) {
+	inline SpatialHash& getHash(uint32_t x, uint32_t y, uint32_t z) {
 		return (*hash)[x][y][z];
 	}
 
 	inline void addBodyToHash(BodyID id, uint32_t x, uint32_t y, uint32_t z) {
-		//if (x == 1 && y == 157 && z == 1)
-		//	throw;
-		if (getHash(x, y, z).count == max_bodies_per_hash) {
-			printf("SpatialHashTable::addBodyToHash - Error: too many bodies in hash!\n");
-			std::cout << "BodyID: " << id.id << " hash: " << x << ' ' << y << ' ' << z << '!' << std::endl;
-			throw;
-		}
-		getHash(x, y, z).push(id);
+		getHash(x, y, z).addBody(id);
 	}
 	void removeBodyFromHash(BodyID id, uint32_t x, uint32_t y, uint32_t z) {
-		uint32_t len = getHash(x, y, z).count;
-		for (uint32_t i = 0; i < len; i++) {
-			if (getHash(x, y, z)[i].id == id.id) {
-				getHash(x, y, z)[i] = getHash(x, y, z)[len - 1];
-				getHash(x, y, z).pop();
-				return;
-			}
-		}
-		std::cout << "SpatialHashTable::removeBodyFromHash - Error: body " << id.id << " not found in hash " 
-			<< x << ' ' << y << ' ' << z << '!' << std::endl;
-		throw;
+		getHash(x, y, z).removeBody(id);
 	}
 
 	inline void getIterationBounds(const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& _siz, Bounds& bounds) {
@@ -90,11 +104,14 @@ class SpatialHashTable {
 public:
 	void init() {
 		//memset(this, 0, sizeof(*this));
-		uint64_t sizeOfHash = sizeof(FlatBuffer<BodyID, max_bodies_per_hash>);
+		//uint64_t sizeOfHash = sizeof(FlatBuffer<BodyID, max_bodies_per_hash>);
+		uint64_t sizeOfHash = sizeof(SpatialHash);
 		sizeOfHash *= width;
 		sizeOfHash *= height;
 		sizeOfHash *= depth;
-		hash = (FlatBuffer<BodyID, max_bodies_per_hash>(*)[width][height][depth])malloc(sizeOfHash);
+		//hash = (FlatBuffer<BodyID, max_bodies_per_hash>(*)[width][height][depth])malloc(sizeOfHash);
+		hash = (SpatialHash(*)[width][height][depth])malloc(sizeOfHash);
+
 		//hash = new FlatBuffer<BodyID, max_bodies_per_hash>[width][height][depth];
 		//for(uint32_t z = 0; z < depth; z++)
 		//	for(uint32_t y = 0; y < height; y++)
@@ -121,19 +138,18 @@ public:
 				for (uint32_t x = bounds.pos.x; x <= bounds.siz.x; x++)
 					removeBodyFromHash(id, x, y, z);
 	}
-	//__forceinline std::vector<FlatBuffer<BodyID, max_bodies_per_hash>*> getHashes(const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& siz) {
-	__forceinline void getHashes(const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& siz, std::vector<FlatBuffer<BodyID, max_bodies_per_hash>*>& out) {
-		//std::vector<std::vector<BodyID>*> returnValue = {};
-        out.clear();
-		Bounds bounds;
-		getIterationBounds(pos, siz, bounds);
-		for (uint32_t z = bounds.pos.z; z <= bounds.siz.z; z++)
-			for (uint32_t y = bounds.pos.y; y <= bounds.siz.y; y++)
-				for (uint32_t x = bounds.pos.x; x <= bounds.siz.x; x++)
-					out.push_back(&getHash(x, y, z));
-	}
+	//__forceinline void getHashes(const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& siz, std::vector<SpatialHash*>& out) {
+	//	//std::vector<std::vector<BodyID>*> returnValue = {};
+    //    out.clear();
+	//	Bounds bounds;
+	//	getIterationBounds(pos, siz, bounds);
+	//	for (uint32_t z = bounds.pos.z; z <= bounds.siz.z; z++)
+	//		for (uint32_t y = bounds.pos.y; y <= bounds.siz.y; y++)
+	//			for (uint32_t x = bounds.pos.x; x <= bounds.siz.x; x++)
+	//				out.push_back(&getHash(x, y, z));
+	//}
 	// This was complicated and may need another look over
-	inline void getIDs(const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& siz, std::vector<BodyID>& returnValue) {
+	inline void getBodyIDsInBox(const Vec3D<physics_fp>& pos, const Vec3D<physics_fp>& siz, std::vector<BodyID>& returnValue) {
 		Bounds bounds;
 		getIterationBounds(pos, siz, bounds);
 		//std::cout << bounds.siz.x - bounds.pos.x << ' ' <<
@@ -142,7 +158,7 @@ public:
 		for (uint32_t z = bounds.pos.z; z <= bounds.siz.z; z++)
 			for (uint32_t y = bounds.pos.y; y <= bounds.siz.y; y++)
 				for (uint32_t x = bounds.pos.x; x <= bounds.siz.x; x++) {
-					auto len = getHash(x, y, z).count;
+					auto len = getHash(x, y, z).getCount();
 					//if (len > 100) {
 					//	std::cout << hash_width << std::endl;
 					//	throw;
@@ -150,14 +166,15 @@ public:
 					for (uint32_t i = 0; i < len; i++) {
 						auto retValueLen = returnValue.size();
 						bool hasID = false;
+						BodyID id = getHash(x,y,z).getBodyID(i);
 						for (size_t j = 0; j < retValueLen; j++) {
-							if (returnValue[j].id == getHash(x, y, z)[i].id) {
+							if (returnValue[j].id == id.id) {
 								hasID = true;
 								break;
 							}
 						}
 						if (hasID == false) {
-							returnValue.push_back(getHash(x, y, z)[i]);
+							returnValue.push_back(id);
 						}
 
 					}
