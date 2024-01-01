@@ -780,6 +780,43 @@ void HAL::release_camera(HAL::camera_handle_t self)
     }
 }
 
+struct PointLightBlock {
+    glm::vec3 pos[200];
+    float dist[200];
+    float intensity[200];
+    int32_t count;
+} pointLightBlock;
+void* get_new_light_sphere() {
+    if (pointLightBlock.count < 200) {
+        pointLightBlock.count++;
+        return (void*)(pointLightBlock.count-1);
+    }
+    HAL_ERROR("HAL::get_new_light_sphere() failed, too many point lights in scene!\n");
+    return (void*)-1;
+}
+void HAL::set_light_sphere_pos(void* light, glm::vec3 pos) {
+    int32_t i = (int32_t)light;
+    pointLightBlock.pos[i] = pos;
+}
+void HAL::set_light_sphere_dist(void* light, float dist) {
+    int32_t i = (int32_t)light;
+    pointLightBlock.dist[i] = dist;
+}
+void HAL::set_light_sphere_intensity(void* light, float intensity) {
+    int32_t i = (int32_t)light;
+    pointLightBlock.intensity[i] = intensity;
+}
+void HAL::release_light_sphere(void* light) {
+    int32_t i = (int32_t)light;
+    pointLightBlock.count--;
+    int32_t count = pointLightBlock.count;
+    pointLightBlock.pos[i] = pointLightBlock.pos[count];
+    pointLightBlock.dist[i] = pointLightBlock.dist[count];
+    pointLightBlock.intensity[i] = pointLightBlock.intensity[count];
+}
+
+
+
 static void show_performance_overlay(bool *p_open)
 {
     static int location = 0;

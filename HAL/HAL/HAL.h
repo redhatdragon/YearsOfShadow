@@ -335,4 +335,10 @@ namespace HAL
     void set_camera_position(camera_handle_t self, glm::vec3 pos);
     void use_camera(camera_handle_t self);
     void release_camera(camera_handle_t self);
+
+	void* get_new_light_sphere();
+	void set_light_sphere_pos(void* light, glm::vec3 pos);
+	void set_light_sphere_dist(void* light, float dist);
+	void set_light_sphere_intensity(void* light, float intensity);
+	void release_light_sphere(void* light);
 }

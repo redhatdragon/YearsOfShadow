@@ -41,6 +41,14 @@ in vec3 v_diffuse;
 uniform vec4 u_color;
 uniform sampler2D u_texture;
 
+layout(std140) uniform PointLightsBlock
+{
+    vec3 pos[200];
+	float dist[200];
+	float intensity[200];
+	int count;
+} pointLightBlock;
+
 void main() {
     //vec4 texColor = texture(u_texture, v_texCoord);
     //color = u_color * texColor;
