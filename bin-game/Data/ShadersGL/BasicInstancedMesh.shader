@@ -34,8 +34,9 @@ void main()
 	float diff = max(dot(normal, lightDir), 0.0);
 	v_diffuse = diff * vec3(1.0, 1.0, 1.0);
 
+	v_totalColor = 0;
 	int count = pointLightBlock.count;
-	for(int i = 0; i < count; i++){
+	for(int i = 0; i < count; i++) {
 		vec4 posAndDist = pointLightBlock.posAndDist[i];
 		vec3 lightPos;
 		lightPos.x = posAndDist[0];
@@ -46,6 +47,8 @@ void main()
 		float diff = max(dot(normal, lightDir), 0.0);
 		v_diffuse += diff * vec3(1.0, 1.0, 1.0);
 	}
+	if(count)
+		v_diffuse /= count+1;
 }
 
 
