@@ -781,12 +781,19 @@ void HAL::release_camera(HAL::camera_handle_t self)
 }
 
 struct PointLightBlock {
-    glm::vec3 pos[200];
-    float dist[200];
-    float intensity[200];
-    int32_t count;
+    //{x, y, z}, dist
+    glm::vec4 posAndDist[200];          //0     to 3,200
+    //{r, g, b}, intensity
+    glm::vec4 colorAndIntensity[200];   //3,200 to 6,400
+    int32_t count;                      //6,400 to 6,404
+
+    static constexpr glm::ivec2 posAndDistRange = { 0, 3200 };
+    static constexpr glm::ivec2 colorAndIntensityRange = { 3200, 6400 };
+    static constexpr glm::ivec2 countRange = { 6400, 6404 };
+    static constexpr uint32_t getUniformTotalSize() { return 6404; }
 } pointLightBlock;
-void* get_new_light_sphere() {
+uint32_t pointLightUBO;
+void* get_new_light_point() {
     if (pointLightBlock.count < 200) {
         pointLightBlock.count++;
         return (void*)(pointLightBlock.count-1);
@@ -794,25 +801,25 @@ void* get_new_light_sphere() {
     HAL_ERROR("HAL::get_new_light_sphere() failed, too many point lights in scene!\n");
     return (void*)-1;
 }
-void HAL::set_light_sphere_pos(void* light, glm::vec3 pos) {
+void HAL::set_light_point_pos(void* light, glm::vec3 pos) {
     int32_t i = (int32_t)light;
-    pointLightBlock.pos[i] = pos;
+    auto& posAndDist = pointLightBlock.posAndDist[i];
+    posAndDist = { pos, posAndDist[4] };
 }
-void HAL::set_light_sphere_dist(void* light, float dist) {
+void HAL::set_light_point_dist(void* light, float dist) {
     int32_t i = (int32_t)light;
-    pointLightBlock.dist[i] = dist;
+    pointLightBlock.posAndDist[i][4] = dist;
 }
-void HAL::set_light_sphere_intensity(void* light, float intensity) {
+void HAL::set_light_point_intensity(void* light, float intensity) {
     int32_t i = (int32_t)light;
-    pointLightBlock.intensity[i] = intensity;
+    pointLightBlock.colorAndIntensity[i][4] = intensity;
 }
-void HAL::release_light_sphere(void* light) {
+void HAL::release_light_point(void* light) {
     int32_t i = (int32_t)light;
     pointLightBlock.count--;
     int32_t count = pointLightBlock.count;
-    pointLightBlock.pos[i] = pointLightBlock.pos[count];
-    pointLightBlock.dist[i] = pointLightBlock.dist[count];
-    pointLightBlock.intensity[i] = pointLightBlock.intensity[count];
+    pointLightBlock.posAndDist[i] = pointLightBlock.posAndDist[count];
+    pointLightBlock.colorAndIntensity[i] = pointLightBlock.colorAndIntensity[count];
 }
 
 
@@ -967,6 +974,10 @@ int main()
     //ImGui_ImplGlfw_InitForOpenGL(window, true);
     //ImGui_ImplOpenGL3_Init("#version 330");
 
+    glGenBuffers(1, &pointLightUBO);
+    glBindBuffer(GL_UNIFORM_BUFFER, pointLightUBO);
+    glBufferData(GL_UNIFORM_BUFFER, PointLightBlock::getUniformTotalSize(), NULL, GL_STATIC_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
     HAL::app_start();
     // cs_spawn_mix_thread(cs_ctx);
 
