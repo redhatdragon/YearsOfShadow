@@ -793,7 +793,7 @@ struct PointLightBlock {
     static constexpr uint32_t getUniformTotalSize() { return 6404; }
 } pointLightBlock;
 uint32_t pointLightUBO;
-void* get_new_light_point() {
+void* HAL::get_new_light_point() {
     if (pointLightBlock.count < 200) {
         pointLightBlock.count++;
         return (void*)(pointLightBlock.count-1);
@@ -820,6 +820,11 @@ void HAL::release_light_point(void* light) {
     int32_t count = pointLightBlock.count;
     pointLightBlock.posAndDist[i] = pointLightBlock.posAndDist[count];
     pointLightBlock.colorAndIntensity[i] = pointLightBlock.colorAndIntensity[count];
+}
+void HAL::buffer_lights() {
+    glBindBuffer(GL_UNIFORM_BUFFER, pointLightUBO);
+    glBufferSubData(GL_UNIFORM_BUFFER, 0, PointLightBlock::getUniformTotalSize(), &pointLightBlock);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
 
@@ -978,6 +983,8 @@ int main()
     glBindBuffer(GL_UNIFORM_BUFFER, pointLightUBO);
     glBufferData(GL_UNIFORM_BUFFER, PointLightBlock::getUniformTotalSize(), NULL, GL_STATIC_DRAW);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    glBindBufferRange(GL_UNIFORM_BUFFER, 0, pointLightUBO, 0, PointLightBlock::getUniformTotalSize());
+    pointLightBlock.count = 0;
     HAL::app_start();
     // cs_spawn_mix_thread(cs_ctx);
 

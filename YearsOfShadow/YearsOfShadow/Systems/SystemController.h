@@ -112,6 +112,7 @@ class SystemController : public System {
 	ComponentID controllerComponentID;
 	ComponentID explodeComponentID;
 	ComponentID meshComponentID;
+	ComponentID pointLightComponentID;
 	HAL::camera_handle_t EE_camera;
 
 	std::vector<BodyID> castBuff;
@@ -124,6 +125,7 @@ public:
         controllerComponentID = ecs.registerComponentAsBlittable("controller", sizeof(Controller));
         explodeComponentID = ecs.registerComponentAsBlittable("explode", sizeof(Explode));
         meshComponentID = ecs.registerComponentAsBlittable("mesh", sizeof(void *));
+		pointLightComponentID = ecs.registerComponentAsBlittable("pointLight", sizeof(PointLight));
 		EE_camera = HAL::get_new_camera();
         HAL::use_camera(EE_camera);
 
@@ -295,9 +297,19 @@ private:
 		auto meshID = HAL::get_new_mesh(path.c_str());
 		HAL::set_mesh_submesh_texture(meshID, 0, "diffuse", "./Data/Meshes/Props/D_Dynamite.png");
         HAL::set_mesh_scale(meshID, {0.1f, 0.1f, 0.1f});
+
+		auto plHandle = HAL::get_new_light_point();
+		HAL::set_light_point_dist(plHandle, 10);
+		HAL::set_light_point_intensity(plHandle, 1);
+		HAL::set_light_point_pos(plHandle,
+			{ spawnAt.x.getAsFloat(), spawnAt.y.getAsFloat(), spawnAt.z.getAsFloat() });
+		PointLight pointLight;
+		pointLight.pointLightHandle = plHandle;
+
 		ecs.emplace(bomb, bodyComponentID, &bodyID);
 		ecs.emplace(bomb, explodeComponentID, &explode);
 		ecs.emplace(bomb, meshComponentID, &meshID);
+		ecs.emplace(bomb, pointLightComponentID, &pointLight);
 	}
 
 	bool isFloored() {

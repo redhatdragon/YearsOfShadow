@@ -32,6 +32,10 @@ public:
     inline void setUniform3f(const std::string& name, float v0, float v1, float v2);
     inline void setUniform1i(const std::string& name, int32_t v);
     inline void setUniformMat4f(const std::string& name, const glm::mat4& matrix);
+    inline void setUniformBlockObject(const std::string& name) {
+        uint32_t uniformBlockIndex = glGetUniformBlockIndex(id, name.c_str());
+        glUniformBlockBinding(id, uniformBlockIndex, 0);
+    }
 private:
     inline int32_t getUniformLocation(const std::string& name);
     static int compileShader(uint32_t type, const std::string& source);

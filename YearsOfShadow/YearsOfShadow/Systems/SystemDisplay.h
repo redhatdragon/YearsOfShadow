@@ -56,6 +56,7 @@ class SystemDisplay : public System {
 	ComponentID meshComponentID;
 	ComponentID instancedMeshComponentID;
 	ComponentID controllerComponentID;
+	ComponentID pointLightComponentID;
 public:
 	virtual void init() {
         OPTICK_THREAD("MainThread");
@@ -64,6 +65,7 @@ public:
 		meshComponentID = ecs.registerComponentAsBlittable("mesh", sizeof(void*));
 		instancedMeshComponentID = ecs.registerComponentAsBlittable("instancedMesh", sizeof(u32));
 		controllerComponentID = ecs.registerComponentAsBlittable("controller", sizeof(Controller));
+		pointLightComponentID = ecs.registerComponentAsBlittable("pointLight", sizeof(PointLight));
 		SystemUtilities::SerialEntity::registerSerializeFunction(instancedMeshComponentID, serializeInstancedMesh);
 		SystemUtilities::SerialEntity::registerDeSerializeFunction(instancedMeshComponentID, deserializeInstancedMesh);
 	}
@@ -74,6 +76,7 @@ public:
 		Controller* controller = (Controller*)ecs.getComponentBuffer(controllerComponentID);
 		auto pos = controller->cam.getPosition();
 		voxelWorld.display((uint32_t)pos.x, (uint32_t)pos.z);
+		HAL::buffer_lights();
 		drawMeshes();
 		drawInstancedMeshes();
 		#endif

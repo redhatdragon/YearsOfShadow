@@ -341,4 +341,5 @@ namespace HAL
 	void set_light_point_dist(void* light, float dist);
 	void set_light_point_intensity(void* light, float intensity);
 	void release_light_point(void* light);
+	void buffer_lights();  //TODO:  Need to get rid of this later, Call this before drawing meshes!
 }

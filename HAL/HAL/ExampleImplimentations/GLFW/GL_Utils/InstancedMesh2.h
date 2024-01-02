@@ -100,6 +100,8 @@ struct InstancedSubMesh {
         shader->setUniform3f("u_camPos", cam_pos.x, cam_pos.y, cam_pos.z);
         // shader.setUniform3f("u_camDir", cam_dir.x, cam_dir.y, cam_dir.z);
 
+        shader->setUniformBlockObject("PointLightsBlock");
+
         GL_CALL(glDrawElementsInstanced(GL_TRIANGLES, indexCount, GL_UNSIGNED_SHORT, nullptr, instanceCount));
 
         //glBindBuffer(GL_ARRAY_BUFFER, 0);
