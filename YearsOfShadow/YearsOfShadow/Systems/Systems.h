@@ -64,6 +64,8 @@ constexpr uint64_t sizeOfECS = sizeof(ecs);
 
 #include "SystemUtilities.h"
 
+#include "Components.h"
+
 #include "SystemDeath.h"
 #include "SystemPhysics.h"
 #include "SystemVoxel.h"

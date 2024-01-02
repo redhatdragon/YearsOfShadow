@@ -1,6 +1,13 @@
 #shader vertex
 #version 330 core
 
+layout(std140) uniform PointLightsBlock
+{
+    vec4 posAndDist[200];
+	vec4 colorAndIntensity[200];
+	int count;
+} pointLightBlock;
+
 layout(location = 0) in vec3 position;
 layout(location = 1) in vec2 texCoord;
 layout(location = 2) in vec3 normal;
@@ -26,6 +33,19 @@ void main()
 	vec3 lightDir = normalize(u_camPos - pos.xyz);
 	float diff = max(dot(normal, lightDir), 0.0);
 	v_diffuse = diff * vec3(1.0, 1.0, 1.0);
+
+	int count = pointLightBlock.count;
+	for(int i = 0; i < count; i++){
+		vec4 posAndDist = pointLightBlock.posAndDist[i];
+		vec3 lightPos;
+		lightPos.x = posAndDist[0];
+		lightPos.y = posAndDist[1];
+		lightPos.z = posAndDist[2];
+
+		vec3 lightDir = normalize(lightPos - pos.xyz);
+		float diff = max(dot(normal, lightDir), 0.0);
+		v_diffuse += diff * vec3(1.0, 1.0, 1.0);
+	}
 }
 
 
@@ -40,14 +60,6 @@ in vec3 v_diffuse;
 
 uniform vec4 u_color;
 uniform sampler2D u_texture;
-
-layout(std140) uniform PointLightsBlock
-{
-    vec3 pos[200];
-	float dist[200];
-	float intensity[200];
-	int count;
-} pointLightBlock;
 
 void main() {
     //vec4 texColor = texture(u_texture, v_texCoord);
