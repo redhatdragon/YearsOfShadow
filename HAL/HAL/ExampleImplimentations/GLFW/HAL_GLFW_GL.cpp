@@ -804,15 +804,16 @@ void* HAL::get_new_light_point() {
 void HAL::set_light_point_pos(void* light, glm::vec3 pos) {
     int32_t i = (int32_t)light;
     auto& posAndDist = pointLightBlock.posAndDist[i];
-    posAndDist = { pos, posAndDist[4] };
+    posAndDist = { pos, posAndDist[3] };
 }
 void HAL::set_light_point_dist(void* light, float dist) {
     int32_t i = (int32_t)light;
-    pointLightBlock.posAndDist[i][4] = dist;
+    pointLightBlock.posAndDist[i][3] = dist;
 }
 void HAL::set_light_point_intensity(void* light, float intensity) {
     int32_t i = (int32_t)light;
-    pointLightBlock.colorAndIntensity[i][4] = intensity;
+    pointLightBlock.colorAndIntensity[i] = {1, 1, 1, intensity };
+    //pointLightBlock.colorAndIntensity[i][3] = intensity;
 }
 void HAL::release_light_point(void* light) {
     int32_t i = (int32_t)light;
