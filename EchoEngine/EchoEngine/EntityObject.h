@@ -134,6 +134,24 @@ struct ComponentObject {
 	uint32_t getArrayIntLen() const {
 		return size / sizeof(uint32_t);
 	}
+	bool isTypeNULL() {
+		return type == TYPE::TYPE_NULL;
+	}
+	bool isTypeINT() {
+		return type == TYPE::TYPE_INT;
+	}
+	bool isTypeFIXED_FLOAT() {
+		return type == TYPE::TYPE_FIXED_FLOAT;
+	}
+	bool isTypeSTRING() {
+		return type == TYPE::TYPE_STRING;
+	}
+	bool isTypeARRAY() {
+		return type == TYPE::TYPE_ARRAY;
+	}
+	bool isTypeDARRAY() {
+		return type == TYPE::TYPE_DARRAY;
+	}
 };
 struct EntityObject {
 	std::vector<ComponentObject> components;
