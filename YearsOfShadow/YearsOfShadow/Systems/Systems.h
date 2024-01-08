@@ -25,7 +25,7 @@ constexpr uint32_t max_npc = 10000;
 //constexpr uint32_t hash_width = 2;
 //constexpr uint32_t max_bodies_per_hash = 16;
 constexpr uint32_t hash_width = 1;
-constexpr uint32_t max_bodies_per_hash = 20;//12;
+constexpr uint32_t max_bodies_per_hash = 40;//12;
 
 
 #define physics_width ((world_size) / hash_width) + 2
