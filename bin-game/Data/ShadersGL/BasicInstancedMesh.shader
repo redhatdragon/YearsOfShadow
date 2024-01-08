@@ -80,9 +80,9 @@ void main() {
 	color.w = 1;
 	
 	//Camera centric light...
-	color.x *= (v_diffuse.x + 0.5);
-	color.y *= (v_diffuse.y + 0.5);
-	color.z *= (v_diffuse.z + 0.5);
+	//color.x *= (v_diffuse.x + 0.5);
+	//color.y *= (v_diffuse.y + 0.5);
+	//color.z *= (v_diffuse.z + 0.5);
 
 
 
@@ -105,10 +105,10 @@ void main() {
 		float difference = length(v_fragPos - lightPos);
 		if (difference < 0)
 			difference = -difference;
-		if(difference > dist)
-			continue;
-		vec3 diffuse = (1 / difference) * lightColor;
-		colorToAdd += diffuse * intensity;
+		//if(difference > dist)
+		//	continue;
+		vec3 diffuse = (1 / difference * intensity) * lightColor;
+		colorToAdd += diffuse;
 	}
 
 	color.x *= colorToAdd.x + 0.5;

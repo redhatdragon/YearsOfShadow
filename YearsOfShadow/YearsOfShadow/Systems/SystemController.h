@@ -299,8 +299,8 @@ private:
         HAL::set_mesh_scale(meshID, {0.1f, 0.1f, 0.1f});
 
 		auto plHandle = HAL::get_new_light_point();
-		HAL::set_light_point_dist(plHandle, 10);
-		HAL::set_light_point_intensity(plHandle, 1);
+		HAL::set_light_point_dist(plHandle, 40);  //ignored in shader...
+		HAL::set_light_point_intensity(plHandle, 0.5f);
 		HAL::set_light_point_pos(plHandle,
 			{ spawnAt.x.getAsFloat(), spawnAt.y.getAsFloat(), spawnAt.z.getAsFloat() });
 		PointLight pointLight;
