@@ -804,7 +804,8 @@ void* HAL::get_new_light_point() {
 void HAL::set_light_point_pos(void* light, glm::vec3 pos) {
     int32_t i = (int32_t)light;
     auto& posAndDist = pointLightBlock.posAndDist[i];
-    posAndDist = { pos, posAndDist[3] };
+    //Gotta flip y/z since our coord system is different.
+    posAndDist = { pos.x, -pos.y, -pos.z, posAndDist[3]};
 }
 void HAL::set_light_point_dist(void* light, float dist) {
     int32_t i = (int32_t)light;
