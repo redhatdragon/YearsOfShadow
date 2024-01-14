@@ -1,5 +1,26 @@
 #pragma once
 
+void serializeBody(EntityID entity, std::vector<uint8_t>& out) {
+	void* data = nullptr;
+	ComponentID componentID = ecs.registerComponentAsBlittable("body", sizeof(void*));
+	BodyID bodyID = *(BodyID*)ecs.getEntityComponent(entity, componentID);
+	BodyAABB body = physics._getBodyCpy(bodyID);
+	out.resize(sizeof(body));
+	memcpy(&out[0], &body, sizeof(body));
+}
+void deserializeBody(EntityID entity, const std::vector<uint8_t>& in) {
+	ComponentID componentID = ecs.registerComponentAsBlittable("body", sizeof(void*));
+	if (in.size() != sizeof(BodyAABB)) {
+		HAL_ERROR("deserializeBody()'s in data's size: {} != sizeof BodyAABB: {}",
+			in.size(), sizeof(BodyAABB));
+		return;
+	}
+	BodyAABB* body = (BodyAABB*)&in[0];
+	BodyID bodyID = physics.addBodyBox(body->pos.x, body->pos.y, body->pos.z,
+		body->siz.x, body->siz.y, body->siz.z, &entity, body->isSolid);
+	ecs.emplaceOrCpy(entity, componentID, &bodyID);
+}
+
 class SystemPhysics : public System {
 	static void destructPhysicsBody(ComponentID componentID, uint32_t index) {
 		EntityID entity = ecs.getOwner(componentID, index);
@@ -12,6 +33,8 @@ public:
         OPTICK_EVENT();
 		ComponentID bodyComponentID = ecs.registerComponentAsBlittable("body", sizeof(BodyID));
 		ecs.registerDestructor(bodyComponentID, destructPhysicsBody);
+		SystemUtilities::SerialEntity::registerSerializeFunction(bodyComponentID, serializeBody);
+		SystemUtilities::SerialEntity::registerDeSerializeFunction(bodyComponentID, deserializeBody);
 		physics.init();
 		spawnBoundaries();
 	}
