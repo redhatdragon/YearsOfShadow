@@ -18,6 +18,7 @@
 //#include "SystemUtilities/ItemData.h"
 #include "SystemUtilities/Codex.h"
 #include "SystemUtilities/NetworkingTools.h"
+#include "SystemUtilities/Serialize.h"
 
 namespace SystemUtilities {
 	inline void printDebugError(const std::string& str) {

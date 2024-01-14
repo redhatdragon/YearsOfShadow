@@ -77,8 +77,6 @@ constexpr uint64_t sizeOfECS = sizeof(ecs);
 
 #include "SystemDisplay.h"
 
-#include "SystemUtilities/Serialize.h"
-
 #include "SystemUtilities/ThreadPoolAdjuster.h"
 
 void meshDestructor(ComponentID id, uint32_t index) {

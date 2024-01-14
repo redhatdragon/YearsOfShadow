@@ -3,45 +3,36 @@
 
 
 
-auto* serializeInstancedMesh(EntityID entity, uint32_t& outSize) {
-	void* data = nullptr;
+//TODO:  Replace with custom string type not null terminated nor exploitable.
+//Not sure, might permit buffer overflow attacks from server as is.
+//Maybe cutting out null character and rebuilding client side makes more sense...
+void serializeInstancedMesh(EntityID entity, std::vector<uint8_t>& out) {
 	ComponentID componentID = ecs.registerComponentAsBlittable("instancedMesh", sizeof(u32));
 	u32 iMeshID = *(u32*)ecs.getEntityComponent(entity, componentID);
 	auto iMeshHandle = instancedMeshCodex.get(iMeshID);
 	const char* meshPath = HAL::get_instanced_mesh_name(iMeshHandle);
-	size_t strSize = strlen(meshPath);
-	HAL_ALLOC_RAWBYTE(data, strSize + 1);
-	memcpy(data, meshPath, strSize);
-	((uint8_t*)data)[strSize] = 0;  //null terminator...
-	outSize = (uint32_t)strSize + 1;
-	return data;
+	size_t size = strlen(meshPath)+1;
+	out.resize(size);
+	memcpy(&out[0], meshPath, size);
 }
-void deserializeInstancedMesh(EntityID entity, void* data, uint32_t size) {
-	const char* cstr = (const char*)data;
-	if (strlen(cstr) != size-1)
-		HAL_PANIC("deserializeInstancedMesh()  input data's strlen: {} != size: {}", size);
+void deserializeInstancedMesh(EntityID entity, const std::vector<uint8_t>& in) {
+	const char* cstr = (const char*)&in[0];
 	ComponentID componentID = ecs.registerComponentAsBlittable("instancedMesh", sizeof(u32));
 	if (ecs.entityHasComponent(entity, componentID) == true)
 		return;
 	uint32_t id = instancedMeshCodex.add(cstr);
 	ecs.emplace(entity, componentID, &id);
 }
-auto* serializeMesh(EntityID entity, uint32_t& outSize) {
-	void* data = nullptr;
+void serializeMesh(EntityID entity, std::vector<uint8_t>& out) {
 	ComponentID componentID = ecs.registerComponentAsBlittable("mesh", sizeof(void*));
 	HAL::mesh_handle_t meshHandle = *(HAL::mesh_handle_t*)ecs.getEntityComponent(entity, componentID);
 	const char* meshPath = HAL::get_mesh_name(meshHandle);
-	size_t strSize = strlen(meshPath);
-	HAL_ALLOC_RAWBYTE(data, strSize + 1);
-	memcpy(data, meshPath, strSize);
-	((uint8_t*)data)[strSize] = 0;  //null terminator...
-	outSize = (uint32_t)strSize + 1;
-	return data;
+	size_t size = strlen(meshPath) + 1;
+	out.resize(size);
+	memcpy(&out[0], meshPath, size);
 }
-void deserializeMesh(EntityID entity, void* data, uint32_t size) {
-	const char* cstr = (const char*)data;
-	if (strlen(cstr) != size)
-		HAL_PANIC("deserializeMesh()  input data's strlen != size: {}", size);
+void deserializeMesh(EntityID entity, const std::vector<uint8_t>& in) {
+	const char* cstr = (const char*)&in[0];
 	ComponentID componentID = ecs.registerComponentAsBlittable("mesh", sizeof(void*));
 	if (ecs.entityHasComponent(entity, componentID) == true)
 		return;

@@ -78,10 +78,10 @@ namespace SystemUtilities {
 			customSerializedComponents.clear();
 			for (uint32_t i = 0; i < idCount; i++) {
 				if (serializeFunctions.find(idBuff[i]) != serializeFunctions.end()) {
-					uint32_t size = 0;  //screw you compilation errors.
-					void* data = serializeFunctions[idBuff[i]](entity, size);
-					Component* component = constructComponent(data, size, idBuff[i]);
-					//free(data);
+					std::vector<uint8_t> out;
+					serializeFunctions[idBuff[i]](entity, out);
+					uint32_t size = (uint32_t)out.size();
+					Component* component = constructComponent(out.data(), size, idBuff[i]);
 					totalSize += size;
 					totalSize += Component::getHeaderSize();
 					customSerializedComponents.push(component);
@@ -191,7 +191,10 @@ namespace SystemUtilities {
 				void* data = component->data;
 				uint32_t size = component->size;
 				if (deserializeFunctions.find(component->componentID) != deserializeFunctions.end()) {
-					deserializeFunctions[component->componentID](entity, component->data, size);
+					std::vector<uint8_t> in;
+					in.resize(size);
+					memcpy(&in[0], data, size);
+					deserializeFunctions[component->componentID](entity, in);
 					component = getNextComponent(component);
 					continue;
 				}
@@ -278,17 +281,17 @@ namespace SystemUtilities {
 			return component;
 		}
 
-		static std::unordered_map<ComponentID, void* (*)(EntityID entity, uint32_t& outSize)> serializeFunctions;
-		static std::unordered_map<ComponentID, void(*)(EntityID entity, void* data, uint32_t size)> deserializeFunctions;
+		static std::unordered_map<ComponentID, void(*)(EntityID entity, std::vector<uint8_t>& out)> serializeFunctions;
+		static std::unordered_map<ComponentID, void(*)(EntityID entity, const std::vector<uint8_t>& in)> deserializeFunctions;
 
-		static void registerSerializeFunction(ComponentID componentID, void* (*func)(EntityID entity, uint32_t& outSize)) {
+		static void registerSerializeFunction(ComponentID componentID, void(*func)(EntityID entity, std::vector<uint8_t>& out)) {
 			if (serializeFunctions.find(componentID) != serializeFunctions.end()) {
 				HAL_WARN("registerSerializeFunction()'s input func already used, ignoring...\n");
 				return;
 			}
 			serializeFunctions[componentID] = func;
 		}
-		static void registerDeSerializeFunction(ComponentID componentID, void(*func)(EntityID entity, void* data, uint32_t size)) {
+		static void registerDeSerializeFunction(ComponentID componentID, void(*func)(EntityID entity, const std::vector<uint8_t>& in)) {
 			if (deserializeFunctions.find(componentID) != deserializeFunctions.end()) {
 				HAL_WARN("registerDeSerializeFunction()'s input func already used, ignoring...\n");
 				return;
@@ -296,8 +299,8 @@ namespace SystemUtilities {
 			deserializeFunctions[componentID] = func;
 		}
 	};
-	std::unordered_map<ComponentID, void* (*)(EntityID entity, uint32_t& outSize)> SerialEntity::serializeFunctions = {};
-	std::unordered_map<ComponentID, void(*)(EntityID entity, void* data, uint32_t size)> SerialEntity::deserializeFunctions = {};
+	std::unordered_map<ComponentID, void(*)(EntityID entity, std::vector<uint8_t>& out)> SerialEntity::serializeFunctions = {};
+	std::unordered_map<ComponentID, void(*)(EntityID entity, const std::vector<uint8_t>& in)> SerialEntity::deserializeFunctions = {};
 
 
 
