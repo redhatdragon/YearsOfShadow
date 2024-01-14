@@ -320,6 +320,8 @@ namespace NetworkingTools {
 			tick = 0;
 		}
 		void trySendTo(std::string_view ip, const uint8_t* msg, uint32_t len) {
+			if (len == 0)
+				return;
 			FlatBuffer<NetworkMessage, MESSAGES_PER_CONNECTION_MAX>* msgsPtr;
 			if (sentMsgs.find(ip.data()) == sentMsgs.end()) {
 				sentMsgs[ip.data()] = {};
