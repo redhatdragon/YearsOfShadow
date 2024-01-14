@@ -244,7 +244,8 @@ namespace SystemUtilities {
 			for (uint32_t i = 0; i < count; i++) {
 				component = getNextComponent(component);
 			}
-			return (SerialEntity*)component;
+			SerialEntity* retValue = (SerialEntity*)component;
+			return retValue;
 		}
 		uint32_t getSize() {
 			uint32_t size = sizeof(componentCount);  //Account sizeof componentCount
@@ -316,28 +317,20 @@ namespace SystemUtilities {
 		//Thread safe!
 		static void constructNew(EntityID* ids, uint32_t count,
 			std::vector<uint8_t>& out) {
-			//static thread_local std::vector<SerialEntity*> ses = {};
 			static thread_local std::vector<std::vector<uint8_t>> ses = {};
 			ses.resize(count);
 			uint32_t totalSize = getHeaderSize();
 			for (uint32_t i = 0; i < count; i++) {
-				//if (count == 2)
-				//	throw;
-				//ses.push_back(SerialEntity::constructNew(ids[i]));
 				ses[i] = {};
 				SerialEntity::constructNew(ids[i], ses[i]);
-				//ses[i]->log();
-				//totalSize += ses[i]->getSize();
 				totalSize += (uint32_t)ses[i].size();
 			}
 			if (totalSize <= getHeaderSize()) {
 				HAL_PANIC("SerialEntityBuffer::constructNew() trying to construct entities without components?!");
 				return;
 			}
-			SerialEntityBuffer* serialEntityBuffer;
-			//HAL_ALLOC_RAWBYTE(serialEntityBuffer, totalSize+100);
-			out.resize(totalSize + 100);
-			serialEntityBuffer = (SerialEntityBuffer*)&out[0];
+			out.resize(totalSize);
+			SerialEntityBuffer* serialEntityBuffer = (SerialEntityBuffer*)&out[0];
 			serialEntityBuffer->serialEntityCount = count;
 			uint8_t* offset = (uint8_t*)serialEntityBuffer;
 			offset += getHeaderSize();
@@ -350,6 +343,7 @@ namespace SystemUtilities {
 					HAL_PANIC("SerialEntityBuffer::constructNew() size: {} != getSize: {}", size, se->getSize());
 				}
 				memcpy(offset, se, size);
+				offset += size;
 			}
 		}
 
