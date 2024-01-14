@@ -111,6 +111,11 @@ public:
 		sizeOfHash *= depth;
 		//hash = (FlatBuffer<BodyID, max_bodies_per_hash>(*)[width][height][depth])malloc(sizeOfHash);
 		hash = (SpatialHash(*)[width][height][depth])malloc(sizeOfHash);
+		if (hash == NULL) {
+			std::cout << "Error: PhysicsEngine::init() failed to allocate for hash\n"
+				<< "Requested bytes: " << sizeOfHash << "\n";
+			throw;
+		}
 
 		//hash = new FlatBuffer<BodyID, max_bodies_per_hash>[width][height][depth];
 		//for(uint32_t z = 0; z < depth; z++)
