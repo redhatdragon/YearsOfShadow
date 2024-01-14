@@ -254,6 +254,8 @@ void HAL::draw_background(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 }
 
 void HAL::draw_text(const char* str, int x, int y, unsigned int fontWidth) {
+    if (strlen(str) == 0)
+        return;
     static Texture* fontAtlas = nullptr;
     if (fontAtlas == nullptr) {
         fontAtlas = new Texture();
@@ -1028,7 +1030,7 @@ int main()
 
         HAL::app_loop();
         cs_mix(cs_ctx);
-        customShowPerfOverlay();
+        //customShowPerfOverlay();
 
         LARGE_INTEGER app_end;
         QueryPerformanceCounter(&app_end);
