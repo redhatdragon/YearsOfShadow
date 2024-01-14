@@ -66,6 +66,23 @@ public:
 		createTest(generator);
 		#endif
 
+		#if GAME_TYPE == GAME_TYPE_CLIENT
+		u32 count = 0;
+		u32 padding = 20, border = world_size;
+		while (true) {
+			Vec3D<u32> pos = {};
+			pos.x = getRandInt(generator, 0, border - (padding + padding));
+			pos.z = getRandInt(generator, 0, border - (padding + padding));
+			pos += padding;
+			pos.y = 153;
+			static std::vector<BodyID> castBuff;
+			if (physics.getBodiesInBoxRough(pos, { 6, 1, 6 }, castBuff))
+				continue;
+			createEnemy(pos);
+			break;
+		}
+		#endif
+
 		//u32 padding = 20, border = world_size;
 		//while (true) {
 		//	Vec3D<u32> pos = {};
