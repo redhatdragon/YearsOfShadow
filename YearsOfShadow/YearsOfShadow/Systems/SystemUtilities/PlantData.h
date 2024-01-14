@@ -69,4 +69,4 @@ namespace SystemUtilities {
 	};
 }
 
-#include "PlantData_impl.h"
+#include <YearsOfShadow/Systems/SystemUtilities/PlantData_impl.inl>
