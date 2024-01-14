@@ -49,21 +49,27 @@ private:
 		ReplicateEntity* replicateEntityBuff =
 			(ReplicateEntity*)ecs.getComponentBuffer(replicateEntityComponentID);
 		std::vector<EntityID> entities;
-		entities.reserve(count);
+		entities.resize(count);
 		for (uint32_t i = 0; i < count; i++) {
-			entities.push_back(ecs.getOwner(replicateEntityComponentID, i));
+			entities[i] = ecs.getOwner(replicateEntityComponentID, i);
 		}
 		if (count == 0)
 			return;
-		uint32_t size;
-		SerialEntity* seBuff = SerialEntity::constructSerialEntityBuffer(&entities[0], count, size);
-		HAL_LOG("HIT {}, {}\n", count, size);
-		SerialEntity::logSerialEntityBuffer(seBuff);
-		nm.trySendTo("127.0.0.1", (uint8_t*)seBuff, size);
+		SerialEntityBuffer* seBuff;
+		std::vector<uint8_t> seVec = {};
+		SerialEntityBuffer::constructNew(&entities[0], count, seVec);
 
-		static std::vector<uint8_t> buff;
+		uint32_t size = (uint32_t)seVec.size();
+		if (size != 0) {
+			seBuff = (SerialEntityBuffer*)&seVec[0];
+			HAL_LOG("HIT {}, {}\n", count, size);
+			SerialEntityBuffer::log(seBuff);
+			nm.trySendTo("127.0.0.1", (uint8_t*)seBuff, size);
+		}
+
+		std::vector<uint8_t> buff = {};
 		while (true) {
-			buff.clear();
+			buff.resize(0);
 			nm.tryPopNextMsg(buff);
 			if (buff.size() == 0)
 				break;
@@ -81,16 +87,15 @@ private:
 			if (buff.size() == 0)
 				break;
 			HAL_LOG("HIT {}", buff.size());
-			SerialEntity* se = (SerialEntity*)&buff[0];
-			SerialEntity::logSerialEntityBuffer(se);
-			if (se->isEnd())  //TODO: fix this maybe?  Should it exist?
-				break;
-			while (true) {
-				se->log();
-				se->deserializeToDDECS();
-				if ((se = SerialEntity::getNextSerialEntity(se)) == nullptr)
-					break;
-			}
+			SerialEntityBuffer* se = (SerialEntityBuffer*)&buff[0];
+			SerialEntityBuffer::log(se);
+			//while (true) {
+			//	se->log();
+			//	se->deserializeToDDECS();
+			//	if ((se = SerialEntity::getNextSerialEntity(se)) == nullptr)
+			//		break;
+			//}
+			se->deserializeToDDECS();
 		}
 	}
 	#endif

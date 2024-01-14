@@ -26,7 +26,6 @@ namespace SystemUtilities {
 	//Expects that entity has a ReplicateEntity component, else will crash
 	class SerialEntity {
 		struct Component {
-			//If == -1 we have reached the very end of our SerialEntity object
 			ComponentID componentID;
 			uint32_t size;
 			uint8_t data[1];  //Not allowed to do 0 length array gaaaaaaaaaaaay
@@ -34,51 +33,47 @@ namespace SystemUtilities {
 				return sizeof(componentID) + sizeof(size);
 			}
 			void log() const {
-				if (componentID == -1)
-					return;
+				std::string type = "Blittable";
+				if (serializeFunctions.find(componentID) != serializeFunctions.end())
+					type = "Custom";
+				else if (ecs.isComponentTypeDArray(componentID))
+					type = "DArray";
 				HAL_LOG("Component data at addr: {}\n", (void*)this);
 				HAL_LOG("componentID: {}, name: {}\n", componentID, ecs.getComponentName(componentID));
-				HAL_LOG("size: {}\n", size);
+				HAL_LOG("size: {}, type: {}\n", size, type.c_str());
 			}
 		};
-		//uint8_t components[1];
+		uint32_t componentCount;
 		Component components[1];  //Used for debugging pruposes
 		Component* getRootComponent() {
 			return (Component*)components;
 		}
 		static Component* getNextComponent(Component* component) {
-			if (component->componentID == -1) {
-				HAL_WARN("SerialEntity::Component::getNextComponent()'s input component is terminator...");
-				return nullptr;  //TODO: Gotta figure this out...
-			}
 			uint8_t* ptr = (uint8_t*)component;
 			ptr += Component::getHeaderSize() + component->size;
 			Component* nextComponent = (Component*)ptr;
-			if (nextComponent->componentID == -1)
-				return nullptr;
 			return nextComponent;
 		}
 		Component* findComponent(ComponentID componentID) {
 			Component* component = getRootComponent();
-			loop:
-			if (component->componentID == -1) {
-				HAL_WARN("SerialEntity::findComponent()\n");
-				HAL_WARN("Couldn't find component with id: {}\n", ecs.getComponentName(componentID));
-				return nullptr;
+			for (uint32_t i = 0; i < componentCount; i++) {
+				if (component->componentID == componentID)
+					return component;
+				component = getNextComponent(component);
 			}
-			if (component->componentID == componentID)
-				return component;
-			component = getNextComponent(component);
-			goto loop;
+			HAL_WARN("SerialEntity::findComponent()\n");
+			HAL_WARN("Couldn't find component with id: {}\n", ecs.getComponentName(componentID));
+			return nullptr;
 		}
 	public:
 		//Thread safe!
-		static SerialEntity* constructNew(EntityID entity) {
+		//static SerialEntity* constructNew(EntityID entity) {
+		static void constructNew(EntityID entity, std::vector<uint8_t>& out) {
 			static thread_local FlatBuffer<ComponentID, 32> idBuff;
 			idBuff.clear();
 			ecs.getEntityComponentIDs(entity, idBuff);
 			uint32_t idCount = idBuff.count;
-			uint32_t totalSize = 0;
+			uint32_t totalSize = sizeof(componentCount);
 			static thread_local FlatBuffer<Component*, 32> customSerializedComponents;
 			customSerializedComponents.clear();
 			for (uint32_t i = 0; i < idCount; i++) {
@@ -86,9 +81,9 @@ namespace SystemUtilities {
 					uint32_t size = 0;  //screw you compilation errors.
 					void* data = serializeFunctions[idBuff[i]](entity, size);
 					Component* component = constructComponent(data, size, idBuff[i]);
-					free(data);
+					//free(data);
 					totalSize += size;
-					//totalSize += Component::getHeaderSize();
+					totalSize += Component::getHeaderSize();
 					customSerializedComponents.push(component);
 					continue;
 				}
@@ -96,19 +91,19 @@ namespace SystemUtilities {
 					uint32_t DArrayElementSize = ecs.getDArrayElementSize(idBuff[i]);
 					DArray<uint8_t>* componentDArray = (DArray<uint8_t>*)ecs.getEntityComponent(entity, idBuff[i]);
 					totalSize += DArrayElementSize * (uint32_t)componentDArray->size();
-					//totalSize += Component::getHeaderSize();
+					totalSize += Component::getHeaderSize();
 					continue;
 				}
 				totalSize += ecs.getComponentSize(idBuff[i]);
-				//totalSize += Component::getHeaderSize();
+				totalSize += Component::getHeaderSize();
 			}
-			totalSize += Component::getHeaderSize() * idCount;
-			totalSize += sizeof(ComponentID);  //-1 end of obj marker
-			//SerialEntity* retValue = (SerialEntity*)malloc(totalSize);
-			SerialEntity* retValue;
-			HAL_ALLOC_RAWBYTE(retValue, totalSize);
-			//^ I don't know wtf I did but apparently needed extra bytes frick >.<
+			//totalSize += Component::getHeaderSize() * idCount;
+			out.resize(totalSize);
+			SerialEntity* retValue = (SerialEntity*)&out[0];
+			//HAL_ALLOC_RAWBYTE(retValue, totalSize);
+			retValue->componentCount = idCount;
 			uint8_t* retValueOffset = (uint8_t*)retValue;
+			retValueOffset += sizeof(componentCount);
 			for (uint32_t i = 0; i < idCount; i++) {
 				if (serializeFunctions.find(idBuff[i]) != serializeFunctions.end()) {
 					Component* component = nullptr;
@@ -126,29 +121,29 @@ namespace SystemUtilities {
 				if (ecs.isComponentTypeDArray(idBuff[i])) {
 					uint32_t DArrayElementSize = ecs.getDArrayElementSize(idBuff[i]);
 					DArray<uint8_t>* componentDArray = (DArray<uint8_t>*)ecs.getEntityComponent(entity, idBuff[i]);
-					uint32_t componentSize = DArrayElementSize * (uint32_t)componentDArray->size();
+					uint32_t componentDataSize = DArrayElementSize * (uint32_t)componentDArray->size();
 					void* componentData = componentDArray->data();
 					memcpy(retValueOffset, &idBuff[i], sizeof(ComponentID));
 					retValueOffset += sizeof(ComponentID);
-					memcpy(retValueOffset, &componentSize, sizeof(uint32_t));
+					memcpy(retValueOffset, &componentDataSize, sizeof(uint32_t));
 					retValueOffset += sizeof(uint32_t);
-					memcpy(retValueOffset, componentData, componentSize);
-					retValueOffset += componentSize;
+					memcpy(retValueOffset, componentData, componentDataSize);
+					retValueOffset += componentDataSize;
 					continue;
 				}
-				ComponentID bodyComponentID = ecs.getComponentID("body");
-				if (idBuff[i] == bodyComponentID) {
-					uint32_t componentSize = sizeof(BodyAABB);
-					BodyID* bodyIDPtr = (BodyID*)ecs.getEntityComponent(entity, bodyComponentID);
-					BodyAABB body = physics._getBodyCpy(*bodyIDPtr);
-					memcpy(retValueOffset, &idBuff[i], sizeof(ComponentID));
-					retValueOffset += sizeof(ComponentID);
-					memcpy(retValueOffset, &componentSize, sizeof(uint32_t));
-					retValueOffset += sizeof(uint32_t);
-					memcpy(retValueOffset, &body, componentSize);
-					retValueOffset += componentSize;
-					continue;
-				}
+				//ComponentID bodyComponentID = ecs.getComponentID("body");
+				//if (idBuff[i] == bodyComponentID) {
+				//	uint32_t componentSize = sizeof(BodyAABB);
+				//	BodyID* bodyIDPtr = (BodyID*)ecs.getEntityComponent(entity, bodyComponentID);
+				//	BodyAABB body = physics._getBodyCpy(*bodyIDPtr);
+				//	memcpy(retValueOffset, &idBuff[i], sizeof(ComponentID));
+				//	retValueOffset += sizeof(ComponentID);
+				//	memcpy(retValueOffset, &componentSize, sizeof(uint32_t));
+				//	retValueOffset += sizeof(uint32_t);
+				//	memcpy(retValueOffset, &body, componentSize);
+				//	retValueOffset += componentSize;
+				//	continue;
+				//}
 				uint32_t componentSize = ecs.getComponentSize(idBuff[i]);
 				void* componentData = ecs.getEntityComponent(entity, idBuff[i]);
 				memcpy(retValueOffset, &idBuff[i], sizeof(ComponentID));
@@ -158,11 +153,9 @@ namespace SystemUtilities {
 				memcpy(retValueOffset, componentData, componentSize);
 				retValueOffset += componentSize;
 			}
-			for (uint32_t i = 0; i < customSerializedComponents.count; i++)
-				free(customSerializedComponents[i]);
-			ComponentID EOO = -1;  //End Of Object marker
-			memcpy(retValueOffset, &EOO, sizeof(ComponentID));
-			return retValue;
+			//for (uint32_t i = 0; i < customSerializedComponents.count; i++)
+				//free(customSerializedComponents[i]);
+			//return retValue;
 		}
 		//NOT THREAD SAFE!
 		void deserializeToDDECS() {
@@ -193,13 +186,8 @@ namespace SystemUtilities {
 			Component* component = getRootComponent();
 			EntityID entity = ecs.getNewEntity();
 			ComponentID bodyComponentID = ecs.getComponentID("body");
-			while (true) {
+			for (uint32_t i = 0; i < componentCount; i++) {
 				ComponentID componentID = component->componentID;
-				//Run first to avoid accidently reading past object
-				//if (componentID == -1)
-				//	break;
-				if (component == nullptr)
-					break;
 				void* data = component->data;
 				uint32_t size = component->size;
 				if (deserializeFunctions.find(component->componentID) != deserializeFunctions.end()) {
@@ -221,20 +209,20 @@ namespace SystemUtilities {
 					component = getNextComponent(component);
 					continue;
 				}
-				if (componentID == bodyComponentID) {
-					BodyAABB* body = (BodyAABB*)component->data;
-					if (component->size != sizeof(BodyAABB)) {
-						HAL_ERROR("SerialEntity::deserializeToDDECS()\n");
-						HAL_ERROR("THIS SHOULD NOT BE HAPPENING!\n");
-						HAL_PANIC("serial entity component: {} size: {} != expected size: {}, Aboring...\n",
-							ecs.getComponentName(componentID), size, sizeof(BodyAABB));
-					}
-					BodyID bodyID = physics.addBodyBox(body->pos.x, body->pos.y, body->pos.z,
-						body->siz.x, body->siz.y, body->siz.z, &entity, body->isSolid);
-					ecs.emplaceOrCpy(entity, componentID, &bodyID);
-					component = getNextComponent(component);
-					continue;
-				}
+				//if (componentID == bodyComponentID) {
+				//	BodyAABB* body = (BodyAABB*)component->data;
+				//	if (component->size != sizeof(BodyAABB)) {
+				//		HAL_ERROR("SerialEntity::deserializeToDDECS()\n");
+				//		HAL_ERROR("THIS SHOULD NOT BE HAPPENING!\n");
+				//		HAL_PANIC("serial entity component: {} size: {} != expected size: {}, Aboring...\n",
+				//			ecs.getComponentName(componentID), size, sizeof(BodyAABB));
+				//	}
+				//	BodyID bodyID = physics.addBodyBox(body->pos.x, body->pos.y, body->pos.z,
+				//		body->siz.x, body->siz.y, body->siz.z, &entity, body->isSolid);
+				//	ecs.emplaceOrCpy(entity, componentID, &bodyID);
+				//	component = getNextComponent(component);
+				//	continue;
+				//}
 				if (size != ecs.getComponentSize(componentID)) {
 					HAL_ERROR("SerialEntity::deserializeToDDECS()\n");
 					HAL_ERROR("THIS SHOULD NOT BE HAPPENING!\n");
@@ -247,52 +235,34 @@ namespace SystemUtilities {
 		}
 
 		//Thread safe!
-		//Returns nullptr on if last object in buffer
 		static SerialEntity* getNextSerialEntity(SerialEntity* serialEntity) {
 			Component* component = serialEntity->getRootComponent();
-			if (*(uint32_t*)serialEntity == -1)  //Check if end of SerialEntity* buffer
-				return nullptr;
-			while (true) {
-				Component* nextComponent = getNextComponent(component);
-				if (nextComponent == nullptr) {
-					uint32_t* ptr = (uint32_t*)component;
-					ptr++;
-					if (*ptr == -1)  //Reached end of SerialEntity buffer
-						return nullptr;
-					return (SerialEntity*)ptr;
-				}
-				component = nextComponent;
+			uint32_t count = serialEntity->componentCount;
+			for (uint32_t i = 0; i < count; i++) {
+				component = getNextComponent(component);
 			}
+			return (SerialEntity*)component;
 		}
 		uint32_t getSize() {
-			uint32_t size = 0;
+			uint32_t size = sizeof(componentCount);  //Account sizeof componentCount
 			Component* root = getRootComponent();
 			Component* c = root;
-			if (c->componentID == -1)
-				goto end;
-			while (true) {
+			size += Component::getHeaderSize() + c->size;
+			uint32_t count = componentCount;
+			for (uint32_t i = 1; i < count; i++) {
 				c = getNextComponent(c);
-				if (c == nullptr)
-					break;
 				size += Component::getHeaderSize() + c->size;
 			}
-			end:
-			size+=sizeof(uint32_t);  //Account for the uint32_t -1 value for EndOfObject
 			return size;
-		}
-		bool isEnd() {
-			if (*(uint32_t*)this == -1)  //Check if end of SerialEntity* buffer
-				return true;
-			return false;
 		}
 		void log() {
 			HAL_LOG("SerialEntity addr: {}\n", (void*)this);
 			Component* component = getRootComponent();
-			while (true) {
-				if (component == nullptr)
-					break;;
-				component->log();
+			component->log();
+			uint32_t count = componentCount;
+			for (uint32_t i = 1; i < count; i++) {
 				component = getNextComponent(component);
+				component->log();
 			}
 			HAL_LOG("\n");
 		}
@@ -306,54 +276,6 @@ namespace SystemUtilities {
 			component->size = size;
 			memcpy(component->data, data, size);
 			return component;
-		}
-
-		//Returns buffer of SerialEntity + additional u32 EndOfBuffer value of -1
-		//Perfectly blittable, safe to call free manually or memcpy
-		//Meant to be sent over the network and saved to disk
-		//Thread safe!
-		static SerialEntity* constructSerialEntityBuffer(EntityID* ids, uint32_t count, uint32_t& outSize) {
-			static thread_local std::vector<SerialEntity*> ses;
-			ses.clear();
-			uint32_t totalSize = 0;
-			for (uint32_t i = 0; i < count; i++) {
-				ses.push_back(SerialEntity::constructNew(ids[i]));
-				//ses[i]->log();
-			}
-			for (uint32_t i = 0; i < count; i++) {
-				totalSize += ses[i]->getSize();
-			}
-			if (totalSize == 0) {
-				for (uint32_t i = 0; i < count; i++)
-					free(ses[i]);
-				outSize = 0;
-				return nullptr;
-			}
-			totalSize += sizeof(uint32_t);  //Account for EndOfBuffer value
-			SerialEntity* serialEntityBuffer;
-			HAL_ALLOC_RAWBYTE(serialEntityBuffer, totalSize);
-			uint8_t* offset = (uint8_t*)serialEntityBuffer;
-			for (uint32_t i = 0; i < count; i++) {
-				uint32_t size = ses[i]->getSize();
-				memcpy(offset, ses[i], size);
-				offset += size;
-			}
-			uint32_t buffTerminator = -1;
-			memcpy(offset, &buffTerminator, sizeof(buffTerminator));
-			//for (uint32_t i = 0; i < count; i++)
-			//	free(ses[i]);
-			//throw;
-			outSize = totalSize;
-			return serialEntityBuffer;
-		}
-
-		static void logSerialEntityBuffer(SerialEntity* serialEntityBuffer) {
-			loop:
-			serialEntityBuffer->log();
-			serialEntityBuffer = getNextSerialEntity(serialEntityBuffer);
-			if (serialEntityBuffer == nullptr)
-				return;
-			goto loop;
 		}
 
 		static std::unordered_map<ComponentID, void* (*)(EntityID entity, uint32_t& outSize)> serializeFunctions;
@@ -376,4 +298,82 @@ namespace SystemUtilities {
 	};
 	std::unordered_map<ComponentID, void* (*)(EntityID entity, uint32_t& outSize)> SerialEntity::serializeFunctions = {};
 	std::unordered_map<ComponentID, void(*)(EntityID entity, void* data, uint32_t size)> SerialEntity::deserializeFunctions = {};
+
+
+
+	struct SerialEntityBuffer {
+		uint32_t serialEntityCount;
+		SerialEntity serialEntities[1];
+		inline static uint32_t getHeaderSize() {
+			return sizeof(serialEntityCount);
+		}
+
+		//Returns buffer of SerialEntity + additional u32 EndOfBuffer value of -1
+		//Meant to be sent over the network and saved to disk
+		//Thread safe!
+		static void constructNew(EntityID* ids, uint32_t count,
+			std::vector<uint8_t>& out) {
+			//static thread_local std::vector<SerialEntity*> ses = {};
+			static thread_local std::vector<std::vector<uint8_t>> ses = {};
+			ses.resize(count);
+			uint32_t totalSize = getHeaderSize();
+			for (uint32_t i = 0; i < count; i++) {
+				//if (count == 2)
+				//	throw;
+				//ses.push_back(SerialEntity::constructNew(ids[i]));
+				ses[i] = {};
+				SerialEntity::constructNew(ids[i], ses[i]);
+				//ses[i]->log();
+				//totalSize += ses[i]->getSize();
+				totalSize += (uint32_t)ses[i].size();
+			}
+			if (totalSize <= getHeaderSize()) {
+				HAL_PANIC("SerialEntityBuffer::constructNew() trying to construct entities without components?!");
+				return;
+			}
+			SerialEntityBuffer* serialEntityBuffer;
+			//HAL_ALLOC_RAWBYTE(serialEntityBuffer, totalSize+100);
+			out.resize(totalSize + 100);
+			serialEntityBuffer = (SerialEntityBuffer*)&out[0];
+			serialEntityBuffer->serialEntityCount = count;
+			uint8_t* offset = (uint8_t*)serialEntityBuffer;
+			offset += getHeaderSize();
+			for (uint32_t i = 0; i < count; i++) {
+				uint32_t size = (uint32_t)ses[i].size();
+				if (size == 0)
+					continue;
+				SerialEntity* se = (SerialEntity*)&ses[i][0];
+				if (size != se->getSize()) {
+					HAL_PANIC("SerialEntityBuffer::constructNew() size: {} != getSize: {}", size, se->getSize());
+				}
+				memcpy(offset, se, size);
+			}
+		}
+
+		static void log(SerialEntityBuffer* serialEntityBuffer) {
+			uint32_t count = serialEntityBuffer->serialEntityCount;
+			uint8_t* ptr = (uint8_t*)serialEntityBuffer;
+			ptr += getHeaderSize();
+			SerialEntity* se = (SerialEntity*)ptr;
+			HAL_LOG("SerialEntityBuffer addr: {}\n", (void*)serialEntityBuffer);
+			HAL_LOG("SerialEntity count: {}\n", count);
+			se->log();
+			for (uint32_t i = 1; i < count; i++) {
+				se = SerialEntity::getNextSerialEntity(se);
+				se->log();
+			}
+		}
+
+		inline void deserializeToDDECS() {
+			uint32_t count = serialEntityCount;
+			uint8_t* ptr = (uint8_t*)this;
+			ptr += getHeaderSize();
+			SerialEntity* se = (SerialEntity*)ptr;
+			se->deserializeToDDECS();
+			for (uint32_t i = 1; i < count; i++) {
+				se = SerialEntity::getNextSerialEntity(se);
+				se->deserializeToDDECS();
+			}
+		}
+	};
 }
