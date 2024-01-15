@@ -245,6 +245,15 @@ public:
 		spatialHashTable.getBodyIDsInPoint(pos, ignoredBody, out);
 		return out.size();
 	}
+	//WARNING: DO NOT use this in multithreaded code!!!
+	//You really should consider every possible alternative to using this!
+	void setPosition(BodyID id, physics_fp px, physics_fp py, physics_fp pz) {
+		BodyAABB* body = &bodies[id.id];
+		#ifdef REWIND_ENABLED
+		throw;  //Add something here later...
+		#endif
+		body->pos = {px, py, pz};
+	}
 	void setVelocity(BodyID id, physics_fp vx, physics_fp vy, physics_fp vz) {
 		BodyAABB* body = &bodies[id.id];
 		#ifdef REWIND_ENABLED
@@ -253,9 +262,7 @@ public:
         if (isRecording)
 			frames.get().addVelocity(offset, id);
 		#endif
-		body->vel.x = vx;
-		body->vel.y = vy;
-		body->vel.z = vz;
+		body->vel = { vx, vy, vz };
 	}
 	Vec3D<physics_fp> getVelocity(BodyID id) {
 		BodyAABB* body = &bodies[id.id];
