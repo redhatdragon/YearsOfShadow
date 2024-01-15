@@ -32,7 +32,7 @@ public:
 		OPTICK_EVENT();
 		#if GAME_TYPE == GAME_TYPE_SERVER
 			serverLogic();
-			spawnTest();
+			//spawnTest();
 		#elif GAME_TYPE == GAME_TYPE_CLIENT
 			clientLogic();
 		#endif
@@ -62,8 +62,8 @@ private:
 		uint32_t size = (uint32_t)seVec.size();
 		if (size != 0) {
 			seBuff = (SerialEntityBuffer*)&seVec[0];
-			HAL_LOG("HIT {}, {}\n", count, size);
-			SerialEntityBuffer::log(seBuff);
+			//HAL_LOG("HIT {}, {}\n", count, size);
+			//SerialEntityBuffer::log(seBuff);
 			nm.trySendTo("127.0.0.1", (uint8_t*)seBuff, size);
 		}
 
@@ -86,9 +86,9 @@ private:
 			nm.tryPopNextMsg(buff);
 			if (buff.size() == 0)
 				break;
-			HAL_LOG("HIT {}", buff.size());
+			//HAL_LOG("HIT {}", buff.size());
 			SerialEntityBuffer* se = (SerialEntityBuffer*)&buff[0];
-			SerialEntityBuffer::log(se);
+			//SerialEntityBuffer::log(se);
 			//while (true) {
 			//	se->log();
 			//	se->deserializeToDDECS();
