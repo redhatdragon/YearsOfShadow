@@ -180,7 +180,7 @@ namespace SystemUtilities {
 				ReplicateEntity& re = replicateEntityBuff[i];
 				if (replicateEntity->match(re)) {
 					//TODO: What to do, ignore, copy everything??!
-					return;
+					//return;
 				}
 			}
 			Component* component = getRootComponent();
@@ -206,9 +206,7 @@ namespace SystemUtilities {
 						HAL_PANIC("serial entity component: {} size: {} % expected size: {} != 0, result: {}, Aboring...\n",
 							size, sizePerElem, size % sizePerElem);
 					}
-					DArray<uint8_t> darray;
-					darray.initCopy(component->data, component->size);
-					ecs.emplaceOrCpy(entity, componentID, &darray);
+					ecs.emplaceOrCpyIntoDArray(entity, componentID, component->data, component->size);
 					component = getNextComponent(component);
 					continue;
 				}
