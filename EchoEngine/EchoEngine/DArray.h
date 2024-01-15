@@ -33,20 +33,11 @@ public:
 		initCopy(data->dataHeader->data, data->size());
 	}
 	void initCopy(const void* data, size_t size) {
-		//::free(dataHeader);
-		//dataHeader = (DataHeader*)malloc(sizeof(DataHeader) + sizeof(T) * size);
-		//TODO: REMOVE THIS LATER!
-        if (dataHeader)
-			if (size != dataHeader->count) {
-                this->free();
-				dataHeader = nullptr;
-			}
         dataHeader = std::construct_at<DataHeader>(
 			reinterpret_cast<DataHeader*>(malloc(sizeof(DataHeader) + sizeof(T) * size)), size);
 		//if (dataHeader == nullptr)
         //    throw std::logic_error("Error: DArray::initCopy()'s failed to allocate enough memory!");
-		//TODO: why is this using sizeof DataHeader when copying?
-		memcpy(dataHeader->data, data, sizeof(DataHeader) + sizeof(T) * size);
+		memcpy(dataHeader->data, data, sizeof(T) * size);
 		dataHeader->count = size;
 	}
 	//Allows for downsizing for free.  Upsizing will cost
