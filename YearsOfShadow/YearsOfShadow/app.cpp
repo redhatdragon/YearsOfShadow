@@ -36,12 +36,7 @@ void sleepForThreaded(void* data) {
     SleepShort((float)reinterpret_cast<int64_t>(data));
 }
 
-
-
 void HAL::app_start() {
-    //netTest();
-    //netManagerTest();
-
     OPTICK_START_CAPTURE();
     OPTICK_THREAD("MainThread");
     initSystems();
@@ -54,6 +49,8 @@ void HAL::app_loop() {
     OPTICK_THREAD("MainThread");
     OPTICK_EVENT();
     HAL::draw_background(0, 0, 0, 255);
+    //tickMainMenu();
+    //return;
     ecs.runSystems();
 
 #ifdef REWIND_ENABLED
@@ -75,6 +72,7 @@ void HAL::app_loop() {
 void HAL::app_post_frame() {
     OPTICK_THREAD("MainThread");
     OPTICK_EVENT();
+    return;
     while (HAL::is_thread_pool_finished(threadPool) == false)
         continue;
     u16 threadCount = static_cast<u16>(HAL::get_thread_pool_free_thread_count(threadPool));

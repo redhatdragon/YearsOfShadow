@@ -104,6 +104,9 @@ public:
         OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
 		u32 enemyCount = ecs.getComponentCount(enemyAIComponentID);
+		#if GAME_TYPE == GAME_TYPE_CLIENT
+		return;
+		#endif
 		#ifdef THREADING_ENABLED
 		const auto threadCount = HAL::get_thread_pool_free_thread_count(threadPool);
 		if (enemyCount / 3 > threadCount && threadCount > 1)
@@ -363,7 +366,9 @@ private:
 		EntityID entityID = ecs.getNewEntity();
 		//Can't be 1.0f or larger on any axis, 
 		//without harming runtime via broad phase physics putting this in more cells.
-		BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, "0.25f", "0.8f", "0.25f",
+		//BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, "0.25f", "0.8f", "0.25f",
+		//	to_void_ptr(entityID), true);
+		BodyID bodyID = physics.addBodyBox(pos.x, pos.y, pos.z, 1, 1, 1,
 			to_void_ptr(entityID), true);
 		ecs.emplace(entityID, bodyComponentID, &bodyID);
 
