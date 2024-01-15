@@ -50,6 +50,7 @@ class SystemEnemy : public System {
 	ComponentID instancedMeshComponentID;
 	ComponentID enemyAIComponentID;
 	ComponentID controllerComponentID;
+	ComponentID replicateEntityComponentID;
 public:
 	virtual void init() {
         OPTICK_THREAD("MainThread");
@@ -60,6 +61,7 @@ public:
         instancedMeshComponentID = ecs.registerComponentAsBlittable("instancedMesh", sizeof(u32));
         enemyAIComponentID = ecs.registerComponentAsBlittable("enemyAI", sizeof(EnemyAI));
         controllerComponentID = ecs.registerComponentAsBlittable("controller", sizeof(Controller));
+		replicateEntityComponentID = ecs.registerComponentAsBlittable("replicateEntity", sizeof(ReplicateEntity));
 
 		std::mt19937& generator = getRandGenerator();
 		#if GAME_TYPE != GAME_TYPE_CLIENT
@@ -368,6 +370,10 @@ private:
 		u32 instanceMeshTypeID = instancedMeshCodex.add("./Data/Meshes/Props/Dynamite.obj");
 		instancedMeshCodex.setTexture(instanceMeshTypeID, "./Data/Meshes/Props/D_Dynamite.png");
 		ecs.emplace(entityID, instancedMeshComponentID, &instanceMeshTypeID);
+
+		ReplicateEntity re;
+		re.init(entityID, ecs.entityGetHandle(entityID));
+		ecs.emplace(entityID, replicateEntityComponentID, &re);
 
 
 		EnemyAI enemyAI;
