@@ -97,6 +97,9 @@ namespace NetworkingTools {
 			packetPtrs.count = PACKETS_MAX;
 		}
 		Packet* get() {
+			if (packetPtrs.count == 0) {
+				HAL_PANIC("PacketPool::get() ran out of packets to give out!");
+			}
 			packetPtrs.pop();
 			Packet* retValue = packetPtrs[packetPtrs.count];
 			return retValue;
@@ -189,8 +192,10 @@ namespace NetworkingTools {
 		}
 		void deconstruct() {
 			for (uint32_t i = 0; i < packets.size(); i++)
-				if(packets[i])
+				if (packets[i]) {
 					packetPoolPtr->ret(packets[i]);
+					packets[i] = nullptr;
+				}
 			packetPoolPtr = nullptr;
 		}
 		//Return true if packet belongs to this NetworkMessage.
@@ -391,6 +396,7 @@ namespace NetworkingTools {
 				for (uint32_t i = 0; i < e.second.count; i++) {
 					NetworkMessage& nm = e.second[i];
 					if (nm.tryPopMsg(out)) {
+						e.second.pop();
 						e.second[i] = e.second[e.second.count];
 						return true;
 					}
