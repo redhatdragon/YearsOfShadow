@@ -257,7 +257,11 @@ public:
 		ComponentID retValue = getComponentID(componentName);
 		if (retValue == -1)
 			retValue = _registerComponentUnsafe(componentName, size);
-		//TODO: need to check for valid size, if false return -1
+		if (size != getComponentSize(retValue)) {
+			printf("Error: DDECS::registerComponentAsBlittable()\n");
+			printf("    Registered component didn't match in size!\n");
+			throw;
+		}
 		serializers[retValue].defineAsDefault();
 		return retValue;
 	}
@@ -265,7 +269,11 @@ public:
 		ComponentID retValue = getComponentID(componentName);
 		if (retValue == -1)
 			retValue = _registerComponentUnsafe(componentName, sizeof(DArray<uint8_t>));
-		//TODO: need to check for valid size, if false return -1
+		if (sizePerElem != getDArrayElementSize(retValue)) {
+			printf("Error: DDECS::registerComponentAsDArray()\n");
+			printf("    Registered component didn't match in size!\n");
+			throw;
+		}
 		serializers[retValue].defineAsDArray(sizePerElem);
 		return retValue;
 	}
@@ -304,6 +312,21 @@ public:
 			return;
 		}
 		void* oldData = getEntityComponent(entity, componentID);
+		auto componentSize = getComponentSize(componentID);
+		memcpy(oldData, data, componentSize);
+	}
+	//data = ptr to data buffer
+	//buffSize = sizePerElement + elementCount
+	void emplaceOrCpyIntoDArray(EntityID entity, ComponentID componentID, void* data, uint32_t buffSize) {
+		if (entityHasComponent(entity, componentID) == false) {
+			DArray<uint8_t> darray;
+			darray.initCopy(data, buffSize);
+			emplace(entity, componentID, &darray);
+			return;
+		}
+		void* oldData = getEntityComponent(entity, componentID);
+		DArray<uint8_t>* ptrToDArray = (DArray<uint8_t>*)oldData;
+		ptrToDArray->replaceWith(data, buffSize);
 		auto componentSize = getComponentSize(componentID);
 		memcpy(oldData, data, componentSize);
 	}
