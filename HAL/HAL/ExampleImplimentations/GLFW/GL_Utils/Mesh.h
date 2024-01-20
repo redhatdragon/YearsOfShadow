@@ -8,7 +8,7 @@
 #include "Texture.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <OBJ_Loader/OBJ_Loader.h>
+#include <OBJ_Loader.h>
 
 GLfloat cube_vertices[] = {
     // front

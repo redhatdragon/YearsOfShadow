@@ -2,12 +2,6 @@ cmake_minimum_required(VERSION 3.6)
 
 #NOTE: GAME_TYPE 0 = single, 2 = client, 3 = server
 
-
-
-
-
-
-
 file(GLOB_RECURSE SOURCES
 	"${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/*.h"
@@ -45,7 +39,7 @@ if(MSVC)
 
 	set_property(TARGET YearsOfShadow_Single APPEND PROPERTY LINK_FLAGS /IGNORE:4098 )
 	#set_property( DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT YearsOfShadow_Single )
-	set_target_properties(YearsOfShadow_Single PROPERTIES LINK_FLAGS "/PROFILE")
+	# set_target_properties(YearsOfShadow_Single PROPERTIES LINK_FLAGS "/PROFILE")
 endif()
 
 set_target_properties(YearsOfShadow_Single PROPERTIES FOLDER "YearsOfShadow")

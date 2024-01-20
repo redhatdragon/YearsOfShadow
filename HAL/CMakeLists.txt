@@ -16,8 +16,6 @@ add_library(
 	#"${CMAKE_CURRENT_SOURCE_DIR}/../.clang-format"
 )
 
-message($<CONFIG:RelWithDebInfo>)
-#if($<CONFIG> STREQUAL "RelWithDebInfo")
 if($<CONFIG:RelWithDebInfo>)
   target_compile_definitions(HAL PUBLIC -DALLOCATION_TRACKING)
 endif()
@@ -35,7 +33,7 @@ endif()
 if(MSVC)
 	target_compile_options(
 		HAL
-		#PRIVATE /W3 # warning lvl-1
+		PRIVATE /W3 # warning lvl-1
 		PRIVATE /Ze # fpermissive
 		PRIVATE /MP # multi-processor compilation
 		PRIVATE /arch:AVX2
@@ -62,7 +60,7 @@ target_link_libraries(
 	HAL
 	GLEW
 	GLFW
-	GLM
+	glm
 	OBJ_LOADER
 	imgui
 	OptickCore

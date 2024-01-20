@@ -22,10 +22,6 @@ target_include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-if(${IPO_SUPPORTED})
-	#set_target_properties(EchoEngine PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
-endif()
-
 if(MSVC)
 	target_compile_options(
 		EchoEngine

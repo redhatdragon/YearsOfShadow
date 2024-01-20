@@ -1,18 +1,14 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.25)
 
 cmake_policy(PUSH)
 
-if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.24.0")
-    cmake_policy(SET CMP0135 NEW)
-endif()
 
+cmake_policy(SET CMP0135 NEW)
 project(YearsOfShadow VERSION 0.1.0 LANGUAGES C CXX)
 
 if (PROJECT_IS_TOP_LEVEL)
     set_property(GLOBAL PROPERTY USE_FOLDERS ON)
     	
-    # set(CMAKE_SYSTEM_VERSION 10.0.22000.0)
-    
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin")
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin-etc")
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin")
@@ -66,13 +62,13 @@ enable_testing()
 include(CheckIPOSupported)
 check_ipo_supported(RESULT IPO_SUPPORTED OUTPUT IPO_NOT_SUPPORTED_ERROR LANGUAGES CXX)
 
-if(NOT ${IPO_SUPPORTED})
-    message(STATUS "IPO / LTO not supported: <${IPO_NOT_SUPPORTED_ERROR}>")
-else()
-    message(STATUS "IPO / LTO supported.")
-endif()
+include(cmake/FetchGLEW.cmake)
+include(cmake/FetchGLFW.cmake)
+include(cmake/FetchGLM.cmake)
+include(cmake/FetchOBJ_Loader.cmake)
+include(cmake/FetchOptick.cmake)
+include(cmake/FetchImGUI.cmake)
 
-add_subdirectory(external)
 add_subdirectory(HAL)
 add_subdirectory(EchoEngine)
 add_subdirectory(YearsOfShadow)
