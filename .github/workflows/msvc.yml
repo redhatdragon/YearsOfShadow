@@ -53,6 +53,7 @@ jobs:
           buildConfiguration: ${{ env.config }}
           # Ruleset file that will determine what checks will be run
           ruleset: NativeRecommendedRules.ruleset
+          ignoredPaths: ${{ github.workspace }}/build;${{ github.workspace }}/test;${{ github.workspace }}/HAL/HAL/ExampleImplimentations/GLFW
 
       # Upload SARIF file to GitHub Code Scanning Alerts
       - name: Upload SARIF to GitHub
