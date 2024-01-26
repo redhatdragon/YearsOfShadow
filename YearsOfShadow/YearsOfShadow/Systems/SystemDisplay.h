@@ -43,20 +43,10 @@ void deserializeMesh(EntityID entity, const std::vector<uint8_t>& in) {
 
 
 class SystemDisplay : public System {
-	ComponentID bodyComponentID;
-	ComponentID meshComponentID;
-	ComponentID instancedMeshComponentID;
-	ComponentID controllerComponentID;
-	ComponentID pointLightComponentID;
 public:
 	virtual void init() {
         OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
-		bodyComponentID = ecs.registerComponentAsBlittable("body", sizeof(BodyID));
-		meshComponentID = ecs.registerComponentAsBlittable("mesh", sizeof(void*));
-		instancedMeshComponentID = ecs.registerComponentAsBlittable("instancedMesh", sizeof(u32));
-		controllerComponentID = ecs.registerComponentAsBlittable("controller", sizeof(Controller));
-		pointLightComponentID = ecs.registerComponentAsBlittable("pointLight", sizeof(PointLight));
 		SystemUtilities::SerialEntity::registerSerializeFunction(instancedMeshComponentID, serializeInstancedMesh);
 		SystemUtilities::SerialEntity::registerDeSerializeFunction(instancedMeshComponentID, deserializeInstancedMesh);
 	}

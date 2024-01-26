@@ -13,55 +13,11 @@ int getRandInt(std::mt19937& generator, int min, int max) {
 	return distribution(generator);
 }
 
-struct EnemyAI {
-	enum ACTIVE_STATE : u8 {
-		ASLEEP,
-		IDLE,
-		WALKING,
-		RUNNING,
-		FERAL
-	} active_state;
-	enum JUMP_STATE : u8 {
-		IS_JUMPING,
-		IS_FALLING,
-		IS_FLOORED
-	} jump_state;
-	u8 visualDistance;
-	u8 auditorySensitivity;
-	EntityHandle targetHandle;
-	EntityID targetEntity;
-    GameTick lastPositionChoice;
-	Vec3D<FixedPoint<256 * 256>> gotoPos;
-	GameTick lastJumped;
-	u8 jumpDuration;
-	u8 jumpDistance;
-	void init() {
-		active_state = IDLE;
-		visualDistance = 16;
-		targetHandle = -1;
-        targetEntity = -1;
-        lastPositionChoice = 0;
-	}
-};
-
 class SystemEnemy : public System {
-	ComponentID bodyComponentID;
-	ComponentID meshComponentID;
-	ComponentID instancedMeshComponentID;
-	ComponentID enemyAIComponentID;
-	ComponentID controllerComponentID;
-	ComponentID replicateEntityComponentID;
 public:
 	virtual void init() {
         OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
-
-		bodyComponentID = ecs.registerComponentAsBlittable("body", sizeof(BodyID));
-		meshComponentID = ecs.registerComponentAsBlittable("mesh", sizeof(void*));
-        instancedMeshComponentID = ecs.registerComponentAsBlittable("instancedMesh", sizeof(u32));
-        enemyAIComponentID = ecs.registerComponentAsBlittable("enemyAI", sizeof(EnemyAI));
-        controllerComponentID = ecs.registerComponentAsBlittable("controller", sizeof(Controller));
-		replicateEntityComponentID = ecs.registerComponentAsBlittable("replicateEntity", sizeof(ReplicateEntity));
 
 		std::mt19937& generator = getRandGenerator();
 		#if GAME_TYPE != GAME_TYPE_CLIENT
@@ -191,13 +147,13 @@ private:
 		auto generator = getRandGenerator();
 
 		thread_local std::vector<BodyID> castBuff;
-		u32 enemyCount = ecs.getComponentCount(self->enemyAIComponentID);
-		EnemyAI* enemyAIs = (EnemyAI*)ecs.getComponentBuffer(self->enemyAIComponentID);
+		u32 enemyCount = ecs.getComponentCount(enemyAIComponentID);
+		EnemyAI* enemyAIs = (EnemyAI*)ecs.getComponentBuffer(enemyAIComponentID);
         u32 start = td->startingIndex, end = td->endingIndex;
 		for (u32 i = start; i <= end; i++) {
 			EnemyAI* enemyAI = &enemyAIs[i];
-			EntityID owner = ecs.getOwner(self->enemyAIComponentID, i);
-			BodyID bodyID = *(BodyID*)ecs.getEntityComponent(owner, self->bodyComponentID);
+			EntityID owner = ecs.getOwner(enemyAIComponentID, i);
+			BodyID bodyID = *(BodyID*)ecs.getEntityComponent(owner, bodyComponentID);
 
             self->verifyTarget(enemyAI);
             if (enemyAI->targetEntity == -1 || getRandInt(generator, 0, 10) == 0)

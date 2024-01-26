@@ -1,118 +1,7 @@
 #pragma once
-#include "../FPSCamera.h"
 #include <iostream>
 
-struct Controller {
-	FPSCamera cam;
-	GameTick lastFired;
-	GameTick fireRate;
-	GameTick lastJumped;
-	//uint16_t jumpDuration;
-	//uint16_t jumpDistance;
-
-	enum {
-		//IS_JUMPING,
-		//IS_FALLING,
-		IS_AIRBORNE,
-		IS_FLOORED
-	} state;
-
-	inline void init() {
-		cam.init();
-		lastFired = 0;
-		fireRate = 20;
-		lastJumped = 0;
-		//jumpDuration = 60;
-		//jumpDistance = 2;
-		//state = IS_FALLING;
-	}
-
-	FixedPoint<256 * 256> getJumpVel() {
-		//Based on...  v = sqrt(2g * h);
-		//TODO: figure out how to make h runtime dynamic later.
-		FixedPoint<256 * 256> g = "0.40f";
-        g *= "1.414f";
-        FixedPoint<256 * 256> h = "1.22f";
-		FixedPoint<256 * 256> retValue = g * h;
-        retValue /= 3;
-		return -retValue;
-	}
-
-	inline bool canFire() {
-		if (lastFired + fireRate <= ecs.getTicksPassed())
-			return true;
-		return false;
-	}
-	inline void setHasFired() {
-		lastFired = ecs.getTicksPassed();
-	}
-	//inline void setHasFloored() {
-	//	state = IS_FLOORED;
-	//}
-	//inline bool canJump() {
-	//	if (isFloored())
-	//			return true;
-	//	return false;
-	//}
-	//inline void setHasJumped() {
-	//	state = IS_JUMPING;
-	//	lastJumped = ecs.getTicksPassed();
-	//}
-	//inline bool isJumping() {
-	//	if (state == IS_JUMPING)
-	//		if (ecs.getTicksPassed() <= lastJumped + jumpDuration)
-	//			return true;
-	//		else {
-	//			lastJumped = ecs.getTicksPassed();
-	//			state = IS_FALLING;
-	//			return false;
-	//		}
-	//	return false;
-	//}
-	//inline FixedPoint<256 * 256> getJumpDistPerTick() {
-	//	FixedPoint<256 * 256> retValue = jumpDistance;
-	//	retValue /= jumpDuration;
-	//	return retValue;
-	//}
-	//inline bool isFalling() {
-	//	if (state == IS_FALLING)
-	//		return true;
-	//	return false;
-	//}
-	//inline bool isFloored() {
-	//	if (state == IS_FLOORED)
-	//		return true;
-	//	return false;
-	//}
-};
-struct Explode {
-	GameTick explodeTime;
-	enum EXPLOSION_TRIGGERS : uint8_t {
-		ON_CONTACT,
-		ON_TIMER,
-		ON_DAMAGE
-	};
-	uint8_t triggers;
-
-	//Example: init(Explode::ON_CONTACT | EXPLODE | ON_TIMER, 5);
-	//explodes the owning entity in 5 game ticks or on contact with another physics body
-	void init(uint8_t _triggers, GameTick _explodeTimer = 0) {
-		triggers = _triggers;
-		explodeTime = ecs.getTicksPassed() + _explodeTimer;
-	}
-	bool canExplode() {
-		if (explodeTime <= ecs.getTicksPassed())
-			return true;
-		return false;
-	}
-};
-
 class SystemController : public System {
-	ComponentID bodyComponentID;
-	ComponentID controllerComponentID;
-	ComponentID explodeComponentID;
-	ComponentID meshComponentID;
-	ComponentID pointLightComponentID;
 	HAL::camera_handle_t EE_camera;
 
 	std::vector<BodyID> castBuff;
@@ -121,11 +10,6 @@ public:
 	virtual void init() {
         OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
-		bodyComponentID = ecs.registerComponentAsBlittable("body", sizeof(BodyID));
-        controllerComponentID = ecs.registerComponentAsBlittable("controller", sizeof(Controller));
-        explodeComponentID = ecs.registerComponentAsBlittable("explode", sizeof(Explode));
-        meshComponentID = ecs.registerComponentAsBlittable("mesh", sizeof(void *));
-		pointLightComponentID = ecs.registerComponentAsBlittable("pointLight", sizeof(PointLight));
 		EE_camera = HAL::get_new_camera();
         HAL::use_camera(EE_camera);
 

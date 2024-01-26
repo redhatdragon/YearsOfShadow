@@ -2,19 +2,11 @@
 #include <iostream>
 
 class SystemExplode : public System {
-	ComponentID explodeComponentID;
-	ComponentID bodyComponentID;
-	ComponentID meshComponentID;
-	ComponentID deadComponentID;
 	static constexpr Vec3D<uint32_t> siz = { 1, 1, 1 };
 public:
 	virtual void init() {
         OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
-        explodeComponentID = ecs.registerComponentAsBlittable("explode", sizeof(Explode));
-		bodyComponentID = ecs.registerComponentAsBlittable("body", sizeof(BodyID));
-		meshComponentID = ecs.registerComponentAsBlittable("mesh", sizeof(void*));
-		deadComponentID = ecs.registerComponentAsBlittable("dead", NULL);
 	}
 	virtual void run() {
         OPTICK_THREAD("MainThread");

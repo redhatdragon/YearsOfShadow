@@ -2,12 +2,10 @@
 #include <iostream>
 
 class SystemDeath : public System {
-	ComponentID deadComponentID = -1;
 public:
 	virtual void init() {
         OPTICK_THREAD("MainThread");
         OPTICK_EVENT();
-		deadComponentID = ecs.registerComponentAsBlittable("dead", NULL);
 	}
 	virtual void run() {
         OPTICK_THREAD("MainThread");

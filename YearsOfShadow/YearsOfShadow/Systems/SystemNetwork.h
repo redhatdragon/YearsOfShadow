@@ -5,9 +5,6 @@
 using namespace NetworkingTools;
 
 class SystemNetwork : public System {
-	ComponentID bodyComponentID;
-	ComponentID controllerComponentID;
-	ComponentID replicateEntityComponentID;
 	NetworkManager nm;
 
 public:
@@ -15,10 +12,6 @@ public:
 		OPTICK_THREAD("MainThread");
 		OPTICK_EVENT();
 		#if GAME_TYPE == GAME_TYPE_SERVER || GAME_TYPE == GAME_TYPE_CLIENT
-		bodyComponentID = ecs.registerComponentAsBlittable("body", sizeof(BodyID));
-		controllerComponentID = ecs.registerComponentAsBlittable("controller", sizeof(Controller));
-		replicateEntityComponentID = ecs.registerComponentAsBlittable("replicateEntity", sizeof(ReplicateEntity));
-
 		#if GAME_TYPE == GAME_TYPE_SERVER
 		auto conn = HAL::UDP_open("127.0.0.1", 8122, 8123);
 		#elif GAME_TYPE == GAME_TYPE_CLIENT
