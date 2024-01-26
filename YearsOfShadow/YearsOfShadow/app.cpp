@@ -52,6 +52,7 @@ void HAL::app_loop() {
     //tickMainMenu();
     //return;
     ecs.runSystems();
+    HAL::draw_text(std::to_string(ecs.getEntityCount()).c_str(), 50, 50, 12);
 
 #ifdef REWIND_ENABLED
     static int ticksSinceRewind = 0;
