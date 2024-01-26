@@ -8,9 +8,6 @@
 #include <iostream>
 
 #include "FlatBuffer.h"
-#ifdef THREADING_ENABLED
-#include "HAL/HAL.h"
-#endif
 #include "DArray.h"
 #include "RingBuffer.h"
 #include <time.h>
@@ -470,8 +467,6 @@ public:
 		ms = clock();
 		for (auto sys : systems) {
 			clock_t start = clock();
-			while (HAL::is_thread_pool_finished(threadPool) == false)
-				continue;
 			for (auto& str : blackList)
 				if (str == sys->getName())
 					goto skip;
