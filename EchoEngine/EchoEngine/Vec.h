@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "FixedPoint.h"
+#include "glm/glm.hpp"  //Gotta remove this later maybe
 
 template<typename T>
 struct Vec2D {
