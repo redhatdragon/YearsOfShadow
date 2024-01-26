@@ -250,9 +250,11 @@ public:
 	void setPosition(BodyID id, physics_fp px, physics_fp py, physics_fp pz) {
 		BodyAABB* body = &bodies[id.id];
 		#ifdef REWIND_ENABLED
-		throw;  //Add something here later...
+		//throw;  //Add something here later...
 		#endif
+		spatialHashTable.removeBody(id, body->pos, body->siz);
 		body->pos = {px, py, pz};
+		spatialHashTable.addBody(id, body->pos, body->siz);
 	}
 	void setVelocity(BodyID id, physics_fp vx, physics_fp vy, physics_fp vz) {
 		BodyAABB* body = &bodies[id.id];
