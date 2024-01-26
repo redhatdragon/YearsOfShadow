@@ -25,7 +25,6 @@ void deserializeBody(EntityID entity, const std::vector<uint8_t>& in) {
 	BodyAABB* body = (BodyAABB*)&in[0];
 	BodyID bodyID = *(BodyID*)ecs.getEntityComponent(entity, componentID);
 	physics.setPosition(bodyID, body->pos.x, body->pos.y, body->pos.z);
-	printf("hit");
 }
 
 class SystemPhysics : public System {
