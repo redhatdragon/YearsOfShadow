@@ -18,6 +18,9 @@ struct ReplicateEntity {
 			return true;
 		return false;
 	}
+	void log() {
+		HAL_LOG("ReplicateEntity id:{}, handle:{}\n", serverEntityID, serverEntityHandle);
+	}
 };
 
 namespace SystemUtilities {
@@ -69,7 +72,10 @@ namespace SystemUtilities {
 		//Thread safe!
 		//static SerialEntity* constructNew(EntityID entity) {
 		static void constructNew(EntityID entity, std::vector<uint8_t>& out) {
+			if (ecs.entityHasComponent(entity, ecs.getComponentID("replicateEntity")) == false)
+				HAL_PANIC("SerialEntity::constructNew()'s input entity has no replicateEntity component");
 			static thread_local FlatBuffer<ComponentID, 32> idBuff;
+			ComponentID handleComponentID = ecs.getComponentID("handle");
 			idBuff.clear();
 			ecs.getEntityComponentIDs(entity, idBuff);
 			uint32_t idCount = idBuff.count;
@@ -77,6 +83,8 @@ namespace SystemUtilities {
 			static thread_local FlatBuffer<Component*, 32> customSerializedComponents;
 			customSerializedComponents.clear();
 			for (uint32_t i = 0; i < idCount; i++) {
+				//if (handleComponentID == idBuff[i])
+				//	continue;
 				if (serializeFunctions.find(idBuff[i]) != serializeFunctions.end()) {
 					std::vector<uint8_t> out;
 					serializeFunctions[idBuff[i]](entity, out);
@@ -97,7 +105,6 @@ namespace SystemUtilities {
 				totalSize += ecs.getComponentSize(idBuff[i]);
 				totalSize += Component::getHeaderSize();
 			}
-			//totalSize += Component::getHeaderSize() * idCount;
 			out.resize(totalSize);
 			SerialEntity* retValue = (SerialEntity*)&out[0];
 			//HAL_ALLOC_RAWBYTE(retValue, totalSize);
@@ -105,6 +112,8 @@ namespace SystemUtilities {
 			uint8_t* retValueOffset = (uint8_t*)retValue;
 			retValueOffset += sizeof(componentCount);
 			for (uint32_t i = 0; i < idCount; i++) {
+				//if (handleComponentID == idBuff[i])
+				//	continue;
 				if (serializeFunctions.find(idBuff[i]) != serializeFunctions.end()) {
 					Component* component = nullptr;
 					for (uint32_t j = 0; j < customSerializedComponents.count; j++) {
@@ -144,6 +153,7 @@ namespace SystemUtilities {
 				//	retValueOffset += componentSize;
 				//	continue;
 				//}
+
 				uint32_t componentSize = ecs.getComponentSize(idBuff[i]);
 				void* componentData = ecs.getEntityComponent(entity, idBuff[i]);
 				memcpy(retValueOffset, &idBuff[i], sizeof(ComponentID));
@@ -159,7 +169,8 @@ namespace SystemUtilities {
 		}
 		//NOT THREAD SAFE!
 		void deserializeToDDECS() {
-			ComponentID replicateEntityComponentID = ecs.getComponentID("replicateEntity");
+			ComponentID replicateEntityComponentID = ecs.registerComponentAsBlittable("replicateEntity", sizeof(ReplicateEntity));
+			ComponentID handleComponentID = ecs.getComponentID("handle");
 			Component* replicateEntityComponent = findComponent(replicateEntityComponentID);
 			if (replicateEntityComponent == nullptr) {
 				HAL_ERROR("SerialEntity::deserializeToDDECS()\n");
@@ -175,26 +186,45 @@ namespace SystemUtilities {
 			ReplicateEntity* replicateEntity = (ReplicateEntity*)replicateEntityComponent->data;
 			uint32_t count = ecs.getComponentCount(replicateEntityComponentID);
 			ReplicateEntity* replicateEntityBuff = (ReplicateEntity*)ecs.getComponentBuffer(replicateEntityComponentID);
+			EntityID entity = -1;
+			HAL_LOG("Starting again...\n");
 			for (uint32_t i = 0; i < count; i++) {
-				EntityID entity = ecs.getOwner(replicateEntityComponentID, i);
 				ReplicateEntity& re = replicateEntityBuff[i];
 				if (replicateEntity->match(re)) {
 					//TODO: What to do, ignore, copy everything??!
 					//return;
+					entity = ecs.getOwner(replicateEntityComponentID, i);
+					HAL_LOG("Matching entity {}\n", entity);
+					log();
+					ecs.logEntity(entity);
+					break;
 				}
 			}
+			bool makingNew = false;
+			if (entity == -1) {
+				entity = ecs.getNewEntity();
+				printf("Making new entity\n");
+				log();
+				//replicateEntity->log();
+				makingNew = true;
+			}
 			Component* component = getRootComponent();
-			EntityID entity = ecs.getNewEntity();
+			//if((entity = findEntityWithReplicateEntity(*replicateEntity)) == -1)
+			//	entity = ecs.getNewEntity();
 			ComponentID bodyComponentID = ecs.getComponentID("body");
+			HAL_LOG("componentCount:{}", componentCount);
 			for (uint32_t i = 0; i < componentCount; i++) {
 				ComponentID componentID = component->componentID;
 				void* data = component->data;
 				uint32_t size = component->size;
-				if (deserializeFunctions.find(component->componentID) != deserializeFunctions.end()) {
+				if (componentID == handleComponentID)
+					continue;
+				if (deserializeFunctions.find(componentID) != deserializeFunctions.end()) {
 					std::vector<uint8_t> in;
 					in.resize(size);
 					memcpy(&in[0], data, size);
-					deserializeFunctions[component->componentID](entity, in);
+					deserializeFunctions[componentID](entity, in);
+					HAL_LOG("adding custom  name:{}, size:{}", ecs.getComponentName(componentID), ecs.getComponentSize(componentID));
 					component = getNextComponent(component);
 					continue;
 				}
@@ -207,6 +237,7 @@ namespace SystemUtilities {
 							size, sizePerElem, size % sizePerElem);
 					}
 					ecs.emplaceOrCpyIntoDArray(entity, componentID, component->data, component->size);
+					HAL_LOG("adding DArray  name:{}, size:{}", ecs.getComponentName(componentID), ecs.getComponentSize(componentID));
 					component = getNextComponent(component);
 					continue;
 				}
@@ -231,8 +262,16 @@ namespace SystemUtilities {
 						ecs.getComponentName(componentID), size, ecs.getComponentSize(componentID));
 				}
 				ecs.emplaceOrCpy(entity, componentID, data);
+				HAL_LOG("adding blittable  name:{}, size:{}", ecs.getComponentName(componentID), ecs.getComponentSize(componentID));
 				component = getNextComponent(component);
 			}
+			if (makingNew) {
+				ecs.logEntity(entity);
+				ReplicateEntity* re = (ReplicateEntity*)ecs.getEntityComponent(entity, replicateEntityComponentID);
+				re->log();
+				replicateEntity->log();
+			}
+			HAL_LOG("\n");
 		}
 
 		//Thread safe!
@@ -296,6 +335,19 @@ namespace SystemUtilities {
 				return;
 			}
 			deserializeFunctions[componentID] = func;
+		}
+
+
+
+		static EntityID findEntityWithReplicateEntity(ReplicateEntity& re) {
+			ComponentID reComponentID = ecs.getComponentID("replicateEntity");
+			ReplicateEntity* buff = (ReplicateEntity*)ecs.getComponentBuffer(reComponentID);
+			uint32_t count = ecs.getComponentCount(reComponentID);
+			for (uint32_t i = 0; i < count; i++) {
+				if (re.match(buff[i]))
+					return ecs.getOwner(reComponentID, i);
+			}
+			return -1;
 		}
 	};
 	std::unordered_map<ComponentID, void(*)(EntityID entity, std::vector<uint8_t>& out)> SerialEntity::serializeFunctions = {};
