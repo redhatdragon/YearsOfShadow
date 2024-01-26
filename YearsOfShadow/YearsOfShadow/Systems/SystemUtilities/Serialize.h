@@ -187,44 +187,32 @@ namespace SystemUtilities {
 			uint32_t count = ecs.getComponentCount(replicateEntityComponentID);
 			ReplicateEntity* replicateEntityBuff = (ReplicateEntity*)ecs.getComponentBuffer(replicateEntityComponentID);
 			EntityID entity = -1;
-			HAL_LOG("Starting again...\n");
 			for (uint32_t i = 0; i < count; i++) {
 				ReplicateEntity& re = replicateEntityBuff[i];
 				if (replicateEntity->match(re)) {
 					//TODO: What to do, ignore, copy everything??!
 					//return;
 					entity = ecs.getOwner(replicateEntityComponentID, i);
-					HAL_LOG("Matching entity {}\n", entity);
-					log();
-					ecs.logEntity(entity);
 					break;
 				}
 			}
-			bool makingNew = false;
-			if (entity == -1) {
+			if(entity == -1)
 				entity = ecs.getNewEntity();
-				printf("Making new entity\n");
-				log();
-				//replicateEntity->log();
-				makingNew = true;
-			}
 			Component* component = getRootComponent();
-			//if((entity = findEntityWithReplicateEntity(*replicateEntity)) == -1)
-			//	entity = ecs.getNewEntity();
 			ComponentID bodyComponentID = ecs.getComponentID("body");
-			HAL_LOG("componentCount:{}", componentCount);
 			for (uint32_t i = 0; i < componentCount; i++) {
 				ComponentID componentID = component->componentID;
 				void* data = component->data;
 				uint32_t size = component->size;
-				if (componentID == handleComponentID)
+				if (componentID == handleComponentID) {
+					component = getNextComponent(component);
 					continue;
+				}
 				if (deserializeFunctions.find(componentID) != deserializeFunctions.end()) {
 					std::vector<uint8_t> in;
 					in.resize(size);
 					memcpy(&in[0], data, size);
 					deserializeFunctions[componentID](entity, in);
-					HAL_LOG("adding custom  name:{}, size:{}", ecs.getComponentName(componentID), ecs.getComponentSize(componentID));
 					component = getNextComponent(component);
 					continue;
 				}
@@ -237,7 +225,6 @@ namespace SystemUtilities {
 							size, sizePerElem, size % sizePerElem);
 					}
 					ecs.emplaceOrCpyIntoDArray(entity, componentID, component->data, component->size);
-					HAL_LOG("adding DArray  name:{}, size:{}", ecs.getComponentName(componentID), ecs.getComponentSize(componentID));
 					component = getNextComponent(component);
 					continue;
 				}
@@ -262,16 +249,8 @@ namespace SystemUtilities {
 						ecs.getComponentName(componentID), size, ecs.getComponentSize(componentID));
 				}
 				ecs.emplaceOrCpy(entity, componentID, data);
-				HAL_LOG("adding blittable  name:{}, size:{}", ecs.getComponentName(componentID), ecs.getComponentSize(componentID));
 				component = getNextComponent(component);
 			}
-			if (makingNew) {
-				ecs.logEntity(entity);
-				ReplicateEntity* re = (ReplicateEntity*)ecs.getEntityComponent(entity, replicateEntityComponentID);
-				re->log();
-				replicateEntity->log();
-			}
-			HAL_LOG("\n");
 		}
 
 		//Thread safe!
