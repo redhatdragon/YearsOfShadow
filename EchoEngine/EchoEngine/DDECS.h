@@ -519,6 +519,12 @@ public:
 		}
 		return retValue;
 	}
+	void logEntity(EntityID entity) {
+		auto strings = getEntityDebugInfo(entity);
+		for (auto& s : strings) {
+			std::cout << s << std::endl;
+		}
+	}
 	std::vector<std::string> getDebugInfoStr() {
 		std::vector<std::string> retValue;
 		for (System* sys : systems) {
