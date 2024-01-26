@@ -126,10 +126,9 @@ inline void initSystems() {
 	#endif
 
 	instancedMeshCodex.init();
-
 	setupFixedPointTableFiles();
-
 	registerDestructors();
+	registerAllComponents();
 
 	ecs.registerSystem<SystemDeath>();
 	ecs.registerSystem<SystemPhysics>();
