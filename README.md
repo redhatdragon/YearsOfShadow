@@ -3,7 +3,7 @@
 
 # YearsOfShadow
 From scratch (including engine) survival horror voxel openworld sandbox game project.<br>
-Utilizing very unconventional techniques to reach 100x to 1000x runtime of other competing games.<br>
+Utilizing very unconventional techniques to reach 10x to 1000x runtime of other competing games.<br>
 With seemingly vastly smoother dev times for adding/maintaining mechanics.  Read Design.md for details.
 
 ## Links
